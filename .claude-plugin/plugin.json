@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "URL one-shot design system extractor — fetches real CSS, analyzes tokens, generates design.md + interactive HTML report",
   "author": {
-    "name": "chulrolee",
+    "name": "fivetaku",
     "url": "https://github.com/fivetaku"
   },
   "homepage": "https://github.com/fivetaku/insane-design",
