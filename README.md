@@ -57,13 +57,7 @@ report.html 생성 (사람용 인터랙티브 리포트)
 /plugin install insane-design
 ```
 
-### 3. 업데이트
-
-```
-/plugin update
-```
-
-> 설치 또는 업데이트 후에는 Claude Code를 **재시작**해야 합니다.
+> 설치 후에는 Claude Code를 **재시작**하세요.
 
 ### 사전 요구사항
 
