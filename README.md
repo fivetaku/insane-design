@@ -8,8 +8,10 @@ AI는 느낌을 재현하는 게 아니라, **구체적인 토큰**을 받아야
 색상, 폰트, 간격, 라디우스, 섀도우 —
 이걸 눈대중으로 맞추는 게 아니라 **실제 CSS에서 직접 추출**해야 합니다.
 
-Insane Design은 Stripe부터 Vercel까지 35개 서비스를 분석해 만든 툴이고,
+Insane Design은 Stripe부터 Vercel까지 36개 서비스를 분석해 만든 툴이고,
 URL 하나만 넣으면 그 사이트의 디자인 시스템을 뽑아줍니다.
+
+**[실제 결과물 보기 — 36개 서비스 디자인 리포트 갤러리](https://fivetaku.github.io/insane-design/)**
 
 ---
 
