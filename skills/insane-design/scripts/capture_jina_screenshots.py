@@ -19,7 +19,7 @@ import time
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path.cwd()
 
 SLUG_URL_MAP = {
     "atlassian": "https://atlassian.com",

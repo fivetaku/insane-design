@@ -182,8 +182,7 @@ def extract_frequency_candidates(css: str, html: str) -> list[dict]:
 
 def extract_all(slug: str) -> dict:
     """Top-level: reads insane-design/{slug}/css/*.css + insane-design/{slug}/index.html, writes insane-design/{slug}/phase1/brand_candidates.json."""
-    root = Path(__file__).resolve().parent.parent
-    service_dir = root / "insane-design" / slug
+    service_dir = Path("insane-design") / slug
     css_files = sorted(service_dir.glob("css/*.css"))
     output_path = service_dir / "phase1" / "brand_candidates.json"
     output_path.parent.mkdir(parents=True, exist_ok=True)
