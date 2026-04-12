@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insane Design — Gallery</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+  />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: hsl(260, 10%, 8%);
+      --bg-card: hsl(260, 8%, 11%);
+      --bg-card-hover: hsl(260, 8%, 14%);
+      --border: hsl(260, 8%, 18%);
+      --border-hover: hsl(260, 20%, 32%);
+      --text-primary: hsl(260, 5%, 92%);
+      --text-secondary: hsl(260, 5%, 58%);
+      --accent: hsl(260, 80%, 70%);
+      --accent-dim: hsl(260, 60%, 55%);
+      --accent-glow: hsla(260, 80%, 70%, 0.15);
+      --search-bg: hsl(260, 8%, 13%);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font);
+      font-weight: 400;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: -30vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80vw;
+      height: 60vh;
+      background: radial-gradient(ellipse at center, hsla(260, 80%, 55%, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Header ─── */
+    header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 80px 24px 56px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-glow);
+      border: 1px solid hsla(260, 80%, 70%, 0.25);
+      border-radius: 100px;
+      padding: 5px 14px;
+      margin-bottom: 28px;
+    }
+
+    .header-eyebrow::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--text-primary) 0%, hsl(260, 40%, 80%) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ─── Main ─── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+    }
+
+    /* ─── Toolbar ─── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+      min-width: 240px;
+      max-width: 480px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      pointer-events: none;
+    }
+
+    #search {
+      width: 100%;
+      background: var(--search-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: var(--font);
+      font-size: 0.9rem;
+      padding: 11px 16px 11px 42px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    #search::placeholder {
+      color: var(--text-secondary);
+    }
+
+    #search:focus {
+      border-color: var(--border-hover);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .count-badge {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .count-badge strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ─── Grid ─── */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 960px) {
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 560px) {
+      .gallery { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Card ─── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-hover);
+      box-shadow:
+        0 12px 40px hsla(260, 30%, 5%, 0.6),
+        0 0 0 1px hsla(260, 80%, 70%, 0.08),
+        inset 0 1px 0 hsla(260, 80%, 90%, 0.06);
+    }
+
+    .card-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: hsl(260, 8%, 14%);
+    }
+
+    .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform 0.4s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .card-thumb img.loaded {
+      opacity: 1;
+    }
+
+    .card:hover .card-thumb img {
+      transform: scale(1.04);
+    }
+
+    .thumb-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .thumb-placeholder svg {
+      opacity: 0.3;
+    }
+
+    .img-loaded .thumb-placeholder {
+      display: none;
+    }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        hsla(260, 20%, 6%, 0.92) 0%,
+        hsla(260, 20%, 6%, 0.4) 40%,
+        transparent 100%
+      );
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .card:hover .card-overlay {
+      opacity: 1;
+    }
+
+    .overlay-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: hsla(260, 60%, 70%, 0.2);
+      border: 1px solid hsla(260, 60%, 70%, 0.3);
+      border-radius: 100px;
+      padding: 6px 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    .card-body {
+      padding: 16px 18px 18px;
+    }
+
+    .card-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .card-meta {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-meta::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      flex-shrink: 0;
+    }
+
+    /* ─── Empty state ─── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .empty-state svg {
+      opacity: 0.3;
+    }
+
+    .empty-state p {
+      font-size: 0.95rem;
+    }
+
+    /* ─── Hidden cards ─── */
+    .card.hidden {
+      display: none;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    footer p {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    footer a {
+      font-size: 0.82rem;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+
+    footer a:hover {
+      opacity: 0.75;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-eyebrow">Design System Report</div>
+    <h1>Insane Design — Gallery</h1>
+    <p>36개 서비스의 실제 CSS를 분석해 만든 디자인 시스템 리포트</p>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <div class="search-wrapper">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="search"
+          id="search"
+          placeholder="서비스 이름으로 검색..."
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="서비스 검색"
+        />
+      </div>
+      <span class="count-badge" id="count-badge">
+        <strong id="visible-count">36</strong> / 36개 서비스
+      </span>
+    </div>
+
+    <div class="gallery" id="gallery">
+
+      <div class="card" data-name="atlassian">
+        <a class="card-link" href="skills/insane-design/examples/atlassian/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/atlassian/screenshots/jina-hero.png" alt="Atlassian" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Atlassian</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="axiom">
+        <a class="card-link" href="skills/insane-design/examples/axiom/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/axiom/screenshots/jina-hero.png" alt="Axiom" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Axiom</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="cal">
+        <a class="card-link" href="skills/insane-design/examples/cal/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/cal/screenshots/jina-hero.png" alt="Cal" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Cal</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="clerk">
+        <a class="card-link" href="skills/insane-design/examples/clerk/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/clerk/screenshots/jina-hero.png" alt="Clerk" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Clerk</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="contentful">
+        <a class="card-link" href="skills/insane-design/examples/contentful/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/contentful/screenshots/jina-hero.png" alt="Contentful" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Contentful</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="convex">
+        <a class="card-link" href="skills/insane-design/examples/convex/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/convex/screenshots/jina-hero.png" alt="Convex" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Convex</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="discord">
+        <a class="card-link" href="skills/insane-design/examples/discord/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/discord/screenshots/jina-hero.png" alt="Discord" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Discord</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="dub">
+        <a class="card-link" href="skills/insane-design/examples/dub/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/dub/screenshots/jina-hero.png" alt="Dub" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Dub</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="figma">
+        <a class="card-link" href="skills/insane-design/examples/figma/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/figma/screenshots/jina-hero.png" alt="Figma" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Figma</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="framer">
+        <a class="card-link" href="skills/insane-design/examples/framer/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/framer/screenshots/jina-hero.png" alt="Framer" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Framer</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="github">
+        <a class="card-link" href="skills/insane-design/examples/github/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/github/screenshots/jina-hero.png" alt="GitHub" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">GitHub</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="hashnode">
+        <a class="card-link" href="skills/insane-design/examples/hashnode/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/hashnode/screenshots/jina-hero.png" alt="Hashnode" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Hashnode</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="lemon-squeezy">
+        <a class="card-link" href="skills/insane-design/examples/lemon-squeezy/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/lemon-squeezy/screenshots/jina-hero.png" alt="Lemon Squeezy" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Lemon Squeezy</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="linear">
+        <a class="card-link" href="skills/insane-design/examples/linear/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/linear/screenshots/jina-hero.png" alt="Linear" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Linear</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="mintlify">
+        <a class="card-link" href="skills/insane-design/examples/mintlify/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/mintlify/screenshots/jina-hero.png" alt="Mintlify" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Mintlify</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="neon">
+        <a class="card-link" href="skills/insane-design/examples/neon/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/neon/screenshots/jina-hero.png" alt="Neon" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Neon</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="notion">
+        <a class="card-link" href="skills/insane-design/examples/notion/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/notion/screenshots/jina-hero.png" alt="Notion" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Notion</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="planetfall">
+        <a class="card-link" href="skills/insane-design/examples/planetfall/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/planetfall/screenshots/jina-hero.png" alt="Planetfall" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Planetfall</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="planetscale">
+        <a class="card-link" href="skills/insane-design/examples/planetscale/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/planetscale/screenshots/jina-hero.png" alt="PlanetScale" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">PlanetScale</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="posthog">
+        <a class="card-link" href="skills/insane-design/examples/posthog/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/posthog/screenshots/jina-hero.png" alt="PostHog" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">PostHog</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="prisma">
+        <a class="card-link" href="skills/insane-design/examples/prisma/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/prisma/screenshots/jina-hero.png" alt="Prisma" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Prisma</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="railway">
+        <a class="card-link" href="skills/insane-design/examples/railway/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/railway/screenshots/jina-hero.png" alt="Railway" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Railway</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="raycast">
+        <a class="card-link" href="skills/insane-design/examples/raycast/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/raycast/screenshots/jina-hero.png" alt="Raycast" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Raycast</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="resend">
+        <a class="card-link" href="skills/insane-design/examples/resend/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/resend/screenshots/jina-hero.png" alt="Resend" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Resend</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="retool">
+        <a class="card-link" href="skills/insane-design/examples/retool/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/retool/screenshots/jina-hero.png" alt="Retool" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Retool</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="shopify">
+        <a class="card-link" href="skills/insane-design/examples/shopify/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/shopify/screenshots/jina-hero.png" alt="Shopify" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Shopify</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="slack">
+        <a class="card-link" href="skills/insane-design/examples/slack/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/slack/screenshots/jina-hero.png" alt="Slack" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Slack</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="spotify">
+        <a class="card-link" href="skills/insane-design/examples/spotify/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/spotify/screenshots/jina-hero.png" alt="Spotify" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Spotify</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="stripe">
+        <a class="card-link" href="skills/insane-design/examples/stripe/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/stripe/screenshots/hero-cropped.png" alt="Stripe" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Stripe</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="supabase">
+        <a class="card-link" href="skills/insane-design/examples/supabase/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/supabase/screenshots/jina-hero.png" alt="Supabase" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Supabase</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="tailwindcss">
+        <a class="card-link" href="skills/insane-design/examples/tailwindcss/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/tailwindcss/screenshots/jina-hero.png" alt="Tailwind CSS" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Tailwind CSS</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="tinybird">
+        <a class="card-link" href="skills/insane-design/examples/tinybird/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/tinybird/screenshots/jina-hero.png" alt="Tinybird" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Tinybird</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="toss">
+        <a class="card-link" href="skills/insane-design/examples/toss/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/toss/screenshots/hero-cropped.png" alt="Toss" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Toss</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="twitch">
+        <a class="card-link" href="skills/insane-design/examples/twitch/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/twitch/screenshots/jina-hero.png" alt="Twitch" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Twitch</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="vercel">
+        <a class="card-link" href="skills/insane-design/examples/vercel/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/vercel/screenshots/jina-hero.png" alt="Vercel" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Vercel</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="card" data-name="warp">
+        <a class="card-link" href="skills/insane-design/examples/warp/report.ko.html" target="_blank" rel="noopener">
+          <div class="card-thumb">
+            <img data-src="skills/insane-design/examples/warp/screenshots/jina-hero.png" alt="Warp" />
+            <div class="thumb-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div class="card-overlay"><span class="overlay-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>리포트 보기</span></div>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Warp</div>
+            <div class="card-meta">디자인 시스템 리포트</div>
+          </div>
+        </a>
+      </div>
+
+    </div><!-- /.gallery -->
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p>Insane Design — 실제 서비스의 CSS를 분석해 만든 디자인 시스템 리포트</p>
+      <a href="https://github.com/fivetaku/insane-design" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        GitHub
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // ─── Lazy image loading via IntersectionObserver ───
+    var imgs = document.querySelectorAll('.card-thumb img[data-src]');
+
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var img = entry.target;
+        var src = img.getAttribute('data-src');
+        if (!src) return;
+        img.src = src;
+        img.removeAttribute('data-src');
+        img.addEventListener('load', function() {
+          img.classList.add('loaded');
+          var thumb = img.closest('.card-thumb');
+          if (thumb) thumb.classList.add('img-loaded');
+        });
+        img.addEventListener('error', function() {
+          img.parentNode.removeChild(img);
+        });
+        io.unobserve(img);
+      });
+    }, { rootMargin: '200px' });
+
+    imgs.forEach(function(img) { io.observe(img); });
+
+    // ─── Search / filter ───
+    var searchInput = document.getElementById('search');
+    var cards = document.querySelectorAll('.card');
+    var visibleCountEl = document.getElementById('visible-count');
+    var gallery = document.getElementById('gallery');
+    var emptyState = null;
+    var TOTAL = cards.length;
+
+    searchInput.addEventListener('input', function() {
+      var q = searchInput.value.trim().toLowerCase();
+      var visible = 0;
+
+      cards.forEach(function(card) {
+        var slug = card.getAttribute('data-name') || '';
+        var label = card.querySelector('.card-name');
+        var displayName = label ? label.textContent.toLowerCase() : '';
+        var match = slug.includes(q) || displayName.includes(q);
+        if (match) {
+          card.classList.remove('hidden');
+          visible++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      visibleCountEl.textContent = String(visible);
+
+      if (visible === 0) {
+        if (!emptyState) {
+          emptyState = document.createElement('div');
+          emptyState.className = 'empty-state';
+
+          var icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          icon.setAttribute('width', '48');
+          icon.setAttribute('height', '48');
+          icon.setAttribute('viewBox', '0 0 24 24');
+          icon.setAttribute('fill', 'none');
+          var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          c.setAttribute('cx', '11'); c.setAttribute('cy', '11'); c.setAttribute('r', '8');
+          c.setAttribute('stroke', 'currentColor'); c.setAttribute('stroke-width', '1.5');
+          var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          p.setAttribute('d', 'M21 21l-4.35-4.35');
+          p.setAttribute('stroke', 'currentColor'); p.setAttribute('stroke-width', '1.5');
+          p.setAttribute('stroke-linecap', 'round');
+          icon.appendChild(c); icon.appendChild(p);
+
+          var msg = document.createElement('p');
+          emptyState.appendChild(icon);
+          emptyState.appendChild(msg);
+          gallery.appendChild(emptyState);
+        }
+        var msgEl = emptyState.querySelector('p');
+        if (msgEl) msgEl.textContent = '"' + searchInput.value + '"' + '에 해당하는 서비스가 없습니다.';
+      } else {
+        if (emptyState && emptyState.parentNode) {
+          emptyState.parentNode.removeChild(emptyState);
+          emptyState = null;
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
