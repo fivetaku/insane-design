@@ -1,0 +1,20 @@
+{
+  "name": "insane-design",
+  "version": "0.1.0",
+  "description": "URL one-shot design system extractor — fetches real CSS, analyzes tokens, generates design.md + interactive HTML report",
+  "author": {
+    "name": "chulrolee",
+    "url": "https://github.com/fivetaku"
+  },
+  "homepage": "https://github.com/fivetaku/insane-design",
+  "repository": "https://github.com/fivetaku/insane-design",
+  "license": "MIT",
+  "keywords": [
+    "design-system",
+    "css-analysis",
+    "design-tokens",
+    "insane-design",
+    "design.md",
+    "report"
+  ]
+}

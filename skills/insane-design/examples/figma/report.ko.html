@@ -1,0 +1,931 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Figma — Design System Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root {
+    --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --bg:#fafafa; --fg:#09090b; --card:#fff;
+    --muted:#f4f4f5; --muted-fg:#71717a; --subtle:#52525b;
+    --border:#e4e4e7; --border-str:#d4d4d8;
+    --accent:#18181b;
+    --radius:.5rem; --radius-lg:.75rem;
+    --brand-color:#000000;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;scroll-padding-top:32px;}
+  body{font-family:var(--font-sans);font-feature-settings:"ss01" 1,"ss02" 1;font-size:14px;font-weight:400;line-height:1.6;color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;word-break:keep-all;overflow-wrap:break-word;}
+  ::selection{background:var(--accent);color:#fafafa;}
+  a{color:inherit;text-decoration:none;}
+  code,kbd,samp{font-family:var(--font-mono);font-size:.85em;}
+  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+
+  .layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1440px;margin:0 auto;}
+  .toc{position:sticky;top:0;align-self:start;height:100vh;padding:28px 24px 28px 40px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:22px;overflow-y:auto;}
+  .toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+  .toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+  .toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+  .toc__group{display:flex;flex-direction:column;gap:2px;}
+  .toc__group-label{font-family:var(--font-mono);font-size:10px;color:var(--border-str);text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin-bottom:4px;}
+  .toc__list{list-style:none;display:flex;flex-direction:column;gap:1px;}
+  .toc__list a{display:grid;grid-template-columns:26px 1fr;align-items:center;padding:6px 10px;font-size:13px;color:var(--muted-fg);border-radius:var(--radius);transition:background 140ms,color 140ms;}
+  .toc__list a:hover{background:var(--muted);color:var(--fg);}
+  .toc__num{font-family:var(--font-mono);font-size:10px;color:var(--border-str);}
+  .toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+
+  .main{min-width:0;}
+  section{padding:72px 64px;max-width:1040px;border-bottom:1px solid var(--border);}
+  section:last-of-type{border-bottom:none;}
+  .section__num{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:10px;}
+  .section__title{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.35;margin-bottom:12px;}
+  .section__lede{font-size:15px;color:var(--subtle);max-width:720px;line-height:1.7;margin-bottom:40px;}
+
+  .hero{padding:80px 64px 64px;border-bottom:1px solid var(--border);}
+  .hero__eye{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;background:var(--muted);border:1px solid var(--border);border-radius:999px;font-family:var(--font-mono);font-size:11px;color:var(--subtle);margin-bottom:24px;}
+  .hero__eye .dot{width:6px;height:6px;border-radius:99px;background:var(--brand-color);}
+  .hero__title{font-size:44px;font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px;max-width:780px;}
+  .hero__title .sub{color:var(--muted-fg);font-weight:400;}
+  .hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:680px;margin-bottom:32px;}
+
+  .qs{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 32px;max-width:880px;margin-top:8px;}
+  .qs__head{display:flex;align-items:center;gap:12px;padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid var(--border);}
+  .qs__head-label{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;}
+  .qs__head-title{font-size:15px;font-weight:600;}
+  .qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .qs__step{background:#08090a;color:#f7f8f8;border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:6px;font-family:var(--font-mono);font-size:11px;line-height:1.55;border:1px solid #1f2023;}
+  .qs__step-label{color:#7d8ba4;font-size:10px;letter-spacing:.06em;text-transform:uppercase;}
+  .qs__step code{color:#f7f8f8;font-size:11px;}
+  .qs__step b{color:#c3d3ff;font-weight:500;}
+  .qs__warn{margin-top:16px;padding:14px 18px;background:#fef2f2;border:1px solid #fecaca;border-left:3px solid #dc2626;border-radius:var(--radius);font-size:13px;color:#991b1b;line-height:1.6;}
+  .qs__warn b{color:#7f1d1d;font-weight:600;}
+  .qs__warn code{background:#fee2e2;padding:1px 6px;border-radius:3px;font-size:12px;}
+
+  .hero__stats{display:grid;grid-template-columns:repeat(4,1fr);max-width:880px;margin-top:32px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);overflow:hidden;}
+  .stat{padding:20px 24px;border-right:1px solid var(--border);}
+  .stat:last-child{border-right:none;}
+  .stat__label{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
+  .stat__val{font-size:18px;font-weight:600;letter-spacing:-.01em;}
+  .stat__val--mono{font-family:var(--font-mono);font-size:15px;}
+  .stat__hint{font-size:11px;color:var(--muted-fg);margin-top:4px;line-height:1.4;}
+
+  .prov{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);overflow:hidden;max-width:820px;}
+  .prov__row{display:grid;grid-template-columns:180px 1fr;padding:14px 24px;border-bottom:1px solid var(--border);font-size:13px;align-items:center;}
+  .prov__row:last-child{border-bottom:none;}
+  .prov__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .prov__v code{font-size:12px;padding:2px 6px;background:var(--muted);border-radius:4px;}
+
+  .ts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:940px;}
+  .ts__item{padding:20px 22px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);}
+  .ts__head{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+  .ts__body{font-size:14px;line-height:1.7;}
+  .ts__body code{background:var(--muted);padding:1px 6px;border-radius:4px;font-size:12px;}
+  .ts__body b{font-weight:600;color:var(--fg);}
+
+  .fs-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;max-width:820px;margin-bottom:24px;}
+  .fs-card__row{display:grid;grid-template-columns:130px 1fr;gap:20px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+  .fs-card__row:last-child{border-bottom:none;padding-bottom:0;}
+  .fs-card__row:first-child{padding-top:0;}
+  .fs-card__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .fs-card__v code{background:var(--muted);padding:1px 6px;border-radius:4px;font-size:12px;}
+
+  .type-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px;}
+  .type-row{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:32px;align-items:baseline;padding:20px 24px;border-bottom:1px solid var(--border);}
+  .type-row:last-child{border-bottom:none;}
+  .type-row__s{font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,sans-serif;color:var(--fg);}
+  .type-row__spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.6;}
+  .type-row__spec .tk{color:var(--fg);display:block;margin-bottom:2px;}
+  .type-row__spec b{color:var(--fg);font-weight:600;}
+  .type-sub{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
+
+  .callout{margin-top:16px;padding:16px 20px;background:var(--muted);border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:var(--radius);font-size:13px;color:var(--subtle);line-height:1.75;max-width:820px;}
+  .callout b{color:var(--fg);font-weight:600;}
+  .callout code{background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px;border:1px solid var(--border);}
+
+  .ramp-group{margin-bottom:28px;}
+  .ramp-label{font-family:var(--font-mono);font-size:11px;margin-bottom:10px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;}
+  .ramp-label b{color:var(--fg);font-weight:600;}
+  .ramp-label .muted{color:var(--muted-fg);font-family:var(--font-sans);}
+  .ramp{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  .ramp--2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .ramp--5{grid-template-columns:repeat(5,minmax(0,1fr));}
+  .ramp--6{grid-template-columns:repeat(6,minmax(0,1fr));}
+  .ramp--10{grid-template-columns:repeat(10,minmax(0,1fr));}
+  .sw{aspect-ratio:1/2.2;display:flex;flex-direction:column;justify-content:flex-end;padding:8px 6px;font-family:var(--font-mono);font-size:9px;line-height:1.3;transition:transform 160ms;position:relative;cursor:default;}
+  .sw:hover{transform:scale(1.06);z-index:2;box-shadow:0 6px 18px rgba(0,0,0,.12);}
+  .sw--l{color:#09090b;}
+  .sw--d{color:#fff;}
+  .sw .n{opacity:.7;margin-bottom:2px;}
+  .sw.is-anchor::after{content:"★";position:absolute;top:6px;right:6px;font-size:9px;}
+
+  .dom-chart{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;}
+  .dom-bar{display:flex;height:36px;border-radius:var(--radius);overflow:hidden;margin-bottom:16px;border:1px solid var(--border);}
+  .dom-bar__seg{position:relative;}
+  .dom-list{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 20px;font-family:var(--font-mono);font-size:11px;}
+  .dom-list .item{display:flex;align-items:center;gap:8px;padding:3px 0;}
+  .dom-list .chip{width:10px;height:10px;border-radius:2px;border:1px solid rgba(0,0,0,.08);flex-shrink:0;}
+  .dom-list .hex{color:var(--fg);}
+  .dom-list .cnt{color:var(--muted-fg);margin-left:auto;}
+
+  .space-note{font-size:13px;color:var(--subtle);max-width:720px;margin-bottom:24px;padding:14px 20px;background:var(--muted);border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:var(--radius);line-height:1.7;}
+  .space-note b{color:var(--fg);}
+  .space-note code{background:var(--card);padding:1px 5px;border-radius:3px;font-size:11px;border:1px solid var(--border);}
+
+  .space-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+  .space-row{display:grid;grid-template-columns:180px 70px 1fr;gap:16px;padding:8px 20px;border-bottom:1px solid var(--border);align-items:center;font-family:var(--font-mono);font-size:11px;}
+  .space-row:last-child{border-bottom:none;}
+  .space-row .tk{color:var(--fg);}
+  .space-row .val{color:var(--muted-fg);text-align:right;}
+  .space-row .bar{height:8px;background:var(--accent);border-radius:1px;}
+
+  .rad-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:480px;}
+  .rad-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .rad-box{width:100%;aspect-ratio:1;background:var(--muted);border:1px solid var(--border-str);}
+  .rad-card__n{font-family:var(--font-mono);font-size:11px;font-weight:500;}
+  .rad-card__v{font-size:10px;color:var(--muted-fg);text-align:center;line-height:1.4;}
+  .rad-card__v .px{font-family:var(--font-mono);}
+
+  .sh-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:16px;max-width:700px;}
+  .sh-card{background:var(--card);padding:24px 24px 20px;border-radius:var(--radius-lg);border:1px solid var(--border);min-height:120px;display:flex;flex-direction:column;justify-content:space-between;}
+  .sh-card__n{font-family:var(--font-mono);font-size:11px;font-weight:500;}
+  .sh-card__d{font-size:13px;color:var(--muted-fg);margin-top:4px;margin-bottom:10px;line-height:1.6;}
+  .sh-card__v{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);}
+
+  .pastel-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:20px;}
+  .pastel-sw{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);}
+  .pastel-sw__color{height:60px;}
+  .pastel-sw__body{background:var(--card);padding:8px 10px;}
+  .pastel-sw__n{font-family:var(--font-mono);font-size:10px;font-weight:500;}
+  .pastel-sw__h{font-family:var(--font-mono);font-size:9px;color:var(--muted-fg);}
+
+  .alias-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;font-family:var(--font-mono);font-size:11px;line-height:1.9;}
+  .alias-table .row{display:grid;grid-template-columns:minmax(200px,auto) 20px minmax(0,1fr);gap:12px;padding:2px 0;border-bottom:1px solid var(--border);}
+  .alias-table .row:last-child{border-bottom:none;}
+  .alias-table .k{color:var(--fg);}
+  .alias-table .arrow{color:var(--muted-fg);}
+  .alias-table .v{color:var(--muted-fg);}
+  .alias-table .v .val{color:var(--fg);}
+  .alias-table .v .kr{font-family:var(--font-sans);color:var(--muted-fg);}
+
+  .cmp-block{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:12px;}
+  .cmp-block__head{display:flex;align-items:baseline;gap:12px;padding-bottom:14px;margin-bottom:18px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+  .cmp-block__name{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--fg);}
+  .cmp-block__desc{font-size:12px;color:var(--muted-fg);}
+  .cmp-block__body{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:32px;align-items:start;}
+  .cmp-demo{padding:24px;background:var(--muted);border-radius:var(--radius);display:flex;flex-wrap:wrap;gap:12px;align-items:center;min-height:88px;}
+  .cmp-spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.8;}
+  .cmp-spec code{color:var(--fg);font-size:11px;}
+  .cmp-spec .kr{font-family:var(--font-sans);display:block;margin-top:8px;color:var(--subtle);font-size:12px;line-height:1.55;}
+  .cmp-code{margin-top:14px;background:#08090a;color:#f7f8f8;border-radius:var(--radius);padding:14px 18px;font-family:var(--font-mono);font-size:11px;line-height:1.65;overflow-x:auto;border:1px solid #1f2023;position:relative;}
+  .cmp-code .copy{position:absolute;top:10px;right:10px;font-family:var(--font-mono);font-size:10px;color:#7d8ba4;background:#1f2023;padding:3px 8px;border-radius:4px;border:1px solid #2f3135;}
+  .cmp-code .copy:hover{color:#f7f8f8;background:#2f3135;}
+
+  .code-export{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:900px;}
+  .code-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--muted);}
+  .code-tabs button{padding:12px 18px;font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid transparent;}
+  .code-tabs button.is-active{color:var(--fg);background:var(--card);border-bottom-color:var(--accent);}
+  .code-copy{margin-left:auto;padding:12px 18px;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);}
+  .code-copy:hover{color:var(--fg);}
+  .code-pane{display:none;padding:0;}
+  .code-pane.is-active{display:block;}
+  .code-pane pre{background:#08090a;color:#f7f8f8;padding:24px 28px;font-family:var(--font-mono);font-size:12px;line-height:1.65;overflow-x:auto;max-height:560px;margin:0;}
+
+  .dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .dd-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;}
+  .dd-card h3{font-family:var(--font-mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px;display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;}
+  .dd-card--do h3{background:#dcfce7;color:#166534;}
+  .dd-card--dont h3{background:#fee2e2;color:#991b1b;}
+  .dd-card ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .dd-card ul li{font-size:13px;line-height:1.7;color:var(--subtle);padding-left:20px;position:relative;}
+  .dd-card ul li::before{position:absolute;left:0;top:3px;font-family:var(--font-mono);font-size:11px;}
+  .dd-card--do ul li::before{content:"✓";color:#16a34a;}
+  .dd-card--dont ul li::before{content:"✗";color:#dc2626;}
+  .dd-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;font-family:var(--font-mono);}
+  .dd-card ul li b{color:var(--fg);font-weight:600;}
+
+  .rfoot{padding:40px 64px;display:flex;justify-content:space-between;align-items:center;gap:32px;font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .rfoot .kr{font-family:var(--font-sans);font-size:12px;}
+
+  @media (max-width:1024px){
+    .layout{grid-template-columns:1fr;}
+    .toc{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:24px 32px;}
+    .hero,section,.rfoot{padding-left:32px;padding-right:32px;}
+    .cmp-block__body,.ts{grid-template-columns:1fr;}
+    .hero__stats{grid-template-columns:1fr 1fr;}
+    .stat{border-right:none;border-bottom:1px solid var(--border);}
+    .dd-grid{grid-template-columns:1fr;}
+    .sh-grid{grid-template-columns:1fr;}
+    .pastel-grid{grid-template-columns:repeat(3,1fr);}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="toc">
+    <div class="toc__brand">
+      <div class="toc__brand-name">Figma</div>
+      <div class="toc__brand-sub">Design System Report</div>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Overview</div>
+      <ul class="toc__list">
+        <li><a href="#hero"><span class="toc__num">00</span>한눈에 보기</a></li>
+        <li><a href="#provenance"><span class="toc__num">01</span>출처와 수집 기준</a></li>
+        <li><a href="#stack"><span class="toc__num">02</span>테크 스택</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Foundations</div>
+      <ul class="toc__list">
+        <li><a href="#typography"><span class="toc__num">03</span>타이포그래피</a></li>
+        <li><a href="#colors"><span class="toc__num">04</span>컬러</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Tokens</div>
+      <ul class="toc__list">
+        <li><a href="#spacing"><span class="toc__num">05</span>스페이싱</a></li>
+        <li><a href="#radius"><span class="toc__num">06</span>라디우스</a></li>
+        <li><a href="#shadows"><span class="toc__num">07</span>섀도우</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Patterns</div>
+      <ul class="toc__list">
+        <li><a href="#components"><span class="toc__num">08</span>컴포넌트</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Code</div>
+      <ul class="toc__list">
+        <li><a href="#export"><span class="toc__num">09</span>CSS · Tailwind</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Rules</div>
+      <ul class="toc__list">
+        <li><a href="#verdict"><span class="toc__num">10</span>Do / Don't</a></li>
+      </ul>
+    </div>
+    <div class="toc__foot">
+      real/figma/<br>
+      DESIGN.claude.manual.md<br>
+      2026-04-11
+    </div>
+  </aside>
+
+  <main class="main">
+    <section id="hero" class="hero">
+      <div class="hero__eye"><span class="dot"></span>Design System Report</div>
+      <h1 class="hero__title">Figma <span class="sub">— 흑백 극단 + --f-* component-slot</span></h1>
+      <p class="hero__sub">
+        https://www.figma.com 의 CSS에서 직접 뽑은 디자인 토큰·타이포그래피·컴포넌트 스펙.
+        모노크롬 duo-theme, figmaSans variable font, 1px inset border 시그니처. 로고 5색은 UI에 0회.
+      </p>
+      <div class="qs">
+        <div class="qs__head">
+          <span class="qs__head-label">Quick Start</span>
+          <span class="qs__head-title">5분 안에 Figma처럼 만들기 — 3가지만 하면 80%</span>
+        </div>
+        <div class="qs__grid">
+          <div class="qs__step">
+            <span class="qs__step-label">1 · figmaSans + figmaMono</span>
+            <code>/* 1. 폰트 — Figma 전용 커스텀 */
+:root {
+  --f-font-sans:
+    "figmaSans",
+    "figmaSans Fallback",
+    "SF Pro Display",
+    system-ui, sans-serif;
+  --f-font-mono:
+    "figmaMono",
+    "figmaMono Fallback",
+    "SF Mono", menlo, monospace;
+}
+body {
+  font-family: var(--f-font-sans);
+  font-weight: 400;
+  font-size: 1.125rem; /* 18px! */
+}</code>
+          </div>
+          <div class="qs__step">
+            <span class="qs__step-label">2 · duo-theme 흑백 반전</span>
+            <code>/* 2. 섹션별 bg 반전 */
+.section-dark {
+  background: <b>#000000</b>;
+  color: <b>#FFFFFF</b>;
+}
+.section-light {
+  background: <b>#FFFFFF</b>;
+  color: <b>#000000</b>;
+}
+/* 같은 페이지 안에서
+   dark/light 섹션 교차 —
+   Figma의 핵심 패턴 */</code>
+          </div>
+          <div class="qs__step">
+            <span class="qs__step-label">3 · 1px inset border 버튼</span>
+            <code>/* 3. Outlined button 시그니처 */
+.btn-outlined {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px
+    currentColor;
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font: 540 16px/1
+    var(--f-font-sans);
+}
+/* drop shadow 없음.
+   1px inset이 전부. */</code>
+          </div>
+        </div>
+        <div class="qs__warn">
+          <b>절대 하지 말아야 할 것</b>: Figma 로고의 5색 (<code>#0ACF83</code> green, <code>#A259FF</code> purple, <code>#F24E1E</code> red, <code>#FF7262</code> peach, <code>#1ABCFE</code> blue)은 <b>로고 SVG 전용</b>이다. UI CSS에는 단 0회. 이 5색을 primary palette로 쓰면 colorful playful SaaS가 되어 Figma 브랜드 정체성이 완전히 사라진다.
+        </div>
+      </div>
+      <div class="hero__stats">
+        <div class="stat">
+          <div class="stat__label">Source</div>
+          <div class="stat__val stat__val--mono">figma.com</div>
+          <div class="stat__hint">3개 CSS · 209,702자</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Fetched</div>
+          <div class="stat__val">2026.04.11</div>
+          <div class="stat__hint">커스텀 프로퍼티 46개</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Brand Font</div>
+          <div class="stat__val stat__val--mono">figmaSans</div>
+          <div class="stat__hint">variable · weight 320~550</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Unique Hex</div>
+          <div class="stat__val">28개</div>
+          <div class="stat__hint">매우 제한적 — 의도적 모노크롬</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="provenance">
+      <div class="section__num">01 · Provenance</div>
+      <h2 class="section__title">출처와 수집 기준</h2>
+      <p class="section__lede">URL · fetch 시점 · 파싱 방식까지 모두 CSS 번들에서 직접 뽑은 값이다.</p>
+      <div class="prov">
+        <div class="prov__row"><span class="prov__k">Source URL</span><span class="prov__v"><code>https://www.figma.com</code></span></div>
+        <div class="prov__row"><span class="prov__k">Fetched</span><span class="prov__v">2026-04-11</span></div>
+        <div class="prov__row"><span class="prov__k">Extractor</span><span class="prov__v"><code>real/fetch_all.py</code> (curl + Chrome UA)</span></div>
+        <div class="prov__row"><span class="prov__k">CSS files</span><span class="prov__v">3개 번들 · 209,702자</span></div>
+        <div class="prov__row"><span class="prov__k">Custom properties</span><span class="prov__v">46개 (color 23 · spacing 4 · shadow 0)</span></div>
+        <div class="prov__row"><span class="prov__k">Unique hex</span><span class="prov__v">28개 (매우 제한적 — 의도적 설계)</span></div>
+        <div class="prov__row"><span class="prov__k">Token prefix</span><span class="prov__v"><code>--f-*</code> (component-slot naming)</span></div>
+        <div class="prov__row"><span class="prov__k">Method</span><span class="prov__v">CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음</span></div>
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="section__num">02 · Tech Stack</div>
+      <h2 class="section__title">테크 스택</h2>
+      <p class="section__lede">Figma 전용 커스텀 DS. semantic-first, core ramp 부재. "lego block" 재사용 section 패턴.</p>
+      <div class="ts">
+        <div class="ts__item">
+          <div class="ts__head">FRAMEWORK</div>
+          <div class="ts__body">figma.com 마케팅 사이트 (커스텀 빌드)</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">DESIGN SYSTEM</div>
+          <div class="ts__body">커스텀 <code>--f-*</code> prefix component-slot naming</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">CSS ARCHITECTURE</div>
+          <div class="ts__body">semantic-first — f-slot tier · f-component tier (lego) · f-form tier · f-badge tier</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">DEFAULT THEME</div>
+          <div class="ts__body">mixed — 같은 페이지 내 섹션마다 black/white bg 반전 (duo-theme)</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">FONT LOADING</div>
+          <div class="ts__body">Figma 전용 <code>figmaSans</code>, <code>figmaMono</code>, <code>ABCWhytePlusVariable</code></div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">CANONICAL ANCHOR</div>
+          <div class="ts__body">단일 brand color 없음 — 모노크롬 <code>#000000</code> / <code>#FFFFFF</code></div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">LEGO CONCEPT</div>
+          <div class="ts__body">재사용 section을 "lego block"으로 명명. <code>--f-lego-block-padding: 5rem</code></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="typography">
+      <div class="section__num">03 · Typography</div>
+      <h2 class="section__title">base 18px, bold는 540 — variable font 미세 조정</h2>
+      <p class="section__lede">figmaSans variable font. 연속 weight 축으로 320~550 사용. 표준 700 대신 540/550이 bold 역할. base font-size 18px (16px 아님).</p>
+
+      <div class="type-sub">Font stack</div>
+      <div class="fs-card">
+        <div class="fs-card__row">
+          <span class="fs-card__k">Primary sans</span>
+          <span class="fs-card__v"><code>figmaSans</code> — Figma 전용 커스텀 폰트 (variable)</span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Mono</span>
+          <span class="fs-card__v"><code>figmaMono</code> — Figma 전용 monospace</span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Alt / fallback</span>
+          <span class="fs-card__v"><code>ABCWhytePlusVariable</code> (2회), <code>SF Pro Display</code>, <code>system-ui</code></span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Weight axis</span>
+          <span class="fs-card__v">320, 330, 340, 400, 450, 480, 520, 530, <b>540, 550</b> — 540/550이 최다 (bold)</span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Base size</span>
+          <span class="fs-card__v"><b>18px</b> (1.125rem) — 16px 아님. 70회 최다.</span>
+        </div>
+      </div>
+
+      <div class="type-sub">Typography scale — 빈도 순</div>
+      <div class="type-table">
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:18px;font-weight:400;line-height:1.6">body large — 18px / weight 400 (최다)</div>
+          <div class="type-row__spec"><span class="tk">body (최다)</span>1.125rem (18px) · weight <b>400</b> · 70회</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:20px;font-weight:400;line-height:1.6">lead text — 20px</div>
+          <div class="type-row__spec"><span class="tk">lead</span>1.25rem (20px) · weight <b>400</b> · 46회</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:400;line-height:1.6">body secondary — 16px</div>
+          <div class="type-row__spec"><span class="tk">body secondary</span>1rem (16px) · weight <b>400</b> · 30회</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:24px;font-weight:540;line-height:1.4">h3 / sub-heading — 24px / 540</div>
+          <div class="type-row__spec"><span class="tk">h3</span>1.5rem (24px) · weight <b>540</b> · 17회</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:36px;font-weight:540;line-height:1.25">section title — 36px / 540</div>
+          <div class="type-row__spec"><span class="tk">display sm</span>2.25rem (36px) · weight <b>540</b> · 5회</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:44px;font-weight:550;line-height:1.15">feature title — 44px / 550</div>
+          <div class="type-row__spec"><span class="tk">display md</span>2.75rem (44px) · weight <b>550</b> · 7회</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:64px;font-weight:550;line-height:1.05">hero — 64px / 550</div>
+          <div class="type-row__spec"><span class="tk">display xl</span>4rem (64px) · weight <b>550</b> · 7회</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:86px;font-weight:550;line-height:1.0">mega</div>
+          <div class="type-row__spec"><span class="tk">display mega</span>5.375rem (86px) · weight <b>550</b> · 2회</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>figmaSans 대체재</b>: 유료 전용 폰트라 재배포 불가. 외부 공개 대안으로 <code>Inter</code>가 가장 가깝지만 variable weight axis가 다름. 매우 유사한 sans-serif variable: <code>Geist</code> (Vercel, 무료).
+      </div>
+    </section>
+
+    <section id="colors">
+      <div class="section__num">04 · Colors</div>
+      <h2 class="section__title">로고 5색이 아닌 흑백 극단 — 28개 unique hex</h2>
+      <p class="section__lede">#000000(542회)과 #FFFFFF(342회)가 모든 것. 로고 5색은 CSS에 0회. 파스텔 블록과 제한적 accent는 마케팅 section 배경용.</p>
+
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Monochrome — Figma의 실제 브랜드</b> <span class="muted">로고 5색은 로고 전용</span></div>
+        <div class="ramp ramp--2">
+          <div class="sw sw--d is-anchor" style="background:#000000;aspect-ratio:1/1.2"><div class="n">★ primary (542)</div><div>#000000</div></div>
+          <div class="sw sw--l is-anchor" style="background:#FFFFFF;aspect-ratio:1/1.2"><div class="n">★ secondary (342)</div><div>#ffffff</div></div>
+        </div>
+      </div>
+
+      <div class="ramp-label"><b>Pastel Block Palette</b> <span class="muted">lego block section 배경 — 6색</span></div>
+      <div class="pastel-grid">
+        <div class="pastel-sw">
+          <div class="pastel-sw__color" style="background:#C7F8FB"></div>
+          <div class="pastel-sw__body"><div class="pastel-sw__n">pastel-mint</div><div class="pastel-sw__h">#C7F8FB · ×7</div></div>
+        </div>
+        <div class="pastel-sw">
+          <div class="pastel-sw__color" style="background:#FFC9C1"></div>
+          <div class="pastel-sw__body"><div class="pastel-sw__n">pastel-peach</div><div class="pastel-sw__h">#FFC9C1 · ×7</div></div>
+        </div>
+        <div class="pastel-sw">
+          <div class="pastel-sw__color" style="background:#CB9FD2"></div>
+          <div class="pastel-sw__body"><div class="pastel-sw__n">pastel-lavender</div><div class="pastel-sw__h">#CB9FD2 · ×7</div></div>
+        </div>
+        <div class="pastel-sw">
+          <div class="pastel-sw__color" style="background:#E4FF97"></div>
+          <div class="pastel-sw__body"><div class="pastel-sw__n">pastel-yellow</div><div class="pastel-sw__h">#E4FF97 · ×5</div></div>
+        </div>
+        <div class="pastel-sw">
+          <div class="pastel-sw__color" style="background:#FADCA2"></div>
+          <div class="pastel-sw__body"><div class="pastel-sw__n">pastel-cream</div><div class="pastel-sw__h">#FADCA2 · ×4</div></div>
+        </div>
+        <div class="pastel-sw">
+          <div class="pastel-sw__color" style="background:#33DFDF"></div>
+          <div class="pastel-sw__body"><div class="pastel-sw__n">pastel-cyan</div><div class="pastel-sw__h">#33DFDF · ×4</div></div>
+        </div>
+      </div>
+
+      <div class="ramp-label"><b>Accent Colors</b> <span class="muted">제한적 사용 — #972121 form error가 압도적</span></div>
+      <div class="ramp ramp--5">
+        <div class="sw sw--d is-anchor" style="background:#972121"><div class="n">form error (50)</div><div>#972121</div></div>
+        <div class="sw sw--d" style="background:#4D49FC"><div class="n">indigo (10)</div><div>#4d49fc</div></div>
+        <div class="sw sw--l" style="background:#00B6FF"><div class="n">blue (9)</div><div>#00b6ff</div></div>
+        <div class="sw sw--l" style="background:#24CB71"><div class="n">success (9)</div><div>#24cb71</div></div>
+        <div class="sw sw--l" style="background:#FF7237"><div class="n">orange (5)</div><div>#ff7237</div></div>
+      </div>
+
+      <div class="ramp-label" style="margin-top:28px;"><b>Dominant Color 상위 10</b> <span class="muted">CSS 실제 빈도 순</span></div>
+      <div class="dom-chart">
+        <div class="dom-bar">
+          <div class="dom-bar__seg" style="background:#000000;flex:542"></div>
+          <div class="dom-bar__seg" style="background:#FFFFFF;flex:342;border-left:1px solid #eee;border-right:1px solid #eee"></div>
+          <div class="dom-bar__seg" style="background:#972121;flex:50"></div>
+          <div class="dom-bar__seg" style="background:#4D49FC;flex:10"></div>
+          <div class="dom-bar__seg" style="background:#00B6FF;flex:9"></div>
+          <div class="dom-bar__seg" style="background:#24CB71;flex:9"></div>
+          <div class="dom-bar__seg" style="background:#CB9FD2;flex:7"></div>
+          <div class="dom-bar__seg" style="background:#C7F8FB;flex:7"></div>
+          <div class="dom-bar__seg" style="background:#FFC9C1;flex:7"></div>
+          <div class="dom-bar__seg" style="background:#FF7237;flex:5"></div>
+        </div>
+        <div class="dom-list">
+          <div class="item"><div class="chip" style="background:#000000"></div><span class="hex">#000000</span><span class="cnt">×542 · bg/button</span></div>
+          <div class="item"><div class="chip" style="background:#FFFFFF;border-color:#ccc"></div><span class="hex">#FFFFFF</span><span class="cnt">×342 · bg/text</span></div>
+          <div class="item"><div class="chip" style="background:#972121"></div><span class="hex">#972121</span><span class="cnt">×50 · form error</span></div>
+          <div class="item"><div class="chip" style="background:#4D49FC"></div><span class="hex">#4D49FC</span><span class="cnt">×10 · indigo</span></div>
+          <div class="item"><div class="chip" style="background:#00B6FF"></div><span class="hex">#00B6FF</span><span class="cnt">×9 · blue</span></div>
+          <div class="item"><div class="chip" style="background:#24CB71"></div><span class="hex">#24CB71</span><span class="cnt">×9 · success</span></div>
+          <div class="item"><div class="chip" style="background:#CB9FD2"></div><span class="hex">#CB9FD2</span><span class="cnt">×7 · lavender</span></div>
+          <div class="item"><div class="chip" style="background:#C7F8FB"></div><span class="hex">#C7F8FB</span><span class="cnt">×7 · mint</span></div>
+          <div class="item"><div class="chip" style="background:#FFC9C1"></div><span class="hex">#FFC9C1</span><span class="cnt">×7 · peach</span></div>
+          <div class="item"><div class="chip" style="background:#FF7237"></div><span class="hex">#FF7237</span><span class="cnt">×5 · orange</span></div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:20px;">
+        <b>로고 5색 금지</b>: <code>#0ACF83</code>, <code>#A259FF</code>, <code>#F24E1E</code>, <code>#FF7262</code>, <code>#1ABCFE</code> — 이 5색은 로고 SVG 내부에만. CSS 변수나 UI 컴포넌트에 단 0회. Figma의 철학: "도구는 invisible, 콘텐츠가 돋보이게."
+      </div>
+
+      <div class="ramp-label" style="margin-top:28px;"><b>Semantic Slot Layer</b> <span class="muted">--f-* 네이밍 체계</span></div>
+      <div class="alias-table">
+        <div class="row"><span class="k">--f-bg-color</span><span class="arrow">→</span><span class="v"><span class="val">#000000</span> <span class="kr">dark section bg</span></span></div>
+        <div class="row"><span class="k">--f-text-color</span><span class="arrow">→</span><span class="v"><span class="val">#FFFFFF</span> <span class="kr">text on dark</span></span></div>
+        <div class="row"><span class="k">--f-text-secondary-color</span><span class="arrow">→</span><span class="v"><span class="val">rgba(0,0,0,0.65)</span> <span class="kr">secondary on light</span></span></div>
+        <div class="row"><span class="k">--f-primary-btn-bg-color</span><span class="arrow">→</span><span class="v"><span class="val">#000000</span> <span class="kr">primary button</span></span></div>
+        <div class="row"><span class="k">--f-form-error-bg-color</span><span class="arrow">→</span><span class="v"><span class="val">#972121</span> <span class="kr">form error bg</span></span></div>
+        <div class="row"><span class="k">--f-lego-block-padding</span><span class="arrow">→</span><span class="v"><span class="val">5rem</span> <span class="kr">section block padding</span></span></div>
+        <div class="row"><span class="k">--f-lego-fg-color</span><span class="arrow">→</span><span class="v"><span class="val">context-adaptive</span> <span class="kr">lego block fg</span></span></div>
+      </div>
+    </section>
+
+    <section id="spacing">
+      <div class="section__num">05 · Spacing</div>
+      <h2 class="section__title">스페이싱(간격 체계) — 4개 토큰만, lego block 특화</h2>
+      <p class="section__lede">custom spacing token이 4개뿐. 핵심은 <code>--f-lego-block-padding: 5rem</code> (80px). 일반 spacing은 Tailwind 유틸 추정.</p>
+
+      <div class="space-note">
+        <b>lego block 패딩이 핵심</b>: <code>--f-lego-block-padding: 5rem</code> (80px) — 모든 재사용 section의 inner padding. 그 외는 Tailwind utility 클래스 사용 추정.
+      </div>
+
+      <div class="space-table">
+        <div class="space-row"><span class="tk">--f-lego-block-padding</span><span class="val">5rem (80px)</span><div class="bar" style="width:80px"></div></div>
+        <div class="space-row"><span class="tk">xl estimated</span><span class="val">80px</span><div class="bar" style="width:80px"></div></div>
+        <div class="space-row"><span class="tk">lg estimated</span><span class="val">40px</span><div class="bar" style="width:40px"></div></div>
+        <div class="space-row"><span class="tk">md estimated</span><span class="val">24px</span><div class="bar" style="width:24px"></div></div>
+        <div class="space-row"><span class="tk">sm estimated</span><span class="val">16px</span><div class="bar" style="width:16px"></div></div>
+        <div class="space-row"><span class="tk">xs estimated</span><span class="val">8px</span><div class="bar" style="width:8px"></div></div>
+      </div>
+    </section>
+
+    <section id="radius">
+      <div class="section__num">06 · Border Radius</div>
+      <h2 class="section__title">라디우스(모서리 반경) — 2px와 8px 단 2단</h2>
+      <p class="section__lede">매우 제한적. 2px(chip/form/badge) + 8px(card/button). 8px 초과는 없음. "editor chrome minimal" 철학.</p>
+      <div class="rad-grid">
+        <div class="rad-card">
+          <div class="rad-box" style="border-radius:2px"></div>
+          <div class="rad-card__n">chip / badge / form</div>
+          <div class="rad-card__v"><span class="px">2px</span><br>×8</div>
+        </div>
+        <div class="rad-card">
+          <div class="rad-box" style="border-radius:8px"></div>
+          <div class="rad-card__n">card / button</div>
+          <div class="rad-card__v"><span class="px">8px</span><br>×10</div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:20px;">
+        <b>2-step radius 철학</b>: 8px 이상을 거의 쓰지 않음. Figma의 "도구는 invisible" 철학 — 인터페이스가 장식을 줄이고 콘텐츠에 집중하도록.
+      </div>
+    </section>
+
+    <section id="shadows">
+      <div class="section__num">07 · Shadows</div>
+      <h2 class="section__title">drop shadow 없음 — 1px inset border로만 경계 표현</h2>
+      <p class="section__lede">Figma는 box-shadow 변수를 0개 사용. 경계와 elevation은 <code>inset 0 0 0 1px</code>으로만. outlined button 시그니처.</p>
+
+      <div class="sh-grid">
+        <div class="sh-card" style="box-shadow:inset 0 0 0 1px #000;background:#fff">
+          <div><div class="sh-card__n">1px inset border (outlined button)</div><div class="sh-card__d">버튼/카드 경계 — Figma 시그니처</div></div>
+          <div class="sh-card__v">inset 0 0 0 1px currentColor</div>
+        </div>
+        <div class="sh-card">
+          <div><div class="sh-card__n">drop shadow: 없음</div><div class="sh-card__d">elevation 표현에 drop shadow 사용 안 함</div></div>
+          <div class="sh-card__v">box-shadow 변수 0개 — 의도적 설계</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>1px inset border 패턴</b>: <code>box-shadow: inset 0 0 0 1px var(--f-text-color)</code> — outlined button/card의 경계. <code>currentColor</code> 사용으로 dark/light section 모두 자동 적응. drop shadow 없음.
+      </div>
+    </section>
+
+    <section id="components">
+      <div class="section__num">08 · Components</div>
+      <h2 class="section__title">컴포넌트</h2>
+      <p class="section__lede">Outlined Button (시그니처), Primary Button, Lego Block Section, Form Input.</p>
+
+      <div class="cmp-block">
+        <div class="cmp-block__head">
+          <span class="cmp-block__name">btn--outlined</span>
+          <span class="cmp-block__desc">Figma 시그니처 outlined 버튼</span>
+        </div>
+        <div class="cmp-block__body">
+          <div>
+            <div class="cmp-demo" style="background:#000;gap:12px">
+              <button style="background:transparent;color:#fff;border:0;border-radius:8px;padding:12px 24px;font-size:16px;font-weight:500;cursor:pointer;box-shadow:inset 0 0 0 1px #fff;">Get Figma free</button>
+              <button style="background:#fff;color:#000;border:0;border-radius:8px;padding:12px 24px;font-size:16px;font-weight:500;cursor:pointer;">Log in</button>
+            </div>
+            <div class="cmp-demo" style="background:#fff;gap:12px;margin-top:8px;">
+              <button style="background:transparent;color:#000;border:0;border-radius:8px;padding:12px 24px;font-size:16px;font-weight:500;cursor:pointer;box-shadow:inset 0 0 0 1px #000;">Get Figma free</button>
+              <button style="background:#000;color:#fff;border:0;border-radius:8px;padding:12px 24px;font-size:16px;font-weight:500;cursor:pointer;">Log in</button>
+            </div>
+            <div class="cmp-code" id="code-btn">
+              <button class="copy" data-copy="code-btn">Copy</button>
+              <code>&lt;button class="btn btn--outlined"&gt;Get Figma free&lt;/button&gt;</code>
+            </div>
+          </div>
+          <div class="cmp-spec">
+            <code>background: transparent</code><br>
+            <code>box-shadow: inset 0 0 0 1px</code><br>
+            <code>  currentColor</code><br>
+            <code>border: 0</code><br>
+            <code>border-radius: 8px</code><br>
+            <code>padding: 12px 24px</code><br>
+            <code>font: 540 16px figmaSans</code>
+            <span class="kr">drop shadow 없음. dark/light 둘 다 자동 적응.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmp-block">
+        <div class="cmp-block__head">
+          <span class="cmp-block__name">lego-block</span>
+          <span class="cmp-block__desc">재사용 section component</span>
+        </div>
+        <div class="cmp-block__body">
+          <div>
+            <div class="cmp-demo" style="background:#FFC9C1;padding:40px 48px;border-radius:8px;display:block;min-height:auto;">
+              <div style="font-size:28px;font-weight:600;color:#000;margin-bottom:8px;letter-spacing:-0.02em;">Build better products, faster.</div>
+              <div style="font-size:18px;color:#000;opacity:0.65;">Figma brings your team together.</div>
+            </div>
+            <div class="cmp-code" id="code-lego">
+              <button class="copy" data-copy="code-lego">Copy</button>
+              <code>&lt;section class="lego-block"
+  style="--f-lego-bg-color: #FFC9C1"&gt;
+  &lt;h2&gt;Build better products.&lt;/h2&gt;
+  &lt;p&gt;Figma brings your team together.&lt;/p&gt;
+&lt;/section&gt;</code>
+            </div>
+          </div>
+          <div class="cmp-spec">
+            <code>background: --f-lego-bg-color</code><br>
+            <code>(pastel palette 중 1종)</code><br>
+            <code>padding: --f-lego-block-padding</code><br>
+            <code>  = 5rem (80px)</code><br>
+            <code>font: figmaSans 18-24px</code>
+            <span class="kr">파스텔 블록 6종 중 섹션마다 1종 사용. "lego" 개념 — 조립식 section.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="export">
+      <div class="section__num">09 · Code Export</div>
+      <h2 class="section__title">CSS · Tailwind</h2>
+      <p class="section__lede">바로 복사해서 쓸 수 있는 Drop-in CSS와 Tailwind 설정.</p>
+      <div class="code-export">
+        <div class="code-tabs">
+          <button data-tab="css" class="is-active">CSS 스니펫</button>
+          <button data-tab="tw">Tailwind 설정</button>
+          <button class="code-copy" data-copy-active>Copy</button>
+        </div>
+        <div class="code-pane is-active" data-pane="css">
+          <pre><code>/* Figma — copy into your root stylesheet */
+:root {
+  /* Fonts (Figma 전용 커스텀) */
+  --f-font-sans: "figmaSans", "figmaSans Fallback", "SF Pro Display", system-ui, helvetica, sans-serif;
+  --f-font-mono: "figmaMono", "figmaMono Fallback", "SF Mono", menlo, monospace;
+
+  /* Monochrome (duo-theme) */
+  --f-bg-color:              #000000;
+  --f-text-color:            #FFFFFF;
+  --bg-color:                #FFFFFF;
+  --text-color:              #000000;
+  --f-text-secondary-color:  rgba(0, 0, 0, 0.65);
+  --f-list-header-color:     rgba(255, 255, 255, 0.6);
+
+  /* Lego block */
+  --f-lego-block-padding: 5rem;
+
+  /* Primary button */
+  --f-primary-btn-bg-color:   #000000;
+  --f-primary-btn-text-color: #FFFFFF;
+
+  /* Form */
+  --f-form-placeholder-text-color: rgba(0, 0, 0, 0.5);
+  --f-form-error-bg-color:         #972121;
+
+  /* Pastel block palette */
+  --f-pastel-peach:    #FFC9C1;
+  --f-pastel-lavender: #CB9FD2;
+  --f-pastel-mint:     #C7F8FB;
+  --f-pastel-yellow:   #E4FF97;
+  --f-pastel-cream:    #FADCA2;
+  --f-pastel-cyan:     #33DFDF;
+
+  /* Accent (제한적) */
+  --f-accent-indigo: #4D49FC;
+  --f-accent-blue:   #00B6FF;
+  --f-accent-green:  #24CB71;
+  --f-accent-orange: #FF7237;
+
+  /* Radius */
+  --f-radius-sm: 2px;
+  --f-radius-md: 8px;
+}
+
+body {
+  font-family: var(--f-font-sans);
+  font-weight: 400;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-size: 1.125rem; /* 18px base */
+}
+
+/* Signature outlined button */
+.btn-outlined {
+  background: transparent;
+  color: currentColor;
+  box-shadow: inset 0 0 0 1px currentColor;
+  border: 0;
+  border-radius: var(--f-radius-md);
+  padding: 12px 24px;
+  font: 540 16px / 1 var(--f-font-sans);
+  cursor: pointer;
+}
+
+/* Duo-theme section */
+.section-dark  { background: var(--f-bg-color); color: var(--f-text-color); }
+.section-light { background: var(--bg-color);   color: var(--text-color); }</code></pre>
+        </div>
+        <div class="code-pane" data-pane="tw">
+          <pre><code>// tailwind.config.js — Figma
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        f: { bg: '#000000', fg: '#FFFFFF' },
+        pastel: {
+          peach:    '#FFC9C1',
+          lavender: '#CB9FD2',
+          mint:     '#C7F8FB',
+          yellow:   '#E4FF97',
+          cream:    '#FADCA2',
+          cyan:     '#33DFDF',
+        },
+        accent: {
+          indigo: '#4D49FC',
+          blue:   '#00B6FF',
+          green:  '#24CB71',
+          orange: '#FF7237',
+        },
+        error: '#972121',
+        // logo colors: logo 컴포넌트 내부에만 사용
+        logo: {
+          green:  '#0ACF83',
+          purple: '#A259FF',
+          red:    '#F24E1E',
+          peach:  '#FF7262',
+          blue:   '#1ABCFE',
+        },
+      },
+      fontFamily: {
+        sans: ['"figmaSans"', '"figmaSans Fallback"', '"SF Pro Display"', 'system-ui', 'sans-serif'],
+        mono: ['"figmaMono"', '"figmaMono Fallback"', '"SF Mono"', 'menlo', 'monospace'],
+      },
+      fontWeight: {
+        // Variable font continuous axis
+        '320': '320', '330': '330', '340': '340',
+        'normal': '400', '450': '450', '480': '480',
+        '520': '520', '530': '530', '540': '540', '550': '550',
+      },
+      borderRadius: { sm: '2px', md: '8px' },
+      spacing: { 'lego': '5rem' },
+    },
+  },
+};</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="verdict">
+      <div class="section__num">10 · Do / Don't</div>
+      <h2 class="section__title">Do / Don't</h2>
+      <p class="section__lede">지켜야 할 것과 피해야 할 것.</p>
+      <div class="dd-grid">
+        <div class="dd-card dd-card--do">
+          <h3>Do</h3>
+          <ul>
+            <li><b>Monochrome 흑백 극단</b>: <code>#000000</code> / <code>#FFFFFF</code> primary. 섹션마다 bg 반전 (duo-theme).</li>
+            <li><b>figmaSans + figmaMono</b> Figma 전용 커스텀 폰트. 폴백은 <code>SF Pro Display</code>, <code>SF Mono</code>.</li>
+            <li><b>Variable font weight</b> <code>540</code>/<code>550</code>을 bold 역할로 — 표준 700 아님.</li>
+            <li>Body base font-size <b>18px</b> (1.125rem, 최다) — 16px 아님.</li>
+            <li><b>1px inset border button</b>: <code>box-shadow: inset 0 0 0 1px currentColor</code> — outlined 시그니처.</li>
+            <li>Pastel block palette를 lego block section bg로 (<code>#C7F8FB</code>, <code>#FFC9C1</code>, <code>#CB9FD2</code> 등).</li>
+            <li>Radius 2-step: <code>2px</code>(form/chip) + <code>8px</code>(card/button). 이상 없음.</li>
+            <li><code>--f-*</code> prefix slot 네이밍 체계 준수.</li>
+          </ul>
+        </div>
+        <div class="dd-card dd-card--dont">
+          <h3>Don't</h3>
+          <ul>
+            <li><b>로고 5색을 UI에 사용</b> — <code>#0ACF83</code>, <code>#A259FF</code>, <code>#F24E1E</code>, <code>#FF7262</code>, <code>#1ABCFE</code>는 로고 SVG 전용.</li>
+            <li><code>Inter</code> 단독 — Figma는 <code>figmaSans</code> 전용 커스텀 폰트.</li>
+            <li><code>color-brand</code> flat 네이밍 — Figma는 <code>--f-*</code> component-slot 체계.</li>
+            <li>8px 초과 radius — Figma는 2px / 8px 2종만.</li>
+            <li>Drop shadow 기반 elevation — <code>inset 1px border</code>로만 경계 표현.</li>
+            <li>단일 theme — Figma는 한 페이지 안에서 dark/light 섹션 반전.</li>
+            <li>표준 <code>font-weight: 700</code> — Figma는 variable font <code>540</code>/<code>550</code>.</li>
+            <li>16px base body — Figma는 <b>18px</b> base 사용.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="rfoot">
+      <div>
+        <span class="kr">DesignMD · Figma Report</span><br>
+        real/figma/DESIGN.claude.manual.md 기반 생성
+      </div>
+      <div style="text-align:right;">
+        2026-04-11<br>
+        <span class="kr">35개 서비스 · 템플릿 재사용 가능</span>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll('.code-tabs button[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest('.code-export');
+      group.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('is-active'));
+      group.querySelectorAll('[data-pane]').forEach(p => p.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      group.querySelector(`[data-pane="${btn.dataset.tab}"]`).classList.add('is-active');
+    });
+  });
+  document.querySelectorAll('.copy[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.copy);
+      if (!target) return;
+      navigator.clipboard.writeText(target.textContent);
+      const original = btn.textContent;
+      btn.textContent = 'Copied';
+      setTimeout(() => (btn.textContent = original), 1500);
+    });
+  });
+  document.querySelectorAll('[data-copy-active]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest('.code-export');
+      const active = group.querySelector('.code-pane.is-active pre code');
+      if (!active) return;
+      navigator.clipboard.writeText(active.textContent);
+      const original = btn.textContent;
+      btn.textContent = 'Copied';
+      setTimeout(() => (btn.textContent = original), 1500);
+    });
+  });
+</script>
+</body>
+</html>

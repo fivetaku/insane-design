@@ -1,0 +1,1389 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contentful — Design System Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ===== TOKENS ===== */
+:root {
+  --bg: #fafafa;
+  --fg: #09090b;
+  --card: #ffffff;
+  --muted: #f4f4f5;
+  --muted-fg: #71717a;
+  --border: #e4e4e7;
+  --brand-color: #1770E6;
+  --radius: 8px;
+  --sh: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: var(--brand-color); text-decoration: none; }
+code {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: .85em;
+  background: var(--muted);
+  padding: .1em .35em;
+  border-radius: 4px;
+}
+pre {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: .8125rem;
+  background: #1e1e2e;
+  color: #e4e4e7;
+  padding: 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  line-height: 1.7;
+}
+pre code { background: none; padding: 0; font-size: 1em; color: inherit; border-radius: 0; }
+table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+th { text-align: left; font-weight: 600; padding: .625rem .875rem; background: var(--muted); border-bottom: 1px solid var(--border); }
+td { padding: .5rem .875rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+h2 { font-size: 1.375rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: .5rem; }
+h3 { font-size: .75rem; font-weight: 700; margin-bottom: .75rem; color: var(--muted-fg); text-transform: uppercase; letter-spacing: .06em; }
+
+/* ===== LAYOUT ===== */
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ===== TOC ===== */
+.toc {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 2rem 1.25rem;
+  border-right: 1px solid var(--border);
+  background: var(--card);
+}
+.toc-logo {
+  font-weight: 800;
+  font-size: 1.125rem;
+  letter-spacing: -.03em;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.toc-logo span {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background: var(--brand-color);
+  border-radius: 6px;
+}
+.toc-group { margin-bottom: 1.5rem; }
+.toc-group-label {
+  font-size: .6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted-fg);
+  margin-bottom: .5rem;
+  padding: 0 .5rem;
+}
+.toc a {
+  display: block;
+  padding: .3125rem .5rem;
+  font-size: .8125rem;
+  color: var(--fg);
+  border-radius: 5px;
+  transition: background .15s;
+  line-height: 1.4;
+}
+.toc a:hover { background: var(--muted); color: var(--brand-color); }
+
+/* ===== MAIN ===== */
+main { padding: 0; }
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(135deg, #0d2a5e 0%, #1a3a7a 50%, #2C407D 100%);
+  color: #fff;
+  padding: 4rem 3.5rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -5%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(23,112,230,.35) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: 10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(168,100,81,.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  background: rgba(23,112,230,.3);
+  border: 1px solid rgba(23,112,230,.5);
+  color: #93c5fd;
+  padding: .25rem .75rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.1;
+  margin-bottom: .75rem;
+}
+.hero h1 em { font-style: normal; color: #93c5fd; }
+.hero-sub {
+  font-size: 1.0625rem;
+  color: rgba(255,255,255,.65);
+  max-width: 580px;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+/* ===== QUICK START ===== */
+.qs__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem; }
+.qs__step {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 1.125rem;
+  position: relative;
+}
+.qs__step-num {
+  font-size: .625rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #93c5fd;
+  margin-bottom: .625rem;
+}
+.qs__step pre {
+  background: rgba(0,0,0,.3);
+  border: 1px solid rgba(255,255,255,.07);
+  font-size: .72rem;
+  padding: .875rem;
+  margin: 0;
+  color: #e2e8f0;
+  border-radius: 6px;
+}
+.qs__warn {
+  background: rgba(239,68,68,.08);
+  border: 1px solid rgba(239,68,68,.25);
+  border-radius: 8px;
+  padding: .875rem 1.125rem;
+  font-size: .8125rem;
+  color: #fca5a5;
+  line-height: 1.5;
+}
+.qs__warn strong { color: #f87171; }
+
+/* ===== STAT CARDS ===== */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .75rem;
+  margin-top: 2rem;
+}
+.stat-card {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: .875rem 1rem;
+}
+.stat-card-label { font-size: .6875rem; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .25rem; }
+.stat-card-value { font-size: .9375rem; font-weight: 700; color: #fff; letter-spacing: -.02em; }
+
+/* ===== SECTION ===== */
+.section {
+  padding: 3rem 3.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.section:last-child { border-bottom: none; }
+.section-label {
+  font-size: .6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--brand-color);
+  margin-bottom: .625rem;
+}
+.section h2 { margin-bottom: 1.5rem; }
+
+/* ===== PROVENANCE TABLE ===== */
+.prov-table { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+
+/* ===== TECH STACK ===== */
+.stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.stack-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.stack-card-title { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted-fg); margin-bottom: .5rem; }
+.stack-card-val { font-size: .9375rem; font-weight: 600; color: var(--fg); }
+.stack-card-sub { font-size: .8125rem; color: var(--muted-fg); margin-top: .25rem; line-height: 1.5; }
+
+/* ===== CALLOUT ===== */
+.callout {
+  background: rgba(23,112,230,.06);
+  border: 1px solid rgba(23,112,230,.2);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-size: .875rem;
+  color: var(--fg);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+.callout strong { color: var(--brand-color); }
+
+/* ===== TYPOGRAPHY ===== */
+.type-table { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.type-row { display: grid; grid-template-columns: 80px 1fr 60px 60px 80px; align-items: center; gap: 1rem; padding: .75rem 1rem; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-row:hover { background: var(--muted); }
+.type-meta { font-size: .75rem; color: var(--muted-fg); font-family: "JetBrains Mono", monospace; }
+.type-preview { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.type-row-header { background: var(--muted); font-weight: 700; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted-fg); }
+
+/* ===== COLOR SWATCHES ===== */
+.ramp-label { font-size: .75rem; font-weight: 600; color: var(--muted-fg); margin-bottom: .625rem; text-transform: uppercase; letter-spacing: .07em; }
+.ramp { display: flex; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; }
+.sw {
+  flex: 1;
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: .375rem .4rem;
+  position: relative;
+  cursor: default;
+}
+.sw--l { color: #09090b; }
+.sw--d { color: #fafafa; }
+.sw-hex { font-family: "JetBrains Mono", monospace; font-size: .55rem; opacity: .75; line-height: 1; }
+.sw-step { font-size: .5rem; opacity: .55; margin-bottom: .1rem; }
+.sw.is-anchor::after {
+  content: '★';
+  position: absolute;
+  top: .3rem;
+  right: .3rem;
+  font-size: .55rem;
+}
+
+/* ===== EARTH TONE PALETTE ===== */
+.earth-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: .75rem;
+  margin-bottom: 1.5rem;
+}
+.earth-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.earth-swatch { height: 56px; }
+.earth-info { padding: .5rem .625rem; }
+.earth-hex { font-family: "JetBrains Mono", monospace; font-size: .65rem; color: var(--fg); font-weight: 600; }
+.earth-name { font-size: .65rem; color: var(--muted-fg); margin-top: .1rem; }
+
+/* ===== SEMANTIC TOKENS ===== */
+.sem-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; }
+.sem-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .875rem;
+  display: flex;
+  align-items: center;
+  gap: .875rem;
+}
+.sem-swatch { width: 36px; height: 36px; border-radius: 6px; border: 1px solid rgba(0,0,0,.08); flex-shrink: 0; }
+.sem-info { flex: 1; min-width: 0; }
+.sem-token { font-family: "JetBrains Mono", monospace; font-size: .7rem; color: var(--brand-color); margin-bottom: .2rem; }
+.sem-desc { font-size: .75rem; color: var(--muted-fg); }
+
+/* ===== DOM FREQUENCY ===== */
+.dom-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: .5rem; }
+.dom-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .375rem;
+}
+.dom-swatch { width: 40px; height: 40px; border-radius: 6px; border: 1px solid rgba(0,0,0,.1); }
+.dom-hex { font-family: "JetBrains Mono", monospace; font-size: .65rem; color: var(--muted-fg); }
+.dom-count { font-size: .65rem; color: var(--muted-fg); }
+.dom-role { font-size: .65rem; font-weight: 600; color: var(--fg); text-align: center; }
+
+/* ===== SPACING ===== */
+.space-table { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.space-vis { height: 20px; background: var(--brand-color); border-radius: 3px; opacity: .7; }
+
+/* ===== RADIUS ===== */
+.rad-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.rad-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+  text-align: center;
+}
+.rad-box {
+  width: 64px;
+  height: 64px;
+  background: var(--brand-color);
+  opacity: .15;
+  border: 2px solid var(--brand-color);
+}
+.rad-val { font-family: "JetBrains Mono", monospace; font-size: .75rem; font-weight: 600; color: var(--fg); }
+.rad-desc { font-size: .6875rem; color: var(--muted-fg); }
+.rad-card.is-sig { background: rgba(23,112,230,.05); border-color: rgba(23,112,230,.3); }
+
+/* ===== SHADOWS ===== */
+.sh-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+.sh-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.sh-demo {
+  width: 160px;
+  height: 80px;
+  background: #FFFFFF;
+  border-radius: 8px;
+}
+.sh-name { font-size: .8125rem; font-weight: 600; color: var(--fg); }
+.sh-val { font-family: "JetBrains Mono", monospace; font-size: .65rem; color: var(--muted-fg); text-align: center; line-height: 1.5; word-break: break-all; }
+
+/* ===== COMPONENTS ===== */
+.cmp-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.cmp-header {
+  padding: .625rem 1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cmp-title { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted-fg); }
+.cmp-demo {
+  padding: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--muted);
+  min-height: 140px;
+}
+.cmp-code { position: relative; }
+.cmp-code pre { border-radius: 0; margin: 0; }
+.copy-btn {
+  position: absolute;
+  top: .625rem;
+  right: .625rem;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  color: #fff;
+  font-size: .6875rem;
+  padding: .25rem .625rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s;
+}
+.copy-btn:hover { background: rgba(255,255,255,.2); }
+
+/* === Contentful demo components === */
+.cf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: #1770E6;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 4px;
+  padding: .75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: "Avenir Next", "Inter", sans-serif;
+  margin: .375rem;
+}
+.cf-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: transparent;
+  color: #1770E6;
+  border: 1px solid #1770E6;
+  border-radius: 4px;
+  padding: .75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: "Avenir Next", "Inter", sans-serif;
+  margin: .375rem;
+}
+.cf-card {
+  background: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0,0,0,.15);
+  padding: 2rem 2.5rem;
+  max-width: 400px;
+  width: 100%;
+}
+.cf-card-tag {
+  display: inline-block;
+  background: rgba(23,112,230,.1);
+  color: #1770E6;
+  font-size: .75rem;
+  font-weight: 600;
+  padding: .2rem .625rem;
+  border-radius: 4px;
+  margin-bottom: .875rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.cf-card h4 { font-size: 1.125rem; font-weight: 600; color: #2B2D31; margin-bottom: .5rem; }
+.cf-card p { font-size: .9375rem; color: #55575B; line-height: 1.55; margin-bottom: 1.25rem; }
+.cf-nav {
+  background: #FFFFFF;
+  border-bottom: 1px solid #DDE5EC;
+  padding: .875rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.cf-nav-logo { font-weight: 800; font-size: 1rem; color: #2B2D31; }
+.cf-nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.cf-nav-link { font-size: .875rem; color: #2B2D31; font-weight: 500; }
+.cf-nav-cta {
+  background: #1770E6;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 4px;
+  padding: .5rem 1rem;
+  font-size: .875rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ===== CODE EXPORT ===== */
+.code-export { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.tab-bar { display: flex; border-bottom: 1px solid var(--border); background: var(--muted); padding: .375rem .375rem 0; gap: .25rem; }
+.tab-btn {
+  padding: .375rem .875rem;
+  font-size: .8125rem;
+  font-weight: 500;
+  border: none;
+  background: none;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  color: var(--muted-fg);
+  font-family: inherit;
+  transition: all .15s;
+}
+.tab-btn.is-active { background: var(--card); color: var(--fg); box-shadow: 0 1px 0 var(--card); }
+.tab-pane { display: none; position: relative; }
+.tab-pane.is-active { display: block; }
+.tab-pane pre { border-radius: 0; margin: 0; }
+.copy-code-btn {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  color: #fff;
+  font-size: .6875rem;
+  padding: .25rem .625rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.copy-code-btn:hover { background: rgba(255,255,255,.2); }
+
+/* ===== DO / DON'T ===== */
+.dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.dd-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+.dd-card--do { border-top: 3px solid #22c55e; }
+.dd-card--dont { border-top: 3px solid #ef4444; }
+.dd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  font-size: .6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  padding: .25rem .625rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+.dd-card--do .dd-badge { background: rgba(34,197,94,.1); color: #16a34a; }
+.dd-card--dont .dd-badge { background: rgba(239,68,68,.1); color: #dc2626; }
+.dd-list { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+.dd-list li { font-size: .875rem; padding-left: 1.25rem; position: relative; line-height: 1.5; }
+.dd-card--do .dd-list li::before { content: '✓'; position: absolute; left: 0; color: #22c55e; font-weight: 700; }
+.dd-card--dont .dd-list li::before { content: '✕'; position: absolute; left: 0; color: #ef4444; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ===== TOC ===== -->
+<nav class="toc" aria-label="목차">
+  <div class="toc-logo">
+    <span></span>
+    Contentful
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Overview</div>
+    <a href="#hero">한눈에 보기</a>
+    <a href="#provenance">출처와 수집 기준</a>
+    <a href="#tech">테크 스택</a>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Foundations</div>
+    <a href="#typography">타이포그래피</a>
+    <a href="#colors">컬러</a>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Tokens</div>
+    <a href="#spacing">스페이싱</a>
+    <a href="#radius">라디우스</a>
+    <a href="#shadows">섀도우</a>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Patterns</div>
+    <a href="#components">컴포넌트</a>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Code</div>
+    <a href="#code">CSS · Tailwind</a>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Rules</div>
+    <a href="#dodont">Do / Don't</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<main>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-eyebrow">Design System Report</div>
+  <h1>Contentful <em>— Royal blue + Earth-tone illustration DS</em></h1>
+  <p class="hero-sub">CSS 변수 0개, 하드코딩 hex만 사용하는 마케팅 사이트. Royal blue <code style="color:#93c5fd;">#1770E6</code>가 CTA를 독점하고, 테라코타/세이지/카키 earth-tone palette가 일러스트레이션을 구성한다.</p>
+
+  <div class="qs__grid">
+    <div class="qs__step">
+      <div class="qs__step-num">Step 1 — 폰트</div>
+      <pre><code>/* 1. 폰트 — Avenir Next + system fallback */
+body {
+  font-family: "Avenir Next",
+    "Segoe UI", -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue", sans-serif;
+  font-weight: 400;
+}</code></pre>
+    </div>
+    <div class="qs__step">
+      <div class="qs__step-num">Step 2 — 라이트 배경</div>
+      <pre><code>/* 2. 라이트 배경 + dark text */
+:root {
+  --bg:      #FFFFFF;
+  --bg-muted: #EFF2F6;
+  --fg:       #2B2D31;
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+}</code></pre>
+    </div>
+    <div class="qs__step">
+      <div class="qs__step-num">Step 3 — 브랜드 블루</div>
+      <pre><code>/* 3. 브랜드 royal blue */
+:root {
+  --brand:      #1770E6;
+  --brand-navy: #2C407D;
+}
+/* CTA, link, logo → brand only */
+/* earth-tone → illustrations */</code></pre>
+    </div>
+  </div>
+  <div class="qs__warn">
+    <strong>절대 하지 말 것:</strong> Contentful 브랜드는 <strong>royal blue <code>#1770E6</code></strong>(HSL 215°)다. cyan-계열 <code>#0286C3</code>는 실제 CSS에 0회 등장 — 잘못 쓰면 즉시 "Contentful 아님"처럼 보인다. <strong>earth-tone accent palette</strong>(<code>#A86451</code>, <code>#587D69</code>, <code>#8A724D</code>)는 오직 일러스트레이션 전용이며 UI 브랜드 컬러가 아니다.
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="stat-card-label">Source</div>
+      <div class="stat-card-value">contentful.com</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Fetched</div>
+      <div class="stat-card-value">2026-04-11</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">CSS 변수</div>
+      <div class="stat-card-value">0개 (하드코딩)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Brand</div>
+      <div class="stat-card-value">#1770E6 royal blue</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVENANCE -->
+<section class="section" id="provenance">
+  <div class="section-label">00 — Overview</div>
+  <h2>출처와 수집 기준</h2>
+  <div class="callout">
+    <strong>중요:</strong> 이 마케팅 페이지에는 CSS 변수가 <strong>0개</strong>. Contentful의 공식 디자인 시스템은 <strong>Forma 36</strong>(<code>@contentful/forma-36</code>)이지만 홈페이지에는 적용되지 않고, 모든 색이 하드코딩 hex로 존재. 앱 UI를 재현하려면 Forma 36 레포를 별도 참조해야 한다.
+  </div>
+  <div class="prov-table">
+    <table>
+      <tbody>
+        <tr><th style="width:180px">Source URL</th><td><code>https://www.contentful.com</code></td></tr>
+        <tr><th>Fetched</th><td>2026-04-11</td></tr>
+        <tr><th>Extractor</th><td><code>real/fetch_all.py</code> (curl + Chrome UA)</td></tr>
+        <tr><th>CSS files</th><td>20개 번들 · 108,558자</td></tr>
+        <tr><th>Custom properties</th><td><strong>0개</strong> (CSS var 시스템 미적용)</td></tr>
+        <tr><th>Unique hex</th><td>48개</td></tr>
+        <tr><th>Method</th><td>하드코딩 hex 직접 파싱 · AI 추론 없음</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="section" id="tech">
+  <div class="section-label">01 — Overview</div>
+  <h2>테크 스택</h2>
+  <div class="stack-grid">
+    <div class="stack-card">
+      <div class="stack-card-title">Framework</div>
+      <div class="stack-card-val">정적 마케팅 사이트</div>
+      <div class="stack-card-sub">Next.js SSG 추정</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-card-title">Design System</div>
+      <div class="stack-card-val">Forma 36 (앱 전용)</div>
+      <div class="stack-card-sub"><code>--f36-*</code> prefix — 홈페이지에는 미적용</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-card-title">CSS Architecture</div>
+      <div class="stack-card-val">커스텀 프로퍼티 없음</div>
+      <div class="stack-card-sub">모든 색/간격이 하드코딩 hex</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-card-title">Default Theme</div>
+      <div class="stack-card-val">light (#FFFFFF)</div>
+      <div class="stack-card-sub">canonical anchor: <code>#1770E6</code> royal blue</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-card-title">Class Naming</div>
+      <div class="stack-card-val">BEM + CSS module hash</div>
+      <div class="stack-card-sub">일반적인 BEM 컨벤션</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-card-title">Font Loading</div>
+      <div class="stack-card-val">Avenir Next 1회 선언</div>
+      <div class="stack-card-sub">대부분 system font 폴백으로 처리</div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPOGRAPHY -->
+<section class="section" id="typography">
+  <div class="section-label">02 — Foundations</div>
+  <h2>16px 베이스, 마케팅 히어로는 96px까지</h2>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.875rem;color:var(--muted-fg);">
+    <strong style="color:var(--fg);">폰트 스택</strong> — Primary: <code>Avenir Next</code> (Adobe Fonts, 유료). 오픈소스 대체: <code>Nunito Sans</code>, <code>Be Vietnam Pro</code>, <code>Mulish</code> (geometric sans 계열). h1-h3은 weight 600.
+  </div>
+
+  <div class="type-table">
+    <div class="type-row type-row-header">
+      <span>px</span>
+      <span>Preview</span>
+      <span>Freq</span>
+      <span>Weight</span>
+      <span>Usage</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">96px</span>
+      <div class="type-preview" style="font-size:1.75rem;font-weight:700;line-height:1.05;letter-spacing:-.04em;">Headline</div>
+      <span class="type-meta">1회</span>
+      <span class="type-meta">700</span>
+      <span class="type-meta">mega display</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">72px</span>
+      <div class="type-preview" style="font-size:1.5rem;font-weight:700;line-height:1.08;letter-spacing:-.03em;">Hero display</div>
+      <span class="type-meta">2회</span>
+      <span class="type-meta">700</span>
+      <span class="type-meta">hero xxl</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">40px</span>
+      <div class="type-preview" style="font-size:1.25rem;font-weight:600;line-height:1.15;letter-spacing:-.02em;">Feature headline</div>
+      <span class="type-meta">2회</span>
+      <span class="type-meta">600</span>
+      <span class="type-meta">hero display</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">32px</span>
+      <div class="type-preview" style="font-size:1.125rem;font-weight:600;line-height:1.2;letter-spacing:-.015em;">Section heading</div>
+      <span class="type-meta">3회</span>
+      <span class="type-meta">600</span>
+      <span class="type-meta">h1 / feature title</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">20px</span>
+      <div class="type-preview" style="font-size:1rem;font-weight:600;line-height:1.3;">Sub-heading text</div>
+      <span class="type-meta">3회</span>
+      <span class="type-meta">600</span>
+      <span class="type-meta">h3 / sub-heading</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">18px</span>
+      <div class="type-preview" style="font-size:.95rem;font-weight:400;line-height:1.6;">Lead paragraph text for sections</div>
+      <span class="type-meta">1회</span>
+      <span class="type-meta">400</span>
+      <span class="type-meta">lead text</span>
+    </div>
+    <div class="type-row" style="background:rgba(23,112,230,.04);">
+      <span class="type-meta" style="font-weight:700;color:var(--brand-color);">16px ★</span>
+      <div class="type-preview" style="font-size:.9rem;font-weight:400;line-height:1.55;">Body text — most frequent (8회)</div>
+      <span class="type-meta" style="color:var(--brand-color);">8회</span>
+      <span class="type-meta">400</span>
+      <span class="type-meta">body (최다)</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">14px</span>
+      <div class="type-preview" style="font-size:.85rem;font-weight:400;line-height:1.5;">Small body / label text</div>
+      <span class="type-meta">7회</span>
+      <span class="type-meta">400</span>
+      <span class="type-meta">small body / label</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">12px</span>
+      <div class="type-preview" style="font-size:.8rem;font-weight:400;line-height:1.4;">Caption meta text</div>
+      <span class="type-meta">3회</span>
+      <span class="type-meta">400</span>
+      <span class="type-meta">caption / meta</span>
+    </div>
+  </div>
+  <p style="margin-top:.75rem;font-size:.8125rem;color:var(--muted-fg);">non-modular 스케일: 16px base + 14px dense. 헤딩은 20 / 26 / 32 / 40 / 72 / 96px (1.25x 비율 아님 — 마케팅 히어로 중심 타입 스케일).</p>
+</section>
+
+<!-- COLORS -->
+<section class="section" id="colors">
+  <div class="section-label">03 — Foundations</div>
+  <h2>Royal blue CTA, earth-tone은 일러스트 전용</h2>
+
+  <!-- Brand blue ramp -->
+  <div class="ramp-label">Brand Blue Ramp</div>
+  <div class="ramp">
+    <div class="sw sw--d" style="background:#3D4266;">
+      <div class="sw-step">darkest</div>
+      <div class="sw-hex">#3D4266</div>
+    </div>
+    <div class="sw sw--d" style="background:#2E3F70;">
+      <div class="sw-step">navy deep</div>
+      <div class="sw-hex">#2E3F70</div>
+    </div>
+    <div class="sw sw--d" style="background:#2C407D;">
+      <div class="sw-step">navy</div>
+      <div class="sw-hex">#2C407D</div>
+    </div>
+    <div class="sw sw--d is-anchor" style="background:#1770E6;">
+      <div class="sw-step">brand ★</div>
+      <div class="sw-hex">#1770E6</div>
+    </div>
+    <div class="sw sw--l" style="background:#93c5fd;">
+      <div class="sw-step">light</div>
+      <div class="sw-hex">#93c5fd</div>
+    </div>
+  </div>
+
+  <!-- Neutral ramp -->
+  <div class="ramp-label">Neutral Ramp</div>
+  <div class="ramp">
+    <div class="sw sw--d" style="background:#000000;">
+      <div class="sw-step">stroke</div>
+      <div class="sw-hex">#000000</div>
+    </div>
+    <div class="sw sw--d is-anchor" style="background:#2B2D31;">
+      <div class="sw-step">text ★</div>
+      <div class="sw-hex">#2B2D31</div>
+    </div>
+    <div class="sw sw--d" style="background:#55575B;">
+      <div class="sw-step">subtle</div>
+      <div class="sw-hex">#55575B</div>
+    </div>
+    <div class="sw sw--d" style="background:#6D7682;">
+      <div class="sw-step">muted</div>
+      <div class="sw-hex">#6D7682</div>
+    </div>
+    <div class="sw sw--l" style="background:#C4D1DE;">
+      <div class="sw-step">border mid</div>
+      <div class="sw-hex">#C4D1DE</div>
+    </div>
+    <div class="sw sw--l" style="background:#DDE5EC;">
+      <div class="sw-step">border</div>
+      <div class="sw-hex">#DDE5EC</div>
+    </div>
+    <div class="sw sw--l" style="background:#EFF2F6;">
+      <div class="sw-step">sunken</div>
+      <div class="sw-hex">#EFF2F6</div>
+    </div>
+    <div class="sw sw--l" style="background:#FFFFFF;border:1px solid #e4e4e7;">
+      <div class="sw-step">page</div>
+      <div class="sw-hex">#FFFFFF</div>
+    </div>
+  </div>
+
+  <!-- Earth-tone palette -->
+  <h3 style="margin-top:1.5rem;">Earth-tone Illustration Palette (일러스트레이션 전용)</h3>
+  <div class="earth-grid">
+    <div class="earth-card">
+      <div class="earth-swatch" style="background:#A86451;"></div>
+      <div class="earth-info">
+        <div class="earth-hex">#A86451</div>
+        <div class="earth-name">terracotta (10회)</div>
+      </div>
+    </div>
+    <div class="earth-card">
+      <div class="earth-swatch" style="background:#BA5A3F;"></div>
+      <div class="earth-info">
+        <div class="earth-hex">#BA5A3F</div>
+        <div class="earth-name">orange brick (6회)</div>
+      </div>
+    </div>
+    <div class="earth-card">
+      <div class="earth-swatch" style="background:#8A724D;"></div>
+      <div class="earth-info">
+        <div class="earth-hex">#8A724D</div>
+        <div class="earth-name">khaki (8회)</div>
+      </div>
+    </div>
+    <div class="earth-card">
+      <div class="earth-swatch" style="background:#587D69;"></div>
+      <div class="earth-info">
+        <div class="earth-hex">#587D69</div>
+        <div class="earth-name">sage green (8회)</div>
+      </div>
+    </div>
+    <div class="earth-card">
+      <div class="earth-swatch" style="background:#395E4A;"></div>
+      <div class="earth-info">
+        <div class="earth-hex">#395E4A</div>
+        <div class="earth-name">forest green (10회)</div>
+      </div>
+    </div>
+    <div class="earth-card">
+      <div class="earth-swatch" style="background:#4A6E70;"></div>
+      <div class="earth-info">
+        <div class="earth-hex">#4A6E70</div>
+        <div class="earth-name">teal dark (20회)</div>
+      </div>
+    </div>
+    <div class="earth-card">
+      <div class="earth-swatch" style="background:#54768E;"></div>
+      <div class="earth-info">
+        <div class="earth-hex">#54768E</div>
+        <div class="earth-name">slate blue (10회)</div>
+      </div>
+    </div>
+    <div class="earth-card">
+      <div class="earth-swatch" style="background:#5F7B7D;"></div>
+      <div class="earth-info">
+        <div class="earth-hex">#5F7B7D</div>
+        <div class="earth-name">teal gray (4회)</div>
+      </div>
+    </div>
+    <div class="earth-card">
+      <div class="earth-swatch" style="background:#965642;"></div>
+      <div class="earth-info">
+        <div class="earth-hex">#965642</div>
+        <div class="earth-name">terracotta deep (6회)</div>
+      </div>
+    </div>
+    <div class="earth-card">
+      <div class="earth-swatch" style="background:#877256;"></div>
+      <div class="earth-info">
+        <div class="earth-hex">#877256</div>
+        <div class="earth-name">khaki deep (4회)</div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:.8125rem;color:var(--muted-fg);margin-bottom:1.5rem;">플로렌틴/테라코타/세이지 계열로 "구조화된 웜톤" 인상. UI에는 거의 미사용 — 히어로 일러스트와 아이콘에 집중 등장.</p>
+
+  <!-- DOM frequency -->
+  <h3>DOM 빈도 상위 10</h3>
+  <div class="dom-grid">
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#1770E6;"></div>
+      <div class="dom-hex">#1770E6</div>
+      <div class="dom-count">84회</div>
+      <div class="dom-role">brand blue</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#2B2D31;"></div>
+      <div class="dom-hex">#2B2D31</div>
+      <div class="dom-count">62회</div>
+      <div class="dom-role">dark text</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#FFFFFF;border-color:#e4e4e7;"></div>
+      <div class="dom-hex">#FFFFFF</div>
+      <div class="dom-count">41회</div>
+      <div class="dom-role">page bg</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#2C407D;"></div>
+      <div class="dom-hex">#2C407D</div>
+      <div class="dom-count">26회</div>
+      <div class="dom-role">navy</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#4A6E70;"></div>
+      <div class="dom-hex">#4A6E70</div>
+      <div class="dom-count">20회</div>
+      <div class="dom-role">teal dark</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#000000;border-color:#333;"></div>
+      <div class="dom-hex">#000000</div>
+      <div class="dom-count">13회</div>
+      <div class="dom-role">logo</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#395E4A;"></div>
+      <div class="dom-hex">#395E4A</div>
+      <div class="dom-count">10회</div>
+      <div class="dom-role">forest green</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#A86451;"></div>
+      <div class="dom-hex">#A86451</div>
+      <div class="dom-count">10회</div>
+      <div class="dom-role">terracotta</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#54768E;"></div>
+      <div class="dom-hex">#54768E</div>
+      <div class="dom-count">10회</div>
+      <div class="dom-role">slate blue</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#EFF2F6;border-color:#c4d1de;"></div>
+      <div class="dom-hex">#EFF2F6</div>
+      <div class="dom-count">8회</div>
+      <div class="dom-role">sidebar/section</div>
+    </div>
+  </div>
+</section>
+
+<!-- SPACING -->
+<section class="section" id="spacing">
+  <div class="section-label">04 — Tokens</div>
+  <h2>스페이싱(간격 체계) — 하드코딩, 표준 8-step</h2>
+  <p style="font-size:.875rem;color:var(--muted-fg);margin-bottom:1rem;">CSS 변수 없음. 모든 spacing이 하드코딩. 일반 마케팅 사이트 기준 추정 스케일.</p>
+  <div class="space-table">
+    <table>
+      <thead><tr><th>Step</th><th>px</th><th>Use case</th><th>시각화</th></tr></thead>
+      <tbody>
+        <tr><td><code>xs</code></td><td>4</td><td>icon gap</td><td><div class="space-vis" style="width:4px;"></div></td></tr>
+        <tr><td><code>sm</code></td><td>8</td><td>button inset</td><td><div class="space-vis" style="width:8px;"></div></td></tr>
+        <tr><td><code>md</code></td><td>16</td><td>card padding</td><td><div class="space-vis" style="width:16px;"></div></td></tr>
+        <tr><td><code>lg</code></td><td>24</td><td>section internal</td><td><div class="space-vis" style="width:24px;"></div></td></tr>
+        <tr><td><code>xl</code></td><td>32</td><td>section gap</td><td><div class="space-vis" style="width:32px;"></div></td></tr>
+        <tr><td><code>2xl</code></td><td>48</td><td>block rhythm</td><td><div class="space-vis" style="width:48px;"></div></td></tr>
+        <tr><td><code>3xl</code></td><td>64</td><td>hero padding</td><td><div class="space-vis" style="width:64px;"></div></td></tr>
+        <tr><td><code>4xl</code></td><td>96</td><td>page rhythm</td><td><div class="space-vis" style="width:96px;"></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- RADIUS -->
+<section class="section" id="radius">
+  <div class="section-label">05 — Tokens</div>
+  <h2>라디우스(모서리 반경) 2종 — conservative geometric</h2>
+  <p style="font-size:.875rem;color:var(--muted-fg);margin-bottom:1.5rem;">Contentful은 radius 2종만 사용. 매우 conservative한 geometric 감성 — 6-step+ 시스템 없음.</p>
+  <div class="rad-grid">
+    <div class="rad-card is-sig">
+      <div class="rad-box" style="border-radius:4px;background:rgba(23,112,230,.3);border-color:#1770E6;"></div>
+      <div class="rad-val" style="color:var(--brand-color);">4px ★</div>
+      <div class="rad-desc">button / input (sm)</div>
+    </div>
+    <div class="rad-card is-sig">
+      <div class="rad-box" style="border-radius:8px;background:rgba(23,112,230,.3);border-color:#1770E6;"></div>
+      <div class="rad-val" style="color:var(--brand-color);">8px ★</div>
+      <div class="rad-desc">card / panel (md)</div>
+    </div>
+    <div class="rad-card" style="opacity:.4;">
+      <div class="rad-box" style="border-radius:0px;"></div>
+      <div class="rad-val">0px</div>
+      <div class="rad-desc">sharp (미사용)</div>
+    </div>
+    <div class="rad-card" style="opacity:.4;">
+      <div class="rad-box" style="border-radius:9999px;"></div>
+      <div class="rad-val">9999px</div>
+      <div class="rad-desc">pill (미사용)</div>
+    </div>
+  </div>
+</section>
+
+<!-- SHADOWS -->
+<section class="section" id="shadows">
+  <div class="section-label">06 — Tokens</div>
+  <h2>단일 레이어 섀도우 4종</h2>
+  <p style="font-size:.875rem;color:var(--muted-fg);margin-bottom:1.5rem;">모두 단일 레이어. Clerk/Stripe의 dual/triple-layer와 대비되는 simple shadow 시스템.</p>
+  <div class="sh-grid">
+    <div class="sh-card">
+      <div class="sh-demo" style="box-shadow:0 0 7px rgba(0,0,0,.35);"></div>
+      <div class="sh-name">soft glow</div>
+      <div class="sh-val">0 0 7px rgba(0,0,0,.35)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-demo" style="box-shadow:0 5px 10px rgba(0,0,0,.15);"></div>
+      <div class="sh-name">card elevation</div>
+      <div class="sh-val">0 5px 10px 0 rgba(0,0,0,.15)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-demo" style="box-shadow:0 4px 10px rgba(0,0,0,.10);"></div>
+      <div class="sh-name">subtle lift</div>
+      <div class="sh-val">0 4px 10px 0 rgba(0,0,0,.10)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-demo" style="box-shadow:inset 0 0 1px rgba(255,255,255,.5);background:#EFF2F6;"></div>
+      <div class="sh-name">inner highlight</div>
+      <div class="sh-val">0 0 1px rgba(255,255,255,.5) inset</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPONENTS -->
+<section class="section" id="components">
+  <div class="section-label">07 — Patterns</div>
+  <h2>컴포넌트 — CTA · Navigation · Content Card</h2>
+
+  <!-- Primary CTA -->
+  <div class="cmp-block">
+    <div class="cmp-header">
+      <span class="cmp-title">Primary / Secondary CTA</span>
+    </div>
+    <div class="cmp-demo" style="background:#EFF2F6;">
+      <div>
+        <button class="cf-btn">Start free trial</button>
+        <button class="cf-btn-outline">View demo</button>
+      </div>
+    </div>
+    <div class="cmp-code">
+      <pre><code>&lt;a class="cta cta--primary"&gt;Start free trial&lt;/a&gt;
+&lt;!-- primary: bg #1770E6, text #FFFFFF, radius 4px --&gt;
+&lt;!-- secondary: transparent, text+border #1770E6 --&gt;</code></pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="cmp-block">
+    <div class="cmp-header">
+      <span class="cmp-title">Navigation</span>
+    </div>
+    <div class="cmp-demo" style="padding:0;background:#fff;">
+      <div class="cf-nav" style="width:100%;">
+        <div class="cf-nav-logo">Contentful</div>
+        <div class="cf-nav-links">
+          <a class="cf-nav-link" href="#">Products</a>
+          <a class="cf-nav-link" href="#">Solutions</a>
+          <a class="cf-nav-link" href="#">Pricing</a>
+          <button class="cf-nav-cta">Start free</button>
+        </div>
+      </div>
+    </div>
+    <div class="cmp-code">
+      <pre><code>&lt;nav class="site-nav"&gt;
+  &lt;!-- bg #FFFFFF, border-bottom 1px solid #DDE5EC --&gt;
+  &lt;!-- links: #2B2D31, hover: #1770E6 --&gt;
+  &lt;a class="nav-cta"&gt;Start free&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+  </div>
+
+  <!-- Content panel -->
+  <div class="cmp-block">
+    <div class="cmp-header">
+      <span class="cmp-title">Content Panel (marketing feature card)</span>
+    </div>
+    <div class="cmp-demo" style="background:#EFF2F6;">
+      <div class="cf-card">
+        <div class="cf-card-tag">Feature</div>
+        <h4>Content Infrastructure</h4>
+        <p>Manage all your content in one place and deliver it to any channel with our powerful API-first platform.</p>
+        <button class="cf-btn" style="width:auto;padding:.625rem 1.25rem;font-size:.875rem;">Learn more</button>
+      </div>
+    </div>
+    <div class="cmp-code">
+      <pre><code>&lt;!-- Hero illustration: earth-tone palette (#A86451 terracotta, #587D69 sage, #8A724D khaki) --&gt;
+&lt;div class="feature-card"&gt;
+  &lt;!-- bg #FFFFFF, shadow 0 5px 10px rgba(0,0,0,.15) --&gt;
+  &lt;!-- radius 8px, padding 32px 40px --&gt;
+&lt;/div&gt;</code></pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+  </div>
+</section>
+
+<!-- CODE EXPORT -->
+<section class="section" id="code">
+  <div class="section-label">08 — Code</div>
+  <h2>CSS · Tailwind 내보내기</h2>
+  <div class="code-export">
+    <div class="tab-bar">
+      <button class="tab-btn is-active" data-tab="css">CSS 스니펫</button>
+      <button class="tab-btn" data-tab="tw">Tailwind 설정</button>
+    </div>
+    <div class="tab-pane is-active" id="tab-css">
+      <pre><code>/* Contentful — copy into your root stylesheet */
+:root {
+  /* Fonts */
+  --font-sans: "Avenir Next", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+
+  /* Brand blue */
+  --brand:       #1770E6;
+  --brand-navy:  #2C407D;
+  --brand-deep:  #2E3F70;
+
+  /* Surface */
+  --bg:          #FFFFFF;
+  --bg-sunken:   #EFF2F6;
+  --bg-section:  #DDE5EC;
+
+  /* Text */
+  --text:        #2B2D31;
+  --text-subtle: #55575B;
+  --text-muted:  #6D7682;
+
+  /* Border */
+  --border:      #DDE5EC;
+  --border-mid:  #C4D1DE;
+
+  /* Earth-tone (일러스트레이션용) */
+  --illu-terracotta:  #A86451;
+  --illu-orange:      #BA5A3F;
+  --illu-khaki:       #8A724D;
+  --illu-sage:        #587D69;
+  --illu-forest:      #395E4A;
+  --illu-slate:       #54768E;
+  --illu-teal:        #4A6E70;
+
+  /* Radius (2-step only) */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  /* Shadow */
+  --shadow-sm: 0 4px 10px rgba(0,0,0,0.10);
+  --shadow-md: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+}</code></pre>
+      <button class="copy-code-btn" onclick="copyActivePane()">Copy</button>
+    </div>
+    <div class="tab-pane" id="tab-tw">
+      <pre><code>// tailwind.config.js — Contentful
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          DEFAULT: '#1770E6',
+          navy:    '#2C407D',
+          deep:    '#2E3F70',
+          darkest: '#3D4266',
+        },
+        neutral: {
+          0:   '#FFFFFF',
+          50:  '#EFF2F6',
+          100: '#DDE5EC',
+          200: '#C4D1DE',
+          500: '#6D7682',
+          600: '#55575B',
+          800: '#2B2D31',
+          950: '#000000',
+        },
+        illustration: {
+          terracotta: '#A86451',
+          brick:      '#BA5A3F',
+          khaki:      '#8A724D',
+          sage:       '#587D69',
+          forest:     '#395E4A',
+          slate:      '#54768E',
+          teal:       '#4A6E70',
+        },
+      },
+      fontFamily: {
+        sans: ['"Avenir Next"', '"Segoe UI"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+      },
+      borderRadius: {
+        DEFAULT: '4px',
+        sm:      '4px',
+        md:      '8px',
+      },
+      boxShadow: {
+        sm:   '0 4px 10px rgba(0,0,0,0.10)',
+        md:   '0 5px 10px rgba(0,0,0,0.15)',
+        glow: '0 0 7px rgba(0,0,0,0.35)',
+      },
+    },
+  },
+};</code></pre>
+      <button class="copy-code-btn" onclick="copyActivePane()">Copy</button>
+    </div>
+  </div>
+</section>
+
+<!-- DO / DON'T -->
+<section class="section" id="dodont">
+  <div class="section-label">09 — Rules</div>
+  <h2>자주 틀리는 것들</h2>
+  <div class="dd-grid">
+    <div class="dd-card dd-card--do">
+      <div class="dd-badge">DO</div>
+      <ul class="dd-list">
+        <li>Royal blue <code>#1770E6</code>(HSL 215°)을 브랜드 컬러로 사용. CTA, link, logo 모두.</li>
+        <li>Navy <code>#2C407D</code> / <code>#2E3F70</code>을 darker variant로 사용 (footer, 헤더).</li>
+        <li>Earth-tone accent palette을 일러스트레이션/히어로 이미지에 사용: terracotta <code>#A86451</code>, sage <code>#587D69</code>, khaki <code>#8A724D</code>.</li>
+        <li>Dark text는 <code>#2B2D31</code> (pure gray, blue-tint 없음).</li>
+        <li>Surface는 <code>#FFFFFF</code> + <code>#EFF2F6</code> + <code>#DDE5EC</code> 3-step.</li>
+        <li>Avenir Next 폰트 + system fallback (Segoe UI, -apple-system).</li>
+        <li>Radius는 <code>4px</code>(button) / <code>8px</code>(card) 2종만.</li>
+        <li>Simple single-layer shadow (<code>0 5px 10px rgba(0,0,0,.15)</code>).</li>
+      </ul>
+    </div>
+    <div class="dd-card dd-card--dont">
+      <div class="dd-badge">DON'T</div>
+      <ul class="dd-list">
+        <li>Cyan-계열 블루 (<code>#0286C3</code>, <code>#00AFCC</code> 등) — 실제 CSS에 0회.</li>
+        <li>Dark text를 <code>#1B1E28</code> 같은 blue-tinted로 — 실제는 순수 gray <code>#2B2D31</code>.</li>
+        <li>Avenir Next를 Inter/Roboto로 대체 — geometric 인상 다름.</li>
+        <li>Earth-tone을 UI 브랜드 컬러로 사용 — 오직 일러스트레이션/아이콘 전용.</li>
+        <li>Multi-layer dual shadow (Stripe/Clerk 계열) — Contentful은 single-layer.</li>
+        <li>CSS variable 기반 토큰 시스템 기대 — 마케팅 홈페이지는 하드코딩 hex만.</li>
+        <li><code>--f36-*</code> Forma 36 토큰을 마케팅 페이지에서 사용 — 앱 UI 전용.</li>
+        <li>6-step+ radius 시스템 — Contentful은 2-step만 사용.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    const export_el = btn.closest('.code-export');
+    export_el.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('is-active'));
+    export_el.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    const paneId = tab === 'css' ? 'tab-css' : 'tab-tw';
+    document.getElementById(paneId).classList.add('is-active');
+  });
+});
+
+// Copy component code
+function copyCode(btn) {
+  const code = btn.closest('.cmp-code').querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1800);
+  });
+}
+
+// Copy active pane
+function copyActivePane() {
+  const pane = document.querySelector('.tab-pane.is-active code');
+  if (pane) {
+    navigator.clipboard.writeText(pane.textContent).then(() => {
+      const btn = document.querySelector('.tab-pane.is-active .copy-code-btn');
+      if (btn) {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 1800);
+      }
+    });
+  }
+}
+</script>
+</body>
+</html>
