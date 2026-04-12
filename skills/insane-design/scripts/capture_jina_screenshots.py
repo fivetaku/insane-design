@@ -62,10 +62,10 @@ SLUG_URL_MAP = {
 
 def capture_jina(slug: str, url: str) -> dict:
     """Capture screenshot via Jina Reader API."""
-    # Output to both designmd-data/real/{slug}/screenshots/ AND real/{slug}/screenshots/
+    # Output to both designmd-data/insane-design/{slug}/screenshots/ AND insane-design/{slug}/screenshots/
     dirs = [
-        ROOT / "real" / slug / "screenshots",
-        ROOT.parent / "real" / slug / "screenshots",
+        ROOT / "insane-design" / slug / "screenshots",
+        ROOT.parent / "insane-design" / slug / "screenshots",
     ]
     for d in dirs:
         d.mkdir(parents=True, exist_ok=True)
@@ -131,7 +131,7 @@ def main():
         # Only missing
         slugs = []
         for slug in SLUG_URL_MAP:
-            jina_file = ROOT.parent / "real" / slug / "screenshots" / "jina-hero.png"
+            jina_file = ROOT.parent / "insane-design" / slug / "screenshots" / "jina-hero.png"
             if not jina_file.exists():
                 slugs.append(slug)
         if not slugs:

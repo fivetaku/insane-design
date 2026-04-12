@@ -68,7 +68,7 @@ def detect_alias_tier(props: dict[str, str]) -> dict[str, list[dict]]:
 
 def extract_slug(slug: str) -> dict:
     """Read CSS for a slug, classify aliases, and write the JSON report."""
-    css_dir = Path("real") / slug / "css"
+    css_dir = Path("insane-design") / slug / "css"
     css = "\n".join(
         path.read_text(encoding="utf-8") for path in sorted(css_dir.glob("*.css"))
     )
@@ -82,7 +82,7 @@ def extract_slug(slug: str) -> dict:
         },
     }
 
-    output_path = Path("real") / slug / "phase1" / "alias_layer.json"
+    output_path = Path("insane-design") / slug / "phase1" / "alias_layer.json"
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     return result

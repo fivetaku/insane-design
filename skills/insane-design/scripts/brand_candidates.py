@@ -181,9 +181,9 @@ def extract_frequency_candidates(css: str, html: str) -> list[dict]:
 
 
 def extract_all(slug: str) -> dict:
-    """Top-level: reads real/{slug}/css/*.css + real/{slug}/index.html, writes real/{slug}/phase1/brand_candidates.json."""
+    """Top-level: reads insane-design/{slug}/css/*.css + insane-design/{slug}/index.html, writes insane-design/{slug}/phase1/brand_candidates.json."""
     root = Path(__file__).resolve().parent.parent
-    service_dir = root / "real" / slug
+    service_dir = root / "insane-design" / slug
     css_files = sorted(service_dir.glob("css/*.css"))
     output_path = service_dir / "phase1" / "brand_candidates.json"
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -214,7 +214,7 @@ def extract_all(slug: str) -> dict:
 def main() -> int:
     slug = sys.argv[1] if len(sys.argv) > 1 else "stripe"
     extract_all(slug)
-    print(f"wrote real/{slug}/phase1/brand_candidates.json")
+    print(f"wrote insane-design/{slug}/phase1/brand_candidates.json")
     return 0
 
 

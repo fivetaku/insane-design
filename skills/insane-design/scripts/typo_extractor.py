@@ -115,9 +115,9 @@ def extract_font_weights_used(css: str) -> dict[str, int]:
 
 
 def extract_slug(slug: str) -> dict:
-    """Read CSS, run all three, write real/{slug}/phase1/typography.json."""
+    """Read CSS, run all three, write insane-design/{slug}/phase1/typography.json."""
     root = Path(__file__).resolve().parent.parent
-    css_dir = root / "real" / slug / "css"
+    css_dir = root / "insane-design" / slug / "css"
     if not css_dir.is_dir():
         raise FileNotFoundError(f"Missing CSS directory: {css_dir}")
 
@@ -150,7 +150,7 @@ def extract_slug(slug: str) -> dict:
     if slug == "stripe" and result["stats"]["scale_entries"] < 7:
         raise ValueError("stripe must produce at least 7 typography scale entries")
 
-    output_path = root / "real" / slug / "phase1" / "typography.json"
+    output_path = root / "insane-design" / slug / "phase1" / "typography.json"
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return result
@@ -163,7 +163,7 @@ def main() -> None:
         json.dumps(
             {
                 "slug": slug,
-                "output": f"real/{slug}/phase1/typography.json",
+                "output": f"insane-design/{slug}/phase1/typography.json",
                 "stats": result["stats"],
             },
             ensure_ascii=False,
