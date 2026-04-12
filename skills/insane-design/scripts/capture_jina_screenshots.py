@@ -19,7 +19,7 @@ import time
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-ROOT = Path.cwd()
+ROOT = Path.cwd()  # $WORK_DIR에서 실행됨
 
 SLUG_URL_MAP = {
     "atlassian": "https://atlassian.com",
@@ -62,13 +62,8 @@ SLUG_URL_MAP = {
 
 def capture_jina(slug: str, url: str) -> dict:
     """Capture screenshot via Jina Reader API."""
-    # Output to both designmd-data/insane-design/{slug}/screenshots/ AND insane-design/{slug}/screenshots/
-    dirs = [
-        ROOT / "insane-design" / slug / "screenshots",
-        ROOT.parent / "insane-design" / slug / "screenshots",
-    ]
-    for d in dirs:
-        d.mkdir(parents=True, exist_ok=True)
+    out_dir = ROOT / "insane-design" / slug / "screenshots"
+    out_dir.mkdir(parents=True, exist_ok=True)
 
     result = {"slug": slug, "url": url, "ok": False, "error": None, "size": 0}
 
@@ -92,22 +87,19 @@ def capture_jina(slug: str, url: str) -> dict:
             result["error"] = f"not PNG or too small ({len(data)} bytes)"
             return result
 
-        for d in dirs:
-            (d / "jina-hero.png").write_bytes(data)
+        (out_dir / "jina-hero.png").write_bytes(data)
 
         # Crop: 1280×1280 → 1280×800 (상단 유지, 하단 잘라냄)
         try:
             from PIL import Image
-            for d in dirs:
-                src = d / "jina-hero.png"
-                dst = d / "hero-cropped.png"
-                img = Image.open(src)
-                w, h = img.size
-                crop_h = min(800, h)  # 800px 이하면 원본 그대로
-                cropped = img.crop((0, 0, w, crop_h))
-                cropped.save(dst)
+            src = out_dir / "jina-hero.png"
+            dst = out_dir / "hero-cropped.png"
+            img = Image.open(src)
+            w, h = img.size
+            crop_h = min(800, h)
+            cropped = img.crop((0, 0, w, crop_h))
+            cropped.save(dst)
         except ImportError:
-            # PIL 없으면 crop 스킵 — jina-hero.png 만 저장
             pass
 
         result["ok"] = True
@@ -131,7 +123,7 @@ def main():
         # Only missing
         slugs = []
         for slug in SLUG_URL_MAP:
-            jina_file = ROOT.parent / "insane-design" / slug / "screenshots" / "jina-hero.png"
+            jina_file = ROOT / "insane-design" / slug / "screenshots" / "jina-hero.png"
             if not jina_file.exists():
                 slugs.append(slug)
         if not slugs:

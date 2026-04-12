@@ -39,7 +39,7 @@ URL이 제공되면 즉시 Step 1부터 실행한다.
 
 > **경로 규칙**: 모든 Bash 명령은 반드시 **프로젝트 루트에서** 실행한다.
 > Step 실행 전 `WORK_DIR`을 확정하고, 모든 경로를 절대 경로 또는 `$WORK_DIR` 기준으로 사용한다.
-> 상대 경로(`insane-design/`, `designmd-data/`)만 쓰면 cwd에 따라 이중 경로가 생긴다.
+> 모든 결과물은 `insane-design/{slug}/` 하위에 통합 저장한다.
 
 ```bash
 # Step 0: 프로젝트 루트 확정 (모든 Step에서 공유)
@@ -59,8 +59,7 @@ URL을 파싱하고 작업 환경을 준비한다.
 3. 출력 디렉토리 생성 (**절대 경로 사용**):
 
 ```bash
-mkdir -p "$WORK_DIR/insane-design/{slug}/screenshots"
-mkdir -p "$WORK_DIR/designmd-data/insane-design/{slug}/{css,phase1}"
+mkdir -p "$WORK_DIR/insane-design/{slug}/{screenshots,css,phase1}"
 ```
 
 4. 사용자에게 시작 알림:
@@ -88,7 +87,7 @@ curl -sL \
   -H "Accept: text/html,application/xhtml+xml" \
   -H "Accept-Language: en-US,en;q=0.9" \
   --compressed --max-time 30 \
-  -o "$WORK_DIR/designmd-data/insane-design/{slug}/index.html" \
+  -o "$WORK_DIR/insane-design/{slug}/index.html" \
   "{url}"
 ```
 
@@ -97,9 +96,9 @@ curl -sL \
 
 HTML에서 CSS 링크 추출 + 병렬 다운로드:
 ```bash
-grep -oE 'href="[^"]+\.css[^"]*"' "$WORK_DIR/designmd-data/insane-design/{slug}/index.html" | \
+grep -oE 'href="[^"]+\.css[^"]*"' "$WORK_DIR/insane-design/{slug}/index.html" | \
   sed 's/href="//;s/"$//' | \
-  xargs -n1 -P8 -I{} curl -sL -o "$WORK_DIR/designmd-data/insane-design/{slug}/css/$(basename {})" "{absolute_url}"
+  xargs -n1 -P8 -I{} curl -sL -o "$WORK_DIR/insane-design/{slug}/css/$(basename {})" "{absolute_url}"
 ```
 
 #### 2B. 스크린샷 수집 (병렬)
@@ -133,11 +132,10 @@ Jina Reader 실패 시 (파일 < 5KB) → Playwright fallback 시도.
 ### Step 3: EXTRACT
 **Type**: script
 
-CSS에서 디자인 토큰을 추출한다. 기존 4개 스크립트를 순차 호출.
-**반드시 `designmd-data/` 디렉토리에서 실행** (스크립트가 `insane-design/{slug}/` 상대 경로를 사용하므로):
+CSS에서 디자인 토큰을 추출한다. 4개 스크립트를 `$WORK_DIR`에서 순차 호출:
 
 ```bash
-cd "$WORK_DIR/designmd-data"
+cd "$WORK_DIR"
 
 # 브랜드 색상 후보
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/insane-design/scripts/brand_candidates.py" {slug}
@@ -150,11 +148,9 @@ python3 "${CLAUDE_PLUGIN_ROOT}/skills/insane-design/scripts/typo_extractor.py" {
 
 # 시멘틱 alias 계층 분류
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/insane-design/scripts/alias_layer.py" {slug}
-
-cd "$WORK_DIR"   # 원래 디렉토리로 복귀
 ```
 
-결과: `$WORK_DIR/designmd-data/insane-design/{slug}/phase1/` 에 4개 JSON:
+결과: `$WORK_DIR/insane-design/{slug}/phase1/` 에 4개 JSON:
 - `brand_candidates.json` — 브랜드 색상 후보 (semantic + selector-role + frequency)
 - `resolved_tokens.json` — var() 체인 해결된 토큰
 - `typography.json` — 타이포 스케일 (heading/text/input/quote)
@@ -174,9 +170,9 @@ CSS custom properties 0개면:
 Claude가 스크린샷 + 추출 결과를 보고 AI 판정을 수행한다.
 
 1. Read: `insane-design/{slug}/screenshots/hero-cropped.png` (또는 `jina-hero.png`)
-2. Read: `designmd-data/insane-design/{slug}/phase1/brand_candidates.json`
-3. Read: `designmd-data/insane-design/{slug}/phase1/typography.json`
-4. Read: `designmd-data/insane-design/{slug}/phase1/alias_layer.json`
+2. Read: `insane-design/{slug}/phase1/brand_candidates.json`
+3. Read: `insane-design/{slug}/phase1/typography.json`
+4. Read: `insane-design/{slug}/phase1/alias_layer.json`
 5. Read: `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/references/pitfalls.md` — 14가지 함정
 
 **판정 항목 (7가지)**:
@@ -258,7 +254,7 @@ done
 
 # 4. hex 실존 (상위 3개)
 for hex in $(grep -oE '#[0-9A-Fa-f]{6}' insane-design/{slug}/design.md | sort -u | head -3); do
-  grep -qi "$hex" designmd-data/insane-design/{slug}/css/*.css || echo "Missing: $hex"
+  grep -qi "$hex" insane-design/{slug}/css/*.css || echo "Missing: $hex"
 done
 ```
 

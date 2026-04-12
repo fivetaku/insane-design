@@ -141,8 +141,8 @@ def resolve_all(props: dict[str, str]) -> dict[str, dict]:
 
 def resolve_slug(slug: str) -> dict:
     """Top-level: read CSS, parse, resolve, write insane-design/{slug}/phase1/resolved_tokens.json."""
-    css_dir = Path("insane-design") / slug / "css"
-    output_path = Path("insane-design") / slug / "phase1" / "resolved_tokens.json"
+    css_dir = Path.cwd() / "insane-design" / slug / "css"
+    output_path = Path.cwd() / "insane-design" / slug / "phase1" / "resolved_tokens.json"
 
     props: dict[str, str] = {}
     if css_dir.exists():
