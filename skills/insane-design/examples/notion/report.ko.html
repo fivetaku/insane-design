@@ -7,12 +7,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 /* ── Reset ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 /* ── Tokens (light, warm) ── */
 :root{
+  --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --bg:#FFFFFF;
   --fg:#37352F;
   --card:#FFFFFF;
@@ -586,6 +589,12 @@ body{
   margin-top:16px;
 }
 .campaign-note strong{color:#1E3A8A}
+.toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+.toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+.toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+.hero__screenshot{margin-bottom:32px;max-width:880px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);}
+.hero__screenshot img{width:100%;height:auto;display:block;}
 </style>
 </head>
 <body>
@@ -593,6 +602,10 @@ body{
 
 <!-- ── TOC ── -->
 <aside class="toc">
+  <div class="toc__brand">
+    <div class="toc__brand-name">Notion</div>
+    <div class="toc__brand-sub">Design System Report</div>
+  </div>
   <div class="toc__logo">
     <div class="toc__logo-mark">N</div>
     <div class="toc__site">Notion</div>
@@ -628,6 +641,7 @@ body{
     <div class="toc__group-label">Rules</div>
     <a href="#dodont">Do / Don't</a>
   </div>
+  <div class="toc__foot">notion/<br>DESIGN.claude.manual.md<br>2026-04-12</div>
 </aside>
 
 <!-- ── Main ── -->
@@ -640,6 +654,9 @@ body{
     <p class="hero__sub">
       Next.js 기반 자체 3-layer token indirection 시스템. pure black이 아닌 warm ink <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:#F7F7F5;padding:2px 6px;border-radius:3px">#37352F</code>의 알파 5단계가 정체성이다. 3-way 폰트 토글(NotionInter / Lyon Text / iA Writer Mono)은 블록별 동적 전환.
     </p>
+    <div class="hero__screenshot">
+      <img src="screenshots/jina-hero.png" alt="notion hero screenshot">
+    </div>
 
     <!-- Quick Start cards -->
     <div class="qs__grid">

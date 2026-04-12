@@ -7,17 +7,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 /* ===== TOKENS ===== */
 :root {
+  --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --bg: #fafafa;
   --fg: #09090b;
   --card: #ffffff;
   --muted: #f4f4f5;
   --muted-fg: #71717a;
   --border: #e4e4e7;
+  --border-str: #d4d4d8;
   --brand-color: #6C47FF;
   --radius: 10px;
+  --radius-lg: 14px;
   --sh: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
 }
 
@@ -610,6 +615,12 @@ main { padding: 0; }
 .accent-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .25rem; }
 .accent-hex { font-family: "JetBrains Mono", monospace; font-size: .875rem; color: #9A85FF; margin-bottom: .5rem; }
 .accent-role { font-size: .8125rem; color: #747686; line-height: 1.5; }
+.toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+.toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+.toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+.hero__screenshot{margin-bottom:32px;max-width:880px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);}
+.hero__screenshot img{width:100%;height:auto;display:block;}
 </style>
 </head>
 <body>
@@ -617,6 +628,10 @@ main { padding: 0; }
 
 <!-- ===== TOC ===== -->
 <nav class="toc" aria-label="목차">
+  <div class="toc__brand">
+    <div class="toc__brand-name">Clerk</div>
+    <div class="toc__brand-sub">Design System Report</div>
+  </div>
   <div class="toc-logo">
     <span></span>
     Clerk
@@ -650,6 +665,7 @@ main { padding: 0; }
     <div class="toc-group-label">Rules</div>
     <a href="#dodont">Do / Don't</a>
   </div>
+  <div class="toc__foot">clerk/<br>DESIGN.claude.manual.md<br>2026-04-12</div>
 </nav>
 
 <!-- ===== MAIN ===== -->
@@ -660,6 +676,9 @@ main { padding: 0; }
   <div class="hero-eyebrow">Design System Report</div>
   <h1>Clerk <em>— Auth-first dark-native DS</em></h1>
   <p class="hero-sub">Next.js App Router 기반, dual-accent(보라 + 시안) 시스템과 다크 퍼스트(#131316) 팔레트. Suisse Intl + Geist Numbers + Söhne Mono 3-폰트 분리 전략과 glass card shadow 시그니처.</p>
+  <div class="hero__screenshot">
+    <img src="screenshots/jina-hero.png" alt="clerk hero screenshot">
+  </div>
 
   <div class="qs__grid">
     <div class="qs__step">

@@ -80,6 +80,12 @@
   .hero__title .sub{color:var(--muted-fg);font-weight:400;}
   .hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:680px;margin-bottom:32px;}
 
+    .hero__screenshot{
+    margin-bottom:32px;max-width:880px;
+    border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);
+  }
+  .hero__screenshot img{width:100%;height:auto;display:block;}
+
   .qs{
     background:var(--card);border:1px solid var(--border);
     border-radius:var(--radius-lg);padding:28px 32px;
@@ -552,6 +558,10 @@
         https://prisma.io 이 실제로 서빙하는 CSS 에서 직접 뽑은 디자인 토큰·타이포그래피·컴포넌트 스펙.
         모든 값은 CSS 커스텀 프로퍼티를 파싱한 결과이고, AI 추론이나 추측은 섞이지 않았다.
       </p>
+      <div class="hero__screenshot">
+        <img src="screenshots/jina-hero.png" alt="prisma hero screenshot">
+      </div>
+
 
       <div class="qs">
         <div class="qs__head">

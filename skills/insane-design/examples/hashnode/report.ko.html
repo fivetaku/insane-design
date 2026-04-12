@@ -7,10 +7,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 /* ── Reset & Base ──────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
+  --font-sans:"Pretendard Variable","Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
   --bg:#09090b;
   --fg:#fafafa;
   --card:#18181b;
@@ -24,52 +27,49 @@
   --radius-lg:12px;
   --brand-color:#1D52DE;
 }
-html{font-size:16px;scroll-behavior:smooth}
+html{font-size:16px;scroll-behavior:smooth;scroll-padding-top:32px;}
 body{
-  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  font-family:var(--font-sans);
   background:var(--bg);color:var(--fg);
   line-height:1.6;
-  display:flex;min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  word-break:keep-all;overflow-wrap:break-word;
 }
 
-/* ── Sidebar ───────────────────────────────────── */
-.sidebar{
-  position:sticky;top:0;height:100vh;
-  width:220px;min-width:220px;
-  overflow-y:auto;
-  background:var(--bg);
+/* ── Layout grid ───────────────────────────────── */
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1440px;margin:0 auto;}
+
+/* ── TOC Sidebar ───────────────────────────────── */
+.toc{
+  position:sticky;top:0;align-self:start;height:100vh;
+  padding:28px 24px 28px 40px;
   border-right:1px solid var(--border);
-  padding:24px 0;
-  display:flex;flex-direction:column;gap:0;
+  display:flex;flex-direction:column;gap:22px;
+  overflow-y:auto;
 }
-.sidebar__logo{
-  padding:0 16px 20px;
-  border-bottom:1px solid var(--border);
-  margin-bottom:12px;
-}
-.sidebar__logo-name{font-size:14px;font-weight:600;color:var(--fg)}
-.sidebar__logo-sys{font-size:11px;color:var(--muted-fg);font-family:'JetBrains Mono',monospace}
+.toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+.toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+.toc__group{display:flex;flex-direction:column;gap:2px;}
 .toc__group-label{
-  display:block;padding:12px 16px 4px;
-  font-family:'JetBrains Mono',monospace;
-  font-size:9px;font-weight:600;letter-spacing:.1em;
-  color:var(--muted-fg);text-transform:uppercase;
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--border-str);text-transform:uppercase;
+  letter-spacing:.1em;padding:0 10px;margin-bottom:4px;
 }
-.toc__item{
-  display:flex;align-items:center;gap:8px;
-  padding:5px 16px;font-size:12px;color:var(--muted-fg);
-  text-decoration:none;transition:color .15s,background .15s;
-  border-radius:0;
+.toc__list{list-style:none;display:flex;flex-direction:column;gap:1px;}
+.toc__list a{
+  display:grid;grid-template-columns:26px 1fr;align-items:center;
+  padding:6px 10px;font-size:13px;color:var(--muted-fg);
+  border-radius:var(--radius);transition:background 140ms,color 140ms;
+  text-decoration:none;
 }
-.toc__item:hover{color:var(--fg);background:var(--muted)}
-.toc__item.active{color:var(--fg);background:var(--muted)}
-.toc__num{
-  font-family:'JetBrains Mono',monospace;font-size:10px;
-  color:var(--subtle);min-width:18px;
-}
+.toc__list a:hover{background:var(--muted);color:var(--fg);}
+.toc__list a.active{background:var(--muted);color:var(--fg);}
+.toc__num{font-family:var(--font-mono);font-size:10px;color:var(--border-str);}
+.toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
 
 /* ── Main ──────────────────────────────────────── */
-.main{flex:1;min-width:0;padding:48px 56px;max-width:960px}
+.main{min-width:0;padding:48px 56px;max-width:960px}
 section{margin-bottom:72px}
 .section-title{
   font-size:22px;font-weight:700;letter-spacing:-.02em;
@@ -437,8 +437,8 @@ footer{
 
 /* ── Responsive ──────────────────────────────────── */
 @media(max-width:1024px){
-  .sidebar{position:static;height:auto;width:100%;border-right:none;border-bottom:1px solid var(--border)}
-  body{flex-direction:column}
+  .layout{grid-template-columns:1fr;}
+  .toc{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:24px 32px;}
   .main{padding:32px 24px}
   .qs{grid-template-columns:1fr}
   .hero__stats{grid-template-columns:repeat(2,1fr)}
@@ -451,37 +451,64 @@ footer{
 </head>
 <body>
 
-<!-- ── Sidebar ── -->
-<nav class="sidebar">
-  <div class="sidebar__logo">
-    <div class="sidebar__logo-name">Hashnode</div>
-    <div class="sidebar__logo-sys">tailwind v4 / --color-*</div>
+<div class="layout">
+
+<!-- ── TOC Sidebar ── -->
+<aside class="toc">
+  <div class="toc__brand">
+    <div class="toc__brand-name">Hashnode</div>
+    <div class="toc__brand-sub">Design System Report</div>
   </div>
 
-  <span class="toc__group-label">Overview</span>
-  <a class="toc__item" href="#overview"><span class="toc__num">00</span>한눈에 보기</a>
-  <a class="toc__item" href="#provenance"><span class="toc__num">01</span>출처와 수집 기준</a>
-  <a class="toc__item" href="#stack"><span class="toc__num">02</span>테크 스택</a>
+  <div class="toc__group">
+    <div class="toc__group-label">Overview</div>
+    <ul class="toc__list">
+      <li><a href="#overview"><span class="toc__num">00</span>한눈에 보기</a></li>
+      <li><a href="#provenance"><span class="toc__num">01</span>출처와 수집 기준</a></li>
+      <li><a href="#stack"><span class="toc__num">02</span>테크 스택</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Foundations</div>
+    <ul class="toc__list">
+      <li><a href="#typography"><span class="toc__num">03</span>타이포그래피</a></li>
+      <li><a href="#colors"><span class="toc__num">04</span>컬러</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Tokens</div>
+    <ul class="toc__list">
+      <li><a href="#spacing"><span class="toc__num">05</span>스페이싱</a></li>
+      <li><a href="#radius"><span class="toc__num">06</span>라디우스</a></li>
+      <li><a href="#shadows"><span class="toc__num">07</span>섀도우</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Patterns</div>
+    <ul class="toc__list">
+      <li><a href="#layout"><span class="toc__num">08</span>레이아웃 패턴</a></li>
+      <li><a href="#components"><span class="toc__num">09</span>컴포넌트</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Code</div>
+    <ul class="toc__list">
+      <li><a href="#code"><span class="toc__num">10</span>CSS · Tailwind</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Rules</div>
+    <ul class="toc__list">
+      <li><a href="#dodont"><span class="toc__num">11</span>Do / Don't</a></li>
+    </ul>
+  </div>
 
-  <span class="toc__group-label">Foundations</span>
-  <a class="toc__item" href="#typography"><span class="toc__num">03</span>타이포그래피</a>
-  <a class="toc__item" href="#colors"><span class="toc__num">04</span>컬러</a>
-
-  <span class="toc__group-label">Tokens</span>
-  <a class="toc__item" href="#spacing"><span class="toc__num">05</span>스페이싱</a>
-  <a class="toc__item" href="#radius"><span class="toc__num">06</span>라디우스</a>
-  <a class="toc__item" href="#shadows"><span class="toc__num">07</span>섀도우</a>
-
-  <span class="toc__group-label">Patterns</span>
-  <a class="toc__item" href="#layout"><span class="toc__num">08</span>레이아웃 패턴</a>
-  <a class="toc__item" href="#components"><span class="toc__num">09</span>컴포넌트</a>
-
-  <span class="toc__group-label">Code</span>
-  <a class="toc__item" href="#code"><span class="toc__num">10</span>CSS · Tailwind</a>
-
-  <span class="toc__group-label">Rules</span>
-  <a class="toc__item" href="#dodont"><span class="toc__num">11</span>Do / Don't</a>
-</nav>
+  <div class="toc__foot">
+    real/hashnode/<br>
+    DESIGN.claude.manual.md<br>
+    2026-04-11
+  </div>
+</aside>
 
 <!-- ── Main ── -->
 <main class="main">
@@ -1249,6 +1276,8 @@ module.exports = {
 
 </main>
 
+</div><!-- /.layout -->
+
 <script>
 // Code Export 탭 전환
 document.querySelectorAll('.code-tabs__btn[data-tab]').forEach(btn=>{
@@ -1289,12 +1318,12 @@ document.querySelectorAll('[data-copy-active]').forEach(btn=>{
 
 // TOC 활성 상태
 const sections=document.querySelectorAll('section[id]');
-const tocItems=document.querySelectorAll('.toc__item');
+const tocItems=document.querySelectorAll('.toc__list a');
 const observer=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       tocItems.forEach(a=>a.classList.remove('active'));
-      const a=document.querySelector(`.toc__item[href="#${e.target.id}"]`);
+      const a=document.querySelector(`.toc__list a[href="#${e.target.id}"]`);
       if(a)a.classList.add('active');
     }
   });

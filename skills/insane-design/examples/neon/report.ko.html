@@ -7,12 +7,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 /* ── Reset ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 /* ── Tokens (dark theme) ── */
 :root{
+  --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --bg:#0C0D0D;
   --fg:#FFFFFF;
   --card:#18191B;
@@ -531,6 +534,12 @@ body{
   padding:1px 5px;
   border-radius:3px;
 }
+.toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+.toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+.toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+.hero__screenshot{margin-bottom:32px;max-width:880px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);}
+.hero__screenshot img{width:100%;height:auto;display:block;}
 </style>
 </head>
 <body>
@@ -538,6 +547,10 @@ body{
 
 <!-- ── TOC ── -->
 <aside class="toc">
+  <div class="toc__brand">
+    <div class="toc__brand-name">Neon</div>
+    <div class="toc__brand-sub">Design System Report</div>
+  </div>
   <div class="toc__logo">
     <div class="toc__logo-mark">N</div>
     <div class="toc__site">Neon</div>
@@ -573,6 +586,7 @@ body{
     <div class="toc__group-label">Rules</div>
     <a href="#dodont">Do / Don't</a>
   </div>
+  <div class="toc__foot">neon/<br>DESIGN.claude.manual.md<br>2026-04-12</div>
 </aside>
 
 <!-- ── Main ── -->
@@ -585,6 +599,9 @@ body{
     <p class="hero__sub">
       Next.js App Router + Tailwind v4 기반의 서버리스 Postgres 플랫폼. <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(255,255,255,0.07);padding:2px 6px;border-radius:4px">#2C6D4C</code> halftone SVG 패턴이 3,602회 반복되는 decorative 배경이 Neon 시그너처다. CTA 텍스트는 흰색이 아닌 다크 <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(255,255,255,0.07);padding:2px 6px;border-radius:4px">#0C0D0D</code>.
     </p>
+    <div class="hero__screenshot">
+      <img src="screenshots/jina-hero.png" alt="neon hero screenshot">
+    </div>
 
     <!-- Quick Start cards -->
     <div class="qs__grid">

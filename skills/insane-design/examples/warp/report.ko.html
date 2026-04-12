@@ -80,6 +80,12 @@
   .hero__title .sub{color:var(--muted-fg);font-weight:400;}
   .hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:680px;margin-bottom:32px;}
 
+    .hero__screenshot{
+    margin-bottom:32px;max-width:880px;
+    border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);
+  }
+  .hero__screenshot img{width:100%;height:auto;display:block;}
+
   .qs{
     background:var(--card);border:1px solid var(--border);
     border-radius:var(--radius-lg);padding:28px 32px;
@@ -498,6 +504,10 @@
         모든 값은 CSS 커스텀 프로퍼티를 파싱한 결과이고, AI 추론이나 추측은 섞이지 않았다.
         스크린샷: <code>screenshots/light-hero.png</code>
       </p>
+      <div class="hero__screenshot">
+        <img src="screenshots/jina-hero.png" alt="warp hero screenshot">
+      </div>
+
 
       <div class="warn-banner">
         <b>주의: 마케팅 사이트 vs 터미널 앱</b><br>

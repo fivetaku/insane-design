@@ -61,6 +61,12 @@
   .hero__title .sub{color:var(--muted-fg);font-weight:400;}
   .hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:680px;margin-bottom:32px;}
 
+    .hero__screenshot{
+    margin-bottom:32px;max-width:880px;
+    border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);
+  }
+  .hero__screenshot img{width:100%;height:auto;display:block;}
+
   .qs{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 32px;max-width:880px;margin-top:8px;}
   .qs__head{display:flex;align-items:center;gap:12px;padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid var(--border);}
   .qs__head-label{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;}
@@ -279,6 +285,10 @@
         https://cal.com 마케팅 사이트가 실제로 서빙하는 CSS에서 직접 뽑은 디자인 토큰·타이포그래피·컴포넌트 스펙.
         Framer 호스티드 사이트. Cal Sans display font + Inter body. link state 2색 페어가 브랜드다.
       </p>
+      <div class="hero__screenshot">
+        <img src="screenshots/jina-hero.png" alt="cal hero screenshot">
+      </div>
+
 
       <div class="qs">
         <div class="qs__head">
