@@ -52,10 +52,12 @@ WORK_DIR="$(pwd)"   # 사용자의 현재 디렉토리를 프로젝트 루트로
 URL을 파싱하고 작업 환경을 준비한다.
 
 1. URL에서 slug 추출 (도메인 → kebab-case: `stripe.com` → `stripe`, `linear.app` → `linear`)
-2. URL 검증:
+2. URL 검증 (**보안 필수**):
    - `http://` 또는 `https://` 프로토콜 확인
    - `localhost`, `127.0.0.1`, `file://` 차단
    - 도메인 형식 유효성 확인
+   - **셸 특수문자 검증**: URL에 `` ` ``, `$`, `(`, `)`, `;`, `|`, `&`, `>`, `<` 등 셸 메타문자가 포함되면 거부
+   - 이후 모든 Bash 명령에서 URL은 반드시 **큰따옴표로 감싸서** 사용: `"$URL"`
 3. 출력 디렉토리 생성 (**절대 경로 사용**):
 
 ```bash
@@ -82,31 +84,54 @@ HTML/CSS와 스크린샷을 **병렬**로 수집한다.
 
 ```bash
 # Tier 1: curl + Chrome UA (절대 경로)
+# ⚠️ URL은 Step 1에서 검증 완료된 값만 사용. 반드시 큰따옴표로 감쌈.
+URL="{url}"  # Step 1에서 검증된 URL
 curl -sL \
   -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
   -H "Accept: text/html,application/xhtml+xml" \
   -H "Accept-Language: en-US,en;q=0.9" \
   --compressed --max-time 30 \
   -o "$WORK_DIR/insane-design/{slug}/index.html" \
-  "{url}"
+  "$URL"
 ```
 
 성공 판정: 파일 크기 ≥ 5KB + `<html>` 태그 존재 + Cloudflare challenge 없음.
-실패 시 Tier 2(Mobile UA) → Tier 3(Jina HTML mode: `curl -H "X-Return-Format: html" "https://r.jina.ai/{url}"`) 순서로 시도.
+실패 시 Tier 2(Mobile UA) → Tier 3(Jina HTML mode: `curl -H "X-Return-Format: html" "https://r.jina.ai/$URL"`) 순서로 시도.
+
+> **⚠️ 외부 API 고지**: Tier 3에서 Jina Reader API(`r.jina.ai`)와 Step 2B 스크린샷 수집에서 대상 URL이 외부 서비스로 전송됩니다. 민감한 내부 URL에는 사용하지 마세요.
 
 HTML에서 CSS 링크 추출 + 병렬 다운로드:
 ```bash
+# 1. CSS 링크 추출 (상대/절대 URL 모두)
 grep -oE 'href="[^"]+\.css[^"]*"' "$WORK_DIR/insane-design/{slug}/index.html" | \
-  sed 's/href="//;s/"$//' | \
-  xargs -n1 -P8 -I{} curl -sL -o "$WORK_DIR/insane-design/{slug}/css/$(basename {})" "{absolute_url}"
+  sed 's/href="//;s/"$//' > "$WORK_DIR/insane-design/{slug}/css/_urls.txt"
+
+# 2. 상대 경로 → 절대 URL 변환 후 병렬 다운로드
+BASE_URL="{url}"  # Step 1에서 검증된 URL
+while IFS= read -r css_href; do
+  # 절대 URL이면 그대로, 상대 경로면 BASE_URL과 결합
+  case "$css_href" in
+    http*) abs_url="$css_href" ;;
+    //*) abs_url="https:$css_href" ;;
+    /*) abs_url="$(echo "$BASE_URL" | grep -oE 'https?://[^/]+')$css_href" ;;
+    *) abs_url="$BASE_URL/$css_href" ;;
+  esac
+  fname="$(echo "$css_href" | sed 's/[?#].*//' | xargs basename)"
+  curl -sL --max-time 15 -o "$WORK_DIR/insane-design/{slug}/css/$fname" "$abs_url" &
+done < "$WORK_DIR/insane-design/{slug}/css/_urls.txt"
+wait
+rm -f "$WORK_DIR/insane-design/{slug}/css/_urls.txt"
 ```
 
 #### 2B. 스크린샷 수집 (병렬)
 
 ```bash
-# Jina Reader API 직접 호출 (slug 하드코딩 아닌 동적)
+# Jina Reader API로 스크린샷 캡처
+# ⚠️ 프라이버시 고지: 대상 URL이 Jina Reader API (r.jina.ai)로 전송됩니다.
+#    Jina는 이를 Puppeteer로 렌더링 후 스크린샷을 반환합니다.
+#    민감한 내부 URL에는 사용하지 마세요.
 curl -sL -H "X-Respond-With: screenshot" --max-time 30 \
-  "https://r.jina.ai/{url}" \
+  "https://r.jina.ai/$URL" \
   -o "$WORK_DIR/insane-design/{slug}/screenshots/jina-hero.png"
 
 # PIL crop (1280×1280 → 1280×800)

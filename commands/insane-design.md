@@ -8,7 +8,6 @@ allowed-tools:
   - Write
   - Glob
   - Grep
-  - AskUserQuestion
 ---
 
 # /insane-design Command

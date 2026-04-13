@@ -11,7 +11,7 @@ token_prefix: {TOKEN_PREFIX}
 ---
 
 <!--
-  DesignMD Analyzer — DESIGN.claude.manual.md 템플릿
+  DesignMD Analyzer — design.md 템플릿
   버전: 2.0 (2026-04-11)
 
   섹션 번호: 01~15 (통일)
@@ -89,7 +89,7 @@ body { background: var(--bg); color: var(--fg); }
 |---|---|
 | Source URL | `{SITE_URL}` |
 | Fetched | {FETCHED_AT} |
-| Extractor | `real/fetch_all.py` (curl + Chrome UA) |
+| Extractor | curl + Chrome UA (5-tier fallback) |
 | HTML size | {HTML_SIZE} bytes ({FRAMEWORK} SSR) |
 | CSS files | {CSS_FILE_COUNT}개 외부 + {INLINE_COUNT} 인라인, 총 {CSS_TOTAL_CHARS}자 |
 | Token prefix | `{TOKEN_PREFIX}` |

@@ -117,12 +117,22 @@ def extract_font_weights_used(css: str) -> dict[str, int]:
 def extract_slug(slug: str) -> dict:
     """Read CSS, run all three, write insane-design/{slug}/phase1/typography.json."""
     css_dir = Path.cwd() / "insane-design" / slug / "css"
-    if not css_dir.is_dir():
-        raise FileNotFoundError(f"Missing CSS directory: {css_dir}")
+    output_path = Path.cwd() / "insane-design" / slug / "phase1" / "typography.json"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    css_files = sorted(css_dir.glob("*.css"))
+    css_files = sorted(css_dir.glob("*.css")) if css_dir.is_dir() else []
     if not css_files:
-        raise FileNotFoundError(f"No CSS files found in {css_dir}")
+        # Graceful degradation: CSS 없으면 빈 결과 반환 (CSS-in-JS/인라인 사이트)
+        result = {
+            "slug": slug,
+            "scale": {},
+            "families": [],
+            "weights_used": {},
+            "stats": {"scale_entries": 0, "unique_families": 0, "unique_weights": 0},
+            "warning": "No CSS files found — site may use CSS-in-JS or inline styles",
+        }
+        output_path.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        return result
 
     css = "\n".join(path.read_text(encoding="utf-8", errors="replace") for path in css_files)
     props: dict[str, str] = {}
@@ -149,8 +159,6 @@ def extract_slug(slug: str) -> dict:
     if slug == "stripe" and result["stats"]["scale_entries"] < 7:
         raise ValueError("stripe must produce at least 7 typography scale entries")
 
-    output_path = Path.cwd() / "insane-design" / slug / "phase1" / "typography.json"
-    output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return result
 
