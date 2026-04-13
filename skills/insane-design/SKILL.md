@@ -130,7 +130,11 @@ rm -f "$WORK_DIR/insane-design/{slug}/css/_urls.txt"
 # ⚠️ 프라이버시 고지: 대상 URL이 Jina Reader API (r.jina.ai)로 전송됩니다.
 #    Jina는 이를 Puppeteer로 렌더링 후 스크린샷을 반환합니다.
 #    민감한 내부 URL에는 사용하지 마세요.
-curl -sL -H "X-Respond-With: screenshot" --max-time 30 \
+# ⏱️ X-Wait-For: 5000 → 페이지 로드 후 5초 대기 (애니메이션/lazy load 완료 보장)
+curl -sL \
+  -H "X-Respond-With: screenshot" \
+  -H "X-Wait-For: 5000" \
+  --max-time 45 \
   "https://r.jina.ai/$URL" \
   -o "$WORK_DIR/insane-design/{slug}/screenshots/jina-hero.png"
 
@@ -144,7 +148,21 @@ cropped.save('$WORK_DIR/insane-design/{slug}/screenshots/hero-cropped.png')
 "
 ```
 
-Jina Reader 실패 시 (파일 < 5KB) → Playwright fallback 시도.
+Jina Reader 실패 시 (파일 < 5KB) → Playwright fallback 시도:
+```bash
+# Playwright fallback — networkidle 대기 + 추가 3초 딜레이
+python3 -c "
+from playwright.sync_api import sync_playwright
+import time
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page(viewport={'width': 1280, 'height': 800})
+    page.goto('$URL', wait_until='networkidle', timeout=30000)
+    time.sleep(3)  # 애니메이션/lazy load 완료 대기
+    page.screenshot(path='$WORK_DIR/insane-design/{slug}/screenshots/jina-hero.png')
+    browser.close()
+"
+```
 
 #### 수집 실패 처리
 

@@ -72,11 +72,12 @@ def capture_jina(slug: str, url: str) -> dict:
             [
                 "curl", "-sL",
                 "-H", "X-Respond-With: screenshot",
-                "--max-time", "30",
+                "-H", "X-Wait-For: 5000",
+                "--max-time", "45",
                 f"https://r.jina.ai/{url}",
             ],
             capture_output=True,
-            timeout=35,
+            timeout=50,
         )
         if r.returncode != 0:
             result["error"] = f"curl exit {r.returncode}"
