@@ -4,7 +4,7 @@ service_name: Resend
 site_url: https://resend.com
 fetched_at: 2026-04-11
 default_theme: light
-brand_color: "#1d1c1b"
+brand_color: "#62ffb3"
 primary_font: ABCFavorit
 font_weight_normal: 400
 token_prefix: ""

@@ -4,7 +4,7 @@ service_name: Tinybird
 site_url: https://www.tinybird.co
 fetched_at: 2026-04-11
 default_theme: light
-brand_color: "#27F795"
+brand_color: "#008060"
 primary_font: Roboto
 font_weight_normal: 400
 token_prefix: "--primary, --secondary, --dark (unscoped)"

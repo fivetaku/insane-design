@@ -5,6 +5,7 @@ site_url: https://warp.dev
 fetched_at: 2026-04-11
 default_theme: light
 brand_color: "#000000"
+color_system: monochrome
 primary_font: Inter
 font_weight_normal: 400
 token_prefix: --framer-*

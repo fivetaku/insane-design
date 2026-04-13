@@ -212,6 +212,35 @@ Claude가 스크린샷 + 추출 결과를 보고 AI 판정을 수행한다.
 | 6 | Quick Start "절대 하지 말 것" | 가장 치명적인 한 가지 |
 | 7 | DO/DON'T | 각 4~8 항목 |
 
+#### Brand color 선택 규칙 (판정 #1 상세)
+
+brand_color는 아래 우선순위로 결정한다:
+
+| 우선순위 | 소스 | 예시 |
+|---------|------|------|
+| 1 | **CTA/primary button의 background-color** | Stripe `#533AFD`, Toss `#3182F6` |
+| 2 | **CSS 토큰에서 `brand`/`primary`/`accent` 이름을 가진 변수** | `--hds-color-core-brand-600` |
+| 3 | **chromatic hex 빈도 상위** (neutral/white/black 제외) | brand_candidates.json의 chromatic 1위 |
+| 4 | **공식 로고 색** (위 3가지가 모두 불명확할 때만) | — |
+
+**brand_color가 될 수 없는 것**:
+- `#000000`, `#FFFFFF` 또는 near-black/near-white (채도 < 5%) — 이들은 neutral이지 brand가 아님
+- foreground text 색 (`#1d1c1b` 같은 본문 색)
+- 고객사 로고/SVG에서만 등장하는 색 (logo wall 오염)
+
+**Dual-anchor 사이트** (light hero와 dark section에 서로 다른 accent가 있는 경우):
+- brand_color에는 **CTA 버튼 색** 또는 **더 높은 빈도의 chromatic** 선택
+- 나머지는 §06 Colors에서 별도 서술
+
+#### Monochrome 사이트 처리
+
+채도 있는 컬러가 거의 없는 사이트 (Figma, Vercel, Warp 등):
+
+1. **frontmatter에 `color_system: monochrome` 추가**
+2. **brand_color**: 가장 채도 높은 accent hex 선택. accent도 없으면 `#000000` 사용하되, §01 Quick Start에 "이 사이트는 monochrome 디자인" 명시
+3. **§06 Colors**: 컬러 램프 대신 **grayscale/neutral ramp** + **accent 목록** 구조로 작성
+4. **§16 DO/DON'T**: "❌ 임의의 brand color를 지어내지 말 것 — 이 사이트의 정체성은 색이 아니라 톤/타이포"
+
 **원칙 3가지** (절대 위반 금지):
 1. AI는 hex 값을 만들지 않는다 — CSS에 없는 hex 생성 = 환각
 2. AI는 토큰명을 만들지 않는다 — `color-brand` 같은 가상 이름 금지
