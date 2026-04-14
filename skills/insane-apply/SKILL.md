@@ -1,5 +1,5 @@
 ---
-name: insane-apply
+name: insane-design-apply
 description: >
   분석된 design.md의 디자인 토큰을 내 프로젝트에 적용하는 스킬.
   "디자인 적용해줘", "design.md 적용", "토큰 주입", "CSS 변수 적용",
