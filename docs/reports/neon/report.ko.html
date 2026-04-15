@@ -1,0 +1,1403 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neon — Design System Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── Tokens (dark theme) ── */
+:root{
+  --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --bg:#0C0D0D;
+  --fg:#FFFFFF;
+  --card:#18191B;
+  --muted:#242628;
+  --muted-fg:#94979E;
+  --subtle:#303236;
+  --border:#303236;
+  --border-str:#494B50;
+  --accent:#00E599;
+  --radius:14px;
+  --radius-lg:20px;
+  --brand-color:#00E599;
+}
+
+/* ── Layout ── */
+html{scroll-behavior:smooth}
+body{
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+/* ── TOC ── */
+.toc{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  background:#131415;
+  border-right:1px solid var(--border);
+  padding:24px 0;
+  font-size:13px;
+}
+.toc__logo{
+  padding:0 20px 20px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:16px;
+}
+.toc__logo-mark{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;height:28px;
+  background:var(--brand-color);
+  color:#0C0D0D;
+  border-radius:6px;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:6px;
+}
+.toc__site{font-weight:600;font-size:13px;color:var(--fg)}
+.toc__tagline{color:var(--muted-fg);font-size:11px;margin-top:2px}
+.toc__group{margin-bottom:4px}
+.toc__group-label{
+  padding:6px 20px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--muted-fg);
+}
+.toc a{
+  display:block;
+  padding:5px 20px;
+  color:var(--muted-fg);
+  text-decoration:none;
+  transition:color .15s,background .15s;
+}
+.toc a:hover,.toc a.active{
+  color:var(--brand-color);
+  background:rgba(0,229,153,0.07);
+}
+
+/* ── Main ── */
+.main{max-width:900px;padding:60px 48px;margin:0 auto}
+
+/* ── Sections ── */
+.section{margin-bottom:72px}
+.section-label{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--brand-color);
+  margin-bottom:10px;
+}
+.section-title{
+  font-size:26px;
+  font-weight:700;
+  line-height:1.2;
+  letter-spacing:-0.01em;
+  margin-bottom:8px;
+}
+.section-sub{
+  color:var(--muted-fg);
+  font-size:15px;
+  margin-bottom:32px;
+  line-height:1.6;
+}
+
+/* ── Hero ── */
+.hero{
+  padding:64px 0 56px;
+  margin-bottom:64px;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.hero__eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(0,229,153,0.1);
+  color:var(--brand-color);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  padding:4px 12px;
+  border-radius:999px;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-size:38px;
+  font-weight:700;
+  line-height:1.15;
+  letter-spacing:-0.02em;
+  margin-bottom:14px;
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--brand-color);
+}
+.hero__sub{
+  font-size:17px;
+  color:var(--muted-fg);
+  line-height:1.6;
+  max-width:580px;
+  margin-bottom:40px;
+}
+
+/* ── Quick Start ── */
+.qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.qs__step{
+  background:#0f1010;
+  border-radius:var(--radius-lg);
+  padding:20px;
+  border:1px solid #1f2020;
+}
+.qs__step-num{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#494B50;
+  margin-bottom:10px;
+}
+.qs__step pre{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:11.5px;
+  line-height:1.6;
+  color:#C9CBCF;
+  overflow-x:auto;
+  white-space:pre;
+}
+.qs__warn{
+  background:rgba(0,229,153,0.05);
+  border:1px solid rgba(0,229,153,0.2);
+  border-radius:var(--radius);
+  padding:14px 16px;
+  font-size:13px;
+  color:#C9CBCF;
+  line-height:1.5;
+}
+.qs__warn strong{color:var(--brand-color)}
+.qs__warn code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:11px;
+  background:rgba(255,255,255,0.07);
+  padding:1px 5px;
+  border-radius:3px;
+}
+
+/* ── Stat cards ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:18px 20px;
+}
+.stat__label{font-size:11px;font-weight:500;color:var(--muted-fg);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
+.stat__value{font-size:20px;font-weight:700;color:var(--fg);letter-spacing:-0.01em}
+.stat__sub{font-size:11px;color:var(--muted-fg);margin-top:2px}
+
+/* ── Info table ── */
+.info-table{width:100%;border-collapse:collapse;font-size:14px}
+.info-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--fg)}
+.info-table td:first-child{
+  font-weight:500;
+  color:var(--muted-fg);
+  white-space:nowrap;
+  width:180px;
+}
+.info-table code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  background:rgba(255,255,255,0.06);
+  padding:1px 5px;
+  border-radius:4px;
+  color:#C9CBCF;
+}
+
+/* ── Tech stack ── */
+.stack-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stack-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:16px 20px;
+}
+.stack-card h4{font-size:13px;font-weight:600;margin-bottom:6px;color:var(--fg)}
+.stack-card p{font-size:13px;color:var(--muted-fg);line-height:1.5}
+.stack-card code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  background:rgba(255,255,255,0.06);
+  padding:1px 5px;
+  border-radius:4px;
+  color:#C9CBCF;
+}
+
+/* ── Typography ── */
+.type-table{width:100%;border-collapse:collapse;font-size:13px}
+.type-table th{
+  text-align:left;
+  padding:8px 12px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--muted-fg);
+  border-bottom:1px solid var(--border);
+}
+.type-table td{padding:0;border-bottom:1px solid var(--border)}
+.type-row{display:flex;align-items:baseline;padding:14px 12px;gap:12px}
+.type-row__preview{flex:0 0 280px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--fg)}
+.type-row__meta{display:flex;gap:16px;flex:1;align-items:center;flex-wrap:wrap}
+.type-row__token{font-size:12px;font-family:"JetBrains Mono",ui-monospace,monospace;color:var(--muted-fg);white-space:nowrap}
+.type-row__spec{font-size:12px;color:var(--muted-fg)}
+.badge{
+  display:inline-block;
+  padding:1px 7px;
+  border-radius:4px;
+  font-size:11px;
+  font-weight:500;
+  background:rgba(255,255,255,0.08);
+  color:var(--muted-fg);
+}
+
+/* ── Color swatches ── */
+.ramp{margin-bottom:28px}
+.ramp__label{font-size:12px;font-weight:600;color:var(--muted-fg);margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase}
+.ramp__row{
+  display:grid;
+  gap:3px;
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.swatch{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:8px 10px;
+  min-height:72px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+}
+.sw--l .swatch-label{color:rgba(0,0,0,0.6)}
+.sw--d .swatch-label{color:rgba(255,255,255,0.7)}
+.swatch-label{font-size:10px;line-height:1.3}
+.swatch-hex{font-size:10px;opacity:.8}
+.is-anchor{outline:2px solid var(--brand-color);outline-offset:-2px;border-radius:2px}
+
+/* ── Spacing ── */
+.spacing-row{display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
+.spacing-bar{background:var(--brand-color);height:20px;border-radius:3px;opacity:.75;flex-shrink:0}
+.spacing-token{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--muted-fg);width:120px}
+.spacing-value{font-size:13px;font-weight:500;width:60px;color:var(--fg)}
+.spacing-use{font-size:13px;color:var(--muted-fg)}
+
+/* ── Radius ── */
+.radius-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px}
+.radius-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
+.radius-box{
+  width:64px;
+  height:64px;
+  background:rgba(0,229,153,0.12);
+  border:2px solid var(--brand-color);
+}
+.radius-label{font-size:12px;font-weight:600;text-align:center;color:var(--fg)}
+.radius-value{font-size:11px;color:var(--muted-fg);font-family:"JetBrains Mono",ui-monospace,monospace;text-align:center}
+
+/* ── Shadow ── */
+.shadow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px}
+.shadow-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
+.shadow-box{
+  width:80px;height:80px;
+  background:var(--muted);
+  border-radius:var(--radius);
+  border:1px solid var(--border-str);
+}
+.shadow-name{font-size:13px;font-weight:600;color:var(--fg)}
+.shadow-value{font-size:11px;color:var(--muted-fg);font-family:"JetBrains Mono",ui-monospace,monospace;text-align:center;line-height:1.5;word-break:break-all}
+
+/* ── Layout patterns ── */
+.layout-demo{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  margin-bottom:20px;
+  font-size:13px;
+}
+.layout-demo h4{font-size:14px;font-weight:600;margin-bottom:12px;color:var(--fg)}
+.layout-spec{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.layout-spec-row{display:flex;align-items:center;gap:10px}
+.layout-spec-key{font-size:12px;color:var(--muted-fg);width:160px;flex-shrink:0}
+.layout-spec-val{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--fg)}
+.layout-code{
+  background:#0a0b0b;
+  border-radius:var(--radius);
+  padding:16px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#C9CBCF;
+  overflow-x:auto;
+}
+
+/* ── Components ── */
+.cmp-section{margin-bottom:40px}
+.cmp-section h3{font-size:17px;font-weight:600;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);color:var(--fg)}
+.cmp-demo{
+  background:#131415;
+  border-radius:var(--radius-lg);
+  padding:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+  border:1px solid var(--border);
+}
+.cmp-code{
+  position:relative;
+  background:#0a0b0b;
+  border-radius:var(--radius);
+  padding:16px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#C9CBCF;
+  overflow-x:auto;
+  margin-bottom:6px;
+}
+.copy-btn{
+  position:absolute;
+  top:10px;right:10px;
+  background:#303236;
+  color:#94979E;
+  border:none;
+  border-radius:4px;
+  padding:3px 8px;
+  font-size:11px;
+  cursor:pointer;
+  transition:background .15s;
+}
+.copy-btn:hover{background:#494B50;color:#fff}
+
+/* ── Demo components ── */
+.btn-primary-demo{
+  display:inline-flex;align-items:center;
+  background:#00E599;color:#0C0D0D;
+  border:none;border-radius:38px;
+  padding:16px 32px;
+  font-size:14px;font-weight:500;
+  font-family:inherit;cursor:pointer;
+  transition:background .15s;text-decoration:none;
+}
+.btn-primary-demo:hover{background:#34D59A}
+.btn-secondary-demo{
+  display:inline-flex;align-items:center;
+  background:transparent;
+  border:1px solid #494B50;
+  border-radius:38px;
+  padding:16px 32px;
+  font-size:14px;font-weight:500;
+  font-family:inherit;cursor:pointer;
+  color:#FFFFFF;text-decoration:none;
+  transition:border-color .15s;
+}
+.btn-secondary-demo:hover{border-color:#00E599;color:#00E599}
+
+.demo-card{
+  background:#18191B;
+  border:1px solid #303236;
+  border-radius:14px;
+  padding:32px;
+  max-width:280px;
+  width:100%;
+}
+.demo-card h3{font-size:16px;font-weight:600;margin-bottom:8px;color:#FFFFFF}
+.demo-card p{font-size:14px;color:#94979E;line-height:1.5}
+
+.demo-shiki{
+  background:#131415;
+  border-radius:10px;
+  padding:20px 24px;
+  width:100%;max-width:380px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:13px;color:#C9CBCF;line-height:1.7;
+}
+.demo-shiki .sh-kw{color:#00E599}
+.demo-shiki .sh-str{color:#AFB1B6}
+.demo-shiki .sh-com{color:#494B50}
+
+/* ── Code Export tabs ── */
+.code-tabs{display:flex;gap:2px;margin-bottom:0;border-bottom:1px solid var(--border)}
+.code-tab{
+  padding:9px 16px;
+  font-size:13px;
+  font-weight:500;
+  color:var(--muted-fg);
+  background:transparent;
+  border:none;
+  border-bottom:2px solid transparent;
+  cursor:pointer;
+  margin-bottom:-1px;
+  font-family:inherit;
+  transition:color .15s;
+}
+.code-tab.active{color:var(--brand-color);border-bottom-color:var(--brand-color)}
+.code-pane{display:none}
+.code-pane.active{display:block}
+.code-pane pre{
+  background:#0a0b0b;
+  border-radius:0 0 var(--radius-lg) var(--radius-lg);
+  padding:24px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#C9CBCF;
+  overflow-x:auto;
+  line-height:1.65;
+  max-height:520px;
+}
+.code-export-wrap{
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+}
+.code-export-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  background:var(--card);
+}
+
+/* ── Do / Don't ── */
+.dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dd-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:20px 24px;
+}
+.dd-card--do{border-top:3px solid #00E599}
+.dd-card--dont{border-top:3px solid #dc2626}
+.dd-card__badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.dd-card--do .dd-card__badge{color:#00E599}
+.dd-card--dont .dd-card__badge{color:#dc2626}
+.dd-card ul{padding-left:16px;display:flex;flex-direction:column;gap:7px}
+.dd-card li{font-size:13px;line-height:1.5;color:var(--fg)}
+.dd-card li code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:11px;
+  background:rgba(255,255,255,0.06);
+  padding:1px 5px;
+  border-radius:3px;
+}
+.toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+.toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+.toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+.hero__screenshot{margin-bottom:32px;max-width:880px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);}
+.hero__screenshot img{width:100%;height:auto;display:block;}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ── TOC ── -->
+<aside class="toc">
+  <div class="toc__brand">
+    <div class="toc__brand-name">Neon</div>
+    <div class="toc__brand-sub">Design System Report</div>
+  </div>
+  <div class="toc__logo">
+    <div class="toc__logo-mark">N</div>
+    <div class="toc__site">Neon</div>
+    <div class="toc__tagline">Design System Report</div>
+  </div>
+
+  <div class="toc__group">
+    <div class="toc__group-label">Overview</div>
+    <a href="#provenance">출처와 수집 기준</a>
+    <a href="#tech">테크 스택</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Foundations</div>
+    <a href="#typography">타이포그래피</a>
+    <a href="#colors">컬러</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Tokens</div>
+    <a href="#spacing">스페이싱</a>
+    <a href="#radius">라디우스</a>
+    <a href="#shadows">섀도우</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Patterns</div>
+    <a href="#layout">레이아웃 패턴</a>
+    <a href="#components">컴포넌트</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Code</div>
+    <a href="#code">CSS · Tailwind</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Rules</div>
+    <a href="#dodont">Do / Don't</a>
+  </div>
+  <div class="toc__foot">neon/<br>DESIGN.claude.manual.md<br>2026-04-12</div>
+</aside>
+
+<!-- ── Main ── -->
+<main class="main">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__eyebrow">Design System Report</div>
+    <h1>Neon — <em>네온 그린 + 다크 캔버스</em></h1>
+    <p class="hero__sub">
+      Next.js App Router + Tailwind v4 기반의 서버리스 Postgres 플랫폼. <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(255,255,255,0.07);padding:2px 6px;border-radius:4px">#2C6D4C</code> halftone SVG 패턴이 3,602회 반복되는 decorative 배경이 Neon 시그너처다. CTA 텍스트는 흰색이 아닌 다크 <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(255,255,255,0.07);padding:2px 6px;border-radius:4px">#0C0D0D</code>.
+    </p>
+    <div class="hero__screenshot">
+      <img src="screenshots/hero-cropped.png" alt="neon hero screenshot">
+    </div>
+
+    <!-- Quick Start cards -->
+    <div class="qs__grid">
+      <div class="qs__step">
+        <div class="qs__step-num">Step 1 — 폰트</div>
+        <pre>body {
+  font-family:
+    var(--font-inter),
+    "Inter", "Inter Fallback",
+    ui-sans-serif, sans-serif;
+  font-weight: 400;
+}
+code, pre {
+  font-family:
+    var(--font-geist-mono),
+    GeistMono, ui-monospace,
+    monospace;
+}</pre>
+      </div>
+      <div class="qs__step">
+        <div class="qs__step-num">Step 2 — 다크 캔버스</div>
+        <pre>:root {
+  --bg-canvas: #0C0D0D;
+  --surface-1: #131415;
+  --surface-2: #18191B;
+  --surface-3: #242628;
+  --surface-4: #303236;
+  --border:    #494B50;
+  --text:      #FFFFFF;
+  --text-muted:#AFB1B6;
+}
+body {
+  background: var(--bg-canvas);
+  color: var(--text);
+}</pre>
+      </div>
+      <div class="qs__step">
+        <div class="qs__step-num">Step 3 — 브랜드 Neon Green</div>
+        <pre>:root {
+  --brand:       #00E599;
+  --brand-hover: #34D59A;
+  --brand-tint:  #E4F1EB;
+  --decor-deep:  #2C6D4C;
+  /* ↑ halftone SVG 배경 전용 */
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: var(--bg-canvas);
+  /* 텍스트는 흰색이 아닌 다크 */
+  border-radius: 38px;
+}</pre>
+      </div>
+    </div>
+
+    <div class="qs__warn">
+      <strong>절대 하지 말 것:</strong> "No gradients" 원칙을 따르지 말 것. 실제 Neon 사이트는 <code>#2C6D4C</code> 짙은 네온 그린이 <strong>3,602회</strong> 반복되는 decorative SVG pattern/gradient로 hero와 섹션 배경을 채운다. halftone/gradient 텍스처는 Neon 브랜드 핵심 시그너처다.
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat__label">Source</div>
+        <div class="stat__value">neon.com</div>
+        <div class="stat__sub">2026-04-11 수집</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Custom Props</div>
+        <div class="stat__value">189</div>
+        <div class="stat__sub">color 11 · shadow 17 · radius 10</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Decor Pattern</div>
+        <div class="stat__value" style="color:#2C6D4C">3,602회</div>
+        <div class="stat__sub">#2C6D4C halftone SVG</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Pill Radius</div>
+        <div class="stat__value">38px</div>
+        <div class="stat__sub">최빈 radius (6회)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §02 Provenance -->
+  <section class="section" id="provenance">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">출처와 수집 기준</h2>
+    <p class="section-sub">CSS 커스텀 프로퍼티 직접 파싱 + SVG pattern 빈도 분석으로 추출한 실측 데이터다.</p>
+    <table class="info-table">
+      <tr><td>Source URL</td><td><code>https://neon.com</code></td></tr>
+      <tr><td>Fetched</td><td>2026-04-11</td></tr>
+      <tr><td>Extractor</td><td><code>real/fetch_all.py</code> (curl + Chrome UA)</td></tr>
+      <tr><td>Framework</td><td>Next.js App Router + <strong>Tailwind CSS v4</strong> + Shiki</td></tr>
+      <tr><td>Custom props</td><td>189 (color: 11 · spacing: 6 · shadow: 17 · radius: 10 unique)</td></tr>
+      <tr><td>Token prefix</td><td><code>--tw-*</code>, <code>--font-*</code>, <code>--spacing</code>, <code>shiki-color-*</code></td></tr>
+      <tr><td>Method</td><td>CSS 커스텀 프로퍼티 직접 파싱 + SVG pattern 빈도 분석</td></tr>
+    </table>
+  </section>
+
+  <!-- §03 Tech Stack -->
+  <section class="section" id="tech">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">테크 스택</h2>
+    <p class="section-sub">최소한의 브랜드 덮기 전략. Tailwind v4 기본 팔레트에 11개 색 변수만 추가한다.</p>
+    <div class="stack-grid">
+      <div class="stack-card">
+        <h4>Framework</h4>
+        <p>Next.js App Router + <code>next/font/google</code><br>
+        <code>var(--font-inter)</code>, <code>var(--font-geist-mono)</code></p>
+      </div>
+      <div class="stack-card">
+        <h4>Design System</h4>
+        <p>Tailwind CSS v4 기본 팔레트 + 최소 브랜드 덮기 (색 변수 11개)</p>
+      </div>
+      <div class="stack-card">
+        <h4>CSS Architecture</h4>
+        <p>Tailwind v4 <code>@theme</code> <code>--color-*-{50..950}</code> 팔레트<br>
+        <code>--spacing: 0.25rem</code> v4 단일 base<br>
+        Tailwind Typography <code>--tw-prose-*</code></p>
+      </div>
+      <div class="stack-card">
+        <h4>Code Highlighting</h4>
+        <p>Shiki (VSCode dark+)<br>
+        <code>shiki-color-text: #131415</code><br>
+        Arbitrary values 다수: <code>rounded-[38px]</code>, <code>bg-[#00E599]</code></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §04 + §05 Typography -->
+  <section class="section" id="typography">
+    <div class="section-label">Foundations</div>
+    <h2 class="section-title">히어로는 72px, 본문은 500 semibold</h2>
+    <p class="section-sub">
+      Weight 분포: 500/600이 지배적이다. 정보 밀도 높은 DB 플랫폼 특성상 body도 500으로 준굵게 처리. 히어로에만 700. 폰트: <strong>Inter</strong> (body) + <strong>GeistMono</strong> (code).
+    </p>
+
+    <!-- Font stack -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:28px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px;color:var(--muted-fg);letter-spacing:.04em;text-transform:uppercase">Font Stack</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:16px">
+          <span style="font-size:22px;font-weight:400;font-family:'Inter',sans-serif;flex:0 0 220px;color:var(--fg)">Inter — Body</span>
+          <code style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--muted-fg)">var(--font-inter) + "Inter Fallback"</code>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <span style="font-size:22px;font-weight:400;font-family:'JetBrains Mono',monospace;flex:0 0 220px;color:var(--fg)">GeistMono</span>
+          <code style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--muted-fg)">var(--font-geist-mono) — Vercel OSS</code>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;opacity:0.5">
+          <span style="font-size:14px;font-family:'Inter',sans-serif;flex:0 0 220px;color:var(--muted-fg)">IBM Plex Sans (레거시)</span>
+          <span style="font-size:12px;color:var(--muted-fg)">과거 Neon 브랜드 잔존 — 신규 작업에 사용 금지</span>
+        </div>
+      </div>
+    </div>
+
+    <table class="type-table">
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Size</th>
+          <th>Weight</th>
+          <th>Line-height</th>
+          <th>Letter-spacing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:38px;font-weight:700;line-height:1.0;letter-spacing:-0.025em;font-family:'Inter',sans-serif">hero-mega</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">hero-mega</span>
+              <span class="type-row__spec">72px / 4rem</span>
+              <span class="badge">700</span>
+              <span class="type-row__spec">lh 1.0</span>
+              <span class="type-row__spec">-0.025em</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:34px;font-weight:700;line-height:1.05;letter-spacing:-0.02em;font-family:'Inter',sans-serif">hero-display</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">hero-display</span>
+              <span class="type-row__spec">48px / 3rem</span>
+              <span class="badge">700</span>
+              <span class="type-row__spec">lh 1.05</span>
+              <span class="type-row__spec">-0.02em</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:28px;font-weight:600;line-height:1.15;letter-spacing:-0.018em;font-family:'Inter',sans-serif">Heading 1</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">h1</span>
+              <span class="type-row__spec">36px</span>
+              <span class="badge">600</span>
+              <span class="type-row__spec">lh 1.15</span>
+              <span class="type-row__spec">-0.018em</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:22px;font-weight:600;line-height:1.2;letter-spacing:-0.014em;font-family:'Inter',sans-serif">Heading 2</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">h2</span>
+              <span class="type-row__spec">28px</span>
+              <span class="badge">600</span>
+              <span class="type-row__spec">lh 1.2</span>
+              <span class="type-row__spec">-0.014em</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:18px;font-weight:600;line-height:1.25;letter-spacing:-0.012em;font-family:'Inter',sans-serif">Heading 3</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">h3</span>
+              <span class="type-row__spec">24px</span>
+              <span class="badge">600</span>
+              <span class="type-row__spec">lh 1.25</span>
+              <span class="type-row__spec">-0.012em</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:17px;font-weight:500;line-height:1.55;letter-spacing:0;font-family:'Inter',sans-serif">Body large — DB 관리 인터페이스 텍스트</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">body-lg</span>
+              <span class="type-row__spec">18px</span>
+              <span class="badge" style="background:rgba(0,229,153,0.1);color:#00E599">500</span>
+              <span class="type-row__spec">lh 1.55</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:15px;font-weight:400;line-height:1.55;letter-spacing:0;font-family:'Inter',sans-serif">Body — 일반 본문 텍스트</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">body</span>
+              <span class="type-row__spec">16px</span>
+              <span class="badge">400</span>
+              <span class="type-row__spec">lh 1.55</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:13px;font-weight:400;line-height:1.5;letter-spacing:0;font-family:'Inter',sans-serif">Body small — 캡션, 메타</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">body-sm</span>
+              <span class="type-row__spec">14px</span>
+              <span class="badge">400</span>
+              <span class="type-row__spec">lh 1.5</span>
+            </span>
+          </div>
+        </td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- §06 Colors -->
+  <section class="section" id="colors">
+    <div class="section-label">Foundations</div>
+    <h2 class="section-title">네온 그린 + 9-tier 다크 서피스</h2>
+    <p class="section-sub">dominant 1위(3,602회)는 브랜드 그린이 아닌 decorative SVG 패턴 색 #2C6D4C. 실제 브랜드 #00E599는 45회. 순수 black #000 대신 살짝 탁한 #0C0D0D를 캔버스로 쓴다.</p>
+
+    <!-- Brand -->
+    <div class="ramp">
+      <div class="ramp__label">Brand / Decor</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(4,1fr)">
+        <div class="swatch sw--l is-anchor" style="background:#00E599">
+          <span class="swatch-label">brand-primary<br><span class="swatch-hex">#00E599</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#34D59A">
+          <span class="swatch-label">brand-hover<br><span class="swatch-hex">#34D59A</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#E4F1EB">
+          <span class="swatch-label">brand-tint<br><span class="swatch-hex">#E4F1EB</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#2C6D4C">
+          <span class="swatch-label">decor-deep (SVG 패턴 × 3,602)<br><span class="swatch-hex">#2C6D4C</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dark Surface 9-tier -->
+    <div class="ramp">
+      <div class="ramp__label">Dark Surface — 9 Tiers</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(9,1fr)">
+        <div class="swatch sw--d is-anchor" style="background:#0C0D0D">
+          <span class="swatch-label">bg-canvas<br><span class="swatch-hex">#0C0D0D</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#131415">
+          <span class="swatch-label">surface-0<br><span class="swatch-hex">#131415</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#18191B">
+          <span class="swatch-label">surface-1<br><span class="swatch-hex">#18191B</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#1A1A1A">
+          <span class="swatch-label">surface-2<br><span class="swatch-hex">#1A1A1A</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#242628">
+          <span class="swatch-label">surface-3<br><span class="swatch-hex">#242628</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#303236">
+          <span class="swatch-label">surface-4<br><span class="swatch-hex">#303236</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#494B50">
+          <span class="swatch-label">border-strong<br><span class="swatch-hex">#494B50</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#1c1d1e">
+          <span class="swatch-label">inset-overlay<br><span class="swatch-hex">#1c1d1e</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#000000">
+          <span class="swatch-label">pure-black<br><span class="swatch-hex">#000000</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text (onDark) -->
+    <div class="ramp">
+      <div class="ramp__label">Text (on Dark)</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(5,1fr)">
+        <div class="swatch sw--d is-anchor" style="background:#FFFFFF">
+          <span class="swatch-label">text-max<br><span class="swatch-hex">#FFFFFF</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#C9CBCF">
+          <span class="swatch-label">text-high<br><span class="swatch-hex">#C9CBCF</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#AFB1B6">
+          <span class="swatch-label">text-muted<br><span class="swatch-hex">#AFB1B6</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#94979E">
+          <span class="swatch-label">text-secondary<br><span class="swatch-hex">#94979E</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#494B50">
+          <span class="swatch-label">text-faint<br><span class="swatch-hex">#494B50</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §07 Spacing -->
+  <section class="section" id="spacing">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">스페이싱(간격 체계) — Tailwind v4 4px base</h2>
+    <p class="section-sub">Tailwind v4 단일 base (<code>--spacing: 0.25rem</code> = 4px). 페이지 외곽 여백 25px 특이값 포함.</p>
+
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:8px"></div>
+      <span class="spacing-token">p-2</span>
+      <span class="spacing-value">8px</span>
+      <span class="spacing-use">tight</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:12px"></div>
+      <span class="spacing-token">p-3</span>
+      <span class="spacing-value">12px</span>
+      <span class="spacing-use">inline</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:16px"></div>
+      <span class="spacing-token">p-4</span>
+      <span class="spacing-value">16px</span>
+      <span class="spacing-use">card inner</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:24px"></div>
+      <span class="spacing-token">p-6</span>
+      <span class="spacing-value">24px</span>
+      <span class="spacing-use">section inner</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:25px"></div>
+      <span class="spacing-token">viewport-padding</span>
+      <span class="spacing-value">25px</span>
+      <span class="spacing-use">페이지 외곽 여백 (특이값)</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:32px"></div>
+      <span class="spacing-token">p-8</span>
+      <span class="spacing-value">32px</span>
+      <span class="spacing-use">block gap</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:48px"></div>
+      <span class="spacing-token">p-12</span>
+      <span class="spacing-value">48px</span>
+      <span class="spacing-use">section gap</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:80px"></div>
+      <span class="spacing-token">p-20 / gap-20</span>
+      <span class="spacing-value">80px</span>
+      <span class="spacing-use">hero padding / major gap</span>
+    </div>
+  </section>
+
+  <!-- §08 Radius -->
+  <section class="section" id="radius">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">라디우스(모서리 반경) — 38px pill이 기본</h2>
+    <p class="section-sub">일반적인 sharp 4-8px radius가 아닌 soft 38-40px pill 스타일. <code>rounded-[38px]</code> arbitrary value가 6회로 최빈.</p>
+
+    <div class="radius-grid">
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:2px"></div>
+        <div class="radius-label">radius-xs</div>
+        <div class="radius-value">1-2px<br>divider</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:10px"></div>
+        <div class="radius-label">radius-sm</div>
+        <div class="radius-value">10px<br>small button</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:14px"></div>
+        <div class="radius-label">radius-lg</div>
+        <div class="radius-value">14px<br>card</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:33px"></div>
+        <div class="radius-label">radius-xl</div>
+        <div class="radius-value">33px<br>large card</div>
+      </div>
+      <div class="radius-card" style="border:2px solid var(--brand-color)">
+        <div class="radius-box" style="border-radius:38px;width:64px;height:32px"></div>
+        <div class="radius-label" style="color:var(--brand-color)">radius-pill ★ 최빈</div>
+        <div class="radius-value">38px<br>기본 pill button (6회)</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:40px;width:64px;height:32px"></div>
+        <div class="radius-label">radius-pill-alt</div>
+        <div class="radius-value">40px<br>alternative pill</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:50px"></div>
+        <div class="radius-label">radius-hero</div>
+        <div class="radius-value">50px<br>hero block</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:70px"></div>
+        <div class="radius-label">radius-blob</div>
+        <div class="radius-value">60-80px<br>decorative blob</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §09 Shadows -->
+  <section class="section" id="shadows">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">섀도우 — 대비에서 오는 글로우</h2>
+    <p class="section-sub">Neon의 "glowing" 느낌은 shadow에서 오지 않는다. saturated #00E599 + deep #0C0D0D 대비가 핵심. massive inset trick은 독특한 반투명 오버레이 기법.</p>
+
+    <div class="shadow-grid">
+      <div class="shadow-card">
+        <div class="shadow-box" style="box-shadow:0 1px 2px 0 rgba(0,0,0,0.3)"></div>
+        <div class="shadow-name">tw-shadow-sm</div>
+        <div class="shadow-value">0 1px 2px 0 #0000000d</div>
+        <div style="font-size:11px;color:var(--muted-fg)">subtle</div>
+      </div>
+      <div class="shadow-card">
+        <div class="shadow-box" style="box-shadow:0 4px 6px -1px rgba(0,0,0,0.4),0 2px 4px -2px rgba(0,0,0,0.4)"></div>
+        <div class="shadow-name">tw-shadow-md</div>
+        <div class="shadow-value">0 4px 6px -1px #0000001a<br>0 2px 4px -2px #0000001a</div>
+        <div style="font-size:11px;color:var(--muted-fg)">card</div>
+      </div>
+      <div class="shadow-card">
+        <div class="shadow-box" style="box-shadow:0 10px 15px -3px rgba(0,0,0,0.4),0 4px 6px -4px rgba(0,0,0,0.4)"></div>
+        <div class="shadow-name">tw-shadow-lg</div>
+        <div class="shadow-value">0 10px 15px -3px #0000001a<br>0 4px 6px -4px #0000001a</div>
+        <div style="font-size:11px;color:var(--muted-fg)">popover</div>
+      </div>
+      <div class="shadow-card">
+        <div class="shadow-box" style="box-shadow:inset 0 0 0 1000px rgba(28,29,30,0.85)"></div>
+        <div class="shadow-name">massive-inset</div>
+        <div class="shadow-value">inset 0 0 0 1000px #1c1d1e</div>
+        <div style="font-size:11px;color:var(--brand-color);font-weight:500">반투명 오버레이 트릭</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §11 Layout Patterns -->
+  <section class="section" id="layout">
+    <div class="section-label">Patterns</div>
+    <h2 class="section-title">레이아웃 패턴 — halftone 배경이 핵심</h2>
+    <p class="section-sub">Hero는 단순 다크가 아닌 #2C6D4C SVG halftone 패턴 오버레이가 필수다. 없으면 Neon이 아니다.</p>
+
+    <div class="layout-demo">
+      <h4>Hero</h4>
+      <div class="layout-spec">
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Background</span>
+          <span class="layout-spec-val">#0C0D0D + #2C6D4C SVG halftone 패턴 오버레이</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">H1</span>
+          <span class="layout-spec-val">48-72px / weight 700 / tracking -0.025em</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">CTA</span>
+          <span class="layout-spec-val">#00E599 fill + #0C0D0D text, radius 38px</span>
+        </div>
+      </div>
+      <div class="layout-code">.hero {
+  background: #0C0D0D url('/patterns/halftone.svg') center/cover;
+}
+/* CTA 버튼 텍스트는 흰색이 아닌 다크 색! */
+.btn-cta { color: #0C0D0D; background: #00E599; }</div>
+    </div>
+
+    <div class="layout-demo">
+      <h4>Section Rhythm</h4>
+      <div class="layout-code">section {
+  padding: 80px 25px;
+  max-width: 1280px;
+  margin-inline: auto;
+}
+/* viewport-padding: 25px — 특이값 */</div>
+    </div>
+  </section>
+
+  <!-- §12 Components -->
+  <section class="section" id="components">
+    <div class="section-label">Patterns</div>
+    <h2 class="section-title">컴포넌트</h2>
+    <p class="section-sub">pill 38px이 버튼의 기본형. CTA 텍스트 색은 반드시 #0C0D0D — 네온 그린 위에 흰색을 쓰면 Neon답지 않다.</p>
+
+    <!-- 12.1 Primary CTA -->
+    <div class="cmp-section">
+      <h3>Primary CTA (Neon Green Pill)</h3>
+      <div class="cmp-demo">
+        <button class="btn-primary-demo">Sign up free</button>
+        <button class="btn-secondary-demo">Read docs</button>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;a class="btn-primary"&gt;Sign up free&lt;/a&gt;
+
+/* bg: #00E599  hover: #34D59A
+   color: #0C0D0D  (흰색 아닌 다크!)
+   padding: 16px 32px  radius: 38px  weight: 500 */</pre>
+      </div>
+    </div>
+
+    <!-- 12.3 Card -->
+    <div class="cmp-section">
+      <h3>Card</h3>
+      <div class="cmp-demo">
+        <div class="demo-card">
+          <h3>Branching</h3>
+          <p>Database branches in milliseconds.</p>
+        </div>
+        <div class="demo-card">
+          <h3>Autoscaling</h3>
+          <p>Scale to zero. Scale to any size.</p>
+        </div>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;div class="card"&gt;
+  &lt;h3&gt;Branching&lt;/h3&gt;
+  &lt;p&gt;Database branches in milliseconds.&lt;/p&gt;
+&lt;/div&gt;
+
+/* bg: #18191B  border: 1px solid #303236
+   radius: 14px  padding: 32px */</pre>
+      </div>
+    </div>
+
+    <!-- 12.4 Code Block (Shiki) -->
+    <div class="cmp-section">
+      <h3>Code Block (Shiki VSCode dark+)</h3>
+      <div class="cmp-demo" style="background:#0a0b0b">
+        <div class="demo-shiki">
+          <span class="sh-kw">SELECT</span> id, name, created_at<br>
+          <span class="sh-kw">FROM</span> users<br>
+          <span class="sh-kw">WHERE</span> status = <span class="sh-str">'active'</span><br>
+          <span class="sh-com">-- #131415 background, Shiki syntax colors</span>
+        </div>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;pre class="shiki"&gt;&lt;code&gt;SELECT * FROM users;&lt;/code&gt;&lt;/pre&gt;
+
+/* bg: #131415 (shiki-color-text)
+   font: var(--font-geist-mono)
+   padding: 20px 24px  radius: 10px */</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- §14 + §15 Code Export -->
+  <section class="section" id="code">
+    <div class="section-label">Code</div>
+    <h2 class="section-title">CSS · Tailwind 설정</h2>
+    <p class="section-sub">바로 복사해 사용할 수 있는 드롭인 스니펫이다.</p>
+
+    <div class="code-export-wrap">
+      <div class="code-export-header">
+        <div class="code-tabs">
+          <button class="code-tab active" data-tab="css">CSS 스니펫</button>
+          <button class="code-tab" data-tab="tailwind">Tailwind 설정</button>
+        </div>
+        <button class="copy-btn" style="position:static;margin:8px 0" onclick="copyActivePane()">Copy</button>
+      </div>
+      <div class="code-pane active" data-pane="css">
+        <pre>/* Neon — copy into your root stylesheet */
+:root {
+  /* Fonts */
+  --font-inter:      "Inter", "Inter Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-geist-mono: "GeistMono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Brand */
+  --color-brand:       #00E599;
+  --color-brand-hover: #34D59A;
+  --color-brand-tint:  #E4F1EB;
+  --color-decor-deep:  #2C6D4C;
+
+  /* Surface */
+  --color-bg-canvas:  #0C0D0D;
+  --color-surface-0:  #131415;
+  --color-surface-1:  #18191B;
+  --color-surface-2:  #242628;
+  --color-surface-3:  #303236;
+  --color-border:     #494B50;
+
+  /* Text */
+  --color-text-max:       #FFFFFF;
+  --color-text-high:      #C9CBCF;
+  --color-text-muted:     #AFB1B6;
+  --color-text-secondary: #94979E;
+
+  /* Tailwind v4 base */
+  --spacing: 0.25rem;
+
+  /* Radius — soft pill */
+  --radius-sm:   10px;
+  --radius-md:   14px;
+  --radius-lg:   33px;
+  --radius-pill: 38px;
+
+  /* Shiki */
+  --shiki-color-text: #131415;
+}
+
+body {
+  background: var(--color-bg-canvas);
+  color: var(--color-text-max);
+  font-family: var(--font-inter);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+code, pre { font-family: var(--font-geist-mono); }
+
+.btn-primary {
+  background: var(--color-brand);
+  color: var(--color-bg-canvas);   /* 흰색 아닌 다크 텍스트! */
+  padding: 16px 32px;
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+}
+.btn-primary:hover { background: var(--color-brand-hover); }</pre>
+      </div>
+      <div class="code-pane" data-pane="tailwind">
+        <pre>// tailwind.config.js — Neon (Tailwind v4)
+module.exports = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          DEFAULT: '#00E599',
+          hover:   '#34D59A',
+          tint:    '#E4F1EB',
+          decor:   '#2C6D4C',
+        },
+        bg: {
+          canvas: '#0C0D0D',
+          'surface-0': '#131415',
+          'surface-1': '#18191B',
+          'surface-2': '#242628',
+          'surface-3': '#303236',
+        },
+        text: {
+          max:       '#FFFFFF',
+          high:      '#C9CBCF',
+          muted:     '#AFB1B6',
+          secondary: '#94979E',
+        },
+        border: { DEFAULT: '#494B50' },
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)', 'Inter', 'Inter Fallback', 'ui-sans-serif', 'sans-serif'],
+        mono: ['var(--font-geist-mono)', 'GeistMono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+      },
+      borderRadius: {
+        sm: '10px', md: '14px', lg: '33px', pill: '38px', 'pill-alt': '40px',
+      },
+    },
+  },
+  plugins: [require('@tailwindcss/typography')],
+};</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- §16 Do / Don't -->
+  <section class="section" id="dodont">
+    <div class="section-label">Rules</div>
+    <h2 class="section-title">자주 틀리는 것들</h2>
+    <p class="section-sub">CTA 텍스트 색과 radius가 가장 흔한 실수다. "flat no gradients" 원칙은 이 사이트에 해당하지 않는다.</p>
+
+    <div class="dd-grid">
+      <div class="dd-card dd-card--do">
+        <div class="dd-card__badge">DO</div>
+        <ul>
+          <li>브랜드 네온 그린 <code>#00E599</code> + hover <code>#34D59A</code>. 연한 tint <code>#E4F1EB</code>.</li>
+          <li>다크 캔버스 <code>#0C0D0D</code> + surface 9-tier (<code>#131415</code> → <code>#494B50</code>).</li>
+          <li>Mono 폰트는 <strong>GeistMono</strong> (Vercel OSS), <code>var(--font-geist-mono)</code>.</li>
+          <li><strong>Radius 38-40px pill</strong> 스타일. <code>rounded-[38px]</code>.</li>
+          <li>CTA 텍스트는 <strong><code>#0C0D0D</code></strong> (다크) — 네온 그린 위에 검정 텍스트.</li>
+          <li><strong>Decorative <code>#2C6D4C</code> halftone</strong> gradient를 hero 배경으로.</li>
+          <li>Shiki로 코드 블록 하이라이팅 (<code>--shiki-color-text: #131415</code>).</li>
+        </ul>
+      </div>
+      <div class="dd-card dd-card--dont">
+        <div class="dd-card__badge">DON'T</div>
+        <ul>
+          <li><code>JetBrains Mono</code> 금지 → <code>GeistMono</code>.</li>
+          <li>"No gradients" 원칙 따르지 말 것 → 실제는 <code>#2C6D4C</code> halftone 3,602회.</li>
+          <li>Sharp 4-8px radius 금지 → soft 38-40px pill이 기본.</li>
+          <li>CTA 텍스트 색을 흰색으로 하지 말 것 → 네온 그린 배경 위에는 <code>#0C0D0D</code>.</li>
+          <li><code>#FF3621</code> (Databricks) / <code>#0055FF</code> customer logo hex를 브랜드로 착각 금지.</li>
+          <li>Pure black <code>#000</code> canvas 금지 → <code>#0C0D0D</code> 사용.</li>
+          <li>Display weight 700을 본문에 적용 금지 → 본문은 500/600.</li>
+          <li><code>IBM Plex Sans</code>를 주 폰트로 쓰지 말 것 → 레거시 잔존, Inter가 현재 주.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script>
+// TOC active state
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector('.toc a[href="#' + e.target.id + '"]');
+      if (link) link.classList.add('active');
+    }
+  });
+}, {rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s => observer.observe(s));
+
+// Code tabs
+document.querySelectorAll('.code-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    const wrap = tab.closest('.code-export-wrap');
+    wrap.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+    wrap.querySelectorAll('.code-pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    wrap.querySelector('.code-pane[data-pane="' + target + '"]').classList.add('active');
+  });
+});
+
+// Copy buttons
+function copyCode(btn) {
+  const pre = btn.nextElementSibling;
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+function copyActivePane() {
+  const pane = document.querySelector('.code-pane.active pre');
+  if (!pane) return;
+  navigator.clipboard.writeText(pane.textContent).then(() => {
+    const btn = document.querySelector('.code-export-header .copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+</script>
+</body>
+</html>

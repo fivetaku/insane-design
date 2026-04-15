@@ -1,0 +1,1195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Warp -- Design System Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root {
+    --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --bg:#fafafa; --fg:#09090b; --card:#fff;
+    --muted:#f4f4f5; --muted-fg:#71717a; --subtle:#52525b;
+    --border:#e4e4e7; --border-str:#d4d4d8;
+    --accent:#18181b;
+    --radius:.5rem; --radius-lg:.75rem;
+    --brand-color:#000000;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;scroll-padding-top:32px;}
+  body{
+    font-family:var(--font-sans);
+    font-feature-settings:"ss01" 1,"ss02" 1;
+    font-size:14px;font-weight:400;line-height:1.6;
+    color:var(--fg);background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    word-break:keep-all;overflow-wrap:break-word;
+  }
+  ::selection{background:var(--accent);color:#fafafa;}
+  a{color:inherit;text-decoration:none;}
+  code,kbd,samp{font-family:var(--font-mono);font-size:.85em;}
+  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+
+  .layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1440px;margin:0 auto;}
+
+  .toc{
+    position:sticky;top:0;align-self:start;height:100vh;
+    padding:28px 24px 28px 40px;
+    border-right:1px solid var(--border);
+    display:flex;flex-direction:column;gap:22px;
+    overflow-y:auto;
+  }
+  .toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+  .toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+  .toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+  .toc__group{display:flex;flex-direction:column;gap:2px;}
+  .toc__group-label{
+    font-family:var(--font-mono);font-size:10px;
+    color:var(--border-str);text-transform:uppercase;
+    letter-spacing:.1em;padding:0 10px;margin-bottom:4px;
+  }
+  .toc__list{list-style:none;display:flex;flex-direction:column;gap:1px;}
+  .toc__list a{
+    display:grid;grid-template-columns:26px 1fr;align-items:center;
+    padding:6px 10px;font-size:13px;color:var(--muted-fg);
+    border-radius:var(--radius);transition:background 140ms,color 140ms;
+  }
+  .toc__list a:hover{background:var(--muted);color:var(--fg);}
+  .toc__num{font-family:var(--font-mono);font-size:10px;color:var(--border-str);}
+  .toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+
+  .main{min-width:0;}
+  section{padding:72px 64px;max-width:1040px;border-bottom:1px solid var(--border);}
+  section:last-of-type{border-bottom:none;}
+  .section__num{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:10px;}
+  .section__title{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.35;margin-bottom:12px;}
+  .section__lede{font-size:15px;color:var(--subtle);max-width:720px;line-height:1.7;margin-bottom:40px;}
+
+  .hero{padding:80px 64px 64px;border-bottom:1px solid var(--border);}
+  .hero__eye{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:5px 12px;background:var(--muted);border:1px solid var(--border);
+    border-radius:999px;font-family:var(--font-mono);font-size:11px;
+    color:var(--subtle);margin-bottom:24px;
+  }
+  .hero__eye .dot{width:6px;height:6px;border-radius:99px;background:var(--brand-color);}
+  .hero__title{font-size:44px;font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px;max-width:780px;}
+  .hero__title .sub{color:var(--muted-fg);font-weight:400;}
+  .hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:680px;margin-bottom:32px;}
+
+    .hero__screenshot{
+    margin-bottom:32px;max-width:880px;
+    border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);
+  }
+  .hero__screenshot img{width:100%;height:auto;display:block;}
+
+  .qs{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:28px 32px;
+    max-width:880px;margin-top:8px;
+  }
+  .qs__head{
+    display:flex;align-items:center;gap:12px;
+    padding-bottom:16px;margin-bottom:20px;
+    border-bottom:1px solid var(--border);
+  }
+  .qs__head-label{
+    font-family:var(--font-mono);font-size:11px;
+    color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;
+  }
+  .qs__head-title{font-size:15px;font-weight:600;}
+  .qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .qs__step{
+    background:#08090a;color:#f7f8f8;
+    border-radius:var(--radius);padding:14px 16px;
+    display:flex;flex-direction:column;gap:6px;
+    font-family:var(--font-mono);font-size:11px;line-height:1.55;
+    border:1px solid #1f2023;
+  }
+  .qs__step-label{
+    color:#7d8ba4;font-size:10px;letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+  .qs__step code{color:#f7f8f8;font-size:11px;}
+  .qs__step b{color:#c3d3ff;font-weight:500;}
+  .qs__warn{
+    margin-top:16px;padding:14px 18px;
+    background:#fef2f2;border:1px solid #fecaca;
+    border-left:3px solid #dc2626;
+    border-radius:var(--radius);
+    font-size:13px;color:#991b1b;line-height:1.6;
+  }
+  .qs__warn b{color:#7f1d1d;font-weight:600;}
+  .qs__warn code{background:#fee2e2;padding:1px 6px;border-radius:3px;font-size:12px;}
+
+  .hero__stats{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    max-width:880px;margin-top:32px;
+    border:1px solid var(--border);border-radius:var(--radius-lg);
+    background:var(--card);overflow:hidden;
+  }
+  .stat{padding:20px 24px;border-right:1px solid var(--border);}
+  .stat:last-child{border-right:none;}
+  .stat__label{
+    font-family:var(--font-mono);font-size:10px;
+    color:var(--muted-fg);text-transform:uppercase;
+    letter-spacing:.04em;margin-bottom:8px;
+  }
+  .stat__val{font-size:18px;font-weight:600;letter-spacing:-.01em;}
+  .stat__val--mono{font-family:var(--font-mono);font-size:15px;}
+  .stat__hint{font-size:11px;color:var(--muted-fg);margin-top:4px;line-height:1.4;}
+
+  .prov{
+    border:1px solid var(--border);border-radius:var(--radius-lg);
+    background:var(--card);overflow:hidden;max-width:820px;
+  }
+  .prov__row{
+    display:grid;grid-template-columns:180px 1fr;
+    padding:14px 24px;border-bottom:1px solid var(--border);
+    font-size:13px;align-items:center;
+  }
+  .prov__row:last-child{border-bottom:none;}
+  .prov__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .prov__v code{font-size:12px;padding:2px 6px;background:var(--muted);border-radius:4px;}
+
+  .ts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:940px;}
+  .ts__item{
+    padding:20px 22px;background:var(--card);
+    border:1px solid var(--border);border-radius:var(--radius-lg);
+  }
+  .ts__head{
+    font-family:var(--font-mono);font-size:10px;
+    color:var(--muted-fg);text-transform:uppercase;
+    letter-spacing:.06em;margin-bottom:10px;
+  }
+  .ts__body{font-size:14px;line-height:1.7;}
+  .ts__body code{background:var(--muted);padding:1px 6px;border-radius:4px;font-size:12px;}
+  .ts__body b{font-weight:600;color:var(--fg);}
+
+  .fs-card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:24px 28px;
+    max-width:820px;margin-bottom:24px;
+  }
+  .fs-card__row{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+  .fs-card__row:last-child{border-bottom:none;padding-bottom:0;}
+  .fs-card__row:first-child{padding-top:0;}
+  .fs-card__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .fs-card__v code{background:var(--muted);padding:1px 6px;border-radius:4px;font-size:12px;}
+  .fs-card__v b{font-weight:600;}
+
+  .type-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px;}
+  .type-row{
+    display:grid;grid-template-columns:minmax(0,1fr) 260px;
+    gap:32px;align-items:baseline;
+    padding:20px 24px;border-bottom:1px solid var(--border);
+  }
+  .type-row:last-child{border-bottom:none;}
+  .type-row__s{color:var(--fg);}
+  .type-row__spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.6;}
+  .type-row__spec .tk{color:var(--fg);display:block;margin-bottom:2px;}
+  .type-row__spec b{color:var(--fg);font-weight:600;}
+
+  .type-sub{
+    font-family:var(--font-mono);font-size:10px;
+    color:var(--muted-fg);text-transform:uppercase;letter-spacing:.08em;
+    margin-bottom:12px;
+  }
+
+  .callout{
+    margin-top:16px;padding:16px 20px;
+    background:var(--muted);border:1px solid var(--border);
+    border-left:2px solid var(--accent);
+    border-radius:var(--radius);
+    font-size:13px;color:var(--subtle);line-height:1.75;max-width:820px;
+  }
+  .callout b{color:var(--fg);font-weight:600;}
+  .callout code{background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px;border:1px solid var(--border);}
+
+  .ramp-group{margin-bottom:28px;}
+  .ramp-label{
+    font-family:var(--font-mono);font-size:11px;margin-bottom:10px;
+    display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;
+  }
+  .ramp-label b{color:var(--fg);font-weight:600;}
+  .ramp-label .muted{color:var(--muted-fg);font-family:var(--font-sans);}
+  .ramp{
+    display:grid;gap:1px;background:var(--border);
+    border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+  }
+  .ramp--5{grid-template-columns:repeat(5,minmax(0,1fr));}
+  .ramp--7{grid-template-columns:repeat(7,minmax(0,1fr));}
+  .ramp--8{grid-template-columns:repeat(8,minmax(0,1fr));}
+  .ramp--10{grid-template-columns:repeat(10,minmax(0,1fr));}
+  .ramp--15{grid-template-columns:repeat(15,minmax(0,1fr));}
+  .sw{
+    aspect-ratio:1/2.2;display:flex;flex-direction:column;
+    justify-content:flex-end;padding:8px 6px;
+    font-family:var(--font-mono);font-size:9px;line-height:1.3;
+    transition:transform 160ms;position:relative;cursor:default;
+  }
+  .sw:hover{transform:scale(1.06);z-index:2;box-shadow:0 6px 18px rgba(0,0,0,.12);}
+  .sw--l{color:#09090b;}
+  .sw--d{color:#fff;}
+  .sw .n{opacity:.7;margin-bottom:2px;}
+  .sw.is-anchor::after{content:"*";position:absolute;top:6px;right:6px;font-size:9px;}
+
+  .sem-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+  .sem-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;display:flex;align-items:center;gap:16px;}
+  .sem-card__chip{width:44px;height:44px;border-radius:var(--radius);flex-shrink:0;border:1px solid rgba(0,0,0,.08);}
+  .sem-card__n{font-size:14px;font-weight:500;margin-bottom:2px;}
+  .sem-card__h{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:2px;}
+  .sem-card__u{font-size:12px;color:var(--muted-fg);}
+
+  .alias-table{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:16px 20px;
+    font-family:var(--font-mono);font-size:11px;line-height:1.9;
+  }
+  .alias-table .row{
+    display:grid;grid-template-columns:minmax(240px,auto) 20px minmax(0,1fr);
+    gap:12px;padding:2px 0;border-bottom:1px solid var(--border);
+  }
+  .alias-table .row:last-child{border-bottom:none;}
+  .alias-table .k{color:var(--fg);}
+  .alias-table .arrow{color:var(--muted-fg);}
+  .alias-table .v{color:var(--muted-fg);}
+  .alias-table .v .val{color:var(--fg);}
+  .alias-table .v .kr{font-family:var(--font-sans);color:var(--muted-fg);}
+
+  .dom-chart{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:20px 24px;
+  }
+  .dom-bar{display:flex;height:36px;border-radius:var(--radius);overflow:hidden;margin-bottom:16px;border:1px solid var(--border);}
+  .dom-bar__seg{position:relative;transition:flex 200ms;}
+  .dom-bar__seg:hover{flex-grow:1.08;}
+  .dom-list{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 20px;font-family:var(--font-mono);font-size:11px;}
+  .dom-list .item{display:flex;align-items:center;gap:8px;padding:3px 0;}
+  .dom-list .chip{width:10px;height:10px;border-radius:2px;border:1px solid rgba(0,0,0,.08);flex-shrink:0;}
+  .dom-list .hex{color:var(--fg);}
+  .dom-list .cnt{color:var(--muted-fg);margin-left:auto;}
+
+  .space-note{
+    font-size:13px;color:var(--subtle);max-width:720px;
+    margin-bottom:24px;padding:14px 20px;
+    background:var(--muted);border:1px solid var(--border);
+    border-left:2px solid var(--accent);border-radius:var(--radius);line-height:1.7;
+  }
+  .space-note b{color:var(--fg);}
+  .space-note code{background:var(--card);padding:1px 5px;border-radius:3px;font-size:11px;border:1px solid var(--border);}
+
+  .space-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+  .space-row{
+    display:grid;grid-template-columns:200px 70px 1fr;
+    gap:16px;padding:8px 20px;
+    border-bottom:1px solid var(--border);align-items:center;
+    font-family:var(--font-mono);font-size:11px;
+  }
+  .space-row:last-child{border-bottom:none;}
+  .space-row .tk{color:var(--fg);}
+  .space-row .val{color:var(--muted-fg);text-align:right;}
+  .space-row .bar{height:8px;background:var(--accent);border-radius:1px;}
+
+  .rad-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+  .rad-card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:16px 12px;
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+  }
+  .rad-box{width:100%;aspect-ratio:1;background:var(--muted);border:1px solid var(--border-str);}
+  .rad-card__n{font-family:var(--font-mono);font-size:11px;font-weight:500;}
+  .rad-card__v{font-size:10px;color:var(--muted-fg);text-align:center;line-height:1.4;}
+  .rad-card__v .px{font-family:var(--font-mono);}
+
+  .motion-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:820px;}
+  .motion-row{display:grid;grid-template-columns:220px 120px 1fr;gap:20px;padding:14px 20px;border-bottom:1px solid var(--border);font-size:13px;align-items:center;}
+  .motion-row:last-child{border-bottom:none;}
+  .motion-row .pt{font-family:var(--font-mono);font-size:11px;color:var(--fg);}
+  .motion-row .val{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .motion-row .use{color:var(--subtle);line-height:1.55;}
+
+  .lp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  .lp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;}
+  .lp-card h3{font-size:13px;font-weight:600;margin-bottom:12px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted-fg);}
+  .lp-card ul{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--subtle);line-height:1.6;}
+  .lp-card ul li{padding-left:14px;position:relative;}
+  .lp-card ul li::before{content:"*";position:absolute;left:2px;color:var(--muted-fg);font-weight:700;}
+  .lp-card ul li b{color:var(--fg);font-weight:600;}
+  .lp-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;}
+  .lp-card pre{background:#08090a;color:#f7f8f8;padding:14px 16px;border-radius:var(--radius);font-family:var(--font-mono);font-size:11px;line-height:1.65;overflow-x:auto;margin-top:12px;}
+
+  .cmp-block{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:12px;
+  }
+  .cmp-block__head{
+    display:flex;align-items:baseline;gap:12px;
+    padding-bottom:14px;margin-bottom:18px;
+    border-bottom:1px solid var(--border);flex-wrap:wrap;
+  }
+  .cmp-block__name{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--fg);}
+  .cmp-block__desc{font-size:12px;color:var(--muted-fg);}
+  .cmp-block__body{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:32px;align-items:start;}
+  .cmp-demo{
+    padding:24px;border-radius:var(--radius);
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;min-height:88px;
+  }
+  .cmp-spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.8;}
+  .cmp-spec code{color:var(--fg);font-size:11px;}
+  .cmp-spec .kr{font-family:var(--font-sans);display:block;margin-top:8px;color:var(--subtle);font-size:12px;line-height:1.55;}
+
+  .voice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  .voice-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;}
+  .voice-card__label{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+  .voice-card__rule{font-size:13px;color:var(--subtle);line-height:1.6;margin-bottom:12px;}
+  .voice-card__ex{
+    padding:14px 16px;background:var(--muted);border-radius:var(--radius);
+    font-family:"Inter",-apple-system,sans-serif;
+    font-weight:400;color:var(--fg);font-size:15px;line-height:1.5;
+    border-left:2px solid var(--brand-color);
+  }
+
+  .code-export{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:900px;}
+  .code-tabs{
+    display:flex;gap:0;
+    border-bottom:1px solid var(--border);
+    background:var(--muted);
+  }
+  .code-tabs button{
+    padding:12px 18px;font-family:var(--font-mono);font-size:11px;
+    color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;
+    border-bottom:2px solid transparent;
+  }
+  .code-tabs button.is-active{
+    color:var(--fg);background:var(--card);
+    border-bottom-color:var(--accent);
+  }
+  .code-copy{
+    margin-left:auto;padding:12px 18px;
+    font-family:var(--font-mono);font-size:10px;
+    color:var(--muted-fg);
+  }
+  .code-copy:hover{color:var(--fg);}
+  .code-pane{display:none;padding:0;}
+  .code-pane.is-active{display:block;}
+  .code-pane pre{
+    background:#08090a;color:#f7f8f8;
+    padding:24px 28px;
+    font-family:var(--font-mono);font-size:12px;line-height:1.65;
+    overflow-x:auto;max-height:560px;margin:0;
+  }
+  .code-pane .k{color:#92adff;}
+  .code-pane .v{color:#f7f8f8;}
+  .code-pane .c{color:#64748d;font-style:italic;}
+
+  .dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .dd-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;}
+  .dd-card h3{
+    font-family:var(--font-mono);font-size:11px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px;
+    display:inline-flex;align-items:center;gap:6px;
+    padding:4px 12px;border-radius:999px;
+  }
+  .dd-card--do h3{background:#dcfce7;color:#166534;}
+  .dd-card--dont h3{background:#fee2e2;color:#991b1b;}
+  .dd-card ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .dd-card ul li{font-size:13px;line-height:1.7;color:var(--subtle);padding-left:20px;position:relative;}
+  .dd-card ul li::before{position:absolute;left:0;top:3px;font-family:var(--font-mono);font-size:11px;}
+  .dd-card--do ul li::before{content:"O";color:#16a34a;}
+  .dd-card--dont ul li::before{content:"X";color:#dc2626;}
+  .dd-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;font-family:var(--font-mono);}
+  .dd-card ul li b{color:var(--fg);font-weight:600;}
+
+  .warn-banner{
+    margin-bottom:28px;padding:18px 24px;
+    background:#fef9c3;border:1px solid #fde68a;
+    border-left:3px solid #f59e0b;
+    border-radius:var(--radius);
+    font-size:13px;color:#92400e;line-height:1.7;max-width:820px;
+  }
+  .warn-banner b{color:#78350f;font-weight:600;}
+  .warn-banner code{background:#fef3c7;padding:1px 6px;border-radius:3px;font-size:12px;}
+
+  .rfoot{padding:40px 64px;display:flex;justify-content:space-between;align-items:center;gap:32px;font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .rfoot .kr{font-family:var(--font-sans);font-size:12px;}
+
+  @media (max-width:1024px){
+    .layout{grid-template-columns:1fr;}
+    .toc{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:24px 32px;}
+    .hero,section,.rfoot{padding-left:32px;padding-right:32px;}
+    .cmp-block__body,.ts,.lp-grid,.voice-grid,.qs__grid{grid-template-columns:1fr;}
+    .hero__stats{grid-template-columns:1fr 1fr;}
+    .stat{border-right:none;border-bottom:1px solid var(--border);}
+    .stat:nth-child(even){border-right:none;}
+    .dd-grid,.sem-row{grid-template-columns:1fr;}
+    .rad-grid{grid-template-columns:repeat(3,1fr);}
+    .dom-list{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="toc">
+    <div class="toc__brand">
+      <div class="toc__brand-name">Warp</div>
+      <div class="toc__brand-sub">Design System Report</div>
+    </div>
+
+    <div class="toc__group">
+      <div class="toc__group-label">Overview</div>
+      <ul class="toc__list">
+        <li><a href="#hero"><span class="toc__num">00</span>한눈에 보기</a></li>
+        <li><a href="#provenance"><span class="toc__num">01</span>출처와 수집 기준</a></li>
+        <li><a href="#stack"><span class="toc__num">02</span>테크 스택</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Foundations</div>
+      <ul class="toc__list">
+        <li><a href="#typography"><span class="toc__num">03</span>타이포그래피</a></li>
+        <li><a href="#colors"><span class="toc__num">04</span>컬러</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Tokens</div>
+      <ul class="toc__list">
+        <li><a href="#spacing"><span class="toc__num">05</span>스페이싱</a></li>
+        <li><a href="#radius"><span class="toc__num">06</span>라디우스</a></li>
+        <li><a href="#motion"><span class="toc__num">07</span>모션</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Patterns</div>
+      <ul class="toc__list">
+        <li><a href="#layout"><span class="toc__num">08</span>레이아웃 패턴</a></li>
+        <li><a href="#components"><span class="toc__num">09</span>컴포넌트</a></li>
+        <li><a href="#voice"><span class="toc__num">10</span>라이팅 원칙</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Code</div>
+      <ul class="toc__list">
+        <li><a href="#export"><span class="toc__num">11</span>CSS &middot; Tailwind</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Rules</div>
+      <ul class="toc__list">
+        <li><a href="#verdict"><span class="toc__num">12</span>Do / Don't</a></li>
+      </ul>
+    </div>
+
+    <div class="toc__foot">
+      real/warp/<br>
+      DESIGN.claude.manual.md<br>
+      2026-04-11
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <section id="hero" class="hero">
+      <div class="hero__eye"><span class="dot"></span>Design System Report</div>
+      <h1 class="hero__title">Warp <span class="sub">-- --framer-*</span></h1>
+      <p class="hero__sub">
+        https://warp.dev 가 실제로 서빙하는 CSS 에서 직접 뽑은 디자인 토큰, 타이포그래피, 컴포넌트 스펙.
+        모든 값은 CSS 커스텀 프로퍼티를 파싱한 결과이고, AI 추론이나 추측은 섞이지 않았다.
+        스크린샷: <code>screenshots/light-hero.png</code>
+      </p>
+      <div class="hero__screenshot">
+        <img src="screenshots/hero-cropped.png" alt="warp hero screenshot">
+      </div>
+
+
+      <div class="warn-banner">
+        <b>주의: 마케팅 사이트 vs 터미널 앱</b><br>
+        이 문서는 warp.dev <b>마케팅 사이트</b>만 다룬다. 터미널 앱 UI (다크 테마, cyan <code>#01A4FF</code>)와는 완전히 다른 디자인 표면이다. 마케팅 사이트는 따뜻한 <b>크림 아이보리</b> (<code>#FAF9F6</code>) 배경의 <b>라이트 테마</b>이며, 채도 있는 컬러가 CSS 에 존재하지 않는 <b>near-monochrome</b> 디자인이다.
+      </div>
+
+      <div class="qs">
+        <div class="qs__head">
+          <span class="qs__head-label">Quick Start</span>
+          <span class="qs__head-title">5분 안에 Warp처럼 만들기 -- 3가지만 하면 80%</span>
+        </div>
+        <div class="qs__grid">
+          <div class="qs__step">
+            <span class="qs__step-label">1 . 폰트</span>
+            <code>body {
+  font-family: <b>"Inter"</b>,
+    -apple-system, sans-serif;
+  font-weight: <b>400</b>;
+}</code>
+          </div>
+          <div class="qs__step">
+            <span class="qs__step-label">2 . 배경 + 텍스트</span>
+            <code>:root {
+  --bg: <b>#FAF9F6</b>;
+  --fg: <b>#000000</b>;
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+}</code>
+          </div>
+          <div class="qs__step">
+            <span class="qs__step-label">3 . CTA</span>
+            <code>.cta {
+  background: <b>#000000</b>;
+  color: <b>#FAF9F6</b>;
+  border-radius: <b>6px</b>;
+  font-weight: <b>500</b>;
+}</code>
+          </div>
+        </div>
+        <div class="qs__warn">
+          <b>절대 하지 말아야 할 것 하나</b>: 배경을 <code>#FFFFFF</code> 순백이나 <code>#0E0E10</code> 다크로 두는 것. Warp 마케팅 사이트는 따뜻한 크림 아이보리 <code>#FAF9F6</code>이다. 터미널 앱과 마케팅 사이트를 혼동하면 전체 톤이 <b>정반대</b>가 된다.
+        </div>
+      </div>
+
+      <div class="hero__stats">
+        <div class="stat">
+          <div class="stat__label">Source</div>
+          <div class="stat__val stat__val--mono">warp.dev</div>
+          <div class="stat__hint">768,998 bytes (Next.js, Framer)</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Fetched</div>
+          <div class="stat__val">2026.04.11</div>
+          <div class="stat__hint">1 인라인, 총 252,569자</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Primary Font</div>
+          <div class="stat__val stat__val--mono">Inter</div>
+          <div class="stat__hint">weight normal = 400</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Theme</div>
+          <div class="stat__val stat__val--mono">#FAF9F6</div>
+          <div class="stat__hint">light (cream ivory)</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="provenance">
+      <div class="section__num">01 . Provenance</div>
+      <h2 class="section__title">출처와 수집 기준</h2>
+      <p class="section__lede">
+        URL, fetch 시점, 파싱 방식까지 모두 CSS 번들에서 직접 뽑은 값이다.
+      </p>
+      <div class="prov">
+        <div class="prov__row"><span class="prov__k">Source URL</span><span class="prov__v"><code>https://warp.dev</code></span></div>
+        <div class="prov__row"><span class="prov__k">Fetched</span><span class="prov__v">2026-04-11</span></div>
+        <div class="prov__row"><span class="prov__k">Extractor</span><span class="prov__v"><code>real/fetch_all.py</code> (curl + Chrome UA)</span></div>
+        <div class="prov__row"><span class="prov__k">HTML size</span><span class="prov__v">768,998 bytes (Next.js SSR, Framer 호스팅)</span></div>
+        <div class="prov__row"><span class="prov__k">CSS files</span><span class="prov__v">0개 외부 + 1 인라인, 총 252,569자</span></div>
+        <div class="prov__row"><span class="prov__k">Token prefix</span><span class="prov__v"><code>--framer-*</code> (Framer 기반 CSS 변수)</span></div>
+        <div class="prov__row"><span class="prov__k">CSS vars</span><span class="prov__v">89개 커스텀 프로퍼티</span></div>
+        <div class="prov__row"><span class="prov__k">Method</span><span class="prov__v">CSS 커스텀 프로퍼티 직접 파싱 -- AI 추론 없음</span></div>
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="section__num">02 . Tech Stack</div>
+      <h2 class="section__title">테크 스택</h2>
+      <p class="section__lede">
+        프레임워크, 디자인 시스템, CSS 아키텍처, 테마, 폰트 로딩 방식.
+      </p>
+      <div class="ts">
+        <div class="ts__item">
+          <div class="ts__head">Framework</div>
+          <div class="ts__body">Next.js (<b>Framer 호스팅</b> -- framerusercontent.com 에셋 서빙)</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">Design System</div>
+          <div class="ts__body">없음 (커스텀) -- 토큰 prefix <code>--framer-*</code></div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">CSS Architecture</div>
+          <div class="ts__body">단일 계층 인라인 (Framer 빌드 산출물, 해시 클래스)</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">Default Theme</div>
+          <div class="ts__body"><b>light</b> (bg = <code>#FAF9F6</code> cream ivory)</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">Font Loading</div>
+          <div class="ts__body">Google Fonts + Framer CDN woff2 (<code>Inter</code>, <code>Geist Mono</code>, <code>Matter</code>)</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">Brand Anchor</div>
+          <div class="ts__body"><code>#000000</code> -- monochrome. 채도 있는 브랜드 컬러 없이 검정을 기반으로 운영</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="typography">
+      <div class="section__num">03 . Typography</div>
+      <h2 class="section__title">타이포그래피</h2>
+      <p class="section__lede">
+        폰트 스택, 굵기 정의, 타이포그래피 스케일. Matter Regular 는 유료 라이선스 (Displaay.co).
+      </p>
+
+      <div class="type-sub">Font stack</div>
+      <div class="fs-card">
+        <div class="fs-card__row">
+          <span class="fs-card__k">Body font</span>
+          <span class="fs-card__v"><code>Inter</code> (Google Fonts, 오픈소스) -- 59회 사용</span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Display font</span>
+          <span class="fs-card__v"><code>Matter Regular</code> / <code>Matter Medium</code> (Displaay, 유료) -- 6회 사용</span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Code font</span>
+          <span class="fs-card__v"><code>Geist Mono</code> (Vercel, 오픈소스) -- 6회 사용</span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Additional mono</span>
+          <span class="fs-card__v"><code>Fragment Mono</code> (3), <code>DM Mono</code> (2), <code>Matter Mono Regular</code> (2)</span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Weight normal / bold</span>
+          <span class="fs-card__v"><code>400</code> / <code>600</code></span>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>라이선스 주의</b>: <code>Matter Regular</code> / <code>Matter Medium</code> 은 Displaay.co 의 유료 라이선스 폰트다. 대체하려면 <code>Inter</code> 를 그대로 쓰거나, <code>DM Sans</code> 나 <code>Satoshi</code> 가 비교적 가까운 대체재. <code>Matter SQ</code> (Square variant) 도 사이트에서 사용 중.
+      </div>
+
+      <div class="type-sub" style="margin-top:28px">Typography Scale</div>
+      <div class="type-table">
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:48px;font-weight:400;line-height:1.1;letter-spacing:-0.02em">Hero H1</div>
+          <div class="type-row__spec"><span class="tk">Hero heading</span>clamp(56px, 9vw, 120px) . <b>400</b> . 1.1 . -0.02em</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:24px;font-weight:500;line-height:1.3;letter-spacing:-0.01em">Section heading</div>
+          <div class="type-row__spec"><span class="tk">Section heading</span>24px . <b>500</b> . 1.3 . -0.01em</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:20px;font-weight:400;line-height:1.4">Subheading</div>
+          <div class="type-row__spec"><span class="tk">Subheading</span>20px . <b>400</b> . 1.4</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:400;line-height:1.5">Body / nav text</div>
+          <div class="type-row__spec"><span class="tk">Body</span>16px . <b>400</b> . 1.5</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:12px;font-weight:500;line-height:1.45">Caption / label</div>
+          <div class="type-row__spec"><span class="tk">Caption</span>12px . <b>500</b> . 1.45</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        Framer 빌드라 고정 px 값보다 인라인 스타일 + clamp/vw 단위를 혼용한다. Hero 헤드라인은 Matter Regular 400 + 큰 fluid type, 본문은 Inter 400. weight <b>700/900</b> 은 Matter 블랙 등 디스플레이 장식 용도에 제한적으로 쓰인다.
+      </div>
+    </section>
+
+    <section id="colors">
+      <div class="section__num">04 . Colors</div>
+      <h2 class="section__title">컬러</h2>
+      <p class="section__lede">
+        Warp 마케팅 사이트는 near-monochrome 디자인이다. 명시적인 브랜드 컬러 ramp 가 없고, 검정-회색-크림의 grayscale 스펙트럼만 사용한다. Hex 분류: gray 12, white 8, black 2. 채도 있는 색이 0개.
+      </p>
+
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Core Palette</b> <span class="muted">monochrome -- 15 steps</span></div>
+        <div class="ramp ramp--15">
+          <div class="sw sw--d is-anchor" style="background:#000000"><div class="n">1000</div><div>#000</div></div>
+          <div class="sw sw--d" style="background:#121212"><div class="n">950</div><div>#121212</div></div>
+          <div class="sw sw--d" style="background:#1A1A1A"><div class="n">900</div><div>#1a1a1a</div></div>
+          <div class="sw sw--d" style="background:#232224"><div class="n">850</div><div>#232224</div></div>
+          <div class="sw sw--d" style="background:#2B2B2B"><div class="n">800</div><div>#2b2b2b</div></div>
+          <div class="sw sw--d" style="background:#353534"><div class="n">700</div><div>#353534</div></div>
+          <div class="sw sw--d" style="background:#454545"><div class="n">600</div><div>#454545</div></div>
+          <div class="sw sw--d" style="background:#666469"><div class="n">500</div><div>#666469</div></div>
+          <div class="sw sw--d" style="background:#868584"><div class="n">400</div><div>#868584</div></div>
+          <div class="sw sw--l" style="background:#999999"><div class="n">300</div><div>#999</div></div>
+          <div class="sw sw--l" style="background:#AFAEAC"><div class="n">200</div><div>#afaeac</div></div>
+          <div class="sw sw--l" style="background:#E3E2E0"><div class="n">100</div><div>#e3e2e0</div></div>
+          <div class="sw sw--l" style="background:#FAF9F5"><div class="n">50</div><div>#faf9f5</div></div>
+          <div class="sw sw--l" style="background:#FAF9F6"><div class="n">25</div><div>#faf9f6</div></div>
+          <div class="sw sw--l" style="background:#FFFFFF"><div class="n">0</div><div>#fff</div></div>
+        </div>
+      </div>
+
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Framer CSS 변수</b> <span class="muted">--framer-* semantic tokens</span></div>
+        <div class="alias-table">
+          <div class="row"><span class="k">--framer-text-color</span><span class="arrow">:</span><span class="v"><span class="val">#000</span> <span class="kr">기본 텍스트</span></span></div>
+          <div class="row"><span class="k">--framer-link-text-color</span><span class="arrow">:</span><span class="v"><span class="val">#666469</span> <span class="kr">링크 텍스트</span></span></div>
+          <div class="row"><span class="k">--framer-link-hover-text-color</span><span class="arrow">:</span><span class="v"><span class="val">#fff</span> <span class="kr">링크 호버 (다크 섹션)</span></span></div>
+          <div class="row"><span class="k">--framer-link-current-text-color</span><span class="arrow">:</span><span class="v"><span class="val">#232224</span> <span class="kr">현재 링크</span></span></div>
+          <div class="row"><span class="k">--framer-link-text-decoration-color</span><span class="arrow">:</span><span class="v"><span class="val">#454545</span> <span class="kr">링크 밑줄</span></span></div>
+          <div class="row"><span class="k">--framer-link-hover-text-decoration-color</span><span class="arrow">:</span><span class="v"><span class="val">#2B2B2B</span> <span class="kr">링크 호버 밑줄</span></span></div>
+          <div class="row"><span class="k">--framer-input-font-color</span><span class="arrow">:</span><span class="v"><span class="val">#fff</span> <span class="kr">다크 섹션 인풋</span></span></div>
+          <div class="row"><span class="k">--framer-input-placeholder-color</span><span class="arrow">:</span><span class="v"><span class="val">#999</span> <span class="kr">플레이스홀더</span></span></div>
+          <div class="row"><span class="k">--framer-input-icon-color</span><span class="arrow">:</span><span class="v"><span class="val">#999</span> <span class="kr">인풋 아이콘</span></span></div>
+          <div class="row"><span class="k">--framer-input-background</span><span class="arrow">:</span><span class="v"><span class="val">#FFFFFF0D</span> <span class="kr">인풋 배경 (5% alpha)</span></span></div>
+          <div class="row"><span class="k">--framer-input-border-color</span><span class="arrow">:</span><span class="v"><span class="val">#87878700</span> <span class="kr">인풋 보더 (투명)</span></span></div>
+          <div class="row"><span class="k">--border-color</span><span class="arrow">:</span><span class="v"><span class="val">#FFFFFF29</span> <span class="kr">다크 섹션 보더 (16% alpha)</span></span></div>
+        </div>
+      </div>
+
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Alpha / Overlay</b> <span class="muted">투명도 기반 컬러</span></div>
+        <div class="ramp ramp--7">
+          <div class="sw sw--l" style="background:#FFFFFFE6"><div class="n">90%</div><div>#ffffffe6</div></div>
+          <div class="sw sw--l" style="background:#FFFFFF99"><div class="n">60%</div><div>#ffffff99</div></div>
+          <div class="sw sw--l" style="background:#FAF9F6E6"><div class="n">cream 90%</div><div>#faf9f6e6</div></div>
+          <div class="sw sw--d" style="background:#FFFFFF29"><div class="n">16%</div><div>#ffffff29</div></div>
+          <div class="sw sw--d" style="background:#FFFFFF0D"><div class="n">5%</div><div>#ffffff0d</div></div>
+          <div class="sw sw--l" style="background:#3636321A"><div class="n">10% dk</div><div>#3636321a</div></div>
+          <div class="sw sw--d" style="background:#87878700"><div class="n">0%</div><div>#87878700</div></div>
+        </div>
+      </div>
+
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Dominant Colors</b> <span class="muted">실제 DOM 빈도 순</span></div>
+        <div class="dom-chart">
+          <div class="dom-bar">
+            <div class="dom-bar__seg" style="flex:74;background:#000000" title="#000000 (74)"></div>
+            <div class="dom-bar__seg" style="flex:33;background:#FAF9F6" title="#FAF9F6 (33)"></div>
+            <div class="dom-bar__seg" style="flex:10;background:#FFFFFF;border-right:1px solid #e4e4e7" title="#FFFFFF (10)"></div>
+            <div class="dom-bar__seg" style="flex:6;background:#FAF9F5" title="#FAF9F5 (6)"></div>
+            <div class="dom-bar__seg" style="flex:6;background:#FFFFFFE6" title="#FFFFFFE6 (6)"></div>
+            <div class="dom-bar__seg" style="flex:4;background:#121212" title="#121212 (4)"></div>
+            <div class="dom-bar__seg" style="flex:4;background:#999999" title="#999999 (4)"></div>
+            <div class="dom-bar__seg" style="flex:14;background:#666469" title="others (14)"></div>
+          </div>
+          <div class="dom-list">
+            <div class="item"><div class="chip" style="background:#000000"></div><div class="hex">#000000</div><div class="cnt">74</div></div>
+            <div class="item"><div class="chip" style="background:#FAF9F6"></div><div class="hex">#FAF9F6</div><div class="cnt">33</div></div>
+            <div class="item"><div class="chip" style="background:#FFFFFF"></div><div class="hex">#FFFFFF</div><div class="cnt">10</div></div>
+            <div class="item"><div class="chip" style="background:#FAF9F5"></div><div class="hex">#FAF9F5</div><div class="cnt">6</div></div>
+            <div class="item"><div class="chip" style="background:#FFFFFFE6"></div><div class="hex">#FFFFFFE6</div><div class="cnt">6</div></div>
+            <div class="item"><div class="chip" style="background:#121212"></div><div class="hex">#121212</div><div class="cnt">4</div></div>
+            <div class="item"><div class="chip" style="background:#999999"></div><div class="hex">#999999</div><div class="cnt">4</div></div>
+            <div class="item"><div class="chip" style="background:#E3E2E0"></div><div class="hex">#E3E2E0</div><div class="cnt">2</div></div>
+            <div class="item"><div class="chip" style="background:#353534"></div><div class="hex">#353534</div><div class="cnt">2</div></div>
+            <div class="item"><div class="chip" style="background:#AFAEAC"></div><div class="hex">#AFAEAC</div><div class="cnt">2</div></div>
+            <div class="item"><div class="chip" style="background:#232224"></div><div class="hex">#232224</div><div class="cnt">2</div></div>
+            <div class="item"><div class="chip" style="background:#666469"></div><div class="hex">#666469</div><div class="cnt">2</div></div>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:12px">
+          Unique hex 22개. <b>채도 있는 컬러가 하나도 없다.</b> Hex 분류: gray 12, white 8, black 2.
+          Warp 마케팅 사이트는 철저히 monochrome light 디자인이다.
+          앱 스크린샷 속 cyan 등은 이미지 에셋이지 CSS 컬러가 아니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="spacing">
+      <div class="section__num">05 . Spacing</div>
+      <h2 class="section__title">스페이싱</h2>
+      <p class="section__lede">
+        Framer 빌드라 spacing 토큰이 CSS 변수로 체계화되어 있지 않다. 대부분 인라인 스타일로 직접 지정된다.
+      </p>
+
+      <div class="space-note">
+        <b>관측 패턴</b>: Framer 플랫폼 변수 6개만 존재. 실제 spacing 은 컴포넌트별 인라인 스타일로 설정된다.
+        관측된 주요 리듬: 섹션 <code>80px~120px</code>, 카드 <code>24px~32px</code>, 요소 <code>16px~24px</code>, 인라인 <code>8px~12px</code>.
+      </div>
+
+      <div class="space-table">
+        <div class="space-row"><span class="tk">--framer-input-padding</span><span class="val">12px</span><div class="bar" style="width:12%"></div></div>
+        <div class="space-row"><span class="tk">--framer-paragraph-spacing</span><span class="val">0px</span><div class="bar" style="width:0%"></div></div>
+        <div class="space-row"><span class="tk">--framer-font-size</span><span class="val">16px</span><div class="bar" style="width:16%"></div></div>
+        <div class="space-row"><span class="tk">--framer-letter-spacing</span><span class="val">0</span><div class="bar" style="width:0%"></div></div>
+        <div class="space-row"><span class="tk">--framer-input-font-size</span><span class="val">16px</span><div class="bar" style="width:16%"></div></div>
+        <div class="space-row"><span class="tk">--framer-input-font-letter-spacing</span><span class="val">0em</span><div class="bar" style="width:0%"></div></div>
+      </div>
+    </section>
+
+    <section id="radius">
+      <div class="section__num">06 . Radius</div>
+      <h2 class="section__title">라디우스</h2>
+      <p class="section__lede">
+        작고 절제된 radius. 5px~10px 가 주력이고 20px 는 대형 컨테이너에만.
+      </p>
+
+      <div class="rad-grid">
+        <div class="rad-card">
+          <div class="rad-box" style="border-radius:5px"></div>
+          <div class="rad-card__n">xs</div>
+          <div class="rad-card__v"><span class="px">5px</span><br>태그, 작은 버튼</div>
+        </div>
+        <div class="rad-card">
+          <div class="rad-box" style="border-radius:6px"></div>
+          <div class="rad-card__n">sm</div>
+          <div class="rad-card__v"><span class="px">6px</span><br>CTA 버튼, 인풋</div>
+        </div>
+        <div class="rad-card">
+          <div class="rad-box" style="border-radius:8px"></div>
+          <div class="rad-card__n">md</div>
+          <div class="rad-card__v"><span class="px">8px</span><br>카드, 패널</div>
+        </div>
+        <div class="rad-card">
+          <div class="rad-box" style="border-radius:10px"></div>
+          <div class="rad-card__n">lg</div>
+          <div class="rad-card__v"><span class="px">10px</span><br>큰 카드</div>
+        </div>
+        <div class="rad-card">
+          <div class="rad-box" style="border-radius:20px"></div>
+          <div class="rad-card__n">xl</div>
+          <div class="rad-card__v"><span class="px">20px</span><br>히어로 컨테이너</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="motion">
+      <div class="section__num">07 . Motion</div>
+      <h2 class="section__title">모션</h2>
+      <p class="section__lede">
+        CSS 에 별도 motion 토큰 없음. Framer Motion 기반 인터랙션.
+      </p>
+
+      <div class="motion-table">
+        <div class="motion-row">
+          <div class="pt">hover transition</div>
+          <div class="val">200ms ease</div>
+          <div class="use">링크, 버튼 호버 색상 전환</div>
+        </div>
+        <div class="motion-row">
+          <div class="pt">page scroll</div>
+          <div class="val">Framer 내장</div>
+          <div class="use">섹션 간 스크롤 기반 reveal</div>
+        </div>
+        <div class="motion-row">
+          <div class="pt">hero animation</div>
+          <div class="val">Framer Motion</div>
+          <div class="use">제품 데모 영역 fade-in + scale</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="layout">
+      <div class="section__num">08 . Layout Patterns</div>
+      <h2 class="section__title">레이아웃 패턴</h2>
+      <p class="section__lede">
+        히어로, 섹션 리듬, 페이지 구조.
+      </p>
+
+      <div class="lp-grid">
+        <div class="lp-card">
+          <h3>Hero</h3>
+          <ul>
+            <li><b>Layout</b>: 중앙 정렬, 큰 헤드라인 상단 + 2-column 제품 카드</li>
+            <li><b>Background</b>: cream <code>#FAF9F6</code></li>
+            <li><b>H1</b>: fluid <code>clamp(56px, 9vw, 120px)</code> / weight 400 / -0.02em</li>
+            <li><b>Subheading</b>: 16~18px / weight 400 / <code>#000000</code></li>
+            <li><b>Max-width</b>: ~1200px</li>
+            <li><b>Screenshot</b>: <code>screenshots/light-hero.png</code></li>
+          </ul>
+        </div>
+        <div class="lp-card">
+          <h3>Section Rhythm</h3>
+          <ul>
+            <li><b>Padding</b>: 80px 24px</li>
+            <li><b>Max-width</b>: 1200px</li>
+            <li><b>Margin</b>: auto (중앙 정렬)</li>
+          </ul>
+          <pre>section {
+  padding: 80px 24px;
+  max-width: 1200px;
+  margin-inline: auto;
+}</pre>
+        </div>
+        <div class="lp-card" style="grid-column:1/-1">
+          <h3>Page Structure</h3>
+          <ul>
+            <li>Hero (cream) --> 제품 데모 (embedded dark screenshots)</li>
+            <li>Social proof ("Don't take our word for it")</li>
+            <li>다크 섹션 (testimonials/features, <code>#121212</code> bg)</li>
+            <li>Footer (dark) --> Downloads CTA (cream)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="components">
+      <div class="section__num">09 . Components</div>
+      <h2 class="section__title">컴포넌트</h2>
+      <p class="section__lede">
+        주요 UI 컴포넌트 스펙.
+      </p>
+
+      <div class="cmp-block">
+        <div class="cmp-block__head">
+          <span class="cmp-block__name">Primary CTA Button</span>
+          <span class="cmp-block__desc">검은 배경 + 크림 텍스트</span>
+        </div>
+        <div class="cmp-block__body">
+          <div class="cmp-demo" style="background:#FAF9F6">
+            <a style="display:inline-flex;align-items:center;padding:12px 24px;background:#000;color:#FAF9F6;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:500;text-decoration:none;">Download for Mac</a>
+            <a style="display:inline-flex;align-items:center;padding:12px 24px;background:transparent;color:#000;border:1px solid #E3E2E0;border-radius:6px;font-family:Inter,sans-serif;font-size:14px;font-weight:500;text-decoration:none;">Learn More</a>
+          </div>
+          <div class="cmp-spec">
+            <code>background: #000000</code><br>
+            <code>color: #FAF9F6</code><br>
+            <code>border-radius: 6px</code><br>
+            <code>height: ~44px</code><br>
+            <code>padding: 12px 24px</code><br>
+            <code>font-weight: 500</code><br>
+            <span class="kr">Primary: 검은 배경 + 크림 텍스트. Secondary: 투명 배경 + 검은 텍스트 + #E3E2E0 보더.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmp-block">
+        <div class="cmp-block__head">
+          <span class="cmp-block__name">Navigation Bar</span>
+          <span class="cmp-block__desc">cream 배경, 스크롤 시 blur</span>
+        </div>
+        <div class="cmp-block__body">
+          <div class="cmp-demo" style="background:#FAF9F6;flex-direction:column;align-items:stretch;gap:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;font-family:Inter,sans-serif;font-size:14px;">
+              <span style="font-weight:600;color:#000">Warp</span>
+              <div style="display:flex;gap:20px;color:#666469;font-size:13px">
+                <span>Terminal</span>
+                <span>Oz</span>
+                <span>Resources</span>
+                <span>Pricing</span>
+              </div>
+              <span style="padding:6px 14px;background:#000;color:#FAF9F6;border-radius:6px;font-size:12px;font-weight:500">Download</span>
+            </div>
+          </div>
+          <div class="cmp-spec">
+            <code>background: #FAF9F6</code><br>
+            <code>height: ~56px</code><br>
+            <code>font: Inter 14px / 400</code><br>
+            <code>link-color: #666469</code><br>
+            <code>link-hover: #232224</code><br>
+            <span class="kr">CTA(우측): 검은 배경 pill 버튼</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmp-block">
+        <div class="cmp-block__head">
+          <span class="cmp-block__name">Product Card (Hero)</span>
+          <span class="cmp-block__desc">흰 배경 카드 + 내부 다크 스크린샷</span>
+        </div>
+        <div class="cmp-block__body">
+          <div class="cmp-demo" style="background:#FAF9F6">
+            <div style="background:#fff;border-radius:10px;padding:20px;width:100%;border:1px solid #E3E2E0">
+              <div style="background:#121212;border-radius:6px;height:80px;display:flex;align-items:center;justify-content:center;color:#666469;font-family:'JetBrains Mono',monospace;font-size:11px">Terminal screenshot area</div>
+              <div style="margin-top:12px;font-family:Inter,sans-serif;font-size:13px;color:#000;font-weight:500">Warp Terminal</div>
+              <div style="font-family:Inter,sans-serif;font-size:12px;color:#666469;margin-top:4px">A modern terminal for agentic coding</div>
+            </div>
+          </div>
+          <div class="cmp-spec">
+            <code>background: #FFFFFF</code><br>
+            <code>border: subtle / near-transparent</code><br>
+            <code>border-radius: 10~20px</code><br>
+            <code>shadow: minimal or none</code><br>
+            <span class="kr">내부에 다크 제품 스크린샷이 embedded 된다. flat/borderless 디자인.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="voice">
+      <div class="section__num">10 . Writing Principles</div>
+      <h2 class="section__title">라이팅 원칙</h2>
+      <p class="section__lede">
+        기술적 자신감, 미니멀, 형용사 최소화.
+      </p>
+
+      <div class="voice-grid">
+        <div class="voice-card">
+          <div class="voice-card__label">Headline</div>
+          <div class="voice-card__rule">선언문, 짧고 강렬, 2줄 이내</div>
+          <div class="voice-card__ex">Warp is the agentic development environment</div>
+        </div>
+        <div class="voice-card">
+          <div class="voice-card__label">Primary CTA</div>
+          <div class="voice-card__rule">동사 + 플랫폼</div>
+          <div class="voice-card__ex">Download for Mac</div>
+        </div>
+        <div class="voice-card">
+          <div class="voice-card__label">Secondary CTA</div>
+          <div class="voice-card__rule">동사 2단어</div>
+          <div class="voice-card__ex">Learn More</div>
+        </div>
+        <div class="voice-card">
+          <div class="voice-card__label">Subheading</div>
+          <div class="voice-card__rule">제품 설명 한 문장, 기능 중심</div>
+          <div class="voice-card__ex">A modern terminal for agentic coding</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="export">
+      <div class="section__num">11 . CSS / Tailwind</div>
+      <h2 class="section__title">CSS / Tailwind</h2>
+      <p class="section__lede">
+        Drop-in CSS 변수와 Tailwind 설정.
+      </p>
+
+      <div class="code-export">
+        <div class="code-tabs">
+          <button class="is-active" onclick="switchTab(this,'css')">CSS Variables</button>
+          <button onclick="switchTab(this,'tw')">Tailwind</button>
+          <button class="code-copy" onclick="copyCode()">Copy</button>
+        </div>
+        <div id="css" class="code-pane is-active">
+<pre><span class="c">/* Warp (marketing site) -- copy into your root stylesheet */</span>
+<span class="k">:root</span> {
+  <span class="c">/* Fonts */</span>
+  <span class="k">--warp-font-family</span>:       <span class="v">"Inter", -apple-system, BlinkMacSystemFont, sans-serif</span>;
+  <span class="k">--warp-font-family-display</span>: <span class="v">"Matter Regular", "Inter", sans-serif</span>;
+  <span class="k">--warp-font-family-code</span>:  <span class="v">"Geist Mono", "Fragment Mono", ui-monospace, monospace</span>;
+  <span class="k">--warp-font-weight-normal</span>: <span class="v">400</span>;
+  <span class="k">--warp-font-weight-medium</span>: <span class="v">500</span>;
+  <span class="k">--warp-font-weight-bold</span>:   <span class="v">600</span>;
+
+  <span class="c">/* Surfaces */</span>
+  <span class="k">--warp-bg-page</span>:    <span class="v">#FAF9F6</span>;   <span class="c">/* cream ivory */</span>
+  <span class="k">--warp-bg-card</span>:    <span class="v">#FFFFFF</span>;   <span class="c">/* card surface */</span>
+  <span class="k">--warp-bg-dark</span>:    <span class="v">#121212</span>;   <span class="c">/* dark section */</span>
+  <span class="k">--warp-text</span>:       <span class="v">#000000</span>;   <span class="c">/* primary text */</span>
+  <span class="k">--warp-text-muted</span>: <span class="v">#666469</span>;   <span class="c">/* muted text */</span>
+  <span class="k">--warp-text-quiet</span>: <span class="v">#999999</span>;   <span class="c">/* placeholder */</span>
+
+  <span class="c">/* Borders */</span>
+  <span class="k">--warp-border</span>:       <span class="v">#E3E2E0</span>;
+  <span class="k">--warp-border-muted</span>: <span class="v">#AFAEAC</span>;
+  <span class="k">--warp-border-dark</span>:  <span class="v">rgba(255,255,255,0.16)</span>;
+
+  <span class="c">/* Radius */</span>
+  <span class="k">--warp-radius-sm</span>: <span class="v">6px</span>;
+  <span class="k">--warp-radius-md</span>: <span class="v">8px</span>;
+  <span class="k">--warp-radius-lg</span>: <span class="v">10px</span>;
+}
+
+<span class="k">body</span> {
+  <span class="k">font-family</span>: <span class="v">var(--warp-font-family)</span>;
+  <span class="k">font-weight</span>: <span class="v">var(--warp-font-weight-normal)</span>;
+  <span class="k">background</span>: <span class="v">var(--warp-bg-page)</span>;
+  <span class="k">color</span>: <span class="v">var(--warp-text)</span>;
+}
+
+<span class="k">h1, h2, h3</span> {
+  <span class="k">font-weight</span>: <span class="v">var(--warp-font-weight-normal)</span>;
+  <span class="k">letter-spacing</span>: <span class="v">-0.01em</span>;
+}
+<span class="k">h1</span> { <span class="k">letter-spacing</span>: <span class="v">-0.02em</span>; }
+<span class="k">strong, b</span> { <span class="k">font-weight</span>: <span class="v">var(--warp-font-weight-bold)</span>; }</pre>
+        </div>
+        <div id="tw" class="code-pane">
+<pre><span class="c">// tailwind.config.js -- Warp (marketing site)</span>
+<span class="k">module.exports</span> = {
+  <span class="k">theme</span>: {
+    <span class="k">extend</span>: {
+      <span class="k">colors</span>: {
+        <span class="k">cream</span>: { <span class="k">DEFAULT</span>: <span class="v">'#FAF9F6'</span>, <span class="k">50</span>: <span class="v">'#FAF9F5'</span> },
+        <span class="k">neutral</span>: {
+          <span class="k">0</span>:    <span class="v">'#FFFFFF'</span>,
+          <span class="k">100</span>:  <span class="v">'#E3E2E0'</span>,
+          <span class="k">200</span>:  <span class="v">'#AFAEAC'</span>,
+          <span class="k">300</span>:  <span class="v">'#999999'</span>,
+          <span class="k">400</span>:  <span class="v">'#868584'</span>,
+          <span class="k">500</span>:  <span class="v">'#666469'</span>,
+          <span class="k">600</span>:  <span class="v">'#454545'</span>,
+          <span class="k">700</span>:  <span class="v">'#353534'</span>,
+          <span class="k">800</span>:  <span class="v">'#2B2B2B'</span>,
+          <span class="k">850</span>:  <span class="v">'#232224'</span>,
+          <span class="k">900</span>:  <span class="v">'#1A1A1A'</span>,
+          <span class="k">950</span>:  <span class="v">'#121212'</span>,
+          <span class="k">1000</span>: <span class="v">'#000000'</span>,
+        },
+      },
+      <span class="k">fontFamily</span>: {
+        <span class="k">sans</span>: [<span class="v">'"Inter"'</span>, <span class="v">'sans-serif'</span>],
+        <span class="k">display</span>: [<span class="v">'"Matter Regular"'</span>, <span class="v">'"Inter"'</span>, <span class="v">'sans-serif'</span>],
+        <span class="k">mono</span>: [<span class="v">'"Geist Mono"'</span>, <span class="v">'"Fragment Mono"'</span>, <span class="v">'monospace'</span>],
+      },
+      <span class="k">borderRadius</span>: {
+        <span class="k">xs</span>: <span class="v">'5px'</span>,
+        <span class="k">sm</span>: <span class="v">'6px'</span>,
+        <span class="k">md</span>: <span class="v">'8px'</span>,
+        <span class="k">lg</span>: <span class="v">'10px'</span>,
+        <span class="k">xl</span>: <span class="v">'20px'</span>,
+      },
+    },
+  },
+};</pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="verdict">
+      <div class="section__num">12 . Do / Don't</div>
+      <h2 class="section__title">Do / Don't</h2>
+      <p class="section__lede">
+        실제 CSS 에서 검증된 규칙. Warp 마케팅 사이트 디자인을 재현할 때 흔히 틀리는 것들.
+      </p>
+
+      <div class="dd-grid">
+        <div class="dd-card dd-card--do">
+          <h3>DO</h3>
+          <ul>
+            <li>페이지 배경을 <code>#FAF9F6</code> 따뜻한 <b>크림 아이보리</b>로. 순백이 아니다.</li>
+            <li>본문 텍스트를 순수 <code>#000000</code> 검정으로.</li>
+            <li>CTA 버튼: <b>검은 배경</b> <code>#000</code> + 크림 텍스트 <code>#FAF9F6</code>, radius <code>6px</code>.</li>
+            <li>헤드라인을 <code>Inter 400</code> 또는 <code>Matter Regular 400</code>으로. 볼드(700)가 아님.</li>
+            <li>Mono 폰트는 <code>Geist Mono</code>.</li>
+            <li>전체를 <b>monochrome</b>(흑백+회색)으로. 채도 있는 색은 스크린샷 안에서만.</li>
+            <li>다크 섹션은 <code>#121212</code>. 순수 <code>#000</code> 아님.</li>
+            <li>radius 를 작게: 버튼 <code>6px</code>, 카드 <code>8~10px</code>.</li>
+            <li>Matter 라이선스 없으면 <code>Inter</code>로 통일.</li>
+          </ul>
+        </div>
+        <div class="dd-card dd-card--dont">
+          <h3>DON'T</h3>
+          <ul>
+            <li>배경을 다크(<code>#0E0E10</code>)로 두지 마라 -- <b>터미널 앱과 마케팅 사이트를 혼동</b>하는 가장 흔한 실수.</li>
+            <li>cyan <code>#01A4FF</code>를 브랜드 악센트로 쓰지 마라 -- 마케팅 CSS 에 0회 등장.</li>
+            <li>코드 폰트를 <code>Hack</code>으로 두지 마라 -- 실제 0회. <code>Geist Mono</code>가 정답.</li>
+            <li>헤드라인을 <code>font-weight: 700</code> 이상으로 두지 마라.</li>
+            <li>버튼에 그래디언트나 섀도우를 넣지 마라 -- flat black/white.</li>
+            <li>카드에 두꺼운 보더나 큰 shadow 를 넣지 마라.</li>
+            <li>채도 높은 컬러 팔레트를 만들지 마라 -- 22개 hex 중 채도 있는 색이 <b>0개</b>.</li>
+            <li>순백 <code>#FFFFFF</code>를 페이지 배경으로 쓰지 마라 -- warm cream <code>#FAF9F6</code>과 다르다.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="rfoot">
+      <div>real/warp/DESIGN.claude.manual.md</div>
+      <div class="kr">CSS 커스텀 프로퍼티 직접 파싱 -- AI 추론 없음 . 2026-04-11</div>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+function switchTab(btn,id){
+  btn.closest('.code-export').querySelectorAll('.code-tabs button:not(.code-copy)').forEach(b=>b.classList.remove('is-active'));
+  btn.classList.add('is-active');
+  btn.closest('.code-export').querySelectorAll('.code-pane').forEach(p=>p.classList.remove('is-active'));
+  document.getElementById(id).classList.add('is-active');
+}
+function copyCode(){
+  const pane=document.querySelector('.code-pane.is-active pre');
+  if(pane){navigator.clipboard.writeText(pane.textContent).then(()=>{
+    const btn=document.querySelector('.code-copy');btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',1500);
+  });}
+}
+</script>
+
+</body>
+</html>

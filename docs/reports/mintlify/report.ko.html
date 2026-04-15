@@ -1,0 +1,1586 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mintlify — Design System Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── Tokens ── */
+:root{
+  --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --bg:#fafafa;
+  --fg:#18181b;
+  --card:#ffffff;
+  --muted:#f4f4f5;
+  --muted-fg:#71717a;
+  --subtle:#e4e4e7;
+  --border:#e4e4e7;
+  --border-str:#d4d4d8;
+  --accent:#18181b;
+  --radius:8px;
+  --radius-lg:14px;
+  --brand-color:#0C8C5E;
+}
+
+/* ── Layout ── */
+html{scroll-behavior:smooth}
+body{
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+/* ── TOC ── */
+.toc{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  background:var(--card);
+  border-right:1px solid var(--border);
+  padding:24px 0;
+  font-size:13px;
+}
+.toc__logo{
+  padding:0 20px 20px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:16px;
+}
+.toc__logo-mark{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;height:28px;
+  background:var(--brand-color);
+  color:#fff;
+  border-radius:6px;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:6px;
+}
+.toc__site{font-weight:600;font-size:13px;color:var(--fg)}
+.toc__tagline{color:var(--muted-fg);font-size:11px;margin-top:2px}
+.toc__group{margin-bottom:4px}
+.toc__group-label{
+  padding:6px 20px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--muted-fg);
+}
+.toc a{
+  display:block;
+  padding:5px 20px;
+  color:var(--muted-fg);
+  text-decoration:none;
+  border-radius:0;
+  transition:color .15s,background .15s;
+}
+.toc a:hover,.toc a.active{
+  color:var(--brand-color);
+  background:color-mix(in srgb,var(--brand-color) 8%,transparent);
+}
+
+/* ── Main ── */
+.main{max-width:900px;padding:60px 48px;margin:0 auto}
+
+/* ── Sections ── */
+.section{margin-bottom:72px}
+.section-label{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--brand-color);
+  margin-bottom:10px;
+}
+.section-title{
+  font-size:26px;
+  font-weight:700;
+  line-height:1.2;
+  letter-spacing:-0.01em;
+  margin-bottom:8px;
+}
+.section-sub{
+  color:var(--muted-fg);
+  font-size:15px;
+  margin-bottom:32px;
+  line-height:1.6;
+}
+
+/* ── Hero ── */
+.hero{
+  padding:64px 0 56px;
+  margin-bottom:64px;
+  border-bottom:1px solid var(--border);
+}
+.hero__eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:color-mix(in srgb,var(--brand-color) 10%,transparent);
+  color:var(--brand-color);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  padding:4px 12px;
+  border-radius:999px;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-size:38px;
+  font-weight:700;
+  line-height:1.15;
+  letter-spacing:-0.02em;
+  margin-bottom:14px;
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--brand-color);
+}
+.hero__sub{
+  font-size:17px;
+  color:var(--muted-fg);
+  line-height:1.6;
+  max-width:580px;
+  margin-bottom:40px;
+}
+
+/* ── Quick Start ── */
+.qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.qs__step{
+  background:#111827;
+  border-radius:var(--radius-lg);
+  padding:20px;
+  border:1px solid #1f2937;
+}
+.qs__step-num{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#6b7280;
+  margin-bottom:10px;
+}
+.qs__step pre{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:11.5px;
+  line-height:1.6;
+  color:#e5e7eb;
+  overflow-x:auto;
+  white-space:pre;
+}
+.qs__warn{
+  background:#fef2f2;
+  border:1px solid #fecaca;
+  border-radius:var(--radius);
+  padding:14px 16px;
+  font-size:13px;
+  color:#991b1b;
+  line-height:1.5;
+}
+.qs__warn strong{color:#7f1d1d}
+
+/* ── Stat cards ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:18px 20px;
+}
+.stat__label{font-size:11px;font-weight:500;color:var(--muted-fg);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
+.stat__value{font-size:20px;font-weight:700;color:var(--fg);letter-spacing:-0.01em}
+.stat__sub{font-size:11px;color:var(--muted-fg);margin-top:2px}
+
+/* ── Info table ── */
+.info-table{width:100%;border-collapse:collapse;font-size:14px}
+.info-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.info-table td:first-child{
+  font-weight:500;
+  color:var(--muted-fg);
+  white-space:nowrap;
+  width:180px;
+}
+.info-table code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  background:var(--muted);
+  padding:1px 5px;
+  border-radius:4px;
+  color:var(--fg);
+}
+
+/* ── Tech stack ── */
+.stack-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stack-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:16px 20px;
+}
+.stack-card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.stack-card p{font-size:13px;color:var(--muted-fg);line-height:1.5}
+.stack-card code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  background:var(--muted);
+  padding:1px 5px;
+  border-radius:4px;
+  color:var(--fg);
+}
+
+/* ── Typography ── */
+.type-table{width:100%;border-collapse:collapse;font-size:13px}
+.type-table th{
+  text-align:left;
+  padding:8px 12px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--muted-fg);
+  border-bottom:1px solid var(--border);
+}
+.type-table td{padding:0;border-bottom:1px solid var(--border)}
+.type-row{display:flex;align-items:baseline;padding:14px 12px;gap:12px}
+.type-row__preview{flex:0 0 280px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.type-row__meta{display:flex;gap:16px;flex:1;align-items:center;flex-wrap:wrap}
+.type-row__token{font-size:12px;font-family:"JetBrains Mono",ui-monospace,monospace;color:var(--muted-fg);white-space:nowrap}
+.type-row__spec{font-size:12px;color:var(--muted-fg)}
+.badge{
+  display:inline-block;
+  padding:1px 7px;
+  border-radius:4px;
+  font-size:11px;
+  font-weight:500;
+  background:var(--muted);
+  color:var(--muted-fg);
+}
+
+/* ── Color swatches ── */
+.ramp{margin-bottom:28px}
+.ramp__label{font-size:12px;font-weight:600;color:var(--muted-fg);margin-bottom:8px;letter-spacing:.04em}
+.ramp__row{
+  display:grid;
+  gap:3px;
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.swatch{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:8px 10px;
+  min-height:72px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+}
+.sw--l .swatch-label{color:rgba(0,0,0,0.6)}
+.sw--d .swatch-label{color:rgba(255,255,255,0.7)}
+.swatch-label{font-size:10px;line-height:1.3}
+.swatch-hex{font-size:10px;opacity:.8}
+.is-anchor{outline:2px solid var(--brand-color);outline-offset:-2px;border-radius:2px}
+
+/* ── Semantic color table ── */
+.color-row{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.color-chip{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);flex-shrink:0}
+.color-token{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--muted-fg);flex:0 0 280px}
+.color-hex{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;flex:0 0 90px}
+.color-desc{color:var(--muted-fg)}
+
+/* ── Spacing ── */
+.spacing-row{display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
+.spacing-bar{background:var(--brand-color);height:20px;border-radius:3px;opacity:.75;flex-shrink:0}
+.spacing-token{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--muted-fg);width:100px}
+.spacing-value{font-size:13px;font-weight:500;width:60px}
+.spacing-use{font-size:13px;color:var(--muted-fg)}
+
+/* ── Radius ── */
+.radius-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px}
+.radius-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
+.radius-box{
+  width:64px;
+  height:64px;
+  background:color-mix(in srgb,var(--brand-color) 15%,transparent);
+  border:2px solid var(--brand-color);
+}
+.radius-label{font-size:12px;font-weight:600;text-align:center}
+.radius-value{font-size:11px;color:var(--muted-fg);font-family:"JetBrains Mono",ui-monospace,monospace;text-align:center}
+
+/* ── Shadow ── */
+.shadow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px}
+.shadow-card{
+  background:var(--card);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
+.shadow-box{
+  width:80px;height:80px;
+  background:var(--card);
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+}
+.shadow-name{font-size:13px;font-weight:600}
+.shadow-value{font-size:11px;color:var(--muted-fg);font-family:"JetBrains Mono",ui-monospace,monospace;text-align:center;line-height:1.5;word-break:break-all}
+
+/* ── Layout patterns ── */
+.layout-demo{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  margin-bottom:20px;
+  font-size:13px;
+}
+.layout-demo h4{font-size:14px;font-weight:600;margin-bottom:12px}
+.layout-spec{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.layout-spec-row{display:flex;align-items:center;gap:10px}
+.layout-spec-key{font-size:12px;color:var(--muted-fg);width:160px;flex-shrink:0}
+.layout-spec-val{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px}
+.layout-code{
+  background:#111827;
+  border-radius:var(--radius);
+  padding:16px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#e5e7eb;
+  overflow-x:auto;
+}
+
+/* ── Components ── */
+.cmp-section{margin-bottom:40px}
+.cmp-section h3{font-size:17px;font-weight:600;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.cmp-demo{
+  background:var(--muted);
+  border-radius:var(--radius-lg);
+  padding:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+  border:1px solid var(--border);
+}
+.cmp-code{
+  position:relative;
+  background:#111827;
+  border-radius:var(--radius);
+  padding:16px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#e5e7eb;
+  overflow-x:auto;
+  margin-bottom:6px;
+}
+.copy-btn{
+  position:absolute;
+  top:10px;right:10px;
+  background:#374151;
+  color:#9ca3af;
+  border:none;
+  border-radius:4px;
+  padding:3px 8px;
+  font-size:11px;
+  cursor:pointer;
+  transition:background .15s;
+}
+.copy-btn:hover{background:#4b5563;color:#f3f4f6}
+
+/* ── Demo components ── */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#0C8C5E;color:#fff;
+  border:none;border-radius:8px;
+  padding:10px 20px;
+  font-size:14px;font-weight:500;
+  font-family:inherit;cursor:pointer;
+  transition:background .15s;text-decoration:none;
+}
+.btn-primary:hover{background:#20808D}
+.btn-secondary{
+  display:inline-flex;align-items:center;
+  background:transparent;
+  border:1px solid #D1D5DC;
+  border-radius:8px;
+  padding:10px 20px;
+  font-size:14px;font-weight:500;
+  font-family:inherit;cursor:pointer;
+  color:#231F20;
+  text-decoration:none;
+}
+.btn-secondary:hover{border-color:#0C8C5E;color:#0C8C5E}
+
+/* Code block demo */
+.demo-code-block{
+  background:#1E2939;
+  border-radius:10px;
+  padding:20px 24px;
+  width:100%;
+  max-width:400px;
+}
+.demo-code-tabs{display:flex;gap:8px;margin-bottom:12px;border-bottom:1px solid #374151;padding-bottom:10px}
+.demo-code-tab{
+  font-size:12px;color:#9ca3af;
+  background:transparent;border:none;
+  padding:3px 8px;border-radius:4px;cursor:pointer;
+  font-family:inherit;
+}
+.demo-code-tab.active{background:#374151;color:#f3f4f6}
+.demo-code-block pre{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12.5px;color:#F3F4F6;line-height:1.6;
+}
+.demo-code-block .tw-comment{color:#6b7280}
+
+/* Twoslash popup demo */
+.demo-twoslash-wrap{position:relative;padding:20px;background:#1E2939;border-radius:10px;max-width:340px;width:100%}
+.demo-twoslash-code{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.5px;color:#F3F4F6;line-height:1.6}
+.demo-twoslash-code .tw-hover{
+  text-decoration:underline dashed #0C8C5E;text-underline-offset:2px;cursor:help;
+}
+.demo-twoslash-popup{
+  position:absolute;
+  top:calc(100% - 10px);left:20px;
+  background:#F3F7F6;
+  border:1px solid #DBDFDE;
+  border-radius:6px;
+  box-shadow:rgba(0,0,0,0.08) 0px 1px 4px;
+  padding:8px 12px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#231F20;
+  z-index:10;
+  min-width:200px;
+}
+
+/* Doc card demo */
+.demo-doc-card{
+  background:#FFFFFF;
+  border:1px solid #E5E7EB;
+  border-radius:10px;
+  padding:24px;
+  max-width:220px;
+  cursor:pointer;
+  transition:border-color .15s;
+}
+.demo-doc-card:hover{border-color:#0C8C5E}
+.demo-doc-card__icon{
+  width:32px;height:32px;
+  background:color-mix(in srgb,#0C8C5E 12%,transparent);
+  border-radius:6px;
+  margin-bottom:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+}
+.demo-doc-card h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.demo-doc-card p{font-size:12px;color:#6B7280;line-height:1.5}
+
+/* ── Code Export tabs ── */
+.code-tabs{display:flex;gap:2px;margin-bottom:0;border-bottom:1px solid var(--border)}
+.code-tab{
+  padding:9px 16px;
+  font-size:13px;
+  font-weight:500;
+  color:var(--muted-fg);
+  background:transparent;
+  border:none;
+  border-bottom:2px solid transparent;
+  cursor:pointer;
+  margin-bottom:-1px;
+  font-family:inherit;
+  transition:color .15s;
+}
+.code-tab.active{color:var(--brand-color);border-bottom-color:var(--brand-color)}
+.code-pane{display:none}
+.code-pane.active{display:block}
+.code-pane pre{
+  background:#111827;
+  border-radius:0 0 var(--radius-lg) var(--radius-lg);
+  padding:24px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#e5e7eb;
+  overflow-x:auto;
+  line-height:1.65;
+  max-height:520px;
+}
+.code-export-wrap{
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+}
+.code-export-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  background:var(--card);
+}
+
+/* ── Do / Don't ── */
+.dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dd-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:20px 24px;
+}
+.dd-card--do{border-top:3px solid #16a34a}
+.dd-card--dont{border-top:3px solid #dc2626}
+.dd-card__badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.dd-card--do .dd-card__badge{color:#16a34a}
+.dd-card--dont .dd-card__badge{color:#dc2626}
+.dd-card ul{padding-left:16px;display:flex;flex-direction:column;gap:7px}
+.dd-card li{font-size:13px;line-height:1.5;color:var(--fg)}
+.dd-card li code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:11px;
+  background:var(--muted);
+  padding:1px 5px;
+  border-radius:3px;
+}
+.toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+.toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+.toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+.hero__screenshot{margin-bottom:32px;max-width:880px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);}
+.hero__screenshot img{width:100%;height:auto;display:block;}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ── TOC ── -->
+<aside class="toc">
+  <div class="toc__brand">
+    <div class="toc__brand-name">Mintlify</div>
+    <div class="toc__brand-sub">Design System Report</div>
+  </div>
+  <div class="toc__logo">
+    <div class="toc__logo-mark">M</div>
+    <div class="toc__site">Mintlify</div>
+    <div class="toc__tagline">Design System Report</div>
+  </div>
+
+  <div class="toc__group">
+    <div class="toc__group-label">Overview</div>
+    <a href="#provenance">출처와 수집 기준</a>
+    <a href="#tech">테크 스택</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Foundations</div>
+    <a href="#typography">타이포그래피</a>
+    <a href="#colors">컬러</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Tokens</div>
+    <a href="#spacing">스페이싱</a>
+    <a href="#radius">라디우스</a>
+    <a href="#shadows">섀도우</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Patterns</div>
+    <a href="#layout">레이아웃 패턴</a>
+    <a href="#components">컴포넌트</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Code</div>
+    <a href="#code">CSS · Tailwind</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Rules</div>
+    <a href="#dodont">Do / Don't</a>
+  </div>
+  <div class="toc__foot">mintlify/<br>DESIGN.claude.manual.md<br>2026-04-12</div>
+</aside>
+
+<!-- ── Main ── -->
+<main class="main">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__eyebrow">Design System Report</div>
+    <h1>Mintlify — <em>Teal + Warm White 문서 플랫폼</em></h1>
+    <p class="hero__sub">
+      Next.js + Tailwind v4 기반의 개발자 문서 플랫폼. Cool gray를 배제하고 warm palette로 구성했으며, Twoslash TypeScript hover popup이 시그너처 디테일이다. 브랜드 컬러는 teal <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:#f4f4f5;padding:2px 6px;border-radius:4px">#0C8C5E</code> 단일이다.
+    </p>
+    <div class="hero__screenshot">
+      <img src="screenshots/hero-cropped.png" alt="mintlify hero screenshot">
+    </div>
+
+    <!-- Quick Start cards -->
+    <div class="qs__grid">
+      <div class="qs__step">
+        <div class="qs__step-num">Step 1 — 폰트</div>
+        <pre>body {
+  font-family:
+    var(--font-inter),
+    "Inter", "Inter Fallback",
+    -apple-system, sans-serif;
+  font-weight: 400;
+}
+code, pre {
+  font-family:
+    var(--font-geist-mono),
+    "Geist Mono Fallback",
+    ui-monospace, monospace;
+}</pre>
+      </div>
+      <div class="qs__step">
+        <div class="qs__step-num">Step 2 — Warm Light Palette</div>
+        <pre>:root {
+  --color-background-main: #FFFFFF;
+  --color-background-soft: #F1EFED;
+  /* warm off-white — cool gray 금지 */
+
+  --color-text-main: #231F20;
+  /* warm black — pure #000 금지 */
+
+  --color-text-soft: #4A5565;
+  --color-border-solid: #D1D5DC;
+}
+body {
+  background: var(--color-background-main);
+  color: var(--color-text-main);
+}</pre>
+      </div>
+      <div class="qs__step">
+        <div class="qs__step-num">Step 3 — 브랜드 Teal</div>
+        <pre>:root {
+  --color-brand:       #0C8C5E;
+  --color-brand-light: #20808D;
+  /* accent lime (dark CTA) */
+  --color-accent-lime: #18E299;
+}
+
+/* Twoslash popup (시그너처) */
+:root {
+  --twoslash-popup-bg:    #F3F7F6;
+  --twoslash-border-color:#DBDFDE;
+  --twoslash-popup-shadow:
+    rgba(0,0,0,.08) 0px 1px 4px;
+}</pre>
+      </div>
+    </div>
+
+    <div class="qs__warn">
+      <strong>절대 하지 말 것:</strong> 홈페이지 customer logo wall의 hex(<code>PayPal #003087</code>, <code>Braintrust #FF5A00</code>, <code>Coinbase #4B73FF</code>)를 Mintlify 브랜드 팔레트로 착각하지 말 것. 이 값들은 제3자 SVG 로고 색이며 Mintlify와 무관하다. 진짜 브랜드는 teal <code>#0C8C5E</code> 단일이다.
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat__label">Source</div>
+        <div class="stat__value">mintlify.com</div>
+        <div class="stat__sub">2026-04-11 수집</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Custom Props</div>
+        <div class="stat__value">253</div>
+        <div class="stat__sub">color 54 · shadow 16 · radius 24</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Framework</div>
+        <div class="stat__value">Tailwind v4</div>
+        <div class="stat__sub">Next.js + next/font</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Brand Colors</div>
+        <div class="stat__value">2색</div>
+        <div class="stat__sub">#0C8C5E + #20808D</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §02 Provenance -->
+  <section class="section" id="provenance">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">출처와 수집 기준</h2>
+    <p class="section-sub">CSS 커스텀 프로퍼티를 직접 파싱해 추출한 실측 데이터다.</p>
+    <table class="info-table">
+      <tr><td>Source URL</td><td><code>https://mintlify.com</code></td></tr>
+      <tr><td>Fetched</td><td>2026-04-11</td></tr>
+      <tr><td>Extractor</td><td><code>real/fetch_all.py</code> (curl + Chrome UA)</td></tr>
+      <tr><td>Framework</td><td>Next.js + <strong>Tailwind CSS v4</strong></td></tr>
+      <tr><td>Custom props</td><td>253 (color: 54 · shadow: 16 · radius: 24 unique values)</td></tr>
+      <tr><td>Token prefix</td><td><code>--color-*</code>, <code>--tw-*</code>, <code>--tw-prose-*</code>, <code>--twoslash-*</code>, <code>--font-*</code></td></tr>
+      <tr><td>Method</td><td>CSS 커스텀 프로퍼티 직접 파싱</td></tr>
+    </table>
+  </section>
+
+  <!-- §03 Tech Stack -->
+  <section class="section" id="tech">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">테크 스택</h2>
+    <p class="section-sub">Tailwind v4의 <code>@theme</code> 레이어와 자체 semantic 레이어를 하이브리드로 운용한다.</p>
+    <div class="stack-grid">
+      <div class="stack-card">
+        <h4>Framework</h4>
+        <p>Next.js + <code>next/font</code><br>
+        <code>--font-inter</code>, <code>--font-geist-mono</code> 변수 주입</p>
+      </div>
+      <div class="stack-card">
+        <h4>Design System</h4>
+        <p>Tailwind v4 + 자체 semantic 레이어 하이브리드</p>
+      </div>
+      <div class="stack-card">
+        <h4>CSS Architecture</h4>
+        <p>Tailwind v4 <code>@theme</code> → <code>--color-{name}-{50..950}</code> 팔레트 주입<br>자체 semantic: <code>--color-background-main</code> / <code>--color-text-main</code><br>다크모드: invert 패턴</p>
+      </div>
+      <div class="stack-card">
+        <h4>특화 토큰</h4>
+        <p>Prose (<code>--tw-prose-*</code>) — 문서 본문 스타일<br>Twoslash (<code>--twoslash-popup-bg</code>) — TS hover popup<br>Font metric fallback (layout shift 방지)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §04 + §05 Typography -->
+  <section class="section" id="typography">
+    <div class="section-label">Foundations</div>
+    <h2 class="section-title">본문은 em 기반, 히어로는 px 고정</h2>
+    <p class="section-sub">
+      마케팅 히어로와 docs 본문 두 레이어로 분리된다. 히어로는 px 절대값, docs 본문(Prose)은 em/% 기반. 폰트: <strong>Inter</strong> (body) + <strong>Geist Mono</strong> (code).
+    </p>
+
+    <!-- Font stack -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:28px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px;color:var(--muted-fg);letter-spacing:.04em;text-transform:uppercase">Font Stack</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:16px">
+          <span style="font-size:22px;font-weight:400;font-family:'Inter',sans-serif;flex:0 0 200px">Inter — Body</span>
+          <code style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--muted-fg)">var(--font-inter), "Inter", "Inter Fallback", -apple-system</code>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <span style="font-size:22px;font-weight:400;font-family:'JetBrains Mono',monospace;flex:0 0 200px">Geist Mono</span>
+          <code style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--muted-fg)">var(--font-geist-mono), "Geist Mono", "Geist Mono Fallback", ui-monospace</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Type scale table -->
+    <table class="type-table">
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Size</th>
+          <th>Weight</th>
+          <th>Line-height</th>
+          <th>Letter-spacing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:40px;font-weight:700;line-height:1.1;letter-spacing:-0.02em;font-family:'Inter',sans-serif">hero-display</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">hero-display</span>
+              <span class="type-row__spec">40px</span>
+              <span class="badge">700</span>
+              <span class="type-row__spec">lh 1.1</span>
+              <span class="type-row__spec">-0.02em</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:34px;font-weight:700;line-height:1.15;letter-spacing:-0.018em;font-family:'Inter',sans-serif">hero-h1</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">hero-h1</span>
+              <span class="type-row__spec">34px</span>
+              <span class="badge">700</span>
+              <span class="type-row__spec">lh 1.15</span>
+              <span class="type-row__spec">-0.018em</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:28px;font-weight:600;line-height:1.25;letter-spacing:-0.014em;font-family:'Inter',sans-serif">Heading 2</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">h2</span>
+              <span class="type-row__spec">28px</span>
+              <span class="badge">600</span>
+              <span class="type-row__spec">lh 1.25</span>
+              <span class="type-row__spec">-0.014em</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:20px;font-weight:600;line-height:1.3;letter-spacing:-0.01em;font-family:'Inter',sans-serif">Heading 3</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">h3</span>
+              <span class="type-row__spec">20px</span>
+              <span class="badge">600</span>
+              <span class="type-row__spec">lh 1.3</span>
+              <span class="type-row__spec">-0.01em</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:18px;font-weight:600;line-height:1.4;letter-spacing:0;font-family:'Inter',sans-serif">Heading 4</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">h4</span>
+              <span class="type-row__spec">18px</span>
+              <span class="badge">600</span>
+              <span class="type-row__spec">lh 1.4</span>
+              <span class="type-row__spec">0em</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:17px;font-weight:400;line-height:1.6;letter-spacing:0;font-family:'Inter',sans-serif">Body large — 문서 소개 텍스트 등</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">body-lg</span>
+              <span class="type-row__spec">17px</span>
+              <span class="badge">400</span>
+              <span class="type-row__spec">lh 1.6</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:15px;font-weight:400;line-height:1.6;letter-spacing:0;font-family:'Inter',sans-serif">Body — 일반 본문 텍스트</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">body</span>
+              <span class="type-row__spec">15px</span>
+              <span class="badge">400</span>
+              <span class="type-row__spec">lh 1.6</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:13px;font-weight:400;line-height:1.55;letter-spacing:0;font-family:'Inter',sans-serif">Body small — 메타, 레이블</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">body-sm</span>
+              <span class="type-row__spec">13px</span>
+              <span class="badge">400</span>
+              <span class="type-row__spec">lh 1.55</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:13px;font-weight:500;line-height:1.5;letter-spacing:0;font-family:'JetBrains Mono',monospace">code-inline — 인라인 코드</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">code-inline</span>
+              <span class="type-row__spec">0.875em</span>
+              <span class="badge">500</span>
+              <span class="type-row__spec">lh 1.5</span>
+            </span>
+          </div>
+        </td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- §06 Colors -->
+  <section class="section" id="colors">
+    <div class="section-label">Foundations</div>
+    <h2 class="section-title">Warm Palette — cool gray는 없다</h2>
+    <p class="section-sub">Mintlify의 핵심 색채 원칙은 warm이다. 흰색은 순백, 텍스트는 warm black #231F20, 서피스는 warm off-white #F1EFED. Tailwind 기본 팔레트와 자체 semantic 레이어를 혼합 운용한다.</p>
+
+    <!-- Brand -->
+    <div class="ramp">
+      <div class="ramp__label">Brand Teal</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(3,1fr)">
+        <div class="swatch sw--d is-anchor" style="background:#0C8C5E">
+          <span class="swatch-label">--color-brand<br><span class="swatch-hex">#0C8C5E</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#20808D">
+          <span class="swatch-label">--color-brand-light<br><span class="swatch-hex">#20808D</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#18E299">
+          <span class="swatch-label">--color-accent-lime<br><span class="swatch-hex">#18E299</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Background / Surface -->
+    <div class="ramp">
+      <div class="ramp__label">Background / Surface</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(5,1fr)">
+        <div class="swatch sw--l is-anchor" style="background:#FFFFFF;border:1px solid #e4e4e7">
+          <span class="swatch-label">background-main<br><span class="swatch-hex">#FFFFFF</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#F1EFED">
+          <span class="swatch-label">background-soft<br><span class="swatch-hex">#F1EFED</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#F9FAFB">
+          <span class="swatch-label">background-gray-subtle<br><span class="swatch-hex">#F9FAFB</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#F3F4F6">
+          <span class="swatch-label">background-gray-emphasis<br><span class="swatch-hex">#F3F4F6</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#101828">
+          <span class="swatch-label">background-invert (다크)<br><span class="swatch-hex">#101828</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text -->
+    <div class="ramp">
+      <div class="ramp__label">Text</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(5,1fr)">
+        <div class="swatch sw--d is-anchor" style="background:#231F20">
+          <span class="swatch-label">text-main (warm black)<br><span class="swatch-hex">#231F20</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#4A5565">
+          <span class="swatch-label">text-soft<br><span class="swatch-hex">#4A5565</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#6B7280">
+          <span class="swatch-label">text-sub / muted<br><span class="swatch-hex">#6B7280</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#9CA3AF">
+          <span class="swatch-label">text-base-tertiary<br><span class="swatch-hex">#9CA3AF</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#FFFFFF;border:1px solid #e4e4e7">
+          <span class="swatch-label">text-invert<br><span class="swatch-hex">#FFFFFF</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Border -->
+    <div class="ramp">
+      <div class="ramp__label">Border</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(3,1fr)">
+        <div class="swatch sw--l" style="background:#E5E7EB">
+          <span class="swatch-label">border-sub<br><span class="swatch-hex">#E5E7EB</span></span>
+        </div>
+        <div class="swatch sw--l is-anchor" style="background:#D1D5DC">
+          <span class="swatch-label">border-solid (input)<br><span class="swatch-hex">#D1D5DC</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#EEF0F2">
+          <span class="swatch-label">border-soft<br><span class="swatch-hex">#EEF0F2</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prose / Twoslash -->
+    <div class="ramp">
+      <div class="ramp__label">Prose / Twoslash</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(4,1fr)">
+        <div class="swatch sw--d" style="background:#1E2939">
+          <span class="swatch-label">prose-pre-bg (code block)<br><span class="swatch-hex">#1E2939</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#F3F7F6">
+          <span class="swatch-label">twoslash-popup-bg<br><span class="swatch-hex">#F3F7F6</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#DBDFDE">
+          <span class="swatch-label">twoslash-border<br><span class="swatch-hex">#DBDFDE</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#364153">
+          <span class="swatch-label">prose-invert-quote<br><span class="swatch-hex">#364153</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Semantic table -->
+    <div style="margin-top:8px">
+      <div class="color-row">
+        <div class="color-chip" style="background:#0C8C5E"></div>
+        <span class="color-token">--color-brand</span>
+        <span class="color-hex">#0C8C5E</span>
+        <span class="color-desc">주 브랜드 teal (11회 실사용)</span>
+      </div>
+      <div class="color-row">
+        <div class="color-chip" style="background:#231F20"></div>
+        <span class="color-token">--color-text-main</span>
+        <span class="color-hex">#231F20</span>
+        <span class="color-desc">warm black primary text (46회)</span>
+      </div>
+      <div class="color-row">
+        <div class="color-chip" style="background:#F1EFED"></div>
+        <span class="color-token">--color-background-soft</span>
+        <span class="color-hex">#F1EFED</span>
+        <span class="color-desc">warm off-white surface (22회)</span>
+      </div>
+      <div class="color-row">
+        <div class="color-chip" style="background:#1E2939"></div>
+        <span class="color-token">--tw-prose-pre-bg</span>
+        <span class="color-hex">#1E2939</span>
+        <span class="color-desc">code block bg (light mode)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- §07 Spacing -->
+  <section class="section" id="spacing">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">스페이싱(간격 체계) — Tailwind 4px base</h2>
+    <p class="section-sub">Tailwind v4 단일 base 패턴 (<code>--spacing: 0.25rem</code> = 4px). 문서 플랫폼 특화 spacing 포함.</p>
+
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:8px"></div>
+      <span class="spacing-token">p-2</span>
+      <span class="spacing-value">8px</span>
+      <span class="spacing-use">tight</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:12px"></div>
+      <span class="spacing-token">p-3</span>
+      <span class="spacing-value">12px</span>
+      <span class="spacing-use">inline</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:16px"></div>
+      <span class="spacing-token">p-4</span>
+      <span class="spacing-value">16px</span>
+      <span class="spacing-use">card inner</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:24px"></div>
+      <span class="spacing-token">p-6</span>
+      <span class="spacing-value">24px</span>
+      <span class="spacing-use">section inner</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:32px"></div>
+      <span class="spacing-token">p-8</span>
+      <span class="spacing-value">32px</span>
+      <span class="spacing-use">block gap</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:48px"></div>
+      <span class="spacing-token">p-12</span>
+      <span class="spacing-value">48px</span>
+      <span class="spacing-use">section gap</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:64px"></div>
+      <span class="spacing-token">p-16</span>
+      <span class="spacing-value">64px</span>
+      <span class="spacing-use">hero padding</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:80px"></div>
+      <span class="spacing-token">p-20</span>
+      <span class="spacing-value">80px</span>
+      <span class="spacing-use">major block</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:112px"></div>
+      <span class="spacing-token">doc-sidebar-width</span>
+      <span class="spacing-value">280px</span>
+      <span class="spacing-use">좌측 네비게이션</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:100px"></div>
+      <span class="spacing-token">doc-content-max</span>
+      <span class="spacing-value">768px</span>
+      <span class="spacing-use">본문 가독폭</span>
+    </div>
+  </section>
+
+  <!-- §08 Radius -->
+  <section class="section" id="radius">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">라디우스(모서리 반경) 9단 — 최빈 10px</h2>
+    <p class="section-sub">24개 고유 radius 값 중 10px(rounded-lg)가 5회로 최빈. 2px(인라인 코드)~9999px(pill) 전 범위 사용.</p>
+
+    <div class="radius-grid">
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:2px"></div>
+        <div class="radius-label">rounded-xs</div>
+        <div class="radius-value">2px — inline code</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:4px"></div>
+        <div class="radius-label">rounded-sm</div>
+        <div class="radius-value">4px — small button</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:6px"></div>
+        <div class="radius-label">rounded-md</div>
+        <div class="radius-value">6px — input</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:8px"></div>
+        <div class="radius-label">rounded</div>
+        <div class="radius-value">8px — button</div>
+      </div>
+      <div class="radius-card" style="outline:2px solid var(--brand-color);outline-offset:2px">
+        <div class="radius-box" style="border-radius:10px"></div>
+        <div class="radius-label">rounded-lg <span style="color:var(--brand-color);font-size:10px">★ 최빈</span></div>
+        <div class="radius-value">10px — card</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:12px"></div>
+        <div class="radius-label">rounded-xl</div>
+        <div class="radius-value">12px — large card</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:16px"></div>
+        <div class="radius-label">rounded-2xl</div>
+        <div class="radius-value">16px — modal</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:20px"></div>
+        <div class="radius-label">rounded-3xl</div>
+        <div class="radius-value">20px — hero card</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:9999px;width:48px;height:48px"></div>
+        <div class="radius-label">rounded-full</div>
+        <div class="radius-value">9999px — pill, avatar</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §09 Shadows -->
+  <section class="section" id="shadows">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">섀도우 — Twoslash popup이 시그너처</h2>
+    <p class="section-sub">기본 3단 Tailwind 섀도우에 더해 Twoslash popup 전용 섀도우가 Mintlify의 문서 플랫폼 차별점이다.</p>
+
+    <div class="shadow-grid">
+      <div class="shadow-card" style="border:1px solid var(--border)">
+        <div class="shadow-box" style="box-shadow:0 1px 2px 0 rgba(0,0,0,0.05)"></div>
+        <div class="shadow-name">shadow-sm</div>
+        <div class="shadow-value">0 1px 2px 0 #0000000d</div>
+        <div style="font-size:11px;color:var(--muted-fg)">subtle card</div>
+      </div>
+      <div class="shadow-card" style="border:1px solid var(--border)">
+        <div class="shadow-box" style="box-shadow:0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -2px rgba(0,0,0,0.1)"></div>
+        <div class="shadow-name">shadow-md</div>
+        <div class="shadow-value">0 4px 6px -1px #0000001a<br>0 2px 4px -2px #0000001a</div>
+        <div style="font-size:11px;color:var(--muted-fg)">card</div>
+      </div>
+      <div class="shadow-card" style="border:1px solid var(--border)">
+        <div class="shadow-box" style="box-shadow:0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -4px rgba(0,0,0,0.1)"></div>
+        <div class="shadow-name">shadow-lg</div>
+        <div class="shadow-value">0 10px 15px -3px #0000001a<br>0 4px 6px -4px #0000001a</div>
+        <div style="font-size:11px;color:var(--muted-fg)">popover</div>
+      </div>
+      <div class="shadow-card" style="border:1px solid var(--border)">
+        <div class="shadow-box" style="box-shadow:rgba(0,0,0,0.08) 0px 1px 4px;border:1px solid #DBDFDE;background:#F3F7F6"></div>
+        <div class="shadow-name">twoslash-popup</div>
+        <div class="shadow-value">rgba(0,0,0,.08) 0px 1px 4px</div>
+        <div style="font-size:11px;color:var(--brand-color);font-weight:500">TS hover popup ★</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §11 Layout Patterns -->
+  <section class="section" id="layout">
+    <div class="section-label">Patterns</div>
+    <h2 class="section-title">레이아웃 패턴 — 3-column docs</h2>
+    <p class="section-sub">Sidebar 280px + 본문 768px + 우측 TOC 240px 3-column 레이아웃이 docs 페이지의 기본 골격이다.</p>
+
+    <div class="layout-demo">
+      <h4>Docs Layout (3-column)</h4>
+      <div class="layout-spec">
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Left sidebar</span>
+          <span class="layout-spec-val">280px, #F1EFED 또는 #FFFFFF + border #E5E7EB</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Main content</span>
+          <span class="layout-spec-val">max-width 768px, 중앙 정렬</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Right TOC</span>
+          <span class="layout-spec-val">240px, sticky top</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Max-width</span>
+          <span class="layout-spec-val">1440px, margin-inline: auto</span>
+        </div>
+      </div>
+      <div class="layout-code">.docs-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr 240px;
+  max-width: 1440px;
+  margin-inline: auto;
+}
+.docs-content { max-width: 768px; padding: 48px 32px; }
+.logo-wall { filter: grayscale(1) opacity(0.5); }</div>
+    </div>
+
+    <div class="layout-demo">
+      <h4>Hero Layout (marketing)</h4>
+      <div class="layout-spec">
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Background</span>
+          <span class="layout-spec-val">#FFFFFF + teal gradient</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">H1</span>
+          <span class="layout-spec-val">40px / weight 700 / tracking -0.02em</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Customer logos</span>
+          <span class="layout-spec-val">grayscale(1) opacity(0.5) filter 적용 권장</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §12 Components -->
+  <section class="section" id="components">
+    <div class="section-label">Patterns</div>
+    <h2 class="section-title">컴포넌트</h2>
+    <p class="section-sub">문서 플랫폼 특화 컴포넌트. Twoslash popup이 Mintlify를 일반 docs 사이트와 구분짓는 시그너처다.</p>
+
+    <!-- 12.1 Primary CTA -->
+    <div class="cmp-section">
+      <h3>Primary CTA (Teal)</h3>
+      <div class="cmp-demo">
+        <button class="btn-primary">Start for free</button>
+        <button class="btn-secondary">View docs</button>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;a class="btn-primary"&gt;Start for free&lt;/a&gt;
+
+/* bg: #0C8C5E  hover: #20808D  text: #fff
+   padding: 10px 20px  radius: 8px  weight: 500 */</pre>
+      </div>
+    </div>
+
+    <!-- 12.2 Code Block -->
+    <div class="cmp-section">
+      <h3>Code Block (language tabs)</h3>
+      <div class="cmp-demo" style="background:#0f172a">
+        <div class="demo-code-block">
+          <div class="demo-code-tabs">
+            <button class="demo-code-tab active">TypeScript</button>
+            <button class="demo-code-tab">Python</button>
+          </div>
+          <pre><span class="tw-comment">// hover 시 --twoslash-popup 표시</span>
+const result = fetchData({
+  endpoint: '/api/docs',
+  format: 'json'
+});</pre>
+        </div>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;div class="code-block"&gt;
+  &lt;div class="code-block__tabs"&gt;
+    &lt;button class="tab active"&gt;TypeScript&lt;/button&gt;
+    &lt;button class="tab"&gt;Python&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;pre&gt;&lt;code class="language-ts"&gt;// hover 시 --twoslash-popup 표시&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+/* bg: #1E2939  text: #F3F4F6
+   padding: 20px 24px  radius: 10px
+   font: var(--font-geist-mono) */</pre>
+      </div>
+    </div>
+
+    <!-- 12.3 Twoslash Popup -->
+    <div class="cmp-section">
+      <h3>Twoslash Popup (TypeScript hover)</h3>
+      <div class="cmp-demo" style="background:#0f172a;align-items:flex-start;padding:40px">
+        <div class="demo-twoslash-wrap">
+          <div class="demo-twoslash-code">
+            const result = <span class="tw-hover">fetchData</span>(opts);
+          </div>
+          <div class="demo-twoslash-popup">
+            (function) fetchData(opts: RequestOptions): Promise&lt;Response&gt;
+          </div>
+        </div>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;span class="twoslash"&gt;type Result = {...}&lt;/span&gt;
+
+/* --twoslash-popup-bg: #F3F7F6
+   --twoslash-border-color: #DBDFDE
+   --twoslash-popup-shadow: rgba(0,0,0,.08) 0px 1px 4px
+   font-size: 0.8rem */</pre>
+      </div>
+    </div>
+
+    <!-- 12.4 Doc Card -->
+    <div class="cmp-section">
+      <h3>Doc Card</h3>
+      <div class="cmp-demo">
+        <div class="demo-doc-card">
+          <div class="demo-doc-card__icon">📄</div>
+          <h3>Quickstart</h3>
+          <p>Start documenting in minutes.</p>
+        </div>
+        <div class="demo-doc-card">
+          <div class="demo-doc-card__icon">🔧</div>
+          <h3>Configuration</h3>
+          <p>Customize your docs to match your brand.</p>
+        </div>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;a class="doc-card"&gt;
+  &lt;div class="doc-card__icon"&gt;&lt;/div&gt;
+  &lt;h3&gt;Quickstart&lt;/h3&gt;
+  &lt;p&gt;Start documenting in minutes.&lt;/p&gt;
+&lt;/a&gt;
+
+/* bg: #FFFFFF  border: 1px solid #E5E7EB
+   radius: 10px  padding: 24px
+   hover border: #0C8C5E */</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- §14 + §15 Code Export -->
+  <section class="section" id="code">
+    <div class="section-label">Code</div>
+    <h2 class="section-title">CSS · Tailwind 설정</h2>
+    <p class="section-sub">바로 복사해 사용할 수 있는 드롭인 스니펫이다.</p>
+
+    <div class="code-export-wrap">
+      <div class="code-export-header">
+        <div class="code-tabs">
+          <button class="code-tab active" data-tab="css">CSS 스니펫</button>
+          <button class="code-tab" data-tab="tailwind">Tailwind 설정</button>
+        </div>
+        <button class="copy-btn" style="position:static;margin:8px 0" onclick="copyActivePane()">Copy</button>
+      </div>
+      <div class="code-pane active" data-pane="css">
+        <pre>/* Mintlify — copy into your root stylesheet */
+:root {
+  /* Fonts (next/font 변수 방식) */
+  --font-inter:      "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-geist-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+
+  /* Semantic — Mintlify layer */
+  --color-background-main:        #FFFFFF;
+  --color-background-soft:        #F1EFED;
+  --color-background-gray-subtle: #F9FAFB;
+  --color-background-gray-emphasis:#F3F4F6;
+  --color-text-main:              #231F20;
+  --color-text-soft:              #4A5565;
+  --color-text-sub:               #6B7280;
+  --color-text-base-tertiary:     #9CA3AF;
+  --color-border-sub:             #E5E7EB;
+  --color-border-solid:           #D1D5DC;
+  --color-border-soft:            #EEF0F2;
+
+  /* Brand */
+  --color-brand:       #0C8C5E;
+  --color-brand-light: #20808D;
+
+  /* Semantic invert (다크 모드 — 변수 flip) */
+  --color-background-invert: var(--color-text-main);
+  --color-text-invert:       var(--color-background-main);
+
+  /* Prose */
+  --tw-prose-pre-bg:          #1E2939;
+  --tw-prose-quote-borders:   #E5E7EB;
+  --tw-prose-th-borders:      #D1D5DC;
+  --tw-prose-td-borders:      #E5E7EB;
+
+  /* Twoslash */
+  --twoslash-popup-bg:      #F3F7F6;
+  --twoslash-border-color:  #DBDFDE;
+  --twoslash-popup-shadow:  rgba(0,0,0,0.08) 0px 1px 4px;
+  --twoslash-code-font:     var(--font-geist-mono);
+
+  /* Spacing */
+  --spacing: 0.25rem;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 16px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px 0 #0000000d;
+  --shadow-md: 0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;
+  --shadow-lg: 0 10px 15px -3px #0000001a, 0 4px 6px -4px #0000001a;
+}
+
+body {
+  background: var(--color-background-main);
+  color: var(--color-text-main);
+  font-family: var(--font-inter);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+code, pre { font-family: var(--font-geist-mono); }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background-main: #101828;
+    --color-text-main:       #F9FAFB;
+  }
+}</pre>
+      </div>
+      <div class="code-pane" data-pane="tailwind">
+        <pre>// tailwind.config.js — Mintlify (Tailwind v4 + @tailwindcss/typography)
+module.exports = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        bg: {
+          main: 'var(--color-background-main)',
+          soft: '#F1EFED',
+          'gray-subtle': '#F9FAFB',
+        },
+        text: {
+          main: '#231F20',
+          soft: '#4A5565',
+          sub:  '#6B7280',
+        },
+        brand: {
+          DEFAULT: '#0C8C5E',
+          light:   '#20808D',
+        },
+        border: {
+          sub:   '#E5E7EB',
+          solid: '#D1D5DC',
+          soft:  '#EEF0F2',
+        },
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)', 'Inter', 'Inter Fallback', '-apple-system', 'sans-serif'],
+        mono: ['var(--font-geist-mono)', 'Geist Mono', 'Geist Mono Fallback', 'monospace'],
+      },
+      borderRadius: {
+        sm: '4px', md: '8px', lg: '10px', xl: '12px', '2xl': '16px',
+      },
+      boxShadow: {
+        sm: '0 1px 2px 0 #0000000d',
+        md: '0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a',
+        lg: '0 10px 15px -3px #0000001a, 0 4px 6px -4px #0000001a',
+        'twoslash': 'rgba(0,0,0,0.08) 0px 1px 4px',
+      },
+    },
+  },
+  plugins: [require('@tailwindcss/typography')],
+};</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- §16 Do / Don't -->
+  <section class="section" id="dodont">
+    <div class="section-label">Rules</div>
+    <h2 class="section-title">자주 틀리는 것들</h2>
+    <p class="section-sub">customer logo wall 오염과 cool gray 사용이 가장 흔한 실수다.</p>
+
+    <div class="dd-grid">
+      <div class="dd-card dd-card--do">
+        <div class="dd-card__badge">DO</div>
+        <ul>
+          <li>브랜드 teal은 <code>#0C8C5E</code> (primary), <code>#20808D</code> (secondary). 밝은 lime <code>#18E299</code>는 accent.</li>
+          <li>Primary text는 warm black <code>#231F20</code> — pure black 아님.</li>
+          <li>Surface는 warm off-white <code>#F1EFED</code> — cool gray 아님.</li>
+          <li>폰트는 <code>Inter</code> (body) + <code>Geist Mono</code> (code). <code>next/font</code> 변수 방식.</li>
+          <li><strong>Metric fallback</strong> (<code>Inter Fallback</code>, <code>Geist Mono Fallback</code>) 포함 필수.</li>
+          <li>다크 모드는 <strong>invert 변수 패턴</strong>. <code>--color-background-invert: var(--color-text-main)</code>.</li>
+          <li>Prose 토큰 (<code>--tw-prose-pre-bg</code>) 사용해 문서 본문 스타일링.</li>
+          <li><strong>Twoslash popup</strong> (<code>--twoslash-popup-bg</code>)을 TS 코드 hover에 사용 — Mintlify 시그너처.</li>
+        </ul>
+      </div>
+      <div class="dd-card dd-card--dont">
+        <div class="dd-card__badge">DON'T</div>
+        <ul>
+          <li><code>Fira Code</code> 쓰지 말 것 → 공식은 <code>Geist Mono</code>.</li>
+          <li><code>#0D9373</code> 쓰지 말 것 → 실제 brand는 <code>#0C8C5E</code>.</li>
+          <li>pure black <code>#000</code> text 쓰지 말 것 → warm <code>#231F20</code>.</li>
+          <li>cool gray surface (<code>#F5F6F8</code>) 쓰지 말 것 → warm <code>#F1EFED</code>.</li>
+          <li>Customer logo wall의 hex (<code>#003087</code> PayPal, <code>#FF5A00</code> Braintrust, <code>#4B73FF</code> Coinbase)를 Mintlify 브랜드로 착각하지 말 것.</li>
+          <li>다크 모드를 두 세트 hex 나열로 구현하지 말 것 → invert 변수 flip 패턴.</li>
+          <li>일반 Tailwind docs 템플릿 느낌 금지 → Twoslash / Prose 문서 특화 토큰 포함.</li>
+          <li>본문 폰트를 px 절대값으로 고정 금지 → Prose em/% 사용.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script>
+// TOC active state
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector('.toc a[href="#' + e.target.id + '"]');
+      if (link) link.classList.add('active');
+    }
+  });
+}, {rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s => observer.observe(s));
+
+// Code tabs
+document.querySelectorAll('.code-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    const wrap = tab.closest('.code-export-wrap');
+    wrap.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+    wrap.querySelectorAll('.code-pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    wrap.querySelector('.code-pane[data-pane="' + target + '"]').classList.add('active');
+  });
+});
+
+// Copy buttons
+function copyCode(btn) {
+  const pre = btn.nextElementSibling;
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+function copyActivePane() {
+  const pane = document.querySelector('.code-pane.active pre');
+  if (!pane) return;
+  navigator.clipboard.writeText(pane.textContent).then(() => {
+    const btn = document.querySelector('.code-export-header .copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1187 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PlanetScale — Design System Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── Tokens ── */
+:root{
+  --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --bg:#fafafa;
+  --fg:#414141;
+  --card:#ffffff;
+  --muted:#ebebeb;
+  --muted-fg:#818181;
+  --subtle:#e1e1e1;
+  --border:#e1e1e1;
+  --border-str:#c1c1c1;
+  --accent:#414141;
+  --radius:6px;
+  --radius-lg:10px;
+  --brand-color:#0B6EC5;
+}
+
+/* ── Layout ── */
+html{scroll-behavior:smooth}
+body{
+  font-family:"Inter",ui-sans-serif,system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+/* ── TOC ── */
+.toc{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  background:var(--card);
+  border-right:1px solid var(--border);
+  padding:24px 0;
+  font-size:13px;
+}
+.toc__logo{
+  padding:0 20px 20px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:16px;
+}
+.toc__logo-mark{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;height:28px;
+  background:var(--brand-color);
+  color:#fff;
+  border-radius:6px;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:6px;
+}
+.toc__site{font-weight:600;font-size:13px;color:var(--fg)}
+.toc__tagline{color:var(--muted-fg);font-size:11px;margin-top:2px}
+.toc__group{margin-bottom:4px}
+.toc__group-label{
+  padding:6px 20px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--muted-fg);
+}
+.toc a{
+  display:block;
+  padding:5px 20px;
+  color:var(--muted-fg);
+  text-decoration:none;
+  transition:color .15s,background .15s;
+}
+.toc a:hover,.toc a.active{
+  color:var(--brand-color);
+  background:rgba(11,110,197,0.07);
+}
+
+/* ── Main ── */
+.main{max-width:900px;padding:60px 48px;margin:0 auto}
+
+/* ── Sections ── */
+.section{margin-bottom:72px}
+.section-label{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--brand-color);
+  margin-bottom:10px;
+}
+.section-title{
+  font-size:26px;
+  font-weight:700;
+  line-height:1.2;
+  letter-spacing:-0.01em;
+  margin-bottom:8px;
+}
+.section-sub{
+  color:var(--muted-fg);
+  font-size:15px;
+  margin-bottom:32px;
+  line-height:1.5;
+}
+
+/* ── Hero ── */
+.hero{
+  padding:64px 0 56px;
+  margin-bottom:64px;
+  border-bottom:1px solid var(--border);
+}
+.hero__eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(11,110,197,0.08);
+  color:var(--brand-color);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  padding:4px 12px;
+  border-radius:999px;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-size:38px;
+  font-weight:700;
+  line-height:1.15;
+  letter-spacing:-0.01em;
+  margin-bottom:14px;
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--brand-color);
+}
+.hero__sub{
+  font-size:17px;
+  color:var(--muted-fg);
+  line-height:1.5;
+  max-width:580px;
+  margin-bottom:40px;
+}
+
+/* ── Quick Start ── */
+.qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.qs__step{
+  background:#111111;
+  border-radius:var(--radius-lg);
+  padding:20px;
+  border:1px solid #1f1f1f;
+}
+.qs__step-num{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#616161;
+  margin-bottom:10px;
+}
+.qs__step pre{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:11.5px;
+  line-height:1.6;
+  color:#c1c1c1;
+  overflow-x:auto;
+  white-space:pre;
+}
+.qs__warn{
+  background:#FEF3C7;
+  border:1px solid #FDE68A;
+  border-radius:var(--radius);
+  padding:14px 16px;
+  font-size:13px;
+  color:#92400E;
+  line-height:1.5;
+}
+.qs__warn strong{color:#78350F}
+.qs__warn code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:11px;
+  background:rgba(0,0,0,0.07);
+  padding:1px 5px;
+  border-radius:3px;
+}
+
+/* ── Stat cards ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:18px 20px;
+}
+.stat__label{font-size:11px;font-weight:500;color:var(--muted-fg);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
+.stat__value{font-size:20px;font-weight:700;color:var(--fg);letter-spacing:-0.01em}
+.stat__sub{font-size:11px;color:var(--muted-fg);margin-top:2px}
+
+/* ── Info table ── */
+.info-table{width:100%;border-collapse:collapse;font-size:14px}
+.info-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.info-table td:first-child{
+  font-weight:500;
+  color:var(--muted-fg);
+  white-space:nowrap;
+  width:180px;
+}
+.info-table code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  background:var(--muted);
+  padding:1px 5px;
+  border-radius:4px;
+  color:var(--fg);
+}
+
+/* ── Tech stack ── */
+.stack-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stack-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:16px 20px;
+}
+.stack-card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.stack-card p{font-size:13px;color:var(--muted-fg);line-height:1.5}
+.stack-card code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  background:var(--muted);
+  padding:1px 5px;
+  border-radius:4px;
+  color:var(--fg);
+}
+
+/* ── Typography ── */
+.type-table{width:100%;border-collapse:collapse;font-size:13px}
+.type-table th{
+  text-align:left;
+  padding:8px 12px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--muted-fg);
+  border-bottom:1px solid var(--border);
+}
+.type-table td{padding:0;border-bottom:1px solid var(--border)}
+.type-row{display:flex;align-items:baseline;padding:14px 12px;gap:12px}
+.type-row__preview{flex:0 0 280px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.type-row__meta{display:flex;gap:16px;flex:1;align-items:center;flex-wrap:wrap}
+.type-row__token{font-size:12px;font-family:"JetBrains Mono",ui-monospace,monospace;color:var(--muted-fg);white-space:nowrap}
+.type-row__spec{font-size:12px;color:var(--muted-fg)}
+.badge{
+  display:inline-block;
+  padding:1px 7px;
+  border-radius:4px;
+  font-size:11px;
+  font-weight:500;
+  background:var(--muted);
+  color:var(--muted-fg);
+}
+
+/* ── Color swatches ── */
+.ramp{margin-bottom:28px}
+.ramp__label{font-size:12px;font-weight:600;color:var(--muted-fg);margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase}
+.ramp__row{
+  display:grid;
+  gap:3px;
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.swatch{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:8px 10px;
+  min-height:72px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+}
+.sw--l .swatch-label{color:rgba(0,0,0,0.6)}
+.sw--d .swatch-label{color:rgba(255,255,255,0.7)}
+.swatch-label{font-size:10px;line-height:1.3}
+.swatch-hex{font-size:10px;opacity:.8}
+.is-anchor{outline:2px solid var(--brand-color);outline-offset:-2px;border-radius:2px}
+
+/* ── Semantic token table ── */
+.color-row{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.color-chip{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);flex-shrink:0}
+.color-token{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--muted-fg);flex:0 0 220px}
+.color-hex{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;flex:0 0 90px}
+.color-desc{color:var(--muted-fg)}
+
+/* ── Spacing ── */
+.spacing-row{display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
+.spacing-bar{background:var(--brand-color);height:20px;border-radius:3px;opacity:.7;flex-shrink:0}
+.spacing-token{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--muted-fg);width:80px}
+.spacing-value{font-size:13px;font-weight:500;width:60px}
+.spacing-use{font-size:13px;color:var(--muted-fg)}
+
+/* ── Radius ── */
+.radius-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+.radius-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
+.radius-box{
+  width:64px;
+  height:64px;
+  background:rgba(11,110,197,0.1);
+  border:2px solid var(--brand-color);
+}
+.radius-label{font-size:12px;font-weight:600;text-align:center}
+.radius-value{font-size:11px;color:var(--muted-fg);font-family:"JetBrains Mono",ui-monospace,monospace;text-align:center}
+
+/* ── Shadow ── */
+.shadow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px}
+.shadow-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
+.shadow-box{
+  width:80px;height:80px;
+  background:var(--card);
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+}
+.shadow-name{font-size:13px;font-weight:600}
+.shadow-value{font-size:11px;color:var(--muted-fg);font-family:"JetBrains Mono",ui-monospace,monospace;text-align:center;line-height:1.5;word-break:break-all}
+
+/* ── Components ── */
+.cmp-section{margin-bottom:40px}
+.cmp-section h3{font-size:17px;font-weight:600;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.cmp-demo{
+  background:var(--muted);
+  border-radius:var(--radius-lg);
+  padding:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+  border:1px solid var(--border);
+}
+.cmp-code{
+  position:relative;
+  background:#111111;
+  border-radius:var(--radius);
+  padding:16px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#c1c1c1;
+  overflow-x:auto;
+  margin-bottom:6px;
+}
+.copy-btn{
+  position:absolute;
+  top:10px;right:10px;
+  background:#2b2b2b;
+  color:#818181;
+  border:none;
+  border-radius:4px;
+  padding:3px 8px;
+  font-size:11px;
+  cursor:pointer;
+  transition:background .15s;
+}
+.copy-btn:hover{background:#414141;color:#c1c1c1}
+
+/* ── Demo components ── */
+.btn-primary-demo{
+  display:inline-flex;align-items:center;
+  background:#0B6EC5;color:#fff;
+  border:none;border-radius:4px;
+  padding:8px 16px;
+  font-size:14px;font-weight:600;
+  font-family:inherit;cursor:pointer;text-decoration:none;
+  transition:background .15s;
+}
+.btn-primary-demo:hover{background:#0a5fa8}
+.btn-ghost-demo{
+  display:inline-flex;align-items:center;
+  background:transparent;
+  border:1px solid #c1c1c1;
+  border-radius:4px;
+  padding:8px 16px;
+  font-size:14px;font-weight:600;
+  font-family:inherit;cursor:pointer;
+  color:#414141;text-decoration:none;
+  transition:border-color .15s;
+}
+.btn-ghost-demo:hover{border-color:#0B6EC5;color:#0B6EC5}
+
+.postgres-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;
+  font-size:12px;font-weight:500;
+  border-radius:4px;
+  background:rgba(51,103,145,0.1);
+  color:#336791;
+}
+.mysql-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;
+  font-size:12px;font-weight:500;
+  border-radius:4px;
+  background:rgba(11,110,197,0.1);
+  color:#0B6EC5;
+}
+
+/* ── Code Export ── */
+.code-box{
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+}
+.code-box-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 16px;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+}
+.code-box-title{font-size:13px;font-weight:600;color:var(--fg)}
+.code-box pre{
+  background:#111111;
+  padding:24px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#c1c1c1;
+  overflow-x:auto;
+  line-height:1.65;
+  max-height:520px;
+}
+
+/* ── Do / Don't ── */
+.dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dd-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:20px 24px;
+}
+.dd-card--do{border-top:3px solid #22A652}
+.dd-card--dont{border-top:3px solid #c11027}
+.dd-card__badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.dd-card--do .dd-card__badge{color:#22A652}
+.dd-card--dont .dd-card__badge{color:#c11027}
+.dd-card ul{padding-left:16px;display:flex;flex-direction:column;gap:7px}
+.dd-card li{font-size:13px;line-height:1.5;color:var(--fg)}
+.dd-card li code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:11px;
+  background:var(--muted);
+  padding:1px 5px;
+  border-radius:3px;
+}
+.toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+.toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+.toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+.hero__screenshot{margin-bottom:32px;max-width:880px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);}
+.hero__screenshot img{width:100%;height:auto;display:block;}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ── TOC ── -->
+<aside class="toc">
+  <div class="toc__brand">
+    <div class="toc__brand-name">PlanetScale</div>
+    <div class="toc__brand-sub">Design System Report</div>
+  </div>
+  <div class="toc__logo">
+    <div class="toc__logo-mark">PS</div>
+    <div class="toc__site">PlanetScale</div>
+    <div class="toc__tagline">Design System Report</div>
+  </div>
+
+  <div class="toc__group">
+    <div class="toc__group-label">Overview</div>
+    <a href="#provenance">출처와 수집 기준</a>
+    <a href="#tech">테크 스택</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Foundations</div>
+    <a href="#typography">타이포그래피</a>
+    <a href="#colors">컬러</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Tokens</div>
+    <a href="#spacing">스페이싱</a>
+    <a href="#radius">라디우스</a>
+    <a href="#shadows">섀도우</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Patterns</div>
+    <a href="#components">컴포넌트</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Code</div>
+    <a href="#code">CSS 스니펫</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Rules</div>
+    <a href="#dodont">Do / Don't</a>
+  </div>
+  <div class="toc__foot">planetscale/<br>DESIGN.claude.manual.md<br>2026-04-12</div>
+</aside>
+
+<!-- ── Main ── -->
+<main class="main">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__eyebrow">Design System Report</div>
+    <h1>PlanetScale — <em>시스템 폰트 + 블루 브랜드</em></h1>
+    <p class="hero__sub">
+      Next.js + Tailwind CSS flat 네이밍. 커스텀 웹폰트 없이 시스템 sans 스택 그대로. 브랜드는 오렌지가 아닌 블루 <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:#ebebeb;padding:2px 6px;border-radius:4px">#0B6EC5</code>. 모든 서비스 중 가장 단순한 토큰 구조를 가진다.
+    </p>
+    <div class="hero__screenshot">
+      <img src="screenshots/hero-cropped.png" alt="planetscale hero screenshot">
+    </div>
+
+    <!-- Quick Start cards -->
+    <div class="qs__grid">
+      <div class="qs__step">
+        <div class="qs__step-num">Step 1 — 시스템 폰트</div>
+        <pre>body {
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+  font-weight: 400;
+  /* @font-face 없음 */
+}
+code, pre {
+  font-family:
+    ui-monospace,
+    SFMono-Regular, "SF Mono",
+    Menlo, monospace;
+}</pre>
+      </div>
+      <div class="qs__step">
+        <div class="qs__step-num">Step 2 — Gray 팔레트</div>
+        <pre>:root {
+  --gray-50:  #fafafa; /* bg */
+  --gray-100: #ebebeb;
+  --gray-300: #c1c1c1;
+  --gray-500: #818181; /* muted */
+  --gray-700: #414141; /* text */
+  --gray-900: #111111; /* dark */
+
+  --text-primary: var(--gray-700);
+  --bg-primary:   var(--gray-50);
+}
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}</pre>
+      </div>
+      <div class="qs__step">
+        <div class="qs__step-num">Step 3 — 블루 브랜드</div>
+        <pre>:root {
+  --blue-600: #0B6EC5;
+  /* canonical brand */
+  --blue-500: #1E9DE7;
+  /* link / focus ring */
+  --blue-400: #4ab0f0;
+
+  /* focus ring */
+  .focus-ring:focus-visible {
+    outline: 3px solid
+      rgb(30 157 231 / 0.5);
+    outline-offset: 2px;
+  }
+}</pre>
+      </div>
+    </div>
+
+    <div class="qs__warn">
+      <strong>절대 하지 말 것:</strong> 오렌지 <code>#F35815</code>를 브랜드 색으로 쓰지 말 것. 2024년 이후 PlanetScale은 Vitess 엔터프라이즈 데이터플랫폼 톤으로 피벗하면서 UI는 블루 <code>#0B6EC5</code> / <code>#1E9DE7</code> 중심이다. 오렌지는 legacy 로고 잔재에 가깝다.
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat__label">Source</div>
+        <div class="stat__value">planetscale.com</div>
+        <div class="stat__sub">2026-04-11 수집</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Custom Fonts</div>
+        <div class="stat__value">0개</div>
+        <div class="stat__sub">시스템 폰트만 사용</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Token System</div>
+        <div class="stat__value">Flat</div>
+        <div class="stat__sub">--family-step 직접 참조</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Brand Blue</div>
+        <div class="stat__value">#0B6EC5</div>
+        <div class="stat__sub">blue-600, 7회 최빈</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §02 Provenance -->
+  <section class="section" id="provenance">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">출처와 수집 기준</h2>
+    <p class="section-sub">CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없이 실측 데이터만 사용했다.</p>
+    <table class="info-table">
+      <tr><td>Source URL</td><td><code>https://planetscale.com</code></td></tr>
+      <tr><td>Fetched</td><td>2026-04-11</td></tr>
+      <tr><td>Extractor</td><td><code>real/fetch_all.py</code> (curl + Chrome UA)</td></tr>
+      <tr><td>HTML size</td><td>89,810 bytes (Next.js SSR)</td></tr>
+      <tr><td>CSS files</td><td>1개 외부 + 1 인라인, 총 78,267자</td></tr>
+      <tr><td>Token prefix</td><td>없음 (Tailwind flat 네이밍 <code>--{family}-{step}</code>)</td></tr>
+      <tr><td>Method</td><td>CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음</td></tr>
+    </table>
+  </section>
+
+  <!-- §03 Tech Stack -->
+  <section class="section" id="tech">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">테크 스택</h2>
+    <p class="section-sub">자체 디자인 시스템 없이 Tailwind CSS 컬러 램프를 직접 참조하는 2계층 구조. 단순하지만 명확하다.</p>
+    <div class="stack-grid">
+      <div class="stack-card">
+        <h4>Framework</h4>
+        <p>Next.js 마케팅 사이트 (Tailwind 컴파일 결과물)</p>
+      </div>
+      <div class="stack-card">
+        <h4>CSS Architecture (2계층)</h4>
+        <p>
+          Color ramps: <code>--{family}-{step}</code> → raw hex<br>
+          Semantic alias: <code>--text-*</code>, <code>--bg-*</code>, <code>--border-*</code> → ramp 참조
+        </p>
+      </div>
+      <div class="stack-card">
+        <h4>Naming</h4>
+        <p>Tailwind 유틸리티: <code>text-gray-700</code>, <code>bg-blue-600</code><br>
+        가상 토큰명(<code>color-brand</code> 등) 없음. flat 네이밍만.</p>
+      </div>
+      <div class="stack-card">
+        <h4>Font Loading</h4>
+        <p>시스템 폰트 스택 (<code>@font-face</code> 없음)<br>
+        macOS → SF Pro, Windows → Segoe UI로 자동 매핑</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §04 + §05 Typography -->
+  <section class="section" id="typography">
+    <div class="section-label">Foundations</div>
+    <h2 class="section-title">타이포그래피 — weight 600이 주력</h2>
+    <p class="section-sub">
+      font-weight 히스토그램: 600(13회) > 500(6회) > 700(4회) > 400(4회). 제목과 강조에 600이 압도적. 폰트는 OS 시스템 sans (SF Pro / Segoe UI).
+    </p>
+
+    <table class="type-table">
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Size</th>
+          <th>Weight</th>
+          <th>Line-height</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="4">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:32px;font-weight:700;line-height:1.2">Heading Large</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">heading-lg</span>
+              <span class="type-row__spec">32px</span>
+              <span class="badge">700</span>
+              <span class="type-row__spec">lh 1.2</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="4">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:22px;font-weight:600;line-height:1.3">Heading Medium</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">heading-md</span>
+              <span class="type-row__spec">20 / 24px</span>
+              <span class="badge">600</span>
+              <span class="type-row__spec">lh 1.3</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="4">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:18px;font-weight:600;line-height:1.4">Heading Small</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">heading-sm</span>
+              <span class="type-row__spec">18px</span>
+              <span class="badge">600</span>
+              <span class="type-row__spec">lh 1.4</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="4">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:16px;font-weight:400;line-height:1.5">Body — 일반 본문 텍스트</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">body</span>
+              <span class="type-row__spec">16px</span>
+              <span class="badge">400</span>
+              <span class="type-row__spec">lh 1.5</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="4">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:14px;font-weight:400;line-height:1.5">Small — 메타, 레이블</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">sm</span>
+              <span class="type-row__spec">14px</span>
+              <span class="badge">400</span>
+              <span class="type-row__spec">lh 1.5</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="4">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:12px;font-weight:400;line-height:1.45">Extra small — caption</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">xs</span>
+              <span class="type-row__spec">12px</span>
+              <span class="badge">400</span>
+              <span class="type-row__spec">lh 1.45</span>
+            </span>
+          </div>
+        </td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- §06 Colors -->
+  <section class="section" id="colors">
+    <div class="section-label">Foundations</div>
+    <h2 class="section-title">Gray 12단계 + Blue 브랜드</h2>
+    <p class="section-sub">Tailwind 컬러 램프 구조. gray 12단계(50~900)가 중립 주축. 블루 4단계(300~600)가 브랜드. orange는 legacy이며 현재 UI 주류 아님.</p>
+
+    <!-- Gray ramp -->
+    <div class="ramp">
+      <div class="ramp__label">Gray Ramp — 12단계</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(12,1fr)">
+        <div class="swatch sw--l" style="background:#fafafa;border:1px solid #e1e1e1">
+          <span class="swatch-label">50<br><span class="swatch-hex">#fafafa</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#ebebeb">
+          <span class="swatch-label">100<br><span class="swatch-hex">#ebebeb</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#e1e1e1">
+          <span class="swatch-label">200<br><span class="swatch-hex">#e1e1e1</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#c1c1c1">
+          <span class="swatch-label">300<br><span class="swatch-hex">#c1c1c1</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#a1a1a1">
+          <span class="swatch-label">400<br><span class="swatch-hex">#a1a1a1</span></span>
+        </div>
+        <div class="swatch sw--d is-anchor" style="background:#818181">
+          <span class="swatch-label">500 ★<br><span class="swatch-hex">#818181</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#737373">
+          <span class="swatch-label">550<br><span class="swatch-hex">#737373</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#616161">
+          <span class="swatch-label">600<br><span class="swatch-hex">#616161</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#414141">
+          <span class="swatch-label">700<br><span class="swatch-hex">#414141</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#2b2b2b">
+          <span class="swatch-label">800<br><span class="swatch-hex">#2b2b2b</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#1a1a1a">
+          <span class="swatch-label">850<br><span class="swatch-hex">#1a1a1a</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#111111">
+          <span class="swatch-label">900<br><span class="swatch-hex">#111111</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blue ramp -->
+    <div class="ramp">
+      <div class="ramp__label">Brand Blue Ramp</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(4,1fr)">
+        <div class="swatch sw--l" style="background:#7cc4f4">
+          <span class="swatch-label">blue-300<br><span class="swatch-hex">#7cc4f4</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#4ab0f0">
+          <span class="swatch-label">blue-400<br><span class="swatch-hex">#4ab0f0</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#1E9DE7">
+          <span class="swatch-label">blue-500 (link/focus)<br><span class="swatch-hex">#1E9DE7</span></span>
+        </div>
+        <div class="swatch sw--d is-anchor" style="background:#0B6EC5">
+          <span class="swatch-label">blue-600 ★ (CTA)<br><span class="swatch-hex">#0B6EC5</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accent families -->
+    <div class="ramp">
+      <div class="ramp__label">Accent / Semantic</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(5,1fr)">
+        <div class="swatch sw--d" style="background:#c11027">
+          <span class="swatch-label">red-700 (danger)<br><span class="swatch-hex">#c11027</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#f5a623">
+          <span class="swatch-label">orange-500 (legacy)<br><span class="swatch-hex">#f5a623</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#22A652">
+          <span class="swatch-label">green-600 (success)<br><span class="swatch-hex">#22A652</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#336791">
+          <span class="swatch-label">Postgres blue<br><span class="swatch-hex">#336791</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#fafafa;border:1px solid #e1e1e1">
+          <span class="swatch-label">bg-primary<br><span class="swatch-hex">#fafafa</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Semantic token table -->
+    <div>
+      <div class="color-row">
+        <div class="color-chip" style="background:#414141"></div>
+        <span class="color-token">--text-primary</span>
+        <span class="color-hex">#414141</span>
+        <span class="color-desc">본문 기본 (gray-700)</span>
+      </div>
+      <div class="color-row">
+        <div class="color-chip" style="background:#737373"></div>
+        <span class="color-token">--text-secondary</span>
+        <span class="color-hex">#737373</span>
+        <span class="color-desc">보조 텍스트 (gray-550)</span>
+      </div>
+      <div class="color-row">
+        <div class="color-chip" style="background:#fafafa;border:1px solid #e1e1e1"></div>
+        <span class="color-token">--bg-primary</span>
+        <span class="color-hex">#fafafa</span>
+        <span class="color-desc">페이지 배경 (gray-50)</span>
+      </div>
+      <div class="color-row">
+        <div class="color-chip" style="background:#111111"></div>
+        <span class="color-token">--bg-inverted</span>
+        <span class="color-hex">#111111</span>
+        <span class="color-desc">다크 CTA 배경 (gray-900)</span>
+      </div>
+      <div class="color-row">
+        <div class="color-chip" style="background:#336791"></div>
+        <span class="color-token">--text-postgres</span>
+        <span class="color-hex">#336791</span>
+        <span class="color-desc">Postgres 타입 배지 (도메인 특화)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- §07 Spacing -->
+  <section class="section" id="spacing">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">스페이싱(간격 체계) — Tailwind 기본 4px 단위</h2>
+    <p class="section-sub">전용 <code>--space-*</code> 커스텀 프로퍼티 없음. Tailwind 기본 spacing 단위 그대로 사용.</p>
+
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:4px"></div>
+      <span class="spacing-token">1</span>
+      <span class="spacing-value">4px</span>
+      <span class="spacing-use">0.25rem</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:8px"></div>
+      <span class="spacing-token">2</span>
+      <span class="spacing-value">8px</span>
+      <span class="spacing-use">0.5rem</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:12px"></div>
+      <span class="spacing-token">3</span>
+      <span class="spacing-value">12px</span>
+      <span class="spacing-use">0.75rem</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:16px"></div>
+      <span class="spacing-token">4</span>
+      <span class="spacing-value">16px</span>
+      <span class="spacing-use">1rem</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:24px"></div>
+      <span class="spacing-token">6</span>
+      <span class="spacing-value">24px</span>
+      <span class="spacing-use">1.5rem</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:32px"></div>
+      <span class="spacing-token">8</span>
+      <span class="spacing-value">32px</span>
+      <span class="spacing-use">2rem</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:48px"></div>
+      <span class="spacing-token">12</span>
+      <span class="spacing-value">48px</span>
+      <span class="spacing-use">3rem</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:64px"></div>
+      <span class="spacing-token">16</span>
+      <span class="spacing-value">64px</span>
+      <span class="spacing-use">4rem</span>
+    </div>
+  </section>
+
+  <!-- §08 Radius -->
+  <section class="section" id="radius">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">라디우스(모서리 반경) — 3단 단순 구조</h2>
+    <p class="section-sub">전용 <code>--radius-*</code> 변수 없이 Tailwind 클래스 그대로 사용. 2px(인라인 칩) / 4px(기본) / 9999px(pill) 3단.</p>
+
+    <div class="radius-grid">
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:2px"></div>
+        <div class="radius-label">rounded-sm</div>
+        <div class="radius-value">2px<br>인라인 칩</div>
+      </div>
+      <div class="radius-card" style="border:2px solid var(--brand-color)">
+        <div class="radius-box" style="border-radius:4px"></div>
+        <div class="radius-label" style="color:var(--brand-color)">rounded ★ 기본</div>
+        <div class="radius-value">4px<br>버튼, 입력 필드</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:9999px;width:56px;height:56px"></div>
+        <div class="radius-label">rounded-full</div>
+        <div class="radius-value">9999px<br>pill, 아바타</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §09 Shadows -->
+  <section class="section" id="shadows">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">섀도우 — 단일 레이어 + focus ring</h2>
+    <p class="section-sub">Tailwind <code>--tw-ring-*</code> / <code>--tw-shadow-*</code> 6개 변수로 단순 운용. dual-layer 섀도우(Stripe식) 없음. focus ring이 UX 핵심.</p>
+
+    <div class="shadow-grid">
+      <div class="shadow-card" style="border:1px solid var(--border)">
+        <div class="shadow-box" style="box-shadow:0 1px 3px rgba(0,0,0,0.2)"></div>
+        <div class="shadow-name">tw-shadow</div>
+        <div class="shadow-value">rgb(0 0 0 / .2) single layer</div>
+        <div style="font-size:11px;color:var(--muted-fg)">카드</div>
+      </div>
+      <div class="shadow-card" style="border:1px solid var(--border)">
+        <div class="shadow-box" style="outline:3px solid rgba(30,157,231,0.5);outline-offset:2px"></div>
+        <div class="shadow-name" style="color:var(--brand-color)">focus ring ★</div>
+        <div class="shadow-value">0 0 0 3px rgb(30 157 231 / .5)</div>
+        <div style="font-size:11px;color:var(--brand-color);font-weight:500">blue-500 50% alpha</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §12 Components -->
+  <section class="section" id="components">
+    <div class="section-label">Patterns</div>
+    <h2 class="section-title">컴포넌트</h2>
+    <p class="section-sub">Tailwind 유틸리티 클래스 조합으로 구성. DB 타입별 도메인 특화 색(Postgres blue)이 독특한 포인트다.</p>
+
+    <!-- Primary Button -->
+    <div class="cmp-section">
+      <h3>Primary Button</h3>
+      <div class="cmp-demo">
+        <button class="btn-primary-demo">Get started</button>
+        <button class="btn-ghost-demo">Sign in</button>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;button class="bg-blue-600 hover:bg-blue-700 text-white
+               font-semibold px-4 py-2 rounded"&gt;
+  Get started
+&lt;/button&gt;
+
+/* bg: #0B6EC5  text: white  weight: 600
+   radius: 4px (rounded)  height: ~40px */</pre>
+      </div>
+    </div>
+
+    <!-- DB Type Badge -->
+    <div class="cmp-section">
+      <h3>Database Type Badge</h3>
+      <div class="cmp-demo">
+        <span class="postgres-badge">postgres</span>
+        <span class="mysql-badge">vitess</span>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;span class="inline-flex items-center gap-1 px-2 py-0.5
+             text-xs font-medium rounded"
+      style="color: #336791;"&gt;
+  postgres
+&lt;/span&gt;
+
+/* --text-postgres: #336791 (Postgres official blue)
+   DB 타입별 브랜드 색 인라인 적용 */</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- §14 Code Export (§15 Tailwind 없음) -->
+  <section class="section" id="code">
+    <div class="section-label">Code</div>
+    <h2 class="section-title">CSS 스니펫</h2>
+    <p class="section-sub">바로 복사해 사용할 수 있는 드롭인 스니펫이다. Tailwind config는 flat naming이므로 별도 설정 불필요.</p>
+
+    <div class="code-box">
+      <div class="code-box-header">
+        <span class="code-box-title">CSS 스니펫</span>
+        <button class="copy-btn" style="position:static" onclick="copyBox(this)">Copy</button>
+      </div>
+      <pre>/* PlanetScale — copy into your root stylesheet */
+:root {
+  /* Fonts — system stack */
+  --font-sans: ui-sans-serif, system-ui, sans-serif,
+               "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+  /* Brand blue */
+  --blue-600: #0B6EC5;
+  --blue-500: #1E9DE7;
+  --blue-400: #4ab0f0;
+
+  /* Gray ramp */
+  --gray-50:  #fafafa;
+  --gray-100: #ebebeb;
+  --gray-300: #c1c1c1;
+  --gray-500: #818181;
+  --gray-700: #414141;
+  --gray-900: #111111;
+
+  /* Semantic */
+  --text-primary:   var(--gray-700);
+  --text-secondary: var(--gray-550, #737373);
+  --bg-primary:     var(--gray-50);
+  --bg-inverted:    var(--gray-900);
+  --border-primary: var(--gray-700);
+
+  /* Danger / Success */
+  --red-700: #c11027;
+  --green-600: #22A652;
+
+  /* Domain-specific */
+  --text-postgres: #336791;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.focus-ring:focus-visible {
+  outline: 3px solid rgb(30 157 231 / 0.5);
+  outline-offset: 2px;
+}</pre>
+    </div>
+  </section>
+
+  <!-- §16 Do / Don't -->
+  <section class="section" id="dodont">
+    <div class="section-label">Rules</div>
+    <h2 class="section-title">자주 틀리는 것들</h2>
+    <p class="section-sub">오렌지를 브랜드로 착각하는 것이 가장 흔한 실수다. 단순한 구조이므로 과도한 추상화도 금지.</p>
+
+    <div class="dd-grid">
+      <div class="dd-card dd-card--do">
+        <div class="dd-card__badge">DO</div>
+        <ul>
+          <li>Brand = <code>#0B6EC5</code> (blue-600). 링크, CTA, 포커스 링 모두 블루 계열.</li>
+          <li>시스템 sans 스택 유지 (<code>ui-sans-serif, system-ui</code>). Inter 강제 로드 불필요.</li>
+          <li>Tailwind 유틸리티 클래스 그대로 읽을 것 (<code>bg-blue-600 text-white</code>).</li>
+          <li>gray ramp 12단계 (<code>gray-50 → gray-900</code>)를 중립 축으로 사용.</li>
+          <li>도메인 특화 색 보존: <code>--text-postgres #336791</code> 같이 DB 타입별 컬러.</li>
+        </ul>
+      </div>
+      <div class="dd-card dd-card--dont">
+        <div class="dd-card__badge">DON'T</div>
+        <ul>
+          <li>오렌지 <code>#F35815</code>를 primary로 선언하지 말 것 (legacy/로고 색).</li>
+          <li><code>color-brand</code> / <code>color-ink</code> 같은 가상 토큰명 사용 금지 — 실제 CSS는 <code>--{family}-{step}</code> flat.</li>
+          <li>Inter/IBM Plex Mono를 <code>@font-face</code>로 로드하지 말 것. 시스템 sans가 의도된 설계.</li>
+          <li>단일 5색 팔레트로 환원 금지. 실제는 8 family × 10 step 램프 기반.</li>
+          <li>Dual-layer 카드 섀도(Stripe식) 적용 금지. Tailwind single ring/shadow가 기본.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script>
+// TOC active state
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector('.toc a[href="#' + e.target.id + '"]');
+      if (link) link.classList.add('active');
+    }
+  });
+}, {rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s => observer.observe(s));
+
+// Copy buttons
+function copyCode(btn) {
+  const pre = btn.nextElementSibling;
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+function copyBox(btn) {
+  const pre = btn.closest('.code-box').querySelector('pre');
+  if (!pre) return;
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+</script>
+</body>
+</html>

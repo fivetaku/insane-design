@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>insane-design — Design System Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root {
+  --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  --bg: #fafafa;
+  --fg: #09090b;
+  --card: #ffffff;
+  --muted: #f4f4f5;
+  --muted-fg: #71717a;
+  --subtle: #52525b;
+  --border: #e4e4e7;
+  --border-str: #d4d4d8;
+  --radius: 0.5rem;
+  --radius-lg: 0.75rem;
+}
+[data-theme="dark"] {
+  --bg: #09090b;
+  --fg: #fafafa;
+  --card: #18181b;
+  --muted: #27272a;
+  --muted-fg: #a1a1aa;
+  --subtle: #a1a1aa;
+  --border: #27272a;
+  --border-str: #3f3f46;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01" 1, "ss02" 1;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  transition: background 200ms, color 200ms;
+}
+::selection { background: #09090b; color: #fafafa; }
+a { color: inherit; text-decoration: none; }
+
+.header {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 72px 48px 40px;
+}
+.header__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.header__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--subtle);
+}
+.header__badge .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #18181b;
+}
+[data-theme="dark"] .header__badge .dot { background: #fafafa; }
+.dark-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--muted-fg);
+  cursor: pointer;
+  transition: border-color 140ms, color 140ms;
+  white-space: nowrap;
+}
+.dark-toggle:hover { border-color: var(--border-str); color: var(--fg); }
+.header__title {
+  font-size: 44px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.header__title .sub {
+  color: var(--muted-fg);
+  font-weight: 400;
+  font-size: 28px;
+}
+.header__desc {
+  font-size: 16px;
+  color: var(--subtle);
+  line-height: 1.7;
+  max-width: 600px;
+  margin-bottom: 36px;
+}
+.stats-row {
+  display: flex;
+  gap: 0;
+  width: fit-content;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+.stat {
+  padding: 14px 24px;
+  border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right: none; }
+.stat__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted-fg);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+.stat__val { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+.stat__val--mono { font-family: var(--font-mono); font-size: 15px; }
+
+.controls {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 48px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.search-wrap {
+  position: relative;
+  max-width: 360px;
+  width: 100%;
+}
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted-fg);
+  pointer-events: none;
+  display: flex;
+}
+.search-wrap input {
+  width: 100%;
+  padding: 9px 16px 9px 36px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--fg);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color 140ms;
+}
+.search-wrap input:focus { border-color: var(--border-str); }
+.search-wrap input::placeholder { color: var(--muted-fg); }
+.result-count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted-fg);
+  white-space: nowrap;
+}
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  background: var(--card);
+  color: var(--subtle);
+  transition: background 140ms, border-color 140ms, color 140ms;
+  white-space: nowrap;
+}
+.chip:hover { border-color: var(--border-str); color: var(--fg); }
+.chip.active {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+.chip-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  opacity: 0.65;
+}
+
+.grid {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 48px 80px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 200ms, box-shadow 200ms, transform 200ms;
+  cursor: pointer;
+}
+.card:hover {
+  border-color: var(--border-str);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+[data-theme="dark"] .card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+.card__thumb {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--muted);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.card__thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 320ms ease;
+  display: block;
+}
+.card:hover .card__thumb img { transform: scale(1.04); }
+.card__thumb-placeholder {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted-fg);
+}
+.card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(9, 9, 11, 0.52);
+  opacity: 0;
+  transition: opacity 200ms;
+}
+.card:hover .card__overlay { opacity: 1; }
+.card__overlay-btn {
+  padding: 8px 20px;
+  background: #fafafa;
+  color: #09090b;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.card__body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.card__name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.color-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+[data-theme="dark"] .color-dot { border-color: rgba(255,255,255,0.12); }
+.card__name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.card__cat {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  background: var(--muted);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted-fg);
+  white-space: nowrap;
+}
+.card__slug {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--muted-fg);
+}
+.empty__icon { font-size: 32px; margin-bottom: 12px; opacity: 0.4; }
+.empty__text { font-size: 14px; }
+.footer {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 28px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted-fg);
+}
+.footer a { transition: color 140ms; }
+.footer a:hover { color: var(--fg); }
+
+@media (max-width: 1024px) {
+  .header { padding: 48px 24px 32px; }
+  .controls { padding: 0 24px 24px; }
+  .grid { padding: 0 24px 60px; }
+  .footer { padding: 24px; }
+  .header__title { font-size: 32px; }
+  .header__title .sub { font-size: 20px; }
+}
+@media (max-width: 640px) {
+  .header { padding: 32px 16px 24px; }
+  .controls { padding: 0 16px 20px; }
+  .grid { padding: 0 16px 48px; grid-template-columns: 1fr; }
+  .footer { padding: 20px 16px; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .header__title { font-size: 24px; }
+  .header__title .sub { font-size: 16px; }
+  .stats-row { flex-wrap: wrap; }
+  .stat { border-right: none; border-bottom: 1px solid var(--border); }
+  .stat:last-child { border-bottom: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header__top">
+    <div class="header__badge">
+      <span class="dot"></span>
+      insane-design
+    </div>
+    <button class="dark-toggle" id="darkToggle" aria-label="다크 모드 토글">
+      <svg id="themeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+      </svg>
+      <span id="darkLabel">다크 모드</span>
+    </button>
+  </div>
+
+  <h1 class="header__title">
+    insane-design<br>
+    <span class="sub">96개 웹사이트의 실제 CSS 기반 디자인 시스템 분석</span>
+  </h1>
+  <p class="header__desc">
+    실제 서비스의 CSS를 크롤링·분석해 추출한 디자인 시스템 리포트. 색상 팔레트, 타이포그래피, 스페이싱 토큰, 컴포넌트 패턴까지.
+  </p>
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat__label">Services</div>
+      <div class="stat__val" id="totalCount">96</div>
+    </div>
+    <div class="stat">
+      <div class="stat__label">Categories</div>
+      <div class="stat__val">10</div>
+    </div>
+    <div class="stat">
+      <div class="stat__label">Method</div>
+      <div class="stat__val stat__val--mono">Real CSS</div>
+    </div>
+    <div class="stat">
+      <div class="stat__label">Output</div>
+      <div class="stat__val stat__val--mono">design.md</div>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search-row">
+    <div class="search-wrap">
+      <span class="search-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </span>
+      <input type="text" id="search" placeholder="서비스 이름 검색..." autocomplete="off" spellcheck="false" />
+    </div>
+    <span class="result-count" id="resultCount"></span>
+  </div>
+  <div class="filter-chips" id="filterChips"></div>
+</div>
+
+<div class="grid" id="gallery"></div>
+
+<footer class="footer">
+  <span>insane-design — URL 하나 넣으면 디자인 시스템이 나온다</span>
+  <a href="https://github.com/fivetaku/insane-design" target="_blank" rel="noopener">github.com/fivetaku/insane-design</a>
+</footer>
+
+<script>
+"use strict";
+
+var SERVICES = [
+  {slug:"atlassian",name:"Atlassian",brand:"#1868DB",cat:"IT/SaaS",hasImg:true},
+  {slug:"axiom",name:"Axiom",brand:"#DA5C2C",cat:"IT/SaaS",hasImg:true},
+  {slug:"cal",name:"Cal.com",brand:"#6349EA",cat:"IT/SaaS",hasImg:true},
+  {slug:"clerk",name:"Clerk",brand:"#6C47FF",cat:"IT/SaaS",hasImg:true},
+  {slug:"contentful",name:"Contentful",brand:"#1770E6",cat:"IT/SaaS",hasImg:true},
+  {slug:"convex",name:"Convex",brand:"#BC7914",cat:"IT/SaaS",hasImg:true},
+  {slug:"discord",name:"Discord",brand:"#5865F2",cat:"IT/SaaS",hasImg:true},
+  {slug:"dub",name:"Dub.co",brand:"#855AFC",cat:"IT/SaaS",hasImg:true},
+  {slug:"figma",name:"Figma",brand:"#000000",cat:"IT/SaaS",hasImg:true},
+  {slug:"framer",name:"Framer",brand:"#0099FF",cat:"IT/SaaS",hasImg:true},
+  {slug:"github",name:"GitHub",brand:"#1f6feb",cat:"IT/SaaS",hasImg:true},
+  {slug:"hashnode",name:"Hashnode",brand:"#1D52DE",cat:"IT/SaaS",hasImg:true},
+  {slug:"lemon-squeezy",name:"Lemon Squeezy",brand:"#5423E7",cat:"IT/SaaS",hasImg:true},
+  {slug:"linear",name:"Linear",brand:"#4354B8",cat:"IT/SaaS",hasImg:true},
+  {slug:"mintlify",name:"Mintlify",brand:"#0C8C5E",cat:"IT/SaaS",hasImg:true},
+  {slug:"neon",name:"Neon",brand:"#00E599",cat:"IT/SaaS",hasImg:true},
+  {slug:"notion",name:"Notion",brand:"#2383E2",cat:"IT/SaaS",hasImg:true},
+  {slug:"planetfall",name:"Age of Wonders: Planetfall",brand:"#E5D195",cat:"IT/SaaS",hasImg:true},
+  {slug:"planetscale",name:"PlanetScale",brand:"#0B6EC5",cat:"IT/SaaS",hasImg:true},
+  {slug:"posthog",name:"PostHog",brand:"#f54e00",cat:"IT/SaaS",hasImg:true},
+  {slug:"prisma",name:"Prisma",brand:"#16a394",cat:"IT/SaaS",hasImg:true},
+  {slug:"railway",name:"Railway",brand:"#381dbd",cat:"IT/SaaS",hasImg:true},
+  {slug:"raycast",name:"Raycast",brand:"#FF6363",cat:"IT/SaaS",hasImg:true},
+  {slug:"resend",name:"Resend",brand:"#62ffb3",cat:"IT/SaaS",hasImg:true},
+  {slug:"retool",name:"Retool",brand:"#c72844",cat:"IT/SaaS",hasImg:true},
+  {slug:"shopify",name:"Shopify",brand:"#008060",cat:"IT/SaaS",hasImg:true},
+  {slug:"slack",name:"Slack",brand:"#611F69",cat:"IT/SaaS",hasImg:true},
+  {slug:"spotify",name:"Spotify (design sys)",brand:"#1ED760",cat:"IT/SaaS",hasImg:true},
+  {slug:"stripe",name:"Stripe",brand:"#533AFD",cat:"IT/SaaS",hasImg:true},
+  {slug:"supabase",name:"Supabase",brand:"#3ECF8E",cat:"IT/SaaS",hasImg:true},
+  {slug:"tailwindcss",name:"Tailwind CSS",brand:"#00a5ef",cat:"IT/SaaS",hasImg:true},
+  {slug:"tinybird",name:"Tinybird",brand:"#008060",cat:"IT/SaaS",hasImg:true},
+  {slug:"twitch",name:"Twitch",brand:"#9147FF",cat:"IT/SaaS",hasImg:true},
+  {slug:"vercel",name:"Vercel",brand:"#000000",cat:"IT/SaaS",hasImg:true},
+  {slug:"warp",name:"Warp",brand:"#000000",cat:"IT/SaaS",hasImg:true},
+  {slug:"arc",name:"Arc Browser",brand:"#3139FB",cat:"IT/SaaS",hasImg:true},
+  {slug:"lucid",name:"Lucid",brand:"#D7BE96",cat:"IT/SaaS",hasImg:true},
+  {slug:"pitch",name:"Pitch",brand:"#6B53FF",cat:"IT/SaaS",hasImg:true},
+  {slug:"apple",name:"Apple",brand:"#0071E3",cat:"빅테크",hasImg:true},
+  {slug:"google",name:"Google",brand:"#1A73E8",cat:"빅테크",hasImg:false},
+  {slug:"microsoft",name:"Microsoft",brand:"#0078D4",cat:"빅테크",hasImg:false},
+  {slug:"meta",name:"Meta",brand:"#0866FF",cat:"빅테크",hasImg:true},
+  {slug:"netflix",name:"Netflix",brand:"#E50914",cat:"빅테크",hasImg:true},
+  {slug:"airbnb",name:"Airbnb",brand:"#FF385C",cat:"빅테크",hasImg:true},
+  {slug:"uber",name:"Uber",brand:"#276EF1",cat:"빅테크",hasImg:true},
+  {slug:"adobe",name:"Adobe",brand:"#3B63FB",cat:"빅테크",hasImg:true},
+  {slug:"samsung",name:"Samsung",brand:"#212425",cat:"한국",hasImg:true},
+  {slug:"hyundai",name:"Hyundai",brand:"#007FA8",cat:"한국",hasImg:true},
+  {slug:"kia",name:"Kia",brand:"#05141F",cat:"한국",hasImg:true},
+  {slug:"lg",name:"LG",brand:"#B31045",cat:"한국",hasImg:true},
+  {slug:"kakaocorp",name:"Kakao",brand:"#FEE500",cat:"한국",hasImg:true},
+  {slug:"naver",name:"Naver",brand:"#03C75A",cat:"한국",hasImg:true},
+  {slug:"toss",name:"Toss",brand:"#3182F6",cat:"한국",hasImg:true},
+  {slug:"daangn",name:"당근마켓",brand:"#FF6600",cat:"한국",hasImg:true},
+  {slug:"musinsa",name:"Musinsa",brand:"#000000",cat:"한국",hasImg:true},
+  {slug:"baemin",name:"배달의민족",brand:"#0CEFD3",cat:"한국",hasImg:true},
+  {slug:"krafton",name:"Krafton",brand:"#F9423A",cat:"한국",hasImg:true},
+  {slug:"hybecorp",name:"HYBE Corp",brand:"#F5FF00",cat:"한국",hasImg:true},
+  {slug:"gentlemonster",name:"Gentle Monster",brand:"#111111",cat:"한국",hasImg:true},
+  {slug:"yanolja",name:"Yanolja",brand:"#4154FF",cat:"한국",hasImg:true},
+  {slug:"tesla",name:"Tesla",brand:"#CC0000",cat:"자동차",hasImg:true},
+  {slug:"bmw",name:"BMW",brand:"#1C69D4",cat:"자동차",hasImg:true},
+  {slug:"mercedes-benz",name:"Mercedes-Benz",brand:"#9F9F9F",cat:"자동차",hasImg:true},
+  {slug:"porsche",name:"Porsche",brand:"#CC0000",cat:"자동차",hasImg:true},
+  {slug:"ferrari",name:"Ferrari",brand:"#DA0000",cat:"자동차",hasImg:true},
+  {slug:"rivian",name:"Rivian",brand:"#465243",cat:"자동차",hasImg:true},
+  {slug:"volvo",name:"Volvo",brand:"#1F1F1F",cat:"자동차",hasImg:true},
+  {slug:"nike",name:"Nike",brand:"#111111",cat:"패션/뷰티",hasImg:true},
+  {slug:"adidas",name:"adidas",brand:"#000000",cat:"패션/뷰티",hasImg:true},
+  {slug:"gucci",name:"Gucci",brand:"#000000",cat:"패션/뷰티",hasImg:true},
+  {slug:"louisvuitton",name:"Louis Vuitton",brand:"#19110B",cat:"패션/뷰티",hasImg:true},
+  {slug:"aesop",name:"Aesop",brand:"#313131",cat:"패션/뷰티",hasImg:true},
+  {slug:"chanel",name:"Chanel",brand:"#000000",cat:"패션/뷰티",hasImg:true},
+  {slug:"patagonia",name:"Patagonia",brand:"#020202",cat:"패션/뷰티",hasImg:false},
+  {slug:"uniqlo",name:"UNIQLO",brand:"#FF0000",cat:"패션/뷰티",hasImg:true},
+  {slug:"bcg",name:"BCG",brand:"#0E3E1B",cat:"컨설팅",hasImg:true},
+  {slug:"bain",name:"Bain & Company",brand:"#CC0000",cat:"컨설팅",hasImg:true},
+  {slug:"deloitte-digital",name:"Deloitte Digital",brand:"#000000",cat:"컨설팅",hasImg:true},
+  {slug:"sony",name:"Sony",brand:"#000000",cat:"하드웨어",hasImg:true},
+  {slug:"dyson",name:"Dyson",brand:"#0F70F0",cat:"하드웨어",hasImg:true},
+  {slug:"nothing",name:"Nothing",brand:"#000000",cat:"하드웨어",hasImg:true},
+  {slug:"sonos",name:"Sonos",brand:"#DE8579",cat:"하드웨어",hasImg:true},
+  {slug:"dji",name:"DJI",brand:"#1E9DF7",cat:"하드웨어",hasImg:true},
+  {slug:"razer",name:"Razer",brand:"#44D62C",cat:"하드웨어",hasImg:true},
+  {slug:"revolut",name:"Revolut",brand:"#4F55F1",cat:"핀테크",hasImg:true},
+  {slug:"wise",name:"Wise",brand:"#9FE870",cat:"핀테크",hasImg:true},
+  {slug:"robinhood",name:"Robinhood",brand:"#CCFF00",cat:"핀테크",hasImg:true},
+  {slug:"coinbase",name:"Coinbase",brand:"#0052FF",cat:"핀테크",hasImg:true},
+  {slug:"square",name:"Square",brand:"#006AFF",cat:"핀테크",hasImg:true},
+  {slug:"medium",name:"Medium",brand:"#1A8917",cat:"미디어",hasImg:true},
+  {slug:"theverge",name:"The Verge",brand:"#5200FF",cat:"미디어",hasImg:true},
+  {slug:"spotify-main",name:"Spotify",brand:"#1ED760",cat:"미디어",hasImg:true},
+  {slug:"starbucks",name:"Starbucks",brand:"#006242",cat:"리테일",hasImg:true},
+  {slug:"ikea",name:"IKEA",brand:"#FFDB00",cat:"리테일",hasImg:true},
+  {slug:"lego",name:"LEGO",brand:"#E3000B",cat:"리테일",hasImg:true},
+  {slug:"salesforce",name:"Salesforce",brand:"#0176D3",cat:"리테일",hasImg:true},
+];
+
+var CATS = [
+  {id:"all",label:"전체"},
+  {id:"IT/SaaS",label:"IT / SaaS"},
+  {id:"빅테크",label:"빅테크"},
+  {id:"한국",label:"한국"},
+  {id:"자동차",label:"자동차"},
+  {id:"패션/뷰티",label:"패션 / 뷰티"},
+  {id:"컨설팅",label:"컨설팅"},
+  {id:"하드웨어",label:"하드웨어"},
+  {id:"핀테크",label:"핀테크"},
+  {id:"미디어",label:"미디어"},
+  {id:"리테일",label:"리테일"},
+];
+
+var currentCat = "all";
+var currentQuery = "";
+
+var gallery = document.getElementById("gallery");
+var searchEl = document.getElementById("search");
+var resultCountEl = document.getElementById("resultCount");
+var filterChipsEl = document.getElementById("filterChips");
+var darkToggle = document.getElementById("darkToggle");
+var darkLabel = document.getElementById("darkLabel");
+var themeIcon = document.getElementById("themeIcon");
+
+// Dark mode
+var isDark = false;
+
+function applyTheme(dark) {
+  document.documentElement.dataset.theme = dark ? "dark" : "";
+  darkLabel.textContent = dark ? "라이트 모드" : "다크 모드";
+  if (dark) {
+    themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  } else {
+    themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
+  }
+}
+
+darkToggle.addEventListener("click", function() {
+  isDark = !isDark;
+  applyTheme(isDark);
+  try { localStorage.setItem("theme", isDark ? "dark" : "light"); } catch(e) {}
+});
+
+try {
+  var saved = localStorage.getItem("theme");
+  if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+    isDark = true;
+    applyTheme(true);
+  }
+} catch(e) {}
+
+// Filter chips
+function buildChips() {
+  filterChipsEl.textContent = "";
+  CATS.forEach(function(cat) {
+    var count = cat.id === "all"
+      ? SERVICES.length
+      : SERVICES.filter(function(s) { return s.cat === cat.id; }).length;
+
+    var btn = document.createElement("button");
+    btn.className = "chip" + (currentCat === cat.id ? " active" : "");
+    btn.dataset.cat = cat.id;
+
+    var labelNode = document.createTextNode(cat.label + "\u00a0");
+    var countSpan = document.createElement("span");
+    countSpan.className = "chip-count";
+    countSpan.textContent = String(count);
+
+    btn.appendChild(labelNode);
+    btn.appendChild(countSpan);
+    btn.addEventListener("click", function() {
+      currentCat = cat.id;
+      buildChips();
+      render();
+    });
+    filterChipsEl.appendChild(btn);
+  });
+}
+
+// Render
+function filtered() {
+  var q = currentQuery;
+  return SERVICES.filter(function(s) {
+    var catOk = currentCat === "all" || s.cat === currentCat;
+    var qOk = !q || s.slug.indexOf(q) !== -1 || s.name.toLowerCase().indexOf(q) !== -1;
+    return catOk && qOk;
+  });
+}
+
+function makeCard(s) {
+  var a = document.createElement("a");
+  a.className = "card";
+  a.href = "reports/" + s.slug + "/report.ko.html";
+
+  // Thumb
+  var thumb = document.createElement("div");
+  thumb.className = "card__thumb";
+
+  if (s.hasImg) {
+    var img = document.createElement("img");
+    img.loading = "lazy";
+    img.alt = s.name;
+    img.src = "reports/" + s.slug + "/screenshots/hero-cropped.png";
+    img.addEventListener("error", function() {
+      thumb.removeChild(img);
+      var ph = document.createElement("div");
+      ph.className = "card__thumb-placeholder";
+      ph.textContent = s.slug;
+      thumb.insertBefore(ph, thumb.firstChild);
+    });
+    thumb.appendChild(img);
+  } else {
+    var ph = document.createElement("div");
+    ph.className = "card__thumb-placeholder";
+    ph.textContent = s.slug;
+    thumb.appendChild(ph);
+  }
+
+  var overlay = document.createElement("div");
+  overlay.className = "card__overlay";
+  var btn = document.createElement("span");
+  btn.className = "card__overlay-btn";
+  btn.textContent = "리포트 보기";
+  overlay.appendChild(btn);
+  thumb.appendChild(overlay);
+  a.appendChild(thumb);
+
+  // Body
+  var body = document.createElement("div");
+  body.className = "card__body";
+
+  var nameRow = document.createElement("div");
+  nameRow.className = "card__name-row";
+
+  var dot = document.createElement("span");
+  dot.className = "color-dot";
+  dot.style.background = s.brand;
+  nameRow.appendChild(dot);
+
+  var nameEl = document.createElement("span");
+  nameEl.className = "card__name";
+  nameEl.textContent = s.name;
+  nameRow.appendChild(nameEl);
+  body.appendChild(nameRow);
+
+  var footer = document.createElement("div");
+  footer.className = "card__footer";
+
+  var catEl = document.createElement("span");
+  catEl.className = "card__cat";
+  catEl.textContent = s.cat;
+  footer.appendChild(catEl);
+
+  var slugEl = document.createElement("span");
+  slugEl.className = "card__slug";
+  slugEl.textContent = s.slug;
+  footer.appendChild(slugEl);
+
+  body.appendChild(footer);
+  a.appendChild(body);
+
+  return a;
+}
+
+function render() {
+  var list = filtered();
+  gallery.textContent = "";
+
+  if (currentQuery || currentCat !== "all") {
+    resultCountEl.textContent = list.length + " / " + SERVICES.length + "개";
+  } else {
+    resultCountEl.textContent = "";
+  }
+
+  if (!list.length) {
+    var empty = document.createElement("div");
+    empty.className = "empty";
+    var icon = document.createElement("div");
+    icon.className = "empty__icon";
+    icon.textContent = "∅";
+    var txt = document.createElement("div");
+    txt.className = "empty__text";
+    txt.textContent = "검색 결과가 없습니다";
+    empty.appendChild(icon);
+    empty.appendChild(txt);
+    gallery.appendChild(empty);
+    return;
+  }
+
+  var frag = document.createDocumentFragment();
+  list.forEach(function(s) {
+    frag.appendChild(makeCard(s));
+  });
+  gallery.appendChild(frag);
+}
+
+searchEl.addEventListener("input", function() {
+  currentQuery = this.value.toLowerCase().trim();
+  render();
+});
+
+buildChips();
+render();
+</script>
+</body>
+</html>

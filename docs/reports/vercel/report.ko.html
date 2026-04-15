@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vercel — Design System Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root {
+    --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --bg:#fafafa; --fg:#09090b; --card:#fff;
+    --muted:#f4f4f5; --muted-fg:#71717a; --subtle:#52525b;
+    --border:#e4e4e7; --border-str:#d4d4d8;
+    --accent:#18181b;
+    --radius:.5rem; --radius-lg:.75rem;
+    --brand-color:#000000;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;scroll-padding-top:32px;}
+  body{
+    font-family:var(--font-sans);
+    font-feature-settings:"ss01" 1,"ss02" 1;
+    font-size:14px;font-weight:400;line-height:1.6;
+    color:var(--fg);background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    word-break:keep-all;overflow-wrap:break-word;
+  }
+  ::selection{background:var(--accent);color:#fafafa;}
+  a{color:inherit;text-decoration:none;}
+  code,kbd,samp{font-family:var(--font-mono);font-size:.85em;}
+  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+
+  .layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1440px;margin:0 auto;}
+
+  .toc{
+    position:sticky;top:0;align-self:start;height:100vh;
+    padding:28px 24px 28px 40px;
+    border-right:1px solid var(--border);
+    display:flex;flex-direction:column;gap:22px;
+    overflow-y:auto;
+  }
+  .toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+  .toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+  .toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+  .toc__group{display:flex;flex-direction:column;gap:2px;}
+  .toc__group-label{
+    font-family:var(--font-mono);font-size:10px;
+    color:var(--border-str);text-transform:uppercase;
+    letter-spacing:.1em;padding:0 10px;margin-bottom:4px;
+  }
+  .toc__list{list-style:none;display:flex;flex-direction:column;gap:1px;}
+  .toc__list a{
+    display:grid;grid-template-columns:26px 1fr;align-items:center;
+    padding:6px 10px;font-size:13px;color:var(--muted-fg);
+    border-radius:var(--radius);transition:background 140ms,color 140ms;
+  }
+  .toc__list a:hover{background:var(--muted);color:var(--fg);}
+  .toc__num{font-family:var(--font-mono);font-size:10px;color:var(--border-str);}
+  .toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+
+  .main{min-width:0;}
+  section{padding:72px 64px;max-width:1040px;border-bottom:1px solid var(--border);}
+  section:last-of-type{border-bottom:none;}
+  .section__num{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:10px;}
+  .section__title{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.35;margin-bottom:12px;}
+  .section__lede{font-size:15px;color:var(--subtle);max-width:720px;line-height:1.7;margin-bottom:40px;}
+
+  .hero{padding:80px 64px 64px;border-bottom:1px solid var(--border);}
+  .hero__eye{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:5px 12px;background:var(--muted);border:1px solid var(--border);
+    border-radius:999px;font-family:var(--font-mono);font-size:11px;
+    color:var(--subtle);margin-bottom:24px;
+  }
+  .hero__eye .dot{width:6px;height:6px;border-radius:99px;background:var(--brand-color);}
+  .hero__title{font-size:44px;font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px;max-width:780px;}
+  .hero__title .sub{color:var(--muted-fg);font-weight:400;}
+  .hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:680px;margin-bottom:32px;}
+
+    .hero__screenshot{
+    margin-bottom:32px;max-width:880px;
+    border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);
+  }
+  .hero__screenshot img{width:100%;height:auto;display:block;}
+
+  .qs{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:28px 32px;
+    max-width:880px;margin-top:8px;
+  }
+  .qs__head{
+    display:flex;align-items:center;gap:12px;
+    padding-bottom:16px;margin-bottom:20px;
+    border-bottom:1px solid var(--border);
+  }
+  .qs__head-label{
+    font-family:var(--font-mono);font-size:11px;
+    color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;
+  }
+  .qs__head-title{font-size:15px;font-weight:600;}
+  .qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .qs__step{
+    background:#08090a;color:#f7f8f8;
+    border-radius:var(--radius);padding:14px 16px;
+    display:flex;flex-direction:column;gap:6px;
+    font-family:var(--font-mono);font-size:11px;line-height:1.55;
+    border:1px solid #1f2023;
+  }
+  .qs__step-label{
+    color:#7d8ba4;font-size:10px;letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+  .qs__step code{color:#f7f8f8;font-size:11px;}
+  .qs__step b{color:#c3d3ff;font-weight:500;}
+  .qs__warn{
+    margin-top:16px;padding:14px 18px;
+    background:#fef2f2;border:1px solid #fecaca;
+    border-left:3px solid #dc2626;
+    border-radius:var(--radius);
+    font-size:13px;color:#991b1b;line-height:1.6;
+  }
+  .qs__warn b{color:#7f1d1d;font-weight:600;}
+  .qs__warn code{background:#fee2e2;padding:1px 6px;border-radius:3px;font-size:12px;}
+
+  .hero__stats{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    max-width:880px;margin-top:32px;
+    border:1px solid var(--border);border-radius:var(--radius-lg);
+    background:var(--card);overflow:hidden;
+  }
+  .stat{padding:20px 24px;border-right:1px solid var(--border);}
+  .stat:last-child{border-right:none;}
+  .stat__label{
+    font-family:var(--font-mono);font-size:10px;
+    color:var(--muted-fg);text-transform:uppercase;
+    letter-spacing:.04em;margin-bottom:8px;
+  }
+  .stat__val{font-size:18px;font-weight:600;letter-spacing:-.01em;}
+  .stat__val--mono{font-family:var(--font-mono);font-size:15px;}
+  .stat__hint{font-size:11px;color:var(--muted-fg);margin-top:4px;line-height:1.4;}
+
+  .prov{
+    border:1px solid var(--border);border-radius:var(--radius-lg);
+    background:var(--card);overflow:hidden;max-width:820px;
+  }
+  .prov__row{
+    display:grid;grid-template-columns:180px 1fr;
+    padding:14px 24px;border-bottom:1px solid var(--border);
+    font-size:13px;align-items:center;
+  }
+  .prov__row:last-child{border-bottom:none;}
+  .prov__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .prov__v code{font-size:12px;padding:2px 6px;background:var(--muted);border-radius:4px;}
+
+  .ts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:940px;}
+  .ts__item{
+    padding:20px 22px;background:var(--card);
+    border:1px solid var(--border);border-radius:var(--radius-lg);
+  }
+  .ts__head{
+    font-family:var(--font-mono);font-size:10px;
+    color:var(--muted-fg);text-transform:uppercase;
+    letter-spacing:.06em;margin-bottom:10px;
+  }
+  .ts__body{font-size:14px;line-height:1.7;}
+  .ts__body code{background:var(--muted);padding:1px 6px;border-radius:4px;font-size:12px;}
+  .ts__body b{font-weight:600;color:var(--fg);}
+
+  .fs-card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:24px 28px;
+    max-width:820px;margin-bottom:24px;
+  }
+  .fs-card__row{display:grid;grid-template-columns:100px 1fr;gap:20px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+  .fs-card__row:last-child{border-bottom:none;padding-bottom:0;}
+  .fs-card__row:first-child{padding-top:0;}
+  .fs-card__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .fs-card__v code{background:var(--muted);padding:1px 6px;border-radius:4px;font-size:12px;}
+  .fs-card__v b{font-weight:600;}
+
+  .type-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px;}
+  .type-row{
+    display:grid;grid-template-columns:minmax(0,1fr) 260px;
+    gap:32px;align-items:baseline;
+    padding:20px 24px;border-bottom:1px solid var(--border);
+  }
+  .type-row:last-child{border-bottom:none;}
+  .type-row__s{
+    font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,sans-serif;
+    color:var(--fg);
+  }
+  .type-row__spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.6;}
+  .type-row__spec .tk{color:var(--fg);display:block;margin-bottom:2px;}
+  .type-row__spec b{color:var(--fg);font-weight:600;}
+
+  .type-sub{
+    font-family:var(--font-mono);font-size:10px;
+    color:var(--muted-fg);text-transform:uppercase;letter-spacing:.08em;
+    margin-bottom:12px;
+  }
+
+  .callout{
+    margin-top:16px;padding:16px 20px;
+    background:var(--muted);border:1px solid var(--border);
+    border-left:2px solid var(--accent);
+    border-radius:var(--radius);
+    font-size:13px;color:var(--subtle);line-height:1.75;max-width:820px;
+  }
+  .callout b{color:var(--fg);font-weight:600;}
+  .callout code{background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px;border:1px solid var(--border);}
+  .callout ul{margin:0;padding:0;list-style:none;}
+  .callout ul li{margin:4px 0;}
+
+  .ramp-group{margin-bottom:28px;}
+  .ramp-label{
+    font-family:var(--font-mono);font-size:11px;margin-bottom:10px;
+    display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;
+  }
+  .ramp-label b{color:var(--fg);font-weight:600;}
+  .ramp-label .muted{color:var(--muted-fg);font-family:var(--font-sans);}
+  .ramp{
+    display:grid;gap:1px;background:var(--border);
+    border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+  }
+  .ramp--1{grid-template-columns:repeat(1,minmax(0,1fr));}
+  .ramp--2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .ramp--3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .ramp--4{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .ramp--5{grid-template-columns:repeat(5,minmax(0,1fr));}
+  .ramp--6{grid-template-columns:repeat(6,minmax(0,1fr));}
+  .ramp--7{grid-template-columns:repeat(7,minmax(0,1fr));}
+  .ramp--8{grid-template-columns:repeat(8,minmax(0,1fr));}
+  .ramp--9{grid-template-columns:repeat(9,minmax(0,1fr));}
+  .ramp--10{grid-template-columns:repeat(10,minmax(0,1fr));}
+  .ramp--11{grid-template-columns:repeat(11,minmax(0,1fr));}
+  .ramp--12{grid-template-columns:repeat(12,minmax(0,1fr));}
+  .ramp--13{grid-template-columns:repeat(13,minmax(0,1fr));}
+  .ramp--14{grid-template-columns:repeat(14,minmax(0,1fr));}
+  .ramp--15{grid-template-columns:repeat(15,minmax(0,1fr));}
+  .ramp--16{grid-template-columns:repeat(16,minmax(0,1fr));}
+  .ramp--17{grid-template-columns:repeat(17,minmax(0,1fr));}
+  .ramp--18{grid-template-columns:repeat(18,minmax(0,1fr));}
+  .ramp--19{grid-template-columns:repeat(19,minmax(0,1fr));}
+  .ramp--20{grid-template-columns:repeat(20,minmax(0,1fr));}
+  .sw{
+    aspect-ratio:1/2.2;display:flex;flex-direction:column;
+    justify-content:flex-end;padding:8px 6px;
+    font-family:var(--font-mono);font-size:9px;line-height:1.3;
+    transition:transform 160ms;position:relative;cursor:default;
+  }
+  .sw:hover{transform:scale(1.06);z-index:2;box-shadow:0 6px 18px rgba(0,0,0,.12);}
+  .sw--l{color:#09090b;}
+  .sw--d{color:#fff;}
+  .sw .n{opacity:.7;margin-bottom:2px;}
+  .sw.is-anchor::after{content:"★";position:absolute;top:6px;right:6px;font-size:9px;}
+
+  .paired{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+  .accent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+  .accent-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+  .accent-card__sw{display:grid;aspect-ratio:5/1.2;}
+  .accent-card__body{padding:12px 16px;display:flex;align-items:baseline;justify-content:space-between;}
+  .accent-card__n{font-size:13px;font-weight:500;}
+  .accent-card__h{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);}
+
+  .sem-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+  .sem-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;display:flex;align-items:center;gap:16px;}
+  .sem-card__chip{width:44px;height:44px;border-radius:var(--radius);flex-shrink:0;border:1px solid rgba(0,0,0,.08);}
+  .sem-card__n{font-size:14px;font-weight:500;margin-bottom:2px;}
+  .sem-card__h{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:2px;}
+  .sem-card__u{font-size:12px;color:var(--muted-fg);}
+
+  .alias-table{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:16px 20px;
+    font-family:var(--font-mono);font-size:11px;line-height:1.9;
+  }
+  .alias-table .row{
+    display:grid;grid-template-columns:minmax(200px,auto) 20px minmax(0,1fr);
+    gap:12px;padding:2px 0;border-bottom:1px solid var(--border);
+  }
+  .alias-table .row:last-child{border-bottom:none;}
+  .alias-table .k{color:var(--fg);}
+  .alias-table .arrow{color:var(--muted-fg);}
+  .alias-table .v{color:var(--muted-fg);}
+  .alias-table .v .val{color:var(--fg);}
+  .alias-table .v .kr{font-family:var(--font-sans);color:var(--muted-fg);}
+
+  .dom-chart{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:20px 24px;
+  }
+  .dom-bar{display:flex;height:36px;border-radius:var(--radius);overflow:hidden;margin-bottom:16px;border:1px solid var(--border);}
+  .dom-bar__seg{position:relative;transition:flex 200ms;}
+  .dom-bar__seg:hover{flex-grow:1.08;}
+  .dom-list{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 20px;font-family:var(--font-mono);font-size:11px;}
+  .dom-list .item{display:flex;align-items:center;gap:8px;padding:3px 0;}
+  .dom-list .chip{width:10px;height:10px;border-radius:2px;border:1px solid rgba(0,0,0,.08);flex-shrink:0;}
+  .dom-list .hex{color:var(--fg);}
+  .dom-list .cnt{color:var(--muted-fg);margin-left:auto;}
+
+  .space-note{
+    font-size:13px;color:var(--subtle);max-width:720px;
+    margin-bottom:24px;padding:14px 20px;
+    background:var(--muted);border:1px solid var(--border);
+    border-left:2px solid var(--accent);border-radius:var(--radius);line-height:1.7;
+  }
+  .space-note b{color:var(--fg);}
+  .space-note code{background:var(--card);padding:1px 5px;border-radius:3px;font-size:11px;border:1px solid var(--border);}
+
+  .space-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+  .space-row{
+    display:grid;grid-template-columns:180px 70px 1fr;
+    gap:16px;padding:8px 20px;
+    border-bottom:1px solid var(--border);align-items:center;
+    font-family:var(--font-mono);font-size:11px;
+  }
+  .space-row:last-child{border-bottom:none;}
+  .space-row .tk{color:var(--fg);}
+  .space-row .val{color:var(--muted-fg);text-align:right;}
+  .space-row .bar{height:8px;background:var(--accent);border-radius:1px;}
+
+  .rad-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;}
+  .rad-card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:16px 12px;
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+  }
+  .rad-box{width:100%;aspect-ratio:1;background:var(--muted);border:1px solid var(--border-str);}
+  .rad-card__n{font-family:var(--font-mono);font-size:11px;font-weight:500;}
+  .rad-card__v{font-size:10px;color:var(--muted-fg);text-align:center;line-height:1.4;}
+  .rad-card__v .px{font-family:var(--font-mono);}
+
+  .sh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:16px;}
+  .sh-card{
+    background:var(--card);padding:24px 24px 20px;
+    border-radius:var(--radius-lg);border:1px solid var(--border);
+    min-height:150px;display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .sh-card__n{font-family:var(--font-mono);font-size:11px;font-weight:500;}
+  .sh-card__d{font-size:13px;color:var(--muted-fg);margin-top:4px;margin-bottom:10px;line-height:1.6;}
+  .sh-card__v{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);}
+
+  .motion-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:820px;}
+  .motion-row{display:grid;grid-template-columns:220px 120px 1fr;gap:20px;padding:14px 20px;border-bottom:1px solid var(--border);font-size:13px;align-items:center;}
+  .motion-row:last-child{border-bottom:none;}
+  .motion-row .pt{font-family:var(--font-mono);font-size:11px;color:var(--fg);}
+  .motion-row .val{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .motion-row .use{color:var(--subtle);line-height:1.55;}
+
+  .lp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  .lp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;}
+  .lp-card h3{font-size:13px;font-weight:600;margin-bottom:12px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted-fg);}
+  .lp-card ul{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--subtle);line-height:1.6;}
+  .lp-card ul li{padding-left:14px;position:relative;}
+  .lp-card ul li::before{content:"·";position:absolute;left:2px;color:var(--muted-fg);font-weight:700;}
+  .lp-card ul li b{color:var(--fg);font-weight:600;}
+  .lp-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;}
+  .lp-card pre{background:#08090a;color:#f7f8f8;padding:14px 16px;border-radius:var(--radius);font-family:var(--font-mono);font-size:11px;line-height:1.65;overflow-x:auto;margin-top:12px;}
+
+  .cmp-block{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:12px;
+  }
+  .cmp-block__head{
+    display:flex;align-items:baseline;gap:12px;
+    padding-bottom:14px;margin-bottom:18px;
+    border-bottom:1px solid var(--border);flex-wrap:wrap;
+  }
+  .cmp-block__name{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--fg);}
+  .cmp-block__desc{font-size:12px;color:var(--muted-fg);}
+  .cmp-block__body{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:32px;align-items:start;}
+  .cmp-demo{
+    padding:24px;background:var(--muted);border-radius:var(--radius);
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;min-height:88px;
+  }
+  .cmp-spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.8;}
+  .cmp-spec code{color:var(--fg);font-size:11px;}
+  .cmp-spec .kr{font-family:var(--font-sans);display:block;margin-top:8px;color:var(--subtle);font-size:12px;line-height:1.55;}
+
+  .cmp-code{
+    margin-top:14px;background:#08090a;color:#f7f8f8;
+    border-radius:var(--radius);padding:14px 18px;
+    font-family:var(--font-mono);font-size:11px;line-height:1.65;
+    overflow-x:auto;border:1px solid #1f2023;position:relative;
+  }
+  .cmp-code .copy{
+    position:absolute;top:10px;right:10px;
+    font-family:var(--font-mono);font-size:10px;
+    color:#7d8ba4;background:#1f2023;
+    padding:3px 8px;border-radius:4px;
+    border:1px solid #2f3135;
+  }
+  .cmp-code .copy:hover{color:#f7f8f8;background:#2f3135;}
+
+  .voice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  .voice-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;}
+  .voice-card__label{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+  .voice-card__rule{font-size:13px;color:var(--subtle);line-height:1.6;margin-bottom:12px;}
+  .voice-card__ex{
+    padding:14px 16px;background:var(--muted);border-radius:var(--radius);
+    font-family:"SF Pro Display",-apple-system,sans-serif;
+    font-weight:300;color:var(--fg);font-size:15px;line-height:1.5;
+    border-left:2px solid var(--brand-color);
+  }
+
+  .code-export{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:900px;}
+  .code-tabs{
+    display:flex;gap:0;
+    border-bottom:1px solid var(--border);
+    background:var(--muted);
+  }
+  .code-tabs button{
+    padding:12px 18px;font-family:var(--font-mono);font-size:11px;
+    color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;
+    border-bottom:2px solid transparent;
+  }
+  .code-tabs button.is-active{
+    color:var(--fg);background:var(--card);
+    border-bottom-color:var(--accent);
+  }
+  .code-copy{
+    margin-left:auto;padding:12px 18px;
+    font-family:var(--font-mono);font-size:10px;
+    color:var(--muted-fg);
+  }
+  .code-copy:hover{color:var(--fg);}
+  .code-pane{display:none;padding:0;}
+  .code-pane.is-active{display:block;}
+  .code-pane pre{
+    background:#08090a;color:#f7f8f8;
+    padding:24px 28px;
+    font-family:var(--font-mono);font-size:12px;line-height:1.65;
+    overflow-x:auto;max-height:560px;margin:0;
+  }
+  .code-pane .k{color:#92adff;}
+  .code-pane .v{color:#f7f8f8;}
+  .code-pane .c{color:#64748d;font-style:italic;}
+
+  .dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .dd-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;}
+  .dd-card h3{
+    font-family:var(--font-mono);font-size:11px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px;
+    display:inline-flex;align-items:center;gap:6px;
+    padding:4px 12px;border-radius:999px;
+  }
+  .dd-card--do h3{background:#dcfce7;color:#166534;}
+  .dd-card--dont h3{background:#fee2e2;color:#991b1b;}
+  .dd-card ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .dd-card ul li{font-size:13px;line-height:1.7;color:var(--subtle);padding-left:20px;position:relative;}
+  .dd-card ul li::before{position:absolute;left:0;top:3px;font-family:var(--font-mono);font-size:11px;}
+  .dd-card--do ul li::before{content:"✓";color:#16a34a;}
+  .dd-card--dont ul li::before{content:"✗";color:#dc2626;}
+  .dd-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;font-family:var(--font-mono);}
+  .dd-card ul li b{color:var(--fg);font-weight:600;}
+
+  .myth-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+  .myth-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,2fr);gap:16px;padding:14px 20px;border-bottom:1px solid var(--border);align-items:center;font-size:12px;}
+  .myth-row:last-child{border-bottom:none;}
+  .myth-row--head{
+    background:var(--muted);font-family:var(--font-mono);font-size:10px;
+    color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;padding:10px 20px;
+  }
+  .myth-row--head .kr{font-family:var(--font-sans);text-transform:none;letter-spacing:0;font-size:11px;}
+  .myth-row .wrong{font-family:var(--font-mono);color:#dc2626;text-decoration:line-through;text-decoration-color:rgba(220,38,38,.4);}
+  .myth-row .right{font-family:var(--font-mono);color:#16a34a;}
+  .myth-row .why{color:var(--subtle);line-height:1.65;}
+  .swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:0;border:1px solid rgba(0,0,0,.08);}
+
+  .rfoot{padding:40px 64px;display:flex;justify-content:space-between;align-items:center;gap:32px;font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .rfoot .kr{font-family:var(--font-sans);font-size:12px;}
+
+  @media (max-width:1024px){
+    .layout{grid-template-columns:1fr;}
+    .toc{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:24px 32px;}
+    .hero,section,.rfoot{padding-left:32px;padding-right:32px;}
+    .cmp-block__body,.ts,.lp-grid,.voice-grid,.paired,.qs__grid{grid-template-columns:1fr;}
+    .accent-grid{grid-template-columns:1fr 1fr;}
+    .hero__stats{grid-template-columns:1fr 1fr;}
+    .stat{border-right:none;border-bottom:1px solid var(--border);}
+    .stat:nth-child(even){border-right:none;}
+    .dd-grid,.sem-row{grid-template-columns:1fr;}
+    .rad-grid{grid-template-columns:repeat(4,1fr);}
+    .sh-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="toc">
+    <div class="toc__brand">
+      <div class="toc__brand-name">Vercel</div>
+      <div class="toc__brand-sub">Design System Report</div>
+    </div>
+
+    <div class="toc__group">
+      <div class="toc__group-label">Overview</div>
+      <ul class="toc__list">
+        <li><a href="#hero"><span class="toc__num">00</span>한눈에 보기</a></li>
+        <li><a href="#provenance"><span class="toc__num">01</span>출처와 수집 기준</a></li>
+        <li><a href="#stack"><span class="toc__num">02</span>테크 스택</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Foundations</div>
+      <ul class="toc__list">
+        <li><a href="#typography"><span class="toc__num">03</span>타이포그래피</a></li>
+        <li><a href="#colors"><span class="toc__num">04</span>컬러</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Tokens</div>
+      <ul class="toc__list">
+        <li><a href="#spacing"><span class="toc__num">05</span>스페이싱</a></li>
+        <li><a href="#radius"><span class="toc__num">06</span>라디우스</a></li>
+        <li><a href="#shadows"><span class="toc__num">07</span>섀도우</a></li>
+        <li><a href="#motion"><span class="toc__num">08</span>모션</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Patterns</div>
+      <ul class="toc__list">
+        <li><a href="#components"><span class="toc__num">10</span>컴포넌트</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Code</div>
+      <ul class="toc__list">
+        <li><a href="#export"><span class="toc__num">12</span>CSS · Tailwind</a></li>
+      </ul>
+    </div>
+    <div class="toc__group">
+      <div class="toc__group-label">Rules</div>
+      <ul class="toc__list">
+        <li><a href="#verdict"><span class="toc__num">13</span>Do / Don't</a></li>
+      </ul>
+    </div>
+
+    <div class="toc__foot">
+      real/vercel/<br>
+      DESIGN.claude.manual.md<br>
+      2026-04-11
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <section id="hero" class="hero">
+      <div class="hero__eye"><span class="dot"></span>Design System Report</div>
+      <h1 class="hero__title">Vercel <span class="sub">— --ds-*, --geist-*</span></h1>
+      <p class="hero__sub">
+        https://vercel.com 이 실제로 서빙하는 CSS 에서 직접 뽑은 디자인 토큰·타이포그래피·컴포넌트 스펙.
+        모든 값은 CSS 커스텀 프로퍼티를 파싱한 결과이고, AI 추론이나 추측은 섞이지 않았다.
+      </p>
+      <div class="hero__screenshot">
+        <img src="screenshots/hero-cropped.png" alt="vercel hero screenshot">
+      </div>
+
+
+      <div class="qs">
+        <div class="qs__head">
+          <span class="qs__head-label">Quick Start</span>
+          <span class="qs__head-title">5분 안에 Vercel처럼 만들기 — 3가지만 하면 80%</span>
+        </div>
+        <div class="qs__grid">
+          <div class="qs__step">
+            <span class="qs__step-label">1 · 폰트: Geist sans + Geist mono (Vercel 자체 제작)</span>
+            <code>:root {
+  --font-sans: &quot;Geist&quot;, var(--font-sans-fallback), ui-sans-serif, system-ui,
+               -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto,
+               &quot;Helvetica Neue&quot;, Arial, sans-serif;
+  --font-mono: &quot;Geist Mono&quot;, var(--font-mono-fallback), ui-monospace,
+               SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;,
+               &quot;Courier New&quot;, monospace;
+}
+body  { font-family: var(--font-sans); font-weight: 400; }
+code, pre { font-family: var(--font-mono); }
+
+/* 2. 배경 + 텍스트 — Vercel 의 monochrome 철학 */
+:root {
+  --ds-background-100: hsl(0, 0%, 100%);    /* <b>#FFFFFF</b> — 페이지 */
+  --ds-background-200: hsl(0, 0%, 98%);     /* <b>#FAFAFA</b> — subtle alt */
+  --ds-gray-1000:      hsl(0, 0%, 9%);      /* <b>#171717</b> — ink */
+}
+body {
+  background: var(--ds-background-100);
+  color: var(--ds-gray-1000);
+}
+
+/* 3. Accent — 공식 브랜드는 흑백. Accent 는 integration 별 */
+:root {
+  --ds-blue-700:  hsl(212, 100%, 48%);      /* 링크 · Vercel blue */
+  --ds-red-700:   hsl(358, 75%, 60%);       /* Next.js → <b>#FF1E56</b> */
+  --ds-success:   <b>#00DC82</b>;                   /* 성공 / deployed */
+}</code>
+          </div>
+        </div>
+        <div class="qs__warn">
+          <b>절대 하지 말아야 할 것 하나</b>: &quot;Vercel 브랜드 색&quot; 을 추측하지 말 것. Vercel 은 <b>의도적으로 흑백 monochrome</b> 이다. 공식 브랜드는 &lt;code&gt;#000000&lt;/code&gt; / &lt;code&gt;#FFFFFF&lt;/code&gt; + 삼각형 로고뿐. Accent 로 보이는 색들 (<code>#FF1E56</code> Next.js, <code>#00DC82</code> Nuxt, <code>#FF3E00</code> Svelte, <code>#45DEC4</code> framework 등)은 전부 &lt;b&gt;customer/integration 로고 색&lt;/b&gt; — Vercel 자체 브랜드가 아니라 고객사 로고를 hero 캐러셀에 노출할 때 쓰는 것. UI 복제 시 이것들을 &quot;Vercel 브랜드&quot; 로 쓰면 관계가 뒤집힌다.
+        </div>
+      </div>
+
+      <div class="hero__stats">
+        <div class="stat">
+          <div class="stat__label">Source</div>
+          <div class="stat__val stat__val--mono">vercel.com</div>
+          <div class="stat__hint"></div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Fetched</div>
+          <div class="stat__val">2026.04.11</div>
+          <div class="stat__hint">12개 외부, 총 861,227자</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Primary Font</div>
+          <div class="stat__val stat__val--mono">Geist</div>
+          <div class="stat__hint">weight normal = 400</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Brand</div>
+          <div class="stat__val stat__val--mono">#000000</div>
+          <div class="stat__hint">--ds-*, --geist-*</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="provenance">
+      <div class="section__num">01 · Provenance</div>
+      <h2 class="section__title">출처와 수집 기준</h2>
+      <p class="section__lede">
+        URL · fetch 시점 · 파싱 방식까지 모두 CSS 번들에서 직접 뽑은 값이다.
+      </p>
+      <div class="prov">
+        <div class="prov__row"><span class="prov__k"></span><span class="prov__v"></span></div>
+        <div class="prov__row"><span class="prov__k">Source URL</span><span class="prov__v"><code>https://vercel.com</code></span></div>
+        <div class="prov__row"><span class="prov__k">Fetched</span><span class="prov__v">2026-04-11</span></div>
+        <div class="prov__row"><span class="prov__k">CSS files</span><span class="prov__v">12개 외부, 총 861,227자</span></div>
+        <div class="prov__row"><span class="prov__k">Token count</span><span class="prov__v"><b>630</b> custom properties · 89 color · 71 spacing · <b>33 shadow</b></span></div>
+        <div class="prov__row"><span class="prov__k">Token prefix</span><span class="prov__v"><code>--ds-*</code> (Design System, 공식) + <code>--geist-*</code> (legacy Geist UI)</span></div>
+        <div class="prov__row"><span class="prov__k">Method</span><span class="prov__v">CSS 커스텀 프로퍼티 + OKLCH 파싱 · AI 추론 없음</span></div>
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="section__num">02 · Tech Stack</div>
+      <h2 class="section__title">테크 스택</h2>
+      <p class="section__lede">
+        프레임워크, 디자인 시스템, CSS 아키텍처, 테마, 폰트 로딩 방식.
+      </p>
+      <div class="ts">
+        <div class="ts__item">
+          <div class="ts__head">FRAMEWORK</div>
+          <div class="ts__body">Next.js (self-hosted, dogfood)</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">DESIGN SYSTEM</div>
+          <div class="ts__body"><b>DS (Design System)</b> — Vercel 의 내부 DS. 2 세대: <code>--geist-*</code>(legacy Geist UI) → <code>--ds-*</code>(현 DS).</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">CSS ARCHITECTURE</div>
+          <div class="ts__body">2-layer HSL + OKLCH</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">CLASS NAMING</div>
+          <div class="ts__body">Tailwind + <code>.ds-*</code> 유틸리티. 컴포넌트는 css-in-js (Next.js css modules).</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">DEFAULT THEME</div>
+          <div class="ts__body"><b>light</b>. &lt;code&gt;--ds-background-100&lt;/code&gt; = white. Dark 테마도 완전 정의돼 있어 media query / class 로 토글.</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">FONT LOADING</div>
+          <div class="ts__body">Next.js font loader. <code>--font-sans</code> / <code>--font-mono</code> 경유 Geist + Geist Mono 로드. KaTeX 수학 폰트도 번들됨.</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">CANONICAL ANCHOR</div>
+          <div class="ts__body">&lt;code&gt;#000000&lt;/code&gt; (black) + &lt;code&gt;#FFFFFF&lt;/code&gt; (white) — monochrome brand.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="typography">
+      <div class="section__num">03 · Typography</div>
+      <h2 class="section__title">타이포그래피</h2>
+      <p class="section__lede">
+        폰트 스택, 굵기 정의, 타이포그래피 스케일.
+      </p>
+
+      <div class="type-sub">Font stack</div>
+      <div class="fs-card">
+        <div class="fs-card__row">
+          <span class="fs-card__k">Primary sans</span>
+          <span class="fs-card__v"><code>Geist</code> (Vercel 자체 제작 variable, OFL 오픈 폰트)</span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Primary mono</span>
+          <span class="fs-card__v"><code>Geist Mono</code> (오픈소스)</span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Math</span>
+          <span class="fs-card__v"><code>KaTeX_Main</code>, <code>KaTeX_SansSerif</code>, <code>KaTeX_Fraktur</code>, <code>KaTeX_Math</code> (docs 전용)</span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Weights used</span>
+          <span class="fs-card__v">100/200/300/400(87회)/500(135회, &lt;b&gt;1위&lt;/b&gt;)/600(108회)/700/800/900</span>
+        </div>
+      </div>
+
+
+
+      <div class="type-sub">Text scale</div>
+      <div class="type-table">
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:400;line-height:1.4">Size — sample text</div>
+          <div class="type-row__spec"><span class="tk">Size</span>16px · weight <b>400</b> · 1.4</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:400500;line-height:22">12px — sample text</div>
+          <div class="type-row__spec"><span class="tk">12px</span>16px · weight <b>400500</b> · 22</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:400500;line-height:27">13px — sample text</div>
+          <div class="type-row__spec"><span class="tk">13px</span>16px · weight <b>400500</b> · 27</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:400500;line-height:53">14px — sample text</div>
+          <div class="type-row__spec"><span class="tk">14px</span>16px · weight <b>400500</b> · 53</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:400;line-height:19">875rem — sample text</div>
+          <div class="type-row__spec"><span class="tk">.875rem</span>16px · weight <b>400</b> · 19</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:400500;line-height:36">16px — sample text</div>
+          <div class="type-row__spec"><span class="tk">16px</span>16px · weight <b>400500</b> · 36</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:400;line-height:13">1rem — sample text</div>
+          <div class="type-row__spec"><span class="tk">1rem</span>16px · weight <b>400</b> · 13</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:500600;line-height:14">18px — sample text</div>
+          <div class="type-row__spec"><span class="tk">18px</span>16px · weight <b>500600</b> · 14</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:600;line-height:20">20px — sample text</div>
+          <div class="type-row__spec"><span class="tk">20px</span>16px · weight <b>600</b> · 20</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:600;line-height:21">24px — sample text</div>
+          <div class="type-row__spec"><span class="tk">24px</span>16px · weight <b>600</b> · 21</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:600;line-height:11">40px — sample text</div>
+          <div class="type-row__spec"><span class="tk">40px</span>16px · weight <b>600</b> · 11</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:16px;font-weight:600;line-height:11">48px — sample text</div>
+          <div class="type-row__spec"><span class="tk">48px</span>16px · weight <b>600</b> · 11</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        ⚠️ <b>Weight 500 이 사용 빈도 1위 (135회).</b> Body 는 400 이지만, UI 라벨/버튼/nav 는 500 이 기본. Medium weight 가 signature. 600 도 108회로 2위.
+      </div>
+    </section>
+
+    <section id="colors">
+      <div class="section__num">04 · Colors</div>
+      <h2 class="section__title">컬러</h2>
+      <p class="section__lede">
+        브랜드 램프, 뉴트럴, 악센트, 시맨틱 컬러 토큰.
+      </p>
+
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Integration/Framework Colors</b> <span class="muted">customer logos</span></div>
+        <div class="ramp ramp--6">
+          <div class="sw sw--d" style="background:#FF1E56"><div class="n"></div><div>#ff1e56</div></div>
+          <div class="sw sw--l" style="background:#00DC82"><div class="n"></div><div>#00dc82</div></div>
+          <div class="sw sw--d" style="background:#FF3E00"><div class="n"></div><div>#ff3e00</div></div>
+          <div class="sw sw--l" style="background:#45DEC4"><div class="n"></div><div>#45dec4</div></div>
+          <div class="sw sw--d" style="background:#0096FF"><div class="n"></div><div>#0096ff</div></div>
+          <div class="sw sw--l" style="background:#95BF47"><div class="n"></div><div>#95bf47</div></div>
+        </div>
+        <div class="callout" style="margin-top:12px;max-width:100%">⚠️ 이 색들은 &lt;b&gt;Vercel 브랜드가 아니다&lt;/b&gt;. 고객사 framework 로고 색으로 carousel·다큐에서만 등장.</div>
+      </div>
+
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Semantic</b></div>
+        <div class="sem-row">
+          <div class="sem-card">
+            <div class="sem-card__chip" style="background:#00DC82"></div>
+            <div>
+              <div class="sem-card__n">--geist-success</div>
+              <div class="sem-card__h">#00DC82</div>
+              <div class="sem-card__u">deployed</div>
+            </div>
+          </div>
+          <div class="sem-card">
+            <div class="sem-card__chip" style="background:#FF1E56"></div>
+            <div>
+              <div class="sem-card__n">--geist-error</div>
+              <div class="sem-card__h">#FF1E56</div>
+              <div class="sem-card__u">failed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Dominant Colors (실제 DOM 빈도 순)</b> <span class="muted">실제 DOM 빈도</span></div>
+        <div class="dom-chart">
+          <div class="dom-bar">
+            <div class="dom-bar__seg" style="background:#FFFFFF;flex:50;border-right:1px solid #e4e4e7;"></div>
+            <div class="dom-bar__seg" style="background:#000000;flex:40;"></div>
+            <div class="dom-bar__seg" style="background:#00000005;flex:14;"></div>
+            <div class="dom-bar__seg" style="background:#333333;flex:12;"></div>
+            <div class="dom-bar__seg" style="background:#FF1E56;flex:10;"></div>
+            <div class="dom-bar__seg" style="background:#EAEAEA;flex:9;border-right:1px solid #e4e4e7;"></div>
+            <div class="dom-bar__seg" style="background:#45DEC4;flex:9;"></div>
+            <div class="dom-bar__seg" style="background:#00DC82;flex:8;"></div>
+            <div class="dom-bar__seg" style="background:#0096FF;flex:7;"></div>
+            <div class="dom-bar__seg" style="background:#1F1F1F;flex:6;"></div>
+          </div>
+          <div class="dom-list">
+            <div class="item"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span><span class="cnt">50</span></div>
+            <div class="item"><span class="chip" style="background:#000000"></span><span class="hex">#000000</span><span class="cnt">40</span></div>
+            <div class="item"><span class="chip" style="background:#00000005"></span><span class="hex">#00000005</span><span class="cnt">14</span></div>
+            <div class="item"><span class="chip" style="background:#333333"></span><span class="hex">#333333</span><span class="cnt">12</span></div>
+            <div class="item"><span class="chip" style="background:#FF1E56"></span><span class="hex">#FF1E56</span><span class="cnt">10</span></div>
+            <div class="item"><span class="chip" style="background:#EAEAEA"></span><span class="hex">#EAEAEA</span><span class="cnt">9</span></div>
+            <div class="item"><span class="chip" style="background:#45DEC4"></span><span class="hex">#45DEC4</span><span class="cnt">9</span></div>
+            <div class="item"><span class="chip" style="background:#00DC82"></span><span class="hex">#00DC82</span><span class="cnt">8</span></div>
+            <div class="item"><span class="chip" style="background:#0096FF"></span><span class="hex">#0096FF</span><span class="cnt">7</span></div>
+            <div class="item"><span class="chip" style="background:#1F1F1F"></span><span class="hex">#1F1F1F</span><span class="cnt">6</span></div>
+          </div>
+        </div>
+      </div>
+
+
+
+    </section>
+
+    <section id="spacing">
+      <div class="section__num">05 · Spacing</div>
+      <h2 class="section__title">스페이싱</h2>
+      <p class="section__lede">
+        스페이싱 토큰 스케일.
+      </p>
+
+
+
+      <div class="space-table">
+        <div class="space-row"><span class="tk">geist-space</span><span class="val">4px</span><span class="bar" style="width:4px"></span></div>
+        <div class="space-row"><span class="tk">geist-space-small</span><span class="val">32px</span><span class="bar" style="width:32px"></span></div>
+        <div class="space-row"><span class="tk">geist-space-medium</span><span class="val">40px</span><span class="bar" style="width:40px"></span></div>
+        <div class="space-row"><span class="tk">geist-space-large</span><span class="val">48px</span><span class="bar" style="width:48px"></span></div>
+        <div class="space-row"><span class="tk">geist-space-gap</span><span class="val">24px</span><span class="bar" style="width:24px"></span></div>
+        <div class="space-row"><span class="tk">geist-space-gap-half</span><span class="val">12px</span><span class="bar" style="width:12px"></span></div>
+        <div class="space-row"><span class="tk">geist-gap</span><span class="val">24px</span><span class="bar" style="width:24px"></span></div>
+        <div class="space-row"><span class="tk">ds-page-width</span><span class="val">1400px</span><span class="bar" style="width:200px"></span></div>
+      </div>
+    </section>
+
+    <section id="radius">
+      <div class="section__num">06 · Radius</div>
+      <h2 class="section__title">라디우스</h2>
+      <p class="section__lede">
+        보더 라디우스 토큰.
+      </p>
+
+      <div class="rad-grid" style="grid-template-columns:repeat(6,1fr)">
+        <div class="rad-card"><div class="rad-box" style="border-radius:0px"></div><div class="rad-card__n">Key value</div><div class="rad-card__v"><span class="px">Usage</span><br></div></div>
+        <div class="rad-card"><div class="rad-box" style="border-radius:0px"></div><div class="rad-card__n">2px / 4px</div><div class="rad-card__v"><span class="px">인풋 · 작은 버튼</span><br></div></div>
+        <div class="rad-card"><div class="rad-box" style="border-radius:0px"></div><div class="rad-card__n">6px</div><div class="rad-card__v"><span class="px">기본 버튼</span><br></div></div>
+        <div class="rad-card"><div class="rad-box" style="border-radius:0px"></div><div class="rad-card__n">8px</div><div class="rad-card__v"><span class="px">카드</span><br></div></div>
+        <div class="rad-card"><div class="rad-box" style="border-radius:0px"></div><div class="rad-card__n">12px / 16px</div><div class="rad-card__v"><span class="px">큰 카드</span><br></div></div>
+        <div class="rad-card"><div class="rad-box" style="border-radius:0px"></div><div class="rad-card__n">9999px</div><div class="rad-card__v"><span class="px">pill</span><br></div></div>
+      </div>
+    </section>
+
+    <section id="shadows">
+      <div class="section__num">07 · Shadows</div>
+      <h2 class="section__title">섀도우</h2>
+      <p class="section__lede">
+        엘리베이션 섀도우 토큰.
+      </p>
+
+      <div class="sh-grid">
+      </div>
+      <div class="callout">⚠️ <b>Composite 그림자가 핵심.</b> Vercel 의 &quot;카드가 미묘하게 떠 있는&quot; 느낌은 단순 box-shadow 가 아니라 &lt;b&gt;5-layer&lt;/b&gt; (border-base + 3개의 y-offset blur + background-border) 때문. 단일 <code>0 4px 8px rgba(0,0,0,0.1)</code> 으로는 재현 불가.</div>
+    </section>
+
+    <section id="motion">
+      <div class="section__num">08 · Motion</div>
+      <h2 class="section__title">모션</h2>
+      <p class="section__lede">
+        관측된 모션 패턴.
+      </p>
+
+      <div class="motion-table">
+      </div>
+    </section>
+
+    <section id="components">
+      <div class="section__num">10 · Components</div>
+      <h2 class="section__title">컴포넌트</h2>
+      <p class="section__lede">
+        실제 사이트에서 관측된 컴포넌트 클래스와 스펙.
+      </p>
+
+      <div class="cmp-block">
+        <div class="cmp-block__head">
+          <span class="cmp-block__name">Button (primary — black)</span>
+          <span class="cmp-block__desc">&lt;button class=&quot;ds-button ds-button--primary&quot;&gt;Deploy&lt;/button&gt;</span>
+        </div>
+        <div class="cmp-block__body">
+          <div>
+            <div class="cmp-demo" style="flex-direction:column;align-items:flex-start;gap:10px;">
+              <div style="padding:12px 16px;background:#fff;border:1px solid #e4e4e7;border-radius:6px;font-size:12px;font-family:var(--font-mono);">
+                Button (primary — black)
+              </div>
+            </div>
+            <pre class="cmp-code"><span class="copy" data-copy="buttonprimaryblack-code">Copy</span><code id="buttonprimaryblack-code">&lt;button class=&quot;ds-button ds-button--primary&quot;&gt;Deploy&lt;/button&gt;</code></pre>
+          </div>
+          <div class="cmp-spec">
+            
+          </div>
+        </div>
+      </div>
+      <div class="cmp-block">
+        <div class="cmp-block__head">
+          <span class="cmp-block__name">Card</span>
+          <span class="cmp-block__desc">&lt;article class=&quot;ds-card&quot;&gt;</span>
+        </div>
+        <div class="cmp-block__body">
+          <div>
+            <div class="cmp-demo" style="flex-direction:column;align-items:flex-start;gap:10px;">
+              <div style="padding:12px 16px;background:#fff;border:1px solid #e4e4e7;border-radius:6px;font-size:12px;font-family:var(--font-mono);">
+                Card
+              </div>
+            </div>
+            <pre class="cmp-code"><span class="copy" data-copy="card-code">Copy</span><code id="card-code">&lt;article class=&quot;ds-card&quot;&gt;
+  &lt;h3&gt;Deployment ready&lt;/h3&gt;
+  &lt;p&gt;my-app.vercel.app&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+          </div>
+          <div class="cmp-spec">
+            
+          </div>
+        </div>
+      </div>
+      <div class="cmp-block">
+        <div class="cmp-block__head">
+          <span class="cmp-block__name">Code block</span>
+          <span class="cmp-block__desc">&lt;pre&gt;&lt;code class=&quot;shiki&quot;&gt;&lt;span class=&quot;kw&quot;&gt;const&lt;/span&gt; app = &lt;span class=&quot;fn&quot;&gt;ne</span>
+        </div>
+        <div class="cmp-block__body">
+          <div>
+            <div class="cmp-demo" style="flex-direction:column;align-items:flex-start;gap:10px;">
+              <div style="padding:12px 16px;background:#fff;border:1px solid #e4e4e7;border-radius:6px;font-size:12px;font-family:var(--font-mono);">
+                Code block
+              </div>
+            </div>
+            <pre class="cmp-code"><span class="copy" data-copy="codeblock-code">Copy</span><code id="codeblock-code">&lt;pre&gt;&lt;code class=&quot;shiki&quot;&gt;&lt;span class=&quot;kw&quot;&gt;const&lt;/span&gt; app = &lt;span class=&quot;fn&quot;&gt;next&lt;/span&gt;();&lt;/code&gt;&lt;/pre&gt;</code></pre>
+          </div>
+          <div class="cmp-spec">
+            
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <section id="export">
+      <div class="section__num">12 · Code Export</div>
+      <h2 class="section__title">CSS · Tailwind</h2>
+      <p class="section__lede">
+        프로젝트 루트에 붙여 넣으면 바로 쓸 수 있는 토큰 코드.
+      </p>
+
+      <div class="code-export">
+        <div class="code-tabs">
+          <button data-tab="css" class="is-active">CSS 스니펫</button>
+          <button data-tab="tw">Tailwind 설정</button>
+          <button class="code-copy" data-copy-active>Copy</button>
+        </div>
+
+        <div class="code-pane is-active" data-pane="css">
+<pre><code><span class="c">/* Vercel — copy into your root stylesheet */</span>
+<span class="k">:root </span>{
+  <span class="c">/* Fonts */</span>
+  --font-sans: &quot;Geist&quot;, var(--font-sans-fallback),
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;
+  --font-mono: &quot;Geist Mono&quot;, var(--font-mono-fallback),
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;
+
+  <span class="c">/* Gray scale (light) — HSL values */</span>
+  --ds-background-100: hsl(0, 0%, 100%);
+  --ds-background-200: hsl(0, 0%, 98%);
+  --ds-gray-200:  hsl(0, 0%, 92%);
+  --ds-gray-500:  hsl(0, 0%, 79%);
+  --ds-gray-900:  hsl(0, 0%, 30%);
+  --ds-gray-1000: hsl(0, 0%,  9%);
+
+  <span class="c">/* Shadow composite atoms */</span>
+  --ds-shadow-border-base:       0 0 0 1px #00000014;
+  --ds-shadow-background-border: 0 0 0 1px var(--ds-background-200);
+  --ds-shadow-small:             0px 2px 2px #0000000A;
+  --ds-shadow-border-small:
+    var(--ds-shadow-border-base),
+    var(--ds-shadow-small),
+    var(--ds-shadow-background-border);
+
+  <span class="c">/* Motion */</span>
+  --ds-motion-timing-swift: cubic-bezier(.175, .885, .32, 1.1);
+  --ds-motion-overlay-duration: .3s;
+}
+<span class="k">
+body </span>{
+  font-family: var(--font-sans);
+  font-weight: 400;
+  background: var(--ds-background-100);
+  color: var(--ds-gray-1000);
+  font-size: 14px;
+}</code></pre>
+        </div>
+
+        <div class="code-pane" data-pane="tw">
+<pre><code><span class="c">// tailwind.config.js — Vercel</span>
+<span class="k">module.exports</span> = {
+  theme: {
+    extend: {
+      colors: {
+        ds: {
+          &#x27;background-100&#x27;: &#x27;hsl(0, 0%, 100%)&#x27;,
+          &#x27;background-200&#x27;: &#x27;hsl(0, 0%, 98%)&#x27;,
+          gray: {
+            100:  &#x27;hsl(0, 0%, 95%)&#x27;,
+            200:  &#x27;hsl(0, 0%, 92%)&#x27;,
+            300:  &#x27;hsl(0, 0%, 90%)&#x27;,
+            400:  &#x27;hsl(0, 0%, 92%)&#x27;,
+            500:  &#x27;hsl(0, 0%, 79%)&#x27;,
+            600:  &#x27;hsl(0, 0%, 66%)&#x27;,
+            700:  &#x27;hsl(0, 0%, 56%)&#x27;,
+            800:  &#x27;hsl(0, 0%, 49%)&#x27;,
+            900:  &#x27;hsl(0, 0%, 30%)&#x27;,
+            1000: &#x27;hsl(0, 0%,  9%)&#x27;,
+          },
+        },
+      },
+      fontFamily: {
+        sans: [&#x27;Geist&#x27;, &#x27;ui-sans-serif&#x27;, &#x27;system-ui&#x27;, &#x27;sans-serif&#x27;],
+        mono: [&#x27;Geist Mono&#x27;, &#x27;ui-monospace&#x27;, &#x27;SFMono-Regular&#x27;, &#x27;Menlo&#x27;, &#x27;monospace&#x27;],
+      },
+      fontWeight: {
+        normal: &#x27;400&#x27;,
+        medium: &#x27;500&#x27;,   <span class="c">// signature</span>
+        semibold: &#x27;600&#x27;,
+      },
+      boxShadow: {
+        &#x27;ds-border&#x27;: &#x27;0 0 0 1px #00000014&#x27;,
+        &#x27;ds-small&#x27;: &#x27;0px 2px 2px #0000000A&#x27;,
+        &#x27;ds-border-small&#x27;: &#x27;0 0 0 1px #00000014, 0px 2px 2px #0000000A, 0 0 0 1px hsl(0, 0%, 98%)&#x27;,
+      },
+      transitionTimingFunction: {
+        swift: &#x27;cubic-bezier(.175, .885, .32, 1.1)&#x27;,
+      },
+    },
+  },
+};</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="verdict">
+      <div class="section__num">13 · Do / Don't</div>
+      <h2 class="section__title">Do / Don't</h2>
+      <p class="section__lede">
+        지켜야 할 것과 피해야 할 것.
+      </p>
+
+      <div class="dd-grid">
+        <div class="dd-card dd-card--do">
+          <h3>Do</h3>
+          <ul>
+            <li>브랜드는 &lt;b&gt;흑백 monochrome&lt;/b&gt;. &lt;code&gt;#000000&lt;/code&gt; + &lt;code&gt;#FFFFFF&lt;/code&gt; + gray ramp.</li>
+            <li>Body 폰트 &lt;code&gt;Geist&lt;/code&gt; (Vercel 자체 제작 오픈소스, &lt;code&gt;--font-sans&lt;/code&gt; 체인).</li>
+            <li>Code 는 &lt;code&gt;Geist Mono&lt;/code&gt;.</li>
+            <li>Body 기본 사이즈 14px, weight 500 medium 이 UI 라벨의 signature.</li>
+            <li>Gray 는 HSL 튜플 &lt;code&gt;0, 0%, *&lt;/code&gt; 중립 grey — 색온도 없음.</li>
+            <li>그림자는 &lt;b&gt;5-layer composite&lt;/b&gt;: border-base + small/medium/large + background-border.</li>
+            <li>Motion easing &lt;code&gt;cubic-bezier(.175, .885, .32, 1.1)&lt;/code&gt; overshoot 사용.</li>
+            <li>Focus 는 &lt;b&gt;double ring&lt;/b&gt; (&lt;code&gt;0 0 0 2px var(--ds-background-100), 0 0 0 4px var(--ds-focus-color)&lt;/code&gt;).</li>
+            <li>Framework logo color (Next/Nuxt/Svelte) 는 caraousel/logo wall 에만 사용, UI 토큰 아님.</li>
+          </ul>
+        </div>
+        <div class="dd-card dd-card--dont">
+          <h3>Don't</h3>
+          <ul>
+            <li>❌ &lt;code&gt;#FF1E56&lt;/code&gt;(Next.js red) 을 Vercel 브랜드로 — 그건 Next.js 로고 색.</li>
+            <li>❌ &lt;code&gt;#00DC82&lt;/code&gt;(Nuxt) / &lt;code&gt;#FF3E00&lt;/code&gt;(Svelte) / &lt;code&gt;#45DEC4&lt;/code&gt;(Astro) 를 Vercel accent 로.</li>
+            <li>❌ &lt;code&gt;Inter&lt;/code&gt; / &lt;code&gt;Roboto&lt;/code&gt; 로 Geist 대체 — signature 깨짐.</li>
+            <li>❌ Body 16px + weight 400 — Vercel 은 14px + 500 medium 이 대시보드 DNA.</li>
+            <li>❌ 단일 box-shadow — 5-layer composite 아니면 &quot;vercel 같은 elevation&quot; 재현 불가.</li>
+            <li>❌ Warm gray — Vercel gray 는 완전 중립 (HSL saturation 0%).</li>
+            <li>❌ <code>--color-primary</code> / <code>--primary</code> 같은 가상 토큰 — 실제는 <code>--ds-gray-1000</code> 으로 ink 구현.</li>
+            <li>❌ 과거 Geist UI 토큰 (&lt;code&gt;--geist-foreground&lt;/code&gt; 등) 만 사용 — 현 DS 는 &lt;code&gt;--ds-*&lt;/code&gt;.</li>
+          </ul>
+        </div>
+      </div>
+
+
+    </section>
+
+    <footer class="rfoot">
+      <div>
+        <span class="kr">DesignMD · Vercel Report</span><br>
+        real/vercel/DESIGN.claude.manual.md 기반 생성
+      </div>
+      <div style="text-align:right;">
+        2026-04-11<br>
+        <span class="kr">35개 서비스 · 템플릿 재사용 가능</span>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // Tab switching for Code Export
+  document.querySelectorAll('.code-tabs button[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest('.code-export');
+      group.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('is-active'));
+      group.querySelectorAll('[data-pane]').forEach(p => p.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      group.querySelector(`[data-pane="${btn.dataset.tab}"]`).classList.add('is-active');
+    });
+  });
+
+  // Copy button on component code blocks
+  document.querySelectorAll('.copy[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.copy);
+      if (!target) return;
+      navigator.clipboard.writeText(target.textContent);
+      const original = btn.textContent;
+      btn.textContent = 'Copied';
+      setTimeout(() => (btn.textContent = original), 1500);
+    });
+  });
+
+  // Copy active code pane
+  document.querySelectorAll('[data-copy-active]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest('.code-export');
+      const active = group.querySelector('.code-pane.is-active pre code');
+      if (!active) return;
+      navigator.clipboard.writeText(active.textContent);
+      const original = btn.textContent;
+      btn.textContent = 'Copied';
+      setTimeout(() => (btn.textContent = original), 1500);
+    });
+  });
+</script>
+
+</body>
+</html>

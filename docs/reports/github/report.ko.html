@@ -1,0 +1,1384 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GitHub — Primer Design System Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* ── Reset & Base ──────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --font-sans:"Pretendard Variable","Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --bg:#09090b;
+  --fg:#fafafa;
+  --card:#18181b;
+  --muted:#27272a;
+  --muted-fg:#71717a;
+  --subtle:#3f3f46;
+  --border:#3f3f46;
+  --border-str:#52525b;
+  --accent:#1f6feb;
+  --radius:8px;
+  --radius-lg:12px;
+  --brand-color:#1f6feb;
+}
+html{font-size:16px;scroll-behavior:smooth;scroll-padding-top:32px;}
+body{
+  font-family:var(--font-sans);
+  background:var(--bg);color:var(--fg);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  word-break:keep-all;overflow-wrap:break-word;
+}
+
+/* ── Layout grid ───────────────────────────────── */
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1440px;margin:0 auto;}
+
+/* ── TOC Sidebar ───────────────────────────────── */
+.toc{
+  position:sticky;top:0;align-self:start;height:100vh;
+  padding:28px 24px 28px 40px;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;gap:22px;
+  overflow-y:auto;
+}
+.toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+.toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+.toc__group{display:flex;flex-direction:column;gap:2px;}
+.toc__group-label{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--border-str);text-transform:uppercase;
+  letter-spacing:.1em;padding:0 10px;margin-bottom:4px;
+}
+.toc__list{list-style:none;display:flex;flex-direction:column;gap:1px;}
+.toc__list a{
+  display:grid;grid-template-columns:26px 1fr;align-items:center;
+  padding:6px 10px;font-size:13px;color:var(--muted-fg);
+  border-radius:var(--radius);transition:background 140ms,color 140ms;
+  text-decoration:none;
+}
+.toc__list a:hover{background:var(--muted);color:var(--fg);}
+.toc__list a.active{background:var(--muted);color:var(--fg);}
+.toc__num{font-family:var(--font-mono);font-size:10px;color:var(--border-str);}
+.toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+
+/* ── Main ──────────────────────────────────────── */
+.main{min-width:0;padding:48px 56px;max-width:960px}
+section{margin-bottom:72px}
+.section-title{
+  font-size:22px;font-weight:700;letter-spacing:-.02em;
+  margin-bottom:6px;color:var(--fg);
+}
+.section-sub{font-size:14px;color:var(--muted-fg);margin-bottom:32px}
+
+/* ── Hero ──────────────────────────────────────── */
+.hero{margin-bottom:72px}
+.hero__eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--brand-color);
+  border:1px solid var(--brand-color);
+  border-radius:100px;padding:3px 10px;margin-bottom:16px;
+}
+.hero h1{
+  font-size:36px;font-weight:800;letter-spacing:-.025em;
+  line-height:1.15;margin-bottom:10px;
+}
+.hero__sub{font-size:15px;color:var(--muted-fg);margin-bottom:32px;max-width:560px}
+
+.hero__screenshot{
+  margin-bottom:32px;max-width:880px;
+  border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);
+}
+.hero__screenshot img{width:100%;height:auto;display:block}
+
+/* Quick Start */
+.qs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.qs__step{
+  background:#0d1117;border:1px solid #3d444d;
+  border-radius:var(--radius);padding:16px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:#e6edf3;line-height:1.6;
+}
+.qs__step-num{
+  font-size:10px;color:var(--brand-color);
+  font-weight:600;margin-bottom:8px;letter-spacing:.06em;
+}
+.qs__step pre{white-space:pre-wrap;word-break:break-all}
+.qs__warn{
+  background:#2d1b1b;border:1px solid #da3633;
+  border-radius:var(--radius);padding:12px 16px;
+  font-size:13px;color:#f85149;
+}
+.qs__warn strong{color:#ff7b72}
+
+/* Stats */
+.hero__stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px;
+}
+.stat{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;
+}
+.stat__val{font-size:24px;font-weight:700;letter-spacing:-.02em;color:var(--fg)}
+.stat__label{font-size:11px;color:var(--muted-fg);margin-top:2px}
+
+/* ── Typography ─────────────────────────────────── */
+.fs-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;margin-bottom:20px;
+}
+.fs-card__row{
+  display:flex;align-items:baseline;gap:12px;
+  padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;
+}
+.fs-card__row:last-child{border-bottom:none}
+.fs-card__label{color:var(--muted-fg);min-width:160px;font-size:12px}
+.fs-card__val{color:var(--fg);font-family:'JetBrains Mono',monospace;font-size:12px}
+
+.type-table{margin-top:20px;display:flex;flex-direction:column;gap:4px}
+.type-row{
+  display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:center;
+  padding:10px 0;border-bottom:1px solid var(--border);
+}
+.type-row:last-child{border-bottom:none}
+.type-row__s{color:var(--fg)}
+.type-row__spec{text-align:right}
+.type-row__token{
+  display:block;font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--brand-color);margin-bottom:2px;
+}
+.type-row__meta{font-size:11px;color:var(--muted-fg);font-family:'JetBrains Mono',monospace}
+
+/* ── Colors ─────────────────────────────────────── */
+.color-section{margin-bottom:32px}
+.color-section h3{font-size:14px;font-weight:600;margin-bottom:12px;color:var(--muted-fg)}
+
+.ramp{display:flex;gap:0;border-radius:var(--radius);overflow:hidden;margin-bottom:8px}
+.sw{
+  flex:1;height:56px;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:4px 6px;
+  font-family:'JetBrains Mono',monospace;font-size:9px;line-height:1.3;
+}
+.sw--l{color:rgba(0,0,0,.7)}
+.sw--d{color:rgba(255,255,255,.8)}
+.is-anchor{outline:2px solid var(--fg);outline-offset:-2px}
+
+/* Semantic scale table */
+.semantic-table{
+  width:100%;border-collapse:collapse;margin-bottom:24px;font-size:13px;
+}
+.semantic-table th{
+  text-align:left;padding:8px 12px;
+  font-size:11px;color:var(--muted-fg);font-weight:500;
+  border-bottom:1px solid var(--border);
+}
+.semantic-table td{
+  padding:8px 12px;border-bottom:1px solid var(--border);
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+}
+.semantic-table td:first-child{color:var(--muted-fg)}
+.sw-chip{
+  display:inline-flex;align-items:center;gap:6px;font-size:11px;
+  font-family:'JetBrains Mono',monospace;
+}
+.sw-chip__dot{width:14px;height:14px;border-radius:3px;flex-shrink:0}
+
+/* Alias table */
+.alias-table{
+  width:100%;border-collapse:collapse;font-size:12px;
+  font-family:'JetBrains Mono',monospace;
+}
+.alias-table td{
+  padding:7px 12px;border-bottom:1px solid var(--border);
+}
+.alias-table td:first-child{color:var(--brand-color)}
+.alias-table td:last-child{color:var(--muted-fg)}
+
+/* Dominant chart */
+.dom-chart{
+  height:28px;border-radius:6px;overflow:hidden;
+  display:flex;margin-bottom:16px;
+}
+.dom-list{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+}
+.dom-item{
+  display:flex;align-items:center;gap:8px;font-size:11px;
+  font-family:'JetBrains Mono',monospace;
+}
+.dom-item__swatch{
+  width:20px;height:20px;border-radius:4px;flex-shrink:0;
+  border:1px solid var(--border);
+}
+.dom-item__info{color:var(--muted-fg)}
+
+/* ── Spacing ─────────────────────────────────────── */
+.space-note{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:12px 16px;
+  font-size:12px;color:var(--muted-fg);margin-bottom:20px;
+}
+.space-rows{display:flex;flex-direction:column;gap:6px}
+.space-row{display:grid;grid-template-columns:160px 60px 1fr;align-items:center;gap:12px}
+.space-row__token{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--brand-color)}
+.space-row__val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted-fg)}
+.space-row__bar{height:8px;background:var(--brand-color);border-radius:2px;opacity:.7}
+
+/* ── Radius ──────────────────────────────────────── */
+.rad-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.rad-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;text-align:center;
+}
+.rad-box{
+  width:56px;height:56px;background:var(--brand-color);
+  margin:0 auto 12px;opacity:.8;
+}
+.rad-card__name{font-size:12px;font-weight:600;margin-bottom:2px}
+.rad-card__val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted-fg)}
+.rad-card__use{font-size:11px;color:var(--muted-fg);margin-top:4px}
+
+/* ── Shadows ─────────────────────────────────────── */
+.sh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sh-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;
+}
+.sh-card__demo{
+  width:72px;height:72px;border-radius:6px;
+  background:#151b23;margin:0 auto 12px;
+}
+.sh-card__level{font-size:12px;font-weight:600;margin-bottom:4px;text-align:center}
+.sh-card__desc{font-size:11px;color:var(--muted-fg);text-align:center;margin-bottom:8px}
+.sh-card__val{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--muted-fg);word-break:break-all;line-height:1.5;
+}
+
+/* ── Layout Patterns ─────────────────────────────── */
+.lp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.lp-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;
+}
+.lp-card__name{font-size:13px;font-weight:600;margin-bottom:8px;color:var(--fg)}
+.lp-card__desc{font-size:12px;color:var(--muted-fg);margin-bottom:12px;line-height:1.6}
+.lp-card pre{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:#a5d6ff;background:#0d1117;
+  border:1px solid #3d444d;border-radius:4px;
+  padding:10px;overflow-x:auto;line-height:1.5;
+}
+
+/* ── Components ──────────────────────────────────── */
+.cmp-block{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);margin-bottom:20px;overflow:hidden;
+}
+.cmp-block__head{
+  padding:14px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.cmp-block__name{font-size:14px;font-weight:600}
+.cmp-block__badge{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--muted-fg);border:1px solid var(--border);
+  border-radius:4px;padding:2px 6px;
+}
+.cmp-demo{
+  padding:24px 20px;
+  border-bottom:1px solid var(--border);
+  background:#0d1117;
+}
+.cmp-spec{
+  padding:14px 20px;border-bottom:1px solid var(--border);
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--muted-fg);line-height:1.8;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:4px 24px;
+}
+.cmp-spec span{color:var(--fg)}
+.cmp-code{
+  padding:14px 20px;position:relative;
+}
+.cmp-code pre{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:#e6edf3;background:#0d1117;
+  border:1px solid #3d444d;border-radius:4px;
+  padding:12px;overflow-x:auto;line-height:1.5;
+}
+.copy{
+  position:absolute;top:18px;right:24px;
+  background:var(--muted);border:1px solid var(--border);
+  color:var(--muted-fg);font-size:11px;cursor:pointer;
+  border-radius:4px;padding:3px 8px;transition:all .15s;
+}
+.copy:hover{color:var(--fg);border-color:var(--border-str)}
+
+/* Label demos */
+.label-demo-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.gh-label{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:12px;font-weight:500;padding:2px 8px;
+  border-radius:100px;border-width:1px;border-style:solid;
+}
+/* Button demos */
+.gh-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 16px;border-radius:6px;font-size:14px;font-weight:500;
+  border-width:1px;border-style:solid;cursor:pointer;font-family:inherit;
+}
+.gh-btn--primary{background:#238636;border-color:#238636;color:#fff}
+.gh-btn--default{background:#212830;border-color:#3d444d;color:#f0f6fc}
+.box-demo{
+  background:#151b23;border:1px solid #3d444d;
+  border-radius:6px;max-width:320px;
+}
+.box-demo__header{
+  padding:12px 16px;border-bottom:1px solid #3d444d;
+  font-size:13px;font-weight:600;color:#f0f6fc;
+}
+.box-demo__body{padding:12px 16px;font-size:13px;color:#9198a1}
+
+/* ── Code Export ─────────────────────────────────── */
+.code-export{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+}
+.code-tabs{
+  display:flex;align-items:center;padding:0 16px;
+  border-bottom:1px solid var(--border);background:var(--muted);gap:4px;
+}
+.code-tabs__btn{
+  padding:10px 14px;font-size:12px;font-weight:500;
+  color:var(--muted-fg);background:transparent;border:none;
+  border-bottom:2px solid transparent;cursor:pointer;
+  font-family:inherit;transition:all .15s;margin-bottom:-1px;
+}
+.code-tabs__btn.active{color:var(--fg);border-bottom-color:var(--brand-color)}
+.code-tabs__copy{
+  margin-left:auto;background:var(--card);border:1px solid var(--border);
+  color:var(--muted-fg);font-size:11px;cursor:pointer;
+  border-radius:4px;padding:4px 10px;font-family:inherit;transition:all .15s;
+}
+.code-tabs__copy:hover{color:var(--fg)}
+.code-pane{display:none;padding:20px}
+.code-pane.active{display:block}
+.code-pane pre{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:#e6edf3;line-height:1.6;white-space:pre-wrap;word-break:break-word;
+}
+
+/* ── Do / Don't ──────────────────────────────────── */
+.dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dd-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;
+}
+.dd-card__badge{
+  display:inline-block;font-size:11px;font-weight:700;
+  padding:2px 8px;border-radius:4px;margin-bottom:12px;letter-spacing:.04em;
+}
+.dd-card--do .dd-card__badge{background:#2ea04326;color:#3fb950;border:1px solid #238636}
+.dd-card--dont .dd-card__badge{background:#f851491a;color:#f85149;border:1px solid #da3633}
+.dd-card ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.dd-card li{font-size:13px;line-height:1.5;padding-left:16px;position:relative;color:var(--muted-fg)}
+.dd-card li::before{position:absolute;left:0}
+.dd-card--do li::before{content:"✓";color:#3fb950}
+.dd-card--dont li::before{content:"✗";color:#f85149}
+
+.myth-table{
+  width:100%;border-collapse:collapse;margin-top:24px;font-size:12px;
+}
+.myth-table th{
+  text-align:left;padding:8px 12px;font-size:11px;color:var(--muted-fg);
+  border-bottom:1px solid var(--border);font-weight:500;
+}
+.myth-table td{
+  padding:8px 12px;border-bottom:1px solid var(--border);
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+}
+.myth-table td:first-child{color:#f85149}
+.myth-table td:nth-child(2){color:#3fb950}
+.myth-table td:last-child{color:var(--muted-fg);font-family:'Inter',sans-serif;font-size:12px}
+
+/* ── Footer ──────────────────────────────────────── */
+footer{
+  border-top:1px solid var(--border);padding:24px 0;
+  font-size:12px;color:var(--muted-fg);text-align:center;
+  margin-top:48px;
+}
+
+/* ── Responsive ──────────────────────────────────── */
+@media(max-width:1024px){
+  .layout{grid-template-columns:1fr;}
+  .toc{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:24px 32px;}
+  .main{padding:32px 24px}
+  .qs{grid-template-columns:1fr}
+  .hero__stats{grid-template-columns:repeat(2,1fr)}
+  .dd-grid{grid-template-columns:1fr}
+  .sh-grid{grid-template-columns:1fr 1fr}
+  .rad-grid{grid-template-columns:repeat(3,1fr)}
+  .lp-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- ── TOC Sidebar ── -->
+<aside class="toc">
+  <div class="toc__brand">
+    <div class="toc__brand-name">GitHub</div>
+    <div class="toc__brand-sub">Design System Report</div>
+  </div>
+
+  <div class="toc__group">
+    <div class="toc__group-label">Overview</div>
+    <ul class="toc__list">
+      <li><a href="#overview"><span class="toc__num">00</span>한눈에 보기</a></li>
+      <li><a href="#provenance"><span class="toc__num">01</span>출처와 수집 기준</a></li>
+      <li><a href="#stack"><span class="toc__num">02</span>테크 스택</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Foundations</div>
+    <ul class="toc__list">
+      <li><a href="#typography"><span class="toc__num">03</span>타이포그래피</a></li>
+      <li><a href="#colors"><span class="toc__num">04</span>컬러</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Tokens</div>
+    <ul class="toc__list">
+      <li><a href="#spacing"><span class="toc__num">05</span>스페이싱</a></li>
+      <li><a href="#radius"><span class="toc__num">06</span>라디우스</a></li>
+      <li><a href="#shadows"><span class="toc__num">07</span>섀도우</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Patterns</div>
+    <ul class="toc__list">
+      <li><a href="#layout"><span class="toc__num">08</span>레이아웃 패턴</a></li>
+      <li><a href="#components"><span class="toc__num">09</span>컴포넌트</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Code</div>
+    <ul class="toc__list">
+      <li><a href="#code"><span class="toc__num">10</span>CSS · Tailwind</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Rules</div>
+    <ul class="toc__list">
+      <li><a href="#dodont"><span class="toc__num">11</span>Do / Don't</a></li>
+    </ul>
+  </div>
+
+  <div class="toc__foot">
+    real/github/<br>
+    DESIGN.claude.manual.md<br>
+    2026-04-11
+  </div>
+</aside>
+
+<!-- ── Main ── -->
+<main class="main">
+
+  <!-- Hero -->
+  <section class="hero" id="overview">
+    <div class="hero__eyebrow">Design System Report</div>
+    <h1>GitHub — Primer</h1>
+    <p class="hero__sub">다크 기본, 2,196개 커스텀 프로퍼티, emphasis/muted/fg 3단 시맨틱 컬러 스케일 — Primer 시스템 해부.</p>
+
+    <div class="hero__screenshot">
+      <img src="screenshots/hero-cropped.png" alt="GitHub hero screenshot" />
+    </div>
+
+    <!-- Quick Start 3카드 -->
+    <div class="qs">
+      <div class="qs__step">
+        <div class="qs__step-num">STEP 1 — Font + Weight</div>
+        <pre>body {
+  font-family: "Mona Sans",
+    "Mona Sans Fallback",
+    -apple-system, sans-serif;
+  font-weight: 400;
+}
+h1, h2, h3 {
+  font-family: "Mona Sans",
+    "Mona Sans Header Fallback",
+    -apple-system, sans-serif;
+  font-weight: 800;
+}</pre>
+      </div>
+      <div class="qs__step">
+        <div class="qs__step-num">STEP 2 — Dark Mode Canvas</div>
+        <pre>:root[data-color-mode="dark"] {
+  --bgColor-default: #0d1117;
+  --bgColor-inset:   #010409;
+  --fgColor-default: #f0f6fc;
+  --fgColor-muted:   #9198a1;
+}
+body {
+  background: var(--bgColor-default);
+  color: var(--fgColor-default);
+}</pre>
+      </div>
+      <div class="qs__step">
+        <div class="qs__step-num">STEP 3 — Brand Accent</div>
+        <pre>:root {
+  /* 다크 accent 3단계 */
+  --accent-emphasis: #1f6feb;
+  --accent-fg:       #4493f8;
+  --accent-muted:    #388bfd1a;
+}
+
+/* Primary CTA는 녹색 */
+.btn-primary {
+  background: #238636;
+  color: #ffffff;
+}</pre>
+      </div>
+    </div>
+    <div class="qs__warn">
+      <strong>절대 하지 말 것:</strong> <code>#0969DA</code> (Primer v1 라이트 accent)를 다크 사이트에 쓰지 말 것. 다크 accent는 <code>#1f6feb</code> (emphasis) / <code>#4493f8</code> (fg) / <code>#388bfd1a</code> (muted) 3단계다. Primary CTA는 파란색이 아닌 <strong>녹색 #238636</strong>.
+    </div>
+
+    <!-- 4 Stats -->
+    <div class="hero__stats">
+      <div class="stat">
+        <div class="stat__val">github.com</div>
+        <div class="stat__label">Source</div>
+      </div>
+      <div class="stat">
+        <div class="stat__val">2026-04-11</div>
+        <div class="stat__label">Fetched</div>
+      </div>
+      <div class="stat">
+        <div class="stat__val">Primer</div>
+        <div class="stat__label">Design System</div>
+      </div>
+      <div class="stat">
+        <div class="stat__val">2,196</div>
+        <div class="stat__label">CSS 커스텀 프로퍼티</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01. Provenance -->
+  <section id="provenance">
+    <h2 class="section-title">출처와 수집 기준</h2>
+    <p class="section-sub">크롤 환경 및 데이터 신뢰도</p>
+    <div class="fs-card">
+      <div class="fs-card__row"><span class="fs-card__label">Source URL</span><span class="fs-card__val">https://github.com</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Fetched</span><span class="fs-card__val">2026-04-11</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Extractor</span><span class="fs-card__val">real/fetch_all.py (curl + Chrome UA)</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">CSS files</span><span class="fs-card__val">21개 외부, 총 2,701,381자</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Custom props</span><span class="fs-card__val">2,196 (color: 1,380 · spacing: 276 · shadow: 31)</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Token prefix</span><span class="fs-card__val">--bgColor-*, --fgColor-*, --borderColor-*, --base-size-*</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Method</span><span class="fs-card__val">CSS 커스텀 프로퍼티 직접 파싱 · Primer 공식 규약 기반</span></div>
+    </div>
+  </section>
+
+  <!-- 02. Tech Stack -->
+  <section id="stack">
+    <h2 class="section-title">Primer 기반 대규모 CSS 토큰 시스템</h2>
+    <p class="section-sub">Rails + Web Components 위에서 2,196개 토큰으로 다크/라이트 테마 스위치</p>
+    <div class="fs-card">
+      <div class="fs-card__row"><span class="fs-card__label">Framework</span><span class="fs-card__val">Rails + ERB + Web Components. Turbo/Hotwire + Stimulus</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Design system</span><span class="fs-card__val">Primer — GitHub 공식. W3C Design Tokens 가장 근접</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Token pattern</span><span class="fs-card__val">--{category}-{role}-{state} (e.g. bgColor-accent-emphasis)</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Theme scope</span><span class="fs-card__val">:root[data-color-mode="dark"] / :root[data-color-mode="light"]</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Default theme</span><span class="fs-card__val">Dark (현재 크롤링 기준)</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Class naming</span><span class="fs-card__val">Primer 유틸리티 (Box, Label, Button) + js-*, Header-*, repository-content</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Font loading</span><span class="fs-card__val">Mona Sans Variable + metric-matched fallbacks</span></div>
+      <div class="fs-card__row"><span class="fs-card__label">Canonical anchor</span><span class="fs-card__val">--bgColor-default: #0d1117 (dark) / #ffffff (light)</span></div>
+    </div>
+  </section>
+
+  <!-- 03. Typography -->
+  <section id="typography">
+    <h2 class="section-title">Mona Sans Variable — 200/450/550/800 비표준 weight</h2>
+    <p class="section-sub">GitHub 2024 리브랜드 전용 폰트. 550이 label/button의 Primer 시그너처.</p>
+
+    <div class="fs-card">
+      <div class="fs-card__row">
+        <span class="fs-card__label">Display font</span>
+        <span class="fs-card__val">Mona Sans (variable, GitHub 자체 제작)</span>
+      </div>
+      <div class="fs-card__row">
+        <span class="fs-card__label">Display alternative</span>
+        <span class="fs-card__val">Hubot Sans — 브랜드 페이지 전용</span>
+      </div>
+      <div class="fs-card__row">
+        <span class="fs-card__label">Code font</span>
+        <span class="fs-card__val">ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono</span>
+      </div>
+      <div class="fs-card__row">
+        <span class="fs-card__label">Body fallback</span>
+        <span class="fs-card__val">Mona Sans Fallback (metric-matched body)</span>
+      </div>
+      <div class="fs-card__row">
+        <span class="fs-card__label">Heading fallback</span>
+        <span class="fs-card__val">Mona Sans Header Fallback (metric-matched heading — 별도)</span>
+      </div>
+      <div class="fs-card__row">
+        <span class="fs-card__label">Weight range</span>
+        <span class="fs-card__val">200, 400, 450, 500, 550, 600, 700, 800, 900 (variable non-standard)</span>
+      </div>
+    </div>
+
+    <div class="type-table">
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:48px;font-weight:800;line-height:1.15;letter-spacing:-0.02em;font-family:'Inter',sans-serif">Display</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">display</span>
+          <span class="type-row__meta">48px / 800 / 1.15 / -0.02em</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:40px;font-weight:800;line-height:1.2;letter-spacing:-0.02em;font-family:'Inter',sans-serif">h00</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">h00</span>
+          <span class="type-row__meta">40px / 800 / 1.2 / -0.02em</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:32px;font-weight:800;line-height:1.25;letter-spacing:-0.01em;font-family:'Inter',sans-serif">h0</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">h0</span>
+          <span class="type-row__meta">32px / 800 / 1.25 / -0.01em</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:26px;font-weight:800;line-height:1.25;letter-spacing:-0.01em;font-family:'Inter',sans-serif">h1</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">h1</span>
+          <span class="type-row__meta">26px / 800 / 1.25 / -0.01em</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:22px;font-weight:700;line-height:1.25;letter-spacing:-0.01em;font-family:'Inter',sans-serif">h2</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">h2</span>
+          <span class="type-row__meta">22px / 700 / 1.25 / -0.01em</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:20px;font-weight:700;line-height:1.25;letter-spacing:0em;font-family:'Inter',sans-serif">h3</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">h3</span>
+          <span class="type-row__meta">20px / 700 / 1.25 / 0em</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:16px;font-weight:700;line-height:1.5;letter-spacing:0em;font-family:'Inter',sans-serif">h4</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">h4</span>
+          <span class="type-row__meta">16px / 700 / 1.5 / 0em</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:14px;font-weight:600;line-height:1.5;letter-spacing:0em;font-family:'Inter',sans-serif">h5</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">h5</span>
+          <span class="type-row__meta">14px / 600 / 1.5 / 0em</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:12px;font-weight:600;line-height:1.5;letter-spacing:0em;font-family:'Inter',sans-serif">h6</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">h6</span>
+          <span class="type-row__meta">12px / 600 / 1.5 / 0em</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0em;font-family:'Inter',sans-serif">body-normal — 기본 본문 텍스트</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">body-normal</span>
+          <span class="type-row__meta">14px / 400 / 1.5 / 0em</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:12px;font-weight:400;line-height:1.5;letter-spacing:0em;font-family:'Inter',sans-serif">body-small — 보조 텍스트</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">body-small</span>
+          <span class="type-row__meta">12px / 400 / 1.5 / 0em</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-row__s" style="font-size:12px;font-weight:400;line-height:1.4;letter-spacing:0em;font-family:'JetBrains Mono',monospace">caption / code</div>
+        <div class="type-row__spec">
+          <span class="type-row__token">caption / code</span>
+          <span class="type-row__meta">12px / 400 / 1.4-1.45 / 0em</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04. Colors -->
+  <section id="colors">
+    <h2 class="section-title">emphasis/muted/fg 3단 시맨틱 스케일</h2>
+    <p class="section-sub">Primer의 핵심: 단일 hex 금지 — 모든 역할색은 emphasis(fill) / muted(tint) / fg(text) 3단계</p>
+
+    <!-- Dark Mode Canvas -->
+    <div class="color-section">
+      <h3>다크 모드 캔버스 (data-color-mode="dark")</h3>
+      <div class="ramp" style="grid-template-columns:repeat(6,1fr);display:grid">
+        <div class="sw sw--d" style="background:#010409"><span>#010409</span><span>inset</span></div>
+        <div class="sw sw--d is-anchor" style="background:#0d1117"><span>#0d1117</span><span>default</span></div>
+        <div class="sw sw--d" style="background:#151b23"><span>#151b23</span><span>muted</span></div>
+        <div class="sw sw--d" style="background:#212830"><span>#212830</span><span>subtle</span></div>
+        <div class="sw sw--d" style="background:#2a313c"><span>#2a313c</span><span>surface-2</span></div>
+        <div class="sw sw--d" style="background:#3d444d"><span>#3d444d</span><span>emphasis</span></div>
+      </div>
+    </div>
+
+    <!-- Light Mode Canvas -->
+    <div class="color-section">
+      <h3>라이트 모드 캔버스 (data-color-mode="light")</h3>
+      <div class="ramp" style="grid-template-columns:repeat(3,1fr);display:grid">
+        <div class="sw sw--l is-anchor" style="background:#ffffff"><span>#ffffff</span><span>default</span></div>
+        <div class="sw sw--l" style="background:#f6f8fa"><span>#f6f8fa</span><span>inset</span></div>
+        <div class="sw sw--l" style="background:#d1d9e0"><span>#d1d9e0</span><span>border</span></div>
+      </div>
+    </div>
+
+    <!-- Semantic 3-layer scale -->
+    <div class="color-section">
+      <h3>시맨틱 스케일 — emphasis / muted / fg (다크)</h3>
+      <table class="semantic-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>emphasis (fill)</th>
+            <th>muted (tint)</th>
+            <th>fg (text)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>accent</td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#1f6feb"></span>#1f6feb</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#388bfd1a;border:1px solid #3d444d"></span>#388bfd1a</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#4493f8"></span>#4493f8</span></td>
+          </tr>
+          <tr>
+            <td>success</td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#238636"></span>#238636</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#2ea04326;border:1px solid #3d444d"></span>#2ea04326</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#3fb950"></span>#3fb950</span></td>
+          </tr>
+          <tr>
+            <td>attention</td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#9e6a03"></span>#9e6a03</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#bb800926;border:1px solid #3d444d"></span>#bb800926</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#d29922"></span>#d29922</span></td>
+          </tr>
+          <tr>
+            <td>danger</td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#da3633"></span>#da3633</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#f851491a;border:1px solid #3d444d"></span>#f851491a</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#f85149"></span>#f85149</span></td>
+          </tr>
+          <tr>
+            <td>done (merged PR)</td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#8957e5"></span>#8957e5</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#ab7df826;border:1px solid #3d444d"></span>#ab7df826</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#a371f7"></span>#a371f7</span></td>
+          </tr>
+          <tr>
+            <td>severe</td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#bd561d"></span>#bd561d</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#db6d2826;border:1px solid #3d444d"></span>#db6d2826</span></td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#db6d28"></span>#db6d28</span></td>
+          </tr>
+          <tr>
+            <td>sponsors</td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#bf4b8a"></span>#bf4b8a</span></td>
+            <td>—</td>
+            <td><span class="sw-chip"><span class="sw-chip__dot" style="background:#db61a2"></span>#db61a2</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Alias layer -->
+    <div class="color-section">
+      <h3>Alias Layer — 컴포넌트 토큰 체인</h3>
+      <table class="alias-table">
+        <tbody>
+          <tr><td>--button-primary-bgColor-rest</td><td>#238636</td><td>녹색 CTA (New repository)</td></tr>
+          <tr><td>--button-primary-bgColor-hover</td><td>#29903b</td><td>호버 상태</td></tr>
+          <tr><td>--button-primary-fgColor-rest</td><td>#ffffff</td><td>버튼 텍스트</td></tr>
+          <tr><td>--label-success-bgColor</td><td>#238636</td><td>green "merged" label</td></tr>
+          <tr><td>--label-done-bgColor</td><td>#8957e5</td><td>purple "done" label</td></tr>
+          <tr><td>--label-attention-fgColor-rest</td><td>#d29922</td><td>yellow warning text</td></tr>
+          <tr><td>--fgColor-link</td><td>#4493f8</td><td>링크 기본색</td></tr>
+          <tr><td>--fgColor-link-hover</td><td>#79c0ff</td><td>링크 호버</td></tr>
+          <tr><td>--color-prettylights-syntax-keyword</td><td>#ff7b72</td><td>코드 keyword</td></tr>
+          <tr><td>--color-prettylights-syntax-string</td><td>#a5d6ff</td><td>코드 string</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Dominant Colors -->
+    <div class="color-section">
+      <h3>DOM 빈도 Top 12 (다크 모드 크롤)</h3>
+      <div class="dom-chart">
+        <div style="background:#00000000;flex:592;border:1px solid #3d444d"></div>
+        <div style="background:#FFFFFF;flex:454"></div>
+        <div style="background:#FFFFFF00;flex:267;border:1px solid #3d444d"></div>
+        <div style="background:#010409;flex:204"></div>
+        <div style="background:#01040966;flex:166"></div>
+        <div style="background:#F0F6FC;flex:157"></div>
+        <div style="background:#656C76;flex:138"></div>
+        <div style="background:#59636E;flex:138"></div>
+        <div style="background:#3D444D;flex:128"></div>
+        <div style="background:#B7BDC8;flex:122"></div>
+        <div style="background:#2A313C;flex:102"></div>
+        <div style="background:#2F3742;flex:82"></div>
+      </div>
+      <div class="dom-list">
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#00000000;border:1px solid #3d444d"></div><div><div style="color:var(--fg)">#00000000</div><div class="dom-item__info">592 — transparent 슬롯</div></div></div>
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#FFFFFF;border:1px solid #3d444d"></div><div><div style="color:var(--fg)">#FFFFFF</div><div class="dom-item__info">454 — onEmphasis text</div></div></div>
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#FFFFFF00;border:1px solid #3d444d"></div><div><div style="color:var(--fg)">#FFFFFF00</div><div class="dom-item__info">267 — transparent white</div></div></div>
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#010409"></div><div><div style="color:var(--fg)">#010409</div><div class="dom-item__info">204 — canvas-inset</div></div></div>
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#01040966"></div><div><div style="color:var(--fg)">#01040966</div><div class="dom-item__info">166 — shadow α40</div></div></div>
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#F0F6FC"></div><div><div style="color:var(--fg)">#F0F6FC</div><div class="dom-item__info">157 — fgColor-default</div></div></div>
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#656C76"></div><div><div style="color:var(--fg)">#656C76</div><div class="dom-item__info">138 — neutral</div></div></div>
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#59636E"></div><div><div style="color:var(--fg)">#59636E</div><div class="dom-item__info">138 — muted-fg</div></div></div>
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#3D444D"></div><div><div style="color:var(--fg)">#3D444D</div><div class="dom-item__info">128 — border-default</div></div></div>
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#B7BDC8"></div><div><div style="color:var(--fg)">#B7BDC8</div><div class="dom-item__info">122 — text variant</div></div></div>
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#2A313C"></div><div><div style="color:var(--fg)">#2A313C</div><div class="dom-item__info">102 — canvas-subtle</div></div></div>
+        <div class="dom-item"><div class="dom-item__swatch" style="background:#2F3742"></div><div><div style="color:var(--fg)">#2F3742</div><div class="dom-item__info">82 — surface-2</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05. Spacing -->
+  <section id="spacing">
+    <h2 class="section-title">--base-size-N = N px 그대로</h2>
+    <p class="section-sub">토큰 숫자가 px 값과 일치. 8pt 그리드 기반, 4pt 세부 단위 포함.</p>
+    <div class="space-note">네이밍 규칙: <code>--base-size-{N}</code> — 숫자가 곧 px 값. <code>base-size-16 = 16px</code>. 합성 숫자는 없고 단일 숫자 매핑.</div>
+    <div class="space-rows">
+      <div class="space-row"><span class="space-row__token">--base-size-2</span><span class="space-row__val">2px</span><div class="space-row__bar" style="width:2px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-4</span><span class="space-row__val">4px</span><div class="space-row__bar" style="width:4px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-6</span><span class="space-row__val">6px</span><div class="space-row__bar" style="width:6px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-8</span><span class="space-row__val">8px</span><div class="space-row__bar" style="width:8px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-12</span><span class="space-row__val">12px</span><div class="space-row__bar" style="width:12px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-16</span><span class="space-row__val">16px</span><div class="space-row__bar" style="width:16px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-20</span><span class="space-row__val">20px</span><div class="space-row__bar" style="width:20px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-24</span><span class="space-row__val">24px</span><div class="space-row__bar" style="width:24px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-28</span><span class="space-row__val">28px</span><div class="space-row__bar" style="width:28px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-32</span><span class="space-row__val">32px</span><div class="space-row__bar" style="width:32px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-36</span><span class="space-row__val">36px</span><div class="space-row__bar" style="width:36px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-40</span><span class="space-row__val">40px</span><div class="space-row__bar" style="width:40px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-44</span><span class="space-row__val">44px</span><div class="space-row__bar" style="width:44px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-48</span><span class="space-row__val">48px</span><div class="space-row__bar" style="width:48px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-64</span><span class="space-row__val">64px</span><div class="space-row__bar" style="width:64px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-80</span><span class="space-row__val">80px</span><div class="space-row__bar" style="width:80px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-96</span><span class="space-row__val">96px</span><div class="space-row__bar" style="width:96px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-112</span><span class="space-row__val">112px</span><div class="space-row__bar" style="width:112px"></div></div>
+      <div class="space-row"><span class="space-row__token">--base-size-128</span><span class="space-row__val">128px</span><div class="space-row__bar" style="width:128px"></div></div>
+    </div>
+  </section>
+
+  <!-- 06. Radius -->
+  <section id="radius">
+    <h2 class="section-title">라디우스 5단 — medium(6px)이 압도적 기본</h2>
+    <p class="section-sub">small(input) → medium(button/card) → large(dialog) → xlarge(hero) → full(pill)</p>
+    <div class="rad-grid">
+      <div class="rad-card">
+        <div class="rad-box" style="border-radius:4px"></div>
+        <div class="rad-card__name">small</div>
+        <div class="rad-card__val">4px</div>
+        <div class="rad-card__use">input, label</div>
+      </div>
+      <div class="rad-card">
+        <div class="rad-box" style="border-radius:6px"></div>
+        <div class="rad-card__name">medium ★</div>
+        <div class="rad-card__val">6px</div>
+        <div class="rad-card__use">button, card (30회)</div>
+      </div>
+      <div class="rad-card">
+        <div class="rad-box" style="border-radius:8px"></div>
+        <div class="rad-card__name">large</div>
+        <div class="rad-card__val">8px</div>
+        <div class="rad-card__use">dialog, popover</div>
+      </div>
+      <div class="rad-card">
+        <div class="rad-box" style="border-radius:12px"></div>
+        <div class="rad-card__name">xlarge</div>
+        <div class="rad-card__val">12px</div>
+        <div class="rad-card__use">hero card</div>
+      </div>
+      <div class="rad-card">
+        <div class="rad-box" style="border-radius:100px"></div>
+        <div class="rad-card__name">full</div>
+        <div class="rad-card__val">100px</div>
+        <div class="rad-card__use">pill badge, avatar</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07. Shadows -->
+  <section id="shadows">
+    <h2 class="section-title">섀도우는 2축 — resting vs floating, hairline ring 필수</h2>
+    <p class="section-sub">floating-* 첫 레이어는 반드시 0 0 0 1px #3d444d hairline ring. 없으면 배경과 섞인다.</p>
+    <div class="sh-grid">
+      <div class="sh-card">
+        <div class="sh-card__demo" style="box-shadow:0 1px 1px 0 #010409cc"></div>
+        <div class="sh-card__level">resting-xsmall</div>
+        <div class="sh-card__desc">얇은 카드</div>
+        <div class="sh-card__val">0 1px 1px 0 #010409cc</div>
+      </div>
+      <div class="sh-card">
+        <div class="sh-card__demo" style="box-shadow:0 1px 1px 0 #01040999, 0 1px 3px 0 #01040999"></div>
+        <div class="sh-card__level">resting-small</div>
+        <div class="sh-card__desc">기본 카드</div>
+        <div class="sh-card__val">0 1px 1px 0 #01040999,<br>0 1px 3px 0 #01040999</div>
+      </div>
+      <div class="sh-card">
+        <div class="sh-card__demo" style="box-shadow:0 1px 1px 0 #01040966, 0 3px 6px 0 #010409cc"></div>
+        <div class="sh-card__level">resting-medium</div>
+        <div class="sh-card__desc">강조 카드</div>
+        <div class="sh-card__val">0 1px 1px 0 #01040966,<br>0 3px 6px 0 #010409cc</div>
+      </div>
+      <div class="sh-card">
+        <div class="sh-card__demo" style="box-shadow:0 0 0 1px #3d444d, 0 6px 12px -3px #01040966, 0 6px 18px 0 #01040966"></div>
+        <div class="sh-card__level">floating-small</div>
+        <div class="sh-card__desc">드롭다운</div>
+        <div class="sh-card__val">0 0 0 1px #3d444d,<br>0 6px 12px -3px #01040966,<br>0 6px 18px 0 #01040966</div>
+      </div>
+      <div class="sh-card">
+        <div class="sh-card__demo" style="box-shadow:0 0 0 1px #3d444d, 0 8px 16px -4px #01040966, 0 4px 32px 0 #010409"></div>
+        <div class="sh-card__level">floating-medium</div>
+        <div class="sh-card__desc">팝오버</div>
+        <div class="sh-card__val">0 0 0 1px #3d444d,<br>0 8px 16px -4px #01040966,<br>0 4px 32px 0 #010409</div>
+      </div>
+      <div class="sh-card">
+        <div class="sh-card__demo" style="box-shadow:0 0 0 1px #3d444d, 0 24px 48px 0 #010409"></div>
+        <div class="sh-card__level">floating-large</div>
+        <div class="sh-card__desc">모달</div>
+        <div class="sh-card__val">0 0 0 1px #3d444d,<br>0 24px 48px 0 #010409</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08. Layout Patterns -->
+  <section id="layout">
+    <h2 class="section-title">마케팅 vs 제품 UI — 1280px 컨테이너 공통</h2>
+    <p class="section-sub">Hero(마케팅 단일컬럼)와 Repository page(파일트리 + 컨텐츠 + 메타 3단) 두 레이아웃 베이스</p>
+    <div class="lp-grid">
+      <div class="lp-card">
+        <div class="lp-card__name">Hero (marketing)</div>
+        <div class="lp-card__desc">중앙 정렬 단일 컬럼 또는 2-column 스플릿. #0d1117 + SVG 그라디언트 오비트. H1: 48-64px / weight 800 / tracking -0.02em.</div>
+        <pre>/* max-width: 1280px */
+h1 {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}</pre>
+      </div>
+      <div class="lp-card">
+        <div class="lp-card__name">Repository page (product UI)</div>
+        <div class="lp-card__desc">좌측 파일 트리 + 중앙 컨텐츠 + 우측 메타 패널. Container max-width 1280px. Gutter: --base-size-24.</div>
+        <pre>/* pageLayout-contentWidth-xxlarge */
+.layout {
+  max-width: 1280px;
+  display: grid;
+  grid-template-columns:
+    240px 1fr 296px;
+  gap: var(--base-size-24);
+}</pre>
+      </div>
+      <div class="lp-card">
+        <div class="lp-card__name">Section Rhythm</div>
+        <div class="lp-card__desc">섹션 수직 여백은 64px. Box 컴포넌트는 6px 라디우스 + 1px border로 통일.</div>
+        <pre>section {
+  padding:
+    var(--base-size-64)
+    var(--base-size-24);
+}
+.Box {
+  border-radius: 6px;
+  border: 1px solid
+    var(--borderColor-default);
+}</pre>
+      </div>
+      <div class="lp-card">
+        <div class="lp-card__name">Button Primary — 녹색 CTA</div>
+        <div class="lp-card__desc">Primary 버튼은 파란색이 아닌 녹색. accent/link 역할만 파란색. 5px 16px 패딩, 6px 라디우스, weight 500.</div>
+        <pre>.Button--primary {
+  background: #238636;
+  border-color: #238636;
+  color: #ffffff;
+  padding: 5px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+}</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09. Components -->
+  <section id="components">
+    <h2 class="section-title">컴포넌트</h2>
+    <p class="section-sub">Primer 핵심 4종: Button Primary, Button Default, Label, Box</p>
+
+    <!-- Button Primary -->
+    <div class="cmp-block">
+      <div class="cmp-block__head">
+        <span class="cmp-block__name">Button Primary</span>
+        <span class="cmp-block__badge">.Button--primary</span>
+      </div>
+      <div class="cmp-demo" style="display:flex;gap:12px;align-items:center">
+        <button class="gh-btn gh-btn--primary">New repository</button>
+        <button class="gh-btn gh-btn--default">Cancel</button>
+      </div>
+      <div class="cmp-spec">
+        Background <span>#238636</span>
+        Hover <span>#29903b</span>
+        Active <span>#2e9a40</span>
+        Text <span>#ffffff</span>
+        Border <span>1px solid #238636</span>
+        Padding <span>5px 16px</span>
+        Radius <span>6px</span>
+        Font weight <span>500</span>
+      </div>
+      <div class="cmp-code">
+        <button class="copy" data-copy="btn-primary-code">Copy</button>
+        <pre id="btn-primary-code">&lt;button class="Button Button--primary Button--medium"&gt;
+  &lt;span class="Button-content"&gt;
+    &lt;span class="Button-label"&gt;New repository&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/button&gt;</pre>
+      </div>
+    </div>
+
+    <!-- Labels -->
+    <div class="cmp-block">
+      <div class="cmp-block__head">
+        <span class="cmp-block__name">Label</span>
+        <span class="cmp-block__badge">.Label</span>
+      </div>
+      <div class="cmp-demo">
+        <div class="label-demo-row">
+          <span class="gh-label" style="background:#388bfd1a;border-color:#1f6feb;color:#4493f8">enhancement</span>
+          <span class="gh-label" style="background:#2ea04326;border-color:#238636;color:#3fb950">merged</span>
+          <span class="gh-label" style="background:#bb800926;border-color:#9e6a03;color:#d29922">help wanted</span>
+          <span class="gh-label" style="background:#f851491a;border-color:#da3633;color:#f85149">bug</span>
+          <span class="gh-label" style="background:#ab7df826;border-color:#8957e5;color:#a371f7">done</span>
+        </div>
+      </div>
+      <div class="cmp-spec">
+        accent (enhancement) <span>#388bfd1a bg / #1f6feb border / #4493f8 fg</span>
+        success (merged) <span>#2ea04326 bg / #238636 border / #3fb950 fg</span>
+        attention <span>#bb800926 bg / #9e6a03 border / #d29922 fg</span>
+        danger (bug) <span>#f851491a bg / #da3633 border / #f85149 fg</span>
+        done (merged PR) <span>#ab7df826 bg / #8957e5 border / #a371f7 fg</span>
+      </div>
+      <div class="cmp-code">
+        <button class="copy" data-copy="label-code">Copy</button>
+        <pre id="label-code">&lt;span class="Label Label--accent"&gt;enhancement&lt;/span&gt;
+&lt;span class="Label Label--success"&gt;merged&lt;/span&gt;
+&lt;span class="Label Label--done"&gt;done&lt;/span&gt;</pre>
+      </div>
+    </div>
+
+    <!-- Box -->
+    <div class="cmp-block">
+      <div class="cmp-block__head">
+        <span class="cmp-block__name">Box</span>
+        <span class="cmp-block__badge">.Box</span>
+      </div>
+      <div class="cmp-demo">
+        <div class="box-demo">
+          <div class="box-demo__header">Pinned repositories</div>
+          <div class="box-demo__body">최근 활동한 저장소가 여기에 표시됩니다.</div>
+        </div>
+      </div>
+      <div class="cmp-spec">
+        Background <span>#151b23 (--bgColor-muted)</span>
+        Border <span>1px solid #3d444d</span>
+        Radius <span>6px</span>
+        Header padding <span>16px</span>
+      </div>
+      <div class="cmp-code">
+        <button class="copy" data-copy="box-code">Copy</button>
+        <pre id="box-code">&lt;div class="Box"&gt;
+  &lt;div class="Box-header"&gt;
+    &lt;h3 class="Box-title"&gt;Pinned&lt;/h3&gt;
+  &lt;/div&gt;
+  &lt;div class="Box-body"&gt;…&lt;/div&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Code Export -->
+  <section id="code">
+    <h2 class="section-title">CSS · Tailwind</h2>
+    <p class="section-sub">Primer 다크 테마 Drop-in 스니펫. CSS와 Tailwind Config 두 탭.</p>
+    <div class="code-export">
+      <div class="code-tabs">
+        <button class="code-tabs__btn active" data-tab="css">CSS 스니펫</button>
+        <button class="code-tabs__btn" data-tab="tw">Tailwind 설정</button>
+        <button class="code-tabs__copy" data-copy-active>Copy</button>
+      </div>
+      <div class="code-pane active" data-pane="css">
+        <pre>/* GitHub — copy into your root stylesheet */
+:root[data-color-mode="dark"] {
+  /* Fonts */
+  --brand-body-fontFamily:    "Mona Sans", "Mona Sans Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --brand-heading-fontFamily: "Mona Sans", "Mona Sans Header Fallback", -apple-system, sans-serif;
+  --fontStack-monospace:      ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Canvas */
+  --bgColor-default: #0d1117;
+  --bgColor-inset:   #010409;
+  --bgColor-muted:   #151b23;
+  --bgColor-subtle:  #212830;
+
+  /* Text */
+  --fgColor-default: #f0f6fc;
+  --fgColor-muted:   #9198a1;
+  --fgColor-onEmphasis: #ffffff;
+
+  /* Border */
+  --borderColor-default:  #3d444d;
+  --borderColor-muted:    #3d444db3;
+  --borderColor-emphasis: #656c76;
+
+  /* Semantic (emphasis) */
+  --bgColor-accent-emphasis:    #1f6feb;
+  --bgColor-success-emphasis:   #238636;
+  --bgColor-attention-emphasis: #9e6a03;
+  --bgColor-danger-emphasis:    #da3633;
+  --bgColor-done-emphasis:      #8957e5;
+
+  /* Semantic (fg) */
+  --fgColor-accent:    #4493f8;
+  --fgColor-success:   #3fb950;
+  --fgColor-attention: #d29922;
+  --fgColor-danger:    #f85149;
+
+  /* Radius */
+  --borderRadius-small:  4px;
+  --borderRadius-medium: 6px;
+  --borderRadius-large:  8px;
+
+  /* Shadow */
+  --shadow-resting-small:  0 1px 1px 0 #01040999, 0 1px 3px 0 #01040999;
+  --shadow-floating-small: 0 0 0 1px #3d444d, 0 6px 12px -3px #01040966, 0 6px 18px 0 #01040966;
+
+  /* Spacing */
+  --base-size-4:  4px;
+  --base-size-8:  8px;
+  --base-size-16: 16px;
+  --base-size-24: 24px;
+  --base-size-32: 32px;
+  --base-size-48: 48px;
+  --base-size-64: 64px;
+}
+
+body {
+  background: var(--bgColor-default);
+  color: var(--fgColor-default);
+  font-family: var(--brand-body-fontFamily);
+  font-size: 14px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--brand-heading-fontFamily);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+code, pre { font-family: var(--fontStack-monospace); }
+a { color: var(--fgColor-accent); }</pre>
+      </div>
+      <div class="code-pane" data-pane="tw">
+        <pre>// tailwind.config.js — GitHub (Primer dark)
+module.exports = {
+  darkMode: ['class', '[data-color-mode="dark"]'],
+  theme: {
+    extend: {
+      colors: {
+        canvas: {
+          default: '#0d1117',
+          inset:   '#010409',
+          muted:   '#151b23',
+          subtle:  '#212830',
+        },
+        fg: {
+          default:     '#f0f6fc',
+          muted:       '#9198a1',
+          onEmphasis:  '#ffffff',
+          accent:      '#4493f8',
+          success:     '#3fb950',
+          attention:   '#d29922',
+          danger:      '#f85149',
+          done:        '#a371f7',
+        },
+        accent:   { emphasis: '#1f6feb', muted: '#388bfd1a' },
+        success:  { emphasis: '#238636', muted: '#2ea04326' },
+        attention:{ emphasis: '#9e6a03', muted: '#bb800926' },
+        danger:   { emphasis: '#da3633', muted: '#f851491a' },
+        done:     { emphasis: '#8957e5', muted: '#ab7df826' },
+        border:   { default: '#3d444d', muted: '#3d444db3' },
+      },
+      fontFamily: {
+        sans: ['Mona Sans', 'Mona Sans Fallback', '-apple-system', 'sans-serif'],
+        heading: ['Mona Sans', 'Mona Sans Header Fallback', '-apple-system', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'SF Mono', 'Menlo', 'Consolas', 'monospace'],
+      },
+      fontWeight: {
+        normal:   '400',
+        'semi':   '550',
+        heading:  '800',
+      },
+      borderRadius: {
+        sm: '4px', md: '6px', lg: '8px', xl: '12px', full: '100px',
+      },
+      boxShadow: {
+        'resting-sm':  '0 1px 1px 0 #01040999, 0 1px 3px 0 #01040999',
+        'resting-md':  '0 1px 1px 0 #01040966, 0 3px 6px 0 #010409cc',
+        'floating-sm': '0 0 0 1px #3d444d, 0 6px 12px -3px #01040966, 0 6px 18px 0 #01040966',
+        'floating-md': '0 0 0 1px #3d444d, 0 8px 16px -4px #01040966, 0 4px 32px 0 #010409',
+        'floating-lg': '0 0 0 1px #3d444d, 0 24px 48px 0 #010409',
+      },
+    },
+  },
+};</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Do / Don't -->
+  <section id="dodont">
+    <h2 class="section-title">자주 틀리는 것들</h2>
+    <p class="section-sub">라이트 v1 잔재, 파란 CTA, 단일 hex 패턴 — Primer 재현 시 반복되는 실수</p>
+    <div class="dd-grid">
+      <div class="dd-card dd-card--do">
+        <span class="dd-card__badge">DO</span>
+        <ul>
+          <li>다크/라이트 두 모드 모두 문서화. <code>data-color-mode</code> 속성 기반 스위치.</li>
+          <li>Semantic color를 <strong>3단계</strong> (emphasis / muted / fg)로 구성. 단일 hex 금지.</li>
+          <li>Heading에 <code>Mona Sans Header Fallback</code> 별도 지정. Body는 <code>Mona Sans Fallback</code>.</li>
+          <li>Primary 버튼은 <strong>녹색 #238636</strong>. 파란색은 accent/link.</li>
+          <li><code>done</code> purple (#8957e5)은 merged PR 전용.</li>
+          <li>floating-* shadow 첫 레이어: <code>0 0 0 1px #3d444d</code> hairline ring.</li>
+          <li>Spacing: <code>--base-size-{N}</code> 포맷, 숫자 = px 값.</li>
+          <li>Variable weight 활용: 550 (label), 800 (heading), 200 (thin accent).</li>
+        </ul>
+      </div>
+      <div class="dd-card dd-card--dont">
+        <span class="dd-card__badge">DON'T</span>
+        <ul>
+          <li><code>#0969DA</code> (라이트 v1 accent)를 다크 사이트에 쓰지 말 것.</li>
+          <li><code>#24292F</code>를 body text color로 쓰지 말 것 — 다크는 <code>#f0f6fc</code>.</li>
+          <li><code>#2DA44E</code> (라이트 success)를 다크에 쓰지 말 것 — 다크는 <code>#238636</code>.</li>
+          <li>Primary 버튼을 파란색으로 만들지 말 것.</li>
+          <li>Semantic color를 단일 hex로 표현하지 말 것 — emphasis/muted/fg 튜플 필수.</li>
+          <li>단일 box-shadow 사용 금지 — floating-*는 최소 2-3 레이어 합성.</li>
+          <li><code>font-weight: 700</code>만 쓰지 말 것 — 200/450/550/800이 실제 시그너처.</li>
+          <li><code>#0d1117</code> 대신 <code>#000</code> 사용 금지 — Primer canvas는 살짝 파란 기가 있다.</li>
+        </ul>
+      </div>
+    </div>
+    <table class="myth-table" style="margin-top:24px">
+      <thead>
+        <tr>
+          <th>틀린 값</th>
+          <th>올바른 값</th>
+          <th>역할</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>#0969DA</td><td>#1f6feb</td><td>다크 accent emphasis</td></tr>
+        <tr><td>#24292F</td><td>#f0f6fc</td><td>다크 fgColor-default</td></tr>
+        <tr><td>#2DA44E</td><td>#238636</td><td>다크 success emphasis (CTA)</td></tr>
+        <tr><td>#0000FF (파란 CTA)</td><td>#238636 (녹색)</td><td>Primary button background</td></tr>
+        <tr><td>#000000</td><td>#0d1117</td><td>Primer dark canvas</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    GitHub Design System Report · Primer · 데이터 기준: 2026-04-11 · Sisyphus-Junior 생성
+  </footer>
+
+</main>
+
+</div><!-- /.layout -->
+
+<script>
+// Code Export 탭 전환
+document.querySelectorAll('.code-tabs__btn[data-tab]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const tab=btn.dataset.tab;
+    const export_=btn.closest('.code-export');
+    export_.querySelectorAll('.code-tabs__btn[data-tab]').forEach(b=>b.classList.remove('active'));
+    export_.querySelectorAll('.code-pane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    export_.querySelector(`.code-pane[data-pane="${tab}"]`).classList.add('active');
+  });
+});
+
+// Copy 버튼 (data-copy="id")
+document.querySelectorAll('.copy[data-copy]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const el=document.getElementById(btn.dataset.copy);
+    if(!el)return;
+    navigator.clipboard.writeText(el.textContent).then(()=>{
+      const orig=btn.textContent;btn.textContent='Copied!';
+      setTimeout(()=>btn.textContent=orig,1500);
+    });
+  });
+});
+
+// Copy 활성 탭 코드
+document.querySelectorAll('[data-copy-active]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const export_=btn.closest('.code-export');
+    const active=export_.querySelector('.code-pane.active pre');
+    if(!active)return;
+    navigator.clipboard.writeText(active.textContent).then(()=>{
+      const orig=btn.textContent;btn.textContent='Copied!';
+      setTimeout(()=>btn.textContent=orig,1500);
+    });
+  });
+});
+
+// TOC 활성 상태
+const sections=document.querySelectorAll('section[id]');
+const tocItems=document.querySelectorAll('.toc__list a');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      tocItems.forEach(a=>a.classList.remove('active'));
+      const a=document.querySelector(`.toc__list a[href="#${e.target.id}"]`);
+      if(a)a.classList.add('active');
+    }
+  });
+},{threshold:0.3});
+sections.forEach(s=>observer.observe(s));
+</script>
+
+</body>
+</html>

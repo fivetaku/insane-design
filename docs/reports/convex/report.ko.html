@@ -1,0 +1,1414 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Convex — Design System Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* ===== TOKENS ===== */
+:root {
+  --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --bg: #fafafa;
+  --fg: #09090b;
+  --card: #ffffff;
+  --muted: #f4f4f5;
+  --muted-fg: #71717a;
+  --border: #e4e4e7;
+  --border-str: #d4d4d8;
+  --brand-color: #BC7914;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --sh: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: var(--brand-color); text-decoration: none; }
+code {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: .85em;
+  background: var(--muted);
+  padding: .1em .35em;
+  border-radius: 4px;
+}
+pre {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: .8125rem;
+  background: #221F1D;
+  color: #e4e4e7;
+  padding: 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  line-height: 1.7;
+}
+pre code { background: none; padding: 0; font-size: 1em; color: inherit; border-radius: 0; }
+table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+th { text-align: left; font-weight: 600; padding: .625rem .875rem; background: var(--muted); border-bottom: 1px solid var(--border); }
+td { padding: .5rem .875rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+h2 { font-size: 1.375rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: .5rem; }
+h3 { font-size: .75rem; font-weight: 700; margin-bottom: .75rem; color: var(--muted-fg); text-transform: uppercase; letter-spacing: .06em; }
+
+/* ===== LAYOUT ===== */
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ===== TOC ===== */
+.toc {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 2rem 1.25rem;
+  border-right: 1px solid var(--border);
+  background: var(--card);
+}
+.toc-logo {
+  font-weight: 800;
+  font-size: 1.125rem;
+  letter-spacing: -.03em;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.toc-logo span {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background: var(--brand-color);
+  border-radius: 6px;
+}
+.toc-group { margin-bottom: 1.5rem; }
+.toc-group-label {
+  font-size: .6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted-fg);
+  margin-bottom: .5rem;
+  padding: 0 .5rem;
+}
+.toc a {
+  display: block;
+  padding: .3125rem .5rem;
+  font-size: .8125rem;
+  color: var(--fg);
+  border-radius: 5px;
+  transition: background .15s;
+  line-height: 1.4;
+}
+.toc a:hover { background: var(--muted); color: var(--brand-color); }
+
+/* ===== MAIN ===== */
+main { padding: 0; }
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(135deg, #FFFDF4 0%, #FAF4E9 60%, #F7F1FF 100%);
+  color: #221F1D;
+  padding: 4rem 3.5rem 3rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #DDE5EC;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(188,121,20,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: 15%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(148,138,227,.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  background: rgba(188,121,20,.1);
+  border: 1px solid rgba(188,121,20,.3);
+  color: #BC7914;
+  padding: .25rem .75rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.1;
+  margin-bottom: .75rem;
+  color: #221F1D;
+}
+.hero h1 em { font-style: normal; color: #BC7914; }
+.hero-sub {
+  font-size: 1.0625rem;
+  color: #6D6D70;
+  max-width: 580px;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+/* ===== QUICK START ===== */
+.qs__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem; }
+.qs__step {
+  background: rgba(34,31,29,.92);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 1.125rem;
+  position: relative;
+}
+.qs__step-num {
+  font-size: .625rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #BC7914;
+  margin-bottom: .625rem;
+}
+.qs__step pre {
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.08);
+  font-size: .72rem;
+  padding: .875rem;
+  margin: 0;
+  color: #e2e8f0;
+  border-radius: 6px;
+}
+.qs__warn {
+  background: rgba(239,68,68,.07);
+  border: 1px solid rgba(239,68,68,.2);
+  border-radius: 8px;
+  padding: .875rem 1.125rem;
+  font-size: .8125rem;
+  color: #7f1d1d;
+  line-height: 1.5;
+}
+.qs__warn strong { color: #ef4444; }
+
+/* ===== STAT CARDS ===== */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .75rem;
+  margin-top: 2rem;
+}
+.stat-card {
+  background: rgba(34,31,29,.07);
+  border: 1px solid rgba(34,31,29,.12);
+  border-radius: 8px;
+  padding: .875rem 1rem;
+}
+.stat-card-label { font-size: .6875rem; color: #8B8B8E; text-transform: uppercase; letter-spacing: .07em; margin-bottom: .25rem; }
+.stat-card-value { font-size: .9375rem; font-weight: 700; color: #221F1D; letter-spacing: -.02em; }
+
+/* ===== SECTION ===== */
+.section {
+  padding: 3rem 3.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.section:last-child { border-bottom: none; }
+.section-label {
+  font-size: .6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--brand-color);
+  margin-bottom: .625rem;
+}
+.section h2 { margin-bottom: 1.5rem; }
+
+/* ===== PROVENANCE TABLE ===== */
+.prov-table { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+
+/* ===== TECH STACK ===== */
+.stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.stack-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.stack-card-title { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted-fg); margin-bottom: .5rem; }
+.stack-card-val { font-size: .9375rem; font-weight: 600; color: var(--fg); }
+.stack-card-sub { font-size: .8125rem; color: var(--muted-fg); margin-top: .25rem; line-height: 1.5; }
+
+/* ===== TYPOGRAPHY ===== */
+.type-table { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.type-row { display: grid; grid-template-columns: 80px 1fr 80px 80px; align-items: center; gap: 1rem; padding: .75rem 1rem; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-row:hover { background: var(--muted); }
+.type-meta { font-size: .75rem; color: var(--muted-fg); font-family: "JetBrains Mono", monospace; }
+.type-preview { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.type-row-header { background: var(--muted); font-weight: 700; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted-fg); }
+
+/* ===== COLOR SWATCHES ===== */
+.ramp-label { font-size: .75rem; font-weight: 600; color: var(--muted-fg); margin-bottom: .625rem; text-transform: uppercase; letter-spacing: .07em; }
+.ramp { display: flex; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; }
+.sw {
+  flex: 1;
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: .375rem .4rem;
+  position: relative;
+  cursor: default;
+}
+.sw--l { color: #09090b; }
+.sw--d { color: #fafafa; }
+.sw-hex { font-family: "JetBrains Mono", monospace; font-size: .55rem; opacity: .75; line-height: 1; }
+.sw-step { font-size: .5rem; opacity: .55; margin-bottom: .1rem; }
+.sw.is-anchor::after {
+  content: '★';
+  position: absolute;
+  top: .3rem;
+  right: .3rem;
+  font-size: .55rem;
+}
+
+/* ===== MONOKAI PALETTE ===== */
+.monokai-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.monokai-card {
+  background: #221F1D;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.monokai-swatch { height: 60px; }
+.monokai-info { padding: .625rem .75rem; }
+.monokai-hex { font-family: "JetBrains Mono", monospace; font-size: .7rem; font-weight: 600; }
+.monokai-name { font-size: .65rem; color: #8B8B8E; margin-top: .2rem; }
+.monokai-count { font-size: .6rem; color: #6D6D70; margin-top: .1rem; }
+
+/* ===== CREAM PALETTE ===== */
+.cream-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: .75rem;
+  margin-bottom: 1.5rem;
+}
+.cream-card {
+  border: 1px solid #D6D6D6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.cream-swatch { height: 48px; }
+.cream-info { padding: .5rem .625rem; background: #fff; }
+.cream-hex { font-family: "JetBrains Mono", monospace; font-size: .65rem; color: #221F1D; font-weight: 600; }
+.cream-name { font-size: .6rem; color: #8B8B8E; margin-top: .1rem; font-style: italic; }
+
+/* ===== DOM FREQUENCY ===== */
+.dom-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: .5rem; }
+.dom-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .375rem;
+}
+.dom-swatch { width: 40px; height: 40px; border-radius: 6px; border: 1px solid rgba(0,0,0,.1); }
+.dom-hex { font-family: "JetBrains Mono", monospace; font-size: .65rem; color: var(--muted-fg); }
+.dom-count { font-size: .65rem; color: var(--muted-fg); }
+.dom-role { font-size: .65rem; font-weight: 600; color: var(--fg); text-align: center; }
+
+/* ===== SPACING ===== */
+.space-table { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.space-vis { height: 20px; background: var(--brand-color); border-radius: 3px; opacity: .7; }
+
+/* ===== RADIUS ===== */
+.rad-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.rad-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+  text-align: center;
+}
+.rad-box {
+  width: 64px;
+  height: 64px;
+  background: var(--brand-color);
+  opacity: .2;
+  border: 2px solid var(--brand-color);
+}
+.rad-val { font-family: "JetBrains Mono", monospace; font-size: .75rem; font-weight: 600; color: var(--fg); }
+.rad-desc { font-size: .6875rem; color: var(--muted-fg); }
+.rad-card.is-sig { background: rgba(188,121,20,.05); border-color: rgba(188,121,20,.3); }
+
+/* ===== SHADOWS ===== */
+.sh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.sh-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: #FFFDF4;
+}
+.sh-demo {
+  width: 140px;
+  height: 70px;
+  background: #FFFDF4;
+  border: 1px solid #D6D6D6;
+  border-radius: 8px;
+}
+.sh-name { font-size: .8125rem; font-weight: 600; color: var(--fg); }
+.sh-val { font-family: "JetBrains Mono", monospace; font-size: .65rem; color: var(--muted-fg); text-align: center; line-height: 1.5; word-break: break-all; }
+
+/* ===== COMPONENTS ===== */
+.cmp-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.cmp-header {
+  padding: .625rem 1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cmp-title { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted-fg); }
+.cmp-demo {
+  padding: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFDF4;
+  min-height: 140px;
+}
+.cmp-code { position: relative; }
+.cmp-code pre { border-radius: 0; margin: 0; }
+.copy-btn {
+  position: absolute;
+  top: .625rem;
+  right: .625rem;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  color: #fff;
+  font-size: .6875rem;
+  padding: .25rem .625rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s;
+}
+.copy-btn:hover { background: rgba(255,255,255,.2); }
+
+/* === Convex demo components === */
+.cvx-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: #BC7914;
+  color: #FFFDF4;
+  border: none;
+  border-radius: 8px;
+  padding: .75rem 1.5rem;
+  font-size: .9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  margin: .375rem;
+  box-shadow: 0 4px 12px rgba(46,31,31,.15);
+}
+.cvx-btn-ebony {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: #221F1D;
+  color: #FFFDF4;
+  border: none;
+  border-radius: 8px;
+  padding: .75rem 1.5rem;
+  font-size: .9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  margin: .375rem;
+}
+.cvx-code {
+  background: #221F1D;
+  border: 1px solid #D6D6D6;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: .875rem;
+  line-height: 1.7;
+  min-width: 380px;
+}
+.mk-pink { color: #FC618D; }
+.mk-purple { color: #948AE3; }
+.mk-green { color: #7BD88F; }
+.mk-cyan { color: #5AD4E6; }
+.mk-yellow { color: #FCE566; }
+.mk-white { color: #FFFFFF; }
+.mk-gray { color: #8B8B8E; }
+
+.cvx-editorial {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #221F1D;
+  max-width: 460px;
+  text-align: center;
+}
+.cvx-retro-label {
+  font-family: "VT323", monospace;
+  font-size: 1.125rem;
+  color: #BC7914;
+  letter-spacing: .05em;
+}
+
+/* ===== CODE EXPORT ===== */
+.code-export { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.tab-bar { display: flex; border-bottom: 1px solid var(--border); background: var(--muted); padding: .375rem .375rem 0; gap: .25rem; }
+.tab-btn {
+  padding: .375rem .875rem;
+  font-size: .8125rem;
+  font-weight: 500;
+  border: none;
+  background: none;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  color: var(--muted-fg);
+  font-family: inherit;
+  transition: all .15s;
+}
+.tab-btn.is-active { background: var(--card); color: var(--fg); box-shadow: 0 1px 0 var(--card); }
+.tab-pane { display: none; position: relative; }
+.tab-pane.is-active { display: block; }
+.tab-pane pre { border-radius: 0; margin: 0; }
+.copy-code-btn {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  color: #fff;
+  font-size: .6875rem;
+  padding: .25rem .625rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.copy-code-btn:hover { background: rgba(255,255,255,.2); }
+
+/* ===== DO / DON'T ===== */
+.dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.dd-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+.dd-card--do { border-top: 3px solid #22c55e; }
+.dd-card--dont { border-top: 3px solid #ef4444; }
+.dd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  font-size: .6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  padding: .25rem .625rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+.dd-card--do .dd-badge { background: rgba(34,197,94,.1); color: #16a34a; }
+.dd-card--dont .dd-badge { background: rgba(239,68,68,.1); color: #dc2626; }
+.dd-list { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+.dd-list li { font-size: .875rem; padding-left: 1.25rem; position: relative; line-height: 1.5; }
+.dd-card--do .dd-list li::before { content: '✓'; position: absolute; left: 0; color: #22c55e; font-weight: 700; }
+.dd-card--dont .dd-list li::before { content: '✕'; position: absolute; left: 0; color: #ef4444; font-weight: 700; }
+.toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+.toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+.toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+.hero__screenshot{margin-bottom:32px;max-width:880px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);}
+.hero__screenshot img{width:100%;height:auto;display:block;}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ===== TOC ===== -->
+<nav class="toc" aria-label="목차">
+  <div class="toc__brand">
+    <div class="toc__brand-name">Convex</div>
+    <div class="toc__brand-sub">Design System Report</div>
+  </div>
+  <div class="toc-logo">
+    <span></span>
+    Convex
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Overview</div>
+    <a href="#hero">한눈에 보기</a>
+    <a href="#provenance">출처와 수집 기준</a>
+    <a href="#tech">테크 스택</a>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Foundations</div>
+    <a href="#typography">타이포그래피</a>
+    <a href="#colors">컬러</a>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Tokens</div>
+    <a href="#spacing">스페이싱</a>
+    <a href="#radius">라디우스</a>
+    <a href="#shadows">섀도우</a>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Patterns</div>
+    <a href="#components">컴포넌트</a>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Code</div>
+    <a href="#code">CSS · Tailwind</a>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Rules</div>
+    <a href="#dodont">Do / Don't</a>
+  </div>
+  <div class="toc__foot">convex/<br>DESIGN.claude.manual.md<br>2026-04-12</div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<main>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-eyebrow">Design System Report</div>
+  <h1>Convex <em>— Cream background + Monokai art DS</em></h1>
+  <p class="hero-sub" style="color:#6D6D70;">크림/아이보리 warm backgrounds 위에 Monokai syntax palette가 얹힌 art/magazine 감성. GT America + Publico(serif) + VCR(pixel) 3-폰트 조합과 Crayola crayon 토큰 네이밍이 브랜드 아이덴티티.</p>
+  <div class="hero__screenshot">
+    <img src="screenshots/hero-cropped.png" alt="convex hero screenshot">
+  </div>
+
+  <div class="qs__grid">
+    <div class="qs__step">
+      <div class="qs__step-num">Step 1 — 폰트 4종</div>
+      <pre><code>/* 1. GT America + Publico + VCR */
+:root {
+  --font-sans:  "GT America", ui-sans-serif,
+    system-ui, -apple-system, sans-serif;
+  --font-serif: "Publico", Georgia, serif;
+  --font-pixel: "VCR", "VT323", monospace;
+  --font-mono:  ui-monospace, Menlo, monospace;
+}
+body { font-family: var(--font-sans); }</code></pre>
+    </div>
+    <div class="qs__step">
+      <div class="qs__step-num">Step 2 — Cream 배경</div>
+      <pre><code>/* 2. 크림/아이보리 배경 + 코코아 텍스트 */
+:root {
+  --bg-milk:     #FFFDF4; /* primary bg */
+  --bg-lavender: #F7F1FF;
+  --text-cocoa:  #221F1D;
+  --text-muted:  #BAB6C0;
+}
+body {
+  background: var(--bg-milk);
+  color: var(--text-cocoa);
+}</code></pre>
+    </div>
+    <div class="qs__step">
+      <div class="qs__step-num">Step 3 — Monokai palette</div>
+      <pre><code>/* 3. Monokai syntax accents */
+:root {
+  --mk-pink:      #FC618D;
+  --mk-purple:    #948AE3;
+  --mk-green:     #7BD88F;
+  --mk-cyan:      #5AD4E6;
+  --mk-yellow:    #FCE566;
+  --brand-tikka:  #BC7914;
+}</code></pre>
+    </div>
+  </div>
+  <div class="qs__warn">
+    <strong>절대 하지 말 것:</strong> Convex는 "amber on dark" 대시보드가 <strong>아니다</strong>. 실제는 <strong>크림/아이보리 warm backgrounds</strong> 위에 Monokai syntax palette가 얹힌 <strong>art/magazine 감성</strong>. 배경을 검은색으로 만들면 브랜드 인상이 정반대로 뒤집힌다. dark theme는 opt-in이고, 기본은 light.
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="stat-card-label">Source</div>
+      <div class="stat-card-value">convex.dev</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Fetched</div>
+      <div class="stat-card-value">2026-04-11</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">CSS 변수</div>
+      <div class="stat-card-value">255개</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Token naming</div>
+      <div class="stat-card-value">Crayola crayon</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVENANCE -->
+<section class="section" id="provenance">
+  <div class="section-label">00 — Overview</div>
+  <h2>출처와 수집 기준</h2>
+  <div class="prov-table">
+    <table>
+      <tbody>
+        <tr><th style="width:180px">Source URL</th><td><code>https://www.convex.dev</code></td></tr>
+        <tr><th>Fetched</th><td>2026-04-11</td></tr>
+        <tr><th>Extractor</th><td><code>real/fetch_all.py</code> (curl + Chrome UA)</td></tr>
+        <tr><th>CSS files</th><td>4개 번들 · 162,621자</td></tr>
+        <tr><th>Custom properties</th><td>255개 (color 71 · shadow 18 · spacing 6)</td></tr>
+        <tr><th>Unique hex</th><td>195개</td></tr>
+        <tr><th>Method</th><td>CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="section" id="tech">
+  <div class="section-label">01 — Overview</div>
+  <h2>테크 스택</h2>
+  <div class="stack-grid">
+    <div class="stack-card">
+      <div class="stack-card-title">Framework</div>
+      <div class="stack-card-val">Next.js marketing site</div>
+      <div class="stack-card-sub">정적 마케팅 사이트</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-card-title">Token naming</div>
+      <div class="stack-card-val">Crayola crayon convention</div>
+      <div class="stack-card-sub"><code>--color-tikkaMasala</code>, <code>--color-oldLace</code>, <code>--color-majorelleBlue</code></div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-card-title">CSS Architecture</div>
+      <div class="stack-card-val">Descriptive + W3C neutral ramp</div>
+      <div class="stack-card-sub">descriptive tier → neutral tier → theme tier → syntax tier</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-card-title">Default Theme</div>
+      <div class="stack-card-val">light (warm cream)</div>
+      <div class="stack-card-sub">dark는 opt-in. canonical anchor: <code>--color-tikkaMasala: #BC7914</code></div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-card-title">Class Naming</div>
+      <div class="stack-card-val">Tailwind-ish + 커스텀 유틸</div>
+      <div class="stack-card-sub">유틸리티 클래스 + 커스텀 컴포넌트 혼합</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-card-title">Font Loading</div>
+      <div class="stack-card-val">4-face system</div>
+      <div class="stack-card-sub">GT America / Publico / VCR pixel / ui-monospace</div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPOGRAPHY -->
+<section class="section" id="typography">
+  <div class="section-label">02 — Foundations</div>
+  <h2>em 기반 상대 스케일, 5.5rem 히어로까지</h2>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.875rem;color:var(--muted-fg);">
+    <strong style="color:var(--fg);">폰트 스택</strong> — Primary: <code>GT America</code> (Grilli Type, 유료, 스위스 geometric) / Editorial: <code>Publico</code> (Commercial Type, 유료) / Retro: <code>VCR</code> pixel display. <code>bold</code> 키워드가 16회로 가장 빈번 — 숫자보다 키워드 선호.
+  </div>
+
+  <div class="type-table">
+    <div class="type-row type-row-header">
+      <span>Size</span>
+      <span>Preview</span>
+      <span>Font</span>
+      <span>Usage</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">5.5rem / 88px</span>
+      <div class="type-preview" style="font-size:1.5rem;font-weight:700;line-height:1.05;letter-spacing:-.04em;">Mega</div>
+      <span class="type-meta">GT America</span>
+      <span class="type-meta">hero mega</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">4rem / 64px</span>
+      <div class="type-preview" style="font-size:1.375rem;font-weight:700;line-height:1.08;letter-spacing:-.035em;">Display</div>
+      <span class="type-meta">GT America</span>
+      <span class="type-meta">display lg</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">2.25rem / 36px</span>
+      <div class="type-preview" style="font-size:1.25rem;font-weight:700;line-height:1.15;letter-spacing:-.025em;">Section Heading</div>
+      <span class="type-meta">GT America</span>
+      <span class="type-meta">h1</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">1.5rem / 24px</span>
+      <div class="type-preview" style="font-size:1.1rem;font-weight:700;line-height:1.25;">Feature title</div>
+      <span class="type-meta">GT America</span>
+      <span class="type-meta">h2</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">1.25rem / 20px</span>
+      <div class="type-preview" style="font-size:1rem;font-weight:400;line-height:1.65;font-family:Georgia,serif;font-style:italic;">"The data layer for your app"</div>
+      <span class="type-meta">Publico serif</span>
+      <span class="type-meta">editorial / lead</span>
+    </div>
+    <div class="type-row" style="background:rgba(188,121,20,.04);">
+      <span class="type-meta" style="font-weight:700;color:var(--brand-color);">0.875em ★</span>
+      <div class="type-preview" style="font-size:.875rem;font-weight:400;line-height:1.55;">Body text — most frequent (6회, em 기반)</div>
+      <span class="type-meta">GT America</span>
+      <span class="type-meta">body (최다)</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">0.8125rem / 13px</span>
+      <div class="type-preview" style="font-size:.8125rem;font-weight:400;line-height:1.5;">Meta / caption text</div>
+      <span class="type-meta">GT America</span>
+      <span class="type-meta">meta</span>
+    </div>
+    <div class="type-row">
+      <span class="type-meta">11px</span>
+      <div class="type-preview" style="font-family:'VT323',monospace;font-size:1rem;letter-spacing:.05em;color:#BC7914;">RETRO LABEL // TERMINAL_PROMPT</div>
+      <span class="type-meta">VCR pixel</span>
+      <span class="type-meta">retro label</span>
+    </div>
+  </div>
+  <p style="margin-top:.75rem;font-size:.8125rem;color:var(--muted-fg);">스케일이 em 기반 (<code>.875em</code> 가장 빈번 6회) — 부모 요소에 반응하는 relative scale. per-layout custom sizing 선호 editorial 스타일.</p>
+</section>
+
+<!-- COLORS -->
+<section class="section" id="colors">
+  <div class="section-label">03 — Foundations</div>
+  <h2>Monokai가 실질 브랜드 컬러 — cream bg 위의 5색 팔레트</h2>
+
+  <!-- Monokai palette -->
+  <h3>Monokai Syntax Palette (실질 브랜드 컬러)</h3>
+  <div class="monokai-grid">
+    <div class="monokai-card">
+      <div class="monokai-swatch" style="background:#FC618D;"></div>
+      <div class="monokai-info">
+        <div class="monokai-hex" style="color:#FC618D;">#FC618D</div>
+        <div class="monokai-name">pink · keyword</div>
+        <div class="monokai-count">65회</div>
+      </div>
+    </div>
+    <div class="monokai-card">
+      <div class="monokai-swatch" style="background:#948AE3;"></div>
+      <div class="monokai-info">
+        <div class="monokai-hex" style="color:#948AE3;">#948AE3</div>
+        <div class="monokai-name">purple · type</div>
+        <div class="monokai-count">65회</div>
+      </div>
+    </div>
+    <div class="monokai-card">
+      <div class="monokai-swatch" style="background:#7BD88F;"></div>
+      <div class="monokai-info">
+        <div class="monokai-hex" style="color:#7BD88F;">#7BD88F</div>
+        <div class="monokai-name">green · string</div>
+        <div class="monokai-count">64회</div>
+      </div>
+    </div>
+    <div class="monokai-card">
+      <div class="monokai-swatch" style="background:#5AD4E6;"></div>
+      <div class="monokai-info">
+        <div class="monokai-hex" style="color:#5AD4E6;">#5AD4E6</div>
+        <div class="monokai-name">cyan · function</div>
+        <div class="monokai-count">43회</div>
+      </div>
+    </div>
+    <div class="monokai-card">
+      <div class="monokai-swatch" style="background:#FCE566;"></div>
+      <div class="monokai-info">
+        <div class="monokai-hex" style="color:#FCE566;">#FCE566</div>
+        <div class="monokai-name">yellow · number</div>
+        <div class="monokai-count">21회</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Brand warm -->
+  <div class="ramp-label">Brand Warm (tikka masala)</div>
+  <div class="ramp">
+    <div class="sw sw--d" style="background:#2E1F1F;">
+      <div class="sw-step">cocoa dark</div>
+      <div class="sw-hex">#2E1F1F</div>
+    </div>
+    <div class="sw sw--d" style="background:#221F1D;">
+      <div class="sw-step">ebony</div>
+      <div class="sw-hex">#221F1D</div>
+    </div>
+    <div class="sw sw--d is-anchor" style="background:#BC7914;">
+      <div class="sw-step">tikka ★</div>
+      <div class="sw-hex">#BC7914</div>
+    </div>
+    <div class="sw sw--l" style="background:#BABA8D;">
+      <div class="sw-step">misty moss</div>
+      <div class="sw-hex">#BABA8D</div>
+    </div>
+    <div class="sw sw--l" style="background:#44462A;">
+      <div class="sw-step">rifle green</div>
+      <div class="sw-hex">#44462A</div>
+    </div>
+  </div>
+
+  <!-- Cream palette -->
+  <h3 style="margin-top:1.5rem;">Cream / Warm Background Palette (Crayola naming)</h3>
+  <div class="cream-grid">
+    <div class="cream-card">
+      <div class="cream-swatch" style="background:#FFFDF4;"></div>
+      <div class="cream-info">
+        <div class="cream-hex">#FFFDF4</div>
+        <div class="cream-name">milk (page bg)</div>
+      </div>
+    </div>
+    <div class="cream-card">
+      <div class="cream-swatch" style="background:#FFFFF9;"></div>
+      <div class="cream-info">
+        <div class="cream-hex">#FFFFF9</div>
+        <div class="cream-name">halfWhite</div>
+      </div>
+    </div>
+    <div class="cream-card">
+      <div class="cream-swatch" style="background:#FAF4E9;"></div>
+      <div class="cream-info">
+        <div class="cream-hex">#FAF4E9</div>
+        <div class="cream-name">oldLace (sunken)</div>
+      </div>
+    </div>
+    <div class="cream-card">
+      <div class="cream-swatch" style="background:#F6F3E5;"></div>
+      <div class="cream-info">
+        <div class="cream-hex">#F6F3E5</div>
+        <div class="cream-name">alabaster</div>
+      </div>
+    </div>
+    <div class="cream-card">
+      <div class="cream-swatch" style="background:#F7F1FF;"></div>
+      <div class="cream-info">
+        <div class="cream-hex">#F7F1FF</div>
+        <div class="cream-name">pale lavender</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Neutral 10-step -->
+  <div class="ramp-label">Neutral Ramp — 10-step W3C (n1~n10)</div>
+  <div class="ramp">
+    <div class="sw sw--l" style="background:#F6F6F6;border:1px solid #e4e4e7;">
+      <div class="sw-step">n1</div>
+      <div class="sw-hex">#F6F6F6</div>
+    </div>
+    <div class="sw sw--l" style="background:#F1F1F1;border:1px solid #e4e4e7;">
+      <div class="sw-step">n2</div>
+      <div class="sw-hex">#F1F1F1</div>
+    </div>
+    <div class="sw sw--l" style="background:#E5E5E5;">
+      <div class="sw-step">n3</div>
+      <div class="sw-hex">#E5E5E5</div>
+    </div>
+    <div class="sw sw--l is-anchor" style="background:#D6D6D6;">
+      <div class="sw-step">n4 ★</div>
+      <div class="sw-hex">#D6D6D6</div>
+    </div>
+    <div class="sw sw--l" style="background:#C2C2C2;">
+      <div class="sw-step">n5</div>
+      <div class="sw-hex">#C2C2C2</div>
+    </div>
+    <div class="sw sw--l" style="background:#A9A9AC;">
+      <div class="sw-step">n6</div>
+      <div class="sw-hex">#A9A9AC</div>
+    </div>
+    <div class="sw sw--l" style="background:#8B8B8E;">
+      <div class="sw-step">n7</div>
+      <div class="sw-hex">#8B8B8E</div>
+    </div>
+    <div class="sw sw--d" style="background:#6D6D70;">
+      <div class="sw-step">n8</div>
+      <div class="sw-hex">#6D6D70</div>
+    </div>
+    <div class="sw sw--d" style="background:#4F4F52;">
+      <div class="sw-step">n9</div>
+      <div class="sw-hex">#4F4F52</div>
+    </div>
+    <div class="sw sw--d" style="background:#38383A;">
+      <div class="sw-step">n10</div>
+      <div class="sw-hex">#38383A</div>
+    </div>
+  </div>
+
+  <!-- DOM frequency -->
+  <h3 style="margin-top:.5rem;">DOM 빈도 상위 10</h3>
+  <div class="dom-grid">
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#FC618D;"></div>
+      <div class="dom-hex">#FC618D</div>
+      <div class="dom-count">65회</div>
+      <div class="dom-role">Monokai pink</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#948AE3;"></div>
+      <div class="dom-hex">#948AE3</div>
+      <div class="dom-count">65회</div>
+      <div class="dom-role">Monokai purple</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#BAB6C0;"></div>
+      <div class="dom-hex">#BAB6C0</div>
+      <div class="dom-count">64회</div>
+      <div class="dom-role">mid gray</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#7BD88F;"></div>
+      <div class="dom-hex">#7BD88F</div>
+      <div class="dom-count">64회</div>
+      <div class="dom-role">Monokai green</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#5AD4E6;"></div>
+      <div class="dom-hex">#5AD4E6</div>
+      <div class="dom-count">43회</div>
+      <div class="dom-role">Monokai cyan</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#F7F1FF;border-color:#D6D6D6;"></div>
+      <div class="dom-hex">#F7F1FF</div>
+      <div class="dom-count">42회</div>
+      <div class="dom-role">pale lavender</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#F8E67A;border-color:#D6D6D6;"></div>
+      <div class="dom-hex">#F8E67A</div>
+      <div class="dom-count">23회</div>
+      <div class="dom-role">cream yellow</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#FCE566;"></div>
+      <div class="dom-hex">#FCE566</div>
+      <div class="dom-count">21회</div>
+      <div class="dom-role">Monokai yellow</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#D6D6D6;border-color:#c4c4c4;"></div>
+      <div class="dom-hex">#D6D6D6</div>
+      <div class="dom-count">21회</div>
+      <div class="dom-role">neutral-n4</div>
+    </div>
+    <div class="dom-card">
+      <div class="dom-swatch" style="background:#FFFFFF;border-color:#e4e4e7;"></div>
+      <div class="dom-hex">#FFFFFF</div>
+      <div class="dom-count">10회</div>
+      <div class="dom-role">pure white</div>
+    </div>
+  </div>
+</section>
+
+<!-- SPACING -->
+<section class="section" id="spacing">
+  <div class="section-label">04 — Tokens</div>
+  <h2>스페이싱(간격 체계) — 6개 커스텀 변수</h2>
+  <div class="space-table">
+    <table>
+      <thead><tr><th>Step</th><th>px (추정)</th><th>Use case</th><th>시각화</th></tr></thead>
+      <tbody>
+        <tr><td><code>xs</code></td><td>4</td><td>icon gap</td><td><div class="space-vis" style="width:4px;"></div></td></tr>
+        <tr><td><code>sm</code></td><td>8</td><td>button inset</td><td><div class="space-vis" style="width:8px;"></div></td></tr>
+        <tr><td><code>md</code></td><td>16</td><td>card padding</td><td><div class="space-vis" style="width:16px;"></div></td></tr>
+        <tr><td><code>lg</code></td><td>24</td><td>section internal</td><td><div class="space-vis" style="width:24px;"></div></td></tr>
+        <tr><td><code>xl</code></td><td>32</td><td>section gap</td><td><div class="space-vis" style="width:32px;"></div></td></tr>
+        <tr><td><code>2xl</code></td><td>64</td><td>hero padding</td><td><div class="space-vis" style="width:64px;"></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- RADIUS -->
+<section class="section" id="radius">
+  <div class="section-label">05 — Tokens</div>
+  <h2>라디우스(모서리 반경) 7단 — 0에서 pill까지</h2>
+  <div class="rad-grid">
+    <div class="rad-card">
+      <div class="rad-box" style="border-radius:0;"></div>
+      <div class="rad-val">0</div>
+      <div class="rad-desc">flat / editorial</div>
+    </div>
+    <div class="rad-card">
+      <div class="rad-box" style="border-radius:2px;"></div>
+      <div class="rad-val">2px</div>
+      <div class="rad-desc">hairline</div>
+    </div>
+    <div class="rad-card is-sig">
+      <div class="rad-box" style="border-radius:4px;background:rgba(188,121,20,.25);border-color:#BC7914;"></div>
+      <div class="rad-val" style="color:var(--brand-color);">4px ★</div>
+      <div class="rad-desc">input</div>
+    </div>
+    <div class="rad-card">
+      <div class="rad-box" style="border-radius:6px;"></div>
+      <div class="rad-val">6px</div>
+      <div class="rad-desc">chip</div>
+    </div>
+    <div class="rad-card is-sig">
+      <div class="rad-box" style="border-radius:8px;background:rgba(188,121,20,.25);border-color:#BC7914;"></div>
+      <div class="rad-val" style="color:var(--brand-color);">8px ★</div>
+      <div class="rad-desc">card (md)</div>
+    </div>
+    <div class="rad-card">
+      <div class="rad-box" style="border-radius:12px;"></div>
+      <div class="rad-val">12px</div>
+      <div class="rad-desc">large card (lg)</div>
+    </div>
+    <div class="rad-card">
+      <div class="rad-box" style="border-radius:9999px;"></div>
+      <div class="rad-val">9999px</div>
+      <div class="rad-desc">pill (full)</div>
+    </div>
+  </div>
+</section>
+
+<!-- SHADOWS -->
+<section class="section" id="shadows">
+  <div class="section-label">06 — Tokens</div>
+  <h2>Warm-tinted 섀도우 — cocoa brown 기반</h2>
+  <p style="font-size:.875rem;color:var(--muted-fg);margin-bottom:1.5rem;">순수 검정이 아닌 cocoa brown 기반 shadow — cream palette와 시각적 조화. 18개 shadow 변수, Convex signature.</p>
+  <div class="sh-grid">
+    <div class="sh-card">
+      <div class="sh-demo" style="box-shadow:0 2px 4px rgba(0,0,0,0.08);"></div>
+      <div class="sh-name">single-layer</div>
+      <div class="sh-val">0 2px 4px rgba(0,0,0,0.08)</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-demo" style="box-shadow:0 4px 12px rgba(46,31,31,0.12);"></div>
+      <div class="sh-name">warm-tinted ★</div>
+      <div class="sh-val">0 4px 12px rgba(46,31,31,0.12) — cocoa-tinted</div>
+    </div>
+    <div class="sh-card">
+      <div class="sh-demo" style="box-shadow:inset 0 0 0 1px #BC7914;"></div>
+      <div class="sh-name">retro inset brand</div>
+      <div class="sh-val">inset 0 0 0 1px #BC7914</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPONENTS -->
+<section class="section" id="components">
+  <div class="section-label">07 — Patterns</div>
+  <h2>컴포넌트 — CTA · Code block · Editorial · Retro label</h2>
+
+  <!-- CTA -->
+  <div class="cmp-block">
+    <div class="cmp-header">
+      <span class="cmp-title">Primary CTA (warm button)</span>
+    </div>
+    <div class="cmp-demo">
+      <div>
+        <button class="cvx-btn">Get started</button>
+        <button class="cvx-btn-ebony">View docs</button>
+      </div>
+    </div>
+    <div class="cmp-code">
+      <pre><code>&lt;!-- tikka masala CTA: bg #BC7914, text #FFFDF4, radius 8px, bold --&gt;
+&lt;button class="btn-primary"&gt;Get started&lt;/button&gt;
+&lt;!-- ebony variant: bg #221F1D, text #FFFDF4 --&gt;
+&lt;button class="btn-ebony"&gt;View docs&lt;/button&gt;</code></pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+  </div>
+
+  <!-- Code block with Monokai -->
+  <div class="cmp-block">
+    <div class="cmp-header">
+      <span class="cmp-title">Code block — Monokai syntax (signature)</span>
+    </div>
+    <div class="cmp-demo" style="background:#FAF4E9;">
+      <div class="cvx-code">
+        <span class="mk-purple">const</span> <span class="mk-cyan">query</span> <span class="mk-white">= </span><span class="mk-pink">v</span><span class="mk-white">.query(</span><span class="mk-green">"messages"</span><span class="mk-white">, </span><span class="mk-yellow">async</span> <span class="mk-white">(</span><span class="mk-cyan">ctx</span><span class="mk-white">) => {</span><br>
+        &nbsp;&nbsp;<span class="mk-purple">const</span> <span class="mk-cyan">messages</span> <span class="mk-white">= </span><span class="mk-pink">await</span> <span class="mk-cyan">ctx</span><span class="mk-white">.</span><span class="mk-green">db</span><span class="mk-white">.</span><span class="mk-cyan">query</span><span class="mk-white">(</span><span class="mk-green">"messages"</span><span class="mk-white">);</span><br>
+        &nbsp;&nbsp;<span class="mk-yellow">return</span> <span class="mk-cyan">messages</span><span class="mk-white">;</span><br>
+        <span class="mk-white">});</span>
+      </div>
+    </div>
+    <div class="cmp-code">
+      <pre><code>&lt;!-- Monokai syntax: #FC618D keyword, #948AE3 type, #7BD88F string, #5AD4E6 fn, #FCE566 number --&gt;
+&lt;pre class="code-block"&gt;
+  &lt;!-- bg: #221F1D ebony (dark) or #F7F1FF lavender (light) --&gt;
+  &lt;!-- border: 1px solid #D6D6D6, radius 8px, mono font --&gt;
+&lt;/pre&gt;</code></pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+  </div>
+
+  <!-- Editorial + retro label -->
+  <div class="cmp-block">
+    <div class="cmp-header">
+      <span class="cmp-title">Editorial serif + Retro pixel label</span>
+    </div>
+    <div class="cmp-demo" style="flex-direction:column;gap:1.25rem;background:#FFFDF4;">
+      <p class="cvx-editorial">"The database with reactivity built in — backend becomes a joy."</p>
+      <div class="cvx-retro-label">// CONVEX_QUERY_ENGINE &gt; REALTIME_SYNC</div>
+    </div>
+    <div class="cmp-code">
+      <pre><code>&lt;!-- Editorial: Publico/Georgia serif, 20px/400, #221F1D --&gt;
+&lt;blockquote class="editorial"&gt;...&lt;/blockquote&gt;
+
+&lt;!-- Retro pixel: VCR/VT323, 11-13px, #BC7914 or #FCE566 --&gt;
+&lt;span class="retro-label"&gt;// TERMINAL_PROMPT&lt;/span&gt;</code></pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+  </div>
+</section>
+
+<!-- CODE EXPORT -->
+<section class="section" id="code">
+  <div class="section-label">08 — Code</div>
+  <h2>CSS · Tailwind 내보내기</h2>
+  <div class="code-export">
+    <div class="tab-bar">
+      <button class="tab-btn is-active" data-tab="css">CSS 스니펫</button>
+      <button class="tab-btn" data-tab="tw">Tailwind 설정</button>
+    </div>
+    <div class="tab-pane is-active" id="tab-css">
+      <pre><code>/* Convex — copy into your root stylesheet */
+:root {
+  /* Fonts (4 faces) */
+  --font-sans:    "GT America", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-primary: var(--font-sans);
+  --font-serif:   "Publico", Georgia, "Times New Roman", serif;
+  --font-pixel:   "VCR", "VT323", monospace;
+  --font-mono:    ui-monospace, Menlo, Monaco, "Cascadia Mono", Consolas, monospace;
+
+  /* Warm cream backgrounds (Crayola naming) */
+  --color-milk:         #FFFDF4;
+  --color-halfWhite:    #FFFFF9;
+  --color-oldLace:      #FAF4E9;
+  --color-alabaster:    #F6F3E5;
+  --color-paleLavender: #F7F1FF;
+
+  /* Dark texts (cocoa) */
+  --color-ebony:          #221F1D;
+  --color-cocoaDarkBrown: #2E1F1F;
+
+  /* Brand warm */
+  --color-tikkaMasala: #BC7914;
+
+  /* Monokai syntax palette */
+  --mk-pink:   #FC618D;
+  --mk-purple: #948AE3;
+  --mk-green:  #7BD88F;
+  --mk-cyan:   #5AD4E6;
+  --mk-yellow: #FCE566;
+
+  /* Neutral 10-step ramp */
+  --color-neutral-n1:  #F6F6F6;
+  --color-neutral-n2:  #F1F1F1;
+  --color-neutral-n3:  #E5E5E5;
+  --color-neutral-n4:  #D6D6D6;
+  --color-neutral-n5:  #C2C2C2;
+  --color-neutral-n6:  #A9A9AC;
+  --color-neutral-n7:  #8B8B8E;
+  --color-neutral-n8:  #6D6D70;
+  --color-neutral-n9:  #4F4F52;
+  --color-neutral-n10: #38383A;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadow (warm-tinted) */
+  --shadow-warm: 0 4px 12px rgba(46, 31, 31, 0.12);
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-milk);
+  color: var(--color-ebony);
+  font-weight: 400;
+}</code></pre>
+      <button class="copy-code-btn" onclick="copyActivePane()">Copy</button>
+    </div>
+    <div class="tab-pane" id="tab-tw">
+      <pre><code>// tailwind.config.js — Convex
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          DEFAULT: '#BC7914', // tikka masala
+        },
+        cream: {
+          milk:      '#FFFDF4',
+          half:      '#FFFFF9',
+          lace:      '#FAF4E9',
+          alabaster: '#F6F3E5',
+          lavender:  '#F7F1FF',
+        },
+        cocoa: {
+          ebony: '#221F1D',
+          dark:  '#2E1F1F',
+        },
+        monokai: {
+          pink:   '#FC618D',
+          purple: '#948AE3',
+          green:  '#7BD88F',
+          cyan:   '#5AD4E6',
+          yellow: '#FCE566',
+        },
+        neutral: {
+          100: '#F6F6F6',
+          200: '#F1F1F1',
+          300: '#E5E5E5',
+          400: '#D6D6D6',
+          500: '#C2C2C2',
+          600: '#A9A9AC',
+          700: '#8B8B8E',
+          800: '#6D6D70',
+          900: '#4F4F52',
+          950: '#38383A',
+        },
+      },
+      fontFamily: {
+        sans:  ['"GT America"', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['"Publico"', 'Georgia', '"Times New Roman"', 'serif'],
+        pixel: ['"VCR"', '"VT323"', 'monospace'],
+        mono:  ['ui-monospace', 'Menlo', 'Monaco', '"Cascadia Mono"', 'Consolas', 'monospace'],
+      },
+      borderRadius: {
+        sm: '4px',
+        md: '8px',
+        lg: '12px',
+        full: '9999px',
+      },
+      boxShadow: {
+        warm: '0 4px 12px rgba(46, 31, 31, 0.12)',
+      },
+    },
+  },
+};</code></pre>
+      <button class="copy-code-btn" onclick="copyActivePane()">Copy</button>
+    </div>
+  </div>
+</section>
+
+<!-- DO / DON'T -->
+<section class="section" id="dodont">
+  <div class="section-label">09 — Rules</div>
+  <h2>자주 틀리는 것들</h2>
+  <div class="dd-grid">
+    <div class="dd-card dd-card--do">
+      <div class="dd-badge">DO</div>
+      <ul class="dd-list">
+        <li>Warm cream backgrounds: <code>#FFFDF4</code>(milk) 기본, <code>#F7F1FF</code>(lavender) 보조.</li>
+        <li>Monokai syntax palette 5색을 브랜드 액센트로 활용: pink <code>#FC618D</code>, purple <code>#948AE3</code>, green <code>#7BD88F</code>, cyan <code>#5AD4E6</code>, yellow <code>#FCE566</code>.</li>
+        <li>3-폰트 조합: GT America(sans) + Publico(serif, editorial) + VCR(pixel, retro label).</li>
+        <li>Dark text는 <code>#221F1D</code>(ebony) 또는 <code>#2E1F1F</code>(cocoa dark) — warm-tinted dark.</li>
+        <li>tikka masala <code>#BC7914</code>를 warm brand accent로 사용 (CTA, 강조).</li>
+        <li>Crayola crayon naming을 토큰에 보존: <code>--color-tikkaMasala</code>, <code>--color-milk</code>.</li>
+        <li>10-step neutral ramp (<code>n1..n10</code>) 전체 등재.</li>
+        <li>Warm-tinted shadow: <code>rgba(46,31,31,0.12)</code> — cocoa 기반, 순수 black 아님.</li>
+        <li>Editorial/magazine 레이아웃: 큰 typography (5.5rem), pull quotes, drop caps.</li>
+      </ul>
+    </div>
+    <div class="dd-card dd-card--dont">
+      <div class="dd-badge">DON'T</div>
+      <ul class="dd-list">
+        <li>"amber on dark" 대시보드 스타일 — 실제는 cream light bg + Monokai 강조의 정반대.</li>
+        <li>순수 흰색 <code>#FFFFFF</code> 페이지 bg — 실제는 warm off-white <code>#FFFDF4</code>.</li>
+        <li><code>Inter</code> / <code>Fira Code</code> 사용 — 실제는 GT America / Publico / VCR.</li>
+        <li>Monokai palette 누락 — 이게 Convex의 실질 브랜드 컬러 (65회 최다 빈도).</li>
+        <li><code>color-brand</code> / <code>color-gray-*</code> flat 네이밍 — Crayola descriptive 컨벤션 보존해야 브랜드 문화 유지.</li>
+        <li>순수 black <code>#000000</code> shadow — warm cocoa-tinted를 사용.</li>
+        <li>"generic developer dashboard" 레이아웃 — Convex는 art/editorial 감성.</li>
+        <li>dark theme 기본값 — Convex는 라이트 우선, 다크는 opt-in.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    const export_el = btn.closest('.code-export');
+    export_el.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('is-active'));
+    export_el.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    const paneId = tab === 'css' ? 'tab-css' : 'tab-tw';
+    document.getElementById(paneId).classList.add('is-active');
+  });
+});
+
+// Copy component code
+function copyCode(btn) {
+  const code = btn.closest('.cmp-code').querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1800);
+  });
+}
+
+// Copy active pane
+function copyActivePane() {
+  const pane = document.querySelector('.tab-pane.is-active code');
+  if (pane) {
+    navigator.clipboard.writeText(pane.textContent).then(() => {
+      const btn = document.querySelector('.tab-pane.is-active .copy-code-btn');
+      if (btn) {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 1800);
+      }
+    });
+  }
+}
+</script>
+</body>
+</html>

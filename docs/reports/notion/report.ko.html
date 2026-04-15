@@ -1,0 +1,1573 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notion — Design System Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── Tokens (light, warm) ── */
+:root{
+  --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --bg:#FFFFFF;
+  --fg:#37352F;
+  --card:#FFFFFF;
+  --muted:#F7F7F5;
+  --muted-fg:#787774;
+  --subtle:#E9E9E7;
+  --border:#E9E9E7;
+  --border-str:#D0CFC8;
+  --accent:#37352F;
+  --radius:8px;
+  --radius-lg:12px;
+  --brand-color:#2383E2;
+}
+
+/* ── Layout ── */
+html{scroll-behavior:smooth}
+body{
+  font-family:"Inter",ui-sans-serif,-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+/* ── TOC ── */
+.toc{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  background:#F7F7F5;
+  border-right:1px solid var(--border);
+  padding:24px 0;
+  font-size:13px;
+}
+.toc__logo{
+  padding:0 20px 20px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:16px;
+}
+.toc__logo-mark{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;height:28px;
+  background:#37352F;
+  color:#fff;
+  border-radius:6px;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:6px;
+}
+.toc__site{font-weight:600;font-size:13px;color:var(--fg)}
+.toc__tagline{color:var(--muted-fg);font-size:11px;margin-top:2px}
+.toc__group{margin-bottom:4px}
+.toc__group-label{
+  padding:6px 20px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--muted-fg);
+}
+.toc a{
+  display:block;
+  padding:5px 20px;
+  color:var(--muted-fg);
+  text-decoration:none;
+  transition:color .15s,background .15s;
+}
+.toc a:hover,.toc a.active{
+  color:var(--brand-color);
+  background:rgba(35,131,226,0.07);
+}
+
+/* ── Main ── */
+.main{max-width:900px;padding:60px 48px;margin:0 auto}
+
+/* ── Sections ── */
+.section{margin-bottom:72px}
+.section-label{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--brand-color);
+  margin-bottom:10px;
+}
+.section-title{
+  font-size:26px;
+  font-weight:700;
+  line-height:1.2;
+  letter-spacing:-0.015625rem;
+  margin-bottom:8px;
+}
+.section-sub{
+  color:var(--muted-fg);
+  font-size:15px;
+  margin-bottom:32px;
+  line-height:1.6;
+}
+
+/* ── Hero ── */
+.hero{
+  padding:64px 0 56px;
+  margin-bottom:64px;
+  border-bottom:1px solid var(--border);
+}
+.hero__eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(35,131,226,0.08);
+  color:var(--brand-color);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  padding:4px 12px;
+  border-radius:999px;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-size:38px;
+  font-weight:700;
+  line-height:1.1;
+  letter-spacing:-0.0625rem;
+  margin-bottom:14px;
+  color:#37352F;
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--brand-color);
+}
+.hero__sub{
+  font-size:17px;
+  color:var(--muted-fg);
+  line-height:1.6;
+  max-width:580px;
+  margin-bottom:40px;
+}
+
+/* ── Quick Start ── */
+.qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.qs__step{
+  background:#1a1a1f;
+  border-radius:var(--radius-lg);
+  padding:20px;
+  border:1px solid #2a2a30;
+}
+.qs__step-num{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#6b7280;
+  margin-bottom:10px;
+}
+.qs__step pre{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:11.5px;
+  line-height:1.6;
+  color:#e5e7eb;
+  overflow-x:auto;
+  white-space:pre;
+}
+.qs__warn{
+  background:#FEF9EC;
+  border:1px solid #F5E6B8;
+  border-radius:var(--radius);
+  padding:14px 16px;
+  font-size:13px;
+  color:#92400E;
+  line-height:1.5;
+}
+.qs__warn strong{color:#78350F}
+.qs__warn code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:11px;
+  background:rgba(0,0,0,0.06);
+  padding:1px 5px;
+  border-radius:3px;
+}
+
+/* ── Stat cards ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:18px 20px;
+  box-shadow:0px 4px 18px rgba(0,0,0,.04),0px 0.8px 2.9px rgba(0,0,0,.03);
+}
+.stat__label{font-size:11px;font-weight:500;color:var(--muted-fg);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
+.stat__value{font-size:20px;font-weight:700;color:var(--fg);letter-spacing:-0.01em}
+.stat__sub{font-size:11px;color:var(--muted-fg);margin-top:2px}
+
+/* ── Info table ── */
+.info-table{width:100%;border-collapse:collapse;font-size:14px}
+.info-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.info-table td:first-child{
+  font-weight:500;
+  color:var(--muted-fg);
+  white-space:nowrap;
+  width:180px;
+}
+.info-table code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  background:var(--muted);
+  padding:1px 5px;
+  border-radius:3px;
+  color:var(--fg);
+}
+
+/* ── Tech stack ── */
+.stack-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stack-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:16px 20px;
+  box-shadow:0px 4px 18px rgba(0,0,0,.03),0px 0.8px 2.9px rgba(0,0,0,.02);
+}
+.stack-card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.stack-card p{font-size:13px;color:var(--muted-fg);line-height:1.5}
+.stack-card code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  background:var(--muted);
+  padding:1px 5px;
+  border-radius:3px;
+  color:var(--fg);
+}
+
+/* ── Typography ── */
+.type-table{width:100%;border-collapse:collapse;font-size:13px}
+.type-table th{
+  text-align:left;
+  padding:8px 12px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--muted-fg);
+  border-bottom:1px solid var(--border);
+}
+.type-table td{padding:0;border-bottom:1px solid var(--border)}
+.type-row{display:flex;align-items:baseline;padding:14px 12px;gap:12px}
+.type-row__preview{flex:0 0 280px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.type-row__meta{display:flex;gap:16px;flex:1;align-items:center;flex-wrap:wrap}
+.type-row__token{font-size:12px;font-family:"JetBrains Mono",ui-monospace,monospace;color:var(--muted-fg);white-space:nowrap}
+.type-row__spec{font-size:12px;color:var(--muted-fg)}
+.badge{
+  display:inline-block;
+  padding:1px 7px;
+  border-radius:3px;
+  font-size:11px;
+  font-weight:500;
+  background:var(--muted);
+  color:var(--muted-fg);
+}
+
+/* ── Font 3-way demo ── */
+.font-demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.font-demo-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:20px;
+  box-shadow:0px 4px 18px rgba(0,0,0,.03);
+}
+.font-demo-card__label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-fg);margin-bottom:10px}
+.font-demo-card__sample{font-size:20px;line-height:1.35;color:var(--fg)}
+.font-demo-card__note{font-size:11px;color:var(--muted-fg);margin-top:8px}
+
+/* ── Color swatches ── */
+.ramp{margin-bottom:28px}
+.ramp__label{font-size:12px;font-weight:600;color:var(--muted-fg);margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase}
+.ramp__row{
+  display:grid;
+  gap:3px;
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.swatch{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:8px 10px;
+  min-height:72px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+}
+.sw--l .swatch-label{color:rgba(0,0,0,0.6)}
+.sw--d .swatch-label{color:rgba(255,255,255,0.7)}
+.swatch-label{font-size:10px;line-height:1.3}
+.swatch-hex{font-size:10px;opacity:.8}
+.is-anchor{outline:2px solid var(--brand-color);outline-offset:-2px;border-radius:2px}
+
+/* ── Callout palette ── */
+.callout-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.callout-chip{
+  border-radius:3px;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.callout-chip__name{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;opacity:.7}
+.callout-chip__hex{font-size:10px;font-family:"JetBrains Mono",monospace;opacity:.6}
+
+/* ── Spacing ── */
+.spacing-row{display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
+.spacing-bar{background:var(--brand-color);height:20px;border-radius:3px;opacity:.6;flex-shrink:0}
+.spacing-token{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--muted-fg);width:160px}
+.spacing-value{font-size:13px;font-weight:500;width:60px}
+.spacing-use{font-size:13px;color:var(--muted-fg)}
+
+/* ── Radius ── */
+.radius-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px}
+.radius-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  box-shadow:0px 4px 18px rgba(0,0,0,.03);
+}
+.radius-box{
+  width:64px;
+  height:64px;
+  background:rgba(35,131,226,0.1);
+  border:2px solid var(--brand-color);
+}
+.radius-label{font-size:12px;font-weight:600;text-align:center}
+.radius-value{font-size:11px;color:var(--muted-fg);font-family:"JetBrains Mono",ui-monospace,monospace;text-align:center}
+
+/* ── Shadow ── */
+.shadow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px}
+.shadow-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
+.shadow-box{
+  width:80px;height:80px;
+  background:#fff;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+}
+.shadow-name{font-size:13px;font-weight:600}
+.shadow-value{font-size:11px;color:var(--muted-fg);font-family:"JetBrains Mono",ui-monospace,monospace;text-align:center;line-height:1.5;word-break:break-all}
+
+/* ── Layout patterns ── */
+.layout-demo{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  margin-bottom:20px;
+  font-size:13px;
+  box-shadow:0px 4px 18px rgba(0,0,0,.03);
+}
+.layout-demo h4{font-size:14px;font-weight:600;margin-bottom:12px}
+.layout-spec{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.layout-spec-row{display:flex;align-items:center;gap:10px}
+.layout-spec-key{font-size:12px;color:var(--muted-fg);width:180px;flex-shrink:0}
+.layout-spec-val{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px}
+.layout-code{
+  background:#1a1a1f;
+  border-radius:var(--radius);
+  padding:16px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#e5e7eb;
+  overflow-x:auto;
+}
+
+/* ── Components ── */
+.cmp-section{margin-bottom:40px}
+.cmp-section h3{font-size:17px;font-weight:600;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.cmp-demo{
+  background:#F7F7F5;
+  border-radius:var(--radius-lg);
+  padding:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+  border:1px solid var(--border);
+}
+.cmp-code{
+  position:relative;
+  background:#1a1a1f;
+  border-radius:var(--radius);
+  padding:16px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#e5e7eb;
+  overflow-x:auto;
+  margin-bottom:6px;
+}
+.copy-btn{
+  position:absolute;
+  top:10px;right:10px;
+  background:#374151;
+  color:#9ca3af;
+  border:none;
+  border-radius:3px;
+  padding:3px 8px;
+  font-size:11px;
+  cursor:pointer;
+  transition:background .15s;
+}
+.copy-btn:hover{background:#4b5563;color:#f3f4f6}
+
+/* ── Demo components ── */
+.btn-campaign{
+  display:inline-flex;align-items:center;
+  background:#2537B1;color:#fff;
+  border:none;border-radius:5px;
+  padding:8px 14px;
+  font-size:14px;font-weight:500;
+  font-family:inherit;cursor:pointer;text-decoration:none;
+}
+.btn-ghost{
+  display:inline-flex;align-items:center;
+  background:transparent;
+  border:1px solid #E9E9E7;
+  border-radius:5px;
+  padding:8px 14px;
+  font-size:14px;font-weight:500;
+  font-family:inherit;cursor:pointer;
+  color:#37352F;text-decoration:none;
+}
+.btn-ghost:hover{background:rgba(0,0,0,0.03)}
+
+/* Notion block */
+.demo-block{
+  background:#FFFFFF;
+  border-radius:3px;
+  padding:4px 8px;
+  color:#37352F;
+  font-size:15px;
+  transition:background .1s;
+  cursor:default;
+  user-select:none;
+}
+.demo-block:hover{background:rgba(55,53,47,0.04)}
+.demo-block--h1{font-size:22px;font-weight:700;letter-spacing:-0.015625rem}
+.demo-block--h2{font-size:18px;font-weight:600}
+
+/* Callout */
+.demo-callout{
+  border-radius:3px;
+  padding:16px 16px 16px 48px;
+  position:relative;
+  font-size:14px;line-height:1.5;
+}
+.demo-callout__icon{
+  position:absolute;left:12px;top:14px;font-size:18px;
+}
+
+/* Bento card */
+.demo-bento{
+  background:#FFFFFF;
+  border-radius:12px;
+  padding:28px;
+  max-width:200px;
+  box-shadow:0px 4px 18px rgba(0,0,0,.04),0px 2.025px 7.85px rgba(0,0,0,.027),0px 0.8px 2.93px rgba(0,0,0,.02),0px 0.175px 1.04px rgba(0,0,0,.013);
+  border:1px solid #E9E9E7;
+}
+.demo-bento h3{font-size:16px;font-weight:600;margin-bottom:6px;color:#37352F}
+.demo-bento p{font-size:13px;color:#787774;line-height:1.5}
+
+/* ── Code Export tabs ── */
+.code-tabs{display:flex;gap:2px;margin-bottom:0;border-bottom:1px solid var(--border)}
+.code-tab{
+  padding:9px 16px;
+  font-size:13px;
+  font-weight:500;
+  color:var(--muted-fg);
+  background:transparent;
+  border:none;
+  border-bottom:2px solid transparent;
+  cursor:pointer;
+  margin-bottom:-1px;
+  font-family:inherit;
+  transition:color .15s;
+}
+.code-tab.active{color:var(--brand-color);border-bottom-color:var(--brand-color)}
+.code-pane{display:none}
+.code-pane.active{display:block}
+.code-pane pre{
+  background:#1a1a1f;
+  border-radius:0 0 var(--radius-lg) var(--radius-lg);
+  padding:24px;
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:12px;
+  color:#e5e7eb;
+  overflow-x:auto;
+  line-height:1.65;
+  max-height:520px;
+}
+.code-export-wrap{
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+}
+.code-export-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  background:var(--card);
+}
+
+/* ── Do / Don't ── */
+.dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dd-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:20px 24px;
+  box-shadow:0px 4px 18px rgba(0,0,0,.03);
+}
+.dd-card--do{border-top:3px solid #448361}
+.dd-card--dont{border-top:3px solid #D44C47}
+.dd-card__badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.dd-card--do .dd-card__badge{color:#448361}
+.dd-card--dont .dd-card__badge{color:#D44C47}
+.dd-card ul{padding-left:16px;display:flex;flex-direction:column;gap:7px}
+.dd-card li{font-size:13px;line-height:1.5;color:var(--fg)}
+.dd-card li code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:11px;
+  background:var(--muted);
+  padding:1px 5px;
+  border-radius:3px;
+}
+
+/* ── Campaign note ── */
+.campaign-note{
+  background:#EEF4FF;
+  border:1px solid #BFDBFE;
+  border-radius:var(--radius);
+  padding:14px 16px;
+  font-size:13px;
+  color:#1E40AF;
+  line-height:1.5;
+  margin-top:16px;
+}
+.campaign-note strong{color:#1E3A8A}
+.toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+.toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+.toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+.hero__screenshot{margin-bottom:32px;max-width:880px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);}
+.hero__screenshot img{width:100%;height:auto;display:block;}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ── TOC ── -->
+<aside class="toc">
+  <div class="toc__brand">
+    <div class="toc__brand-name">Notion</div>
+    <div class="toc__brand-sub">Design System Report</div>
+  </div>
+  <div class="toc__logo">
+    <div class="toc__logo-mark">N</div>
+    <div class="toc__site">Notion</div>
+    <div class="toc__tagline">Design System Report</div>
+  </div>
+
+  <div class="toc__group">
+    <div class="toc__group-label">Overview</div>
+    <a href="#provenance">출처와 수집 기준</a>
+    <a href="#tech">테크 스택</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Foundations</div>
+    <a href="#typography">타이포그래피</a>
+    <a href="#colors">컬러</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Tokens</div>
+    <a href="#spacing">스페이싱</a>
+    <a href="#radius">라디우스</a>
+    <a href="#shadows">섀도우</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Patterns</div>
+    <a href="#layout">레이아웃 패턴</a>
+    <a href="#components">컴포넌트</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Code</div>
+    <a href="#code">CSS · Tailwind</a>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Rules</div>
+    <a href="#dodont">Do / Don't</a>
+  </div>
+  <div class="toc__foot">notion/<br>DESIGN.claude.manual.md<br>2026-04-12</div>
+</aside>
+
+<!-- ── Main ── -->
+<main class="main">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__eyebrow">Design System Report</div>
+    <h1>Notion — <em>Warm Ink + 1,111 토큰</em></h1>
+    <p class="hero__sub">
+      Next.js 기반 자체 3-layer token indirection 시스템. pure black이 아닌 warm ink <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:#F7F7F5;padding:2px 6px;border-radius:3px">#37352F</code>의 알파 5단계가 정체성이다. 3-way 폰트 토글(NotionInter / Lyon Text / iA Writer Mono)은 블록별 동적 전환.
+    </p>
+    <div class="hero__screenshot">
+      <img src="screenshots/hero-cropped.png" alt="notion hero screenshot">
+    </div>
+
+    <!-- Quick Start cards -->
+    <div class="qs__grid">
+      <div class="qs__step">
+        <div class="qs__step-num">Step 1 — 3-Way 폰트</div>
+        <pre>body {
+  font-family: "NotionInter",
+    ui-sans-serif, -apple-system,
+    BlinkMacSystemFont, sans-serif;
+}
+.serif { font-family:
+  "Lyon Text", Georgia, serif;
+}
+code, pre { font-family:
+  "iA Writer Mono", "Nitti",
+  Menlo, monospace;
+}</pre>
+      </div>
+      <div class="qs__step">
+        <div class="qs__step-num">Step 2 — Warm Ink</div>
+        <pre>:root {
+  --color-ink-primary: #37352F;
+  /* warm black, not #000 */
+  --color-ink-muted:   #37352FA6;
+  /* α65 */
+  --color-ink-faint:   #37352F99;
+  --color-ink-divider: #37352F29;
+  --color-bg-page:     #FFFFFF;
+  --color-bg-soft:     #F7F7F5;
+  --color-border:      #E9E9E7;
+}
+body {
+  background: var(--color-bg-page);
+  color: var(--color-ink-primary);
+}</pre>
+      </div>
+      <div class="qs__step">
+        <div class="qs__step-num">Step 3 — 링크 블루</div>
+        <pre>:root {
+  --color-link:     #2383E2;
+  --color-link-alt: #097FE8;
+}
+
+/* Campaign (일시적) */
+:root {
+  --color-campaign-navy:
+    #2537B1; /* AI Agents 캠페인 */
+}
+
+/* Block callout 9색 팔레트 */
+.callout--blue {
+  background: #E7F3F8;
+  color: #337EA9;
+  border-radius: 3px;
+}</pre>
+      </div>
+    </div>
+
+    <div class="qs__warn">
+      <strong>절대 하지 말 것:</strong> 본문 text 색을 pure black <code>#000000</code>으로 쓰지 말 것. Notion의 진짜 정체성은 warm ink <code>#37352F</code>(갈색 섞인 따뜻한 검정)와 그 알파 변종 5단계 (<code>CC/A6/99/29/17</code>)다. 순흰색 배경에 순검정 텍스트로 만들면 Notion의 "paper-like" 느낌이 사라진다.
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat__label">Source</div>
+        <div class="stat__value">notion.so</div>
+        <div class="stat__sub">2026-04-11 수집</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Custom Props</div>
+        <div class="stat__value">1,111</div>
+        <div class="stat__sub">color 326 · spacing 304 · shadow 8</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Font Toggle</div>
+        <div class="stat__value">3-way</div>
+        <div class="stat__sub">Sans / Serif / Mono</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Type Scale</div>
+        <div class="stat__value">13단계</div>
+        <div class="stat__sub">font-size-50 ~ font-size-1000</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §02 Provenance -->
+  <section class="section" id="provenance">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">출처와 수집 기준</h2>
+    <p class="section-sub">CSS 커스텀 프로퍼티 직접 파싱 + 캠페인 네임스페이스 식별로 추출한 실측 데이터다.</p>
+    <table class="info-table">
+      <tr><td>Source URL</td><td><code>https://www.notion.so</code></td></tr>
+      <tr><td>Fetched</td><td>2026-04-11</td></tr>
+      <tr><td>Extractor</td><td><code>real/fetch_all.py</code> (curl + Chrome UA)</td></tr>
+      <tr><td>Framework</td><td>Next.js + 자체 CSS 시스템 (Tailwind 아님)</td></tr>
+      <tr><td>Custom props</td><td>1,111 (color: 326 · spacing: 304 · shadow: 8)</td></tr>
+      <tr><td>Token prefix</td><td><code>--color-*</code>, <code>--font-size-*</code>, <code>--spacing-*</code>, <code>--campaigns-*</code></td></tr>
+      <tr><td>Method</td><td>CSS 커스텀 프로퍼티 직접 파싱 · 캠페인 네임스페이스 식별</td></tr>
+    </table>
+    <div class="campaign-note" style="margin-top:16px">
+      <strong>캠페인 overlay:</strong> 2026-04-11 크롤 시점은 "AI Agents launch" 캠페인 활성. <code>--campaigns-agents-launch-blue-*</code> navy palette가 포함됨. 이는 영구 브랜드가 아닌 캠페인 일시 overlay다.
+    </div>
+  </section>
+
+  <!-- §03 Tech Stack -->
+  <section class="section" id="tech">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">테크 스택</h2>
+    <p class="section-sub">Tailwind 없이 순수 CSS 커스텀 프로퍼티 + BEM-ish 클래스로 운용하는 Notion 자체 3-layer token indirection 시스템.</p>
+    <div class="stack-grid">
+      <div class="stack-card">
+        <h4>Framework</h4>
+        <p>Next.js marketing<br>자체 디자인 토큰 시스템 (Tailwind 아님)</p>
+      </div>
+      <div class="stack-card">
+        <h4>Token Indirection (3 layer)</h4>
+        <p>
+          semantic role → <code>color-button-primary-background</code><br>
+          palette ref → <code>color-campaigns-agents-launch-blue-400</code><br>
+          literal hex → <code>#2537B1</code>
+        </p>
+      </div>
+      <div class="stack-card">
+        <h4>CSS Architecture</h4>
+        <p>전통적 CSS 커스텀 프로퍼티<br>BEM-ish 클래스: <code>.notion-logo-fill</code>, <code>.bento-shadow-level</code>, <code>.campaign-nav-bg</code></p>
+      </div>
+      <div class="stack-card">
+        <h4>Font Loading</h4>
+        <p>3-way 토글: <code>var(--rich-text-font-config-font-family)</code><br>Default / Serif / Mono 블록별 동적 전환</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- §04 + §05 Typography -->
+  <section class="section" id="typography">
+    <div class="section-label">Foundations</div>
+    <h2 class="section-title">13단계 타입 스케일 + weight별 optical 보정</h2>
+    <p class="section-sub">
+      <code>font-size-50</code>(12px)부터 <code>font-size-1000</code>(76px)까지 13단계. 같은 사이즈에서 weight별로 letter-spacing을 미세하게 달리 보정하는 optical compensation이 특이점이다.
+    </p>
+
+    <!-- 3-way font demo -->
+    <div class="font-demo-grid">
+      <div class="font-demo-card">
+        <div class="font-demo-card__label">Default — NotionInter</div>
+        <div class="font-demo-card__sample" style="font-family:'Inter',sans-serif">The quick brown fox</div>
+        <div class="font-demo-card__note">Inter 기반 커스텀 빌드. x-height · dot-on-i가 일반 Inter와 다름</div>
+      </div>
+      <div class="font-demo-card">
+        <div class="font-demo-card__label">Serif — Lyon Text</div>
+        <div class="font-demo-card__sample" style="font-family:'Georgia',serif;font-size:18px">The quick brown fox</div>
+        <div class="font-demo-card__note">Commercial Type 유료. OSS 대체: Newsreader</div>
+      </div>
+      <div class="font-demo-card">
+        <div class="font-demo-card__label">Mono — iA Writer Mono</div>
+        <div class="font-demo-card__sample" style="font-family:'JetBrains Mono',monospace;font-size:15px">The quick brown fox</div>
+        <div class="font-demo-card__note">iA Writer 브랜드 typewriter. OSS 대체: JetBrains Mono</div>
+      </div>
+    </div>
+
+    <table class="type-table">
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Size</th>
+          <th>Weight</th>
+          <th>Line-height</th>
+          <th>Letter-spacing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:13px;font-weight:400;line-height:1.5;letter-spacing:0.0078125rem">font-size-50</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">font-size-50</span>
+              <span class="type-row__spec">12px</span>
+              <span class="badge">400</span>
+              <span class="type-row__spec">lh 1.5</span>
+              <span class="type-row__spec">+0.0078rem</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0">font-size-100</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">font-size-100</span>
+              <span class="type-row__spec">14px</span>
+              <span class="badge">400</span>
+              <span class="type-row__spec">lh 1.5</span>
+              <span class="type-row__spec">0</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:16px;font-weight:400;line-height:1.5;letter-spacing:0">font-size-200 (base)</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">font-size-200</span>
+              <span class="type-row__spec">16px / 1rem</span>
+              <span class="badge">400</span>
+              <span class="type-row__spec">lh 1.5</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:18px;font-weight:500;line-height:1.4;letter-spacing:-0.0078125rem">font-size-300</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">font-size-300</span>
+              <span class="type-row__spec">18px</span>
+              <span class="badge">500</span>
+              <span class="type-row__spec">lh 1.4</span>
+              <span class="type-row__spec">-0.0078rem</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:20px;font-weight:500;line-height:1.35;letter-spacing:-0.01em">font-size-350</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">font-size-350</span>
+              <span class="type-row__spec">20px</span>
+              <span class="badge">500</span>
+              <span class="type-row__spec">lh 1.35</span>
+              <span class="type-row__spec">-0.01em</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:22px;font-weight:550;line-height:1.3;letter-spacing:-0.015625rem">font-size-400</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">font-size-400</span>
+              <span class="type-row__spec">22px</span>
+              <span class="badge">550</span>
+              <span class="type-row__spec">lh 1.3</span>
+              <span class="type-row__spec">-0.0156rem</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:24px;font-weight:600;line-height:1.25;letter-spacing:-0.015625rem">font-size-500</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">font-size-500</span>
+              <span class="type-row__spec">26px</span>
+              <span class="badge">600</span>
+              <span class="type-row__spec">lh 1.25</span>
+              <span class="type-row__spec">-0.0156rem</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:28px;font-weight:600;line-height:1.2;letter-spacing:-0.0390625rem">font-size-600</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">font-size-600</span>
+              <span class="type-row__spec">32px</span>
+              <span class="badge">600</span>
+              <span class="type-row__spec">lh 1.2</span>
+              <span class="type-row__spec">-0.039rem</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:34px;font-weight:700;line-height:1.15;letter-spacing:-0.046875rem">font-size-700</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">font-size-700</span>
+              <span class="type-row__spec">42px</span>
+              <span class="badge">700</span>
+              <span class="type-row__spec">lh 1.15</span>
+              <span class="type-row__spec">-0.047rem</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:36px;font-weight:700;line-height:1.1;letter-spacing:-0.0625rem">font-size-800</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">font-size-800</span>
+              <span class="type-row__spec">54px</span>
+              <span class="badge">700</span>
+              <span class="type-row__spec">lh 1.1</span>
+              <span class="type-row__spec">-0.0625rem</span>
+            </span>
+          </div>
+        </td></tr>
+        <tr><td colspan="5">
+          <div class="type-row">
+            <span class="type-row__preview" style="font-size:38px;font-weight:700;line-height:1.0;letter-spacing:-0.0625rem">font-size-1000</span>
+            <span class="type-row__meta">
+              <span class="type-row__token">font-size-1000</span>
+              <span class="type-row__spec">76px / 4.75rem</span>
+              <span class="badge">700</span>
+              <span class="type-row__spec">lh 1.0</span>
+              <span class="type-row__spec">-0.0625rem</span>
+            </span>
+          </div>
+        </td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- §06 Colors -->
+  <section class="section" id="colors">
+    <div class="section-label">Foundations</div>
+    <h2 class="section-title">Warm Ink 알파 5단계가 Notion의 정체성</h2>
+    <p class="section-sub">pure black 없음. warm ink #37352F의 알파 변종(CC/A6/99/29/17)으로 text/muted/divider/hairline 5단계를 구성. link blue와 캠페인 navy는 별개.</p>
+
+    <!-- Warm Ink -->
+    <div class="ramp">
+      <div class="ramp__label">Warm Ink — 알파 5단계</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(7,1fr)">
+        <div class="swatch sw--l is-anchor" style="background:#37352F">
+          <span class="swatch-label" style="color:rgba(255,255,255,0.8)">ink-primary<br><span class="swatch-hex">#37352F</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#37352FCC">
+          <span class="swatch-label" style="color:rgba(255,255,255,0.8)">ink-strong<br><span class="swatch-hex">80% α</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#37352FA6">
+          <span class="swatch-label" style="color:rgba(255,255,255,0.8)">ink-muted<br><span class="swatch-hex">65% α</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#37352F99">
+          <span class="swatch-label" style="color:rgba(255,255,255,0.7)">ink-faint<br><span class="swatch-hex">60% α</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#37352F29">
+          <span class="swatch-label">ink-divider<br><span class="swatch-hex">16% α</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#37352F17">
+          <span class="swatch-label">ink-hairline<br><span class="swatch-hex">9% α</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#F7F7F5">
+          <span class="swatch-label">bg-soft<br><span class="swatch-hex">#F7F7F5</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Link / Brand -->
+    <div class="ramp">
+      <div class="ramp__label">Link / Brand Blue</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(3,1fr)">
+        <div class="swatch sw--d is-anchor" style="background:#2383E2">
+          <span class="swatch-label">--color-link<br><span class="swatch-hex">#2383E2</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#097FE8">
+          <span class="swatch-label">--color-link-alt<br><span class="swatch-hex">#097FE8</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#2537B1">
+          <span class="swatch-label">campaign-navy (일시적)<br><span class="swatch-hex">#2537B1</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Callout 9색 팔레트 -->
+    <div class="ramp">
+      <div class="ramp__label">Block / Callout 9색 팔레트</div>
+      <div class="callout-grid">
+        <div class="callout-chip" style="background:#F1F1EF">
+          <span class="callout-chip__name" style="color:#787774">Gray</span>
+          <span class="callout-chip__hex">text #787774 / bg #F1F1EF</span>
+        </div>
+        <div class="callout-chip" style="background:#F4EEEE">
+          <span class="callout-chip__name" style="color:#976D57">Brown</span>
+          <span class="callout-chip__hex">text #976D57 / bg #F4EEEE</span>
+        </div>
+        <div class="callout-chip" style="background:#FAEBDD">
+          <span class="callout-chip__name" style="color:#CC782F">Orange</span>
+          <span class="callout-chip__hex">text #CC782F / bg #FAEBDD</span>
+        </div>
+        <div class="callout-chip" style="background:#FBF3DB">
+          <span class="callout-chip__name" style="color:#C29343">Yellow</span>
+          <span class="callout-chip__hex">text #C29343 / bg #FBF3DB</span>
+        </div>
+        <div class="callout-chip" style="background:#EDF3EC">
+          <span class="callout-chip__name" style="color:#448361">Green</span>
+          <span class="callout-chip__hex">text #448361 / bg #EDF3EC</span>
+        </div>
+        <div class="callout-chip" style="background:#E7F3F8">
+          <span class="callout-chip__name" style="color:#337EA9">Blue</span>
+          <span class="callout-chip__hex">text #337EA9 / bg #E7F3F8</span>
+        </div>
+        <div class="callout-chip" style="background:#F4EFF9">
+          <span class="callout-chip__name" style="color:#9065B0">Purple</span>
+          <span class="callout-chip__hex">text #9065B0 / bg #F4EFF9</span>
+        </div>
+        <div class="callout-chip" style="background:#F9EEF3">
+          <span class="callout-chip__name" style="color:#C14C8A">Pink</span>
+          <span class="callout-chip__hex">text #C14C8A / bg #F9EEF3</span>
+        </div>
+        <div class="callout-chip" style="background:#FDEBEC">
+          <span class="callout-chip__name" style="color:#D44C47">Red</span>
+          <span class="callout-chip__hex">text #D44C47 / bg #FDEBEC</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Campaign Rainbow -->
+    <div class="ramp">
+      <div class="ramp__label">Campaign Rainbow (AI Agents — 일시적)</div>
+      <div class="ramp__row" style="grid-template-columns:repeat(7,1fr)">
+        <div class="swatch sw--l" style="background:#FFB110">
+          <span class="swatch-label">yellow<br><span class="swatch-hex">#FFB110</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#F64932">
+          <span class="swatch-label">red<br><span class="swatch-hex">#F64932</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#FF8A33">
+          <span class="swatch-label">orange<br><span class="swatch-hex">#FF8A33</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#2A9D99">
+          <span class="swatch-label">teal<br><span class="swatch-hex">#2A9D99</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#097FE8">
+          <span class="swatch-label">blue<br><span class="swatch-hex">#097FE8</span></span>
+        </div>
+        <div class="swatch sw--d" style="background:#AD6DED">
+          <span class="swatch-label">purple<br><span class="swatch-hex">#AD6DED</span></span>
+        </div>
+        <div class="swatch sw--l" style="background:#FF83DD">
+          <span class="swatch-label">pink<br><span class="swatch-hex">#FF83DD</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="campaign-note">
+      <strong>캠페인 컬러 주의:</strong> 위 rainbow 색상과 navy <code>#2537B1</code>은 2026-04-11 AI Agents 런칭 캠페인 overlay입니다. 영구 브랜드 색이 아닙니다.
+    </div>
+  </section>
+
+  <!-- §07 Spacing -->
+  <section class="section" id="spacing">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">스페이싱(간격 체계) — 8pt 그리드가 아닌 20 단위</h2>
+    <p class="section-sub">304개 spacing 변수. 일반적인 8pt 그리드 아님. 20/40/60 단위가 주력이며 블록 내부는 20/24/32 혼용.</p>
+
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:14px"></div>
+      <span class="spacing-token">--nav-top-padding</span>
+      <span class="spacing-value">14px</span>
+      <span class="spacing-use">top nav</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:20px"></div>
+      <span class="spacing-token">--spacing-xs / --base-padding</span>
+      <span class="spacing-value">20px</span>
+      <span class="spacing-use">tight / base</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:24px"></div>
+      <span class="spacing-token">--spacing-block-m</span>
+      <span class="spacing-value">24px</span>
+      <span class="spacing-use">블록 medium</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:32px"></div>
+      <span class="spacing-token">--spacing-block-l</span>
+      <span class="spacing-value">32px</span>
+      <span class="spacing-use">블록 large</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:40px"></div>
+      <span class="spacing-token">--spacing-s / --spacing-m</span>
+      <span class="spacing-value">40px</span>
+      <span class="spacing-use">small (의도적으로 s=m)</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:50px"></div>
+      <span class="spacing-token">--marquee-padding-y</span>
+      <span class="spacing-value">50px</span>
+      <span class="spacing-use">marquee vertical</span>
+    </div>
+    <div class="spacing-row">
+      <div class="spacing-bar" style="width:60px"></div>
+      <span class="spacing-token">--spacing-l / --spacing-xl</span>
+      <span class="spacing-value">60px</span>
+      <span class="spacing-use">large (의도적으로 l=xl)</span>
+    </div>
+  </section>
+
+  <!-- §08 Radius -->
+  <section class="section" id="radius">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">라디우스(모서리 반경) — 3px가 블록 기본</h2>
+    <p class="section-sub">블록 기본값이 3px(인라인 chip 11회)로 매우 작다. 카드는 12px(13회 최빈), 마케팅 히어로는 38px.</p>
+
+    <div class="radius-grid">
+      <div class="radius-card" style="border:2px solid var(--brand-color)">
+        <div class="radius-box" style="border-radius:3px"></div>
+        <div class="radius-label" style="color:var(--brand-color)">radius-xs ★ 블록</div>
+        <div class="radius-value">3px — inline chip (11회)</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:5px"></div>
+        <div class="radius-label">radius-sm</div>
+        <div class="radius-value">5px — button</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:8px"></div>
+        <div class="radius-label">radius</div>
+        <div class="radius-value">8px — button (9회)</div>
+      </div>
+      <div class="radius-card" style="outline:2px solid var(--brand-color);outline-offset:2px">
+        <div class="radius-box" style="border-radius:12px"></div>
+        <div class="radius-label" style="color:var(--brand-color)">radius-md ★ 최빈</div>
+        <div class="radius-value">12px — card (13회)</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:20px"></div>
+        <div class="radius-label">radius-lg</div>
+        <div class="radius-value">20px — large card</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:36px"></div>
+        <div class="radius-label">radius-xl</div>
+        <div class="radius-value">38px — hero block</div>
+      </div>
+      <div class="radius-card">
+        <div class="radius-box" style="border-radius:9999px;width:56px;height:56px"></div>
+        <div class="radius-label">radius-pill</div>
+        <div class="radius-value">1000px — avatar, pill</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §09 Shadows -->
+  <section class="section" id="shadows">
+    <div class="section-label">Tokens</div>
+    <h2 class="section-title">섀도우 — 4-layer composite micro-shadow</h2>
+    <p class="section-sub">Notion이 "flat"이라는 인상은 오해. shadow-level-200은 4-layer stacking으로 매우 섬세한 elevation을 만든다. 단일 drop shadow로는 재현 불가.</p>
+
+    <div class="shadow-grid">
+      <div class="shadow-card" style="border:1px solid var(--border)">
+        <div class="shadow-box" style="box-shadow:0 4px 4px -2px rgba(0,0,0,0.08)"></div>
+        <div class="shadow-name">dropdown-shadow</div>
+        <div class="shadow-value">0 4px 4px -2px #00000014</div>
+        <div style="font-size:11px;color:var(--muted-fg)">드롭다운</div>
+      </div>
+      <div class="shadow-card" style="border:1px solid var(--border)">
+        <div class="shadow-box" style="box-shadow:0px 3px 9px rgba(0,0,0,.03),0px 0.7px 1.5px rgba(0,0,0,.015)"></div>
+        <div class="shadow-name">shadow-level-100</div>
+        <div class="shadow-value">0px 3px 9px #00000008<br>0px 0.7px 1.46px rgba(0,0,0,.015)</div>
+        <div style="font-size:11px;color:var(--muted-fg)">subtle card</div>
+      </div>
+      <div class="shadow-card" style="border:1px solid var(--border)">
+        <div class="shadow-box" style="box-shadow:0px 4px 18px rgba(0,0,0,.04),0px 2.025px 7.85px rgba(0,0,0,.027),0px 0.8px 2.93px rgba(0,0,0,.02),0px 0.175px 1.04px rgba(0,0,0,.013)"></div>
+        <div class="shadow-name" style="color:var(--brand-color)">shadow-level-200 ★</div>
+        <div class="shadow-value">4-layer composite<br>(0px 4px 18px · 2.025px · 0.8px · 0.175px)</div>
+        <div style="font-size:11px;color:var(--brand-color);font-weight:500">bento card 기본</div>
+      </div>
+      <div class="shadow-card" style="border:1px solid var(--border)">
+        <div class="shadow-box" style="box-shadow:0px 20px 50px rgba(0,0,0,.08),0px 6px 16px rgba(0,0,0,.04)"></div>
+        <div class="shadow-name">shadow-level-300</div>
+        <div class="shadow-value">0px 20px 50px #00000014<br>0px 6px 16px #0000000a</div>
+        <div style="font-size:11px;color:var(--muted-fg)">modal</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §11 Layout Patterns -->
+  <section class="section" id="layout">
+    <div class="section-label">Patterns</div>
+    <h2 class="section-title">레이아웃 패턴 — paper-like warm canvas</h2>
+    <p class="section-sub">마케팅 히어로와 docs(블록 에디터) 두 컨텍스트. 둘 다 warm white + warm ink 원칙이 동일하게 적용된다.</p>
+
+    <div class="layout-demo">
+      <h4>Marketing Hero (캠페인 버전)</h4>
+      <div class="layout-spec">
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Background</span>
+          <span class="layout-spec-val">#FFFFFF + campaign navy #2537B1 그라데이션</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">H1</span>
+          <span class="layout-spec-val">54-76px / weight 700 / tracking -0.0625rem</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Max-width</span>
+          <span class="layout-spec-val">1280px</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout-demo">
+      <h4>Document (Notion block interior)</h4>
+      <div class="layout-spec">
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Canvas</span>
+          <span class="layout-spec-val">#FFFFFF</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Sidebar</span>
+          <span class="layout-spec-val">#F7F7F5 + border-right: 1px solid #E9E9E7</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Block padding</span>
+          <span class="layout-spec-val">spacing-block-m = 24px</span>
+        </div>
+        <div class="layout-spec-row">
+          <span class="layout-spec-key">Reading width</span>
+          <span class="layout-spec-val">708-900px</span>
+        </div>
+      </div>
+      <div class="layout-code">.notion-page { background: #FFFFFF; color: #37352F; }
+.notion-sidebar { background: #F7F7F5; border-right: 1px solid #E9E9E7; }
+.notion-block { padding: 3px 0; border-radius: 3px; }</div>
+    </div>
+  </section>
+
+  <!-- §12 Components -->
+  <section class="section" id="components">
+    <div class="section-label">Patterns</div>
+    <h2 class="section-title">컴포넌트</h2>
+    <p class="section-sub">마케팅용 CTA + Notion 블록 에디터 UI 두 종류. shadow-level-200이 bento card elevation의 핵심이다.</p>
+
+    <!-- 12.1 Primary Button -->
+    <div class="cmp-section">
+      <h3>Primary Button (Campaign Blue)</h3>
+      <div class="cmp-demo">
+        <button class="btn-campaign">Try Notion free</button>
+        <button class="btn-ghost">View docs</button>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;a class="btn-primary"&gt;Try Notion free&lt;/a&gt;
+
+/* bg: #2537B1 (campaign) or #2383E2 (classic link blue)
+   text: #FFFFFF  padding: 8px 14px  radius: 5px  weight: 500 */</pre>
+      </div>
+    </div>
+
+    <!-- 12.3 Notion Block -->
+    <div class="cmp-section">
+      <h3>Notion Block (content)</h3>
+      <div class="cmp-demo" style="flex-direction:column;align-items:flex-start;gap:4px;background:#FFFFFF">
+        <div class="demo-block demo-block--h1">Section title</div>
+        <div class="demo-block demo-block--h2">Sub heading</div>
+        <div class="demo-block">Regular paragraph text — warm ink #37352F, radius 3px</div>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;div class="notion-block notion-block--heading"&gt;
+  &lt;h2&gt;Section title&lt;/h2&gt;
+&lt;/div&gt;
+
+/* text: var(--color-ink-primary) #37352F
+   padding: 3px 2px  radius: 3px
+   hover bg: #37352F0A */</pre>
+      </div>
+    </div>
+
+    <!-- 12.4 Callout -->
+    <div class="cmp-section">
+      <h3>Callout (colored block)</h3>
+      <div class="cmp-demo" style="flex-direction:column;align-items:stretch;background:#FFFFFF;gap:8px;padding:20px">
+        <div class="demo-callout" style="background:#E7F3F8;color:#337EA9">
+          <span class="demo-callout__icon">💡</span>
+          Callout blue — background #E7F3F8, color #337EA9
+        </div>
+        <div class="demo-callout" style="background:#FAEBDD;color:#CC782F">
+          <span class="demo-callout__icon">⚠️</span>
+          Callout orange — background #FAEBDD, color #CC782F
+        </div>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;div class="callout callout--blue"&gt;
+  &lt;span class="icon"&gt;💡&lt;/span&gt;
+  &lt;p&gt;Tip text&lt;/p&gt;
+&lt;/div&gt;
+
+/* .callout--blue { background: #E7F3F8; color: #337EA9;
+   border-radius: 3px; padding: 16px 16px 16px 48px; } */</pre>
+      </div>
+    </div>
+
+    <!-- 12.5 Bento Card -->
+    <div class="cmp-section">
+      <h3>Bento Card (marketing)</h3>
+      <div class="cmp-demo" style="gap:16px;background:#F7F7F5">
+        <div class="demo-bento">
+          <h3>Wiki</h3>
+          <p>Build a connected workspace.</p>
+        </div>
+        <div class="demo-bento">
+          <h3>Docs</h3>
+          <p>Collaborate on any idea.</p>
+        </div>
+      </div>
+      <div class="cmp-code">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre>&lt;div class="bento-card bento-shadow-level-200"&gt;
+  &lt;h3&gt;Wiki&lt;/h3&gt;
+  &lt;p&gt;Build a connected workspace.&lt;/p&gt;
+&lt;/div&gt;
+
+/* bg: #FFFFFF  radius: 12px  padding: 32px
+   shadow: --shadow-level-200 (4-layer composite) */</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- §14 + §15 Code Export -->
+  <section class="section" id="code">
+    <div class="section-label">Code</div>
+    <h2 class="section-title">CSS · Tailwind 설정</h2>
+    <p class="section-sub">바로 복사해 사용할 수 있는 드롭인 스니펫이다.</p>
+
+    <div class="code-export-wrap">
+      <div class="code-export-header">
+        <div class="code-tabs">
+          <button class="code-tab active" data-tab="css">CSS 스니펫</button>
+          <button class="code-tab" data-tab="tailwind">Tailwind 설정</button>
+        </div>
+        <button class="copy-btn" style="position:static;margin:8px 0" onclick="copyActivePane()">Copy</button>
+      </div>
+      <div class="code-pane active" data-pane="css">
+        <pre>/* Notion — copy into your root stylesheet */
+:root {
+  /* Fonts — 3-way toggle */
+  --font-family-sans:  "NotionInter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-family-serif: "Lyon Text", "Lyon-Text", Georgia, ui-serif, serif;
+  --font-family-mono:  "iA Writer Mono", "iawriter-mono", "Nitti", Menlo, Courier, monospace;
+  --rich-text-font-config-font-family: var(--font-family-sans);
+
+  /* Warm neutral — Notion identity */
+  --color-ink-primary:  #37352F;
+  --color-ink-strong:   #37352FCC;
+  --color-ink-muted:    #37352FA6;
+  --color-ink-faint:    #37352F99;
+  --color-ink-divider:  #37352F29;
+  --color-ink-hairline: #37352F17;
+  --color-bg-page:      #FFFFFF;
+  --color-bg-soft:      #F7F7F5;
+  --color-border-base:  #E9E9E7;
+
+  /* Link */
+  --color-link:     #2383E2;
+  --color-link-alt: #097FE8;
+
+  /* Campaign (temporary — AI Agents launch) */
+  --color-campaign-navy:   #2537B1;
+  --color-campaign-yellow: #FFB110;
+  --color-campaign-red:    #F64932;
+
+  /* Block palette (callout) */
+  --callout-blue-text: #337EA9;  --callout-blue-bg: #E7F3F8;
+  --callout-gray-text: #787774;  --callout-gray-bg: #F1F1EF;
+  --callout-green-text:#448361;  --callout-green-bg:#EDF3EC;
+
+  /* Radius */
+  --radius-xs: 3px;
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 1000px;
+
+  /* Shadow (4-layer composite) */
+  --shadow-level-200:
+    0px 4px 18px #0000000a,
+    0px 2.025px 7.84688px rgba(0,0,0,0.027),
+    0px 0.8px 2.925px #00000005,
+    0px 0.175px 1.04062px rgba(0,0,0,0.013);
+}
+
+body {
+  background: var(--color-bg-page);
+  color: var(--color-ink-primary);
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+.block--serif { font-family: var(--font-family-serif); }
+.block--mono  { font-family: var(--font-family-mono); }
+a             { color: var(--color-link); }</pre>
+      </div>
+      <div class="code-pane" data-pane="tailwind">
+        <pre>// tailwind.config.js — Notion
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        ink: {
+          primary:  '#37352F',
+          strong:   '#37352FCC',
+          muted:    '#37352FA6',
+          faint:    '#37352F99',
+          divider:  '#37352F29',
+          hairline: '#37352F17',
+        },
+        bg: {
+          page: '#FFFFFF',
+          soft: '#F7F7F5',
+        },
+        border: { base: '#E9E9E7' },
+        link:   { DEFAULT: '#2383E2', alt: '#097FE8' },
+        campaign: { navy: '#2537B1', yellow: '#FFB110', red: '#F64932' },
+        callout: {
+          gray: { text: '#787774', bg: '#F1F1EF' },
+          blue: { text: '#337EA9', bg: '#E7F3F8' },
+          green:{ text: '#448361', bg: '#EDF3EC' },
+          red:  { text: '#D44C47', bg: '#FDEBEC' },
+        },
+      },
+      fontFamily: {
+        sans:  ['NotionInter', 'ui-sans-serif', '-apple-system', 'sans-serif'],
+        serif: ['Lyon Text', 'Lyon-Text', 'Georgia', 'ui-serif', 'serif'],
+        mono:  ['iA Writer Mono', 'iawriter-mono', 'Nitti', 'Menlo', 'monospace'],
+      },
+      fontWeight: { normal: '400', medium: '500', semi: '550', semibold: '600', bold: '700' },
+      borderRadius: { xs: '3px', sm: '5px', md: '8px', lg: '12px', pill: '1000px' },
+      boxShadow: {
+        'level-100': '0px 3px 9px #00000008, 0px 0.7px 1.4625px rgba(0,0,0,0.015)',
+        'level-200': '0px 4px 18px #0000000a, 0px 2.025px 7.84688px rgba(0,0,0,0.027), 0px 0.8px 2.925px #00000005, 0px 0.175px 1.04062px rgba(0,0,0,0.013)',
+        'level-300': '0px 20px 50px #00000014, 0px 6px 16px #0000000a',
+      },
+    },
+  },
+};</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- §16 Do / Don't -->
+  <section class="section" id="dodont">
+    <div class="section-label">Rules</div>
+    <h2 class="section-title">자주 틀리는 것들</h2>
+    <p class="section-sub">pure black 텍스트와 Inter 단일 폰트 사용이 가장 흔한 실수. 캠페인 색을 브랜드로 착각하는 것도 주의.</p>
+
+    <div class="dd-grid">
+      <div class="dd-card dd-card--do">
+        <div class="dd-card__badge">DO</div>
+        <ul>
+          <li>본문 text는 warm ink <code>#37352F</code>. 알파 5단계 (<code>CC/A6/99/29/17</code>)로 구분.</li>
+          <li>Warm off-white <code>#F7F7F5</code>를 sidebar/panel 배경으로.</li>
+          <li>폰트는 <code>NotionInter</code> + <code>Lyon Text</code> + <code>iA Writer Mono</code> 3-way 토글.</li>
+          <li>13단계 font-size 시스템 (<code>font-size-50</code> ~ <code>font-size-1000</code>) 그대로 사용.</li>
+          <li>Letter-spacing optical compensation — 사이즈별 + weight별 미세 보정.</li>
+          <li>링크는 <code>#2383E2</code>. <code>#2EAADC</code> 아님.</li>
+          <li>Shadow는 3-level composite. <code>shadow-level-200</code>은 4-layer stacking.</li>
+          <li>Callout/tag는 9색 팔레트에서 text/bg pair로.</li>
+        </ul>
+      </div>
+      <div class="dd-card dd-card--dont">
+        <div class="dd-card__badge">DON'T</div>
+        <ul>
+          <li>Pure black <code>#000</code> text 금지 → 반드시 warm ink <code>#37352F</code>.</li>
+          <li>Inter 단일 폰트 금지 → NotionInter + Lyon Text (serif) + iA Writer Mono (mono).</li>
+          <li><code>#2EAADC</code> 링크 블루 금지 → 실제는 <code>#2383E2</code>.</li>
+          <li><code>#F7F6F3</code> cool gray 금지 → warm <code>#F7F7F5</code>.</li>
+          <li>8pt 그리드 가정 금지 → Notion은 20/24/32/40/60 혼합.</li>
+          <li>"Notion is flat, no shadows" 가정 금지 → 실제는 4-layer composite micro-shadow.</li>
+          <li>6단계 type scale 금지 → 13단계 필수.</li>
+          <li>Campaign 색 (<code>#2537B1</code> navy 등)을 영구 브랜드로 착각 금지.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script>
+// TOC active state
+const sections = document.querySelectorAll('[id]');
+const tocLinks = document.querySelectorAll('.toc a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector('.toc a[href="#' + e.target.id + '"]');
+      if (link) link.classList.add('active');
+    }
+  });
+}, {rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s => observer.observe(s));
+
+// Code tabs
+document.querySelectorAll('.code-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    const wrap = tab.closest('.code-export-wrap');
+    wrap.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+    wrap.querySelectorAll('.code-pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    wrap.querySelector('.code-pane[data-pane="' + target + '"]').classList.add('active');
+  });
+});
+
+// Copy buttons
+function copyCode(btn) {
+  const pre = btn.nextElementSibling;
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+function copyActivePane() {
+  const pane = document.querySelector('.code-pane.active pre');
+  if (!pane) return;
+  navigator.clipboard.writeText(pane.textContent).then(() => {
+    const btn = document.querySelector('.code-export-header .copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+</script>
+</body>
+</html>
