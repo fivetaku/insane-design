@@ -1,16 +1,18 @@
 ---
 name: insane-design-apply
 description: >
-  design.md를 디자인 브리프로 사용하여 내 프로젝트를 리디자인하는 스킬.
-  "디자인 적용해줘", "stripe처럼 만들어줘", "이 스타일로 리디자인",
-  "design.md 기반으로 바꿔줘", "apply design", "레퍼런스 적용".
-  단순 토큰 교체가 아니라, design.md의 분위기(§00), 레이아웃(§11),
-  컴포넌트(§13), 토큰(§15)을 종합하여 코드를 실제로 재작성한다.
+  분석된 design.md의 디자인 토큰 + 구조 패턴을 내 프로젝트에 적용하는 스킬.
+  "디자인 적용해줘", "design.md 적용", "토큰 주입", "CSS 변수 적용",
+  "이 사이트 스타일로", "stripe처럼 만들어줘", "apply design",
+  "레이아웃도 바꿔줘", "구조 적용", "컴포넌트 패턴".
+  design.md v3의 §15 Drop-in CSS, §16 Tailwind Config, §11 Layout Patterns,
+  §12 Responsive, §13 Components를 파싱하여
+  토큰 주입 + 선택적 구조 리디자인으로 프로젝트 파일에 적용한다.
 ---
 
-# Insane Apply — 리디자인 워크플로우
+# Insane Apply
 
-> design.md = 디자인 브리프. 이걸 읽고 내 프로젝트를 해당 스타일로 리디자인한다.
+> design.md → 카테고리별 선택 → 내 프로젝트에 디자인 토큰 주입 + 선택적 구조 리디자인
 
 ---
 
@@ -21,99 +23,117 @@ slug가 제공되면 즉시 Step 0부터 실행한다.
 
 ---
 
-## 핵심 원칙
+## 워크플로우 — 6 Steps (Step 1.5 포함)
 
-**이 스킬은 토큰 교체가 아니라 리디자인이다.**
+### Step 0: 소스 확인 + 프로젝트 스캔
 
-| 레벨 | 뭘 하는지 | 이 스킬의 범위 |
-|------|----------|--------------|
-| 리스킨 | CSS 변수만 교체 | 포함 |
-| 리스타일 | + 컴포넌트 CSS 변경 | 포함 |
-| **리디자인** | + 레이아웃/구조/배치 변경 | **이것이 목표** |
+1. **design.md 찾기** (우선순위 순):
+   - `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/examples/{slug}/design.md`
+   - `insane-design/{slug}/design.md` (프로젝트 루트)
+   - 못 찾으면 사용자에게 "이 slug의 design.md를 찾을 수 없습니다" + 사용 가능한 slug 목록 출력 후 중단
 
-design.md는 "이 사이트는 이런 느낌, 이런 레이아웃, 이런 컴포넌트를 쓴다"를 알려주는 **디자인 브리프**다.
-이걸 읽고 내 프로젝트 코드를 해당 스타일로 재작성한다.
+2. **slug 검증**:
+   - 공백, 특수문자 포함 시 거부
+   - 대소문자 무시 (모두 소문자로 정규화)
 
----
+3. **design.md 파싱**:
+   - YAML frontmatter 추출: `brand_color`, `primary_font`, `font_weight_normal`, `default_theme`
+   - §15 Drop-in CSS: `## 15.` 헤더 다음의 ` ```css ` 블록 추출
+   - §16 Tailwind Config: `## 16.` 헤더 다음의 ` ```js ` 블록 추출 (없으면 skip)
+   - §01 Quick Start: 3줄 CSS 스니펫 추출
+   - §08 Radius: 라디우스 토큰 테이블 추출
+   - §09 Shadows: 그림자 값 추출
+   - §00 Visual Theme: 분위기/디자인 철학 텍스트 추출 (구조 리디자인 참고용)
+   - §11 Layout Patterns: Grid System, Hero, Section Rhythm, Card Patterns, Navigation Structure, Content Width 추출
+   - §12 Responsive Behavior: Breakpoints 테이블, Touch Targets, Collapsing Strategy 추출
+   - §13 Components: Cards & Containers, Navigation, Inputs & Forms, Hero Section 스펙 추출
+   - §17 Agent Prompt Guide: Quick Color Reference + Example Component Prompts 추출
 
-## 워크플로우 — 5 Steps
+4. **내 프로젝트 스캔** (Glob으로 자동 감지):
 
-### Step 0: 소스 + 타겟 분석
+   ```
+   스택 감지 우선순위:
+   1. tailwind.config.{js,ts,mjs,cjs} → Tailwind 프로젝트
+   2. package.json의 dependencies에 tailwindcss → Tailwind 프로젝트
+   3. globals.css / global.css / app.css 발견 → Plain CSS 프로젝트
+   4. 위 모두 없음 → AskUserQuestion으로 파일 경로 직접 입력
+   ```
 
-#### 0-A. design.md 찾기 (레퍼런스)
+   CSS 파일 탐색 경로 (순서대로):
+   - `src/app/globals.css`
+   - `app/globals.css`
+   - `src/styles/globals.css`
+   - `styles/global.css`
+   - `src/index.css`
+   - `app.css`
 
-우선순위 순:
-1. `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/examples/{slug}/design.md`
-2. `insane-design/{slug}/design.md` (프로젝트 루트)
-3. 못 찾으면 → 사용 가능한 slug 목록 출력 후 중단
+5. **현재 토큰 추출**:
+   - 발견된 CSS 파일에서 `:root { }` 블록의 기존 변수 추출
+   - tailwind.config에서 기존 theme.extend 추출
+   - 충돌 변수 목록 준비 (design.md 토큰과 이름이 겹치는 것)
 
-#### 0-B. design.md 읽기 (디자인 브리프)
-
-**반드시 읽어야 하는 섹션:**
-
-| 섹션 | 용도 | 읽는 이유 |
-|------|------|----------|
-| §00 Visual Theme | 전체 분위기와 철학 | 리디자인 방향 결정 |
-| §01 Quick Start | 핵심 3가지 CSS | 최소 적용 기준 |
-| §04 Font Stack | 폰트 + weight | 타이포그래피 변경 |
-| §06 Colors | 브랜드 + neutral + semantic | 컬러 시스템 교체 |
-| §08 Radius | 모서리 둥글기 | Shape 변경 |
-| §09 Shadows | 그림자 패턴 | Elevation 변경 |
-| §11 Layout Patterns | Grid, Hero, Section, Card, Nav 구조 | **레이아웃 재설계** |
-| §13 Components | 버튼, 카드, 인풋, 네비, 히어로 CSS | **컴포넌트 재설계** |
-| §15 Drop-in CSS | 복붙용 CSS 변수 블록 | 토큰 주입 |
-| §18 DO/DON'T | 이 서비스에서 절대 하면 안 되는 것 | 실수 방지 |
-
-#### 0-C. 내 프로젝트 코드 읽기 (타겟)
-
-사용자가 지정한 파일 또는 자동 감지된 파일을 읽는다:
-- HTML 파일 전체 구조 (어떤 섹션이 있는지, 컴포넌트가 뭔지)
-- CSS/스타일 블록 (현재 토큰, 레이아웃 패턴, 컴포넌트 스타일)
-- 프레임워크 감지 (Tailwind? Plain CSS? CSS Modules?)
-
-#### 0-D. 분석 결과 출력 (텍스트)
-
-```
-📁 현재 프로젝트:
-  - 파일: portfolio-final.html
-  - 구조: Hero → About → Projects → Contact
-  - 스타일: Toss 디자인 (인라인 CSS, CSS 변수 사용)
-  - 컴포넌트: 카드 4개, CTA 버튼 2개, 네비게이션 1개
-
-🎨 적용할 레퍼런스: Tesla
-  - 분위기: 미니멀 모노크롬, 풀블리드 이미지, 큰 타이포
-  - 레이아웃: 수직 스택, 풀스크린 섹션, 중앙 정렬
-  - 컬러: #CC0000 (Red) + #F4F4F4 (라이트 그레이) + #000000 (순검정)
-  - 폰트: Gotham SSm / Helvetica Neue, weight 400
-```
+6. **스캔 결과 출력** (텍스트):
+   ```
+   📁 프로젝트 감지 결과:
+   - 스택: Tailwind v3 + Next.js
+   - CSS 파일: src/app/globals.css
+   - Tailwind: tailwind.config.ts
+   - 기존 토큰: 12개 (--brand, --bg, --text 등)
+   - 충돌: 3개 (--brand, --radius-md, --font-sans)
+   
+   🎨 적용할 레퍼런스: Stripe (design.md)
+   - 브랜드: #533AFD
+   - 폰트: sohne-var, weight 300
+   - 테마: mixed
+   ```
 
 ---
 
-### Step 1: 리디자인 범위 선택
+### Step 1: 폰트 + 브랜드 컬러 선택
 
 **EXECUTE:** AskUserQuestion 즉시 호출:
+
+design.md frontmatter에서 `primary_font`, `font_weight_normal`, `brand_color`를 읽고,
+내 프로젝트의 현재 값과 비교하여 **동적으로** 옵션을 생성한다.
 
 ```json
 {
   "questions": [
     {
-      "question": "어느 수준으로 적용할까요?",
-      "header": "리디자인 범위",
+      "question": "폰트를 어떻게 할까요?",
+      "header": "폰트",
       "options": [
         {
-          "label": "전체 리디자인 (추천)",
-          "description": "레이아웃 + 컴포넌트 + 토큰 전부 변경. design.md의 분위기대로 코드를 재작성합니다.",
-          "preview": "변경 내용:\n- 레이아웃 구조 재배치\n- 컴포넌트(버튼/카드/네비) 스타일 재설계\n- 폰트, 컬러, 스페이싱, 라디우스, 그림자 교체\n- §00 Visual Theme의 분위기 반영"
+          "label": "현재 유지",
+          "description": "지금 쓰고 있는 {현재폰트}, weight {현재weight} 유지",
+          "preview": "body {\n  font-family: \"{현재폰트}\", sans-serif;\n  font-weight: {현재weight};\n}"
         },
         {
-          "label": "컴포넌트 + 토큰",
-          "description": "레이아웃 구조는 유지. 컴포넌트 스타일과 디자인 토큰만 변경.",
-          "preview": "변경 내용:\n- 버튼/카드/네비 스타일 교체\n- 폰트, 컬러, 라디우스, 그림자 교체\n- 섹션 배치/순서는 그대로"
+          "label": "{레퍼런스} 적용",
+          "description": "{서비스명}의 {레퍼런스폰트}, weight {레퍼런스weight}로 변경",
+          "preview": "body {\n  font-family: \"{레퍼런스폰트}\", sans-serif;\n  font-weight: {레퍼런스weight};\n}"
         },
         {
-          "label": "토큰만",
-          "description": "CSS 변수(색/폰트/그림자)만 교체. 구조와 컴포넌트는 그대로.",
-          "preview": "변경 내용:\n- :root { } 블록의 CSS 변수 교체\n- 레이아웃/컴포넌트 코드 변경 없음"
+          "label": "weight만 변경",
+          "description": "현재 폰트 유지, weight만 {레퍼런스weight}로",
+          "preview": "body {\n  font-family: \"{현재폰트}\", sans-serif;\n  font-weight: {레퍼런스weight};\n}"
+        }
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "브랜드 컬러는?",
+      "header": "브랜드",
+      "options": [
+        {
+          "label": "현재 유지 ({현재brand})",
+          "description": "지금 쓰고 있는 브랜드 컬러 유지",
+          "preview": ":root {\n  --brand: {현재brand};\n}"
+        },
+        {
+          "label": "{레퍼런스brand} 적용",
+          "description": "{서비스명}의 브랜드 컬러로 변경",
+          "preview": ":root {\n  --brand: {레퍼런스brand};\n}"
         }
       ],
       "multiSelect": false
@@ -122,72 +142,117 @@ design.md는 "이 사이트는 이런 느낌, 이런 레이아웃, 이런 컴포
 }
 ```
 
----
-
-### Step 2: 리디자인 실행
-
-선택된 범위에 따라 코드를 재작성한다.
-
-#### 토큰만 선택 시
-
-design.md §15 Drop-in CSS의 `:root { }` 블록으로 기존 CSS 변수를 교체한다.
-- 기존 `/* insane-design: */` 블록이 있으면 → 해당 블록 전체 교체
-- 없으면 → 새 블록 추가
-- Edit 도구로 pinpoint 수정
-
-#### 컴포넌트 + 토큰 선택 시
-
-위 토큰 교체 + design.md §13 Components를 참조하여:
-- 버튼: background, border, radius, padding, hover 상태 변경
-- 카드: bg, border, shadow, padding, hover 효과 변경
-- 네비게이션: bg, height, 링크 스타일 변경
-- 인풋: border, focus ring, height 변경
-
-**기존 HTML 구조는 유지**하고 CSS만 변경한다.
-
-#### 전체 리디자인 선택 시
-
-design.md §00 Visual Theme + §11 Layout + §13 Components를 종합하여:
-
-1. **분위기 설정**: §00을 읽고 전체적인 톤/방향 결정
-2. **레이아웃 재설계**: §11을 참조하여
-   - Hero 영역 재배치 (풀블리드? 2-column? 중앙정렬?)
-   - 섹션 리듬 변경 (padding, max-width, 여백)
-   - 카드 그리드 변경 (열 수, gap, 배치)
-   - 네비게이션 스타일 변경
-3. **컴포넌트 재설계**: §13을 참조하여 각 컴포넌트 CSS 재작성
-4. **토큰 교체**: §15의 CSS 변수 블록 주입
-5. **DO/DON'T 확인**: §18을 읽고 금지사항 체크
-
-**HTML 구조 변경도 포함**될 수 있다:
-- 섹션 순서 재배치
-- 그리드 컬럼 변경
-- Hero 영역 구조 변경
-- 하지만 **콘텐츠(텍스트, 이미지)는 보존**한다
+**옵션 동적 생성 규칙:**
+- `{현재폰트}`, `{현재weight}` → Step 0에서 스캔한 프로젝트 현재 값
+- `{레퍼런스폰트}`, `{레퍼런스weight}` → design.md frontmatter 값
+- `{현재brand}`, `{레퍼런스brand}` → 프로젝트 vs design.md 값
+- 현재 값을 감지 못했으면 "현재 유지" 대신 "설정 없음 (새로 추가)"로 표시
 
 ---
 
-### Step 3: 적용 전 확인
+### Step 1.5: 구조 리디자인 옵션
+
+design.md에 §11 Layout Patterns, §12 Responsive Behavior, §13 Components 중 하나라도 존재하면 이 Step을 실행한다.
+**§11/§12/§13 모두 없으면 이 Step을 건너뛰고 Step 2로 진행한다.**
 
 **EXECUTE:** AskUserQuestion 즉시 호출:
 
-변경 사항을 요약하고 확인받는다.
+```json
+{
+  "questions": [{
+    "question": "구조/레이아웃도 변경할까요?",
+    "header": "구조",
+    "multiSelect": true,
+    "options": [
+      {
+        "label": "레이아웃 패턴 적용",
+        "description": "{서비스명}의 그리드/섹션 구조로 변경 (max-width: {content_max_width}, {grid_type})",
+        "preview": "/* Layout */\nsection { padding: {section_padding_v} {section_padding_h}; max-width: {section_max_width}; }\n.container { max-width: {container_max_width}; }"
+      },
+      {
+        "label": "컴포넌트 패턴 적용",
+        "description": "{서비스명}의 카드/네비/히어로 패턴으로 변경",
+        "preview": "/* Card */\n.card { bg: {card_bg}; border: {card_border}; radius: {card_radius}; padding: {card_padding}; }\n/* Nav */\nnav { height: {nav_height}; bg: {nav_bg}; position: {nav_position}; }"
+      },
+      {
+        "label": "반응형 전략 적용",
+        "description": "{서비스명}의 브레이크포인트/접기 전략으로 변경",
+        "preview": "/* Breakpoints */\n@media (min-width: {bp_tablet}) { /* tablet */ }\n@media (min-width: {bp_desktop}) { /* desktop */ }\n/* Collapse: nav→{collapse_nav}, grid→{collapse_grid} */"
+      },
+      {
+        "label": "토큰만 적용 (기존)",
+        "description": "색상/폰트/라디우스만 변경, 구조는 유지"
+      }
+    ]
+  }]
+}
+```
+
+**옵션 동적 생성 규칙:**
+- `{content_max_width}`, `{grid_type}`, `{section_padding_v}` 등 → §11 Layout Patterns에서 추출
+- `{card_bg}`, `{card_border}`, `{nav_height}` 등 → §11 + §13 Components에서 추출
+- `{bp_tablet}`, `{bp_desktop}`, `{collapse_nav}` 등 → §12 Responsive Behavior에서 추출
+- 해당 섹션이 없는 항목은 옵션에서 제거 (예: §12 없으면 "반응형 전략 적용" 옵션 제거)
+- "토큰만 적용"이 선택되면 Step 1.5의 선택은 무시하고 기존 토큰 주입만 진행
+
+---
+
+### Step 2: Neutral + Shape 선택
+
+design.md §01 Quick Start에서 `--bg`, `--fg` 값을, §08에서 라디우스, §09에서 그림자를 읽어온다.
 
 ```json
 {
   "questions": [
     {
-      "question": "이렇게 리디자인할까요?",
+      "question": "배경/텍스트 톤과 모서리를 어떻게 할까요?",
+      "header": "톤+Shape",
+      "multiSelect": true,
+      "options": [
+        {
+          "label": "배경/텍스트 톤 적용",
+          "description": "{서비스명}의 배경({bg_hex})과 텍스트({fg_hex}) 톤으로 변경",
+          "preview": ":root {\n  --bg: {bg_hex};\n  --fg: {fg_hex};\n}"
+        },
+        {
+          "label": "라디우스 적용",
+          "description": "{서비스명}의 모서리 둥글기로 변경 (sm: {r_sm}, md: {r_md})",
+          "preview": ":root {\n  --radius-sm: {r_sm};\n  --radius-md: {r_md};\n  --radius-lg: {r_lg};\n}"
+        },
+        {
+          "label": "그림자 적용",
+          "description": "{서비스명}의 그림자 스타일로 변경",
+          "preview": ":root {\n  --shadow-sm: {shadow_sm};\n  --shadow-md: {shadow_md};\n}"
+        }
+      ]
+    }
+  ]
+}
+```
+
+**multiSelect**: 원하는 것만 골라서 적용 가능.
+
+---
+
+### Step 3: 최종 확인 + 적용
+
+선택 결과를 요약하고 확인받는다.
+
+```json
+{
+  "questions": [
+    {
+      "question": "이렇게 적용할까요?",
       "header": "확인",
       "options": [
         {
           "label": "적용하기 (추천)",
-          "description": "위 변경 사항을 프로젝트 파일에 적용합니다.",
-          "preview": "{변경 사항 동적 요약}"
+          "description": "선택한 토큰을 프로젝트 파일에 주입합니다",
+          "preview": "{선택된 모든 CSS 변수 변경 요약}"
         },
         {
-          "label": "범위 다시 선택",
-          "description": "Step 1로 돌아갑니다."
+          "label": "다시 선택",
+          "description": "Step 1부터 다시 선택합니다"
         }
       ],
       "multiSelect": false
@@ -196,65 +261,144 @@ design.md §00 Visual Theme + §11 Layout + §13 Components를 종합하여:
 }
 ```
 
-preview에 들어갈 동적 내용:
+**preview에 들어갈 내용 (동적 생성)**:
 ```
-=== {서비스명} 스타일 리디자인 ===
+=== 변경 사항 ===
+✓ 폰트: Inter 400 → sohne-var 300
+✓ 브랜드: #3B82F6 → #533AFD
+✗ 배경/텍스트: 현재 유지
+✓ 라디우스: 6px → 12px
+✗ 그림자: 현재 유지
 
-분위기: {§00에서 핵심 1줄}
+=== 구조 변경 ===
+✓ 레이아웃: max-width 1200px, 12-column grid
+✓ 컴포넌트: card/nav/hero 패턴 적용
+✗ 반응형: 현재 유지
 
-변경될 항목:
-✓ 폰트: {현재} → {레퍼런스}
-✓ 컬러: {현재 brand} → {레퍼런스 brand}
-✓ 레이아웃: {변경 요약}
-✓ 컴포넌트: {변경 요약}
-
-수정 파일: {파일 목록}
-롤백: git restore {파일}
+수정 파일: src/app/globals.css (4줄 추가), src/app/layout.tsx (구조 변경)
+롤백: git restore src/app/globals.css src/app/layout.tsx
 ```
+
+**구조 변경이 없으면** "=== 구조 변경 ===" 블록은 표시하지 않는다.
+
+"다시 선택" 시 Step 1로 돌아간다.
 
 ---
 
-### Step 4: 코드 재작성
+### Step 4: 파일 수정
 
 **적용 전 안전 조치**:
 1. `git status` 실행 → uncommitted changes 경고
+2. 적용할 파일 목록 출력
 
-**파일 수정**: Edit/Write 도구 사용
-- 작은 변경 (토큰 교체) → Edit
-- 큰 변경 (레이아웃 재설계) → Write (전체 재작성)
+#### 4A. 토큰 주입 (기본)
 
-**insane-design 출처 표시**:
+**CSS 파일 수정 (Edit 도구 사용)**:
+
+케이스 A: 기존 `:root { }` 블록이 있는 경우
+→ Edit으로 블록 내부에 선택된 토큰 추가/교체
+
+케이스 B: `:root { }` 블록이 없는 경우
+→ 파일 최상단에 새 `:root { }` 블록 추가
+
+케이스 C: Tailwind 프로젝트 + §16 있는 경우
+→ tailwind.config의 `theme.extend`에 토큰 병합
+
+**충돌 처리**:
+- 동일 이름 변수가 이미 있으면 → 새 값으로 교체 (Edit의 old_string → new_string)
+- 새 변수면 → 블록에 append
+
+**주입 코드 형식**:
 ```css
 /* ===== insane-design: {slug} ({date}) ===== */
+:root {
+  /* Fonts */
+  --font-sans: "{primary_font}", sans-serif;
+  --font-weight-normal: {weight};
+  
+  /* Brand */
+  --brand: {brand_color};
+  
+  /* Surfaces */
+  --bg: {bg_hex};
+  --fg: {fg_hex};
+  
+  /* Shape */
+  --radius-sm: {r_sm};
+  --radius-md: {r_md};
+}
+/* ===== /insane-design ===== */
 ```
 
-**콘텐츠 보존 규칙**:
-- 텍스트 내용 변경 금지 (이름, 설명, 프로젝트 목록 등)
-- 이미지 경로 유지
-- 링크 URL 유지
-- 폼 action/method 유지
+**"현재 유지" 선택된 카테고리는 주입하지 않는다.**
+모든 카테고리가 "현재 유지"면 파일 수정 없이 완료 메시지만 출력.
+
+#### 4B. 구조 리디자인 (Step 1.5에서 선택된 경우)
+
+Step 1.5에서 "토큰만 적용"이 아닌 옵션이 선택되었을 때만 실행.
+
+**레이아웃 패턴 적용** (§11 Layout Patterns 기반):
+- HTML 구조 변경: `<section>` 배치, grid 구조 변경
+  - 기존 컨테이너의 `max-width` 값을 레퍼런스 값으로 교체
+  - grid-template-columns / flexbox 구성을 레퍼런스 패턴으로 변경
+  - section padding을 레퍼런스 리듬으로 조정
+- CSS에 레이아웃 토큰 주입:
+  ```css
+  /* ===== insane-design layout: {slug} ===== */
+  .container { max-width: {container_max_width}; margin: 0 auto; }
+  section { padding: {section_padding_v} {section_padding_h}; }
+  /* ===== /insane-design layout ===== */
+  ```
+
+**컴포넌트 패턴 적용** (§13 Components 기반):
+- Card 패턴: 기존 카드 컴포넌트의 bg, border, radius, padding, shadow를 레퍼런스로 교체
+- Navigation 구조: nav의 height, bg, position, border를 레퍼런스로 교체
+- Hero Section: 배경, H1 크기/weight, CTA 배치를 레퍼런스로 조정
+- Input/Form: height, padding, border, focus 스타일을 레퍼런스로 교체
+
+**반응형 전략 적용** (§12 Responsive Behavior 기반):
+- 기존 `@media` 쿼리의 브레이크포인트 값을 레퍼런스 값으로 교체
+- 접기 전략 변경: 네비 접기 방식, 그리드 컬럼 축소 등
+- 터치 타겟 최소 크기 적용
+
+**구조 변경 적용 순서**:
+1. 레이아웃 CSS 변수/값 주입 (토큰 주입과 같은 `:root` 블록 또는 별도 블록)
+2. HTML 구조 변경 (Edit으로 section/nav/card 구조 수정)
+3. 미디어 쿼리 업데이트 (기존 @media 블록 교체)
+
+**구조 차이 경고**:
+- 레퍼런스와 현재 프로젝트의 HTML 구조가 크게 다르면 (예: React 컴포넌트 vs 정적 HTML):
+  ```
+  ⚠️ 구조 차이가 큽니다. 부분 적용을 권장합니다.
+  - 레퍼런스: {서비스명} (정적 HTML, {grid_type})
+  - 현재 프로젝트: {감지된 프레임워크} ({감지된 구조})
+  - CSS 토큰 값은 적용하되, HTML 구조 변경은 수동으로 조정하세요.
+  ```
 
 ---
 
 ### Step 5: 완료 보고
 
 ```
-✅ {서비스명} 스타일 리디자인 완료!
+✅ {서비스명} 디자인 토큰 적용 완료!
 
 📝 수정된 파일:
-  - {파일명} ({변경 라인 수})
+  - src/app/globals.css (4줄 추가)
+  - src/app/layout.tsx (구조 변경)   ← 구조 변경 시에만
 
-🎨 적용된 디자인:
-  - 분위기: {§00 핵심}
-  - 레이아웃: {변경 요약}
-  - 컴포넌트: {변경 요약}
-  - 토큰: {변경 요약}
+🔄 적용된 항목:
+  [토큰]
+  - 폰트: sohne-var, weight 300
+  - 브랜드: #533AFD
+  [구조]                             ← 구조 변경 시에만
+  - 레이아웃: max-width 1200px, 12-column grid
+  - 컴포넌트: card radius 12px, nav height 64px
 
 ↩️ 되돌리기:
-  git restore {파일명}
+  git restore src/app/globals.css src/app/layout.tsx
 
-📖 레퍼런스:
-  design.md: {경로}
+📖 전체 레퍼런스:
+  design.md: examples/stripe/design.md
 ```
 
 ---
@@ -263,14 +407,15 @@ preview에 들어갈 동적 내용:
 
 | 상황 | 처리 |
 |------|------|
-| slug에 해당하는 design.md 없음 | 사용 가능한 slug 목록 출력 후 중단 |
-| design.md에 §11/§13 없음 | 토큰만 교체 (리디자인 범위 축소 안내) |
-| 타겟 파일을 찾을 수 없음 | 사용자에게 파일 경로 입력 요청 |
-| uncommitted changes 존재 | 경고 + "계속하시겠습니까?" 확인 |
-| 전체 리디자인 후 깨진 부분 | 사용자에게 알리고 추가 수정 제안 |
-
----
-
-## References
-
-- `${CLAUDE_PLUGIN_ROOT}/skills/insane-apply/references/apply-workflow.md` — 파싱/스캔/주입 상세 규칙
+| slug에 해당하는 design.md 없음 | 사용 가능한 slug 목록 (카테고리별) 출력 후 중단 |
+| §15 Drop-in CSS 섹션 없음 | frontmatter + §01 Quick Start로 최소 토큰 추출 |
+| 프로젝트 CSS 파일 없음 | AskUserQuestion으로 파일 경로 입력받기 |
+| Tailwind v4 프로젝트 | `@theme` 블록 방식으로 분기 (v3과 다름) |
+| 모든 선택이 "현재 유지" | 파일 수정 없이 "변경 사항 없음" 메시지 출력 |
+| uncommitted changes 존재 | 경고 출력 + "계속하시겠습니까?" 확인 |
+| §11/§12/§13 모두 없음 | Step 1.5 건너뜀 + "이 레퍼런스에는 구조 정보가 없습니다. 토큰만 적용합니다." 메시지 출력 |
+| §11 Layout Patterns만 없음 | "레이아웃 패턴 적용" 옵션 제거, 나머지 구조 옵션은 표시 |
+| §12 Responsive 없음 | "반응형 전략 적용" 옵션 제거 |
+| §13 Components 없음 | "컴포넌트 패턴 적용" 옵션 제거 |
+| 구조 리디자인 시 HTML 구조 차이가 큼 | "⚠️ 구조 차이가 큽니다. 부분 적용을 권장합니다." 경고 + CSS 토큰만 적용, HTML 변경은 수동 안내 |
+| 구조 리디자인 시 React/Vue 컴포넌트 | 컴포넌트 파일별 개별 Edit 적용 (단일 CSS 파일이 아닌 분산 구조 처리) |
