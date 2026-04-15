@@ -123,11 +123,140 @@ slug가 제공되면 즉시 Step 0부터 실행한다.
 
 ---
 
-### Step 2: 리디자인 실행
+### Step 1.5: 카테고리별 상세 선택 (Lv2/Lv1만)
+
+**Lv3 전체 리디자인을 선택한 경우 이 Step을 건너뛰고 Step 2로 진행한다.**
+Lv2(스타일만) 또는 Lv1(토큰만) 선택 시 아래 AskUserQuestion을 순서대로 호출한다.
+
+#### Step 1.5a: 폰트 + 브랜드 컬러
+
+**EXECUTE:** AskUserQuestion 즉시 호출:
+
+```json
+{
+  "questions": [
+    {
+      "question": "폰트를 어떻게 할까요?",
+      "header": "폰트",
+      "options": [
+        {
+          "label": "현재 유지",
+          "description": "지금 쓰고 있는 {현재폰트}, weight {현재weight} 유지",
+          "preview": "body {\n  font-family: \"{현재폰트}\", sans-serif;\n  font-weight: {현재weight};\n}"
+        },
+        {
+          "label": "{레퍼런스} 적용",
+          "description": "{서비스명}의 {레퍼런스폰트}, weight {레퍼런스weight}로 변경",
+          "preview": "body {\n  font-family: \"{레퍼런스폰트}\", sans-serif;\n  font-weight: {레퍼런스weight};\n}"
+        },
+        {
+          "label": "weight만 변경",
+          "description": "현재 폰트 유지, weight만 {레퍼런스weight}로",
+          "preview": "body {\n  font-family: \"{현재폰트}\", sans-serif;\n  font-weight: {레퍼런스weight};\n}"
+        }
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "브랜드 컬러는?",
+      "header": "브랜드",
+      "options": [
+        {
+          "label": "현재 유지 ({현재brand})",
+          "description": "지금 쓰고 있는 브랜드 컬러 유지",
+          "preview": ":root {\n  --brand: {현재brand};\n}"
+        },
+        {
+          "label": "{레퍼런스brand} 적용",
+          "description": "{서비스명}의 브랜드 컬러로 변경",
+          "preview": ":root {\n  --brand: {레퍼런스brand};\n}"
+        }
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
+
+**옵션 동적 생성 규칙:**
+- `{현재폰트}`, `{현재weight}` → Step 0에서 스캔한 프로젝트 현재 값
+- `{레퍼런스폰트}`, `{레퍼런스weight}` → design.md frontmatter 값
+- 현재 값을 감지 못했으면 "현재 유지" 대신 "설정 없음 (새로 추가)"로 표시
+
+#### Step 1.5b: 배경톤 + 라디우스 + 그림자
+
+**EXECUTE:** AskUserQuestion 즉시 호출:
+
+```json
+{
+  "questions": [
+    {
+      "question": "배경/텍스트 톤과 모서리, 그림자 중 적용할 것을 골라주세요.",
+      "header": "톤+Shape",
+      "multiSelect": true,
+      "options": [
+        {
+          "label": "배경/텍스트 톤 적용",
+          "description": "{서비스명}의 배경({bg_hex})과 텍스트({fg_hex}) 톤으로 변경",
+          "preview": ":root {\n  --bg: {bg_hex};\n  --fg: {fg_hex};\n}"
+        },
+        {
+          "label": "라디우스 적용",
+          "description": "{서비스명}의 모서리 둥글기로 변경 (sm: {r_sm}, md: {r_md})",
+          "preview": ":root {\n  --radius-sm: {r_sm};\n  --radius-md: {r_md};\n  --radius-lg: {r_lg};\n}"
+        },
+        {
+          "label": "그림자 적용",
+          "description": "{서비스명}의 그림자 스타일로 변경",
+          "preview": ":root {\n  --shadow-sm: {shadow_sm};\n  --shadow-md: {shadow_md};\n}"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### Step 1.5c: 구조 옵션 (Lv2만, Lv1은 건너뜀)
+
+design.md에 §11/§12/§13 중 하나라도 있으면 이 질문을 추가한다.
+
+**EXECUTE:** AskUserQuestion 즉시 호출:
+
+```json
+{
+  "questions": [{
+    "question": "구조/레이아웃도 변경할까요?",
+    "header": "구조",
+    "multiSelect": true,
+    "options": [
+      {
+        "label": "레이아웃 패턴 적용",
+        "description": "{서비스명}의 그리드/섹션 구조로 CSS 변경",
+        "preview": "section {\n  padding: {section_padding};\n  max-width: {max_width};\n}\n.container {\n  display: {grid_type};\n}"
+      },
+      {
+        "label": "컴포넌트 CSS 적용",
+        "description": "{서비스명}의 카드/버튼/네비 CSS로 변경 (HTML 구조 유지)",
+        "preview": ".card {\n  bg: {card_bg};\n  border: {card_border};\n  radius: {card_radius};\n}\n.btn {\n  bg: {btn_bg};\n  padding: {btn_padding};\n}"
+      },
+      {
+        "label": "구조 변경 안 함",
+        "description": "토큰만 적용, 레이아웃/컴포넌트 CSS는 유지"
+      }
+    ]
+  }]
+}
+```
+
+---
+
+### Step 2: 실행
 
 선택된 범위에 따라 실행:
 
-#### 모드 A: 전체 리디자인
+#### 모드 A: 전체 리디자인 (Lv3)
+
+Step 1.5를 거치지 않고 바로 실행:
 
 1. **콘텐츠 추출**: Step 0에서 파악한 텍스트/이미지/링크를 변수로 정리
 2. **design.md 브리프 적용**:
@@ -152,18 +281,67 @@ slug가 제공되면 즉시 Step 0부터 실행한다.
 6. §17 → "컴포넌트별 구체 스펙 확인"
 ```
 
-#### 모드 B: 스타일만 변경
+#### 모드 B: 스타일만 변경 (Lv2)
+
+Step 1.5a~c에서 선택한 항목만 적용:
 
 1. HTML 구조 유지
-2. `<style>` 블록 또는 CSS 파일만 재작성
-3. design.md §15 토큰 + §13 컴포넌트 CSS 적용
-4. Edit 도구로 CSS 부분만 교체
+2. `<style>` 블록 또는 CSS 파일을 재작성
+3. 선택된 토큰(폰트/컬러/라디우스/그림자) 적용
+4. 선택된 구조 CSS(레이아웃/컴포넌트) 적용 (Step 1.5c에서 선택한 경우)
+5. "현재 유지" 선택된 카테고리는 기존 CSS 값 보존
+6. Edit/Write 도구로 CSS 부분만 교체
 
-#### 모드 C: 토큰만 교체
+#### 모드 C: 토큰만 교체 (Lv1)
 
-1. 기존 `:root { }` 또는 `insane-design` 블록 찾기
-2. design.md §15 Drop-in CSS의 값으로 교체
+Step 1.5a~b에서 선택한 항목만 적용:
+
+1. 기존 `:root { }` 또는 `/* insane-design */` 블록 찾기
+2. 선택된 토큰만 교체 ("현재 유지"는 건너뜀)
 3. Edit 도구로 변수 값만 swap
+4. 모든 선택이 "현재 유지"면 파일 수정 없이 "변경 사항 없음" 출력
+
+---
+
+### Step 2.5: 최종 확인 (실행 전)
+
+**EXECUTE:** AskUserQuestion 즉시 호출:
+
+```json
+{
+  "questions": [
+    {
+      "question": "이렇게 적용할까요?",
+      "header": "확인",
+      "options": [
+        {
+          "label": "적용하기 (추천)",
+          "description": "선택한 내용을 프로젝트에 적용합니다",
+          "preview": "{선택된 모든 변경 사항 요약}\n\n수정 파일: {파일 목록}\n롤백: git restore {파일}"
+        },
+        {
+          "label": "다시 선택",
+          "description": "Step 1부터 다시 선택합니다"
+        }
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
+
+- "다시 선택" → Step 1로 돌아간다
+- preview에 **선택된 변경 사항을 모두 요약**:
+  ```
+  === 변경 사항 ===
+  ✓ 폰트: Inter 400 → sohne-var 300
+  ✓ 브랜드: #3B82F6 → #533AFD
+  ✗ 배경/텍스트: 현재 유지
+  ✓ 라디우스: 6px → 12px
+  ✗ 그림자: 현재 유지
+  ✓ 레이아웃 패턴: 적용
+  ✗ 컴포넌트 CSS: 현재 유지
+  ```
 
 ---
 
