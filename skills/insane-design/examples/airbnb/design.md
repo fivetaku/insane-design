@@ -14,6 +14,22 @@ token_prefix: --palette-*
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Airbnb는 따뜻하고 포용적인 여행 플랫폼 감성을 가진다. 순백 `#FFFFFF` 배경 위에 `#222222`(순흑이 아닌 따뜻한 dark gray) 텍스트가 놓이고, brand coral `#FF385C`가 CTA와 하트 아이콘에 집중적으로 사용된다. Airbnb Cereal VF 가변 폰트로 weight 층위가 세밀하다 — 400(본문), 500(강조), 600(버튼), 800(제목).
+
+negative letter-spacing이 타이포의 핵심이다: title-3에서 `-0.4px`, title-1에서 `-0.8px`까지 커지며, 이것이 Airbnb 헤딩의 아이덴티티를 만든다. `--palette-*` prefix의 자체 DLS가 Core/Plus/Luxe 브랜드 variant를 관리한다.
+
+**Key Characteristics:**
+- Brand coral `#FF385C` — `--palette-bg-primary-core`
+- Weight 층위: 400(body) → 500(emphasis) → 600(button) → 800(heading)
+- Negative letter-spacing: -0.4px ~ -0.8px (heading 갈수록 타이트)
+- Airbnb Cereal VF 가변 폰트 (Circular이 fallback)
+- Core/Plus/Luxe 3-tier 브랜드 variant
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -184,7 +200,19 @@ body {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Button — Primary (Brand)
@@ -215,7 +243,7 @@ body {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -227,7 +255,7 @@ body {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -267,7 +295,36 @@ body {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#FF385C` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#222222` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Airbnb 스타일 hero — `Airbnb Cereal VF` 폰트, `#FF385C` brand color, light 배경"
+>
+> **CTA button**: "Airbnb primary CTA — brand `#FF385C` 배경 또는 dark fill, `Airbnb Cereal VF` 폰트"
+>
+> **Card component**: "Airbnb 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### DO

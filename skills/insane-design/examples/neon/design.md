@@ -14,6 +14,23 @@ token_prefix: color
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Neon의 웹사이트는 깊은 다크 배경(`#0A0A0A`) 위에 네온 그린 `#00E599`의 글로우 이펙트가 돋보이는 디자인이다. 서버리스 Postgres로서의 기술적 정교함을 미래적이고 세련된 시각 언어로 표현한다.
+
+타이포그래피는 기본 시스템 서체를 사용한다. 본문 weight는 **400**이며, 코드 블록과 기술 문서에 모노스페이스 서체가 적극 활용된다.
+
+브랜드 그린 `#00E599`는 네온 글로우 이펙트의 중심 컬러로, CTA 버튼과 주요 accent에 사용된다. 다크 배경에서 발광하는 듯한 시각적 효과가 Neon의 이름과 정체성을 직접적으로 연결한다.
+
+**Key Characteristics:**
+- 브랜드 네온 그린 **#00E599** + hover **#34D59A**. 연한 tint **#E4F1EB**.
+- **다크 캔버스 #0C0D0D** + surface 9-tier (`#131415` → `#494B50`).
+- Mono 폰트는 **GeistMono** (Vercel OSS), via `var(--font-geist-mono)`.
+- Inter는 `var(--font-inter)` + **Inter Fallback** metric fallback.
+- **Radius 38-40px pill** 스타일. 일반 `rounded-md` 대신 `rounded-[38px]`.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Neon처럼 만들기 — 3가지만 하면 80%
@@ -266,7 +283,21 @@ section {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1280px, 넉넉한 마진 |
+
+> ⚠️ Neon는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### 12.1 Primary CTA (Neon Green Pill)
 
@@ -328,7 +359,7 @@ section {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Neon — copy into your root stylesheet */
@@ -392,7 +423,7 @@ code, pre { font-family: var(--font-geist-mono); }
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 ```js
 // tailwind.config.js — Neon (Tailwind v4)
@@ -437,7 +468,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#00E599` |
+| Heading text | `#FFFFFF` |
+| Body text | `#A0AEC0` |
+| Background | `#0A0A0A` |
+| Border | `#1F2937` |
+| Link | `#00E599` |
+| Dark section | `#0A0A0A` |
+
+### Example Component Prompts
+- "Create a hero section on `#0A0A0A` background. Headline at 3.5rem `Inter` weight 400. CTA button `#00E599` with white text."
+- "Design a card: `#FFFFFF` background, `#1F2937` border, 12px radius. Body text `#A0AEC0` at weight 400."
+
+### Iteration Guide
+1. 폰트: `Inter` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#00E599`는 CTA/링크에만 집중. 배경 `#0A0A0A`, 텍스트 `#FFFFFF`
+3. 그림자: neon 글로우 이펙트 + subtle box-shadow
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - 브랜드 네온 그린 **#00E599** + hover **#34D59A**. 연한 tint **#E4F1EB**.
@@ -458,3 +513,6 @@ module.exports = {
 - ❌ **Pure black #000** canvas 금지 → `#0C0D0D` (살짝 탁한 블랙).
 - ❌ Display weight 700을 **본문에도** 적용 금지 → 본문은 500/600.
 - ❌ IBM Plex Sans를 **주 폰트**로 쓰지 말 것 → 레거시 잔존, Inter가 현재 주.
+
+---
+

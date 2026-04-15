@@ -14,6 +14,22 @@ token_prefix: N/A
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+BMW는 프리미엄 자동차 브랜드답게 극도로 미니멀한 모노크롬 디자인을 사용한다. CSS 분석에서 chromatic 컬러가 단 하나도 포착되지 않을 만큼 흑/백/회색만으로 구성되며, 브랜드 블루 `#1C69D4`는 로고와 아이콘에 한정된다. `#8E8E8E` 중간 회색이 유일하게 관찰된 보조 색상이다.
+
+BMWTypeNext 독점 폰트, 샤프 코너(radius 0), `letter-spacing: 0.08em` 이상의 넓은 자간, uppercase text-transform이 독일식 정밀성의 프리미엄 feel을 만든다. Hero는 차량 전체 폭 사진으로 채워지고, 텍스트는 최소한으로 절제된다.
+
+**Key Characteristics:**
+- 극도의 monochrome — CSS에서 chromatic 컬러 0개
+- BMW 블루는 로고/아이콘 한정, UI 버튼에 미사용
+- BMWTypeNext 독점 폰트 + 샤프 코너(radius 0)
+- letter-spacing 0.08em + uppercase — 프리미엄 타이포
+- 텍스트 최소화, 차량 이미지 중심
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -117,7 +133,19 @@ body { background: var(--bg); color: var(--fg); }
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: manual -->
 
 ### CTA Button (Primary)
@@ -153,7 +181,7 @@ body { background: var(--bg); color: var(--fg); }
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -166,7 +194,7 @@ body { background: var(--bg); color: var(--fg); }
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -190,7 +218,36 @@ body { background: var(--bg); color: var(--fg); }
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#1C69D4` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#1A1A1A` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "BMW 스타일 hero — `BMWTypeNext` 폰트, `#1C69D4` brand color, light 배경"
+>
+> **CTA button**: "BMW primary CTA — brand `#1C69D4` 배경 또는 dark fill, `BMWTypeNext` 폰트"
+>
+> **Card component**: "BMW 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

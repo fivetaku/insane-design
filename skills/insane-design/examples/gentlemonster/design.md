@@ -14,6 +14,19 @@ token_prefix: N/A
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Gentle Monster의 디자인은 다크 배경 위에 구축된 몰입형 시각 경험을 추구한다. 브랜드 컬러 `#111111`를 절제된 포인트로 활용하며, 전반적으로 깊이감 있는 다크 톤이 서비스의 전문성과 프리미엄 감성을 전달한다.
+
+색상 전략은 철저히 절제적이다. 주요 컬러는 #111111, #858585, #FFFFFF, #D8D8D8이며, 뉴트럴 톤이 대부분의 UI 표면을 차지한다. 브랜드 컬러는 CTA 버튼과 핵심 강조 요소에만 사용되어 사용자의 시선을 정확히 유도한다.
+
+타이포그래피는 `Gentle Monster Serif`을 중심으로 구축된다. 비표준 weight 350이 기본으로, 럭셔리 브랜드만의 독특한 경량감을 표현한다. 제목과 본문 사이의 weight 대비로 시각적 계층을 명확히 한다.
+
+레이아웃은 넉넉한 여백과 명확한 섹션 구분으로 콘텐츠에 호흡을 부여한다. 전반적으로 정보 밀도보다 시각적 여유를 우선시하며, 이는 Gentle Monster 브랜드의 자신감과 품격을 반영한다.
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -159,7 +172,31 @@ h1, h2 {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+### Breakpoints
+
+| Name | Value | Description |
+|---|---|---|
+| Mobile | < 768px | 단일 컬럼, 터치 최적화 |
+| Tablet | 768px–1024px | 2컬럼 그리드, 축소된 여백 |
+| Desktop | 1024px–1440px | 전체 레이아웃, 다중 컬럼 |
+| Large | > 1440px | max-width 고정, 좌우 auto margin |
+
+### Touch Targets
+- **Minimum tap size**: 44×44px (WCAG 2.5.5)
+- **Button height (mobile)**: 48px
+- **Input height (mobile)**: 48px
+
+### Collapsing Strategy
+- **Navigation**: 모바일에서 축소/햄버거 메뉴 전환
+- **Grid columns**: desktop 다중 컬럼 → mobile 단일 컬럼
+- **Hero layout**: 이미지+텍스트 분할 → 모바일에서 수직 스택
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Button — Primary CTA
@@ -192,7 +229,7 @@ h1, h2 {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -203,7 +240,7 @@ h1, h2 {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -237,7 +274,56 @@ h1, h2 {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary | brand | `#111111` |
+| Background | bg-page | `#FFFFFF` |
+| Text primary | text | `#111111` |
+| Text muted | text-muted | `#858585` |
+| Border | border | `#D8D8D8` |
+
+### Example Component Prompts
+
+#### Hero Section
+```
+Gentle Monster 스타일 히어로 섹션을 만들어줘.
+- 배경: #FFFFFF
+- H1: Gentle Monster Serif, weight 350
+- CTA 버튼: 배경 #111111, radius 8px
+```
+
+#### Card Component
+```
+Gentle Monster 스타일 카드 컴포넌트를 만들어줘.
+- 배경: #FFFFFF, border: 1px solid #D8D8D8
+- 제목: Gentle Monster Serif, weight bold
+- 본문: color #111111, line-height 1.6
+```
+
+#### Button
+```
+Gentle Monster 스타일 버튼을 만들어줘.
+- 배경: #111111, 텍스트: white
+- font: Gentle Monster Serif, weight 500-600
+- padding: 12px 24px, radius: 8px
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: 반드시 §06의 semantic token을 사용. raw hex 직접 사용 금지.
+- **폰트 변경 시**: weight 350이 기본. bold는 제목/강조에만.
+- **여백 조정 시**: §07의 spacing scale 단위로만. 임의 값(13px, 27px 등) 금지.
+- **새 컴포넌트 추가 시**: §13의 기존 패턴(radius, shadow, border 스타일)을 따를 것.
+- **반응형**: §12의 breakpoint를 그대로 사용. 커스텀 breakpoint 추가 금지.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### DO

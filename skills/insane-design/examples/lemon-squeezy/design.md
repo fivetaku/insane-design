@@ -14,6 +14,22 @@ token_prefix: ls
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Lemon Squeezy는 디지털 제품 판매 플랫폼으로, 다크 히어로와 라이트 피처 섹션이 교차하는 혼합 테마를 사용한다. 히어로는 다크 `#121217` 배경에 보라/핑크 그라디언트 orb가 드라마틱한 임팩트를 만들고, 피처 섹션은 라이트(`#F7F7F8`, `#F4F4F4`)로 전환되어 실용적 정보를 전달한다.
+
+브랜드 보라 `#5423E7`과 레몬 옐로우 `#FFC233`의 대비가 핵심이다. 특히 노란 inset 밑줄(`inset 0 -2px 0 0 #FFC233`)은 Lemon Squeezy의 시그니처 디테일로, 일반 `text-decoration` 대신 box-shadow로 구현된다. Circular Pro Book의 둥근 terminal 획이 friendly-premium 톤을 만든다.
+
+**Key Characteristics:**
+- 다크/라이트 혼합 테마 — 히어로 다크, 피처 라이트 (라이트가 dominant)
+- 브랜드 보라 `#5423E7` + 레몬 옐로우 `#FFC233` 시그니처 대비
+- 노란 inset shadow 밑줄 — 링크/강조의 핵심 패턴
+- Weight 500이 기본 강조값 (800/900은 거의 미사용)
+- Radius 20px가 feature card 기본 (Webflow 빌더 출력)
+
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Lemon Squeezy처럼 만들기 — 3가지만 하면 80%
@@ -255,7 +271,19 @@ section { padding: 96px 24px; max-width: 1280px; margin-inline: auto; }
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 
 ### 12.1 Primary CTA (Dark Fill)
 
@@ -322,7 +350,7 @@ section { padding: 96px 24px; max-width: 1280px; margin-inline: auto; }
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Lemon Squeezy — copy into your root stylesheet */
@@ -390,7 +418,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 ```js
 // tailwind.config.js — Lemon Squeezy
@@ -434,7 +462,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#5423E7` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#000000` |
+| Default Theme | mixed |
+
+### Component Prompts
+
+> **Hero section**: "Lemon Squeezy 스타일 hero — `Circular Pro Book` 폰트, `#5423E7` brand color, mixed 배경"
+>
+> **CTA button**: "Lemon Squeezy primary CTA — brand `#5423E7` 배경 또는 dark fill, `Circular Pro Book` 폰트"
+>
+> **Card component**: "Lemon Squeezy 스타일 카드 — mixed 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - 브랜드 보라는 **`#5423E7`** (진한 보라). 보조로 `#7047EB`.

@@ -176,31 +176,26 @@ with sync_playwright() as p:
 ### Step 3: EXTRACT
 **Type**: script
 
-CSS에서 디자인 토큰 + 구조 패턴을 추출한다. 7개 스크립트를 `$WORK_DIR`에서 순차 호출:
+CSS에서 디자인 토큰을 추출한다. 4개 스크립트를 `$WORK_DIR`에서 순차 호출:
 
 ```bash
 cd "$WORK_DIR"
 
-# 기존 4개: 토큰 추출
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/insane-design/scripts/brand_candidates.py" {slug}
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/insane-design/scripts/var_resolver.py" {slug}
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/insane-design/scripts/typo_extractor.py" {slug}
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/insane-design/scripts/alias_layer.py" {slug}
-
-# 신규 3개: 구조 패턴 추출 (§11/§12/§13용)
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/insane-design/scripts/layout_extractor.py" {slug}
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/insane-design/scripts/responsive_extractor.py" {slug}
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/insane-design/scripts/component_extractor.py" {slug}
 ```
 
-결과: `$WORK_DIR/insane-design/{slug}/phase1/` 에 7개 JSON:
+결과: `$WORK_DIR/insane-design/{slug}/phase1/` 에 4개 JSON:
 - `brand_candidates.json` — 브랜드 색상 후보 (semantic + selector-role + frequency)
 - `resolved_tokens.json` — var() 체인 해결된 토큰
 - `typography.json` — 타이포 스케일 (heading/text/input/quote)
 - `alias_layer.json` — tier 분류 (util/action/component/core)
-- `layout.json` — 레이아웃 패턴 (max-width, grid, section rhythm, nav, card)
-- `responsive.json` — 반응형 패턴 (breakpoints, mobile-first/desktop-first, touch targets)
-- `components.json` — 컴포넌트 CSS (buttons, cards, inputs, nav, hero + hover/focus 상태)
+
+> **§11 Layout / §12 Responsive / §13 Components는 스크립트로 추출하지 않는다.**
+> 사이트마다 CSS 구조가 완전히 다르므로 범용 파서가 불가능하다.
+> Step 4에서 Claude가 CSS를 직접 읽고 AI 판단으로 분석한다.
 
 #### 추출 실패 처리
 
@@ -213,13 +208,20 @@ CSS custom properties 0개면:
 ### Step 4: INTERPRET
 **Type**: prompt (멀티모달)
 
-Claude가 스크린샷 + 추출 결과를 보고 AI 판정을 수행한다.
+Claude가 스크린샷 + 추출 결과 + **CSS 원본**을 직접 읽고 AI 판정을 수행한다.
 
 1. Read: `insane-design/{slug}/screenshots/hero-cropped.png` (또는 `jina-hero.png`)
 2. Read: `insane-design/{slug}/phase1/brand_candidates.json`
 3. Read: `insane-design/{slug}/phase1/typography.json`
 4. Read: `insane-design/{slug}/phase1/alias_layer.json`
 5. Read: `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/references/pitfalls.md` — 14가지 함정
+6. Read: `insane-design/{slug}/index.html` — HTML 구조 직접 확인 (§11/§13용)
+7. Read: `insane-design/{slug}/css/` 주요 CSS 파일 — 레이아웃/컴포넌트 직접 분석 (§11/§12/§13용)
+
+> **§11/§12/§13은 스크립트가 아니라 Claude가 직접 CSS를 읽고 분석한다.**
+> 사이트마다 클래스명, 레이아웃 방식, 컴포넌트 구조가 전부 다르기 때문에
+> 범용 파서가 아닌 AI 해석이 필요하다.
+> CSS 파일이 너무 크면 (>500KB) 상위 2-3개 파일만 읽되, 주요 패턴을 파악한다.
 
 **판정 항목 (12가지)**:
 

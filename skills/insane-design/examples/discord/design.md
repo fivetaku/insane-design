@@ -14,6 +14,23 @@ token_prefix: size
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Discord의 웹사이트는 순수 블랙 `#000000` 배경 위에 Blurple `#5865F2`와 10+ Aurora gradient 테마가 결합된 역동적 디자인이다. 단순한 다크 테마가 아니라, 섹션마다 다른 gradient(`aurora`, `cotton-candy`, `forest`, `crimson-moon`, `hanami` 등)가 배치되어 시각적 다양성을 만든다.
+
+타이포그래피는 `ABC Ginto` 트리플 시스템(Normal / Nord / app용 `gg sans`)을 사용한다. 본문 weight는 **400**이며, display용 `ABC Ginto Nord`는 weight **800**의 heavy display 서체로 히어로에서 강한 임팩트를 준다.
+
+Blurple `#5865F2`가 primary CTA이지만, Discord의 진짜 시각 정체성은 Aurora gradient 시스템에 있다. `#5865F2 → #B377F3 → #FF6AEF` 같은 멀티 톤 그래디언트가 섹션 배경과 카드에 적용되어 '게이머 감성'이 아닌 모던한 브랜드 이미지를 만든다.
+
+**Key Characteristics:**
+- **Blurple `#5865F2`**를 primary CTA로 (2020년 리브랜딩 후 current brand).
+- **순수 black `#000000`** 페이지 bg 사용 — 실제 1145회 dominant. aurora gradient가 black 위에서 가장 비비드하게 빛남.
+- **Aurora gradient 시스템** 활용: `aurora`, `cotton-candy`, `forest`, `crimson-moon`, `hanami`, `lofi-vibes` 등 10+ 테마. 섹션마다 다른 gradient.
+- **3-폰트 분리**: `ABC Ginto Normal` (display), `ABC Ginto Nord 800` (heavy impact), `gg sans` (app UI).
+- **2-tier spacing**: raw `--size-{N}` + semantic `--size-{xxs..xxl}` alias.
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -299,7 +316,21 @@ Discord는 **77개** unique radius 값 사용. 상위 10:
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Discord는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Blurple CTA (primary)
@@ -341,7 +372,7 @@ Discord는 **77개** unique radius 값 사용. 상위 10:
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -412,7 +443,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -485,7 +516,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#5865F2` |
+| Heading text | `#FFFFFF` |
+| Body text | `#B5BAC1` |
+| Background | `#000000` |
+| Border | `#2F2F35` |
+| Link | `#5865F2` |
+| Dark section | `#000000` |
+
+### Example Component Prompts
+- "Create a hero section on `#000000` background. Headline at 3rem `ABC Ginto` weight 400. CTA button `#5865F2` with white text."
+- "Design a card: `#FFFFFF` background, `#2F2F35` border, 8px radius. Body text `#B5BAC1` at weight 400."
+
+### Iteration Guide
+1. 폰트: `ABC Ginto` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#5865F2`는 CTA/링크에만 집중. 배경 `#000000`, 텍스트 `#FFFFFF`
+3. 그림자: 다크 테마에서 Aurora gradient + surface 색상 차이로 elevation 표현
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO
@@ -507,3 +562,6 @@ module.exports = {
 - ❌ Aurora gradient 없이 flat 카드 — marketing 감성 소실.
 - ❌ 단일 radius 값 사용 — Discord는 컴포넌트별 8px ~ 88px 다양하게 사용.
 - ❌ "Don't use pure black" 룰 — 실제로는 반대, `#000000`이 1145회 dominant.
+
+---
+

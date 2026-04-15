@@ -14,6 +14,23 @@ token_prefix: ""
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Raycast의 웹사이트는 순수 블랙 `#000000` 배경의 다크 퍼스트 디자인이다. macOS 네이티브 앱의 고급스러운 느낌을 웹으로 옮기면서, 개발자 생산성 도구로서의 정밀함과 속도감을 시각적으로 전달한다.
+
+타이포그래피는 기본 시스템 서체를 활용한다. 본문 weight는 **400**이며, 깔끔하고 기능적인 텍스트 스타일이 도구의 효율성을 반영한다.
+
+브랜드 레드-코랄 `#FF6363`은 CTA와 핵심 accent에 사용된다. 순수 블랙 배경 위에서 빛나는 듯한 시각적 효과를 만들며, 그래디언트 accent가 다크 인터페이스에 생동감을 부여한다.
+
+**Key Characteristics:**
+- Body weight = **500**. 400 아님. Raycast의 또렷한 텍스트는 여기서 나온다.
+- Brand = **`#FF6363`** (`hsl(0,100%,69%)`). CTA/feature highlight에 공격적 사용.
+- `Inter` + `Inter Fallback` 메트릭 매치 쌍을 `next/font`로 로드.
+- `--grey-900 = #07080a`가 page background. 순검정 아님.
+- Body 크기 = **14px**, 코드는 **GeistMono**로 렌더.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Raycast처럼 만들기 — 3가지만 하면 80%
@@ -228,7 +245,21 @@ Weight 히스토그램: **500(211) ⭐** · 600(67) · 400(53) · 100(14) · 700
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Raycast는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### Primary Button (transparent hover bg)
 ```html
@@ -259,7 +290,7 @@ Weight 히스토그램: **500(211) ⭐** · 600(67) · 400(53) · 100(14) · 700
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Raycast — copy into your root stylesheet */
@@ -311,7 +342,31 @@ body {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#FF6363` |
+| Heading text | `#FFFFFF` |
+| Body text | `#ABABAB` |
+| Background | `#000000` |
+| Border | `#333333` |
+| Link | `#FF6363` |
+| Dark section | `#000000` |
+
+### Example Component Prompts
+- "Create a hero section on `#000000` background. Headline at 3rem `Inter` weight 400. CTA button `#FF6363` with white text."
+- "Design a card: `#FFFFFF` background, `#333333` border, 12px radius. Body text `#ABABAB` at weight 400."
+
+### Iteration Guide
+1. 폰트: `Inter` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#FF6363`는 CTA/링크에만 집중. 배경 `#000000`, 텍스트 `#FFFFFF`
+3. 그림자: 다크 테마에서 border + 반투명 배경으로 elevation 표현
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - Body weight = **500**. 400 아님. Raycast의 또렷한 텍스트는 여기서 나온다.
@@ -328,3 +383,6 @@ body {
 - 순검정 `#000` 배경 금지 — 약간 푸른 기운의 `#07080a`.
 - 브랜드 red를 Tailwind `red-500`(`#ef4444`)로 대체 금지 — Raycast는 더 밝은 `#FF6363`.
 - `--radius-*` / `--space-*` 네이밍 강제 금지 — Raycast는 `--rounding-*` / `--spacing-*`.
+
+---
+

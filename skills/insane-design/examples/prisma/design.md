@@ -14,6 +14,23 @@ token_prefix: ""
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Prisma의 웹사이트는 밝고 깔끔한 배경 위에 기술적 도식과 코드 예시가 결합된 개발자 친화적 디자인이다. ORM/데이터베이스 도구로서의 구조적 명확성이 시각 디자인에 그대로 반영된다.
+
+타이포그래피는 기본 시스템 서체를 사용한다. 본문 weight는 **400**이며, 코드 블록이 시각적으로 많은 비중을 차지하는 개발자 중심 레이아웃이다.
+
+브랜드 다크블루 `#2D3748`가 CTA와 핵심 요소에 사용된다. 배경과 텍스트의 대비가 충분하면서도 부드러운 컬러 팔레트로 기술 문서의 가독성을 확보한다.
+
+**Key Characteristics:**
+- Primary = **`#16a394`** (anchor teal). CTA/링크/포커스 모두 teal 계열.
+- Mona Sans VF self-host + `cv01/cv02/cv06` feature 설정으로 대문자 형태 맞춤.
+- 제품별 color family 활용: Postgres = teal (ppg), ORM = indigo (orm).
+- shadcn `--background`/`--foreground`/`--primary` 네이밍 준수 (Fumadocs와 호환).
+- 본문 색은 딥 네이비 `#1d242f`로. 순검정 아님.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Prisma처럼 만들기 — 3가지만 하면 80%
@@ -221,7 +238,21 @@ Weight: `--font-weight-normal: 400`, `-medium: 500`, `-semibold: 600`, `-bold: 7
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Prisma는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### Primary CTA
 ```html
@@ -249,7 +280,7 @@ Weight: `--font-weight-normal: 400`, `-medium: 500`, `-semibold: 600`, `-bold: 7
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Prisma — copy into your root stylesheet */
@@ -298,7 +329,31 @@ body {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#16a394` |
+| Heading text | `#1A202C` |
+| Body text | `#4A5568` |
+| Background | `#FFFFFF` |
+| Border | `#E2E8F0` |
+| Link | `#2D3748` |
+| Dark section | `#1A202C` |
+
+### Example Component Prompts
+- "Create a hero section on `#FFFFFF` background. Headline at 3rem `Mona Sans VF` weight 400. CTA button `#16a394` with white text."
+- "Design a card: `#1c1c1f` background, `#E2E8F0` border, 8px radius. Body text `#4A5568` at weight 400."
+
+### Iteration Guide
+1. 폰트: `Mona Sans VF` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#16a394`는 CTA/링크에만 집중. 배경 `#FFFFFF`, 텍스트 `#1A202C`
+3. 그림자: subtle box-shadow로 카드 elevation 표현
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - Primary = **`#16a394`** (anchor teal). CTA/링크/포커스 모두 teal 계열.
@@ -313,3 +368,6 @@ body {
 - 단일 color palette로 환원 금지 — 제품별 color family(ppg/orm/error/success/9 accent) 구조 보존.
 - success color를 초록(`#22c55e`)으로 쓰지 말 것. Prisma success는 **teal** (`#0d9488`).
 - Fumadocs `--color-fd-*` 네임스페이스를 `--color-*`로 평탄화 금지.
+
+---
+

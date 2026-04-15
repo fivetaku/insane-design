@@ -14,6 +14,22 @@ token_prefix: N/A
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+배달의민족은 친근하고 유머러스한 한국형 서비스 감성의 디자인이다. 순백 `#FFFFFF` 배경 위에 `#222222` 텍스트가 놓이고, 브랜드 민트 `#0CEFD3`(청록)가 CSS frequency 1위 크로마틱 컬러로 CTA와 강조에 사용된다. Styled Components 런타임 CSS-in-JS로 구현되어 있다.
+
+BAEMINWORK(배민 전용 둥근 폰트, 무료 배포)가 전체 UI에 사용되어 친근한 글자 형태를 만든다. 굵은 weight(600~800) 중심의 타이포그래피와 `-webkit-tap-highlight-color: rgba(0,0,0,0)` 터치 최적화가 모바일 우선 설계를 보여준다.
+
+**Key Characteristics:**
+- 브랜드 민트 `#0CEFD3` (파란색/초록이 아님)
+- BAEMINWORK 둥근 폰트 (무료 배포, 재사용 가능)
+- Styled Components 런타임 CSS-in-JS
+- 굵은 weight(600~800) 중심 타이포
+- 모바일 우선 터치 최적화
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -158,7 +174,19 @@ body {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Global Input Reset (`input, textarea, button, select, a`)
@@ -177,7 +205,7 @@ body {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -188,7 +216,7 @@ body {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -216,7 +244,36 @@ body {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#0CEFD3` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#222222` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "배달의민족 스타일 hero — `BAEMINWORK` 폰트, `#0CEFD3` brand color, light 배경"
+>
+> **CTA button**: "배달의민족 primary CTA — brand `#0CEFD3` 배경 또는 dark fill, `BAEMINWORK` 폰트"
+>
+> **Card component**: "배달의민족 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

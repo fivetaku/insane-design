@@ -14,6 +14,23 @@ token_prefix: Primer
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+GitHub의 웹사이트는 다크 모드 기반 Primer 디자인 시스템으로 구축된 개발자 플랫폼 디자인이다. 딥 다크 배경 `#0d1117` 위에 `#f0f6fc` 텍스트가 배치되며, 코드와 문서가 중심인 기능적 레이아웃이 특징이다.
+
+타이포그래피는 `Mona Sans` variable font를 사용한다. 본문 weight는 **400**, 헤딩은 **800**이며, variable font의 weight 범위(200, 450, 550, 800)를 적극 활용한다. `Mona Sans Header Fallback`과 metric fallback 시스템으로 폰트 로딩 시 레이아웃 쉬프트를 방지한다.
+
+다크 모드 accent는 `#1f6feb`(emphasis) / `#4493f8`(fg) / `#388bfd1a`(muted)의 3단계 semantic scale이다. Primer v1의 `#0969DA`가 아닌 다크 최적화된 블루 스케일을 사용하며, 라이트/다크 양쪽 테마를 완전히 지원한다.
+
+**Key Characteristics:**
+- `--bgColor-default: #0d1117` (다크) / `#ffffff` (라이트) 두 모드 모두 문서화. `data-color-mode` 속성 기반 스위치.
+- Semantic color는 **3단계** (`emphasis` / `muted` / `fg`)로 구성. 단일 hex로 끝내지 말 것.
+- Heading 폰트에 **`Mona Sans Header Fallback`** 별도 지정. Body는 `Mona Sans Fallback`. 두 폴백은 다르다.
+- Primary 버튼은 **녹색** (`#238636`), 파란색 아님. 파란색은 accent/link 역할.
+- `done` purple (`#8957e5`)을 merged PR 전용으로 사용.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 GitHub처럼 만들기 — 3가지만 하면 80%
@@ -319,7 +336,21 @@ section { padding: var(--base-size-64) var(--base-size-24); }
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1280px, 넉넉한 마진 |
+
+> ⚠️ GitHub는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### 12.1 Button Primary
 
@@ -387,7 +418,7 @@ section { padding: var(--base-size-64) var(--base-size-24); }
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* GitHub — copy into your root stylesheet */
@@ -466,7 +497,7 @@ a { color: var(--fgColor-accent); }
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 ```js
 // tailwind.config.js — GitHub (Primer dark)
@@ -525,7 +556,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#1f6feb` |
+| Heading text | `#f0f6fc` |
+| Body text | `#9198a1` |
+| Background | `#0d1117` |
+| Border | `#30363D` |
+| Link | `#4493f8` |
+| Dark section | `#010409` |
+
+### Example Component Prompts
+- "Create a hero section on `#0d1117` background. Headline at 3rem `Mona Sans` weight 400. CTA button `#1f6feb` with white text."
+- "Design a card: `#FFFFFF` background, `#30363D` border, 6px radius. Body text `#9198a1` at weight 400."
+
+### Iteration Guide
+1. 폰트: `Mona Sans` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#1f6feb`는 CTA/링크에만 집중. 배경 `#0d1117`, 텍스트 `#f0f6fc`
+3. 그림자: dark 테마에서 border + surface color로 elevation 표현
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - `--bgColor-default: #0d1117` (다크) / `#ffffff` (라이트) 두 모드 모두 문서화. `data-color-mode` 속성 기반 스위치.
@@ -546,3 +601,6 @@ module.exports = {
 - ❌ 단일 `box-shadow` 사용 금지 → `floating-*`는 최소 2-3 레이어 합성.
 - ❌ `font-weight: 700`만 쓰지 말 것 → Mona Sans variable의 200/450/550/800이 실제 시그너처.
 - ❌ `#0d1117` 대신 `#0a0a0a` / `#000` 같은 순 검정 사용 금지 — Primer canvas는 살짝 파란 기가 있는 `#0d1117`.
+
+---
+

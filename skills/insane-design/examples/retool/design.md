@@ -14,6 +14,22 @@ token_prefix: surface
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Retool은 내부 도구 빌더에서 editorial-dark 감성의 마케팅 사이트로 전환했다. 거의 검정인 ink `#151515`(933회) 배경 위에 cream `#e9ebdf`(908회) 텍스트가 압도적 빈도로 사용되며, 보르도 accent `#c72844`(143회)가 브랜드 포인트를 만든다. 옛 오렌지 `#F05237` builder UI는 제품 UI에만 남은 legacy다.
+
+Saans variable font의 비표준 weight(300/380/570)가 핵심이다. 거대한 헤드라인이 weight 300으로 나와 editorial 세련미를 연출하고, 음수 letter-spacing(`-0.031em` ~ `-0.010em`)이 타이트한 타이포그래피를 만든다. Primary CTA는 cream bg + ink text로 역전된 구조다.
+
+**Key Characteristics:**
+- Ink `#151515` + cream `#e9ebdf` 듀오가 사이트 정체성
+- 보르도 `#c72844` accent (오렌지가 아님)
+- Saans VF 비표준 weight: 300(headline), 380(small title), 570(title)
+- Headline weight 300 + 음수 letter-spacing = editorial 감성
+- 7 surface-accent family × 4-slot 컬러 시스템
+
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Retool처럼 만들기 — 3가지만 하면 80%
@@ -223,7 +239,19 @@ body { background: var(--color-dark); color: var(--surface-text-primary); }
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 
 ### Primary Button (cream on ink)
 ```html
@@ -257,7 +285,7 @@ body { background: var(--color-dark); color: var(--surface-text-primary); }
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Retool — copy into your root stylesheet */
@@ -309,7 +337,36 @@ h1, h2, h3 {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#c72844` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#000000` |
+| Default Theme | dark |
+
+### Component Prompts
+
+> **Hero section**: "Retool 스타일 hero — `Saans` 폰트, `#c72844` brand color, dark 배경"
+>
+> **CTA button**: "Retool primary CTA — brand `#c72844` 배경 또는 dark fill, `Saans` 폰트"
+>
+> **Card component**: "Retool 스타일 카드 — dark 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - Background = ink `#151515` (dark). Light mode 아님.

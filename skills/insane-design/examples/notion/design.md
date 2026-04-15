@@ -14,6 +14,23 @@ token_prefix: color
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Notion의 웹사이트는 따뜻한 잉크색 `#37352F`와 클린한 흰색 배경의 조합으로, 편안하면서도 생산적인 인상을 전달한다. pure black을 사용하지 않는 'warm ink' 철학이 Notion 특유의 부드러운 톤을 만든다.
+
+타이포그래피는 커스텀 `NotionInter`를 기본 서체로 사용하되, serif(`Lyon Text`)와 mono(`iA Writer Mono`) 3-way 토글 시스템을 제공한다. 본문 weight는 **400**이며, Notion의 콘텐츠 블록 시스템에 맞게 각 블록 타입마다 독립적인 타이포 스타일이 적용된다.
+
+링크 블루 `#2383E2`와 따뜻한 잉크 `#37352F`가 컬러 시스템의 양축이다. 텍스트 색상은 `#37352F`에 alpha 변형(`A6`, `99`, `29`)을 적용하여 muted/faint/divider를 만드는 독특한 패턴을 사용한다. Notion의 시그니처인 멀티 컬러 하이라이트(10색)가 콘텐츠에 개성을 부여한다.
+
+**Key Characteristics:**
+- 본문 text는 **warm ink `#37352F`**. 알파 5단계 (`A6/99/29/17/CC`)로 text/muted/divider/hairline 구분.
+- Warm off-white **`#F7F7F5`**를 sidebar/panel 배경으로. **`#F7F6F3`**도 **`#F5F5F5`**도 아니다.
+- 폰트는 **`NotionInter` + `Lyon Text` + `iA Writer Mono`** 3-way 토글. `var(--rich-text-font-config-font-family)`로 블록별 동적 전환.
+- **13단계 font-size 시스템** (`font-size-50` ~ `font-size-1000`) 그대로 사용.
+- **Letter-spacing optical compensation** — 사이즈별 + weight별 미세 보정.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Notion처럼 만들기 — 3가지만 하면 80%
@@ -316,7 +333,21 @@ Notion은 **3-level composite shadow 시스템**. 가장 정교한 것은 `shado
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Notion는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### 12.1 Primary Button (Campaign blue)
 
@@ -396,7 +427,7 @@ Callout은 `06-4` 9색 팔레트에서 text/bg pair를 가져와 적용.
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Notion — copy into your root stylesheet */
@@ -462,7 +493,7 @@ a             { color: var(--color-link); }
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 ```js
 // tailwind.config.js — Notion
@@ -511,7 +542,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#2383E2` |
+| Heading text | `#37352F` |
+| Body text | `#37352F` |
+| Background | `#FFFFFF` |
+| Border | `#E9E9E7` |
+| Link | `#2383E2` |
+| Dark section | `#191919` |
+
+### Example Component Prompts
+- "Create a hero section on `#FFFFFF` background. Headline at 2.25rem `NotionInter` weight 400. CTA button `#2383E2` with white text."
+- "Design a card: `#1c1c1f` background, `#E9E9E7` border, 8px radius. Body text `#37352F` at weight 400."
+
+### Iteration Guide
+1. 폰트: `NotionInter` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#2383E2`는 CTA/링크에만 집중. 배경 `#FFFFFF`, 텍스트 `#37352F`
+3. 그림자: rgba 기반 멀티 레이어 elevation
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - 본문 text는 **warm ink `#37352F`**. 알파 5단계 (`A6/99/29/17/CC`)로 text/muted/divider/hairline 구분.
@@ -534,3 +589,6 @@ module.exports = {
 - ❌ **6단계 type scale** 금지 → 13단계 필수.
 - ❌ Letter-spacing 고정값 금지 → 사이즈별 optical 보정.
 - ❌ Campaign 색 (`#2537B1` navy, `#FFB110` yellow 등)을 **영구 브랜드**로 착각 금지 — AI Agents 런칭 캠페인 overlay.
+
+---
+

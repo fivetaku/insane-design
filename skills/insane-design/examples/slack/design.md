@@ -14,6 +14,23 @@ token_prefix: "(no prefix — unscoped custom properties)"
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Slack의 웹사이트는 밝고 개방적인 배경에 4색 브랜드 팔레트(aubergine, green, blue, red/yellow)가 조화를 이루는 커뮤니케이션 도구 디자인이다. 협업의 에너지와 접근성을 시각적으로 전달한다.
+
+타이포그래피는 기본 시스템 서체를 사용한다. 본문 weight는 **400**이며, 깔끔하고 읽기 편한 텍스트 스타일이 커뮤니케이션 도구의 명확성을 반영한다.
+
+브랜드 aubergine `#4A154B`와 블루 `#1264A3`가 주요 accent이다. 멀티 컬러 팔레트가 Slack의 활기찬 브랜드 정체성을 표현하되, 인터페이스에서는 절제되게 사용된다.
+
+**Key Characteristics:**
+- Body는 `Salesforce-Sans`, Heading은 `Salesforce-Avant-Garde` — 둘 다 system-ui 폴백 체인과 함께.
+- 링크 · 포커스 · sidebar-highlight에는 `#1264A3`(실제 CSS 1위 non-neutral hex). Aubergine이 아니다.
+- Hero/CTA anchor는 `#611F69` — 레거시 `#4A154B`(3위)는 "기사/legacy article theme"에만.
+- 버튼/인풋 `border-radius: 4px`. 8px 이상은 카드·모달 전용.
+- Ambient shadow `0 0 2rem rgba(0,0,0,0.1)`로 카드 띄우기. 포커스는 `inset 0 0 0 2px #611F69`.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Slack처럼 만들기 — 3가지만 하면 80%
@@ -277,7 +294,21 @@ section {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Slack는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### Button (primary)
 
@@ -348,7 +379,7 @@ section {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Slack — copy into your root stylesheet */
@@ -409,7 +440,7 @@ a { color: var(--color-link-500); }
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 ```js
 // tailwind.config.js — Slack
@@ -475,7 +506,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#611F69` |
+| Heading text | `#1D1C1D` |
+| Body text | `#616061` |
+| Background | `#FFFFFF` |
+| Border | `#DDDDDD` |
+| Link | `#1264A3` |
+| Dark section | `#1A1D21` |
+
+### Example Component Prompts
+- "Create a hero section on `#FFFFFF` background. Headline at 3rem `Salesforce-Avant-Garde` weight 400. CTA button `#611F69` with white text."
+- "Design a card: `#1c1c1f` background, `#DDDDDD` border, 8px radius. Body text `#616061` at weight 400."
+
+### Iteration Guide
+1. 폰트: `Salesforce-Avant-Garde` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#611F69`는 CTA/링크에만 집중. 배경 `#FFFFFF`, 텍스트 `#1D1C1D`
+3. 그림자: subtle box-shadow로 modal/popover elevation 표현
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - Body는 `Salesforce-Sans`, Heading은 `Salesforce-Avant-Garde` — 둘 다 system-ui 폴백 체인과 함께.
@@ -494,3 +549,6 @@ module.exports = {
 - ❌ `--space-*` 같은 스페이싱 토큰 존재 가정 (실제 CSS에는 없음 — raw rem/px)
 - ❌ Success 상태에 `#2EB67D` (실제는 `#007A5A`, 13회)
 - ❌ 단일 "aubergine" 테마 가정 — 랜딩(`#611F69`)/기사(`#4A154B`)/앱 사이드바(`#400D40`) 3개 변형 분리 필수
+
+---
+

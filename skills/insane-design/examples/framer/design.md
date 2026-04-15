@@ -14,6 +14,23 @@ token_prefix: framer
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Framer의 웹사이트는 대담한 타이포그래피와 역동적인 애니메이션이 결합된 모던 디자인이 특징이다. 디자인 도구의 창의적 에너지를 웹사이트 자체로 보여주는 전략을 취한다.
+
+타이포그래피는 `Inter`를 기본 서체로 사용한다. 본문 weight는 **400**이며, 히어로 섹션의 대형 헤딩이 시각적 중심을 잡는다. 제목과 본문 사이의 사이즈 대비가 크다.
+
+브랜드 블루 `#0099FF`가 CTA와 링크에 사용되며, 흑백 기반의 깔끔한 배경 위에서 강한 시각적 포인트 역할을 한다. 히어로 섹션의 그래디언트와 애니메이션이 컬러 다양성을 보완한다.
+
+**Key Characteristics:**
+- `#0099FF` (동일 표기: `#09f`)를 링크 / CTA / selection 브랜드 컬러로 고정할 것.
+- Dark surface는 불투명 회색이 아니라 `#000000` 위에 `#FFFFFF1A` / `#FFFFFF14` 알파 레이어를 쌓아서 만들 것.
+- Hero 타이포는 `85–110px` + `-0.05em` tracking + weight 500~700. 기본 Inter tracking으로는 Framer 히어로가 나오지 않는다.
+- `Inter Variable` + `"Inter Variable Placeholder"` 폴백을 함께 선언해 Framer 런타임의 layout-shift 방지 패턴을 재현할 것.
+- 카드 그림자는 3-layer 합성 (`0 2px 4px #00000026, 0 1px #0000000d, 0 0 0 1px #ffffff26`)으로 할 것.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Framer처럼 만들기 — 3가지만 하면 80%
@@ -332,7 +349,21 @@ section {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1440px, 넉넉한 마진 |
+
+> ⚠️ Framer는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### 12.1 Primary CTA Button
 
@@ -399,7 +430,7 @@ section {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Framer — copy into your root stylesheet */
@@ -460,7 +491,31 @@ h1, h2, h3 { letter-spacing: var(--framer-letter-spacing-tight); font-weight: 50
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#0099FF` |
+| Heading text | `#000000` |
+| Body text | `#666666` |
+| Background | `#FFFFFF` |
+| Border | `#E5E5E5` |
+| Link | `#0099FF` |
+| Dark section | `#111111` |
+
+### Example Component Prompts
+- "Create a hero section on `#FFFFFF` background. Headline at 3.5rem `Inter` weight 400. CTA button `#0099FF` with white text."
+- "Design a card: `#1c1c1f` background, `#E5E5E5` border, 12px radius. Body text `#666666` at weight 400."
+
+### Iteration Guide
+1. 폰트: `Inter` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#0099FF`는 CTA/링크에만 집중. 배경 `#FFFFFF`, 텍스트 `#000000`
+3. 그림자: 부드러운 box-shadow로 깊이감 표현
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - `#0099FF` (동일 표기: `#09f`)를 링크 / CTA / selection 브랜드 컬러로 고정할 것.
@@ -480,3 +535,6 @@ h1, h2, h3 { letter-spacing: var(--framer-letter-spacing-tight); font-weight: 50
 - ❌ `#0099FF`에 별도 hover 색을 만들지 말 것 — Framer는 `#05F` (deep blue)로만 내리고 알파 조작은 하지 않는다.
 - ❌ Hero 타이포에 양수 tracking (`0.02em`)을 주지 말 것 — Framer는 항상 음수 (-.05em ~ -.03em).
 - ❌ 페이지 배경을 `#0d1117` 같은 블루틴트 다크로 만들지 말 것 — Framer는 순수 `#000000` 앵커.
+
+---
+

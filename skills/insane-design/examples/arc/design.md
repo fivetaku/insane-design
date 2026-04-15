@@ -14,6 +14,22 @@ token_prefix: --colors-*
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Arc Browser는 deep navy `#000354` 배경의 다크 퍼스트 디자인이다. 순백 대신 따뜻한 크림 `#FFFCEC`(brandOffwhite)를 텍스트와 배경 모두에 사용하며, brand blue `#3139FB`가 CTA pill 버튼에 집중된다. navy ↔ offwhite 섹션이 교차하는 레이아웃이 특징적이다.
+
+다양한 커스텀/라이선스 폰트가 사용된다: Marlin Soft SQ(primary, 부드러운 기하학 sans), Exposure VAR(hero display, variable font), ABC Favorit Mono(code), Sohne Breit(확장형 헤드라인). Spring easing(`cubic-bezier(0.34,1.56,0.64,1)`)의 물리 기반 bouncy 애니메이션이 Arc의 정체성이다.
+
+**Key Characteristics:**
+- Deep navy `#000354` 다크 배경 (순흑이 아님)
+- 크림 `#FFFCEC` 텍스트/배경 (순백이 아님)
+- CSS 변수 `--colors-brand*` 5종 직접 노출
+- Spring easing — 물리 기반 bouncy 애니메이션
+- Pill 버튼(radius 999px) + 블루 글로우 효과
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -194,7 +210,19 @@ body {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: manual -->
 
 ### CTA 버튼 (다운로드)
@@ -232,7 +260,7 @@ body {
 
 ---
 
-## 13. Content Voice
+## 14. Content Voice
 <!-- SOURCE: manual -->
 
 - **헤드라인**: "The browser that puts you first" — 사용자 중심 포지셔닝
@@ -242,7 +270,7 @@ body {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: manual -->
 
 ```css
@@ -286,7 +314,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: manual -->
 
 ```js
@@ -319,7 +347,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#3139FB` |
+| Page BG | `#000354` |
+| Text Primary | `#FFFCEC` |
+| Default Theme | dark |
+
+### Component Prompts
+
+> **Hero section**: "Arc Browser 스타일 hero — `Marlin Soft SQ` 폰트, `#3139FB` brand color, dark 배경"
+>
+> **CTA button**: "Arc Browser primary CTA — brand `#3139FB` 배경 또는 dark fill, `Marlin Soft SQ` 폰트"
+>
+> **Card component**: "Arc Browser 스타일 카드 — dark 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### DO

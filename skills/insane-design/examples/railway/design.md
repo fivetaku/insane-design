@@ -14,6 +14,23 @@ token_prefix: mantine
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Railway의 웹사이트는 딥 퍼플(`#13111C`) 다크 배경에 serif 디스플레이 폰트(`IBM Plex Serif`)의 조합이라는 독특한 시각 전략을 취한다. 개발자 도구이면서도 문학적이고 세련된 인상을 동시에 전달한다.
+
+타이포그래피는 `IBM Plex Serif`(디스플레이/헤딩)와 `Inter`(본문)의 혼합 시스템을 사용한다. serif 헤딩은 Railway의 가장 독특한 시각적 시그니처이며, 본문 weight는 **400**이다.
+
+브랜드 딥 퍼플 `#381dbd`가 accent로 사용되며, oatmeal `#f1f0ef` 라이트 섹션 브레이크가 다크 배경과 교차하며 시각적 리듬을 만든다.
+
+**Key Characteristics:**
+- **IBM Plex Serif**를 hero headline / section title에 적용. Railway 시그니처.
+- Body는 Inter/Inter Tight. 혼합 타이포가 editorial 느낌.
+- 다크 배경 = `#08070c`(ultra) + `#13111c`(card). 순검정 금지.
+- Light 섹션 브레이크에는 oatmeal `#f1f0ef` 사용 (warm cream).
+- Button height는 `--button-height-{xs..xl}` 5단계 사이즈별 토큰 유지.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Railway처럼 만들기 — 3가지만 하면 80%
@@ -249,7 +266,21 @@ Mantine 4-level:
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Railway는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### Mantine Button (primary)
 ```html
@@ -279,7 +310,7 @@ Mantine 4-level:
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Railway — copy into your root stylesheet */
@@ -328,7 +359,31 @@ h1, h2, h3 {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#381dbd` |
+| Heading text | `#FFFFFF` |
+| Body text | `#A0A0A0` |
+| Background | `#13111C` |
+| Border | `#2A2A2A` |
+| Link | `#381dbd` |
+| Dark section | `#13111C` |
+
+### Example Component Prompts
+- "Create a hero section on `#13111C` background. Headline at 3rem `IBM Plex Serif` weight 400. CTA button `#381dbd` with white text."
+- "Design a card: `#FFFFFF` background, `#2A2A2A` border, 12px radius. Body text `#A0A0A0` at weight 400."
+
+### Iteration Guide
+1. 폰트: `IBM Plex Serif` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#381dbd`는 CTA/링크에만 집중. 배경 `#13111C`, 텍스트 `#FFFFFF`
+3. 그림자: 딥 퍼플 다크 테마에서 border + surface로 elevation 표현
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - **IBM Plex Serif**를 hero headline / section title에 적용. Railway 시그니처.
@@ -344,3 +399,6 @@ h1, h2, h3 {
 - Tailwind naming (`bg-gray-900`)으로 대체 금지 — Mantine 토큰이 진짜 소스.
 - Purple accent를 네온 violet(`#7c3aed`)으로 덮지 말 것. Railway는 **딥/다크 purple** (`#381dbd`, `#2c0a5c`).
 - 단일 섀도 atom 사용 금지 — Mantine의 5-level `xs/sm/md/lg/xl` 단계를 유지.
+
+---
+

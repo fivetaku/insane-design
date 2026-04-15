@@ -14,6 +14,23 @@ token_prefix: "--encore-*"
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Spotify의 웹사이트는 다크 배경(`#121212`) 위에 브랜드 그린 `#1ED760`이 빛나는 음악 스트리밍 서비스의 시그니처 디자인이다. 콘텐츠(앨범 아트, 아티스트 이미지)가 주인공이 되도록 UI는 최대한 어둡고 절제된다.
+
+타이포그래피는 Spotify 자체 제작 `SpotifyMixUI`(본문)와 `SpotifyMixUITitle`(헤딩)을 사용한다. 본문 weight는 **400**, 헤딩 최대 weight는 **700**이다. 900 weight는 사용하지 않는다.
+
+브랜드 그린 `#1ED760`(레거시 `#1DB954`가 아님)이 CTA, 재생 버튼, active 상태에 집중 사용된다. hover(`#3BE477`) / press(`#1ABC54`) variant로 인터랙션 상태를 정밀하게 표현한다.
+
+**Key Characteristics:**
+- 브랜드 그린 `#1ED760` 하나만 사용. Hover 는 `#3BE477`, press 는 `#1ABC54`.
+- Body 는 `SpotifyMixUI`, Title/Headline 은 `SpotifyMixUITitle` — 자체 호스팅 variable 폰트.
+- Weight 는 `400` 또는 `700` 만. 500/600/800/900 절대 사용 금지.
+- 기본 테마는 dark. 페이지 배경 `#121212`, elevated 카드 `#1F1F1F`, hover `#2A2A2A`.
+- Text 대비: primary `#FFFFFF`, subdued `#B3B3B3` (WCAG AA 통과).
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Spotify처럼 만들기 — 3가지만 하면 80%
@@ -286,7 +303,21 @@ body {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Spotify는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### Button (primary)
 
@@ -356,7 +387,7 @@ body {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Spotify — copy into your root stylesheet */
@@ -410,7 +441,7 @@ h1, h2, h3 {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 ```js
 // tailwind.config.js — Spotify
@@ -476,7 +507,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#1ED760` |
+| Heading text | `#FFFFFF` |
+| Body text | `#B3B3B3` |
+| Background | `#121212` |
+| Border | `#282828` |
+| Link | `#1ED760` |
+| Dark section | `#121212` |
+
+### Example Component Prompts
+- "Create a hero section on `#121212` background. Headline at 3rem `SpotifyMixUI` weight 400. CTA button `#1ED760` with white text."
+- "Design a card: `#FFFFFF` background, `#282828` border, 8px radius. Body text `#B3B3B3` at weight 400."
+
+### Iteration Guide
+1. 폰트: `SpotifyMixUI` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#1ED760`는 CTA/링크에만 집중. 배경 `#121212`, 텍스트 `#FFFFFF`
+3. 그림자: 다크 테마에서 카드 배경색 차이로 elevation 표현
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - 브랜드 그린 `#1ED760` 하나만 사용. Hover 는 `#3BE477`, press 는 `#1ABC54`.
@@ -497,3 +552,6 @@ module.exports = {
 - ❌ 카테고리 듀얼톤(rose/amber/green/blue)의 light/dark 혼용 — 항상 페어로 유지
 - ❌ `--color-primary` / `--color-brand` 같은 커스텀 토큰 이름 (실제는 `--encore-*` / `--text-bright-accent` / `--essential-bright-accent`)
 - ❌ `outline: none` 처리 — Spotify 의 focus 는 명시적 outline 기반
+
+---
+

@@ -14,6 +14,22 @@ token_prefix: --seed-
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+당근마켓은 지역 커뮤니티 중고거래 플랫폼으로, 따뜻하고 친근한 한국형 디자인을 가진다. 순백 `#FFFFFF` 배경 위에 순흑 `#000000` 텍스트가 놓이고, 시그니처 오렌지 `#FF6600`이 CTA와 브랜드 강조에 사용된다. Seed Design System(`--seed-*` prefix)의 정교한 토큰 계층이 컬러, 크기, 모션을 체계적으로 관리한다.
+
+Pretendard Variable(오픈소스, SIL 라이선스)을 CDN으로 로드하여 한국어/영어 모두 최적화된 타이포를 제공한다. `--seed-dimension-x*` 배수 시스템으로 spacing이 관리되고, BEM 네이밍(`seed-action-button--variant_ghost`)이 컴포넌트 구조를 명확히 한다. 다크 모드 자동 대응을 위해 CSS 변수 계층 유지가 필수다.
+
+**Key Characteristics:**
+- 시그니처 오렌지 `#FF6600` (SVG의 `#FF6F0F`와 구분)
+- Seed Design System `--seed-*` 토큰 계층 — 하드코딩 금지
+- Pretendard Variable (오픈소스 가변 폰트)
+- `--seed-dimension-x*` 배수 spacing 시스템
+- Ghost 버튼 투명 배경 + BEM 컴포넌트 네이밍
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -187,7 +203,19 @@ body {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Action Button — Ghost (`.seed-action-button--variant_ghost`)
@@ -229,7 +257,7 @@ body {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -240,7 +268,7 @@ body {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -271,7 +299,36 @@ body {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#FF6600` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#000000` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "당근마켓 스타일 hero — `Pretendard Variable` 폰트, `#FF6600` brand color, light 배경"
+>
+> **CTA button**: "당근마켓 primary CTA — brand `#FF6600` 배경 또는 dark fill, `Pretendard Variable` 폰트"
+>
+> **Card component**: "당근마켓 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

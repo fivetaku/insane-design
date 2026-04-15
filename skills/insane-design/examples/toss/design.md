@@ -14,6 +14,23 @@ token_prefix: --adaptive*
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Toss의 웹사이트는 순백이 아닌 쿨 그레이 `#F2F4F6` 배경 위에 화이트 `#FFFFFF` 카드를 올리는 '카드 위 카드' 레이어링 구조가 핵심이다. 이 구조 덕분에 정보 위계가 시각적으로 명확해지고, 금융 앱 특유의 깔끔하면서도 친근한 인상을 전달한다.
+
+타이포그래피는 Toss 자체 제작 `Toss Product Sans`를 기본 서체로 사용한다. 본문 weight는 일반적인 400이 아닌 **500**으로, 한국어 텍스트에 적절한 시각적 안정감을 제공한다. 1px 단위의 촘촘한 타이포 스케일(`t1`~`t7` + `st1`~`st13`)이 정밀한 텍스트 위계를 가능하게 한다.
+
+브랜드 블루 `#3182F6`는 CTA 버튼과 primary 링크에만 집중 사용되며, 넓은 배경색으로는 절대 쓰이지 않는다. Grey ramp `#191F28` → `#333D4B` → `#4E5968` → `#8B95A1` → `#B0B8C1`의 5단계 텍스트 위계가 정보의 중요도를 명확히 전달한다.
+
+**Key Characteristics:**
+- 배경은 `#F2F4F6` cool gray, 그 위에 `#FFFFFF` 카드를 올려라 — Toss의 레이어 구조 핵심
+- 브랜드 블루 `#3182F6`는 CTA 버튼과 primary 링크에만 써라
+- 버튼 사이즈에 맞는 radius를 쓸 것: tiny=6, medium=8, large=12, big=16
+- Grey ramp `#191F28` → `#333D4B` → `#4E5968` → `#8B95A1` → `#B0B8C1` 5단계 텍스트 위계를 지킬 것
+- 본문 font-weight는 `500`이 기본. 400은 서브텍스트, 600은 버튼, 700은 제목에만
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -295,7 +312,21 @@ body {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Toss는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Button (`.button`)
@@ -361,7 +392,7 @@ body {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -374,7 +405,7 @@ body {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -414,7 +445,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: manual -->
 
 ```js
@@ -471,7 +502,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#3182F6` |
+| Heading text | `#191F28` |
+| Body text | `#333D4B` |
+| Background | `#F2F4F6` |
+| Border | `#E5E8EB` |
+| Link | `#3182F6` |
+| Dark section | `#17171C` |
+
+### Example Component Prompts
+- "Create a hero section on `#F2F4F6` background. Headline at 30px `Toss Product Sans` weight 500. CTA button `#3182F6` with white text."
+- "Design a card: `#FFFFFF` background, `#E5E8EB` border, 12px radius. Body text `#333D4B` at weight 500."
+
+### Iteration Guide
+1. 폰트: `Toss Product Sans` 패밀리, 본문 weight 500
+2. 컬러: 브랜드 `#3182F6`는 CTA/링크에만 집중. 배경 `#F2F4F6`, 텍스트 `#191F28`
+3. 그림자: 3-layer (outline + spread + edge) rgba 기반 elevation
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO
@@ -490,3 +545,6 @@ module.exports = {
 - Grey scale에서 `#000000` 순흑 사용 금지 — 가장 진한 텍스트도 `#191F28`
 - 단일 레이어 `box-shadow`로 elevation을 재현하지 마라 — 3-layer가 아니면 깊이감이 다름
 - Toss Product Sans 없이 `Inter`로 대체할 때 letter-spacing을 건드리지 마라 — 기본값이 맞다
+
+---
+

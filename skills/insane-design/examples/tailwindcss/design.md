@@ -14,6 +14,22 @@ token_prefix: "--color-*, --font-*, --text-*, --radius-*, --spacing"
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Tailwind CSS 공식 사이트는 자사 팔레트를 "전시"하는 쇼케이스 역할을 한다. 본문은 중립 zinc/gray + 순백 `#FFFFFF` 라이트 배경만 사용하고, sky/blue/indigo 컬러는 코드 블록과 히어로 악센트에만 등장한다. OKLCH 컬러 공간으로 전환된 v4 팔레트가 22개 family × 11단계로 전개된다.
+
+Inter + IBM Plex Mono 조합이 기본이며, feature settings(`cv02`, `cv03`, `cv04`, `cv11`)가 Inter의 미묘한 typographic 변형을 만드는 핵심이다. Bold는 `font-semibold`(600)이며 700은 거의 미사용이다. `@theme` CSS 블록에서 모든 토큰이 전역 노출되는 v4 구조가 특징적이다.
+
+**Key Characteristics:**
+- Sky `#00a5ef`가 브랜드 시그니처 — 페이지는 중립 zinc 기반
+- Inter feature settings `cv02/cv03/cv04/cv11`가 시각적 차별점
+- IBM Plex Mono + `ss02/zero` feature settings
+- Tailwind v4 `@theme` 블록 + OKLCH 컬러 공간
+- Weight 400/500/600만 사용 (700은 거의 없음)
+
+---
+
 ## 01. Quick Start
 
 > 5분 안에 tailwindcss.com 처럼 만들기 — 3가지만 하면 80%
@@ -275,7 +291,19 @@ Tailwind v4 는 37 개의 shadow 커스텀 프로퍼티를 이미 노출한다 (
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 
 ### Button (brand sky primary)
 
@@ -306,7 +334,7 @@ Tailwind v4 는 37 개의 shadow 커스텀 프로퍼티를 이미 노출한다 (
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Tailwind CSS v4 — copy into your @theme block */
@@ -351,7 +379,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 Tailwind v4 는 JS config 를 권장하지 않는다 — 대신 `@theme` CSS 블록을 사용. 하지만 v3 호환 config 를 원한다면:
 
@@ -392,7 +420,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#00a5ef` |
+| Page BG | `#ffffff` |
+| Text Primary | `#0a0a0a` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Tailwind CSS 스타일 hero — `Inter` 폰트, `#00a5ef` brand color, light 배경"
+>
+> **CTA button**: "Tailwind CSS primary CTA — brand `#00a5ef` 배경 또는 dark fill, `Inter` 폰트"
+>
+> **Card component**: "Tailwind CSS 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - Tailwind v4 `@theme` 블록으로 토큰 선언. v3 config 보다 우선.

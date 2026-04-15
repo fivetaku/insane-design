@@ -14,6 +14,23 @@ token_prefix: --hds-*
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Stripe의 웹사이트는 살짝 푸른 쿨톤의 라이트 배경(`#F8FAFD`)과 딥 네이비(`#061B31`) 다크 섹션을 교차 배치하는 혼합 테마 전략을 사용한다. 정교하게 설계된 3-tier 토큰 시스템(HDS — Highline Design System)이 뒷받침하는 절제되고 세련된 인상이 특징이다.
+
+타이포그래피는 Klim Type Foundry의 `sohne-var`를 기본 서체로 사용한다. 본문과 헤딩 모두 weight **300**이라는 파격적으로 가벼운 설정이 Stripe의 시각적 정체성을 정의한다. 큰 헤딩에는 `-0.01em` ~ `-0.02em`의 negative letter-spacing으로 optical compensation을 적용한다.
+
+브랜드 보라 `#533AFD`는 `brand-600`과 `brandDark-600` 양쪽에 고정되어 라이트/다크 어느 테마에서도 동일하게 유지된다. 여기에 orange `#FF6118`, magenta `#F44BCC`, ruby `#EA2261`, lemon `#F9B900`으로 구성된 '플레임 그래디언트'가 히어로를 감싸며 시각적 드라마를 연출한다.
+
+**Key Characteristics:**
+- `#533AFD` 를 canonical 보라로. Stripe 로고와 primary CTA 에 쓰이는 유일한 보라다.
+- 본문을 `font-weight: 300` 으로. 네, 삼백이다. 이게 Stripe 타이포그래피의 정체성.
+- 헤딩 weight 도 `300` (단 `heading-xxs` / `heading-xs` 는 overline 이라 `400`)
+- `sohne-var` + `SF Pro Display` → `-apple-system` fallback 체인 사용
+- 큰 heading 에 negative letter-spacing: `md~xl` = `-0.01em`, `xxl` = `-0.02em`
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -360,7 +377,6 @@ body {
 ---
 
 ## 10. Motion
-<!-- OPTIONAL -->
 <!-- SOURCE: manual -->
 
 CSS 에 별도 motion 토큰 변수(`--hds-motion-*` 또는 `--hds-transition-*`)는 없지만, 관측된 인터랙션 패턴:
@@ -374,7 +390,6 @@ CSS 에 별도 motion 토큰 변수(`--hds-motion-*` 또는 `--hds-transition-*`
 ---
 
 ## 11. Layout Patterns
-<!-- OPTIONAL -->
 <!-- SOURCE: manual -->
 
 ### Hero
@@ -394,7 +409,21 @@ section {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Stripe는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 BEM 클래스는 실제 rendered HTML 에서 관측한 그대로.
@@ -458,8 +487,7 @@ BEM 클래스는 실제 rendered HTML 에서 관측한 그대로.
 
 ---
 
-## 13. Content / Copy Voice
-<!-- OPTIONAL -->
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -473,7 +501,7 @@ BEM 클래스는 실제 rendered HTML 에서 관측한 그대로.
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -533,8 +561,7 @@ strong, b { font-weight: var(--hds-font-weight-bold); }   /* 400 */
 
 ---
 
-## 15. Tailwind Config
-<!-- OPTIONAL -->
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -598,7 +625,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#533AFD` |
+| Heading text | `#0D173B` |
+| Body text | `#50617A` |
+| Background | `#F8FAFD` |
+| Border | `#D4DEE9` |
+| Link | `#533AFD` |
+| Dark section | `#061B31` |
+
+### Example Component Prompts
+- "Create a hero section on `#F8FAFD` background. Headline at 2.125rem `sohne-var` weight 300. CTA button `#533AFD` with white text."
+- "Design a card: `#FFFFFF` background, `#D4DEE9` border, 16px radius. Body text `#50617A` at weight 300."
+
+### Iteration Guide
+1. 폰트: `sohne-var` 패밀리, 본문 weight 300
+2. 컬러: 브랜드 `#533AFD`는 CTA/링크에만 집중. 배경 `#F8FAFD`, 텍스트 `#0D173B`
+3. 그림자: 듀얼 레이어 box-shadow (위/아래 2-layer stacking)
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO
@@ -622,3 +673,6 @@ module.exports = {
 - 순백 `#FFFFFF` 를 page bg 로 두지 마라 — 살짝 푸른 `#F8FAFD` 가 정답
 - Primary 버튼을 다크 테마에서도 `brand-600` 으로 하드코딩하지 마라 — `util-brand-*` alias 가 이미 `brandDark-*` 로 invert 해서 라이트 luminance 로 잡아 준다
 - 큰 headings 에 letter-spacing 을 그대로 두지 마라 — optical compensation 없으면 "풀어진" 느낌이 난다
+
+---
+

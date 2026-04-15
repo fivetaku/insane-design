@@ -14,6 +14,17 @@ token_prefix: --podium-cds-*
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Nike의 디지털 인터페이스는 라이트 테마를 기본으로 한다. 밝은 배경 위에 브랜드 컬러 `#111111`가 절제적으로 사용되어 깔끔하고 신뢰감 있는 시각적 인상을 만든다.
+
+색상 전략은 `#111111`, `#000000`, `#D5FF44` 등을 중심으로 구성된다. 브랜드의 canonical 컬러인 `#111111`가 CTA와 주요 인터랙션 요소에 사용되며, 나머지 뉴트럴 팔레트가 배경과 텍스트 계층을 형성한다.
+
+타이포그래피는 `Helvetica Now Text` 폰트를 중심으로 브랜드 고유의 성격을 표현한다. 기본 weight 400으로 본문을 구성하며, heading에서 더 무거운 weight를 사용해 시각적 위계를 만든다.
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -193,7 +204,26 @@ body {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: manual -->
+
+### Breakpoints
+
+| Name | Value | Description |
+|---|---|---|
+| Mobile | 0–767px | 단일 컬럼, 스택 레이아웃 |
+| Tablet | 768–1023px | 2컬럼 그리드, 축소된 네비게이션 |
+| Desktop | 1024–1439px | 풀 레이아웃, 사이드바 표시 |
+| Large | 1440px+ | 최대 너비 제한, 중앙 정렬 |
+
+### Collapsing Strategy
+- **Navigation**: 데스크톱 수평 메뉴 → 모바일 햄버거 메뉴
+- **Grid columns**: 데스크톱 다중 컬럼 → 모바일 단일 컬럼 스택
+- **Hero layout**: 데스크톱 가로 배치 → 모바일 세로 스택
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Nav AI Highlight
@@ -240,7 +270,7 @@ body {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -253,7 +283,7 @@ body {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -279,7 +309,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -315,7 +345,50 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary | brand | `#111111` |
+| Background | bg-page | `#FFFFFF` |
+| Text primary | text | `#111111` |
+| Text muted | text-muted | `#707072` |
+| Border | border | `#E0E0E0` |
+
+### Example Component Prompts
+
+#### Hero Section
+```
+Nike 스타일 히어로 섹션을 만들어줘.
+- 배경: #FFFFFF
+- H1: Helvetica Now Text, weight 700
+- 서브텍스트: #707072
+- CTA 버튼: 배경 #111111, 텍스트 white
+```
+
+#### Card Component
+```
+Nike 스타일 카드 컴포넌트를 만들어줘.
+- 배경: #FFFFFF, border: 1px solid #E0E0E0
+- radius: 2px
+- 제목: Helvetica Now Text, 16px, weight 700
+- 본문: 14px, color #111111
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: 반드시 §06의 semantic token을 사용. raw hex 직접 사용 금지.
+- **폰트 변경 시**: weight 400이 기본. heading에만 더 무거운 weight.
+- **여백 조정 시**: §07의 spacing scale 단위로만. 임의 값(13px, 27px 등) 금지.
+- **새 컴포넌트 추가 시**: §13의 기존 패턴(radius, shadow, border 스타일)을 따를 것.
+- **반응형**: §12의 breakpoint를 그대로 사용. 커스텀 breakpoint 추가 금지.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

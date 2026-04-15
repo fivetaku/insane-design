@@ -14,6 +14,22 @@ token_prefix: --gl-*
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+adidas는 스포츠 브랜드답게 강렬한 모노크롬 디자인을 사용한다. 순흑 `#000000`이 658회로 압도적 빈도를 차지하며(SVG 포함), 순백 `#FFFFFF`와의 극명한 대비가 브랜드 정체성이다. 중간 회색은 최소한으로 사용되고, 대안 배경 `#ECEFF1`이 섹션 변화를 만든다.
+
+Global Design System(GDS)의 정교한 토큰 시스템(`--gl-body-font-set-family-functional-*`, `--gl-heading-font-set-family-standard-*`)이 특징적이다. CTA 버튼에는 이중 레이어 drop shadow 패턴이 적용되고, `AdihausDIN` 독점 폰트가 스포티하면서도 기능적인 인상을 만든다.
+
+**Key Characteristics:**
+- 순흑 `#000000` + 순백 `#FFFFFF`의 극명한 모노크롬 대비
+- CTA 버튼 이중 레이어 drop shadow 패턴
+- AdihausDIN 독점 폰트 + 정교한 컨텍스트별 폰트 토큰
+- `--gl-*` prefix Global Design System
+- 접근성 포커스 링 `#91C7ED`
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -195,7 +211,19 @@ body {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary CTA Button
@@ -252,7 +280,7 @@ body {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -265,7 +293,7 @@ body {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -295,7 +323,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -334,7 +362,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#000000` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#000000` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "adidas 스타일 hero — `AdihausDIN` 폰트, `#000000` brand color, light 배경"
+>
+> **CTA button**: "adidas primary CTA — brand `#000000` 배경 또는 dark fill, `AdihausDIN` 폰트"
+>
+> **Card component**: "adidas 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

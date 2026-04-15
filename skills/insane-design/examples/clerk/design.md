@@ -14,6 +14,23 @@ token_prefix: clerk
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Clerk의 웹사이트는 밝은 배경에 보라 accent(`#6C47FF`)가 결합된 인증 플랫폼 디자인이다. 깔끔하면서도 신뢰감 있는 인상이 보안 관련 서비스로서의 전문성을 전달한다.
+
+타이포그래피는 기본 시스템 서체를 사용한다. 본문 weight는 **400**이며, 깔끔하고 균형 잡힌 읽기 경험을 제공한다.
+
+브랜드 퍼플 `#6C47FF`가 CTA와 주요 인터랙션 요소에 사용된다. 밝은 배경 위에서 보라색이 강한 시각적 포인트를 만들며, 인증/보안 맥락에서의 신뢰감을 보조한다.
+
+**Key Characteristics:**
+- **Dual-accent 시스템** 사용: 보라 `#6C47FF` interactive + 시안 `#5DE3FF` addon/live.
+- 다크 테마 기본값: bg `#131316`, surface `#1A1B1F`, elevated `#2F3037`, 5-step pure gray ramp.
+- **Suisse Intl** (body) + **Geist Numbers** (OTP/숫자) + **Söhne Mono** (code) 3-폰트 분리.
+- OTP / 숫자 UI에 `font-variant-numeric: tabular-nums` 강제.
+- Variable font 특수 weight `450`, `510` 활용 가능.
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -254,7 +271,21 @@ Clerk은 Tailwind spacing 유틸을 그대로 사용 + 9개 커스텀 변수만 
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Clerk는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Sign In Card (Clerk의 flagship 컴포넌트)
@@ -308,7 +339,7 @@ Clerk은 Tailwind spacing 유틸을 그대로 사용 + 9개 커스텀 변수만 
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -382,7 +413,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -449,7 +480,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#6C47FF` |
+| Heading text | `#131316` |
+| Body text | `#5E5F6E` |
+| Background | `#FFFFFF` |
+| Border | `#EBEBED` |
+| Link | `#6C47FF` |
+| Dark section | `#131316` |
+
+### Example Component Prompts
+- "Create a hero section on `#FFFFFF` background. Headline at 3rem `Suisse Intl` weight 400. CTA button `#6C47FF` with white text."
+- "Design a card: `#1c1c1f` background, `#EBEBED` border, 12px radius. Body text `#5E5F6E` at weight 400."
+
+### Iteration Guide
+1. 폰트: `Suisse Intl` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#6C47FF`는 CTA/링크에만 집중. 배경 `#FFFFFF`, 텍스트 `#131316`
+3. 그림자: 부드러운 box-shadow로 카드 elevation 표현
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO
@@ -472,3 +527,6 @@ module.exports = {
 - ❌ Flat single-layer shadow — "glass card + brand ring" 시그니처가 flat card로 변질.
 - ❌ `color-brand` / `color-gray-*` flat 네이밍 — 실제는 `--root-bg`, `--typography-color` semantic.
 - ❌ 짝수 radius (12px, 16px) 사용 — optical 11px / 22px로 보정해야 border 포함 시 12/24로 보인다.
+
+---
+

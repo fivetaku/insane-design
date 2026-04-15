@@ -14,6 +14,22 @@ token_prefix: --feds-*
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Adobe 마케팅 사이트는 창의성과 전문성을 동시에 전달하는 깔끔한 디자인이다. 순백 `#FFFFFF` 배경 위에 `#292929`(거의 검정, 순흑 아님) 텍스트가 놓이고, Spectrum Blue `#3B63FB`가 CTA 버튼에 집중된다. 로고의 빨간 `#EB1000`은 UI에 사용되지 않고 브랜드 아이덴티티 전용이다.
+
+Adobe Spectrum 디자인 시스템의 FEDS(마케팅) 레이어가 `--feds-*`, `--alias-*` prefix로 토큰을 노출한다. adobe-clean 계열 3종(sans, serif, display)이 셀프 호스트되며, heading weight 700이 지배적이다. Express Purple `#5258E4`는 별도 앱 accent로 분리되어 있다.
+
+**Key Characteristics:**
+- Spectrum Blue `#3B63FB` CTA (로고 빨간 `#EB1000`은 UI에 미사용)
+- `--feds-*` + `--alias-*` 2-tier 마케팅 토큰 시스템
+- adobe-clean 계열 3종 셀프 호스트 폰트
+- Heading weight 700 지배적 (21회)
+- Express Purple `#5258E4`는 별도 앱 전용 accent
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -207,7 +223,19 @@ body {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary CTA Button
@@ -252,7 +280,7 @@ body {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -265,7 +293,7 @@ body {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -295,7 +323,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -332,7 +360,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#3B63FB` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#292929` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Adobe 스타일 hero — `adobe-clean` 폰트, `#3B63FB` brand color, light 배경"
+>
+> **CTA button**: "Adobe primary CTA — brand `#3B63FB` 배경 또는 dark fill, `adobe-clean` 폰트"
+>
+> **Card component**: "Adobe 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

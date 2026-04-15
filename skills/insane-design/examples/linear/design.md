@@ -14,6 +14,23 @@ token_prefix: color
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Linear의 웹사이트는 거의 완전한 블랙(`#010102` 마케팅 / `#08090a` 앱)을 배경으로 사용하는 다크 퍼스트 디자인이다. 7단계 배경 tier 시스템과 의도적으로 최소화된 그림자가 결합되어, 절제되면서도 깊이감 있는 '개발 도구'의 프리미엄 감성을 연출한다.
+
+타이포그래피는 `Inter Variable`(본문)과 유료 폰트 `Berkeley Mono`(코드)를 사용한다. Product UI용과 marketing 히어로용 두 개의 병렬 타이포 스케일을 운용하며, 제목이 커질수록 letter-spacing이 `-0.011em`에서 `-0.022em`까지 비례 감소하는 optical compensation이 Linear의 시그니처 디테일이다.
+
+마케팅 사이트의 실제 브랜드 보라는 `#4354B8`(124회 사용)이며, 앱 토큰 `#5E6AD2`(5회)와 명확히 구분된다. 파스텔 하이라이트 팔레트(`#F79CE0`, `#55CDFF`, `#89D196`, `#FFC47C`)가 feature badge에 배치되어 다크 배경에서 컬러풀한 포인트를 만든다.
+
+**Key Characteristics:**
+- 브랜드 보라를 **marketing vs app**으로 분리. marketing은 `#4354B8`, app은 `#5E6AD2`.
+- 다크 배경은 **7-tier** (`marketing/primary/panel/secondary/tertiary/quaternary/quinary`). 단일 bg 금지.
+- **Berkeley Mono** (유료)가 진짜 코드 폰트. OSS 대체시 JetBrains/Commit/Geist Mono.
+- Pastel highlight quartet (`#F79CE0/#55CDFF/#89D196/#FFC47C`)을 feature badge에 할당.
+- 타이포는 **product (`--font-size-*`) + marketing (`--title-N-*`)** 병렬 스케일. marketing 히어로는 56-64px.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Linear처럼 만들기 — 3가지만 하면 80%
@@ -325,7 +342,21 @@ Linear는 **20개의 고유 radius 값**을 사용한다.
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1280px, 넉넉한 마진 |
+
+> ⚠️ Linear는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### 12.1 Primary CTA (Indigo)
 
@@ -386,7 +417,7 @@ Pastel palette: `#F79CE0` / `#55CDFF` / `#89D196` / `#FFC47C`를 각 feature에 
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Linear — copy into your root stylesheet */
@@ -467,7 +498,7 @@ code, pre, kbd { font-family: var(--font-monospace); }
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 ```js
 // tailwind.config.js — Linear
@@ -523,7 +554,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#4354B8` |
+| Heading text | `#f7f8f8` |
+| Body text | `#8A8F98` |
+| Background | `#010102` |
+| Border | `#2a2e33` |
+| Link | `#8FA4FF` |
+| Dark section | `#08090a` |
+
+### Example Component Prompts
+- "Create a hero section on `#010102` background. Headline at 4rem `Inter Variable` weight 400. CTA button `#4354B8` with white text."
+- "Design a card: `#FFFFFF` background, `#2a2e33` border, 12px radius. Body text `#8A8F98` at weight 400."
+
+### Iteration Guide
+1. 폰트: `Inter Variable` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#4354B8`는 CTA/링크에만 집중. 배경 `#010102`, 텍스트 `#f7f8f8`
+3. 그림자: 5-layer 미세 stacking 또는 shadow 없음 (border + 반투명 배경으로 elevation 표현)
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - 브랜드 보라를 **marketing vs app**으로 분리. marketing은 `#4354B8`, app은 `#5E6AD2`.
@@ -546,3 +601,6 @@ module.exports = {
 - ❌ Pastel highlight 팔레트 무시 금지 → marketing feature section의 색채감이 증발한다.
 - ❌ Title 스케일을 `24/32/48`로만 구성하지 말 것 → marketing은 `17/20/24/32/40/48/56/64px` 8단계.
 - ❌ Letter-spacing을 고정값 (-0.01em) 금지 → 사이즈별 optical compensation 필수.
+
+---
+

@@ -14,6 +14,22 @@ token_prefix: ""
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Resend는 개발자 이메일 플랫폼으로, editorial 감성의 3-폰트 시스템이 핵심이다. Domaine serif(display headline), ABCFavorit sans(body), commitMono(code) 세 유료 커스텀 폰트가 self-host되어 일반 SaaS와 차별되는 타이포그래피 경험을 만든다.
+
+배경은 순백이 아닌 warm `#fdfdfd`, 텍스트는 순검정이 아닌 warm near-black `#1d1c1b`로 미세한 따뜻함을 유지한다. Brand accent는 mint `#62ffb3`(빈도 1위 20회)과 violet `#8d54ff`이며, Radix Colors의 sand/slate/mauve/violet alpha scale(a1-a12)이 색상 시스템의 핵심이다.
+
+**Key Characteristics:**
+- 3-font editorial mix: Domaine(serif) + ABCFavorit(sans) + commitMono
+- Warm near-white `#fdfdfd` + warm near-black `#1d1c1b`
+- Mint `#62ffb3` brand accent (빈도 1위)
+- Radix Colors alpha scale (a1-a12) 시스템
+- Hero headline: Domaine serif 400 weight, clamp(48~96px)
+
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Resend처럼 만들기 — 3가지만 하면 80%
@@ -213,7 +229,19 @@ Families: `sand · slate · mauve · violet · green · red · amber · blue · 
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 
 ### Editorial Hero
 ```html
@@ -251,7 +279,7 @@ Families: `sand · slate · mauve · violet · green · red · amber · blue · 
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Resend — copy into your root stylesheet */
@@ -305,7 +333,36 @@ h1, .display {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#62ffb3` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#000000` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Resend 스타일 hero — `ABCFavorit` 폰트, `#62ffb3` brand color, light 배경"
+>
+> **CTA button**: "Resend primary CTA — brand `#62ffb3` 배경 또는 dark fill, `ABCFavorit` 폰트"
+>
+> **Card component**: "Resend 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - 3-font stack 유지: **Domaine serif** (display) + **ABCFavorit sans** (body) + **commitMono** (code).

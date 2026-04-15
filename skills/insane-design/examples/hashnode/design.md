@@ -14,6 +14,21 @@ token_prefix: tw
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Hashnode는 개발자 블로그 플랫폼답게 "Tailwind 기본 + 얇은 브랜드 덮기"라는 미니멀 접근을 취한다. 순백 배경 위에 Tailwind slate/gray 팔레트(`#101828` ~ `#e5e7eb`)가 중립적 톤을 만들고, brand blue `#1D52DE`가 링크와 CTA에만 나타난다. 독자적 컬러 시스템이 없이 Tailwind v4 기본 팔레트를 그대로 활용한다.
+
+Suisse International(유료 Swiss Typefaces)과 Suisse Mono를 `next/font/local`로 로드하여 Inter와 차별되는 스위스 그로테스크 감성을 만든다. 블로그 본문은 Tailwind Prose 플러그인의 em/% 기반 타이포가 적용된다.
+
+**Key Characteristics:**
+- Tailwind v4 `@theme` 디렉티브 기반 — 104개 컬러 변수 자동 주입
+- Suisse International + Suisse Mono (Inter가 아님)
+- Hairline `#0000001a` (alpha 10 검정)이 21회로 2위 빈도
+- Weight 600(semibold) 강조 패턴 — 700/400과 혼합 사용
+
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Hashnode처럼 만들기 — 3가지만 하면 80%
@@ -271,7 +286,19 @@ section { padding: 80px 24px; max-width: 1280px; margin-inline: auto; }
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 
 ### 12.1 Primary Button (Tailwind utility로 구성)
 
@@ -314,7 +341,7 @@ Prose 플러그인이 em/% 기반 타이포 + kbd shadow + code 스타일을 자
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Hashnode — copy into your root stylesheet */
@@ -366,7 +393,7 @@ a { color: var(--color-brand); }
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 ```js
 // tailwind.config.js — Hashnode (Tailwind v4 @theme 대체)
@@ -409,7 +436,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#1D52DE` |
+| Page BG | `#ffffff` |
+| Text Primary | `#101828` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Hashnode 스타일 hero — `Suisse International` 폰트, `#1D52DE` brand color, light 배경"
+>
+> **CTA button**: "Hashnode primary CTA — brand `#1D52DE` 배경 또는 dark fill, `Suisse International` 폰트"
+>
+> **Card component**: "Hashnode 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - **Suisse International + Suisse Mono** 폰트를 사용. `next/font/local`로 로드하고 `--font-suisse-intl` CSS 변수로 노출.

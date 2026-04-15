@@ -14,6 +14,23 @@ token_prefix: framer
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Cal.com의 웹사이트는 밝은 배경에 모노크롬 중심의 미니멀한 스케줄링 도구 디자인이다. 기능적 명확성이 최우선이며, 불필요한 시각적 장식을 최소화한 실용적 인상을 전달한다.
+
+타이포그래피는 `Cal Sans`(디스플레이)를 기본 서체로 사용한다. 본문 weight는 **400**이며, 깔끔하고 기능적인 텍스트 스타일이 스케줄링 도구의 효율성을 반영한다.
+
+브랜드 컬러 `#292929`는 거의 블랙에 가까운 뉴트럴로, CTA 버튼과 주요 요소에 사용된다. 최소한의 accent 컬러로 도구의 중립성과 유연성을 시각적으로 표현한다.
+
+**Key Characteristics:**
+- **Cal Sans 폰트**를 display/heading에 사용 — Cal.com 브랜드의 핵심 차별 요소 (오픈소스, GitHub `calcom/font`).
+- Body는 `Inter` / `Inter Variable`.
+- 텍스트 컬러는 `#141414` (body) + `#242424` (heading) 페어. 순수 `#000000`은 logo/stroke에만.
+- 링크는 **2색 state 페어**: 기본 `#0099FF` 파랑, current `#6349EA` 보라.
+- 라이트 테마 기본값. 페이지 bg `#FFFFFF`, 섹션 bg `#F4F4F4`.
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -213,7 +230,21 @@ body       { font-family: var(--font-body);    font-weight: 400; }
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Cal.com는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary CTA (dark)
@@ -258,7 +289,7 @@ body       { font-family: var(--font-body);    font-weight: 400; }
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -311,7 +342,7 @@ a.current, a[aria-current="page"] { color: var(--link-current); }
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -365,7 +396,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#6349EA` |
+| Heading text | `#111827` |
+| Body text | `#6B7280` |
+| Background | `#FFFFFF` |
+| Border | `#E5E7EB` |
+| Link | `#292929` |
+| Dark section | `#111827` |
+
+### Example Component Prompts
+- "Create a hero section on `#FFFFFF` background. Headline at 3rem `Cal Sans` weight 400. CTA button `#6349EA` with white text."
+- "Design a card: `#1c1c1f` background, `#E5E7EB` border, 8px radius. Body text `#6B7280` at weight 400."
+
+### Iteration Guide
+1. 폰트: `Cal Sans` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#6349EA`는 CTA/링크에만 집중. 배경 `#FFFFFF`, 텍스트 `#111827`
+3. 그림자: subtle box-shadow로 카드 elevation 표현
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO
@@ -387,3 +442,6 @@ module.exports = {
 - ❌ 단일 shadow 시스템 — Cal.com은 shadow 거의 없는 flat design.
 - ❌ Inter Tight / Noto Sans 같은 임의 대체 — Inter + Inter Display 조합이 Framer 기본값.
 - ❌ `Cal Sans`를 body로 쓰기 — semibold만 있어서 long-form 가독성 떨어짐.
+
+---
+

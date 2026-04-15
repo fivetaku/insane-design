@@ -14,6 +14,19 @@ token_prefix: N/A
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Patagonia의 디지털 인터페이스는 라이트 테마를 기본으로 한다. 밝은 배경 위에 브랜드 컬러 `#020202`가 절제적으로 사용되어 깔끔하고 신뢰감 있는 시각적 인상을 만든다.
+
+색상 전략은 브랜드 컬러 `#020202`를 중심으로 미니멀하게 구성된다. 불필요한 장식색 없이 핵심 인터랙션에만 컬러를 집중시킨다.
+
+타이포그래피는 `Avenir Next W02 Light` 폰트를 중심으로 브랜드 고유의 성격을 표현한다. 기본 weight 400으로 본문을 구성하며, heading에서 더 무거운 weight를 사용해 시각적 위계를 만든다.
+
+레이아웃은 풀 너비 히어로 섹션과 콘텐츠 영역의 리듬감 있는 교차로 구성된다. 충분한 여백을 활용하여 콘텐츠에 시각적 호흡 공간을 부여하고, 핵심 메시지와 CTA에 자연스럽게 시선을 유도한다.
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -213,7 +226,26 @@ section {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: manual -->
+
+### Breakpoints
+
+| Name | Value | Description |
+|---|---|---|
+| Mobile | 0–767px | 단일 컬럼, 스택 레이아웃 |
+| Tablet | 768–1023px | 2컬럼 그리드, 축소된 네비게이션 |
+| Desktop | 1024–1439px | 풀 레이아웃, 사이드바 표시 |
+| Large | 1440px+ | 최대 너비 제한, 중앙 정렬 |
+
+### Collapsing Strategy
+- **Navigation**: 데스크톱 수평 메뉴 → 모바일 햄버거 메뉴
+- **Grid columns**: 데스크톱 다중 컬럼 → 모바일 단일 컬럼 스택
+- **Hero layout**: 데스크톱 가로 배치 → 모바일 세로 스택
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary Button
@@ -256,7 +288,7 @@ section {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -269,7 +301,7 @@ section {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -308,7 +340,7 @@ section {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -357,7 +389,50 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary | brand | `#020202` |
+| Background | bg-page | `#FFFFFF` |
+| Text primary | text | `#020202` |
+| Text muted | text-muted | `#4A4A4A` |
+| Border | border | `#E0E0E0` |
+
+### Example Component Prompts
+
+#### Hero Section
+```
+Patagonia 스타일 히어로 섹션을 만들어줘.
+- 배경: #FFFFFF
+- H1: Avenir Next W02 Light, weight 700
+- 서브텍스트: #4A4A4A
+- CTA 버튼: 배경 #020202, 텍스트 white
+```
+
+#### Card Component
+```
+Patagonia 스타일 카드 컴포넌트를 만들어줘.
+- 배경: #FFFFFF, border: 1px solid #E0E0E0
+- radius: 0px
+- 제목: Avenir Next W02 Light, 16px, weight 700
+- 본문: 14px, color #020202
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: 반드시 §06의 semantic token을 사용. raw hex 직접 사용 금지.
+- **폰트 변경 시**: weight 400이 기본. heading에만 더 무거운 weight.
+- **여백 조정 시**: §07의 spacing scale 단위로만. 임의 값(13px, 27px 등) 금지.
+- **새 컴포넌트 추가 시**: §13의 기존 패턴(radius, shadow, border 스타일)을 따를 것.
+- **반응형**: §12의 breakpoint를 그대로 사용. 커스텀 breakpoint 추가 금지.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

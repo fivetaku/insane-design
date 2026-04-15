@@ -14,6 +14,23 @@ token_prefix: ""
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Shopify의 웹사이트는 밝은 배경 위에 따뜻하면서도 전문적인 그린 accent가 결합된 커머스 플랫폼 디자인이다. 판매자(머천트)에게 신뢰감과 접근성을 동시에 전달하는 것이 핵심 전략이다.
+
+타이포그래피는 기본 시스템 서체를 사용한다. 본문 weight는 **400**이며, 마케팅 헤딩은 더 큰 weight로 시각적 임팩트를 강화한다.
+
+브랜드 그린 `#008060`는 CTA와 성공 상태에 집중 사용된다. 따뜻한 그린 톤이 커머스 맥락에서의 성장과 번영을 시각적으로 표현하며, 보조 컬러는 절제되어 그린의 집중도를 유지한다.
+
+**Key Characteristics:**
+- Background = rich-black `#02090a` (약간 teal). 순검정 아님.
+- Body weight = `420` (VF axis), display = `330` — 둘 다 비표준.
+- Brand = Shopify green `#008060` (공식 로고 색).
+- Hero accent = mint `#36f4a4` + cyan `#30deee` + pistachio highlight.
+- ShopifySans self-host. Noto Sans JP fallback 필수 (국제화).
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Shopify처럼 만들기 — 3가지만 하면 80%
@@ -239,7 +256,21 @@ Shopify는 Tailwind v4의 OKLCH 컬러를 그대로 사용:
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Shopify는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### Hero CTA (Shopify green pill)
 ```html
@@ -268,7 +299,7 @@ Shopify는 Tailwind v4의 OKLCH 컬러를 그대로 사용:
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Shopify — copy into your root stylesheet */
@@ -326,7 +357,31 @@ h1, .display {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#008060` |
+| Heading text | `#1A1A1A` |
+| Body text | `#474747` |
+| Background | `#FFFFFF` |
+| Border | `#E3E3E3` |
+| Link | `#008060` |
+| Dark section | `#1A1A1A` |
+
+### Example Component Prompts
+- "Create a hero section on `#FFFFFF` background. Headline at 3.5rem `ShopifySans` weight 420. CTA button `#008060` with white text."
+- "Design a card: `#1c1c1f` background, `#E3E3E3` border, 8px radius. Body text `#474747` at weight 420."
+
+### Iteration Guide
+1. 폰트: `ShopifySans` 패밀리, 본문 weight 420
+2. 컬러: 브랜드 `#008060`는 CTA/링크에만 집중. 배경 `#FFFFFF`, 텍스트 `#1A1A1A`
+3. 그림자: subtle box-shadow로 카드 elevation 표현
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - Background = rich-black `#02090a` (약간 teal). 순검정 아님.
@@ -344,3 +399,6 @@ h1, .display {
 - Shopify green을 `#16a34a` Tailwind green-600으로 대체 금지 — 공식은 `#008060`.
 - ShopifySans를 Inter로만 대체 금지 — fallback은 OK지만 VF weight이 정체성.
 - 단일 폰트로 평탄화 금지 — display/title/body 역할별 분리가 핵심.
+
+---
+

@@ -14,6 +14,23 @@ token_prefix: --sk-*
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Apple의 웹사이트는 살짝 회색빛이 도는 오프화이트 `#F5F5F7` 배경으로 고급스러운 공기감을 연출한다. 넓은 여백과 대형 제품 이미지, 감성적이고 간결한 카피가 어우러져 프리미엄하면서도 접근 가능한 인상을 전달한다.
+
+타이포그래피는 Apple 전용 `SF Pro Display`(디스플레이)와 `SF Pro Text`(본문)를 사용한다. 본문 weight는 **400**, 헤딩은 **600**이며, 큰 헤딩에는 `-0.02em`의 타이트한 letter-spacing이 적용되어 Apple 특유의 밀도 있는 제목 느낌을 만든다.
+
+브랜드 블루 `#0071E3`는 CTA 버튼, focus ring, 링크에 일관되게 적용된다. hover(`#0076DF`) → active(`#006EDB`)의 정확한 3단계 상태 변화가 인터랙션의 정교함을 보여준다. 다크 배경에서는 링크가 `#2997FF`로 전환된다.
+
+**Key Characteristics:**
+- 페이지 배경은 `#F5F5F7`을 써라 — 순백이 아닌 Apple의 시그니처 오프화이트다.
+- 텍스트는 `#1D1D1F`를 써라 — 순흑이 아닌 따뜻한 다크다.
+- CTA 버튼은 `#0071E3`으로 시작하고, hover는 `#0076DF`, active는 `#006EDB`로 정확히 3단계를 유지하라.
+- focus ring 색도 `#0071E3`으로 일치시켜라 — SkinKit 원칙이다.
+- 큰 heading에 `letter-spacing: -0.02em`을 적용하라.
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -168,7 +185,21 @@ body {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Apple는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Button — Primary CTA (Pill)
@@ -203,7 +234,7 @@ body {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -215,7 +246,7 @@ body {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -253,7 +284,31 @@ body {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#0071E3` |
+| Heading text | `#1D1D1F` |
+| Body text | `#1D1D1F` |
+| Background | `#F5F5F7` |
+| Border | `#D2D2D7` |
+| Link | `#0071E3` |
+| Dark section | `#1D1D1F` |
+
+### Example Component Prompts
+- "Create a hero section on `#F5F5F7` background. Headline at 3.5rem `SF Pro Text` weight 400. CTA button `#0071E3` with white text."
+- "Design a card: `#FFFFFF` background, `#D2D2D7` border, 18px radius. Body text `#1D1D1F` at weight 400."
+
+### Iteration Guide
+1. 폰트: `SF Pro Text` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#0071E3`는 CTA/링크에만 집중. 배경 `#F5F5F7`, 텍스트 `#1D1D1F`
+3. 그림자: 최소한의 그림자 — 배경색 대비와 카드 분리로 elevation 표현
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### DO
@@ -269,3 +324,6 @@ body {
 - SF Pro를 재배포하지 마라 — 라이선스 위반이다. 대신 `-apple-system, BlinkMacSystemFont`를 쓰라.
 - 다크 배경 링크에 `#0071E3`을 그대로 쓰지 마라 — 다크 테마에서는 `#2997FF`로 교체해야 한다.
 - heading에 `font-weight: 400`을 쓰지 마라 — Apple heading은 600이다.
+
+---
+

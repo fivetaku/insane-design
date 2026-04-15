@@ -14,6 +14,19 @@ token_prefix: N/A
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Ferrari의 디자인은 클린한 밝은 배경 위에 브랜드 컬러 `#DA0000`를 절제적으로 배치하는 미니멀 접근을 취한다. 여백과 타이포그래피의 힘으로 콘텐츠를 전달하며, 불필요한 장식을 배제한 실용적 우아함이 특징이다.
+
+색상 전략은 철저히 절제적이다. 주요 컬러는 #DA0000이며, 뉴트럴 톤이 대부분의 UI 표면을 차지한다. 브랜드 컬러는 CTA 버튼과 핵심 강조 요소에만 사용되어 사용자의 시선을 정확히 유도한다.
+
+타이포그래피는 시스템 폰트를 전략적으로 활용한다. `font-weight: 400`을 기본으로 두어 정보 전달에 최적화된 가독성을 확보하며, 폰트 로딩 없이도 크로스 플랫폼 일관성을 유지한다.
+
+레이아웃은 넉넉한 여백과 명확한 섹션 구분으로 콘텐츠에 호흡을 부여한다. 전반적으로 정보 밀도보다 시각적 여유를 우선시하며, 이는 Ferrari 브랜드의 자신감과 품격을 반영한다.
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -109,7 +122,31 @@ body { background: var(--bg); color: var(--fg); }
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+### Breakpoints
+
+| Name | Value | Description |
+|---|---|---|
+| Mobile | < 768px | 단일 컬럼, 터치 최적화 |
+| Tablet | 768px–1024px | 2컬럼 그리드, 축소된 여백 |
+| Desktop | 1024px–1440px | 전체 레이아웃, 다중 컬럼 |
+| Large | > 1440px | max-width 고정, 좌우 auto margin |
+
+### Touch Targets
+- **Minimum tap size**: 44×44px (WCAG 2.5.5)
+- **Button height (mobile)**: 48px
+- **Input height (mobile)**: 48px
+
+### Collapsing Strategy
+- **Navigation**: 모바일에서 축소/햄버거 메뉴 전환
+- **Grid columns**: desktop 다중 컬럼 → mobile 단일 컬럼
+- **Hero layout**: 이미지+텍스트 분할 → 모바일에서 수직 스택
+
+---
+
+## 13. Components
 <!-- SOURCE: manual -->
 
 ### Hero Section
@@ -135,7 +172,7 @@ body { background: var(--bg); color: var(--fg); }
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -148,7 +185,7 @@ body { background: var(--bg); color: var(--fg); }
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -173,7 +210,56 @@ body { background: var(--bg); color: var(--fg); }
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary | brand | `#DA0000` |
+| Background | bg-page | `#FFFFFF` |
+| Text primary | text | `#1A1A1A` |
+| Text muted | text-muted | `#666666` |
+| Border | border | `#E0E0E0` |
+
+### Example Component Prompts
+
+#### Hero Section
+```
+Ferrari 스타일 히어로 섹션을 만들어줘.
+- 배경: #FFFFFF
+- H1: N/A, weight 400
+- CTA 버튼: 배경 #DA0000, radius 4px
+```
+
+#### Card Component
+```
+Ferrari 스타일 카드 컴포넌트를 만들어줘.
+- 배경: #FFFFFF, border: 1px solid #E0E0E0
+- 제목: N/A, weight bold
+- 본문: color #1A1A1A, line-height 1.6
+```
+
+#### Button
+```
+Ferrari 스타일 버튼을 만들어줘.
+- 배경: #DA0000, 텍스트: white
+- font: N/A, weight 500-600
+- padding: 12px 24px, radius: 4px
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: 반드시 §06의 semantic token을 사용. raw hex 직접 사용 금지.
+- **폰트 변경 시**: weight 400이 기본. bold는 제목/강조에만.
+- **여백 조정 시**: §07의 spacing scale 단위로만. 임의 값(13px, 27px 등) 금지.
+- **새 컴포넌트 추가 시**: §13의 기존 패턴(radius, shadow, border 스타일)을 따를 것.
+- **반응형**: §12의 breakpoint를 그대로 사용. 커스텀 breakpoint 추가 금지.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

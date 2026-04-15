@@ -14,6 +14,23 @@ token_prefix: color
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Mintlify의 웹사이트는 밝고 모던한 배경에 깔끔한 타이포그래피와 넉넉한 여백이 결합된 문서 도구 디자인이다. 개발자 문서의 읽기 경험을 최적화하는 것이 시각 전략의 핵심이다.
+
+타이포그래피는 기본 시스템 서체를 사용한다. 본문 weight는 **400**이며, 문서 중심 레이아웃에 맞는 가독성 높은 텍스트 스타일을 제공한다.
+
+브랜드 블루 `#0EA5E9`가 CTA와 링크에 사용된다. 밝은 배경 위에서 충분한 대비를 유지하면서도 부드러운 인상을 주는 스카이블루 톤이 Mintlify의 접근 가능한 이미지를 강화한다.
+
+**Key Characteristics:**
+- 브랜드 teal은 **`#0C8C5E`** (primary), **`#20808D`** (secondary). 밝은 lime `#18E299`는 accent.
+- Primary text는 **warm black `#231F20`** — pure black 아님.
+- Surface는 **warm off-white `#F1EFED`** — cool gray 아님.
+- 폰트는 **`Inter` (body) + `Geist Mono` (code)**. `next/font` 변수 방식 (`var(--font-inter)`).
+- **Metric fallback** (`Inter Fallback`, `Geist Mono Fallback`) 포함 필수.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Mintlify처럼 만들기 — 3가지만 하면 80%
@@ -273,7 +290,21 @@ Mintlify는 24개의 고유 radius 값을 Tailwind 유틸로 사용. 최빈은 1
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1440px, 넉넉한 마진 |
+
+> ⚠️ Mintlify는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### 12.1 Primary CTA (Teal)
 
@@ -343,7 +374,7 @@ Mintlify는 24개의 고유 radius 값을 Tailwind 유틸로 사용. 최빈은 1
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Mintlify — copy into your root stylesheet */
@@ -420,7 +451,7 @@ code, pre { font-family: var(--font-geist-mono); }
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 ```js
 // tailwind.config.js — Mintlify (Tailwind v4 + @tailwindcss/typography)
@@ -470,7 +501,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#0C8C5E` |
+| Heading text | `#09090B` |
+| Body text | `#71717A` |
+| Background | `#FFFFFF` |
+| Border | `#E4E4E7` |
+| Link | `#0EA5E9` |
+| Dark section | `#09090B` |
+
+### Example Component Prompts
+- "Create a hero section on `#FFFFFF` background. Headline at 3.5rem `Inter` weight 400. CTA button `#0C8C5E` with white text."
+- "Design a card: `#1c1c1f` background, `#E4E4E7` border, 12px radius. Body text `#71717A` at weight 400."
+
+### Iteration Guide
+1. 폰트: `Inter` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#0C8C5E`는 CTA/링크에만 집중. 배경 `#FFFFFF`, 텍스트 `#09090B`
+3. 그림자: subtle box-shadow로 카드 elevation 표현
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - 브랜드 teal은 **`#0C8C5E`** (primary), **`#20808D`** (secondary). 밝은 lime `#18E299`는 accent.
@@ -491,3 +546,6 @@ module.exports = {
 - ❌ 다크 모드를 **두 세트 hex 나열**로 구현하지 말 것 → invert 변수 flip 패턴.
 - ❌ **일반 Tailwind docs 템플릿** 느낌 금지 → Twoslash / Prose 문서 특화 토큰 포함.
 - ❌ 본문 폰트를 **px 절대값**으로 고정 금지 → Prose em/% 사용.
+
+---
+

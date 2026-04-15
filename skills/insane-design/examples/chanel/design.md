@@ -14,6 +14,22 @@ token_prefix: --color-*
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Chanel은 하이 럭셔리 브랜드의 절제된 우아함을 디자인에 그대로 반영한다. `#F9F9F9`(살짝 따뜻한 near-white) 배경 위에 순흑 `#000000`이 텍스트와 CTA 모두에 사용되며, `#767676`은 hover/active 상태 전용이다. 4색(흑, near-white, 중간 회색, 백)의 극도로 절제된 팔레트가 럭셔리 브랜드의 미학을 만든다.
+
+`abchanel-2022` 독점 폰트의 display weight 300 + `letter-spacing: 0.06~0.1em`이 시적이고 우아한 타이포를 만든다. `border-radius: 0`의 직각 미학은 Aesop과 유사하지만 더 차가운 톤이다. 다국어별 font-family 분기가 CSS에 구현되어 있다.
+
+**Key Characteristics:**
+- 순흑 `#000000` primary + `#F9F9F9` near-white 배경
+- `#767676`은 hover/active 전용 (기본 CTA가 아님)
+- abchanel-2022 독점 폰트, display weight 300
+- border-radius 0px 직각 럭셔리 미학
+- letter-spacing 0.06~0.1em 넓은 자간
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -223,7 +239,19 @@ section {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary Button (Black)
@@ -262,7 +290,7 @@ section {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -275,7 +303,7 @@ section {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -313,7 +341,7 @@ section {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -361,7 +389,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#000000` |
+| Page BG | `#F9F9F9` |
+| Text Primary | `#000000` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Chanel 스타일 hero — `abchanel-2022` 폰트, `#000000` brand color, light 배경"
+>
+> **CTA button**: "Chanel primary CTA — brand `#000000` 배경 또는 dark fill, `abchanel-2022` 폰트"
+>
+> **Card component**: "Chanel 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

@@ -14,6 +14,22 @@ token_prefix: "--primary, --secondary, --dark (unscoped)"
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Tinybird는 실시간 데이터 플랫폼으로, 네온 그린과 warm navy의 대비가 특징적이다. Light hero에서는 네온 mint `#27F795`가, dark 섹션에서는 보정된 `#008060`(primary-dark)이 사용되는 듀얼 anchor 패턴을 가진다. Ink는 순수 gray가 아닌 warm navy `#25283D`로, 보라 기가 섞인 독특한 톤이다.
+
+극단적 타이포 스케일이 시그니처다: 본문 13~20px과 display 56~128px 사이에 중간 스케일이 거의 없고, 7-segment decorative 폰트(`sevenSegment`)로 "1.2B rows/sec" 같은 거대 숫자를 표시한다. Radius는 0/4px + pill만 사용하는 의도적 브루탈리즘 스타일이다.
+
+**Key Characteristics:**
+- 듀얼 anchor: neon `#27F795`(light) / `#008060`(dark)
+- Warm navy ink `#25283D` (순수 gray가 아님)
+- Roboto (Inter가 아님!) + sevenSegment(decorative)
+- 극단적 타이포 스케일: 13px body ↔ 128px display
+- Radius 0/4px + pill — 의도적 브루탈리즘
+
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Tinybird처럼 만들기 — 3가지만 하면 80%
@@ -244,7 +260,19 @@ code, pre { font-family: var(--font-mono); }
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 
 ### Button (primary — hero neon)
 
@@ -318,7 +346,7 @@ pre {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Tinybird — copy into your root stylesheet */
@@ -358,7 +386,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 ```js
 // tailwind.config.js — Tinybird
@@ -400,7 +428,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#008060` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#000000` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Tinybird 스타일 hero — `Roboto` 폰트, `#008060` brand color, light 배경"
+>
+> **CTA button**: "Tinybird primary CTA — brand `#008060` 배경 또는 dark fill, `Roboto` 폰트"
+>
+> **Card component**: "Tinybird 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - 듀얼 anchor 패턴: light hero 는 <code>#27F795</code>, dark 섹션은 <code>#008060</code>.

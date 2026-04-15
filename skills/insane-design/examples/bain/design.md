@@ -14,6 +14,22 @@ token_prefix: N/A
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Bain & Company는 전통 경영 컨설팅 firm답게 실용적 권위감의 보수적 디자인을 가진다. 순백 `#FFFFFF` 배경 위에 `#313131`(따뜻한 다크 그레이) 텍스트가 놓이고, 다크 레드 `#CC0000`이 CTA, 링크, 태그에만 절제적으로 사용된다. 시스템 폰트를 채택하여 콘텐츠 권위성에 집중한다.
+
+Heading은 모두 weight 700이고 body는 400으로, 중간값(500, 600)이 없는 명확한 2단계 구분이다. Radius는 0~6px의 작은 값만 사용하고, shadow도 미니멀하다. "분석적, 결과 중심"의 copy voice가 디자인 톤과 일치한다.
+
+**Key Characteristics:**
+- 다크 레드 `#CC0000` (순수 빨간 `#FF0000`이 아님 — 절제된 톤)
+- 시스템 폰트 의도적 사용 (콘텐츠 권위성 우선)
+- Weight 400/700 2단계만 (중간값 없음)
+- Radius 0~6px 보수적 사용
+- CTA·링크·태그에만 red 사용 — 과도한 적용 금지
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -210,7 +226,19 @@ section {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary Button
@@ -256,7 +284,7 @@ section {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -269,7 +297,7 @@ section {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -307,7 +335,7 @@ section {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -356,7 +384,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#CC0000` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#313131` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Bain & Company 스타일 hero — `system-ui` 폰트, `#CC0000` brand color, light 배경"
+>
+> **CTA button**: "Bain & Company primary CTA — brand `#CC0000` 배경 또는 dark fill, `system-ui` 폰트"
+>
+> **Card component**: "Bain & Company 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

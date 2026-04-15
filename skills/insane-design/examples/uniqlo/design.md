@@ -14,6 +14,19 @@ token_prefix: N/A
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+UNIQLO의 디지털 인터페이스는 라이트 테마를 기본으로 한다. 밝은 배경 위에 브랜드 컬러 `#FF0000`가 절제적으로 사용되어 깔끔하고 신뢰감 있는 시각적 인상을 만든다.
+
+색상 전략은 브랜드 컬러 `#FF0000`를 중심으로 미니멀하게 구성된다. 불필요한 장식색 없이 핵심 인터랙션에만 컬러를 집중시킨다.
+
+타이포그래피는 시스템 폰트를 활용하여 로딩 성능과 플랫폼 일관성을 우선시한다. weight 400을 기본으로 하며, heading과 body 사이 명확한 위계를 유지한다.
+
+레이아웃은 풀 너비 히어로 섹션과 콘텐츠 영역의 리듬감 있는 교차로 구성된다. 충분한 여백을 활용하여 콘텐츠에 시각적 호흡 공간을 부여하고, 핵심 메시지와 CTA에 자연스럽게 시선을 유도한다.
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -219,7 +232,26 @@ section {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: manual -->
+
+### Breakpoints
+
+| Name | Value | Description |
+|---|---|---|
+| Mobile | 0–767px | 단일 컬럼, 스택 레이아웃 |
+| Tablet | 768–1023px | 2컬럼 그리드, 축소된 네비게이션 |
+| Desktop | 1024–1439px | 풀 레이아웃, 사이드바 표시 |
+| Large | 1440px+ | 최대 너비 제한, 중앙 정렬 |
+
+### Collapsing Strategy
+- **Navigation**: 데스크톱 수평 메뉴 → 모바일 햄버거 메뉴
+- **Grid columns**: 데스크톱 다중 컬럼 → 모바일 단일 컬럼 스택
+- **Hero layout**: 데스크톱 가로 배치 → 모바일 세로 스택
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary Button
@@ -266,7 +298,7 @@ section {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -279,7 +311,7 @@ section {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -317,7 +349,7 @@ section {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -365,7 +397,50 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary | brand | `#FF0000` |
+| Background | bg-page | `#FFFFFF` |
+| Text primary | text | `#000000` |
+| Text muted | text-muted | `#424242` |
+| Border | border | `#E0E0E0` |
+
+### Example Component Prompts
+
+#### Hero Section
+```
+UNIQLO 스타일 히어로 섹션을 만들어줘.
+- 배경: #FFFFFF
+- H1: system-ui, weight 700
+- 서브텍스트: #424242
+- CTA 버튼: 배경 #FF0000, 텍스트 white
+```
+
+#### Card Component
+```
+UNIQLO 스타일 카드 컴포넌트를 만들어줘.
+- 배경: #FFFFFF, border: 1px solid #E0E0E0
+- radius: 0px
+- 제목: system-ui, 16px, weight 700
+- 본문: 14px, color #000000
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: 반드시 §06의 semantic token을 사용. raw hex 직접 사용 금지.
+- **폰트 변경 시**: weight 400이 기본. heading에만 더 무거운 weight.
+- **여백 조정 시**: §07의 spacing scale 단위로만. 임의 값(13px, 27px 등) 금지.
+- **새 컴포넌트 추가 시**: §13의 기존 패턴(radius, shadow, border 스타일)을 따를 것.
+- **반응형**: §12의 breakpoint를 그대로 사용. 커스텀 breakpoint 추가 금지.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

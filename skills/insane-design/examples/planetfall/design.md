@@ -14,6 +14,22 @@ token_prefix: "--*"
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Age of Wonders: Planetfall은 SF/판타지 게임 페이지답게 장대하고 서사적인 비주얼을 가진다. 깊은 네이비 블루 `#1A1D48`과 SF-desert 톤 `#122534`가 우주-사막 분위기를 만들고, 골드 악센트 `#E5D195`가 게임 전체를 관통하는 시그니처 컬러로 CTA, 텍스트 하이라이트, 버튼에 통일되어 사용된다.
+
+본문 텍스트는 순백이 아닌 sand `#DED6C1`로, 다크 배경 위에서 따뜻한 아이보리 톤을 만든다. heading에는 `text-shadow: 0 0 24px #040507` 가독성 halo가 필수이며, 호버 효과에는 골드 radial-gradient 글로우가 적용된다. Paradox Design System의 게임별 테마 오버라이드 구조를 사용한다.
+
+**Key Characteristics:**
+- Deep navy `#1A1D48` + SF-desert `#122534` 다크 테마 (순수 검정 금지)
+- Gold `#E5D195` 단일 악센트로 전체 통일
+- Sand `#DED6C1` 본문 텍스트 (순백 금지)
+- Text-shadow 가독성 halo + radial-gradient 골드 글로우
+- 버튼 radius 2px — SF/밀리터리 느낌의 핵심
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -327,7 +343,19 @@ section {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### `.Button_button__*` (button)
@@ -384,7 +412,7 @@ section {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -398,7 +426,7 @@ section {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -462,7 +490,7 @@ h1, h2, h3 {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -536,7 +564,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#E5D195` |
+| Page BG | `#1A1D48` |
+| Text Primary | `#000000` |
+| Default Theme | dark |
+
+### Component Prompts
+
+> **Hero section**: "Age of Wonders: Planetfall 스타일 hero — `Source Sans Pro` 폰트, `#E5D195` brand color, dark 배경"
+>
+> **CTA button**: "Age of Wonders: Planetfall primary CTA — brand `#E5D195` 배경 또는 dark fill, `Source Sans Pro` 폰트"
+>
+> **Card component**: "Age of Wonders: Planetfall 스타일 카드 — dark 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### DO

@@ -14,6 +14,22 @@ token_prefix: N/A
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Coinbase는 크립토 거래소이지만 "어둡고 화려한" 크립토 클리셰를 피하고 신뢰와 접근성을 우선하는 라이트 테마 디자인을 사용한다. 순백 `#FFFFFF` 배경 위에 near-black `#0A0B0D` 텍스트가 놓이고, 로얄 블루 `#0052FF`가 CTA에 집중된다. 이 로얄 블루는 일반 파랑과 달리 Coinbase 고유의 강한 포지셔닝을 가진다.
+
+6종의 전용 폰트 패밀리(CoinbaseSans, Display, Condensed, Mono, Text, Icons)가 각각 다른 역할을 수행한다: Display는 히어로, Condensed는 가격 표시, Mono는 지갑 주소, Icons는 UI 아이콘. 핀테크답게 중립적 radius(8~16px)와 3-layer shadow 시스템을 사용한다.
+
+**Key Characteristics:**
+- 로얄 블루 `#0052FF` CTA (소프트 블루와 다른 강도)
+- 6종 전용 폰트 패밀리 — 역할별 완전 분리
+- 라이트 테마 우선 — 크립토 다크 클리셰 거부
+- CoinbaseCondensed로 가격/숫자 표시
+- 중립적 radius(8~16px) + 3-layer shadow
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -204,7 +220,19 @@ h1 {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary CTA Button
@@ -263,7 +291,7 @@ h1 {
 
 ---
 
-## 13. Content Voice
+## 14. Content Voice
 <!-- SOURCE: manual -->
 
 - **헤드라인**: 크립토 접근성, 신뢰. "The easiest place to buy and sell crypto."
@@ -273,7 +301,7 @@ h1 {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: manual -->
 
 ```css
@@ -305,7 +333,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: manual -->
 
 ```js
@@ -338,7 +366,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#0052FF` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#0A0B0D` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Coinbase 스타일 hero — `CoinbaseSans` 폰트, `#0052FF` brand color, light 배경"
+>
+> **CTA button**: "Coinbase primary CTA — brand `#0052FF` 배경 또는 dark fill, `CoinbaseSans` 폰트"
+>
+> **Card component**: "Coinbase 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### DO

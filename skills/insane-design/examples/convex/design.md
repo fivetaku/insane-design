@@ -14,6 +14,22 @@ token_prefix: color
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Convex는 "developer-first art/magazine" 감성의 독특한 웹사이트다. 순백 대신 따뜻한 크림 아이보리 `#FFFDF4`(milk)를 페이지 배경으로 사용하고, `#F7F1FF`(pale lavender)가 보조 배경으로 교차한다. 텍스트는 warm cocoa `#221F1D`(ebony)로, 전체적으로 vintage editorial 느낌을 만든다.
+
+브랜드 컬러는 `tikka masala #BC7914`(warm amber)이지만, 실질적 브랜드 컬러는 Monokai syntax palette 5색(pink `#FC618D`, purple `#948AE3`, green `#7BD88F`, cyan `#5AD4E6`, yellow `#FCE566`)이다. 코드 샘플이 브랜드 자산이므로 syntax color = brand color라는 독특한 구조를 가진다.
+
+**Key Characteristics:**
+- Warm cream/ivory 배경 + cocoa dark text (순백/순흑 금지)
+- Monokai syntax palette 5색이 실질 브랜드 컬러
+- 3-폰트 조합: GT America(sans) + Publico(serif) + VCR(pixel retro)
+- Crayola crayon 네이밍 컨벤션 (tikkaMasala, oldLace, majorelleBlue)
+- Warm-tinted shadow: cocoa brown 기반 (`rgba(46,31,31,0.12)`)
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -269,7 +285,19 @@ Convex는 **18개** shadow 변수 (풍부한 shadow 시스템). 주요 패턴:
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary CTA (warm button)
@@ -307,7 +335,7 @@ Convex는 **18개** shadow 변수 (풍부한 shadow 시스템). 주요 패턴:
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -373,7 +401,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -438,7 +466,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#BC7914` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#000000` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Convex 스타일 hero — `GT America` 폰트, `#BC7914` brand color, light 배경"
+>
+> **CTA button**: "Convex primary CTA — brand `#BC7914` 배경 또는 dark fill, `GT America` 폰트"
+>
+> **Card component**: "Convex 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

@@ -14,6 +14,19 @@ token_prefix: --cx-g-color-*, --primary
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Razer의 디지털 인터페이스는 다크 테마를 기반으로 한다. 어두운 배경 위에 밝은 텍스트와 브랜드 컬러 `#44D62C`가 돋보이는 구성으로, 시각적 몰입감과 프리미엄 분위기를 동시에 전달한다.
+
+색상 전략은 `#44D62C`, `#6BD3FF`, `#004CCB` 등을 중심으로 구성된다. 브랜드의 canonical 컬러인 `#44D62C`가 CTA와 주요 인터랙션 요소에 사용되며, 나머지 뉴트럴 팔레트가 배경과 텍스트 계층을 형성한다.
+
+타이포그래피는 `RazerF5` 폰트를 중심으로 브랜드 고유의 성격을 표현한다. 기본 weight 400으로 본문을 구성하며, heading에서 더 무거운 weight를 사용해 시각적 위계를 만든다.
+
+레이아웃은 풀 너비 히어로 섹션과 콘텐츠 영역의 리듬감 있는 교차로 구성된다. 충분한 여백을 활용하여 콘텐츠에 시각적 호흡 공간을 부여하고, 핵심 메시지와 CTA에 자연스럽게 시선을 유도한다.
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -202,7 +215,26 @@ body {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: manual -->
+
+### Breakpoints
+
+| Name | Value | Description |
+|---|---|---|
+| Mobile | 0–767px | 단일 컬럼, 스택 레이아웃 |
+| Tablet | 768–1023px | 2컬럼 그리드, 축소된 네비게이션 |
+| Desktop | 1024–1439px | 풀 레이아웃, 사이드바 표시 |
+| Large | 1440px+ | 최대 너비 제한, 중앙 정렬 |
+
+### Collapsing Strategy
+- **Navigation**: 데스크톱 수평 메뉴 → 모바일 햄버거 메뉴
+- **Grid columns**: 데스크톱 다중 컬럼 → 모바일 단일 컬럼 스택
+- **Hero layout**: 데스크톱 가로 배치 → 모바일 세로 스택
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary CTA Button
@@ -246,7 +278,7 @@ body {
 
 ---
 
-## 13. Content Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 - **헤드라인**: 파워풀, 기술 우월성. "ULTIMATE PERFORMANCE."
@@ -256,7 +288,7 @@ body {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: manual -->
 
 ```css
@@ -286,7 +318,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: manual -->
 
 ```js
@@ -317,7 +349,50 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary | brand | `#44D62C` |
+| Background | bg-page | `#000000` |
+| Text primary | text | `#FFFFFF` |
+| Text muted | text-muted | `#BBBBBB` |
+| Border | border | `#E0E0E0` |
+
+### Example Component Prompts
+
+#### Hero Section
+```
+Razer 스타일 히어로 섹션을 만들어줘.
+- 배경: #000000
+- H1: RazerF5, weight 700
+- 서브텍스트: #BBBBBB
+- CTA 버튼: 배경 #44D62C, 텍스트 white
+```
+
+#### Card Component
+```
+Razer 스타일 카드 컴포넌트를 만들어줘.
+- 배경: #000000, border: 1px solid #E0E0E0
+- radius: 2px
+- 제목: RazerF5, 16px, weight 700
+- 본문: 14px, color #FFFFFF
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: 반드시 §06의 semantic token을 사용. raw hex 직접 사용 금지.
+- **폰트 변경 시**: weight 400이 기본. heading에만 더 무거운 weight.
+- **여백 조정 시**: §07의 spacing scale 단위로만. 임의 값(13px, 27px 등) 금지.
+- **새 컴포넌트 추가 시**: §13의 기존 패턴(radius, shadow, border 스타일)을 따를 것.
+- **반응형**: §12의 breakpoint를 그대로 사용. 커스텀 breakpoint 추가 금지.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### DO

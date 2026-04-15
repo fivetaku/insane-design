@@ -15,6 +15,22 @@ token_prefix: --framer-*
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Warp 마케팅 사이트는 철저한 monochrome light 디자인이다. 따뜻한 크림 아이보리 `#FAF9F6` 배경 위에 순수 검정 `#000000` 텍스트가 놓이고, 채도 있는 컬러가 CSS에 단 하나도 없다. 터미널 앱 UI(다크, cyan)와 완전히 다른 디자인 표면이다.
+
+Inter를 기본 body font로, Matter Regular(유료)를 display headline에 사용한다. CTA 버튼은 flat black(`#000000`) bg + cream text, 장식 없이 깔끔하다. Elevation은 거의 사용되지 않고, 배경색 대비(`#FAF9F6` vs `#121212` vs `#FFFFFF`)로 계층을 구분하는 flat/borderless 디자인이다.
+
+**Key Characteristics:**
+- Near-monochrome: 22개 hex 중 채도 있는 색 0개
+- Cream ivory `#FAF9F6` 배경 (순백 `#FFFFFF`가 아님)
+- Flat/borderless — shadow token 0개, elevation 대신 배경색 대비
+- Inter(body) + Matter Regular(display) + Geist Mono(code)
+- Radius 5~10px 절제, 대형 컨테이너만 20px
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -278,7 +294,19 @@ Hero (cream) --> 제품 데모 (embedded dark screenshots) --> Social proof ("Do
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary CTA Button
@@ -331,7 +359,7 @@ Hero (cream) --> 제품 데모 (embedded dark screenshots) --> Social proof ("Do
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -344,7 +372,7 @@ Hero (cream) --> 제품 데모 (embedded dark screenshots) --> Social proof ("Do
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -401,7 +429,7 @@ strong, b { font-weight: var(--warp-font-weight-bold); }   /* 600 */
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -456,7 +484,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#000000` |
+| Page BG | `#FAF9F6` |
+| Text Primary | `#000000` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Warp 스타일 hero — `Inter` 폰트, `#000000` brand color, light 배경"
+>
+> **CTA button**: "Warp primary CTA — brand `#000000` 배경 또는 dark fill, `Inter` 폰트"
+>
+> **Card component**: "Warp 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### DO

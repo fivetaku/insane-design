@@ -14,6 +14,21 @@ token_prefix: f36
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Contentful의 마케팅 사이트는 깔끔하고 구조적인 SaaS 플랫폼 감성을 가진다. 순백 `#FFFFFF` 배경 위에 royal blue `#1770E6` 브랜드 컬러가 CTA와 링크에 집중되고, navy `#2C407D` 계열이 footer와 헤더에서 깊이를 만든다. 전반적으로 차분하고 전문적인 톤이다.
+
+일러스트레이션에는 earth-tone accent palette(terracotta `#A86451`, sage `#587D69`, khaki `#8A724D`)가 사용되어 따뜻한 인간미를 더하며, 이는 Contentful의 signature 비주얼 자산이다. UI 자체는 극도로 절제된 2-step radius(4px/8px)와 단일 레이어 shadow로 geometric한 깔끔함을 유지한다.
+
+**Key Characteristics:**
+- Royal blue `#1770E6` CTA + navy `#2C407D` 다크 variant의 2-tone 브랜드 구조
+- Earth-tone 일러스트레이션 palette가 따뜻한 인간미를 부여
+- CSS 변수 0개 — 모든 값이 하드코딩 hex (Forma 36은 앱 UI 전용)
+- `Avenir Next` geometric sans + conservative radius/shadow
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -224,7 +239,19 @@ h1, h2, h3 { font-weight: 600; }
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary CTA
@@ -264,7 +291,7 @@ h1, h2, h3 { font-weight: 600; }
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -319,7 +346,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -374,7 +401,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#1770E6` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#2B2D31` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Contentful 스타일 hero — `Avenir Next` 폰트, `#1770E6` brand color, light 배경"
+>
+> **CTA button**: "Contentful primary CTA — brand `#1770E6` 배경 또는 dark fill, `Avenir Next` 폰트"
+>
+> **Card component**: "Contentful 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

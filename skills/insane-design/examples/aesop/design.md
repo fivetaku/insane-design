@@ -14,6 +14,22 @@ token_prefix: N/A
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Aesop는 고급 스킨케어 브랜드답게 아포테카리(약재상) 감성의 따뜻하고 자연스러운 디자인을 가진다. 배경은 순백이 아닌 크림-베이지 `#F5F0E8`로, 이것이 Aesop 디자인의 가장 핵심적인 요소다. 텍스트는 따뜻한 다크 그레이 `#313131`을 사용하며, 채도 있는 악센트 색상이 UI에 일절 사용되지 않는다.
+
+시스템 폰트를 의도적으로 사용하여 폰트 개성 대신 색상, 질감, 여백의 조화에 집중한다. `border-radius: 0`의 직각 미학, `line-height: 1.7`의 넉넉한 문단 간격, 그리고 generous spacing(80px 섹션 패딩)이 Aesop 특유의 여유롭고 학구적인 분위기를 만든다.
+
+**Key Characteristics:**
+- 크림-베이지 `#F5F0E8` 배경 (순백 금지 — Aesop의 핵심)
+- 따뜻한 다크 그레이 `#313131` 텍스트
+- border-radius 0px — 약재상 직각 미학
+- line-height 1.7 — 넉넉한 문단 여백
+- 시스템 폰트 의도적 사용, 채도 있는 악센트 없음
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -207,7 +223,19 @@ section {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary Button
@@ -252,7 +280,7 @@ section {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -265,7 +293,7 @@ section {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -303,7 +331,7 @@ section {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -351,7 +379,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#313131` |
+| Page BG | `#F5F0E8` |
+| Text Primary | `#313131` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Aesop 스타일 hero — `system-ui` 폰트, `#313131` brand color, light 배경"
+>
+> **CTA button**: "Aesop primary CTA — brand `#313131` 배경 또는 dark fill, `system-ui` 폰트"
+>
+> **Card component**: "Aesop 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

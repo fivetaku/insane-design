@@ -14,6 +14,23 @@ token_prefix: "--brand-*, --background-*, --foreground-*"
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Supabase의 웹사이트는 다크 배경(`#121212`)을 기본으로 하는 개발자 중심 디자인이다. HSL 변수 기반 2-theme 시스템으로 라이트/다크 양쪽을 완전히 지원하며, 오픈소스 Firebase 대안으로서의 기술적 전문성을 시각적으로 전달한다.
+
+타이포그래피는 커스텀 변수 폰트와 `Circular` 폴백을 사용한다. 본문 weight는 **400**이며, 코드 블록에는 `Source Code Pro`가 적용된다. 개발자 문서와 마케팅 양쪽에서 일관된 타이포 경험을 제공한다.
+
+브랜드 그린 `#3ECF8E`(HSL `153deg 60% 53%`)는 채도 높은 네온이 아닌 민트 톤의 시그니처 컬러다. CTA 버튼과 성공 상태에 집중 사용되며, 다크 배경에서 부드러우면서도 명확한 시각적 포인트를 만든다.
+
+**Key Characteristics:**
+- 브랜드 그린 `#3ECF8E`(HSL `153deg 60% 53%`). 채도 60% 의 민트 톤이지 네온 그린 아님.
+- `hsl(var(--token) / <alpha-value>)` 래핑 패턴 사용 — shadcn/ui 컨벤션.
+- Dark theme 기본. Light theme 도 완전 정의돼 있어 `.dark` 클래스로 토글 가능.
+- 2-theme 기준으로 <code>--brand-*</code> 가 theme 에 따라 다른 HSL 값을 가짐 — 하드코딩 금지.
+- Tailwind utilities 그대로 사용: `bg-surface-100`, `text-foreground-light`, `border-default`.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 Supabase처럼 만들기 — 3가지만 하면 80%
@@ -253,7 +270,21 @@ code, pre, kbd {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ Supabase는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### Button (primary)
 
@@ -297,7 +328,7 @@ button.bg-brand:hover {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* Supabase — dark theme default */
@@ -338,7 +369,7 @@ body {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 
 ```js
 // tailwind.config.js — Supabase (shadcn-style)
@@ -395,7 +426,31 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#3ECF8E` |
+| Heading text | `#FAFAFA` |
+| Body text | `#A0A0A0` |
+| Background | `#121212` |
+| Border | `#2E2E2E` |
+| Link | `#3ECF8E` |
+| Dark section | `#121212` |
+
+### Example Component Prompts
+- "Create a hero section on `#121212` background. Headline at 3rem `Custom (self-hosted "Circular" fallback)` weight 400. CTA button `#3ECF8E` with white text."
+- "Design a card: `#FFFFFF` background, `#2E2E2E` border, 8px radius. Body text `#A0A0A0` at weight 400."
+
+### Iteration Guide
+1. 폰트: `Custom (self-hosted "Circular" fallback)` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#3ECF8E`는 CTA/링크에만 집중. 배경 `#121212`, 텍스트 `#FAFAFA`
+3. 그림자: 다크 테마 기반 subtle elevation, HSL 변수 시스템
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - 브랜드 그린 `#3ECF8E`(HSL `153deg 60% 53%`). 채도 60% 의 민트 톤이지 네온 그린 아님.
@@ -415,3 +470,6 @@ module.exports = {
 - ❌ Shadow 단일 레이어 — Tailwind 기본 shadow 스케일 그대로 사용해야 함
 - ❌ `--primary` / `--accent` / `--secondary` (shadcn default) 가정 — Supabase 는 `--brand-*` prefix
 - ❌ HSL 래퍼 없이 `background: var(--background-default)` 쓰기 — HSL 단편이라 반드시 `hsl()` 함수 래핑
+
+---
+

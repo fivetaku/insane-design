@@ -14,6 +14,22 @@ token_prefix: --BCG-*
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+BCG는 경영 컨설팅 firm으로, 딥 포레스트 그린 `#0E3E1B`이 브랜드 정체성이다. 순백/near-white `#F1EEEA`(따뜻한 ivory) 배경 위에 `#212427`(cool dark) 텍스트가 놓이고, `henderson-bcg-*` 독점 폰트 시리즈(sans, headline, serif, mod)가 세련된 전문성을 만든다.
+
+Body weight 300이 핵심이다 — 400이 아닌 light weight로 본문을 렌더링하여 우아한 인상을 만든다. Lime green `#7EF473`은 검색 필터 같은 UI 악센트에만 쓰이고 브랜드 primary가 아니다. `--BCG-*` prefix의 자체 디자인 시스템이 Greens/Neutrals/Grays 토큰을 관리한다.
+
+**Key Characteristics:**
+- 딥 포레스트 그린 `#0E3E1B` (lime green `#7EF473`은 악센트 전용)
+- Body weight 300 — 400이 아닌 light weight
+- henderson-bcg-* 독점 폰트 시리즈 4종
+- `--BCG-*` prefix 토큰 시스템
+- Near-white `#F1EEEA` 배경 (따뜻한 ivory 톤)
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -242,7 +258,19 @@ section {
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Primary Button (Dark Green)
@@ -295,7 +323,7 @@ section {
 
 ---
 
-## 13. Content / Copy Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
@@ -308,7 +336,7 @@ section {
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -346,7 +374,7 @@ section {
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -395,7 +423,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#0E3E1B` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#212427` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "BCG 스타일 hero — `henderson-bcg-sans` 폰트, `#0E3E1B` brand color, light 배경"
+>
+> **CTA button**: "BCG primary CTA — brand `#0E3E1B` 배경 또는 dark fill, `henderson-bcg-sans` 폰트"
+>
+> **Card component**: "BCG 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

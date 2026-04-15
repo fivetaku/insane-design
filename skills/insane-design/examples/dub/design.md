@@ -14,6 +14,22 @@ token_prefix: shadcn
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+Dub.co는 premium SaaS link analytics 서비스의 세련된 감성을 가진다. 순백 `#FFFFFF` 배경 위에 Tailwind neutral ramp(`#171717` ~ `#FAFAFA`)가 깔끔한 계층을 만들고, brand purple `#855AFC`가 CTA에 집중적으로 사용된다. shadcn/ui 기반 HSL channel 토큰 시스템이 기술적 정교함을 보여준다.
+
+3-폰트 시스템이 특징적이다: Satoshi(display heading)가 premium 감성을, Inter(body)가 가독성을, GeistMono(stats/short link)가 데이터 정확성을 전달한다. 특히 short link 표시(`dub.co/abc123`)에 GeistMono를 사용하는 것이 브랜드 포인트다.
+
+**Key Characteristics:**
+- Brand purple `#855AFC` + Tailwind neutral ramp의 정제된 조합
+- 3-폰트 분리: Satoshi(heading) + Inter(body) + GeistMono(data)
+- Pink inset shadow hover(`#F350663A`) — 시그니처 호버 효과
+- Analytics chart palette 6색이 브랜드 확장 역할
+- `#000000AA` (67% alpha) 텍스트 — 독특한 alpha text 패턴
+
+---
+
 ## 01. Quick Start
 <!-- SOURCE: manual -->
 
@@ -236,7 +252,19 @@ Dub은 Tailwind spacing 유틸 사용 + 5개 custom props:
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 모바일 네비게이션, 터치 타겟 44px+ |
+| Tablet | 640-1024px | 2컬럼 그리드, 사이드 패딩 증가 |
+| Desktop | 1024-1280px | 풀 그리드 레이아웃, 확장 네비게이션 |
+| Large | >1280px | max-width 컨테이너, 중앙 정렬 |
+
+---
+
+## 13. Components
 <!-- SOURCE: auto+manual -->
 
 ### Link Card (Dub flagship)
@@ -278,7 +306,7 @@ Dub은 Tailwind spacing 유틸 사용 + 5개 custom props:
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 <!-- SOURCE: auto+manual -->
 
 ```css
@@ -335,7 +363,7 @@ h1, h2, h3, .display { font-family: var(--font-satoshi); font-weight: 700; lette
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: auto+manual -->
 
 ```js
@@ -390,7 +418,36 @@ module.exports = {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: auto+manual -->
+
+### Quick Color Reference
+
+| Role | Value |
+|---|---|
+| Brand | `#855AFC` |
+| Page BG | `#FFFFFF` |
+| Text Primary | `#171717` |
+| Default Theme | light |
+
+### Component Prompts
+
+> **Hero section**: "Dub.co 스타일 hero — `Satoshi` 폰트, `#855AFC` brand color, light 배경"
+>
+> **CTA button**: "Dub.co primary CTA — brand `#855AFC` 배경 또는 dark fill, `Satoshi` 폰트"
+>
+> **Card component**: "Dub.co 스타일 카드 — light 테마, 기존 radius/shadow 토큰 준수"
+
+### Iteration Guide
+
+1. **Color 교체 시**: 반드시 §06 Colors 테이블의 실제 hex 참조. AI 추론 색상 사용 금지.
+2. **Typography 변경 시**: §04 Font Stack의 font-family 체인 + §05의 weight/size 매핑 확인.
+3. **Spacing 조정 시**: §07 Spacing의 토큰 스케일 내에서만 변경.
+4. **신규 컴포넌트**: §13 Components의 기존 패턴(radius, shadow, padding)을 기반으로 확장.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### ✅ DO

@@ -14,6 +14,23 @@ token_prefix: ""
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: manual -->
+
+PostHog의 웹사이트는 밝은 배경 위에 독특한 일러스트레이션과 캐릭터가 결합된 친근한 개발자 도구 디자인이다. 전형적인 B2B SaaS의 딱딱함을 벗어나 유쾌하면서도 전문적인 인상을 동시에 전달한다.
+
+타이포그래피는 기본 시스템 서체를 사용한다. 본문 weight는 **400**이며, 깔끔하고 읽기 편한 텍스트 경험을 제공한다.
+
+브랜드 오렌지-레드 `#F54E00`는 CTA와 핵심 인터랙션 요소에 강한 시각적 포인트를 만든다. 밝은 배경 위에서 일러스트레이션의 다양한 컬러와 조화를 이루며 PostHog만의 개성을 표현한다.
+
+**Key Characteristics:**
+- **크림 배경** `#eeefe9`가 base. 순백 아님.
+- **IBM Plex Sans Variable**을 self-host — 시각적 정체성의 핵심이다.
+- **오렌지 `#f54e00`**를 CTA/pagination에 공격적으로 사용.
+- **Hard offset 솔리드 섀도** (`4px 4px 0 #151515`)를 카드 패턴으로. blur 없음.
+- 다크 섹션에는 `#1e1f23` (coal) 사용. 순수 검정 아님.
+---
+
 ## 01. Quick Start
 
 > 5분 안에 PostHog처럼 만들기 — 3가지만 하면 80%
@@ -208,7 +225,21 @@ PostHog는 과감한 **dual-stroke drop-shadow 패턴**을 쓴다 — 카드 밑
 
 ---
 
-## 12. Components
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+| Breakpoint | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | 단일 컬럼, 헤딩 축소, 카드 스택 |
+| Tablet | 640-1024px | 2열 그리드, 중간 패딩 |
+| Desktop | 1024-1280px | 풀 레이아웃, 3열 그리드 |
+| Large | >1280px | 중앙 정렬 max-width 1200px, 넉넉한 마진 |
+
+> ⚠️ PostHog는 모바일 퍼스트 반응형 디자인을 채택하며, 브레이크포인트별로 그리드와 타이포그래피가 유동적으로 조정된다.
+
+---
+
+## 13. Components
 
 ### Hero CTA
 ```html
@@ -230,7 +261,7 @@ PostHog는 과감한 **dual-stroke drop-shadow 패턴**을 쓴다 — 카드 밑
 
 ---
 
-## 14. Drop-in CSS
+## 15. Drop-in CSS
 
 ```css
 /* PostHog — copy into your root stylesheet */
@@ -275,7 +306,31 @@ body {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+| Role | Hex |
+|---|---|
+| Primary CTA | `#f54e00` |
+| Heading text | `#151515` |
+| Body text | `#50565B` |
+| Background | `#FFFFFF` |
+| Border | `#E5E7E0` |
+| Link | `#F54E00` |
+| Dark section | `#151515` |
+
+### Example Component Prompts
+- "Create a hero section on `#FFFFFF` background. Headline at 3rem `IBM Plex Sans Variable` weight 400. CTA button `#f54e00` with white text."
+- "Design a card: `#1c1c1f` background, `#E5E7E0` border, 8px radius. Body text `#50565B` at weight 400."
+
+### Iteration Guide
+1. 폰트: `IBM Plex Sans Variable` 패밀리, 본문 weight 400
+2. 컬러: 브랜드 `#f54e00`는 CTA/링크에만 집중. 배경 `#FFFFFF`, 텍스트 `#151515`
+3. 그림자: flat 디자인 기반, 최소한의 그림자 사용
+---
+
+## 18. DO / DON'T
 
 ### ✅ DO
 - **크림 배경** `#eeefe9`가 base. 순백 아님.
@@ -291,3 +346,6 @@ body {
 - subtle blur 섀도 (`0 4px 12px rgba(0,0,0,0.1)`) 금지. 하드 오프셋이 시그니처.
 - 파스텔 톤 오렌지 사용 금지. 풀채도 `#f54e00`이 anchor.
 - 차가운 그레이 중립 금지. Warm gray `rgb(191 193 183)` 기반이다.
+
+---
+
