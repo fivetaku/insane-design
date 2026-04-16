@@ -1,180 +1,163 @@
-# Insane Design
+English | [한국어](README.ko.md)
 
-**URL 하나 넣으면 실제 CSS 기반 디자인 시스템이 나옵니다**
+# insane-design
 
-"Stripe 느낌으로 해줘"가 잘 안 통하는 이유는 단순합니다.
-AI는 느낌을 재현하는 게 아니라, **구체적인 토큰**을 받아야 제대로 만듭니다.
+> **One URL. Real CSS. Your actual design system.**
 
-색상, 폰트, 간격, 라디우스, 섀도우 —
-이걸 눈대중으로 맞추는 게 아니라 **실제 CSS에서 직접 추출**해야 합니다.
+Stop guessing at vibes. "Make it feel like Stripe" doesn't work because AI needs tokens, not feelings. insane-design fetches real CSS from any site, extracts the actual design system, and produces a `design.md` your AI agent can use — plus an interactive HTML report you can open in a browser.
 
-Insane Design은 Stripe부터 Vercel까지 36개 서비스를 분석해 만든 툴이고,
-URL 하나만 넣으면 그 사이트의 디자인 시스템을 뽑아줍니다.
-
-**[실제 결과물 보기 — 36개 서비스 디자인 리포트 갤러리](https://fivetaku.github.io/insane-design/)**
+[Quick Start](#quick-start) • [Why insane-design?](#why-insane-design) • [How it works](#how-it-works) • [Features](#features) • [Requirements](#requirements)
 
 ---
 
-## 왜 필요한가
+## Quick Start
 
-- "이런 느낌으로 해줘"가 아니라 실제 디자인 토큰을 AI에게 넘기고 싶을 때
-- Stripe, Linear, Vercel 같은 서비스의 스타일을 감이 아니라 정확한 값으로 가져오고 싶을 때
-- 디자인 시스템을 처음부터 만들 시간은 없지만 결과물 퀄리티는 포기하고 싶지 않을 때
-- AI 코딩 에이전트에게 재현 가능한 디자인 레퍼런스를 함께 주고 싶을 때
-
----
-
-## 어떻게 작동하나요?
-
-URL 하나만 넣으면 됩니다. 피그마도, 디자이너도 필요 없어요.
-
-```
-URL 입력
-    ↓
-스크린샷 캡처 + 실제 CSS 수집
-    ↓
-토큰 분석
-(색상 ramp, 타이포 스케일, 간격, 라디우스, 섀도우, 폰트 스택)
-    ↓
-design.md 생성 (AI 에이전트용)
-+
-report.html 생성 (사람용 인터랙티브 리포트)
-```
-
-생성된 `design.md`를 AI 에이전트에 첨부하면, "이 스타일로 만들어줘"가 훨씬 정확하게 동작합니다.
-
----
-
-## 설치 방법
-
-### 1. 마켓플레이스 등록 (처음 한 번만)
+### 1. Add the marketplace (once)
 
 ```
 /plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git
 ```
 
-### 2. 플러그인 설치
+### 2. Install
 
 ```
 /plugin install insane-design
 ```
 
-> 설치 후에는 Claude Code를 **재시작**하세요.
+### 3. Restart Claude Code
 
-### 사전 요구사항
+Required for the plugin to load.
 
-**필수**
-- Claude Code
-- Python 3.11+
-- Pillow (`pip install Pillow`)
-
-**선택**
-- Playwright MCP — 스크린샷 캡처 품질 향상용. 없으면 curl 기반 fallback으로 동작합니다.
-
-### 빠르게 시작하기
-
-설치 후 Claude Code를 재시작하고 바로 사용할 수 있습니다.
+### 4. Run it
 
 ```
 /insane-design https://stripe.com
 ```
 
----
-
-## 핵심 기능
-
-### 1. 실제 CSS 기반 분석
-
-피그마 파일이나 스크린샷을 보고 추측하지 않습니다.
-서비스가 실제로 서빙하는 CSS를 직접 수집하고 파싱합니다.
-즉, 브라우저가 렌더링하는 기준과 가장 가깝습니다.
-
-### 2. 디자인 토큰 추출
-
-| 토큰 유형 | 추출 항목 |
-|-----------|----------|
-| 색상 | brand ramp, neutral, accent, semantic |
-| 타이포그래피 | heading/text 사이즈, weight, line-height, letter-spacing |
-| 스페이싱 | 간격 토큰 시스템 |
-| 라디우스 | border-radius 체계 |
-| 섀도우 | box-shadow 레이어 |
-| 폰트 스택 | 커스텀 폰트 식별 + fallback chain |
-
-### 3. AI 에이전트용 design.md
-
-"이 스타일로 만들어줘"에 바로 첨부할 수 있는 구조화 문서입니다.
-AI가 추상적인 느낌이 아니라 실제 디자인 언어로 작업할 수 있게 정리해줍니다.
-Drop-in CSS와 Tailwind Config도 함께 제공합니다.
-
-### 4. 인터랙티브 HTML 리포트
-
-브라우저에서 바로 열어볼 수 있는 시각적 리포트입니다.
-색상 팔레트, 타이포 스케일, 컴포넌트 클래스, 섀도우 등을 한눈에 확인할 수 있습니다.
-
-### 5. Quick Start 치트시트
-
-"이 3가지만 적용해도 80%는 닮는다" 수준의 빠른 가이드를 제공합니다.
-시간이 없을 때 임팩트가 큰 요소부터 바로 반영할 수 있습니다.
-
-### 6. 36개 서비스 분석 기반
-
-Stripe, GitHub, Linear, Notion, Discord, Vercel 등
-36개 서비스를 실제로 분석해 파이프라인을 만들었습니다.
-각 서비스의 결과 예시도 함께 포함되어 있어 바로 참고할 수 있습니다.
-
-**[갤러리에서 실제 리포트 예시 보기](https://fivetaku.github.io/insane-design/)**
+Or use natural language: "analyze this site's design system" — the command figures out what you mean.
 
 ---
 
-## 사용법
+## Why insane-design?
 
-| 명령어 | 설명 |
-|--------|------|
-| `/insane-design [URL]` | URL의 디자인 시스템 추출 |
-
-**자연어로도 실행 가능**
-
-- "이 사이트 디자인 분석해줘"
-- "디자인 시스템 추출해줘"
-- "이 URL 디자인 레퍼런스 만들어줘"
+- **Not LLM guessing** — CSS is fetched and parsed directly. Hex values come from actual stylesheets, not hallucinations.
+- **AI-ready output** — `design.md` is structured for AI agents. Attach it to any prompt and get reproducible results instead of vibes.
+- **100 pre-analyzed sites included** — Stripe, Apple, Linear, Vercel, Toss, Nike, Figma, Notion, and 92 more. Ready to apply without running analysis.
+- **Two modes, one command** — Analyze a new URL, or apply an existing design system to your project. Same command handles both.
+- **Drop-in CSS and Tailwind config** — The output includes ready-to-paste CSS variables and a Tailwind theme extension. No manual translation.
+- **Interactive HTML report** — Color swatches with click-to-copy, live typography preview, spacing bars, shadow demo cards — everything visual in one file.
+- **Quick Start cheat sheet** — "Apply these three things and it's 80% there." Prioritized for maximum impact, minimum effort.
 
 ---
 
-## 산출물 구조
+## How it works
 
 ```
-{site-name}/
-├── design.md              # AI 에이전트용 디자인 시스템 문서
-├── report.ko.html         # 인터랙티브 HTML 리포트
+URL
+  ↓
+Fetch HTML + CSS files (real stylesheet bundles, Chrome UA)
+  ↓
+Parse CSS custom properties
+Extract: color ramps · typography scale · spacing tokens
+         radius system · shadow layers · font stack
+  ↓
+Visual verification via screenshot (Playwright or curl fallback)
+Confirm: brand color · light/dark theme · font rendering
+  ↓
+Generate design.md          Generate report.html
+(structured for AI agents)  (interactive browser report)
+```
+
+Output lands at `{site-slug}/`:
+
+```
+stripe/
+├── design.md              # AI agent reference — 16-section structured doc
+├── report.ko.html         # interactive HTML report
 └── screenshots/
-    └── hero-cropped.png   # 사이트 스크린샷 (1280×800)
+    └── hero-cropped.png   # 1280×800 screenshot
 ```
 
 ---
 
-## 구성요소
+## Features
 
-| 구성요소 | 설명 |
-|----------|------|
-| 커맨드 | `/insane-design` — URL 입력 → 디자인 시스템 추출 |
-| 스킬 | `insane-design` — CSS 수집, 분석, 문서 생성 파이프라인 |
+### Commands
+
+| Command | What it does |
+|---------|-------------|
+| `/insane-design [URL]` | Analyze a site — extract design system, generate `design.md` + HTML report |
+| `/insane-design [slug]` | Apply a pre-analyzed design to your project |
+| `/insane-design:analysis [URL]` | Analysis mode only |
+| `/insane-design:apply [slug]` | Apply mode only |
+
+Natural language also works. "Analyze this site" triggers analysis mode, "apply the Stripe style" triggers apply mode.
+
+### Design tokens extracted
+
+| Token type | What's captured |
+|------------|----------------|
+| Colors | Brand ramp, neutral ramp, accent families, semantic aliases |
+| Typography | Heading/body scale — size, weight, line-height, letter-spacing |
+| Spacing | Full spacing token system |
+| Radius | Border-radius scale |
+| Shadows | Box-shadow layers (including multi-layer stacks) |
+| Font stack | Custom font identification + fallback chain |
+
+### design.md structure (16 sections)
+
+| Section | Content |
+|---------|---------|
+| 01 Quick Start | 3-step CSS snippet — "80% there in 5 minutes" |
+| 02 Provenance | Source URL, fetch date, CSS byte count |
+| 03 Tech Stack | Framework and DS namespace detection |
+| 04–05 Typography | Font stack + full scale |
+| 06 Colors | Brand ramp · neutral · accents · semantic layer |
+| 07–09 Spacing / Radius / Shadows | Full token tables |
+| 12 Components | BEM class patterns and component variants |
+| 14 Drop-in CSS | Ready-to-paste `:root {}` CSS variables |
+| 15 Tailwind Config | `theme.extend` configuration |
+| 16 DO / DON'T | Most common mistake to avoid for this site |
+
+### Apply mode — inject tokens into your project
+
+Apply scans your project (globals.css, Tailwind config, or plain CSS) and injects the design tokens without overwriting your existing setup.
+
+| Target | What happens |
+|--------|-------------|
+| CSS with `:root {}` | Tokens appended inside existing block |
+| CSS without `:root {}` | New `:root {}` created at top of file |
+| Tailwind config | `theme.extend.colors`, `fontFamily`, `borderRadius` updated |
+| Re-apply | `/* insane-design */` block replaced cleanly |
+
+### 100 pre-analyzed sites
+
+Stripe, Apple, Linear, Vercel, Notion, Figma, GitHub, Discord, Slack, Spotify, Toss, Baemin, Daangn, Kakao, Naver, Nike, Gucci, Chanel, Tesla, Ferrari, BMW, and 79 more. Apply any of them directly without running analysis.
 
 ---
 
-## 요구사항
+## Requirements
 
-### 필수
+### Required
 
-- Claude Code
+- [Claude Code](https://docs.anthropic.com/claude-code)
 - Python 3.11+
-- Pillow
+- Pillow (`pip install Pillow`)
 
-### 선택
+### Optional
 
-- Playwright MCP — 스크린샷 캡처 품질 향상용
+- **Playwright MCP** — improves screenshot capture quality. Without it, insane-design falls back to curl-based capture and still works.
 
 ---
 
-## 라이선스
+## License
 
 MIT
+
+---
+
+<div align="center">
+
+**Real CSS. Not feelings.**
+
+</div>
