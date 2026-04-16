@@ -2,9 +2,11 @@ English | [한국어](README.ko.md)
 
 # insane-design
 
-> **One URL. Real CSS. Your actual design system.**
+> **Rips the design system out of any website. In one command.**
 
-Stop guessing at vibes. "Make it feel like Stripe" doesn't work because AI needs tokens, not feelings. insane-design fetches real CSS from any site, extracts the actual design system, and produces a `design.md` your AI agent can use — plus an interactive HTML report you can open in a browser.
+"Make it feel like Stripe" is useless to AI — it needs tokens, not vibes. insane-design doesn't guess. It fetches the real CSS, parses every custom property, extracts typography, spacing, shadows, radii, and gradients, then hands your AI agent a `design.md` it can actually build with. Plus an interactive HTML report with click-to-copy swatches.
+
+100 pre-analyzed sites shipped (Stripe, Apple, Linear, Toss, Notion...) — or point it at any URL and go.
 
 [Quick Start](#quick-start) • [Why insane-design?](#why-insane-design) • [How it works](#how-it-works) • [Features](#features) • [Requirements](#requirements)
 

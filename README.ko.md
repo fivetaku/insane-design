@@ -2,9 +2,11 @@
 
 # insane-design
 
-> **URL 하나. 실제 CSS. 그게 다입니다.**
+> **어떤 웹사이트든 디자인 시스템을 통째로 뽑아냅니다. 명령어 하나로.**
 
-"Stripe 느낌으로 해줘"가 잘 안 통하는 이유는 단순합니다. AI는 느낌이 아니라 토큰을 받아야 합니다. insane-design은 어떤 사이트든 CSS를 직접 가져와 실제 디자인 시스템을 추출하고, AI 에이전트가 바로 쓸 수 있는 `design.md`와 브라우저에서 열 수 있는 인터랙티브 HTML 리포트를 만들어줍니다.
+"Stripe 느낌으로 해줘"는 AI한테 쓸모가 없습니다 — 느낌 말고 토큰이 필요합니다. insane-design은 추측하지 않습니다. 실제 CSS를 긁어와서, 모든 custom property를 파싱하고, 타이포그래피·간격·그림자·반경·그라디언트를 추출해서 AI가 바로 쓸 수 있는 `design.md`로 돌려줍니다. 거기에 클릭-투-카피 색상 스와치가 있는 인터랙티브 HTML 리포트까지.
+
+100개 사이트가 이미 분석돼 있습니다 (Stripe, Apple, Linear, Toss, Notion...) — 아니면 원하는 URL을 넣으세요.
 
 [Quick Start](#quick-start) • [왜 insane-design인가](#왜-insane-design인가) • [작동 방식](#작동-방식) • [기능](#기능) • [요구사항](#요구사항)
 
