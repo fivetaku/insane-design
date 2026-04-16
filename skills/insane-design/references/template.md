@@ -8,6 +8,12 @@ brand_color: {BRAND_HEX}
 primary_font: {PRIMARY_FONT}
 font_weight_normal: {WEIGHT_NORMAL}
 token_prefix: {TOKEN_PREFIX}
+
+# 🆕 v3.1 — apply Lv3 BOLD 리디자인 지원 필드
+bold_direction: {BOLD_DIRECTION}              # 1~2 단어 (예: "Industrial Minimalism")
+aesthetic_category: {AESTHETIC_CATEGORY}      # redesign-aesthetics.md §3 12가지 중 1개
+signature_element: {SIGNATURE_ELEMENT}        # hero_impact / typo_contrast / section_transition / minimal_extreme
+code_complexity: {CODE_COMPLEXITY}            # low / medium / high / very_high
 ---
 
 <!--
@@ -70,6 +76,23 @@ token_prefix: {TOKEN_PREFIX}
   - 3문단: 타이포그래피 성격 (폰트 선택 이유, weight 활용, 계층 표현)
   - 4문단: 여백/공간 활용과 레이아웃 철학 (밀도 vs 여유, 리듬감)
   - 5문단 (선택): 인터랙션/모션 성격 (정적 vs 다이내믹, 전환 속도)
+-->
+
+### 🆕 BOLD Direction Summary (apply Lv3 입력점)
+
+> **BOLD Direction**: {BOLD_DIRECTION}
+> **Aesthetic Category**: {AESTHETIC_CATEGORY}
+> **Signature Element**: 이 사이트는 **{SIGNATURE_DESCRIPTION}**으로 기억된다.
+> **Code Complexity**: {CODE_COMPLEXITY} — {COMPLEXITY_REASON}
+
+<!--
+  이 4줄 블록은 apply 스킬이 정규식으로 파싱하여 Lv3 BOLD 리디자인 시 사용함.
+  반드시 위 형식 그대로 작성. frontmatter 필드와 정확히 일치해야 함.
+
+  - BOLD_DIRECTION: 1~2 단어 레이블 (Step 4 판정 #13)
+  - AESTHETIC_CATEGORY: redesign-aesthetics.md §3의 12가지 중 1개
+  - SIGNATURE_DESCRIPTION: hero 임팩트 / 타이포 대비 / 섹션 전환 / 미니멀 극단 등
+  - CODE_COMPLEXITY: low / medium / high / very_high + 근거 한줄
 -->
 
 ---
@@ -296,8 +319,17 @@ body {
 - **Gutter**: {GRID_GUTTER}
 
 ### Hero
+- **🆕 Pattern Summary**: {HERO_PATTERN_SUMMARY}
+  <!-- 한줄 요약: "{height}vh + {bg 처리} + {H1 정렬} + {CTA 배치}"
+       예: "100vh + 풀스크린 차량 사진 + 중앙 H1 + dual CTA 아래"
+       예: "70vh + gradient flame bg + 좌측 H1 + 우측 제품 mockup" -->
 - Layout: {HERO_LAYOUT}
 - Background: {HERO_BG}
+- **🆕 Background Treatment**: {HERO_BG_TREATMENT}
+  <!-- atmospheric 효과 명시: solid / gradient mesh / noise texture / image overlay / video / dot pattern / grain
+       예: "image-overlay (vehicle.jpg + linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.6)))"
+       예: "gradient-mesh (radial 2-layer)"
+       예: "solid #F5F5F7" — 단색이면 단색이라고 명시 -->
 - H1: `{H1_SIZE}` / weight `{H1_WEIGHT}` / tracking `{H1_TRACKING}`
 - Max-width: {HERO_MAX_WIDTH}
 
