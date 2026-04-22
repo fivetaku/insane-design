@@ -1,4 +1,5 @@
 ---
+schema_version: 3.1                           # 🆕 v3.1 — medium 분기 + apply/build 계약 필드
 slug: {SLUG}
 service_name: {SERVICE_NAME}
 site_url: {SITE_URL}
@@ -9,16 +10,23 @@ primary_font: {PRIMARY_FONT}
 font_weight_normal: {WEIGHT_NORMAL}
 token_prefix: {TOKEN_PREFIX}
 
-# 🆕 v3.1 — apply Lv3 BOLD 리디자인 지원 필드
+# apply Lv3 BOLD 리디자인 지원 필드 (v3.0에서 추가, v3.1에서 유지)
 bold_direction: {BOLD_DIRECTION}              # 1~2 단어 (예: "Industrial Minimalism")
 aesthetic_category: {AESTHETIC_CATEGORY}      # redesign-aesthetics.md §3 12가지 중 1개
 signature_element: {SIGNATURE_ELEMENT}        # hero_impact / typo_contrast / section_transition / minimal_extreme
 code_complexity: {CODE_COMPLEXITY}            # low / medium / high / very_high
+
+# 🆕 v3.1 — 매체 분기 (build 스킬이 starter-components 로드 시 사용)
+medium: {MEDIUM}                              # web | slide | design-system | card-news | motion | print
+medium_confidence: {MEDIUM_CONFIDENCE}        # high | medium | low
 ---
 
 <!--
   DesignMD Analyzer — design.md 템플릿
-  버전: 3.0 (2026-04-14)
+  버전: 3.1 (2026-04-19)
+
+  v3.1 변경: frontmatter 최상단 `schema_version: 3.1` 추가,
+             `medium` + `medium_confidence` 필드 추가 (build 스킬 매체 분기용).
 
   섹션 번호: 00~18 (통일)
   Visual Theme = 00, Quick Start = 01, Provenance = 02, Tech Stack = 03 ...

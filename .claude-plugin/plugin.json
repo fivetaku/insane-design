@@ -1,7 +1,7 @@
 {
   "name": "insane-design",
-  "version": "0.1.0",
-  "description": "URL one-shot design system extractor — fetches real CSS, analyzes tokens, generates design.md + interactive HTML report",
+  "version": "0.2.2",
+  "description": "Design system extractor, applier, and builder — analyze any URL, apply to your project, or build from scratch with deterministic CSS + §18 DON'T grep contract",
   "author": {
     "name": "fivetaku",
     "url": "https://github.com/fivetaku"
@@ -14,7 +14,11 @@
     "css-analysis",
     "design-tokens",
     "insane-design",
+    "insane-apply",
+    "insane-build",
     "design.md",
-    "report"
+    "report",
+    "redesign",
+    "scaffold"
   ]
 }

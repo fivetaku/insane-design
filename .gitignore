@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 .DS_Store
 .omc/
+
+# Bulk asset archives (too large for repo)
+*.zip

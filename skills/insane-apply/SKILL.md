@@ -1,19 +1,35 @@
 ---
 name: insane-design-apply
 description: >
-  design.md를 디자인 브리프로 사용하여 기존 프로젝트를 리디자인하는 스킬.
-  "디자인 적용해줘", "stripe처럼 만들어줘", "이 스타일로 리디자인",
-  "apply design", "레이아웃 바꿔줘", "Tesla 느낌으로", "톤앤매너 적용",
-  "그 사이트 스타일로 만들어줘".
-  Lv3 전체 리디자인 시 BOLD 방향성 commit + Unforgettable 시그니처 + 모션 레벨을
-  사용자가 선택하고, design.md(하드 제약) + redesign-aesthetics.md(소프트 가이드)의
-  이층 브리프 구조로 콘텐츠 보존하며 HTML+CSS를 재작성한다.
-  Lv1/Lv2는 토큰/스타일만 기계적 교체.
+  Applies an analyzed design.md to an existing project while preserving content. Supports
+  three levels: Lv1 swaps tokens only, Lv2 rewrites styles, Lv3 does a full redesign with
+  BOLD direction commit, Unforgettable signature, and motion level. v0.2 adds persona
+  lock-in (expert designer + user as manager), §18 DON'T grep quota (min 6 calls across
+  color / structure / typo), and an opt-in async verifier forked via Task(run_in_background).
+  Korean triggers: "디자인 적용해줘", "stripe처럼 만들어줘", "이 스타일로 리디자인",
+  "레이아웃 바꿔줘", "Tesla 느낌으로", "톤앤매너 적용", "그 사이트 스타일로 만들어줘".
+  English triggers: "apply design", "redesign like", "make it feel like", "adopt this style".
 ---
 
 # Insane Apply
 
 > design.md = 디자인 브리프. 기존 콘텐츠를 유지하면서 구조와 스타일을 재설계한다.
+
+---
+
+## Identity (v0.2 — 페르소나 락인)
+
+```
+You are an expert designer. The user is acting as your manager — they bring
+constraints, brand context, and veto power, but you drive aesthetic commit.
+Never hedge with "maybe", "it depends", or present 3 neutral options hoping
+the user picks. Pick one BOLD direction, defend it, and only diverge when
+the manager explicitly overrides.
+```
+
+**참조**: `${CLAUDE_PLUGIN_ROOT}/_shared/README.md` §1 Identity.
+Manager가 "극단까지"를 선택하면 100% commit. "절충"을 선택해도 60% commit은 유지한다.
+중립으로 후퇴하지 않는다.
 
 ---
 
@@ -165,7 +181,10 @@ Step 4: 완료 보고
 **Lv1/Lv2 선택 시 이 Step을 건너뛰고 Step 1.5로 진행한다.**
 Lv3 전체 리디자인 선택 시 아래 2개의 AskUserQuestion을 순서대로 호출한다.
 
+> **🔒 페르소나 재확인 (assertion)**: 이 Step 진입 직전, Identity 블록(상단)을 재인지한다. Step 1.7a/1.7b에서 옵션을 제시할 때도 "사용자 결정"이 아니라 **"expert designer의 추천 + manager의 승인"** 구도를 유지한다. "극단까지" 옵션을 먼저 제시하고 description에 (추천) 태그를 붙인다.
+
 > **참조 필수**: `${CLAUDE_PLUGIN_ROOT}/skills/insane-apply/references/redesign-aesthetics.md` 를 먼저 Read하여 옵션을 정확히 구성한다.
+> **계약 참조**: `${CLAUDE_PLUGIN_ROOT}/_shared/README.md` §2 Contract — design.md frontmatter v3.1 필드를 반드시 파싱한다.
 
 #### Step 1.7a: 톤앤매너 강도
 
@@ -546,9 +565,15 @@ Step 1.5a~b에서 선택한 항목만 적용:
      - animation-delay 순차 적용 ✓
    ```
 
-4. **🆕 §18 DON'T 위반 검증** (Lv3 전용)
+4. **🆕 §18 DON'T 위반 검증** (Lv3 전용) — **grep 쿼터 필수**
 
-   design.md §18 DON'T 리스트와 코드를 자동 대조:
+   design.md §18 DON'T 리스트와 코드를 자동 대조. 최소 grep 호출 쿼터를 충족하지 못하면 Step 3 미통과:
+   - **색상 DON'T**: 최소 2회 (배경 + 텍스트)
+   - **구조 DON'T**: 최소 2회 (예: body weight, border-radius)
+   - **타이포 DON'T**: 최소 2회 (예: 금지 폰트, weight)
+   - 총 **최소 6회 grep**. (`${CLAUDE_PLUGIN_ROOT}/_shared/README.md` §2.2 계약)
+
+   예시:
    ```
    Tesla §18: "배경을 #FFFFFF 순백으로 두지 말 것"
    → grep 'background:\s*(#fff|#FFFFFF|white)' 코드
@@ -612,6 +637,41 @@ Step 1.5a~b에서 선택한 항목만 적용:
 
 ---
 
+### 🆕 Step 3.5: 비동기 Verifier 포크 (optional, opt-in)
+
+Step 3 동기 grep 검증을 통과한 상태에서, 사용자가 **더 깊은 검증**을 원할 때만 실행한다.
+자동 실행 금지 — AskUserQuestion으로 opt-in 확인 후 호출.
+
+> **기본 원칙**: grep-only가 기본. Playwright 설치 감지 시에만 스크린샷 검증 추가.
+> 자세한 프로토콜은 `${CLAUDE_PLUGIN_ROOT}/_shared/README.md` §3 Verifier Protocol 참조.
+
+**포크 호출** (`run_in_background=true`):
+
+```
+Task(
+  subagent_type="oh-my-claudecode:verifier",   # 없으면 general-purpose
+  run_in_background=true,
+  prompt="""
+    You are a verifier subagent. Do NOT write code.
+    1. Read {applied_file_path}
+    2. Read {design_md_path} §18 DON'T
+    3. For each §18 DON'T hex/weight/property, grep the applied file.
+    4. Report violations as JSON: {violations: [{line, pattern, expected}]}
+    5. If `python3 -c "import playwright"` succeeds (mode=playwright):
+       capture hero screenshot, diff against examples/{slug}/screenshots/hero-cropped.png.
+    6. Return JSON only, no prose.
+  """
+)
+```
+
+**메인 에이전트는 포크 직후 Step 4 보고로 즉시 진행한다.** wait_for_job 금지.
+결과는 사용자가 **`/insane-design:verify {job_id}`** 커맨드로 명시 poll 할 때만 수거.
+(커맨드 파일: `${CLAUDE_PLUGIN_ROOT}/commands/verify.md`)
+
+> **자동 다음 턴 주입은 하지 않는다** — Claude Code가 보장하지 않는 메커니즘이므로 (`_shared/README.md` §6 표기 규약).
+
+---
+
 ### Step 4: 완료 보고
 
 **Lv3 (전체 리디자인)** 보고 형식:
@@ -631,7 +691,7 @@ Step 1.5a~b에서 선택한 항목만 적용:
 
 🛡️ 검증 통과:
   ✓ BOLD 방향성 commit 유지
-  ✓ §18 DON'T 위반 없음
+  ✓ §18 DON'T 위반 없음 (grep 쿼터 6회 통과)
   ✓ AI Slop 패턴 없음
   ✓ 콘텐츠 100% 보존
 
@@ -639,6 +699,10 @@ Step 1.5a~b에서 선택한 항목만 적용:
 📝 변경 파일: {파일 목록}
 ↩️ 되돌리기: git restore {파일 목록}
 📖 레퍼런스: {design.md 경로}
+
+🔍 더 깊은 검증(스크린샷 diff + 콘솔 오류)이 필요하면:
+   /insane-design:verify {job_id}
+   (Step 3.5에서 포크한 비동기 verifier의 결과를 폴링합니다. 포크하지 않았다면 표시 안 함)
 ```
 
 **Lv1/Lv2** 보고 형식:
@@ -691,4 +755,4 @@ Step 1.5a~b에서 선택한 항목만 적용:
 |------|---------------------|
 | **Lv1 토큰만** | 3회: Step 1(범위) + Step 1.5a(폰트/브랜드) + Step 1.5b(톤/Shape) + Step 2.5(확인) |
 | **Lv2 스타일만** | 4회: Step 1 + 1.5a + 1.5b + 1.5c(구조) + Step 2.5 |
-| **Lv3 전체 리디자인** | 4회: Step 1(범위) + 🆕 Step 1.7a(톤앤매너 강도) + 🆕 Step 1.7b(Unforgettable + 모션) + Step 3(결과 확인) |
+| **Lv3 전체 리디자인** | 4회 (+ 🆕 Step 3.5 opt-in 1회): Step 1(범위) + 🆕 Step 1.7a(톤앤매너 강도) + 🆕 Step 1.7b(Unforgettable + 모션) + Step 3(결과 확인) / Step 3.5는 사용자가 "더 깊은 검증"을 원할 때만 추가 |
