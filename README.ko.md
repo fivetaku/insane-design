@@ -8,6 +8,8 @@
 
 100개 사이트가 이미 분석돼 있습니다 (Stripe, Apple, Linear, Toss, Notion...) — 아니면 원하는 URL을 넣으세요.
 
+**[갤러리 보기 — 100개 디자인 시스템 리포트 →](https://fivetaku.github.io/insane-design/)**
+
 [Quick Start](#quick-start) • [왜 insane-design인가](#왜-insane-design인가) • [작동 방식](#작동-방식) • [기능](#기능) • [요구사항](#요구사항)
 
 ---

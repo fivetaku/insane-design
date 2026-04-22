@@ -8,6 +8,8 @@ English | [한국어](README.ko.md)
 
 100 pre-analyzed sites shipped (Stripe, Apple, Linear, Toss, Notion...) — or point it at any URL and go.
 
+**[See the gallery — 100 design system reports →](https://fivetaku.github.io/insane-design/)**
+
 [Quick Start](#quick-start) • [Why insane-design?](#why-insane-design) • [How it works](#how-it-works) • [Features](#features) • [Requirements](#requirements)
 
 ---

@@ -7,1280 +7,1358 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
-  :root {
-    --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-    --bg:#fafafa; --fg:#09090b; --card:#fff;
-    --muted:#f4f4f5; --muted-fg:#71717a; --subtle:#52525b;
-    --border:#e4e4e7; --border-str:#d4d4d8;
-    --accent:#18181b;
-    --radius:.5rem; --radius-lg:.75rem;
-    --brand-color:#4354B8;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;scroll-padding-top:32px;}
-  body{
-    font-family:var(--font-sans);
-    font-feature-settings:"ss01" 1,"ss02" 1;
-    font-size:14px;font-weight:400;line-height:1.6;
-    color:var(--fg);background:var(--bg);
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
-    word-break:keep-all;overflow-wrap:break-word;
-  }
-  ::selection{background:var(--accent);color:#fafafa;}
-  a{color:inherit;text-decoration:none;}
-  code,kbd,samp{font-family:var(--font-mono);font-size:.85em;}
-  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+<!-- BEGIN:CANONICAL_STYLE -->
+/* ===== BEGIN:CANONICAL_STYLE ===== */
+/*
+ * insane-design — Canonical Report CSS
+ * Version: 1.0 (2026-04-14)
+ *
+ * 서비스별로 변경 허용하는 변수는 딱 2개:
+ *   --brand-color: {frontmatter의 brand_color}
+ *   --font-display: {서비스 display font}, -apple-system, sans-serif
+ *
+ * 나머지는 모든 리포트에서 동일하게 유지.
+ */
 
-  .layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1440px;margin:0 auto;}
+:root {
+  --brand-color: #533AFD;
+  --font-display: "Inter", -apple-system, sans-serif;
 
-  .toc{
-    position:sticky;top:0;align-self:start;height:100vh;
-    padding:28px 24px 28px 40px;
-    border-right:1px solid var(--border);
-    display:flex;flex-direction:column;gap:22px;
-    overflow-y:auto;
-  }
-  .toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
-  .toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
-  .toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
-  .toc__group{display:flex;flex-direction:column;gap:2px;}
-  .toc__group-label{
-    font-family:var(--font-mono);font-size:10px;
-    color:var(--border-str);text-transform:uppercase;
-    letter-spacing:.1em;padding:0 10px;margin-bottom:4px;
-  }
-  .toc__list{list-style:none;display:flex;flex-direction:column;gap:1px;}
-  .toc__list a{
-    display:grid;grid-template-columns:26px 1fr;align-items:center;
-    padding:6px 10px;font-size:13px;color:var(--muted-fg);
-    border-radius:var(--radius);transition:background 140ms,color 140ms;
-  }
-  .toc__list a:hover{background:var(--muted);color:var(--fg);}
-  .toc__num{font-family:var(--font-mono);font-size:10px;color:var(--border-str);}
-  .toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
+  /* ---- 아래는 서비스별 변경 금지 ---- */
+  --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --bg:#fafafa; --fg:#09090b; --card:#fff;
+  --muted:#f4f4f5; --muted-fg:#71717a; --subtle:#52525b;
+  --border:#e4e4e7; --border-str:#d4d4d8;
+  --accent:#18181b;
+  --radius:.5rem; --radius-lg:.75rem;
+}
 
-  .main{min-width:0;}
-  section{padding:72px 64px;max-width:1040px;border-bottom:1px solid var(--border);}
-  section:last-of-type{border-bottom:none;}
-  .section__num{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:10px;}
-  .section__title{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.35;margin-bottom:12px;}
-  .section__lede{font-size:15px;color:var(--subtle);max-width:720px;line-height:1.7;margin-bottom:40px;}
+/* === Reset === */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;scroll-padding-top:32px;}
+body{
+  font-family:var(--font-sans);
+  font-feature-settings:"ss01" 1,"ss02" 1;
+  font-size:14px;font-weight:400;line-height:1.6;
+  color:var(--fg);background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  word-break:keep-all;overflow-wrap:break-word;
+}
+::selection{background:var(--accent);color:#fafafa;}
+a{color:inherit;text-decoration:none;}
+code,kbd,samp{font-family:var(--font-mono);font-size:.85em;}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit;}
 
-  .hero{padding:80px 64px 64px;border-bottom:1px solid var(--border);}
-  .hero__eye{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:5px 12px;background:var(--muted);border:1px solid var(--border);
-    border-radius:999px;font-family:var(--font-mono);font-size:11px;
-    color:var(--subtle);margin-bottom:24px;
-  }
-  .hero__eye .dot{width:6px;height:6px;border-radius:99px;background:var(--brand-color);}
-  .hero__title{font-size:44px;font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px;max-width:780px;}
-  .hero__title .sub{color:var(--muted-fg);font-weight:400;}
-  .hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:680px;margin-bottom:32px;}
+/* === Layout === */
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1440px;margin:0 auto;}
 
-    .hero__screenshot{
-    margin-bottom:32px;max-width:880px;
-    border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);
-  }
-  .hero__screenshot img{width:100%;height:auto;display:block;}
+/* === TOC Sidebar === */
+.toc{
+  position:sticky;top:0;align-self:start;height:100vh;
+  padding:28px 24px 28px 40px;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;gap:22px;
+  overflow-y:auto;
+}
+.toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
+.toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
+.toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
+.toc__group{display:flex;flex-direction:column;gap:2px;}
+.toc__group-label{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--border-str);text-transform:uppercase;
+  letter-spacing:.1em;padding:0 10px;margin-bottom:4px;
+}
+.toc__list{list-style:none;display:flex;flex-direction:column;gap:1px;}
+.toc__list a{
+  display:grid;grid-template-columns:26px 1fr;align-items:center;
+  padding:6px 10px;font-size:13px;color:var(--muted-fg);
+  border-radius:var(--radius);transition:background 140ms,color 140ms;
+}
+.toc__list a:hover{background:var(--muted);color:var(--fg);}
+.toc__num{font-family:var(--font-mono);font-size:10px;color:var(--border-str);}
+.toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
 
-  .qs{
-    background:var(--card);border:1px solid var(--border);
-    border-radius:var(--radius-lg);padding:28px 32px;
-    max-width:880px;margin-top:8px;
-  }
-  .qs__head{
-    display:flex;align-items:center;gap:12px;
-    padding-bottom:16px;margin-bottom:20px;
-    border-bottom:1px solid var(--border);
-  }
-  .qs__head-label{
-    font-family:var(--font-mono);font-size:11px;
-    color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;
-  }
-  .qs__head-title{font-size:15px;font-weight:600;}
-  .qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-  .qs__step{
-    background:#08090a;color:#f7f8f8;
-    border-radius:var(--radius);padding:14px 16px;
-    display:flex;flex-direction:column;gap:6px;
-    font-family:var(--font-mono);font-size:11px;line-height:1.55;
-    border:1px solid #1f2023;
-  }
-  .qs__step-label{
-    color:#7d8ba4;font-size:10px;letter-spacing:.06em;
-    text-transform:uppercase;
-  }
-  .qs__step code{color:#f7f8f8;font-size:11px;}
-  .qs__step b{color:#c3d3ff;font-weight:500;}
-  .qs__warn{
-    margin-top:16px;padding:14px 18px;
-    background:#fef2f2;border:1px solid #fecaca;
-    border-left:3px solid #dc2626;
-    border-radius:var(--radius);
-    font-size:13px;color:#991b1b;line-height:1.6;
-  }
-  .qs__warn b{color:#7f1d1d;font-weight:600;}
-  .qs__warn code{background:#fee2e2;padding:1px 6px;border-radius:3px;font-size:12px;}
+/* === Main Area === */
+.main{min-width:0;}
+section{padding:72px 64px;max-width:1040px;border-bottom:1px solid var(--border);}
+section:last-of-type{border-bottom:none;}
+.section__num{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:10px;}
+.section__title{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.35;margin-bottom:12px;}
+.section__lede{font-size:15px;color:var(--subtle);max-width:720px;line-height:1.7;margin-bottom:40px;}
 
-  .hero__stats{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    max-width:880px;margin-top:32px;
-    border:1px solid var(--border);border-radius:var(--radius-lg);
-    background:var(--card);overflow:hidden;
-  }
-  .stat{padding:20px 24px;border-right:1px solid var(--border);}
-  .stat:last-child{border-right:none;}
-  .stat__label{
-    font-family:var(--font-mono);font-size:10px;
-    color:var(--muted-fg);text-transform:uppercase;
-    letter-spacing:.04em;margin-bottom:8px;
-  }
-  .stat__val{font-size:18px;font-weight:600;letter-spacing:-.01em;}
-  .stat__val--mono{font-family:var(--font-mono);font-size:15px;}
-  .stat__hint{font-size:11px;color:var(--muted-fg);margin-top:4px;line-height:1.4;}
+/* === Hero === */
+.hero{padding:80px 64px 64px;border-bottom:1px solid var(--border);}
+.hero__eye{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 12px;background:var(--muted);border:1px solid var(--border);
+  border-radius:999px;font-family:var(--font-mono);font-size:11px;
+  color:var(--subtle);margin-bottom:24px;
+}
+.hero__eye .dot{width:6px;height:6px;border-radius:99px;background:var(--brand-color);}
+.hero__title{font-size:44px;font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px;max-width:780px;}
+.hero__title .sub{color:var(--muted-fg);font-weight:400;}
+.hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:680px;margin-bottom:32px;}
+.hero__screenshot{
+  margin-bottom:32px;max-width:880px;
+  border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);
+}
+.hero__screenshot img{width:100%;height:auto;display:block;}
 
-  .prov{
-    border:1px solid var(--border);border-radius:var(--radius-lg);
-    background:var(--card);overflow:hidden;max-width:820px;
-  }
-  .prov__row{
-    display:grid;grid-template-columns:180px 1fr;
-    padding:14px 24px;border-bottom:1px solid var(--border);
-    font-size:13px;align-items:center;
-  }
-  .prov__row:last-child{border-bottom:none;}
-  .prov__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
-  .prov__v code{font-size:12px;padding:2px 6px;background:var(--muted);border-radius:4px;}
+/* === Quick Start (hero card) === */
+.qs{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:28px 32px;
+  max-width:880px;margin-top:8px;
+}
+.qs__head{
+  display:flex;align-items:center;gap:12px;
+  padding-bottom:16px;margin-bottom:20px;
+  border-bottom:1px solid var(--border);
+}
+.qs__head-label{
+  font-family:var(--font-mono);font-size:11px;
+  color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;
+}
+.qs__head-title{font-size:15px;font-weight:600;}
+.qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.qs__step{
+  background:#08090a;color:#f7f8f8;
+  border-radius:var(--radius);padding:14px 16px;
+  display:flex;flex-direction:column;gap:6px;
+  font-family:var(--font-mono);font-size:11px;line-height:1.55;
+  border:1px solid #1f2023;
+}
+.qs__step-label{
+  color:#7d8ba4;font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.qs__step code{color:#f7f8f8;font-size:11px;}
+.qs__step b{color:#c3d3ff;font-weight:500;}
+.qs__warn{
+  margin-top:16px;padding:14px 18px;
+  background:#fef2f2;border:1px solid #fecaca;
+  border-left:3px solid #dc2626;
+  border-radius:var(--radius);
+  font-size:13px;color:#991b1b;line-height:1.6;
+}
+.qs__warn b{color:#7f1d1d;font-weight:600;}
+.qs__warn code{background:#fee2e2;padding:1px 6px;border-radius:3px;font-size:12px;}
 
-  .ts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:940px;}
-  .ts__item{
-    padding:20px 22px;background:var(--card);
-    border:1px solid var(--border);border-radius:var(--radius-lg);
-  }
-  .ts__head{
-    font-family:var(--font-mono);font-size:10px;
-    color:var(--muted-fg);text-transform:uppercase;
-    letter-spacing:.06em;margin-bottom:10px;
-  }
-  .ts__body{font-size:14px;line-height:1.7;}
-  .ts__body code{background:var(--muted);padding:1px 6px;border-radius:4px;font-size:12px;}
-  .ts__body b{font-weight:600;color:var(--fg);}
+/* === Hero Stats === */
+.hero__stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  max-width:880px;margin-top:32px;
+  border:1px solid var(--border);border-radius:var(--radius-lg);
+  background:var(--card);overflow:hidden;
+}
+.stat{padding:20px 24px;border-right:1px solid var(--border);}
+.stat:last-child{border-right:none;}
+.stat__label{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--muted-fg);text-transform:uppercase;
+  letter-spacing:.04em;margin-bottom:8px;
+}
+.stat__val{font-size:18px;font-weight:600;letter-spacing:-.01em;}
+.stat__val--mono{font-family:var(--font-mono);font-size:15px;}
+.stat__hint{font-size:11px;color:var(--muted-fg);margin-top:4px;line-height:1.4;}
 
-  .fs-card{
-    background:var(--card);border:1px solid var(--border);
-    border-radius:var(--radius-lg);padding:24px 28px;
-    max-width:820px;margin-bottom:24px;
-  }
-  .fs-card__row{display:grid;grid-template-columns:140px 1fr;gap:20px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
-  .fs-card__row:last-child{border-bottom:none;padding-bottom:0;}
-  .fs-card__row:first-child{padding-top:0;}
-  .fs-card__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
-  .fs-card__v code{background:var(--muted);padding:1px 6px;border-radius:4px;font-size:12px;}
-  .fs-card__v b{font-weight:600;}
+/* === Provenance === */
+.prov{
+  border:1px solid var(--border);border-radius:var(--radius-lg);
+  background:var(--card);overflow:hidden;max-width:820px;
+}
+.prov__row{
+  display:grid;grid-template-columns:180px 1fr;
+  padding:14px 24px;border-bottom:1px solid var(--border);
+  font-size:13px;align-items:center;
+}
+.prov__row:last-child{border-bottom:none;}
+.prov__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+.prov__v code{font-size:12px;padding:2px 6px;background:var(--muted);border-radius:4px;}
 
-  .type-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px;}
-  .type-row{
-    display:grid;grid-template-columns:minmax(0,1fr) 280px;
-    gap:32px;align-items:baseline;
-    padding:20px 24px;border-bottom:1px solid var(--border);
-  }
-  .type-row:last-child{border-bottom:none;}
-  .type-row__s{
-    font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,sans-serif;
-    color:var(--fg);
-  }
-  .type-row__spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.6;}
-  .type-row__spec .tk{color:var(--fg);display:block;margin-bottom:2px;}
-  .type-row__spec b{color:var(--fg);font-weight:600;}
+/* === Tech Stack === */
+.ts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:940px;}
+.ts__item{
+  padding:20px 22px;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--radius-lg);
+}
+.ts__head{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--muted-fg);text-transform:uppercase;
+  letter-spacing:.06em;margin-bottom:10px;
+}
+.ts__body{font-size:14px;line-height:1.7;}
+.ts__body code{background:var(--muted);padding:1px 6px;border-radius:4px;font-size:12px;}
+.ts__body b{font-weight:600;color:var(--fg);}
 
-  .type-sub{
-    font-family:var(--font-mono);font-size:10px;
-    color:var(--muted-fg);text-transform:uppercase;letter-spacing:.08em;
-    margin-bottom:12px;
-  }
+/* === Font Stack Card === */
+.fs-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:24px 28px;
+  max-width:820px;margin-bottom:24px;
+}
+.fs-card__row{display:grid;grid-template-columns:100px 1fr;gap:20px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.fs-card__row:last-child{border-bottom:none;padding-bottom:0;}
+.fs-card__row:first-child{padding-top:0;}
+.fs-card__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+.fs-card__v code{background:var(--muted);padding:1px 6px;border-radius:4px;font-size:12px;}
+.fs-card__v b{font-weight:600;}
 
-  .callout{
-    margin-top:16px;padding:16px 20px;
-    background:var(--muted);border:1px solid var(--border);
-    border-left:2px solid var(--accent);
-    border-radius:var(--radius);
-    font-size:13px;color:var(--subtle);line-height:1.75;max-width:820px;
-  }
-  .callout b{color:var(--fg);font-weight:600;}
-  .callout code{background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px;border:1px solid var(--border);}
+/* === Typography Table === */
+.type-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px;}
+.type-row{
+  display:grid;grid-template-columns:minmax(0,1fr) 260px;
+  gap:32px;align-items:baseline;
+  padding:20px 24px;border-bottom:1px solid var(--border);
+}
+.type-row:last-child{border-bottom:none;}
+.type-row__s{
+  font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--fg);
+}
+.type-row__spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.6;}
+.type-row__spec .tk{color:var(--fg);display:block;margin-bottom:2px;}
+.type-row__spec b{color:var(--fg);font-weight:600;}
 
-  .ramp-group{margin-bottom:28px;}
-  .ramp-label{
-    font-family:var(--font-mono);font-size:11px;margin-bottom:10px;
-    display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;
-  }
-  .ramp-label b{color:var(--fg);font-weight:600;}
-  .ramp-label .muted{color:var(--muted-fg);font-family:var(--font-sans);}
-  .ramp{
-    display:grid;gap:1px;background:var(--border);
-    border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
-  }
-  .ramp--3{grid-template-columns:repeat(3,minmax(0,1fr));}
-  .ramp--4{grid-template-columns:repeat(4,minmax(0,1fr));}
-  .ramp--5{grid-template-columns:repeat(5,minmax(0,1fr));}
-  .ramp--7{grid-template-columns:repeat(7,minmax(0,1fr));}
-  .ramp--8{grid-template-columns:repeat(8,minmax(0,1fr));}
-  .ramp--9{grid-template-columns:repeat(9,minmax(0,1fr));}
-  .sw{
-    aspect-ratio:1/2.2;display:flex;flex-direction:column;
-    justify-content:flex-end;padding:8px 6px;
-    font-family:var(--font-mono);font-size:9px;line-height:1.3;
-    transition:transform 160ms;position:relative;cursor:default;
-  }
-  .sw:hover{transform:scale(1.06);z-index:2;box-shadow:0 6px 18px rgba(0,0,0,.12);}
-  .sw--l{color:#09090b;}
-  .sw--d{color:#fff;}
-  .sw .n{opacity:.7;margin-bottom:2px;}
-  .sw.is-anchor::after{content:"★";position:absolute;top:6px;right:6px;font-size:9px;}
+.type-sub{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--muted-fg);text-transform:uppercase;letter-spacing:.08em;
+  margin-bottom:12px;
+}
 
-  .accent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
-  .accent-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
-  .accent-card__sw{display:grid;aspect-ratio:5/1.2;}
-  .accent-card__body{padding:12px 16px;display:flex;align-items:baseline;justify-content:space-between;}
-  .accent-card__n{font-size:13px;font-weight:500;}
-  .accent-card__h{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);}
+/* === Callout === */
+.callout{
+  margin-top:16px;padding:16px 20px;
+  background:var(--muted);border:1px solid var(--border);
+  border-left:2px solid var(--accent);
+  border-radius:var(--radius);
+  font-size:13px;color:var(--subtle);line-height:1.75;max-width:820px;
+}
+.callout b{color:var(--fg);font-weight:600;}
+.callout code{background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px;border:1px solid var(--border);}
+.callout ul{margin:0;padding:0;list-style:none;}
+.callout ul li{margin:4px 0;}
 
-  .sem-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
-  .sem-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;display:flex;align-items:center;gap:16px;}
-  .sem-card__chip{width:44px;height:44px;border-radius:var(--radius);flex-shrink:0;border:1px solid rgba(0,0,0,.08);}
-  .sem-card__n{font-size:13px;font-weight:500;margin-bottom:2px;}
-  .sem-card__h{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:2px;}
-  .sem-card__u{font-size:12px;color:var(--muted-fg);}
+/* === Color Ramp === */
+.ramp-group{margin-bottom:28px;}
+.ramp-label{
+  font-family:var(--font-mono);font-size:11px;margin-bottom:10px;
+  display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;
+}
+.ramp-label b{color:var(--fg);font-weight:600;}
+.ramp-label .muted{color:var(--muted-fg);font-family:var(--font-sans);}
+.ramp{
+  display:grid;gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+}
+.ramp--1{grid-template-columns:repeat(1,minmax(0,1fr));}
+.ramp--2{grid-template-columns:repeat(2,minmax(0,1fr));}
+.ramp--3{grid-template-columns:repeat(3,minmax(0,1fr));}
+.ramp--4{grid-template-columns:repeat(4,minmax(0,1fr));}
+.ramp--5{grid-template-columns:repeat(5,minmax(0,1fr));}
+.ramp--6{grid-template-columns:repeat(6,minmax(0,1fr));}
+.ramp--7{grid-template-columns:repeat(7,minmax(0,1fr));}
+.ramp--8{grid-template-columns:repeat(8,minmax(0,1fr));}
+.ramp--9{grid-template-columns:repeat(9,minmax(0,1fr));}
+.ramp--10{grid-template-columns:repeat(10,minmax(0,1fr));}
+.ramp--11{grid-template-columns:repeat(11,minmax(0,1fr));}
+.ramp--12{grid-template-columns:repeat(12,minmax(0,1fr));}
+.ramp--13{grid-template-columns:repeat(13,minmax(0,1fr));}
+.ramp--14{grid-template-columns:repeat(14,minmax(0,1fr));}
+.ramp--15{grid-template-columns:repeat(15,minmax(0,1fr));}
+.ramp--16{grid-template-columns:repeat(16,minmax(0,1fr));}
+.ramp--17{grid-template-columns:repeat(17,minmax(0,1fr));}
+.ramp--18{grid-template-columns:repeat(18,minmax(0,1fr));}
+.ramp--19{grid-template-columns:repeat(19,minmax(0,1fr));}
+.ramp--20{grid-template-columns:repeat(20,minmax(0,1fr));}
+.sw{
+  aspect-ratio:1/2.2;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:8px 6px;
+  font-family:var(--font-mono);font-size:9px;line-height:1.3;
+  transition:transform 160ms;position:relative;cursor:default;
+}
+.sw:hover{transform:scale(1.06);z-index:2;box-shadow:0 6px 18px rgba(0,0,0,.12);}
+.sw--l{color:#09090b;}
+.sw--d{color:#fff;}
+.sw .n{opacity:.7;margin-bottom:2px;}
+.sw.is-anchor::after{content:"★";position:absolute;top:6px;right:6px;font-size:9px;}
 
-  .dom-chart{
-    background:var(--card);border:1px solid var(--border);
-    border-radius:var(--radius-lg);padding:20px 24px;
-  }
-  .dom-bar{display:flex;height:36px;border-radius:var(--radius);overflow:hidden;margin-bottom:16px;border:1px solid var(--border);}
-  .dom-bar__seg{position:relative;transition:flex 200ms;}
-  .dom-bar__seg:hover{flex-grow:1.08;}
-  .dom-list{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 20px;font-family:var(--font-mono);font-size:11px;}
-  .dom-list .item{display:flex;align-items:center;gap:8px;padding:3px 0;}
-  .dom-list .chip{width:10px;height:10px;border-radius:2px;border:1px solid rgba(0,0,0,.08);flex-shrink:0;}
-  .dom-list .hex{color:var(--fg);}
-  .dom-list .cnt{color:var(--muted-fg);margin-left:auto;}
+.paired{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 
-  .space-note{
-    font-size:13px;color:var(--subtle);max-width:720px;
-    margin-bottom:24px;padding:14px 20px;
-    background:var(--muted);border:1px solid var(--border);
-    border-left:2px solid var(--accent);border-radius:var(--radius);line-height:1.7;
-  }
-  .space-note b{color:var(--fg);}
-  .space-note code{background:var(--card);padding:1px 5px;border-radius:3px;font-size:11px;border:1px solid var(--border);}
+/* === Accent Colors === */
+.accent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.accent-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+.accent-card__sw{display:grid;aspect-ratio:5/1.2;}
+.accent-card__body{padding:12px 16px;display:flex;align-items:baseline;justify-content:space-between;}
+.accent-card__n{font-size:13px;font-weight:500;}
+.accent-card__h{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);}
 
-  .space-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
-  .space-row{
-    display:grid;grid-template-columns:220px 70px 1fr;
-    gap:16px;padding:8px 20px;
-    border-bottom:1px solid var(--border);align-items:center;
-    font-family:var(--font-mono);font-size:11px;
-  }
-  .space-row:last-child{border-bottom:none;}
-  .space-row .tk{color:var(--fg);}
-  .space-row .val{color:var(--muted-fg);text-align:right;}
-  .space-row .bar{height:8px;background:var(--accent);border-radius:1px;}
+/* === Semantic Colors === */
+.sem-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.sem-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;display:flex;align-items:center;gap:16px;}
+.sem-card__chip{width:44px;height:44px;border-radius:var(--radius);flex-shrink:0;border:1px solid rgba(0,0,0,.08);}
+.sem-card__n{font-size:14px;font-weight:500;margin-bottom:2px;}
+.sem-card__h{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:2px;}
+.sem-card__u{font-size:12px;color:var(--muted-fg);}
 
-  .rad-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
-  .rad-card{
-    background:var(--card);border:1px solid var(--border);
-    border-radius:var(--radius-lg);padding:16px 12px;
-    display:flex;flex-direction:column;align-items:center;gap:10px;
-  }
-  .rad-box{width:100%;aspect-ratio:1;background:var(--muted);border:1px solid var(--border-str);}
-  .rad-card__n{font-family:var(--font-mono);font-size:11px;font-weight:500;}
-  .rad-card__v{font-size:10px;color:var(--muted-fg);text-align:center;line-height:1.4;}
-  .rad-card__v .px{font-family:var(--font-mono);}
+/* === Alias Table === */
+.alias-table{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:16px 20px;
+  font-family:var(--font-mono);font-size:11px;line-height:1.9;
+}
+.alias-table .row{
+  display:grid;grid-template-columns:minmax(200px,auto) 20px minmax(0,1fr);
+  gap:12px;padding:2px 0;border-bottom:1px solid var(--border);
+}
+.alias-table .row:last-child{border-bottom:none;}
+.alias-table .k{color:var(--fg);}
+.alias-table .arrow{color:var(--muted-fg);}
+.alias-table .v{color:var(--muted-fg);}
+.alias-table .v .val{color:var(--fg);}
+.alias-table .v .kr{font-family:var(--font-sans);color:var(--muted-fg);}
 
-  .sh-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:16px;}
-  .sh-card{
-    background:var(--card);padding:24px 24px 20px;
-    border-radius:var(--radius-lg);border:1px solid var(--border);
-    min-height:150px;display:flex;flex-direction:column;justify-content:space-between;
-  }
-  .sh-card__n{font-family:var(--font-mono);font-size:11px;font-weight:500;}
-  .sh-card__d{font-size:13px;color:var(--muted-fg);margin-top:4px;margin-bottom:10px;line-height:1.6;}
-  .sh-card__v{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);}
+/* === Dominant Colors Chart === */
+.dom-chart{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:20px 24px;
+}
+.dom-bar{display:flex;height:36px;border-radius:var(--radius);overflow:hidden;margin-bottom:16px;border:1px solid var(--border);}
+.dom-bar__seg{position:relative;transition:flex 200ms;}
+.dom-bar__seg:hover{flex-grow:1.08;}
+.dom-list{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 20px;font-family:var(--font-mono);font-size:11px;}
+.dom-list .item{display:flex;align-items:center;gap:8px;padding:3px 0;}
+.dom-list .chip{width:10px;height:10px;border-radius:2px;border:1px solid rgba(0,0,0,.08);flex-shrink:0;}
+.dom-list .hex{color:var(--fg);}
+.dom-list .cnt{color:var(--muted-fg);margin-left:auto;}
 
-  .lp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
-  .lp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;}
-  .lp-card h3{font-size:13px;font-weight:600;margin-bottom:12px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted-fg);}
-  .lp-card ul{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--subtle);line-height:1.6;}
-  .lp-card ul li{padding-left:14px;position:relative;}
-  .lp-card ul li::before{content:"·";position:absolute;left:2px;color:var(--muted-fg);font-weight:700;}
-  .lp-card ul li b{color:var(--fg);font-weight:600;}
-  .lp-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;}
-  .lp-card pre{background:#08090a;color:#f7f8f8;padding:14px 16px;border-radius:var(--radius);font-family:var(--font-mono);font-size:11px;line-height:1.65;overflow-x:auto;margin-top:12px;}
+/* === Spacing === */
+.space-note{
+  font-size:13px;color:var(--subtle);max-width:720px;
+  margin-bottom:24px;padding:14px 20px;
+  background:var(--muted);border:1px solid var(--border);
+  border-left:2px solid var(--accent);border-radius:var(--radius);line-height:1.7;
+}
+.space-note b{color:var(--fg);}
+.space-note code{background:var(--card);padding:1px 5px;border-radius:3px;font-size:11px;border:1px solid var(--border);}
 
-  .cmp-block{
-    background:var(--card);border:1px solid var(--border);
-    border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:12px;
-  }
-  .cmp-block__head{
-    display:flex;align-items:baseline;gap:12px;
-    padding-bottom:14px;margin-bottom:18px;
-    border-bottom:1px solid var(--border);flex-wrap:wrap;
-  }
-  .cmp-block__name{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--fg);}
-  .cmp-block__desc{font-size:12px;color:var(--muted-fg);}
-  .cmp-block__body{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:32px;align-items:start;}
-  .cmp-demo{
-    padding:24px;background:#08090a;border-radius:var(--radius);
-    display:flex;flex-wrap:wrap;gap:12px;align-items:center;min-height:88px;
-  }
-  .cmp-spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.8;}
-  .cmp-spec code{color:var(--fg);font-size:11px;}
-  .cmp-spec .kr{font-family:var(--font-sans);display:block;margin-top:8px;color:var(--subtle);font-size:12px;line-height:1.55;}
+.space-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+.space-row{
+  display:grid;grid-template-columns:180px 70px 1fr;
+  gap:16px;padding:8px 20px;
+  border-bottom:1px solid var(--border);align-items:center;
+  font-family:var(--font-mono);font-size:11px;
+}
+.space-row:last-child{border-bottom:none;}
+.space-row .tk{color:var(--fg);}
+.space-row .val{color:var(--muted-fg);text-align:right;}
+.space-row .bar{height:8px;background:var(--accent);border-radius:1px;}
 
-  .cmp-code{
-    margin-top:14px;background:#08090a;color:#f7f8f8;
-    border-radius:var(--radius);padding:14px 18px;
-    font-family:var(--font-mono);font-size:11px;line-height:1.65;
-    overflow-x:auto;border:1px solid #1f2023;position:relative;
-  }
-  .cmp-code .copy{
-    position:absolute;top:10px;right:10px;
-    font-family:var(--font-mono);font-size:10px;
-    color:#7d8ba4;background:#1f2023;
-    padding:3px 8px;border-radius:4px;
-    border:1px solid #2f3135;
-  }
-  .cmp-code .copy:hover{color:#f7f8f8;background:#2f3135;}
+/* === Radius === */
+.rad-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;}
+.rad-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:16px 12px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.rad-box{width:100%;aspect-ratio:1;background:var(--muted);border:1px solid var(--border-str);}
+.rad-card__n{font-family:var(--font-mono);font-size:11px;font-weight:500;}
+.rad-card__v{font-size:10px;color:var(--muted-fg);text-align:center;line-height:1.4;}
+.rad-card__v .px{font-family:var(--font-mono);}
 
-  .code-export{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:900px;}
-  .code-tabs{
-    display:flex;gap:0;
-    border-bottom:1px solid var(--border);
-    background:var(--muted);
-  }
-  .code-tabs button{
-    padding:12px 18px;font-family:var(--font-mono);font-size:11px;
-    color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;
-    border-bottom:2px solid transparent;
-  }
-  .code-tabs button.is-active{
-    color:var(--fg);background:var(--card);
-    border-bottom-color:var(--accent);
-  }
-  .code-copy{
-    margin-left:auto;padding:12px 18px;
-    font-family:var(--font-mono);font-size:10px;
-    color:var(--muted-fg);
-  }
-  .code-copy:hover{color:var(--fg);}
-  .code-pane{display:none;padding:0;}
-  .code-pane.is-active{display:block;}
-  .code-pane pre{
-    background:#08090a;color:#f7f8f8;
-    padding:24px 28px;
-    font-family:var(--font-mono);font-size:12px;line-height:1.65;
-    overflow-x:auto;max-height:560px;margin:0;
-  }
-  .code-pane .k{color:#92adff;}
-  .code-pane .v{color:#f7f8f8;}
-  .code-pane .c{color:#64748d;font-style:italic;}
+/* === Shadows === */
+.sh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:16px;}
+.sh-card{
+  background:var(--card);padding:24px 24px 20px;
+  border-radius:var(--radius-lg);border:1px solid var(--border);
+  min-height:150px;display:flex;flex-direction:column;justify-content:space-between;
+}
+.sh-card__n{font-family:var(--font-mono);font-size:11px;font-weight:500;}
+.sh-card__d{font-size:13px;color:var(--muted-fg);margin-top:4px;margin-bottom:10px;line-height:1.6;}
+.sh-card__v{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);}
 
-  .dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
-  .dd-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;}
-  .dd-card h3{
-    font-family:var(--font-mono);font-size:11px;font-weight:600;
-    text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px;
-    display:inline-flex;align-items:center;gap:6px;
-    padding:4px 12px;border-radius:999px;
-  }
-  .dd-card--do h3{background:#dcfce7;color:#166534;}
-  .dd-card--dont h3{background:#fee2e2;color:#991b1b;}
-  .dd-card ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
-  .dd-card ul li{font-size:13px;line-height:1.7;color:var(--subtle);padding-left:20px;position:relative;}
-  .dd-card ul li::before{position:absolute;left:0;top:3px;font-family:var(--font-mono);font-size:11px;}
-  .dd-card--do ul li::before{content:"✓";color:#16a34a;}
-  .dd-card--dont ul li::before{content:"✗";color:#dc2626;}
-  .dd-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;font-family:var(--font-mono);}
-  .dd-card ul li b{color:var(--fg);font-weight:600;}
+/* === Motion === */
+.motion-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:820px;}
+.motion-row{display:grid;grid-template-columns:220px 120px 1fr;gap:20px;padding:14px 20px;border-bottom:1px solid var(--border);font-size:13px;align-items:center;}
+.motion-row:last-child{border-bottom:none;}
+.motion-row .pt{font-family:var(--font-mono);font-size:11px;color:var(--fg);}
+.motion-row .val{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+.motion-row .use{color:var(--subtle);line-height:1.55;}
 
-  .rfoot{padding:40px 64px;display:flex;justify-content:space-between;align-items:center;gap:32px;font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
-  .rfoot .kr{font-family:var(--font-sans);font-size:12px;}
+/* === Layout Patterns === */
+.lp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.lp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;}
+.lp-card h3{font-size:13px;font-weight:600;margin-bottom:12px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted-fg);}
+.lp-card ul{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--subtle);line-height:1.6;}
+.lp-card ul li{padding-left:14px;position:relative;}
+.lp-card ul li::before{content:"·";position:absolute;left:2px;color:var(--muted-fg);font-weight:700;}
+.lp-card ul li b{color:var(--fg);font-weight:600;}
+.lp-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;}
+.lp-card pre{background:#08090a;color:#f7f8f8;padding:14px 16px;border-radius:var(--radius);font-family:var(--font-mono);font-size:11px;line-height:1.65;overflow-x:auto;margin-top:12px;}
 
-  @media (max-width:1024px){
-    .layout{grid-template-columns:1fr;}
-    .toc{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:24px 32px;}
-    .hero,section,.rfoot{padding-left:32px;padding-right:32px;}
-    .cmp-block__body,.ts,.lp-grid,.qs__grid{grid-template-columns:1fr;}
-    .accent-grid{grid-template-columns:1fr 1fr;}
-    .hero__stats{grid-template-columns:1fr 1fr;}
-    .stat{border-right:none;border-bottom:1px solid var(--border);}
-    .dd-grid,.sem-row{grid-template-columns:1fr;}
-    .rad-grid{grid-template-columns:repeat(3,1fr);}
-    .sh-grid{grid-template-columns:1fr;}
-  }
+/* === Components === */
+.cmp-block{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:12px;
+}
+.cmp-block__head{
+  display:flex;align-items:baseline;gap:12px;
+  padding-bottom:14px;margin-bottom:18px;
+  border-bottom:1px solid var(--border);flex-wrap:wrap;
+}
+.cmp-block__name{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--fg);}
+.cmp-block__desc{font-size:12px;color:var(--muted-fg);}
+.cmp-block__body{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:32px;align-items:start;}
+.cmp-demo{
+  padding:24px;background:var(--muted);border-radius:var(--radius);
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;min-height:88px;
+}
+.cmp-spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.8;}
+.cmp-spec code{color:var(--fg);font-size:11px;}
+.cmp-spec .kr{font-family:var(--font-sans);display:block;margin-top:8px;color:var(--subtle);font-size:12px;line-height:1.55;}
+
+.cmp-code{
+  margin-top:14px;background:#08090a;color:#f7f8f8;
+  border-radius:var(--radius);padding:14px 18px;
+  font-family:var(--font-mono);font-size:11px;line-height:1.65;
+  overflow-x:auto;border:1px solid #1f2023;position:relative;
+}
+.cmp-code .copy{
+  position:absolute;top:10px;right:10px;
+  font-family:var(--font-mono);font-size:10px;
+  color:#7d8ba4;background:#1f2023;
+  padding:3px 8px;border-radius:4px;
+  border:1px solid #2f3135;
+}
+.cmp-code .copy:hover{color:#f7f8f8;background:#2f3135;}
+
+/* === Content / Voice === */
+.voice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.voice-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;}
+.voice-card__label{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.voice-card__rule{font-size:13px;color:var(--subtle);line-height:1.6;margin-bottom:12px;}
+.voice-card__ex{
+  padding:14px 16px;background:var(--muted);border-radius:var(--radius);
+  font-family:"SF Pro Display",-apple-system,sans-serif;
+  font-weight:300;color:var(--fg);font-size:15px;line-height:1.5;
+  border-left:2px solid var(--brand-color);
+}
+
+/* === Code Export (Drop-in CSS / Tailwind) === */
+.code-export{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:900px;}
+.code-tabs{
+  display:flex;gap:0;
+  border-bottom:1px solid var(--border);
+  background:var(--muted);
+}
+.code-tabs button{
+  padding:12px 18px;font-family:var(--font-mono);font-size:11px;
+  color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;
+  border-bottom:2px solid transparent;
+}
+.code-tabs button.is-active{
+  color:var(--fg);background:var(--card);
+  border-bottom-color:var(--accent);
+}
+.code-copy{
+  margin-left:auto;padding:12px 18px;
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--muted-fg);
+}
+.code-copy:hover{color:var(--fg);}
+.code-pane{display:none;padding:0;}
+.code-pane.is-active{display:block;}
+.code-pane pre{
+  background:#08090a;color:#f7f8f8;
+  padding:24px 28px;
+  font-family:var(--font-mono);font-size:12px;line-height:1.65;
+  overflow-x:auto;max-height:560px;margin:0;
+}
+.code-pane .k{color:#92adff;}
+.code-pane .v{color:#f7f8f8;}
+.code-pane .c{color:#64748d;font-style:italic;}
+
+/* === DO / DON'T === */
+.dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+.dd-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;}
+.dd-card h3{
+  font-family:var(--font-mono);font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:999px;
+}
+.dd-card--do h3{background:#dcfce7;color:#166534;}
+.dd-card--dont h3{background:#fee2e2;color:#991b1b;}
+.dd-card ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.dd-card ul li{font-size:13px;line-height:1.7;color:var(--subtle);padding-left:20px;position:relative;}
+.dd-card ul li::before{position:absolute;left:0;top:3px;font-family:var(--font-mono);font-size:11px;}
+.dd-card--do ul li::before{content:"✓";color:#16a34a;}
+.dd-card--dont ul li::before{content:"✗";color:#dc2626;}
+.dd-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;font-family:var(--font-mono);}
+.dd-card ul li b{color:var(--fg);font-weight:600;}
+
+/* === Myth Table === */
+.myth-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+.myth-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,2fr);gap:16px;padding:14px 20px;border-bottom:1px solid var(--border);align-items:center;font-size:12px;}
+.myth-row:last-child{border-bottom:none;}
+.myth-row--head{
+  background:var(--muted);font-family:var(--font-mono);font-size:10px;
+  color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;padding:10px 20px;
+}
+.myth-row--head .kr{font-family:var(--font-sans);text-transform:none;letter-spacing:0;font-size:11px;}
+.myth-row .wrong{font-family:var(--font-mono);color:#dc2626;text-decoration:line-through;text-decoration-color:rgba(220,38,38,.4);}
+.myth-row .right{font-family:var(--font-mono);color:#16a34a;}
+.myth-row .why{color:var(--subtle);line-height:1.65;}
+.swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:0;border:1px solid rgba(0,0,0,.08);}
+
+/* === Footer === */
+.rfoot{padding:40px 64px;display:flex;justify-content:space-between;align-items:center;gap:32px;font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+.rfoot .kr{font-family:var(--font-sans);font-size:12px;}
+
+/* ============================================= */
+/* === NEW SECTIONS                          === */
+/* ============================================= */
+
+/* === §00 Visual Theme & Atmosphere (mood) === */
+.mood{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:32px 36px;
+  max-width:880px;margin-bottom:24px;
+}
+.mood__title{
+  font-size:18px;font-weight:600;letter-spacing:-.01em;
+  margin-bottom:20px;color:var(--fg);
+}
+.mood__body{
+  font-size:14px;color:var(--subtle);line-height:1.85;
+}
+.mood__body p{margin-bottom:16px;}
+.mood__body p:last-child{margin-bottom:0;}
+.mood__keywords{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;
+  padding-top:20px;border-top:1px solid var(--border);
+}
+.mood__keyword{
+  display:inline-flex;align-items:center;
+  padding:4px 12px;
+  background:var(--muted);border:1px solid var(--border);
+  border-radius:999px;font-family:var(--font-mono);font-size:11px;
+  color:var(--subtle);
+}
+.mood__accent-bar{
+  height:4px;border-radius:2px;background:var(--brand-color);
+  margin-bottom:24px;max-width:64px;
+}
+
+/* === §12 Responsive Behavior === */
+.resp-section{max-width:880px;}
+.resp-table{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px;
+}
+.resp-row{
+  display:grid;grid-template-columns:100px 100px 1fr;
+  gap:16px;padding:12px 20px;
+  border-bottom:1px solid var(--border);
+  font-size:13px;align-items:center;
+}
+.resp-row:last-child{border-bottom:none;}
+.resp-row--head{
+  background:var(--muted);font-family:var(--font-mono);font-size:10px;
+  color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;
+  padding:10px 20px;
+}
+.resp-row .bp-name{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--fg);}
+.resp-row .bp-val{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+.resp-row .bp-desc{color:var(--subtle);line-height:1.55;}
+
+.resp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px;}
+.resp-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:20px 24px;
+}
+.resp-card__head{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--muted-fg);text-transform:uppercase;
+  letter-spacing:.06em;margin-bottom:12px;
+}
+.resp-card__body{font-size:13px;color:var(--subtle);line-height:1.7;}
+.resp-card__body b{color:var(--fg);font-weight:600;}
+.resp-card__body code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;}
+
+/* === §17 Agent Prompt Guide === */
+.agent-section{max-width:880px;}
+.agent-ref{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px;
+}
+.agent-ref__head{
+  padding:14px 20px;background:var(--muted);
+  border-bottom:1px solid var(--border);
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;
+}
+.agent-ref__row{
+  display:grid;grid-template-columns:140px 180px 1fr;
+  gap:16px;padding:10px 20px;
+  border-bottom:1px solid var(--border);
+  font-size:13px;align-items:center;
+}
+.agent-ref__row:last-child{border-bottom:none;}
+.agent-ref__role{font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--fg);}
+.agent-ref__token{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+.agent-ref__hex{font-family:var(--font-mono);font-size:11px;color:var(--fg);display:flex;align-items:center;gap:8px;}
+.agent-ref__chip{width:14px;height:14px;border-radius:3px;border:1px solid rgba(0,0,0,.08);flex-shrink:0;}
+
+.agent-prompts{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px;}
+.agent-prompt-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);overflow:hidden;
+}
+.agent-prompt-card__head{
+  padding:14px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.agent-prompt-card__icon{
+  width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--muted);border-radius:var(--radius);
+  font-size:14px;
+}
+.agent-prompt-card__name{font-size:13px;font-weight:600;}
+.agent-prompt-card__body{padding:0;}
+.agent-prompt-card__body pre{
+  background:#08090a;color:#f7f8f8;
+  padding:16px 20px;margin:0;
+  font-family:var(--font-mono);font-size:11px;line-height:1.65;
+  overflow-x:auto;
+}
+
+.agent-tips{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:20px 24px;
+}
+.agent-tips__head{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--muted-fg);text-transform:uppercase;
+  letter-spacing:.06em;margin-bottom:14px;
+}
+.agent-tips ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.agent-tips ul li{
+  font-size:13px;color:var(--subtle);line-height:1.65;
+  padding-left:20px;position:relative;
+}
+.agent-tips ul li::before{
+  content:"→";position:absolute;left:0;top:0;
+  font-family:var(--font-mono);font-size:11px;color:var(--brand-color);
+}
+.agent-tips ul li b{color:var(--fg);font-weight:600;}
+.agent-tips ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;}
+
+/* === Responsive (media queries) === */
+@media (max-width:1024px){
+  .layout{grid-template-columns:1fr;}
+  .toc{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:24px 32px;}
+  .hero,section,.rfoot{padding-left:32px;padding-right:32px;}
+  .cmp-block__body,.ts,.lp-grid,.voice-grid,.paired,.qs__grid{grid-template-columns:1fr;}
+  .accent-grid{grid-template-columns:1fr 1fr;}
+  .hero__stats{grid-template-columns:1fr 1fr;}
+  .stat{border-right:none;border-bottom:1px solid var(--border);}
+  .stat:nth-child(even){border-right:none;}
+  .dd-grid,.sem-row{grid-template-columns:1fr;}
+  .rad-grid{grid-template-columns:repeat(4,1fr);}
+  .sh-grid{grid-template-columns:1fr;}
+  /* New section responsive */
+  .resp-grid,.agent-prompts{grid-template-columns:1fr;}
+  .resp-row{grid-template-columns:80px 80px 1fr;}
+  .agent-ref__row{grid-template-columns:100px 140px 1fr;}
+  .mood{padding:24px 20px;}
+}
+/* ===== END:CANONICAL_STYLE ===== */
+
+<!-- END:CANONICAL_STYLE -->
+
+/* Service overrides — ONLY 2 variables allowed per Layer 0 spec */
+:root {
+  --brand-color: #5E6AD2;
+  --font-display: "Inter Variable", -apple-system, sans-serif;
+}
 </style>
 </head>
 <body>
-
 <div class="layout">
-
-  <!-- SIDEBAR -->
-  <aside class="toc">
-    <div class="toc__brand">
-      <div class="toc__brand-name">Linear</div>
-      <div class="toc__brand-sub">Design System Report</div>
-    </div>
-
-    <div class="toc__group">
-      <div class="toc__group-label">Overview</div>
-      <ul class="toc__list">
-        <li><a href="#hero"><span class="toc__num">00</span>한눈에 보기</a></li>
-        <li><a href="#provenance"><span class="toc__num">01</span>출처와 수집 기준</a></li>
-        <li><a href="#stack"><span class="toc__num">02</span>테크 스택</a></li>
-      </ul>
-    </div>
-    <div class="toc__group">
-      <div class="toc__group-label">Foundations</div>
-      <ul class="toc__list">
-        <li><a href="#typography"><span class="toc__num">03</span>타이포그래피</a></li>
-        <li><a href="#colors"><span class="toc__num">04</span>컬러</a></li>
-      </ul>
-    </div>
-    <div class="toc__group">
-      <div class="toc__group-label">Tokens</div>
-      <ul class="toc__list">
-        <li><a href="#spacing"><span class="toc__num">05</span>스페이싱</a></li>
-        <li><a href="#radius"><span class="toc__num">06</span>라디우스</a></li>
-        <li><a href="#shadows"><span class="toc__num">07</span>섀도우</a></li>
-      </ul>
-    </div>
-    <div class="toc__group">
-      <div class="toc__group-label">Patterns</div>
-      <ul class="toc__list">
-        <li><a href="#layout"><span class="toc__num">08</span>레이아웃 패턴</a></li>
-        <li><a href="#components"><span class="toc__num">09</span>컴포넌트</a></li>
-      </ul>
-    </div>
-    <div class="toc__group">
-      <div class="toc__group-label">Code</div>
-      <ul class="toc__list">
-        <li><a href="#export"><span class="toc__num">10</span>CSS · Tailwind</a></li>
-      </ul>
-    </div>
-    <div class="toc__group">
-      <div class="toc__group-label">Rules</div>
-      <ul class="toc__list">
-        <li><a href="#verdict"><span class="toc__num">11</span>Do / Don't</a></li>
-      </ul>
-    </div>
-
-    <div class="toc__foot">
-      real/linear/<br>
-      DESIGN.claude.manual.md<br>
-      2026-04-11
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <section id="hero" class="hero">
-      <div class="hero__eye"><span class="dot"></span>Design System Report</div>
-      <h1 class="hero__title">Linear <span class="sub">— Marketing vs App 이중 팔레트</span></h1>
-      <p class="hero__sub">
-        https://linear.app 이 실제로 서빙하는 CSS에서 직접 뽑은 디자인 토큰·타이포그래피·컴포넌트 스펙.
-        앱 UI와 마케팅 사이트가 서로 다른 indigo 팔레트를 운용하며, 거의 완전 블랙 배경에 7-tier 다크 surface 시스템을 쓴다.
-      </p>
-      <div class="hero__screenshot">
-        <img src="screenshots/hero-cropped.png" alt="linear hero screenshot">
-      </div>
-
-
-      <div class="qs">
-        <div class="qs__head">
-          <span class="qs__head-label">Quick Start</span>
-          <span class="qs__head-title">5분 안에 Linear처럼 만들기 — 3가지만 하면 80%</span>
-        </div>
-        <div class="qs__grid">
-          <div class="qs__step">
-            <span class="qs__step-label">1 · 폰트</span>
-            <code>/* Inter Variable + Berkeley Mono */
+<aside class="toc">
+  <div class="toc__brand">
+    <div class="toc__brand-name">Linear</div>
+    <div class="toc__brand-sub">Design System Report</div>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Overview</div>
+    <ul class="toc__list">
+      <li><a href="#mood"><span class="toc__num">00</span>분위기와 철학</a></li>
+      <li><a href="#hero"><span class="toc__num">01</span>한눈에 보기</a></li>
+      <li><a href="#provenance"><span class="toc__num">02</span>출처와 수집 기준</a></li>
+      <li><a href="#stack"><span class="toc__num">03</span>테크 스택</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Foundations</div>
+    <ul class="toc__list">
+      <li><a href="#typography"><span class="toc__num">04</span>타이포그래피</a></li>
+      <li><a href="#colors"><span class="toc__num">05</span>컬러</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Tokens</div>
+    <ul class="toc__list">
+      <li><a href="#spacing"><span class="toc__num">06</span>스페이싱</a></li>
+      <li><a href="#radius"><span class="toc__num">07</span>라디우스</a></li>
+      <li><a href="#shadows"><span class="toc__num">08</span>섀도우</a></li>
+      <li><a href="#motion"><span class="toc__num">09</span>모션</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Structure</div>
+    <ul class="toc__list">
+      <li><a href="#layout"><span class="toc__num">10</span>레이아웃 패턴</a></li>
+      <li><a href="#responsive"><span class="toc__num">11</span>반응형</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Patterns</div>
+    <ul class="toc__list">
+      <li><a href="#components"><span class="toc__num">12</span>컴포넌트</a></li>
+      <li><a href="#voice"><span class="toc__num">13</span>라이팅 원칙</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Code</div>
+    <ul class="toc__list">
+      <li><a href="#export"><span class="toc__num">14</span>CSS / Tailwind</a></li>
+      <li><a href="#agent"><span class="toc__num">15</span>에이전트 가이드</a></li>
+    </ul>
+  </div>
+  <div class="toc__group">
+    <div class="toc__group-label">Rules</div>
+    <ul class="toc__list">
+      <li><a href="#verdict"><span class="toc__num">16</span>Do / Don&apos;t</a></li>
+    </ul>
+  </div>
+  <div class="toc__foot">
+    Generated by insane-design<br/>
+    Fetched 2026-04-20
+  </div>
+</aside>
+<main class="main">
+<section id="mood" class="mood">
+  <div class="mood__accent-bar" style="background:var(--brand-color);height:4px;width:48px;margin-bottom:24px;"></div>
+  <div class="section__num">00</div>
+  <h2 class="section__title mood__title">near-black 위 단일 인디고 악센트</h2>
+  <div class="mood__body"><p>Linear의 마케팅 사이트는 소프트웨어 엔지니어링의 고요한 집중력을 시각적으로 번역한다. 페이지는 <code>#08090A</code>로 시작해 <code>#0F1011</code>과 <code>#191D20</code>의 레이어가 겹치는 패널 구조로 전개된다. 단순한 다크 모드가 아니라, IDE와 터미널이 늘 배경에 있는 개발자의 환경 자체를 은유한다.</p><p>색상 전략은 "채도를 벌어서 써라"는 원칙으로 요약된다. 넓은 면적은 모두 neutral ink + near-black이 맡고, 브랜드 인디고 <code>#5E6AD2</code>는 CTA 버튼 배경, focus ring, 링크 활성 상태 등 의미가 필요한 지점에만 등장한다. 서브 컬러(teal, orange, yellow, green, red)는 status·태그·제품 라인 식별용으로만 쓰이며 면적을 차지하지 않는다.</p><p>타이포그래피는 Inter Variable을 축으로 400·450·500·550·600·700의 7단계 미세 hierarchy를 쓴다. <code>--font-weight-medium: 510</code>, <code>--font-weight-semibold: 590</code> 같은 variable axis 값이 특징이며, <code>font-settings: "cv01","ss03"</code>로 stylistic alternate까지 활성화한다. 기본 본문은 <code>0.9375rem (15px)</code> — 16px가 아니다.</p><p>레이아웃은 1024px page-max-width + 680px prose-max-width의 좁은 칼럼 위에서 움직인다. homepage만 1344px까지 확장된다. 섹션 리듬은 <code>--page-padding-block: 64px</code>로 일정하게 유지되고, 헤더는 65px 고정에 <code>backdrop-filter: blur(20px)</code> glass 효과가 걸린다.</p><p>인터랙션은 <code>.16s</code> duration + <code>cubic-bezier(0.25,0.46,0.45,0.94)</code> ease가 반복된다. shadow는 거의 쓰지 않는 대신 <code>--shadow-stack-low</code>의 5-layer dual-shadow로 깊이를 만든다.</p></div>
+  <div class="mood__keywords" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:24px;"><span class="mood__keyword">near-black 3-layer</span><span class="mood__keyword">단일 인디고</span><span class="mood__keyword">Inter Variable 7-weight</span><span class="mood__keyword">680px prose</span><span class="mood__keyword">16ms transitions</span><span class="mood__keyword">5-layer shadow stack</span></div>
+</section>
+<section id="hero" class="hero">
+  <div class="hero__eye"><span class="dot"></span>Design System Report</div>
+  <h1 class="hero__title">Linear <span class="sub">— --color-*</span></h1>
+  <p class="hero__sub">URL 하나로 추출한 실제 CSS 토큰 기반 디자인 시스템 리포트. 하드 코딩된 색·폰트·여백이 아니라 라이브 사이트의 값 그대로.</p>
+  <div class="hero__screenshot">
+<img src="screenshots/hero-cropped.png" alt="Linear — 실제 홈페이지 스크린샷">
+</div>
+  <div class="qs">
+    <div class="qs__grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+      <div class="qs__step"><pre><code>/* 1. 폰트 + weight */
 body {
-  font-family:
-    "Inter Variable",
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
+  font-family: "Inter Variable", -apple-system, sans-serif;
   font-weight: 400;
-}
-code, pre, kbd {
-  font-family:
-    "Berkeley Mono",
-    ui-monospace,
-    monospace;
-}</code>
-          </div>
-          <div class="qs__step">
-            <span class="qs__step-label">2 · 다크 배경</span>
-            <code>/* 거의 순검정 */
+  font-size: 0.9375rem; /* 15px */
+  font-feature-settings: "cv01","ss03";
+}</code></pre></div><div class="qs__step"><pre><code>/* 2. 배경 + 텍스트 (dark default) */
 :root {
-  --color-bg-marketing:
-    <b>#010102</b>;
-  --color-bg-primary:
-    <b>#08090a</b>;
-  --color-text-primary:
-    <b>#f7f8f8</b>;
-  --color-text-secondary:
-    <b>#8a8f98</b>;
+  --bg: #08090A;
+  --fg: #F7F8F8;
+  --panel: #0F1011;
+  --border: #23252A;
 }
 body {
-  background:
-    var(--color-bg-marketing);
-  color:
-    var(--color-text-primary);
-}</code>
-          </div>
-          <div class="qs__step">
-            <span class="qs__step-label">3 · 브랜드 indigo</span>
-            <code>/* marketing vs app 분리 */
+  background: var(--bg);
+  color: var(--fg);
+}</code></pre></div><div class="qs__step"><pre><code>/* 3. 브랜드 악센트 */
 :root {
-  --color-brand-marketing:
-    <b>#4354B8</b>;
-  /* 124회 실사용 */
-  --color-brand-app:
-    <b>#5E6AD2</b>;
-  /* 앱 UI 전용 */
-}</code>
-          </div>
-        </div>
-        <div class="qs__warn">
-          <b>절대 하지 말아야 할 것</b>: <code>#5E6AD2</code> 단일 값을 모든 곳에 쓰지 말 것. Linear는 <b>앱 UI</b>와 <b>마케팅 사이트</b>가 서로 다른 보라 팔레트를 쓴다. 마케팅 사이트에서는 <b><code>#4354B8</code></b>(훨씬 진한 indigo)이 실제로 124회 쓰이며, 앱 토큰 <code>--color-indigo: #5e6ad2</code>는 5회만 등장한다.
-        </div>
-      </div>
+  --brand: #5E6AD2;
+  --link: #7170FF;
+}</code></pre></div>
+    </div>
+    <div class="qs__warn" style="margin-top:16px;padding:16px;background:#fef2f2;border-left:3px solid #dc2626;color:#991b1b;border-radius:6px;">
+      <strong>절대 하지 말 것:</strong> 인디고 <code>#5E6AD2</code>를 넓은 면적(배경, 큰 섹션)에 쓰지 마라. Linear의 브랜드는 "인디고가 아니라 neutral 위에 인디고를 한 점 올리는 규율"이다. 면적으로 쓰는 순간 Discord가 된다.
+    </div>
+  </div>
+  <div class="hero__stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px;">
+    <div class="hero__stat"><div class="hero__stat-label">Source</div><div class="hero__stat-val">linear.app</div></div>
+    <div class="hero__stat"><div class="hero__stat-label">Fetched</div><div class="hero__stat-val">2026-04-20</div></div>
+    <div class="hero__stat"><div class="hero__stat-label">System</div><div class="hero__stat-val">--color-*</div></div>
+    <div class="hero__stat"><div class="hero__stat-label">Signature</div><div class="hero__stat-val">Cool Productivity</div></div>
+  </div>
+</section>
+<section id="provenance">
+  <div class="section__num">02</div>
+  <h2 class="section__title">출처와 수집 기준</h2>
+  <p class="section__lede">CSS 커스텀 프로퍼티 직접 파싱으로 추출. AI 추론 없음.</p>
+  <div class="prov"><div class="prov__row"><div class="prov__k">Source URL</div><div class="prov__v"><code>https://linear.app</code></div></div><div class="prov__row"><div class="prov__k">Fetched</div><div class="prov__v">2026-04-20</div></div><div class="prov__row"><div class="prov__k">Extractor</div><div class="prov__v">curl + Chrome UA (5-tier fallback)</div></div><div class="prov__row"><div class="prov__k">HTML size</div><div class="prov__v">2,298,398 bytes (Next.js SSR)</div></div><div class="prov__row"><div class="prov__k">CSS files</div><div class="prov__v">20개 외부, 총 500KB minified</div></div><div class="prov__row"><div class="prov__k">Token prefix</div><div class="prov__v"><code>--color-*</code>, <code>--radius-*</code>, <code>--font-*</code></div></div><div class="prov__row"><div class="prov__k">Method</div><div class="prov__v">CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음</div></div></div>
+</section>
+<section id="stack">
+  <div class="section__num">03</div>
+  <h2 class="section__title">테크 스택</h2>
+  <p class="section__lede">프레임워크, 디자인 시스템 구조, CSS 아키텍처.</p>
+  <div class="ts" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;"><div class="ts__item"><div class="ts__head">Framework</div><div class="ts__body">Next.js (SSR, React 18)</div></div><div class="ts__item"><div class="ts__head">Design system</div><div class="ts__body">자체 토큰 — prefix 없이 <code>--color-*</code>, <code>--radius-*</code> 직접</div></div><div class="ts__item"><div class="ts__head">CSS architecture</div><div class="ts__body">semantic-direct 1-tier + 컴포넌트 alias</div></div><div class="ts__item"><div class="ts__head">Class naming</div><div class="ts__body">CSS Modules (<code>Button_variant-invert__ECHZN</code>)</div></div><div class="ts__item"><div class="ts__head">Default theme</div><div class="ts__body"><code>dark</code> (<code>html data-theme="dark"</code>, bg <code>#08090A</code>)</div></div><div class="ts__item"><div class="ts__head">Font loading</div><div class="ts__body">셀프 호스트 InterVariable.woff2, Berkeley Mono, Tiempos Headline</div></div><div class="ts__item"><div class="ts__head">Canonical anchor</div><div class="ts__body"><code>#5E6AD2</code> — <code>--color-brand-bg</code> (dark)</div></div><div class="ts__item"><div class="ts__head">Variable axis</div><div class="ts__body">weight 300/400/510/590/680 + font-settings cv01,ss03</div></div></div>
+</section>
+<section id="typography">
+  <div class="section__num">04</div>
+  <h2 class="section__title">타이포그래피</h2>
+  <p class="section__lede">본문은 15px · weight 400이 기본. 11/12/13/15/18/20/24/36px의 8단 scale. Variable axis로 510/590/680 중간 weight 사용.</p>
+  <div class="fs-card" style="margin-bottom:32px;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);"><div class="fs-card__row"><div class="fs-card__k">Display/Body</div><div class="fs-card__v"><code>Inter Variable</code> (OFL)</div></div><div class="fs-card__row"><div class="fs-card__k">Serif display</div><div class="fs-card__v"><code>Tiempos Headline</code> (유료)</div></div><div class="fs-card__row"><div class="fs-card__k">Code</div><div class="fs-card__v"><code>Berkeley Mono</code> (유료)</div></div><div class="fs-card__row"><div class="fs-card__k">Weights</div><div class="fs-card__v">400 / 510 / 590 / 680 (variable axis)</div></div><div class="fs-card__row"><div class="fs-card__k">Settings</div><div class="fs-card__v"><code>cv01,ss03</code> stylistic alternate</div></div></div>
+  <div class="type-table"><div class="type-row">
+  <div class="type-row__s" style="font-size:11px;font-weight:400;line-height:1.5;letter-spacing:0;font-family:"Inter Variable", -apple-system, sans-serif;">--font-size-micro</div>
+  <div class="type-row__spec">
+    <div class="tk">--font-size-micro</div>
+    <div><b>11px</b> · weight 400 · lh 1.5 · ls 0</div>
+  </div>
+</div><div class="type-row">
+  <div class="type-row__s" style="font-size:12px;font-weight:400;line-height:1.5;letter-spacing:0;font-family:"Inter Variable", -apple-system, sans-serif;">--font-size-mini</div>
+  <div class="type-row__spec">
+    <div class="tk">--font-size-mini</div>
+    <div><b>12px</b> · weight 400 · lh 1.5 · ls 0</div>
+  </div>
+</div><div class="type-row">
+  <div class="type-row__s" style="font-size:13px;font-weight:400;line-height:1.5;letter-spacing:0;font-family:"Inter Variable", -apple-system, sans-serif;">--font-size-small</div>
+  <div class="type-row__spec">
+    <div class="tk">--font-size-small</div>
+    <div><b>13px</b> · weight 400 · lh 1.5 · ls 0</div>
+  </div>
+</div><div class="type-row">
+  <div class="type-row__s" style="font-size:15px;font-weight:400;line-height:1.5;letter-spacing:0;font-family:"Inter Variable", -apple-system, sans-serif;">--font-size-regular (body)</div>
+  <div class="type-row__spec">
+    <div class="tk">--font-size-regular (body)</div>
+    <div><b>15px</b> · weight 400 · lh 1.5 · ls 0</div>
+  </div>
+</div><div class="type-row">
+  <div class="type-row__s" style="font-size:18px;font-weight:450;line-height:1.45;letter-spacing:0;font-family:"Inter Variable", -apple-system, sans-serif;">--font-size-large</div>
+  <div class="type-row__spec">
+    <div class="tk">--font-size-large</div>
+    <div><b>18px</b> · weight 450 · lh 1.45 · ls 0</div>
+  </div>
+</div><div class="type-row">
+  <div class="type-row__s" style="font-size:20px;font-weight:510;line-height:1.4;letter-spacing:-0.01em;font-family:"Inter Variable", -apple-system, sans-serif;">--font-size-title3</div>
+  <div class="type-row__spec">
+    <div class="tk">--font-size-title3</div>
+    <div><b>20px</b> · weight 510 · lh 1.4 · ls -0.01em</div>
+  </div>
+</div><div class="type-row">
+  <div class="type-row__s" style="font-size:24px;font-weight:590;line-height:1.3;letter-spacing:-0.01em;font-family:"Inter Variable", -apple-system, sans-serif;">--font-size-title2</div>
+  <div class="type-row__spec">
+    <div class="tk">--font-size-title2</div>
+    <div><b>24px</b> · weight 590 · lh 1.3 · ls -0.01em</div>
+  </div>
+</div><div class="type-row">
+  <div class="type-row__s" style="font-size:36px;font-weight:680;line-height:1.15;letter-spacing:-0.02em;font-family:"Inter Variable", -apple-system, sans-serif;">--font-size-title1</div>
+  <div class="type-row__spec">
+    <div class="tk">--font-size-title1</div>
+    <div><b>36px</b> · weight 680 · lh 1.15 · ls -0.02em</div>
+  </div>
+</div></div>
+</section>
+<section id="colors">
+  <div class="section__num">05</div>
+  <h2 class="section__title">컬러</h2>
+  <p class="section__lede">Indigo 단일 악센트 + near-black 3단 배경 + warm neutral text. 라이트/다크 이중 팔레트 — marketing default는 dark.</p>
+  <div class="ramp-group">
+  <div class="ramp-label">Brand (Indigo, dual-theme) · 6 steps</div>
+  <div class="ramp ramp--6">
+    <div class="sw sw--l" style="background:#5E6AD2"><div class="n">brand-bg(dark)</div>#5E6AD2</div>
+<div class="sw sw--l" style="background:#7070FF"><div class="n">brand-bg(light)</div>#7070FF</div>
+<div class="sw sw--l" style="background:#7170FF"><div class="n">accent</div>#7170FF</div>
+<div class="sw sw--l" style="background:#828FFF"><div class="n">accent-hover</div>#828FFF</div>
+<div class="sw sw--d" style="background:#18182F"><div class="n">tint(dark)</div>#18182F</div>
+<div class="sw sw--l" style="background:#F1F1FF"><div class="n">tint(light)</div>#F1F1FF</div>
 
-      <div class="hero__stats">
-        <div class="stat">
-          <div class="stat__label">Source</div>
-          <div class="stat__val stat__val--mono">linear.app</div>
-          <div class="stat__hint">Next.js + vanilla-extract</div>
-        </div>
-        <div class="stat">
-          <div class="stat__label">Fetched</div>
-          <div class="stat__val">2026.04.11</div>
-          <div class="stat__hint">700+ custom props (color: 109)</div>
-        </div>
-        <div class="stat">
-          <div class="stat__label">Primary Font</div>
-          <div class="stat__val stat__val--mono">Inter Variable</div>
-          <div class="stat__hint">+ Berkeley Mono (code)</div>
-        </div>
-        <div class="stat">
-          <div class="stat__label">Marketing Brand</div>
-          <div class="stat__val stat__val--mono">#4354B8</div>
-          <div class="stat__hint">124회 실사용</div>
-        </div>
-      </div>
-    </section>
+  </div>
+</div>
+<div class="ramp-group">
+  <div class="ramp-label">Neutral Dark · 7 steps</div>
+  <div class="ramp ramp--7">
+    <div class="sw sw--d" style="background:#08090A"><div class="n">bg-primary</div>#08090A</div>
+<div class="sw sw--d" style="background:#010102"><div class="n">bg-marketing</div>#010102</div>
+<div class="sw sw--d" style="background:#0F1011"><div class="n">bg-panel</div>#0F1011</div>
+<div class="sw sw--d" style="background:#191D20"><div class="n">bg-shade</div>#191D20</div>
+<div class="sw sw--d" style="background:#23252A"><div class="n">border</div>#23252A</div>
+<div class="sw sw--l" style="background:#F7F8F8"><div class="n">text-primary</div>#F7F8F8</div>
+<div class="sw sw--l" style="background:#8A8F98"><div class="n">text-tertiary</div>#8A8F98</div>
 
-    <section id="provenance">
-      <div class="section__num">01 · Provenance</div>
-      <h2 class="section__title">출처와 수집 기준</h2>
-      <p class="section__lede">
-        URL · fetch 시점 · 파싱 방식까지 모두 CSS 번들에서 직접 뽑은 값이다.
-      </p>
-      <div class="prov">
-        <div class="prov__row"><span class="prov__k">Source URL</span><span class="prov__v"><code>https://linear.app</code></span></div>
-        <div class="prov__row"><span class="prov__k">Fetched</span><span class="prov__v">2026-04-11</span></div>
-        <div class="prov__row"><span class="prov__k">Extractor</span><span class="prov__v"><code>real/fetch_all.py</code> (curl + Chrome UA)</span></div>
-        <div class="prov__row"><span class="prov__k">Framework</span><span class="prov__v">Next.js marketing + vanilla-extract / Linaria CSS-in-JS</span></div>
-        <div class="prov__row"><span class="prov__k">Custom props</span><span class="prov__v">700+ (color: 109 · spacing: 107 · shadow: 7)</span></div>
-        <div class="prov__row"><span class="prov__k">Token prefix</span><span class="prov__v"><code>--color-*</code>, <code>--font-size-*</code>, <code>--title-N-*</code>, <code>--border-*</code>, <code>--x{hash}</code></span></div>
-        <div class="prov__row"><span class="prov__k">Method</span><span class="prov__v">CSS 커스텀 프로퍼티 직접 파싱 + CSS-in-JS 해시 변수 식별</span></div>
-      </div>
-    </section>
+  </div>
+</div>
+<div class="ramp-group">
+  <div class="ramp-label">Neutral Light · 7 steps</div>
+  <div class="ramp ramp--7">
+    <div class="sw sw--l" style="background:#FFFFFF"><div class="n">bg-primary</div>#FFFFFF</div>
+<div class="sw sw--l" style="background:#F9F8F9"><div class="n">bg-secondary</div>#F9F8F9</div>
+<div class="sw sw--l" style="background:#F4F2F4"><div class="n">bg-tertiary</div>#F4F2F4</div>
+<div class="sw sw--l" style="background:#E9E8EA"><div class="n">border</div>#E9E8EA</div>
+<div class="sw sw--d" style="background:#282A30"><div class="n">text-primary</div>#282A30</div>
+<div class="sw sw--d" style="background:#3C4149"><div class="n">text-secondary</div>#3C4149</div>
+<div class="sw sw--d" style="background:#6F6E77"><div class="n">text-tertiary</div>#6F6E77</div>
 
-    <section id="stack">
-      <div class="section__num">02 · Tech Stack</div>
-      <h2 class="section__title">테크 스택</h2>
-      <p class="section__lede">
-        프레임워크, 디자인 시스템, CSS 아키텍처, 테마, 폰트 로딩 방식.
-      </p>
-      <div class="ts">
-        <div class="ts__item">
-          <div class="ts__head">FRAMEWORK</div>
-          <div class="ts__body">Next.js marketing site</div>
-        </div>
-        <div class="ts__item">
-          <div class="ts__head">DESIGN SYSTEM</div>
-          <div class="ts__body">자체 토큰 시스템. <b>App UI</b>와 <b>marketing site</b>가 병렬 팔레트 운용</div>
-        </div>
-        <div class="ts__item">
-          <div class="ts__head">CSS ARCHITECTURE</div>
-          <div class="ts__body">하이브리드 — semantic 토큰(<code>--color-*</code>) + vanilla-extract/Linaria 해시 클래스</div>
-        </div>
-        <div class="ts__item">
-          <div class="ts__head">CLASS NAMING</div>
-          <div class="ts__body">semantic + CSS-in-JS 해시 혼합 (<code>class="_1xg8e0u0 _1xg8e0u1"</code>) — 해시는 빌드 아티팩트</div>
-        </div>
-        <div class="ts__item">
-          <div class="ts__head">DEFAULT THEME</div>
-          <div class="ts__body">Dark — marketing bg <code>#010102</code> (거의 완전 블랙), app bg <code>#08090a</code></div>
-        </div>
-        <div class="ts__item">
-          <div class="ts__head">FONT LOADING</div>
-          <div class="ts__body"><code>Inter Variable</code> (body) + <code>Berkeley Mono</code> (code, 유료 U.S. Graphics Company 폰트)</div>
-        </div>
-        <div class="ts__item">
-          <div class="ts__head">TOKEN COUNT</div>
-          <div class="ts__body">700+ 변수 — color: 109 · spacing: 107 · shadow: 7 · font-size: 8 product + 8 marketing</div>
-        </div>
-      </div>
-    </section>
+  </div>
+</div>
+<div class="ramp-group">
+  <div class="ramp-label">Accent Families (status/product) · 8 steps</div>
+  <div class="ramp ramp--8">
+    <div class="sw sw--l" style="background:#00B8CC"><div class="n">teal</div>#00B8CC</div>
+<div class="sw sw--l" style="background:#FC7840"><div class="n">orange</div>#FC7840</div>
+<div class="sw sw--l" style="background:#F0BF00"><div class="n">yellow</div>#F0BF00</div>
+<div class="sw sw--d" style="background:#27A644"><div class="n">green</div>#27A644</div>
+<div class="sw sw--l" style="background:#EB5757"><div class="n">red</div>#EB5757</div>
+<div class="sw sw--l" style="background:#D4B144"><div class="n">linear-build</div>#D4B144</div>
+<div class="sw sw--l" style="background:#68CC58"><div class="n">linear-plan</div>#68CC58</div>
+<div class="sw sw--l" style="background:#7A7FAD"><div class="n">linear-security</div>#7A7FAD</div>
 
-    <section id="typography">
-      <div class="section__num">03 · Typography</div>
-      <h2 class="section__title">타이포그래피 — Product + Marketing 이중 스케일</h2>
-      <p class="section__lede">
-        Linear는 두 개의 병렬 타이포 스케일을 운용한다. Product UI용(<code>--font-size-*</code>)과 marketing 대형 히어로용(<code>--title-N-*</code>). Variable weight 450/550 같은 non-표준 값 사용.
-      </p>
+  </div>
+</div>
 
-      <div class="type-sub">Font stack</div>
-      <div class="fs-card">
-        <div class="fs-card__row">
-          <span class="fs-card__k">Display / Body</span>
-          <span class="fs-card__v"><code>Inter Variable</code> (variable font, weight 100-900 전 범위)</span>
-        </div>
-        <div class="fs-card__row">
-          <span class="fs-card__k">Code / Mono</span>
-          <span class="fs-card__v"><code>Berkeley Mono</code> (유료 — JetBrains Mono 아님)</span>
-        </div>
-        <div class="fs-card__row">
-          <span class="fs-card__k">System fallback</span>
-          <span class="fs-card__v"><code>-apple-system</code>, <code>BlinkMacSystemFont</code>, <code>Segoe UI</code>, <code>Roboto</code></span>
-        </div>
-        <div class="fs-card__row">
-          <span class="fs-card__k">Non-standard weights</span>
-          <span class="fs-card__v"><code>450</code>, <code>550</code> — Inter Variable만 가능한 mid-weight</span>
-        </div>
-      </div>
+  <h3 style='margin-top:32px;margin-bottom:16px;font-size:16px;font-weight:600;'>Alias Layer</h3><div class='alias-table'><div class="row"><div class="k">--color-brand-bg</div><div class="arrow">→</div><div class="v">#5E6AD2 (dark) / #7070FF (light) — CTA button background</div></div><div class="row"><div class="k">--color-link-primary</div><div class="arrow">→</div><div class="v">#828FFF (dark) / #7070FF (light) — 링크</div></div><div class="row"><div class="k">--kbd-bg</div><div class="arrow">→</div><div class="v">#3B3D45 — keyboard badge 배경</div></div><div class="row"><div class="k">--color-overlay-primary</div><div class="arrow">→</div><div class="v">rgba(255,255,255,0.65) — 모달 오버레이 (dark)</div></div><div class="row"><div class="k">--color-accent-tint</div><div class="arrow">→</div><div class="v">#18182F (dark) / #F1F1FF (light) — soft hover bg</div></div></div>
+  <h3 style='margin-top:32px;margin-bottom:16px;font-size:16px;font-weight:600;'>Dominant Colors (실제 DOM 빈도)</h3><div class="dom-chart">
+  <div class="dom-bar"><div class="dom-bar__seg" style="flex:325;background:#08090A;" title="#08090A (325)"></div><div class="dom-bar__seg" style="flex:200;background:#E4E5E9;" title="#E4E5E9 (200)"></div><div class="dom-bar__seg" style="flex:151;background:#E2E4E7;" title="#E2E4E7 (151)"></div><div class="dom-bar__seg" style="flex:124;background:#4354B8;" title="#4354B8 (124)"></div><div class="dom-bar__seg" style="flex:77;background:#FFFFFF;" title="#FFFFFF (77)"></div><div class="dom-bar__seg" style="flex:76;background:#E5591D;" title="#E5591D (76)"></div><div class="dom-bar__seg" style="flex:71;background:#8A8F98;" title="#8A8F98 (71)"></div><div class="dom-bar__seg" style="flex:51;background:#F79CE0;" title="#F79CE0 (51)"></div><div class="dom-bar__seg" style="flex:43;background:#2E2E32;" title="#2E2E32 (43)"></div></div>
+  <div class="dom-list"><div class="item">
+  <div class="chip" style="background:#08090A"></div>
+  <div>
+    <div class="hex">#08090A</div>
+    <div class="cnt">325회 · neutral bg-primary</div>
+  </div>
+</div><div class="item">
+  <div class="chip" style="background:#E4E5E9"></div>
+  <div>
+    <div class="hex">#E4E5E9</div>
+    <div class="cnt">200회 · neutral light surface</div>
+  </div>
+</div><div class="item">
+  <div class="chip" style="background:#E2E4E7"></div>
+  <div>
+    <div class="hex">#E2E4E7</div>
+    <div class="cnt">151회 · neutral surface alt</div>
+  </div>
+</div><div class="item">
+  <div class="chip" style="background:#4354B8"></div>
+  <div>
+    <div class="hex">#4354B8</div>
+    <div class="cnt">124회 · svg pattern illustration</div>
+  </div>
+</div><div class="item">
+  <div class="chip" style="background:#FFFFFF"></div>
+  <div>
+    <div class="hex">#FFFFFF</div>
+    <div class="cnt">77회 · brand-text / light bg</div>
+  </div>
+</div><div class="item">
+  <div class="chip" style="background:#E5591D"></div>
+  <div>
+    <div class="hex">#E5591D</div>
+    <div class="cnt">76회 · svg pattern orange</div>
+  </div>
+</div><div class="item">
+  <div class="chip" style="background:#8A8F98"></div>
+  <div>
+    <div class="hex">#8A8F98</div>
+    <div class="cnt">71회 · text-tertiary</div>
+  </div>
+</div><div class="item">
+  <div class="chip" style="background:#F79CE0"></div>
+  <div>
+    <div class="hex">#F79CE0</div>
+    <div class="cnt">51회 · svg pattern pink</div>
+  </div>
+</div><div class="item">
+  <div class="chip" style="background:#2E2E32"></div>
+  <div>
+    <div class="hex">#2E2E32</div>
+    <div class="cnt">43회 · neutral dark surface</div>
+  </div>
+</div></div>
+</div>
+</section>
+<section id="spacing">
+  <div class="section__num">06</div>
+  <h2 class="section__title">스페이싱</h2>
+  <p class="section__lede">토큰화된 spacing scale은 없음. page padding + radius + raw px를 직접 사용.</p>
+  <div class="space-note" style="padding:12px 16px;background:var(--muted);border-radius:var(--radius);margin-bottom:24px;font-family:var(--font-mono);font-size:12px;">--page-padding-block: 64px (상하) · --page-padding-inline: 24px (좌우) · --page-max-width: 1024px · --prose-max-width: 680px</div>
+  <div class="space-table" style="display:flex;flex-direction:column;gap:8px;"><div class="space-row">
+  <div class="tk">--page-padding-inline</div>
+  <div class="val">24px</div>
+  <div class="bar" style="width:24px"></div>
+  <div class="use">좌우 페이지 여백</div>
+</div><div class="space-row">
+  <div class="tk">--page-padding-block</div>
+  <div class="val">64px</div>
+  <div class="bar" style="width:64px"></div>
+  <div class="use">상하 섹션 여백</div>
+</div><div class="space-row">
+  <div class="tk">--page-inset</div>
+  <div class="val">32px</div>
+  <div class="bar" style="width:32px"></div>
+  <div class="use">페이지 inner inset</div>
+</div><div class="space-row">
+  <div class="tk">--page-padding-y</div>
+  <div class="val">48px</div>
+  <div class="bar" style="width:48px"></div>
+  <div class="use">alt vertical</div>
+</div><div class="space-row">
+  <div class="tk">--homepage-outer-padding</div>
+  <div class="val">16px</div>
+  <div class="bar" style="width:16px"></div>
+  <div class="use">homepage 외곽</div>
+</div><div class="space-row">
+  <div class="tk">--homepage-padding-inset</div>
+  <div class="val">8px</div>
+  <div class="bar" style="width:8px"></div>
+  <div class="use">homepage inner</div>
+</div><div class="space-row">
+  <div class="tk">--page-max-width</div>
+  <div class="val">1024px</div>
+  <div class="bar" style="width:240px"></div>
+  <div class="use">일반 페이지 max</div>
+</div><div class="space-row">
+  <div class="tk">--prose-max-width</div>
+  <div class="val">680px</div>
+  <div class="bar" style="width:240px"></div>
+  <div class="use">글 읽기 폭</div>
+</div><div class="space-row">
+  <div class="tk">--header-height</div>
+  <div class="val">65px</div>
+  <div class="bar" style="width:65px"></div>
+  <div class="use">고정 헤더 높이</div>
+</div></div>
+</section>
+<section id="radius">
+  <div class="section__num">07</div>
+  <h2 class="section__title">라디우스 (모서리 반경)</h2>
+  <p class="section__lede">4/6/8/12/16/24/32 배수 시스템 + rounded(pill) + circle. 버튼 6px, 카드 12-16px, pill 9999px.</p>
+  <div class="rad-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;"><div class="rad-card">
+  <div class="rad-box" style="border-radius:4px;background:var(--muted);height:64px;"></div>
+  <div class="rad-card__n">--radius-4</div>
+  <div class="rad-card__v">4px · 작은 chip</div>
+</div><div class="rad-card">
+  <div class="rad-box" style="border-radius:6px;background:var(--muted);height:64px;"></div>
+  <div class="rad-card__n">--radius-6</div>
+  <div class="rad-card__v">6px · button 기본</div>
+</div><div class="rad-card">
+  <div class="rad-box" style="border-radius:8px;background:var(--muted);height:64px;"></div>
+  <div class="rad-card__n">--radius-8</div>
+  <div class="rad-card__v">8px · input/card small</div>
+</div><div class="rad-card">
+  <div class="rad-box" style="border-radius:12px;background:var(--muted);height:64px;"></div>
+  <div class="rad-card__n">--radius-12</div>
+  <div class="rad-card__v">12px · card 기본</div>
+</div><div class="rad-card">
+  <div class="rad-box" style="border-radius:16px;background:var(--muted);height:64px;"></div>
+  <div class="rad-card__n">--radius-16</div>
+  <div class="rad-card__v">16px · card large</div>
+</div><div class="rad-card">
+  <div class="rad-box" style="border-radius:24px;background:var(--muted);height:64px;"></div>
+  <div class="rad-card__n">--radius-24</div>
+  <div class="rad-card__v">24px · hero block</div>
+</div><div class="rad-card">
+  <div class="rad-box" style="border-radius:32px;background:var(--muted);height:64px;"></div>
+  <div class="rad-card__n">--radius-32</div>
+  <div class="rad-card__v">32px · 대형 포스터</div>
+</div><div class="rad-card">
+  <div class="rad-box" style="border-radius:9999px;background:var(--muted);height:64px;"></div>
+  <div class="rad-card__n">--radius-rounded</div>
+  <div class="rad-card__v">9999px · pill button</div>
+</div><div class="rad-card">
+  <div class="rad-box" style="border-radius:50%;background:var(--muted);height:64px;"></div>
+  <div class="rad-card__n">--radius-circle</div>
+  <div class="rad-card__v">50% · avatar/dot</div>
+</div></div>
+</section>
+<section id="shadows">
+  <div class="section__num">08</div>
+  <h2 class="section__title">섀도우</h2>
+  <p class="section__lede">대부분 none. 필요 시 --shadow-stack-low 5-layer dual-shadow 원자로 깊이를 만든다 (Stripe 패턴).</p>
+  <div class="sh-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;"><div class="sh-card" style="box-shadow:0px 0px 0px transparent;background:var(--card);">
+  <div class="sh-card__n">--shadow-none</div>
+  <div class="sh-card__d">기본값</div>
+  <div class="sh-card__v">0px 0px 0px transparent</div>
+</div><div class="sh-card" style="box-shadow:0 8px 2px rgba(0,0,0,0), 0 5px 2px rgba(0,0,0,0.01), 0 3px 2px rgba(0,0,0,0.04), 0 1px 1px rgba(0,0,0,0.07), 0 0 1px rgba(0,0,0,0.08);background:var(--card);">
+  <div class="sh-card__n">--shadow-stack-low</div>
+  <div class="sh-card__d">카드 실사용 5-layer</div>
+  <div class="sh-card__v">0 8px 2px rgba(0,0,0,0), 0 5px 2px rgba(0,0,0,0.01), 0 3px 2px rgba(0,0,0,0.04), 0 1px 1px rgba(0,0,0,0.07), 0 0 1px rgba(0,0,0,0.08)</div>
+</div><div class="sh-card" style="box-shadow:--shadow-stack-low 그대로 + border 색만 변경;background:var(--card);">
+  <div class="sh-card__n">hover 상승</div>
+  <div class="sh-card__d">카드 hover 시</div>
+  <div class="sh-card__v">--shadow-stack-low 그대로 + border 색만 변경</div>
+</div></div>
+</section>
+<section id="motion">
+  <div class="section__num">09</div>
+  <h2 class="section__title">모션</h2>
+  <p class="section__lede">기본 duration은 .16s(--speed-regularTransition), .12s 빠른 hover. Ease는 out-quad가 대다수.</p>
+  <div class="motion-table"><div class="motion-row" style="display:grid;grid-template-columns:200px 200px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--border);"><div class="pt" style="font-family:var(--font-mono);font-size:13px;">--speed-quickTransition</div><div class="val" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">.12s</div><div class="use" style="color:var(--subtle);">가장 빠른 hover</div></div><div class="motion-row" style="display:grid;grid-template-columns:200px 200px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--border);"><div class="pt" style="font-family:var(--font-mono);font-size:13px;">--speed-regularTransition</div><div class="val" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">.16s</div><div class="use" style="color:var(--subtle);">기본 transition</div></div><div class="motion-row" style="display:grid;grid-template-columns:200px 200px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--border);"><div class="pt" style="font-family:var(--font-mono);font-size:13px;">--ease-out-quad</div><div class="val" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">cubic-bezier(0.25,0.46,0.45,0.94)</div><div class="use" style="color:var(--subtle);">out 기본</div></div><div class="motion-row" style="display:grid;grid-template-columns:200px 200px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--border);"><div class="pt" style="font-family:var(--font-mono);font-size:13px;">--ease-out-cubic</div><div class="val" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">cubic-bezier(0.215,0.61,0.355,1)</div><div class="use" style="color:var(--subtle);">out smooth</div></div><div class="motion-row" style="display:grid;grid-template-columns:200px 200px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--border);"><div class="pt" style="font-family:var(--font-mono);font-size:13px;">--ease-in-out-quint</div><div class="val" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">cubic-bezier(0.86,0,0.07,1)</div><div class="use" style="color:var(--subtle);">히어로 패널 전환</div></div></div>
+</section>
+<section id="layout">
+  <div class="section__num">10</div>
+  <h2 class="section__title">레이아웃 패턴</h2>
+  <p class="section__lede">1024px page max + 680px prose max + 1344px homepage. 섹션 리듬 64px vertical.</p>
+  <div class="lp-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;"><div class="lp-card" style="padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);"><h3 style="font-size:15px;font-weight:600;margin-bottom:12px;">Grid System</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px;"><li><b>Content max-width</b>: 1024px (일반) / 1344px (홈)</li><li><b>Prose max-width</b>: 680px</li><li><b>Grid type</b>: CSS Grid</li><li><b>Column count</b>: 4 (--grid-columns)</li><li><b>Gutter</b>: 24px (--page-padding-inline)</li></ul></div><div class="lp-card" style="padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);"><h3 style="font-size:15px;font-weight:600;margin-bottom:12px;">Hero</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px;"><li><b>Layout</b>: 2-column split (text + product mockup)</li><li><b>Background</b>: solid #08090A + 좌측 fade mask</li><li><b>H1</b>: 36px / weight 680 / tracking -0.02em</li><li><b>Max-width</b>: 1344px (homepage)</li><li><b>Pattern</b>: ~85vh + glass nav 65px + dual CTA</li></ul></div><div class="lp-card" style="padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);"><h3 style="font-size:15px;font-weight:600;margin-bottom:12px;">Section Rhythm</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px;"><li><b>Padding</b>: 64px 24px (block/inline)</li><li><b>Max-width</b>: 1024px centered</li><li>섹션 간 구분선은 일반적으로 없음 (배경 동일)</li></ul></div><div class="lp-card" style="padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);"><h3 style="font-size:15px;font-weight:600;margin-bottom:12px;">Card Patterns</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px;"><li><b>Background</b>: #0F1011 (dark) / #FFFFFF (light)</li><li><b>Border</b>: 1px solid #23252A / #E9E8EA</li><li><b>Radius</b>: 12px 기본, 16px 큰 카드</li><li><b>Padding</b>: 24-32px</li><li><b>Shadow</b>: 기본 none, hover 5-layer stack</li></ul></div><div class="lp-card" style="padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);"><h3 style="font-size:15px;font-weight:600;margin-bottom:12px;">Navigation</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px;"><li><b>Type</b>: horizontal desktop / hamburger mobile</li><li><b>Position</b>: fixed top 0, height 65px</li><li><b>Background</b>: rgba(10,10,12,0.8) + backdrop blur(20px)</li><li><b>Border</b>: 1px solid #23252A 하단</li></ul></div><div class="lp-card" style="padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);"><h3 style="font-size:15px;font-weight:600;margin-bottom:12px;">Content Width</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px;"><li><b>Prose</b>: 680px (--prose-max-width)</li><li><b>Container</b>: 1024px</li><li><b>Homepage</b>: 1344px</li><li><b>Sidebar</b>: N/A — marketing</li></ul></div></div>
+</section>
+<section id="responsive">
+  <div class="section__num">11</div>
+  <h2 class="section__title">반응형</h2>
+  <p class="section__lede">Mobile-first. 640/768/1024/1280/1536 5단. 햄버거 nav는 1024px 아래에서 활성.</p>
+  <div class="resp-table" style="margin-bottom:32px;"><div class="resp-row--head" style="display:grid;grid-template-columns:120px 140px 1fr;gap:16px;padding:10px 0;border-bottom:2px solid var(--border);font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;"><div>Name</div><div>Value</div><div>Description</div></div><div class="resp-row" style="display:grid;grid-template-columns:120px 140px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--border);"><div class="bp-name" style="font-weight:600;">Mobile</div><div class="bp-val" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">< 640px</div><div class="bp-desc" style="color:var(--subtle);">1-column, 햄버거 nav</div></div><div class="resp-row" style="display:grid;grid-template-columns:120px 140px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--border);"><div class="bp-name" style="font-weight:600;">Tablet</div><div class="bp-val" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">≥ 768px</div><div class="bp-desc" style="color:var(--subtle);">2-col hero</div></div><div class="resp-row" style="display:grid;grid-template-columns:120px 140px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--border);"><div class="bp-name" style="font-weight:600;">Desktop</div><div class="bp-val" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">≥ 1024px</div><div class="bp-desc" style="color:var(--subtle);">full page-max-width</div></div><div class="resp-row" style="display:grid;grid-template-columns:120px 140px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--border);"><div class="bp-name" style="font-weight:600;">Large</div><div class="bp-val" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">≥ 1280px</div><div class="bp-desc" style="color:var(--subtle);">homepage 확장</div></div><div class="resp-row" style="display:grid;grid-template-columns:120px 140px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--border);"><div class="bp-name" style="font-weight:600;">XL</div><div class="bp-val" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">≥ 1536px</div><div class="bp-desc" style="color:var(--subtle);">초대형 여백</div></div></div>
+  <div class="resp-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;"><div class="resp-card" style="padding:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);"><div class="resp-card__head" style="font-size:13px;font-weight:600;margin-bottom:8px;">Touch targets</div><div class="resp-card__body" style="color:var(--subtle);font-size:13px;">min tap 32px, button height 36-40px</div></div><div class="resp-card" style="padding:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);"><div class="resp-card__head" style="font-size:13px;font-weight:600;margin-bottom:8px;">Navigation collapse</div><div class="resp-card__body" style="color:var(--subtle);font-size:13px;">1024px 이하에서 full-screen drawer</div></div><div class="resp-card" style="padding:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);"><div class="resp-card__head" style="font-size:13px;font-weight:600;margin-bottom:8px;">Grid columns</div><div class="resp-card__body" style="color:var(--subtle);font-size:13px;">4 → 1 (640px)</div></div><div class="resp-card" style="padding:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);"><div class="resp-card__head" style="font-size:13px;font-weight:600;margin-bottom:8px;">Hero layout</div><div class="resp-card__body" style="color:var(--subtle);font-size:13px;">2-column → 1-column (1024px 이하)</div></div><div class="resp-card" style="padding:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);"><div class="resp-card__head" style="font-size:13px;font-weight:600;margin-bottom:8px;">Image strategy</div><div class="resp-card__body" style="color:var(--subtle);font-size:13px;">Next.js Image + webassets.linear.app CDN (w/q/auto-format)</div></div><div class="resp-card" style="padding:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);"><div class="resp-card__head" style="font-size:13px;font-weight:600;margin-bottom:8px;">First-class</div><div class="resp-card__body" style="color:var(--subtle);font-size:13px;">mobile-first (min-width 우세)</div></div></div>
+</section>
+<section id="components">
+  <div class="section__num">12</div>
+  <h2 class="section__title">컴포넌트</h2>
+  <p class="section__lede">Button 3 variant (primary/secondary/invert) + kbd + card + nav + hero. 모든 컴포넌트가 .16s transition 공유.</p>
+  <div class="cmp-block" style="padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:16px;">
+  <div class="cmp-block__head" style="margin-bottom:16px;">
+    <div class="cmp-block__name" style="font-weight:600;font-size:15px;">.Button (variant primary)</div>
+    <div class="cmp-block__desc" style="color:var(--subtle);font-size:13px;margin-top:4px;">CTA primary. indigo bg + white text + radius 6px</div>
+  </div>
+  <div class="cmp-block__body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div class="cmp-demo" style="padding:24px;background:var(--muted);border-radius:var(--radius);min-height:80px;display:flex;align-items:center;justify-content:center;"><button style="background:#5E6AD2;color:#FFF;border:0;border-radius:6px;padding:0 14px;height:32px;font-size:13px;font-weight:510;cursor:pointer;">Get started</button></div>
+    <div class="cmp-spec" style="font-family:var(--font-mono);font-size:12px;color:var(--subtle);line-height:1.7;"><div>background: #5E6AD2</div><div>color: #FFFFFF</div><div>border-radius: 6px</div><div>padding: 0 14px; height: 32px</div><div>font-weight: 510</div><div>hover: filter brightness(1.08)</div></div>
+  </div>
+  <pre class="cmp-code" style="margin-top:16px;padding:16px;background:#09090b;color:#e4e4e7;border-radius:var(--radius);font-family:var(--font-mono);font-size:12px;overflow:auto;"><code>&lt;button class="Button_variant-primary"&gt;Get started&lt;/button&gt;</code></pre>
+</div><div class="cmp-block" style="padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:16px;">
+  <div class="cmp-block__head" style="margin-bottom:16px;">
+    <div class="cmp-block__name" style="font-weight:600;font-size:15px;">.Button (variant secondary)</div>
+    <div class="cmp-block__desc" style="color:var(--subtle);font-size:13px;margin-top:4px;">transparent + text only — subtle secondary CTA</div>
+  </div>
+  <div class="cmp-block__body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div class="cmp-demo" style="padding:24px;background:var(--muted);border-radius:var(--radius);min-height:80px;display:flex;align-items:center;justify-content:center;"><button style="background:transparent;color:#F7F8F8;border:1px solid #23252A;border-radius:6px;padding:0 14px;height:32px;font-size:13px;cursor:pointer;">Learn more</button></div>
+    <div class="cmp-spec" style="font-family:var(--font-mono);font-size:12px;color:var(--subtle);line-height:1.7;"><div>background: transparent</div><div>color: #F7F8F8</div><div>border: 1px solid #23252A</div><div>hover: background #1F2024</div></div>
+  </div>
+  <pre class="cmp-code" style="margin-top:16px;padding:16px;background:#09090b;color:#e4e4e7;border-radius:var(--radius);font-family:var(--font-mono);font-size:12px;overflow:auto;"><code>&lt;button class="Button_variant-secondary"&gt;Learn more&lt;/button&gt;</code></pre>
+</div><div class="cmp-block" style="padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:16px;">
+  <div class="cmp-block__head" style="margin-bottom:16px;">
+    <div class="cmp-block__name" style="font-weight:600;font-size:15px;">kbd (keyboard badge)</div>
+    <div class="cmp-block__desc" style="color:var(--subtle);font-size:13px;margin-top:4px;">명령 단축키 표시</div>
+  </div>
+  <div class="cmp-block__body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div class="cmp-demo" style="padding:24px;background:var(--muted);border-radius:var(--radius);min-height:80px;display:flex;align-items:center;justify-content:center;"><kbd style="background:#3B3D45;color:#F7F8F8;border-radius:4px;padding:2px 6px;font-family:ui-monospace,monospace;font-size:12px;">⌘K</kbd></div>
+    <div class="cmp-spec" style="font-family:var(--font-mono);font-size:12px;color:var(--subtle);line-height:1.7;"><div>background: #3B3D45</div><div>color: #F7F8F8</div><div>border-radius: 4px</div><div>font: Berkeley Mono 12px</div></div>
+  </div>
+  <pre class="cmp-code" style="margin-top:16px;padding:16px;background:#09090b;color:#e4e4e7;border-radius:var(--radius);font-family:var(--font-mono);font-size:12px;overflow:auto;"><code>&lt;kbd class="kbd"&gt;⌘K&lt;/kbd&gt;</code></pre>
+</div><div class="cmp-block" style="padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:16px;">
+  <div class="cmp-block__head" style="margin-bottom:16px;">
+    <div class="cmp-block__name" style="font-weight:600;font-size:15px;">Card (dark panel)</div>
+    <div class="cmp-block__desc" style="color:var(--subtle);font-size:13px;margin-top:4px;">기본 카드 — 12px radius, border만, shadow 없음</div>
+  </div>
+  <div class="cmp-block__body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div class="cmp-demo" style="padding:24px;background:var(--muted);border-radius:var(--radius);min-height:80px;display:flex;align-items:center;justify-content:center;"><div style="background:#0F1011;color:#F7F8F8;border:1px solid #23252A;border-radius:12px;padding:20px;width:100%;font-size:13px;">Card Title<br/><span style="color:#8A8F98;font-size:12px;">Subtle body</span></div></div>
+    <div class="cmp-spec" style="font-family:var(--font-mono);font-size:12px;color:var(--subtle);line-height:1.7;"><div>background: #0F1011</div><div>border: 1px solid #23252A</div><div>border-radius: 12px</div><div>padding: 24px</div><div>hover: border #2A2E33 + shadow stack-low</div></div>
+  </div>
+  <pre class="cmp-code" style="margin-top:16px;padding:16px;background:#09090b;color:#e4e4e7;border-radius:var(--radius);font-family:var(--font-mono);font-size:12px;overflow:auto;"><code>&lt;article class="card"&gt;
+  &lt;h3&gt;Card Title&lt;/h3&gt;
+  &lt;p&gt;body&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+</div>
+</section>
+<section id="voice">
+  <div class="section__num">13</div>
+  <h2 class="section__title">라이팅 원칙</h2>
+  <p class="section__lede">조용한 확신, 과장 지양 — 엔지니어 화법.</p>
+  <div class="voice-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;"><div class="voice-card" style="padding:20px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--brand-color);border-radius:var(--radius);"><div class="voice-card__label" style="font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Headline</div><div class="voice-card__rule" style="font-weight:500;margin-bottom:8px;">짧은 선언, 주어-동사</div><div class="voice-card__ex" style="color:var(--subtle);font-style:italic;font-size:13px;">"Linear is a purpose-built tool for planning and building products"</div></div><div class="voice-card" style="padding:20px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--brand-color);border-radius:var(--radius);"><div class="voice-card__label" style="font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Primary CTA</div><div class="voice-card__rule" style="font-weight:500;margin-bottom:8px;">2단어, 동사+대상</div><div class="voice-card__ex" style="color:var(--subtle);font-style:italic;font-size:13px;">"Get started"</div></div><div class="voice-card" style="padding:20px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--brand-color);border-radius:var(--radius);"><div class="voice-card__label" style="font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Secondary CTA</div><div class="voice-card__rule" style="font-weight:500;margin-bottom:8px;">관찰형</div><div class="voice-card__ex" style="color:var(--subtle);font-style:italic;font-size:13px;">"See what's new"</div></div><div class="voice-card" style="padding:20px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--brand-color);border-radius:var(--radius);"><div class="voice-card__label" style="font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Subheading</div><div class="voice-card__rule" style="font-weight:500;margin-bottom:8px;">기능 묘사 1문장</div><div class="voice-card__ex" style="color:var(--subtle);font-style:italic;font-size:13px;">"Meet the system for modern software development."</div></div></div>
+</section>
+<section id="export">
+  <div class="section__num">14</div>
+  <h2 class="section__title">CSS / Tailwind 내보내기</h2>
+  <p class="section__lede">그대로 복사해 프로젝트에 붙여 넣을 수 있는 Drop-in 스니펫.</p>
+  <div class="code-export" style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+    <div class="code-tabs" style="display:flex;gap:4px;padding:8px 12px;background:var(--muted);border-bottom:1px solid var(--border);align-items:center;">
+      <button class="is-active" data-tab="css" style="padding:4px 12px;border-radius:var(--radius);background:var(--card);font-size:12px;font-weight:500;">CSS 스니펫</button>
+      <button data-tab="tw">Tailwind 설정</button>
+      <button class="code-copy" data-copy-active style="margin-left:auto;padding:4px 12px;background:var(--card);border-radius:var(--radius);font-size:11px;font-family:var(--font-mono);">Copy</button>
+    </div>
+    <div class="code-pane is-active" data-pane="css"><pre style="padding:16px;background:#09090b;color:#e4e4e7;font-family:var(--font-mono);font-size:12px;overflow:auto;max-height:600px;"><code data-copy="css">/* Linear — copy into your root stylesheet */
+:root {
+  /* Fonts */
+  --ln-font-family: "Inter Variable","SF Pro Display",-apple-system,sans-serif;
+  --ln-font-family-code: "Berkeley Mono",ui-monospace,"SF Mono",monospace;
+  --ln-font-weight-normal: 400;
+  --ln-font-weight-medium: 510;
+  --ln-font-weight-semibold: 590;
+  --ln-font-weight-bold: 680;
+  --ln-font-settings: "cv01","ss03";
 
-      <div class="callout">
-        <b>Berkeley Mono는 유료 폰트</b>. U.S. Graphics Company 제작. OSS 대체로는 <code>JetBrains Mono</code>, <code>Commit Mono</code>, <code>Geist Mono</code>가 있지만 x-height와 메트릭이 다르다.
-      </div>
+  /* Brand */
+  --ln-color-brand:          #5E6AD2;
+  --ln-color-accent:         #7170FF;
+  --ln-color-accent-hover:   #828FFF;
+  --ln-color-accent-tint:    #18182F;
+  --ln-color-link:           #7170FF;
 
-      <div class="type-sub" style="margin-top:28px;">Product UI scale</div>
-      <div class="type-table">
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:12px;font-weight:400;line-height:1.4;letter-spacing:0em">micro — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--font-size-micro</span>12px · weight <b>400</b> · 1.4</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:13px;font-weight:400;line-height:1.4;letter-spacing:0em">mini — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--font-size-mini</span>13px · weight <b>400</b> · 1.4</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:14px;font-weight:400;line-height:1.45;letter-spacing:0em">small — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--font-size-small</span>14px · weight <b>400</b> · 1.45</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:16px;font-weight:400;line-height:1.5;letter-spacing:0em">regular — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--font-size-regular</span>16px · weight <b>400</b> · 1.5</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:18px;font-weight:500;line-height:1.5;letter-spacing:-0.01em">large — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--font-size-large</span>18px · weight <b>500</b> · 1.5 · -0.01em</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:20px;font-weight:550;line-height:1.3;letter-spacing:-0.012em">title3 — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--font-size-title3</span>20px · weight <b>550</b> · 1.3 · -0.012em</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:24px;font-weight:550;line-height:1.25;letter-spacing:-0.014em">title2 — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--font-size-title2</span>24px · weight <b>550</b> · 1.25 · -0.014em</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:36px;font-weight:600;line-height:1.15;letter-spacing:-0.018em">title1 — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--font-size-title1</span>36px · weight <b>600</b> · 1.15 · -0.018em</div>
-        </div>
-      </div>
+  /* Surfaces (dark default) */
+  --ln-bg-page:   #08090A;
+  --ln-bg-panel:  #0F1011;
+  --ln-bg-shade:  #191D20;
+  --ln-text:      #F7F8F8;
+  --ln-text-muted:#8A8F98;
+  --ln-border:    #23252A;
 
-      <div class="type-sub">Marketing hero scale (title-1 ~ title-8)</div>
-      <div class="type-table">
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:17px;font-weight:500;line-height:1.45;letter-spacing:-0.011em">title-1 — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--title-1-size</span>17px · weight <b>500</b> · 1.45 · -0.011em</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:20px;font-weight:500;line-height:1.35;letter-spacing:-0.012em">title-2 — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--title-2-size</span>20px · weight <b>500</b> · 1.35 · -0.012em</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:24px;font-weight:550;line-height:1.25;letter-spacing:-0.014em">title-3 — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--title-3-size</span>24px · weight <b>550</b> · 1.25 · -0.014em</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:32px;font-weight:550;line-height:1.2;letter-spacing:-0.016em">title-4 — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--title-4-size</span>32px · weight <b>550</b> · 1.2 · -0.016em</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:40px;font-weight:600;line-height:1.15;letter-spacing:-0.018em">title-5 — 샘플 텍스트</div>
-          <div class="type-row__spec"><span class="tk">--title-5-size</span>40px · weight <b>600</b> · 1.15 · -0.018em</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:48px;font-weight:600;line-height:1.1;letter-spacing:-0.02em">title-6</div>
-          <div class="type-row__spec"><span class="tk">--title-6-size</span>48px · weight <b>600</b> · 1.1 · -0.02em</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:56px;font-weight:700;line-height:1.05;letter-spacing:-0.022em">title-7</div>
-          <div class="type-row__spec"><span class="tk">--title-7-size</span>56px · weight <b>700</b> · 1.05 · -0.022em</div>
-        </div>
-        <div class="type-row">
-          <div class="type-row__s" style="font-size:64px;font-weight:700;line-height:1.0;letter-spacing:-0.022em">title-8</div>
-          <div class="type-row__spec"><span class="tk">--title-8-size</span>64px · weight <b>700</b> · 1.0 · -0.022em</div>
-        </div>
-      </div>
-      <div class="callout"><b>Optical letter-spacing compensation</b>: 제목이 커질수록 tracking이 비례해서 타이트해진다 (-0.011em → -0.022em). 이 규칙 없이 히어로 타이포를 만들면 헐렁해 보인다. Linear 시그너처 디테일.</div>
-    </section>
+  /* Key spacing */
+  --ln-space-sm:  24px;
+  --ln-space-md:  32px;
+  --ln-space-lg:  64px;
 
-    <section id="colors">
-      <div class="section__num">04 · Colors</div>
-      <h2 class="section__title">컬러 — Marketing vs App 이중 팔레트</h2>
-      <p class="section__lede">
-        마케팅 사이트와 앱 UI가 서로 다른 indigo를 쓴다. 배경은 7-tier 다크 시스템. 파스텔 하이라이트 팔레트가 feature section의 색채감을 만든다.
-      </p>
-
-      <div class="ramp-group">
-        <div class="ramp-label"><b>Background — 7 tiers (dark)</b></div>
-        <div class="ramp ramp--7">
-          <div class="sw sw--d is-anchor" style="background:#010102"><div class="n">marketing</div><div>#010102</div></div>
-          <div class="sw sw--d" style="background:#08090a"><div class="n">primary</div><div>#08090a</div></div>
-          <div class="sw sw--d" style="background:#0f1011"><div class="n">panel</div><div>#0f1011</div></div>
-          <div class="sw sw--d" style="background:#1c1c1f"><div class="n">secondary</div><div>#1c1c1f</div></div>
-          <div class="sw sw--d" style="background:#232326"><div class="n">tertiary</div><div>#232326</div></div>
-          <div class="sw sw--d" style="background:#28282c"><div class="n">quaternary</div><div>#28282c</div></div>
-          <div class="sw sw--d" style="background:#282828"><div class="n">quinary</div><div>#282828</div></div>
-        </div>
-      </div>
-
-      <div class="ramp-group">
-        <div class="ramp-label"><b>Brand — Marketing vs App</b></div>
-        <div class="ramp ramp--3">
-          <div class="sw sw--d is-anchor" style="background:#4354B8"><div class="n">marketing</div><div>#4354B8</div></div>
-          <div class="sw sw--d" style="background:#5E6AD2"><div class="n">app</div><div>#5E6AD2</div></div>
-          <div class="sw sw--l" style="background:#8FA4FF"><div class="n">soft</div><div>#8FA4FF</div></div>
-        </div>
-      </div>
-
-      <div class="ramp-group">
-        <div class="ramp-label"><b>Pastel Highlight Palette (marketing feature sections)</b></div>
-        <div class="ramp ramp--7">
-          <div class="sw sw--d" style="background:#F79CE0"><div class="n">pink</div><div>#F79CE0</div></div>
-          <div class="sw sw--d" style="background:#55CDFF"><div class="n">cyan</div><div>#55CDFF</div></div>
-          <div class="sw sw--d" style="background:#89D196"><div class="n">green</div><div>#89D196</div></div>
-          <div class="sw sw--l" style="background:#FFC47C"><div class="n">peach</div><div>#FFC47C</div></div>
-          <div class="sw sw--d" style="background:#02B8CC"><div class="n">teal</div><div>#02B8CC</div></div>
-          <div class="sw sw--d" style="background:#8FA4FF"><div class="n">purple</div><div>#8FA4FF</div></div>
-          <div class="sw sw--d" style="background:#E5591D"><div class="n">orange</div><div>#E5591D</div></div>
-        </div>
-      </div>
-
-      <div class="ramp-group">
-        <div class="ramp-label"><b>Text — on dark</b></div>
-        <div class="ramp ramp--5">
-          <div class="sw sw--d" style="background:#f7f8f8"><div class="n">primary</div><div>#f7f8f8</div></div>
-          <div class="sw sw--d" style="background:#E2E4E7"><div class="n">secondary</div><div>#E2E4E7</div></div>
-          <div class="sw sw--d" style="background:#E4E5E9"><div class="n">tertiary</div><div>#E4E5E9</div></div>
-          <div class="sw sw--d" style="background:#8A8F98"><div class="n">muted</div><div>#8A8F98</div></div>
-          <div class="sw sw--d" style="background:#62666D"><div class="n">faint</div><div>#62666D</div></div>
-        </div>
-      </div>
-
-      <div class="ramp-group">
-        <div class="ramp-label"><b>Named Palette (app / team colors)</b></div>
-        <div class="ramp ramp--9">
-          <div class="sw sw--d" style="background:#4ea7fc"><div class="n">blue</div><div>#4ea7fc</div></div>
-          <div class="sw sw--d" style="background:#eb5757"><div class="n">red</div><div>#eb5757</div></div>
-          <div class="sw sw--d" style="background:#27a644"><div class="n">green</div><div>#27a644</div></div>
-          <div class="sw sw--d" style="background:#fc7840"><div class="n">orange</div><div>#fc7840</div></div>
-          <div class="sw sw--l" style="background:#f0bf00"><div class="n">yellow</div><div>#f0bf00</div></div>
-          <div class="sw sw--d" style="background:#5e6ad2"><div class="n">indigo</div><div>#5e6ad2</div></div>
-          <div class="sw sw--d" style="background:#00b8cc"><div class="n">teal</div><div>#00b8cc</div></div>
-          <div class="sw sw--d" style="background:#68cc58"><div class="n">plan</div><div>#68cc58</div></div>
-          <div class="sw sw--d" style="background:#d4b144"><div class="n">build</div><div>#d4b144</div></div>
-        </div>
-      </div>
-
-      <div class="ramp-group">
-        <div class="ramp-label"><b>Dominant Colors (실제 DOM 빈도 순)</b></div>
-        <div class="dom-chart">
-          <div class="dom-bar">
-            <div class="dom-bar__seg" style="background:#08090A;flex:324;border-right:1px solid #2a2e33;"></div>
-            <div class="dom-bar__seg" style="background:#E4E5E9;flex:200;"></div>
-            <div class="dom-bar__seg" style="background:#E2E4E7;flex:151;"></div>
-            <div class="dom-bar__seg" style="background:#4354B8;flex:124;"></div>
-            <div class="dom-bar__seg" style="background:#E5591D;flex:76;"></div>
-            <div class="dom-bar__seg" style="background:#FFFFFF;flex:75;border-right:1px solid #e4e4e7;"></div>
-            <div class="dom-bar__seg" style="background:#8A8F98;flex:71;"></div>
-            <div class="dom-bar__seg" style="background:#F79CE0;flex:51;"></div>
-          </div>
-          <div class="dom-list">
-            <div class="item"><span class="chip" style="background:#08090A"></span><span class="hex">#08090A</span><span class="cnt">324</span></div>
-            <div class="item"><span class="chip" style="background:#E4E5E9"></span><span class="hex">#E4E5E9</span><span class="cnt">200</span></div>
-            <div class="item"><span class="chip" style="background:#E2E4E7"></span><span class="hex">#E2E4E7</span><span class="cnt">151</span></div>
-            <div class="item"><span class="chip" style="background:#4354B8"></span><span class="hex">#4354B8</span><span class="cnt">124</span></div>
-            <div class="item"><span class="chip" style="background:#E5591D"></span><span class="hex">#E5591D</span><span class="cnt">76</span></div>
-            <div class="item"><span class="chip" style="background:#FFFFFF;border:1px solid #e4e4e7;"></span><span class="hex">#FFFFFF</span><span class="cnt">75</span></div>
-            <div class="item"><span class="chip" style="background:#8A8F98"></span><span class="hex">#8A8F98</span><span class="cnt">71</span></div>
-            <div class="item"><span class="chip" style="background:#F79CE0"></span><span class="hex">#F79CE0</span><span class="cnt">51</span></div>
-            <div class="item"><span class="chip" style="background:#2E2E32"></span><span class="hex">#2E2E32</span><span class="cnt">43</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="spacing">
-      <div class="section__num">05 · Spacing</div>
-      <h2 class="section__title">스페이싱</h2>
-      <p class="section__lede">
-        스페이싱(간격 체계). Linear는 107개 spacing 변수를 운용. Marketing page-level과 product UI-level로 나뉜다.
-      </p>
-
-      <div class="space-note">
-        <b>Marketing page spacing</b>: <code>--page-padding-inline: 24px</code> · <code>--page-padding-block: 64px</code> · <code>--homepage-outer-padding: 46px</code>. 아래는 product UI spacing scale.
-      </div>
-
-      <div class="space-table">
-        <div class="space-row"><span class="tk">--page-padding-inline</span><span class="val">24px</span><span class="bar" style="width:24px"></span></div>
-        <div class="space-row"><span class="tk">--frame-padding</span><span class="val">8px</span><span class="bar" style="width:8px"></span></div>
-        <div class="space-row"><span class="tk">space-1 / micro</span><span class="val">4px</span><span class="bar" style="width:4px"></span></div>
-        <div class="space-row"><span class="tk">space-2 / tight</span><span class="val">8px</span><span class="bar" style="width:8px"></span></div>
-        <div class="space-row"><span class="tk">space-3 / default gap</span><span class="val">12px</span><span class="bar" style="width:12px"></span></div>
-        <div class="space-row"><span class="tk">space-4 / padding</span><span class="val">16px</span><span class="bar" style="width:16px"></span></div>
-        <div class="space-row"><span class="tk">--homepage-padding-inset</span><span class="val">32px</span><span class="bar" style="width:32px"></span></div>
-        <div class="space-row"><span class="tk">space-5 / card</span><span class="val">24px</span><span class="bar" style="width:24px"></span></div>
-        <div class="space-row"><span class="tk">space-6 / section inner</span><span class="val">32px</span><span class="bar" style="width:32px"></span></div>
-        <div class="space-row"><span class="tk">space-7 / block gap</span><span class="val">48px</span><span class="bar" style="width:48px"></span></div>
-        <div class="space-row"><span class="tk">--page-padding-block</span><span class="val">64px</span><span class="bar" style="width:64px"></span></div>
-        <div class="space-row"><span class="tk">--homepage-outer-padding</span><span class="val">46px</span><span class="bar" style="width:46px"></span></div>
-        <div class="space-row"><span class="tk">--min-tap-size</span><span class="val">44px</span><span class="bar" style="width:44px"></span></div>
-        <div class="space-row"><span class="tk">section-pad-bottom</span><span class="val">112px</span><span class="bar" style="width:112px"></span></div>
-      </div>
-    </section>
-
-    <section id="radius">
-      <div class="section__num">06 · Radius</div>
-      <h2 class="section__title">라디우스 — 20개 고유값, 4px 최빈</h2>
-      <p class="section__lede">
-        라디우스(모서리 반경). Linear는 20개의 고유 radius 값을 사용한다. 4px(45회)가 small button에서 최빈.
-      </p>
-
-      <div class="rad-grid" style="grid-template-columns:repeat(6,1fr)">
-        <div class="rad-card"><div class="rad-box" style="border-radius:2px"></div><div class="rad-card__n">radius-1</div><div class="rad-card__v"><span class="px">2px</span><br>inline chip</div></div>
-        <div class="rad-card"><div class="rad-box" style="border-radius:4px"></div><div class="rad-card__n">radius-3 ★</div><div class="rad-card__v"><span class="px">4px</span><br>small btn (45회)</div></div>
-        <div class="rad-card"><div class="rad-box" style="border-radius:6px"></div><div class="rad-card__n">radius-5</div><div class="rad-card__v"><span class="px">6px</span><br>input</div></div>
-        <div class="rad-card"><div class="rad-box" style="border-radius:8px"></div><div class="rad-card__n">radius-6</div><div class="rad-card__v"><span class="px">8px</span><br>button, card</div></div>
-        <div class="rad-card"><div class="rad-box" style="border-radius:12px"></div><div class="rad-card__n">radius-8</div><div class="rad-card__v"><span class="px">12px</span><br>card</div></div>
-        <div class="rad-card"><div class="rad-box" style="border-radius:9999px"></div><div class="rad-card__n">pill</div><div class="rad-card__v"><span class="px">9999px</span><br>avatar, tag</div></div>
-      </div>
-    </section>
-
-    <section id="shadows">
-      <div class="section__num">07 · Shadows</div>
-      <h2 class="section__title">섀도우는 5-layer 미세 stacking</h2>
-      <p class="section__lede">
-        Linear는 의도적으로 drop shadow를 최소화한다. <code>--shadow-low/medium/high</code>가 실제로는 <code>none</code>으로 alias 되어 있으며, elevation은 border + 반투명 배경 + 5-layer 미세 stacking으로 표현한다.
-      </p>
-
-      <div class="sh-grid">
-        <div class="sh-card" style="box-shadow:0px 8px 2px 0px rgba(0,0,0,0),0px 5px 2px 0px rgba(0,0,0,0.01),0px 3px 2px 0px rgba(0,0,0,0.04),0px 1px 1px 0px rgba(0,0,0,0.07),0px 0px 1px 0px rgba(0,0,0,0.08)">
-          <div class="sh-card__n">--shadow-stack-low</div>
-          <div>
-            <div class="sh-card__d">카드 elevation (5-layer stacking)</div>
-            <div class="sh-card__v">0px 8px 2px rgba(0,0,0,0) + 4개 layer</div>
-          </div>
-        </div>
-        <div class="sh-card">
-          <div class="sh-card__n">--shadow-low / medium / high</div>
-          <div>
-            <div class="sh-card__d">alias → none (의도적)</div>
-            <div class="sh-card__v">shadow: none</div>
-          </div>
-        </div>
-      </div>
-      <div class="callout"><b>철학</b>: 단일 <code>box-shadow: 0 4px 16px rgba(0,0,0,0.4)</code> 같은 거친 drop shadow는 Linear 철학에 반한다. 반드시 5-layer 미세 stacking을 쓰거나, 아예 shadow 없이 <code>border + rgba(255,255,255,0.05)</code> 반투명 배경으로 elevation을 표현할 것.</div>
-    </section>
-
-    <section id="layout">
-      <div class="section__num">08 · Layout</div>
-      <h2 class="section__title">레이아웃 패턴</h2>
-      <p class="section__lede">
-        반복되는 레이아웃 구조. Marketing hero와 App Shell 두 가지 패턴.
-      </p>
-
-      <div class="lp-grid">
-        <div class="lp-card">
-          <h3>Marketing Hero</h3>
-          <ul>
-            <li><b>Background</b>: <code>#010102</code> (거의 완전 블랙)</li>
-            <li><b>H1</b>: <code>title-7 ~ title-8</code> (56-64px) / weight 700 / tracking -0.022em</li>
-            <li><b>Brand accent</b>: <code>#4354B8</code> pixel art 오브 / gradient</li>
-            <li><b>Max-width</b>: 1280px, padding <code>46px</code></li>
-          </ul>
-        </div>
-        <div class="lp-card">
-          <h3>App Shell</h3>
-          <ul>
-            <li><b>bg</b>: <code>#08090a</code></li>
-            <li><b>Sidebar</b>: <code>#0f1011</code></li>
-            <li><b>Issue row</b>: 12-15px 텍스트, 32-40px high</li>
-            <li><b>Command palette</b>: <code>#1c1c1f</code> + shadow-stack-low</li>
-          </ul>
-<pre>.marketing-section {
-  padding: 64px 46px;
-  max-width: 1280px;
-  margin-inline: auto;
-  background: #010102;
-}
-.app-shell { background: #08090a; }
-.sidebar {
-  background: #0f1011;
-  border-right: 1px solid #2a2e33;
-}</pre>
-        </div>
-      </div>
-    </section>
-
-    <section id="components">
-      <div class="section__num">09 · Components</div>
-      <h2 class="section__title">컴포넌트</h2>
-      <p class="section__lede">
-        실제 사이트에서 관측된 컴포넌트 클래스와 스펙.
-      </p>
-
-      <div class="cmp-block">
-        <div class="cmp-block__head">
-          <span class="cmp-block__name">`.button--primary`</span>
-          <span class="cmp-block__desc">Primary CTA (Indigo)</span>
-        </div>
-        <div class="cmp-block__body">
-          <div>
-            <div class="cmp-demo">
-              <a style="display:inline-block;padding:8px 18px;background:#4354B8;color:#fff;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;">Start building</a>
-              <a style="display:inline-block;padding:8px 18px;background:rgba(255,255,255,0.05);color:#f7f8f8;border-radius:6px;font-size:13px;border:1px solid #2a2e33;cursor:pointer;">Learn more</a>
-            </div>
-            <pre class="cmp-code"><span class="copy" data-copy="linear-btn">Copy</span><code id="linear-btn">&lt;a class="button button--primary"&gt;Start building&lt;/a&gt;
-&lt;a class="button button--ghost"&gt;Learn more&lt;/a&gt;</code></pre>
-          </div>
-          <div class="cmp-spec">
-            <code>Primary bg</code>: #4354B8 (marketing)<br>
-            <code>Ghost bg</code>: rgba(255,255,255,0.05)<br>
-            <code>Ghost border</code>: 1px solid #2a2e33<br>
-            <code>color</code>: #ffffff / #f7f8f8<br>
-            <code>padding</code>: 8px 18px<br>
-            <code>border-radius</code>: 6px<br>
-            <code>font-weight</code>: 500
-          </div>
-        </div>
-      </div>
-
-      <div class="cmp-block">
-        <div class="cmp-block__head">
-          <span class="cmp-block__name">`.issue-row`</span>
-          <span class="cmp-block__desc">Issue Row (app pattern)</span>
-        </div>
-        <div class="cmp-block__body">
-          <div>
-            <div class="cmp-demo" style="flex-direction:column;align-items:stretch;gap:1px;">
-              <div style="display:flex;align-items:center;gap:12px;padding:8px 16px;border-bottom:1px solid #191d21;font-size:13px;color:#f7f8f8;">
-                <span style="color:#E5591D;font-size:11px;">●</span>
-                <span style="color:#62666D;font-size:11px;">LIN-1234</span>
-                <span>Fix keyboard nav</span>
-                <span style="margin-left:auto;color:#8A8F98;font-size:11px;">In Progress</span>
-              </div>
-              <div style="display:flex;align-items:center;gap:12px;padding:8px 16px;font-size:13px;color:#f7f8f8;">
-                <span style="color:#8A8F98;font-size:11px;">○</span>
-                <span style="color:#62666D;font-size:11px;">LIN-1235</span>
-                <span>Update design tokens</span>
-                <span style="margin-left:auto;color:#8A8F98;font-size:11px;">Todo</span>
-              </div>
-            </div>
-            <pre class="cmp-code"><span class="copy" data-copy="linear-issue">Copy</span><code id="linear-issue">&lt;div class="issue-row"&gt;
-  &lt;span class="issue-row__priority"
-    style="color:#E5591D"&gt;&lt;/span&gt;
-  &lt;span class="issue-row__id"&gt;LIN-1234&lt;/span&gt;
-  &lt;span class="issue-row__title"&gt;Fix keyboard nav&lt;/span&gt;
-  &lt;span class="issue-row__status"&gt;In Progress&lt;/span&gt;
-&lt;/div&gt;</code></pre>
-          </div>
-          <div class="cmp-spec">
-            <code>padding</code>: 8px 16px<br>
-            <code>font-size</code>: 13-14px<br>
-            <code>hover bg</code>: #232326<br>
-            <code>border-bottom</code>: 1px solid #191d21<br>
-            <span class="kr">priority 색은 orange #E5591D가 76회 실사용</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="cmp-block">
-        <div class="cmp-block__head">
-          <span class="cmp-block__name">`.badge--pastel`</span>
-          <span class="cmp-block__desc">Feature Badge (pastel)</span>
-        </div>
-        <div class="cmp-block__body">
-          <div>
-            <div class="cmp-demo" style="background:#010102;flex-wrap:wrap;">
-              <span style="display:inline-block;padding:4px 12px;background:#F79CE0;color:#000;border-radius:9999px;font-size:12px;font-weight:500;">Pulse</span>
-              <span style="display:inline-block;padding:4px 12px;background:#55CDFF;color:#000;border-radius:9999px;font-size:12px;font-weight:500;">Insights</span>
-              <span style="display:inline-block;padding:4px 12px;background:#89D196;color:#000;border-radius:9999px;font-size:12px;font-weight:500;">Issues</span>
-              <span style="display:inline-block;padding:4px 12px;background:#FFC47C;color:#000;border-radius:9999px;font-size:12px;font-weight:500;">Projects</span>
-            </div>
-            <pre class="cmp-code"><span class="copy" data-copy="linear-badge">Copy</span><code id="linear-badge">&lt;span class="badge badge--pink"&gt;Pulse&lt;/span&gt;</code></pre>
-          </div>
-          <div class="cmp-spec">
-            <code>pink</code>: #F79CE0 (51회)<br>
-            <code>cyan</code>: #55CDFF (25회)<br>
-            <code>green</code>: #89D196<br>
-            <code>peach</code>: #FFC47C<br>
-            <code>border-radius</code>: 9999px
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="export">
-      <div class="section__num">10 · Code Export</div>
-      <h2 class="section__title">CSS · Tailwind</h2>
-      <p class="section__lede">
-        프로젝트 루트에 붙여 넣으면 바로 쓸 수 있는 토큰 코드.
-      </p>
-
-      <div class="code-export">
-        <div class="code-tabs">
-          <button data-tab="css" class="is-active">CSS 스니펫</button>
-          <button data-tab="tw">Tailwind 설정</button>
-          <button class="code-copy" data-copy-active>Copy</button>
-        </div>
-
-        <div class="code-pane is-active" data-pane="css">
-<pre><code><span class="c">/* Linear — copy into your root stylesheet */</span>
-<span class="k">:root </span>{
-  <span class="c">/* Fonts */</span>
-  --font-regular:   "Inter Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-monospace: "Berkeley Mono", ui-monospace, SFMono-Regular, "SF Mono", monospace;
-
-  <span class="c">/* Background tiers */</span>
-  --color-bg-marketing:   #010102;
-  --color-bg-primary:     #08090a;
-  --color-bg-panel:       #0f1011;
-  --color-bg-secondary:   #1c1c1f;
-  --color-bg-tertiary:    #232326;
-  --color-bg-quaternary:  #28282c;
-  --color-bg-translucent: rgba(255,255,255,0.05);
-
-  <span class="c">/* Text */</span>
-  --color-text-primary:   #f7f8f8;
-  --color-text-secondary: #E2E4E7;
-  --color-text-muted:     #8A8F98;
-  --color-text-faint:     #62666D;
-
-  <span class="c">/* Brand — marketing vs app */</span>
-  --color-brand-marketing: #4354B8;   <span class="c">/* ← 124회 실사용 */</span>
-  --color-brand-app:       #5E6AD2;
-  --color-brand-soft:      #8FA4FF;
-
-  <span class="c">/* Pastel highlights */</span>
-  --highlight-pink:   #F79CE0;
-  --highlight-cyan:   #55CDFF;
-  --highlight-green:  #89D196;
-  --highlight-peach:  #FFC47C;
-  --highlight-teal:   #02B8CC;
-  --highlight-orange: #E5591D;
-
-  <span class="c">/* Border */</span>
-  --border-solid:      #2a2e33;
-  --border-thin:       #24282c;
-  --border-faint-thin: #191d21;
-  --border-frame:      #151616;
-
-  <span class="c">/* Radius */</span>
-  --radius-sm:   4px;
-  --radius-md:   6px;
-  --radius-lg:   8px;
-  --radius-xl:   12px;
-  --radius-pill: 9999px;
-
-  <span class="c">/* Shadow (5-layer stacking) */</span>
-  --shadow-stack-low:
-    0px 8px 2px 0px rgba(0,0,0,0),
-    0px 5px 2px 0px rgba(0,0,0,0.01),
-    0px 3px 2px 0px rgba(0,0,0,0.04),
-    0px 1px 1px 0px rgba(0,0,0,0.07),
-    0px 0px 1px 0px rgba(0,0,0,0.08);
-
-  <span class="c">/* Spacing */</span>
-  --page-padding-inline: 24px;
-  --page-padding-block:  64px;
-}
-<span class="k">
-body </span>{
-  background: var(--color-bg-marketing);
-  color: var(--color-text-primary);
-  font-family: var(--font-regular);
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-}
-<span class="k">code, pre, kbd </span>{ font-family: var(--font-monospace); }</code></pre>
-        </div>
-
-        <div class="code-pane" data-pane="tw">
-<pre><code><span class="c">// tailwind.config.js — Linear</span>
-<span class="k">module.exports</span> = {
-  darkMode: &#x27;class&#x27;,
+  /* Radius */
+  --ln-radius-sm: 6px;
+  --ln-radius-md: 12px;
+  --ln-radius-lg: 16px;
+  --ln-radius-pill: 9999px;
+}</code></pre></div>
+    <div class="code-pane" data-pane="tw" style="display:none;"><pre style="padding:16px;background:#09090b;color:#e4e4e7;border-radius:var(--radius);font-family:var(--font-mono);font-size:12px;overflow:auto;max-height:600px;"><code>// tailwind.config.js — Linear
+module.exports = {
   theme: {
     extend: {
       colors: {
-        bg: {
-          marketing:  &#x27;#010102&#x27;,
-          primary:    &#x27;#08090a&#x27;,
-          panel:      &#x27;#0f1011&#x27;,
-          secondary:  &#x27;#1c1c1f&#x27;,
-          tertiary:   &#x27;#232326&#x27;,
-          quaternary: &#x27;#28282c&#x27;,
-        },
-        text: {
-          primary:   &#x27;#f7f8f8&#x27;,
-          secondary: &#x27;#E2E4E7&#x27;,
-          muted:     &#x27;#8A8F98&#x27;,
-          faint:     &#x27;#62666D&#x27;,
-        },
         brand: {
-          marketing: &#x27;#4354B8&#x27;,   <span class="c">// ← 124회 실사용</span>
-          app:       &#x27;#5E6AD2&#x27;,
-          soft:      &#x27;#8FA4FF&#x27;,
+          DEFAULT: '#5E6AD2',
+          light:   '#7070FF',
+          accent:  '#7170FF',
+          hover:   '#828FFF',
+          tint:    '#18182F',
         },
-        highlight: {
-          pink:   &#x27;#F79CE0&#x27;,
-          cyan:   &#x27;#55CDFF&#x27;,
-          green:  &#x27;#89D196&#x27;,
-          peach:  &#x27;#FFC47C&#x27;,
-          teal:   &#x27;#02B8CC&#x27;,
-          orange: &#x27;#E5591D&#x27;,
-        },
-        border: {
-          solid: &#x27;#2a2e33&#x27;, thin: &#x27;#24282c&#x27;,
-          &#x27;faint-thin&#x27;: &#x27;#191d21&#x27;, frame: &#x27;#151616&#x27;,
+        neutral: {
+          page:   '#08090A',
+          panel:  '#0F1011',
+          shade:  '#191D20',
+          border: '#23252A',
+          text:   '#F7F8F8',
+          muted:  '#8A8F98',
         },
       },
       fontFamily: {
-        sans: [&#x27;Inter Variable&#x27;, &#x27;-apple-system&#x27;, &#x27;sans-serif&#x27;],
-        mono: [&#x27;Berkeley Mono&#x27;, &#x27;ui-monospace&#x27;, &#x27;SF Mono&#x27;, &#x27;monospace&#x27;],
+        sans: ['Inter Variable', 'SF Pro Display', 'system-ui'],
+        mono: ['Berkeley Mono', 'ui-monospace'],
       },
       fontWeight: {
-        normal: &#x27;400&#x27;,
-        semi:   &#x27;550&#x27;,   <span class="c">// non-standard — Inter Variable 전용</span>
-        semibold: &#x27;600&#x27;,
-        bold: &#x27;700&#x27;,
+        normal:   '400',
+        medium:   '510',
+        semibold: '590',
+        bold:     '680',
       },
       borderRadius: {
-        sm: &#x27;4px&#x27;, md: &#x27;6px&#x27;, lg: &#x27;8px&#x27;, xl: &#x27;12px&#x27;, pill: &#x27;9999px&#x27;,
+        sm: '4px', DEFAULT: '6px', md: '8px',
+        lg: '12px', xl: '16px', '2xl': '24px',
+        pill: '9999px',
       },
-      boxShadow: {
-        &#x27;stack-low&#x27;: &#x27;0px 8px 2px 0px rgba(0,0,0,0), 0px 5px 2px 0px rgba(0,0,0,0.01), 0px 3px 2px 0px rgba(0,0,0,0.04), 0px 1px 1px 0px rgba(0,0,0,0.07), 0px 0px 1px 0px rgba(0,0,0,0.08)&#x27;,
+      transitionDuration: {
+        DEFAULT: '160ms',
+        quick:   '120ms',
+      },
+      transitionTimingFunction: {
+        'out-quad':  'cubic-bezier(0.25,0.46,0.45,0.94)',
       },
     },
   },
-};</code></pre>
-        </div>
-      </div>
-    </section>
-
-    <section id="verdict">
-      <div class="section__num">11 · Do / Don't</div>
-      <h2 class="section__title">Do / Don't</h2>
-      <p class="section__lede">
-        지켜야 할 것과 피해야 할 것.
-      </p>
-
-      <div class="dd-grid">
-        <div class="dd-card dd-card--do">
-          <h3>Do</h3>
-          <ul>
-            <li>브랜드 보라를 <b>marketing vs app</b>으로 분리. marketing은 <code>#4354B8</code>, app은 <code>#5E6AD2</code>.</li>
-            <li>다크 배경은 <b>7-tier</b>(marketing/primary/panel/secondary/tertiary/quaternary/quinary). 단일 bg 금지.</li>
-            <li><b>Berkeley Mono</b>(유료)가 진짜 코드 폰트. OSS 대체 시 JetBrains/Commit/Geist Mono.</li>
-            <li>Pastel highlight quartet(<code>#F79CE0</code>/<code>#55CDFF</code>/<code>#89D196</code>/<code>#FFC47C</code>)을 feature badge에 할당.</li>
-            <li>타이포는 <b>product(<code>--font-size-*</code>) + marketing(<code>--title-N-*</code>)</b> 병렬 스케일. marketing 히어로는 56-64px.</li>
-            <li>Letter-spacing <b>optical compensation</b>(-0.011em ~ -0.022em). 제목이 커질수록 타이트.</li>
-            <li>Shadow는 <b>5-layer 미세 stacking</b>만. 거친 drop shadow 금지.</li>
-          </ul>
-        </div>
-        <div class="dd-card dd-card--dont">
-          <h3>Don't</h3>
-          <ul>
-            <li><code>#5E6AD2</code> 단일 값을 marketing hero에 쓰지 말 것 → 실제는 <code>#4354B8</code>(124회 vs 5회).</li>
-            <li><b>JetBrains Mono</b>를 Linear 코드 폰트로 쓰지 말 것 → 실제는 Berkeley Mono.</li>
-            <li><code>#171723</code> 같은 푸른 기 다크 bg 쓰지 말 것 → Linear는 <code>#08090a</code>/<code>#010102</code>(거의 완전 블랙).</li>
-            <li>단일 <code>box-shadow: 0 4px 16px rgba(0,0,0,0.4)</code> 금지 → 5-layer stacking 또는 shadow 없음.</li>
-            <li><code>#F2994A</code> orange 쓰지 말 것 → 실제는 <code>#E5591D</code>(훨씬 진함, 76회).</li>
-            <li>배경 단일 톤 금지 → 7-tier 배경 시스템 필수.</li>
-            <li>Title 스케일을 <code>24/32/48</code>로만 구성하지 말 것 → marketing은 17/20/24/32/40/48/56/64px 8단계.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <footer class="rfoot">
-      <div>
-        <span class="kr">DesignMD · Linear Report</span><br>
-        real/linear/DESIGN.claude.manual.md 기반 생성
-      </div>
-      <div style="text-align:right;">
-        2026-04-11<br>
-        <span class="kr">700+ CSS custom props · 이중 팔레트</span>
-      </div>
-    </footer>
-
-  </main>
-</div>
-
+};</code></pre></div>
+  </div>
+</section>
+<section id="agent">
+  <div class="section__num">15</div>
+  <h2 class="section__title">에이전트 가이드</h2>
+  <p class="section__lede">AI 에이전트(Claude, GPT)가 이 디자인 시스템으로 구현할 때 참조하는 Quick reference.</p>
+  <div class="agent-ref" style="margin-bottom:32px;"><div class="agent-ref__head" style="display:grid;grid-template-columns:160px 1fr 100px;gap:12px;padding:8px 0;border-bottom:2px solid var(--border);font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;"><div>Role</div><div>Token</div><div>Hex</div></div><div class="agent-ref__row" style="display:grid;grid-template-columns:160px 1fr 100px;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);align-items:center;"><div class="agent-ref__role" style="font-weight:500;">Brand primary</div><div class="agent-ref__token" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">--ln-color-brand</div><div class="agent-ref__hex" style="display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;"><span class="agent-ref__chip" style="display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--border-str);background:#5E6AD2;"></span>#5E6AD2</div></div><div class="agent-ref__row" style="display:grid;grid-template-columns:160px 1fr 100px;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);align-items:center;"><div class="agent-ref__role" style="font-weight:500;">Background</div><div class="agent-ref__token" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">--ln-bg-page</div><div class="agent-ref__hex" style="display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;"><span class="agent-ref__chip" style="display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--border-str);background:#08090A;"></span>#08090A</div></div><div class="agent-ref__row" style="display:grid;grid-template-columns:160px 1fr 100px;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);align-items:center;"><div class="agent-ref__role" style="font-weight:500;">Text primary</div><div class="agent-ref__token" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">--ln-text</div><div class="agent-ref__hex" style="display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;"><span class="agent-ref__chip" style="display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--border-str);background:#F7F8F8;"></span>#F7F8F8</div></div><div class="agent-ref__row" style="display:grid;grid-template-columns:160px 1fr 100px;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);align-items:center;"><div class="agent-ref__role" style="font-weight:500;">Text muted</div><div class="agent-ref__token" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">--ln-text-muted</div><div class="agent-ref__hex" style="display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;"><span class="agent-ref__chip" style="display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--border-str);background:#8A8F98;"></span>#8A8F98</div></div><div class="agent-ref__row" style="display:grid;grid-template-columns:160px 1fr 100px;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);align-items:center;"><div class="agent-ref__role" style="font-weight:500;">Border</div><div class="agent-ref__token" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">--ln-border</div><div class="agent-ref__hex" style="display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;"><span class="agent-ref__chip" style="display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--border-str);background:#23252A;"></span>#23252A</div></div><div class="agent-ref__row" style="display:grid;grid-template-columns:160px 1fr 100px;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);align-items:center;"><div class="agent-ref__role" style="font-weight:500;">Success</div><div class="agent-ref__token" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">--color-green</div><div class="agent-ref__hex" style="display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;"><span class="agent-ref__chip" style="display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--border-str);background:#27A644;"></span>#27A644</div></div><div class="agent-ref__row" style="display:grid;grid-template-columns:160px 1fr 100px;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);align-items:center;"><div class="agent-ref__role" style="font-weight:500;">Error</div><div class="agent-ref__token" style="font-family:var(--font-mono);font-size:13px;color:var(--subtle);">--color-red</div><div class="agent-ref__hex" style="display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;"><span class="agent-ref__chip" style="display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--border-str);background:#EB5757;"></span>#EB5757</div></div></div>
+  <h3 style="margin-bottom:16px;font-size:16px;font-weight:600;">Example Component Prompts</h3>
+  <div class="agent-prompts" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:32px;"><div class="agent-prompt-card" style="padding:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);"><div class="agent-prompt-card__head" style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span class="agent-prompt-card__icon">🎯</span><span class="agent-prompt-card__name" style="font-weight:600;font-size:13px;">Hero Section</span></div><pre style="padding:12px;background:#09090b;color:#e4e4e7;font-family:var(--font-mono);font-size:11px;border-radius:var(--radius);overflow:auto;"><code>Linear 스타일 히어로 섹션을 만들어줘.
+- 배경: #08090A solid
+- H1: Inter Variable 36px weight 680, tracking -0.02em, color #F7F8F8
+- 서브: 16px color #8A8F98
+- Primary CTA: bg #5E6AD2, color #FFFFFF, radius 6px, height 36px
+- Secondary CTA: transparent + border 1px solid #23252A
+- 좌측 2/3 텍스트 + 우측 1/3 product mockup</code></pre></div><div class="agent-prompt-card" style="padding:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);"><div class="agent-prompt-card__head" style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span class="agent-prompt-card__icon">📦</span><span class="agent-prompt-card__name" style="font-weight:600;font-size:13px;">Card Component</span></div><pre style="padding:12px;background:#09090b;color:#e4e4e7;font-family:var(--font-mono);font-size:11px;border-radius:var(--radius);overflow:auto;"><code>Linear 스타일 카드.
+- bg #0F1011, border 1px solid #23252A, radius 12px
+- padding 24px, shadow none (기본)
+- hover: --shadow-stack-low 5-layer + border #2A2E33
+- transition .16s cubic-bezier(0.25,0.46,0.45,0.94)
+- 제목 Inter Variable 18px weight 590
+- 본문 15px color #B4B8BE line-height 1.6</code></pre></div><div class="agent-prompt-card" style="padding:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);"><div class="agent-prompt-card__head" style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span class="agent-prompt-card__icon">⌨️</span><span class="agent-prompt-card__name" style="font-weight:600;font-size:13px;">Keyboard badge</span></div><pre style="padding:12px;background:#09090b;color:#e4e4e7;font-family:var(--font-mono);font-size:11px;border-radius:var(--radius);overflow:auto;"><code>Linear 스타일 ⌘K 키 배지.
+- font Berkeley Mono 12px weight 500
+- padding 2px 6px, radius 4px
+- bg #3B3D45, color #F7F8F8</code></pre></div><div class="agent-prompt-card" style="padding:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);"><div class="agent-prompt-card__head" style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span class="agent-prompt-card__icon">🧭</span><span class="agent-prompt-card__name" style="font-weight:600;font-size:13px;">Navigation</span></div><pre style="padding:12px;background:#09090b;color:#e4e4e7;font-family:var(--font-mono);font-size:11px;border-radius:var(--radius);overflow:auto;"><code>Linear 스타일 상단 네비.
+- height 65px, position fixed top 0
+- bg rgba(10,10,12,0.8) + backdrop-filter blur(20px)
+- border-bottom 1px solid #23252A
+- 로고 Inter Variable 14px weight 510
+- 링크 14px weight 400 color #B4B8BE hover #F7F8F8
+- CTA 페어: Log in 텍스트 + Sign up pill(bg #FFF color #08090A radius 9999px)</code></pre></div></div>
+  <div class="agent-tips" style="padding:20px;background:var(--muted);border-radius:var(--radius-lg);">
+    <div class="agent-tips__head" style="font-weight:600;margin-bottom:12px;">Iteration Guide</div>
+    <ul style="list-style:disc;padding-left:20px;font-size:13px;color:var(--subtle);"><li style="padding:6px 0;">색상 변경 시: semantic token만 사용. raw hex 직접 금지.</li><li style="padding:6px 0;">폰트 변경 시: weight 400 기본, 510/590/680 3단만. 500/600/700 쓰지 말 것.</li><li style="padding:6px 0;">여백 조정 시: 24px 가로 + 64px 세로 시스템 유지.</li><li style="padding:6px 0;">새 컴포넌트: radius는 4/6/8/12/16/24/32 중 하나.</li><li style="padding:6px 0;">다크 모드: light 토큰에 opacity 얹지 말 것 — 별도 dark variant가 이미 정의됨.</li><li style="padding:6px 0;">반응형: 640/768/1024/1280/1536 5단. 커스텀 breakpoint 금지.</li><li style="padding:6px 0;">transition: .16s cubic-bezier(0.25,0.46,0.45,0.94) 고정. 300ms 이상 금지.</li></ul>
+  </div>
+</section>
+<section id="verdict">
+  <div class="section__num">16</div>
+  <h2 class="section__title">Do / Don&apos;t</h2>
+  <p class="section__lede">실제 CSS에서 검증된 규칙만 수록.</p>
+  <div class="dd-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+    <div class="dd-card dd-card--do" style="padding:24px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:var(--radius-lg);">
+      <h3 style="display:inline-block;padding:4px 10px;background:#16a34a;color:#fff;border-radius:var(--radius);font-size:11px;margin-bottom:16px;">DO</h3>
+      <ul style="list-style:none;"><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">✅ 배경은 #08090A(dark) 또는 #FFFFFF(light) — 둘 중 하나만.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">✅ CTA는 #5E6AD2 배경 + #FFFFFF 텍스트 + border-radius: 6px.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">✅ 본문은 Inter Variable 15px (0.9375rem) weight 400.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">✅ Card radius는 12px 또는 16px 둘 중 하나.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">✅ Navigation에 backdrop-filter: blur(20px) 적용.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">✅ transition은 .16s cubic-bezier(0.25,0.46,0.45,0.94) 고정.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">✅ Weight 400 / 510 / 590 / 680 4단계만.</li></ul>
+    </div>
+    <div class="dd-card dd-card--dont" style="padding:24px;background:#fef2f2;border:1px solid #fecaca;border-radius:var(--radius-lg);">
+      <h3 style="display:inline-block;padding:4px 10px;background:#dc2626;color:#fff;border-radius:var(--radius);font-size:11px;margin-bottom:16px;">DON&apos;T</h3>
+      <ul style="list-style:none;"><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">❌ 배경을 #FFFFFF로 두지 말 것 (dark 기본) — 대신 #08090A 사용.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">❌ 텍스트를 #000000 또는 black으로 두지 말 것 — 대신 #282A30 (light) / #F7F8F8 (dark).</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">❌ 브랜드 인디고 #5E6AD2를 넓은 배경에 쓰지 말 것 — 포인트(CTA, focus, link)에만.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">❌ body에 font-weight: 500 또는 600 사용 금지 — Linear는 510 / 590이 맞다.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">❌ 폰트를 Inter (비-variable)로 대체하지 말 것 — variable axis를 쓸 수 없다.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">❌ radius 10px 같은 비표준 값 금지 — 4/6/8/12/16/24/32 중 하나.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">❌ transition duration .3s 이상 금지 — Linear는 .16s 고정.</li><li style="padding:6px 0;padding-left:24px;position:relative;font-size:13px;">❌ box-shadow: 0 2px 4px rgba(0,0,0,0.1) 같은 단층 shadow 금지 — --shadow-stack-low 5-layer.</li></ul>
+    </div>
+  </div>
+</section>
+</main></div>
 <script>
-  document.querySelectorAll('.code-tabs button[data-tab]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const group = btn.closest('.code-export');
-      group.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('is-active'));
-      group.querySelectorAll('[data-pane]').forEach(p => p.classList.remove('is-active'));
+(function(){
+  // Code Export tab switching
+  document.querySelectorAll('.code-tabs button[data-tab]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var tab = btn.dataset.tab;
+      var root = btn.closest('.code-export');
+      root.querySelectorAll('.code-tabs button').forEach(function(b){ b.classList.remove('is-active'); });
       btn.classList.add('is-active');
-      group.querySelector(`[data-pane="${btn.dataset.tab}"]`).classList.add('is-active');
+      root.querySelectorAll('.code-pane').forEach(function(p){
+        p.classList.remove('is-active');
+        p.style.display = 'none';
+      });
+      var pane = root.querySelector('.code-pane[data-pane="' + tab + '"]');
+      if (pane) {
+        pane.classList.add('is-active');
+        pane.style.display = '';
+      }
     });
   });
-
-  document.querySelectorAll('.copy[data-copy]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = document.getElementById(btn.dataset.copy);
-      if (!target) return;
-      navigator.clipboard.writeText(target.textContent);
-      const original = btn.textContent;
-      btn.textContent = 'Copied';
-      setTimeout(() => (btn.textContent = original), 1500);
+  // Clipboard copy — .copy[data-copy]
+  document.querySelectorAll('.copy[data-copy]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.dataset.copy;
+      var el = document.getElementById(id);
+      if (el) navigator.clipboard.writeText(el.textContent);
     });
   });
-
-  document.querySelectorAll('[data-copy-active]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const group = btn.closest('.code-export');
-      const active = group.querySelector('.code-pane.is-active pre code');
-      if (!active) return;
-      navigator.clipboard.writeText(active.textContent);
-      const original = btn.textContent;
-      btn.textContent = 'Copied';
-      setTimeout(() => (btn.textContent = original), 1500);
+  // Active tab copy — .code-copy[data-copy-active]
+  document.querySelectorAll('.code-copy[data-copy-active]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var root = btn.closest('.code-export');
+      var pane = root.querySelector('.code-pane.is-active code, .code-pane[data-pane][style=""] code');
+      if (!pane) pane = root.querySelector('.code-pane code');
+      if (pane) {
+        navigator.clipboard.writeText(pane.textContent);
+        btn.textContent = 'Copied!';
+        setTimeout(function(){ btn.textContent = 'Copy'; }, 1200);
+      }
     });
   });
+})();
 </script>
-
 </body>
 </html>
