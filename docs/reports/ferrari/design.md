@@ -1,173 +1,378 @@
 ---
+schema_version: 3.1
 slug: ferrari
 service_name: Ferrari
-site_url: https://ferrari.com
-fetched_at: 2026-04-13
-default_theme: light
-brand_color: "#DA0000"
-primary_font: N/A
+site_url: https://www.ferrari.com/en-US
+fetched_at: 2026-04-23
+default_theme: dark
+brand_color: "#DA291C"
+primary_font: FerrariSans
 font_weight_normal: 400
-token_prefix: N/A
+token_prefix: --f-
+
+bold_direction: "Luxury Performance Dark"
+aesthetic_category: "Luxury Automotive"
+signature_element: gradient_red_accent
+code_complexity: medium
+
+medium: web
+medium_confidence: high
 ---
 
 # DESIGN.md — Ferrari (Claude Code Edition)
 
 ---
 
+## 00. Visual Theme & Atmosphere
+
+Ferrari 웹사이트는 **"속도와 럭셔리를 동시에 구현한 다크 시네마틱 사이트"**다. 대부분의 자동차 브랜드가 밝은 배경에 차량 사진을 나열할 때, Ferrari는 `#181818` 근-검정 배경 위에 차량을 올려 **스포트라이트 아래 무대에 선 작품처럼** 연출한다.
+
+색상 전략은 **"근-검정 한 축 + 레드 accent 한 점"**이다. 브랜드 레드 `#DA291C`는 절대 면적으로 쓰이지 않는다. 그라디언트 오버레이(`linear-gradient(180deg, #a00c01, #da291c 64%)`), 포커스 링, 중요 CTA 배경에만 등장한다. 나머지는 `#181818 → #303030 → #666 → #8f8f8f → #d2d2d2 → #f7f7f7`의 7단계 회색 ramp가 모든 계층을 담당한다.
+
+타이포그래피는 **독점 서체 `FerrariSans` 단일 시스템**이다. 외부 구매 불가, 브랜드 아이덴티티 그 자체. 폰트 사이즈는 9px부터 28px까지 픽셀 단위로 정밀하게 제어되고, 줄간격 1.23(헤딩)~1.5(본문)의 빡빡한 라인이 긴장감을 만든다.
+
+시그니처 요소는 **레드 그라디언트**다. `--f-color-gradient-red: linear-gradient(180deg, #a00c01, #da291c 64%)`가 버튼과 accent 요소에 적용되고, 다크 그라디언트 `linear-gradient(180deg, #3c3c3c, #030303 64%)`가 섹션 배경 전환을 담당한다.
+
+### Key Characteristics
+
+- 브랜드 레드 `#DA291C` — 면적 사용 금지, 그라디언트와 포인트에만
+- 근-검정 히어로 (`#181818`) + 시네마틱 그라디언트 오버레이
+- 독점 서체 FerrariSans — 폴백은 Helvetica Neue
+- 노란색 포커스 `#f6e500` — 접근성 색상으로 다크 배경 대비
+
+---
+
 ## 01. Quick Start
-<!-- SOURCE: manual -->
+<!-- SOURCE: css -->
 
 > 5분 안에 Ferrari처럼 만들기 — 3가지만 하면 80%
 
 ```css
 /* 1. 폰트 + weight */
 body {
-  font-family: "Neue Haas Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "FerrariSans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
+  background: #181818;
+  color: #f7f7f7;
 }
 
-/* 2. 배경 + 텍스트 */
-:root { --bg: #FFFFFF; --fg: #1A1A1A; }
-body { background: var(--bg); color: var(--fg); }
+/* 2. 브랜드 레드 그라디언트 버튼 */
+.btn-primary {
+  background: linear-gradient(180deg, #a00c01, #da291c 64%);
+  border: none;
+  border-radius: 9999px;
+  color: #fff;
+  padding: 16px 48px;
+}
 
-/* 3. 브랜드 컬러 */
-:root { --brand: #DA0000; }
+/* 3. 다크 섹션 그라디언트 */
+.section-dark {
+  background: linear-gradient(180deg, #3c3c3c, #030303 64%);
+}
 ```
-
-**절대 하지 말아야 할 것 하나**: Ferrari 레드를 UI 전반에 과용하는 것. Ferrari 마케팅 사이트는 극도로 절제된 레이아웃을 사용하며 레드는 로고와 핵심 accent에만 나타난다. CSS 파싱에서 어떤 chromatic 컬러도 감지되지 않을 만큼 레드는 절제되어 있다.
 
 ---
 
 ## 02. Provenance
 <!-- SOURCE: auto -->
 
-| | |
-|---|---|
-| Source URL | `https://ferrari.com` |
-| Fetched | 2026-04-13 |
-| Extractor | curl + Chrome UA (5-tier fallback) |
-| HTML size | N/A |
-| CSS files | N/A |
-| Token prefix | N/A — 커스텀 프로퍼티 시스템 미감지 |
-| Method | CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음 |
-
-> **참고**: Ferrari 사이트의 CSS 파싱 결과 어떤 chromatic 후보도, font-family도 감지되지 않음. 사이트가 고도로 인라인화 또는 JS 렌더링 방식이라 정적 CSS 파싱이 제한됨.
+| 항목 | 값 |
+|------|-----|
+| Source URL | `https://www.ferrari.com/en-US` |
+| CSS 파일 | `clientlib-site.lc-9c0501eb97f1.min.css` |
+| CSS 바이트 | ~14,741 chars (clientlib-site) |
+| 수집일 | 2026-04-23 |
+| 수집 방법 | curl_cffi (safari impersonation) |
 
 ---
 
 ## 03. Tech Stack
-<!-- SOURCE: auto+manual -->
+<!-- SOURCE: html -->
 
-- **Framework**: N/A (자체 플랫폼)
-- **Design system**: Ferrari 내부 디자인 시스템 (미공개)
-- **CSS architecture**: N/A (토큰 시스템 미노출)
-- **Class naming**: N/A
-- **Default theme**: light (bg = `#FFFFFF`)
-- **Font loading**: N/A (CSS에서 미감지)
-- **Canonical anchor**: N/A (CSS 데이터 없음)
+| 항목 | 감지 값 |
+|------|---------|
+| CMS | Adobe Experience Manager (AEM) — `etc.clientlibs` URL 패턴 |
+| CSS 방식 | CSS Custom Properties (`--f-` prefix) |
+| 토큰 네임스페이스 | `--f-color-*`, `--f-space-*`, `--f-radius-*`, `--f-shadow-*` |
 
 ---
 
 ## 04. Font Stack
-<!-- SOURCE: auto+manual -->
+<!-- SOURCE: css -->
 
-- **Display font**: N/A (CSS에서 미감지)
-- **Code font**: N/A
-- **Weight normal / bold**: `400` / `700`
+| 역할 | 폰트 | 폴백 |
+|------|------|------|
+| Primary (전체) | `FerrariSans` | `Helvetica Neue`, Helvetica, Arial, sans-serif |
+| CSS 변수 | `var(--f-ferrari-font)` | — |
 
-> **참고**: CSS 파싱에서 font-family가 전혀 감지되지 않음. 시각적으로 Ferrari 사이트는 sans-serif 계열을 사용하는 것으로 관찰되나 CSS 데이터 기반 확인 불가.
+```css
+:root {
+  --f-ferrari-font: "FerrariSans";
+}
+body {
+  font-family: var(--f-ferrari-font), "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+```
 
 ---
 
 ## 05. Typography Scale
-<!-- SOURCE: auto -->
+<!-- SOURCE: css -->
 
-> N/A — CSS에서 typography scale 토큰이 추출되지 않음.
+| 레벨 | Size | Line Height | 용도 |
+|------|------|-------------|------|
+| Display | 28px | 1.23 | 대형 헤드라인 |
+| Heading | 26px | 1.23 | 섹션 제목 |
+| Title | 18px | 1.4 | 카드 제목 |
+| Body | 13px | 1.5 | 본문 |
+| Caption | 11px | 1.5 | 캡션, 레이블 |
+| Micro | 9px | 1.5 | 법적 고지, 메타 |
 
 ---
 
 ## 06. Colors
-<!-- SOURCE: auto -->
+<!-- SOURCE: css -->
 
-> N/A — CSS 파싱에서 어떤 color 후보도 감지되지 않음.
+### Brand Red (Accent)
 
-> **참고**: Ferrari 마케팅 사이트의 CSS는 정적 파싱으로 컬러 정보를 추출할 수 없었음. 브랜드 레드는 Rosso Corsa(`#DA0000`)로 알려져 있으나 이는 CSS 데이터가 아닌 공개 브랜드 정보.
+| 토큰 | 값 | 용도 |
+|------|-----|------|
+| `--f-color-accent-100` | `#DA291C` | 브랜드 레드 — CTA, 포인트 |
+| `--f-color-accent-90` | `#B01E0A` | 레드 다크 — hover |
+| `--f-color-accent-80` | `#9D2211` | 레드 딥 |
+| `--f-color-gradient-red` | `linear-gradient(180deg, #a00c01, #da291c 64%)` | 버튼 그라디언트 |
+
+### Neutral (Dark → Light)
+
+| 토큰 | 값 |
+|------|-----|
+| `--f-color-global-black` | `#181818` |
+| `--f-color-black-90` | `#303030` |
+| `--f-color-black-60` | `#666` |
+| `--f-color-black-55` | `#969696` |
+| `--f-color-black-50` | `#8F8F8F` |
+| `--f-color-black-20` | `#D2D2D2` |
+| `--f-color-black-10` | `#F7F7F7` |
+| `--f-color-global-white` | `#FFF` |
+
+### Background
+
+| 토큰 | 값 |
+|------|-----|
+| `--f-color-background-0` | `var(--f-color-global-white)` |
+| `--f-color-background-10` | `#EBEBEB` |
+| `--f-color-background-darker` | `var(--f-color-black-55)` |
+
+### Accent & Semantic
+
+| 토큰 | 값 | 용도 |
+|------|-----|------|
+| `--f-color-yellow` | `#F6E500` | 포커스 링 (다크 배경 접근성) |
+| `--f-color-yellow-hypersail` | `#FFF200` | Hypersail 에디션 |
+| `--f-color-accessible-info` | `#4C98B9` | 정보 상태 |
+| `--f-color-accessible-success` | `#03904A` | 성공 상태 |
+| `--f-color-accessible-warning` | `#F13A2C` | 경고 상태 |
+
+### Gradients
+
+| 토큰 | 값 |
+|------|-----|
+| `--f-color-gradient-red` | `linear-gradient(180deg, #a00c01, #da291c 64%)` |
+| `--f-color-gradient-dark-grey` | `linear-gradient(180deg, #3c3c3c, #030303 64%)` |
+| `--f-color-gradient-shadow-dark` | `linear-gradient(90deg, #121212, #161616)` |
+| `--f-color-gradient-shadow-light` | `linear-gradient(180deg, hsla(0,0%,9%,0), hsla(0,0%,9%,.85))` |
 
 ---
 
 ## 07. Spacing
-<!-- SOURCE: auto -->
+<!-- SOURCE: css -->
 
-> N/A — spacing 토큰이 CSS에서 추출되지 않음.
+| 토큰 | 값 |
+|------|-----|
+| `--f-space-xxxs` | `4px` |
+| `--f-space-xxs` | `8px` |
+| `--f-space-xs` | `16px` |
+| `--f-space-s` | `24px` |
+| `--f-space-m` | `32px` |
+| `--f-space-l` | `48px` |
+| `--f-space-xl` | `64px` |
+| `--f-space-xxl` | `96px` |
+| `--f-space-super` | `128px` |
 
 ---
 
-## 08. Radius
-<!-- SOURCE: auto -->
+## 08. Border Radius
+<!-- SOURCE: css -->
 
-> N/A — radius 토큰이 CSS에서 추출되지 않음.
+| 토큰 | 값 | 용도 |
+|------|-----|------|
+| `--f-radius-full` | `9999px` | 버튼, 태그 (pill shape) |
+| (inline) | `0` | 카드, 이미지 컨테이너 |
+
+Ferrari는 **pill 버튼 + 0 radius 카드**의 두 극단만 사용한다. 중간값(4px, 8px)은 사용하지 않는다.
+
+---
+
+## 09. Shadows
+<!-- SOURCE: css -->
+
+| 토큰 | 값 |
+|------|-----|
+| `--f-shadow-small` | `0px 4px 8px 0px rgba(0,0,0,.1)` |
+| `--f-color-overlay` | `rgba(0,0,0,.3)` |
+| `--f-color-overlay-darker` | `hsla(0,0%,7%,.8)` |
+
+---
+
+## 10. Animation
+<!-- SOURCE: css -->
+
+| 속성 | 값 |
+|------|-----|
+| Transition | `200ms ease` (추정) |
+| Overlay fade | 오버레이 어둡게 변환 via `--f-color-overlay` |
+
+---
+
+## 11. Grid / Layout
+<!-- SOURCE: css -->
+
+- Full-viewport hero (100vw × 100vh)
+- 섹션 배경 전환 — 다크/라이트 교차
+- 텍스트는 주로 좌측 또는 하단 오버레이 배치
 
 ---
 
 ## 12. Components
-<!-- SOURCE: manual -->
+<!-- SOURCE: css -->
 
-### Hero Section
+**버튼**
+- Pill shape (`border-radius: 9999px`)
+- Primary: 레드 그라디언트 background
+- Secondary: 테두리만
+- Focus: 노란색 아웃라인 (`#F6E500`)
 
-```html
-<section class="hero">
-  <div class="hero__media">
-    <!-- 차량 전체 폭 영상 또는 사진 -->
-  </div>
-  <div class="hero__overlay">
-    <h1>Ferrari SF90 Stradale</h1>
-    <a href="#" class="cta">Discover</a>
-  </div>
-</section>
-```
+**카드 / 이미지**
+- 0 border-radius
+- 다크 그라디언트 오버레이
 
-| 속성 | 값 |
-|---|---|
-| hero 배경 | 차량 전체 폭 영상/사진 |
-| 오버레이 | 그라디언트 (어두운 → 투명) |
-| H1 색상 | `#FFFFFF` |
-| CTA 배경 | `#DA0000` 또는 `transparent + white border` |
+**그라디언트 오버레이**
+- Hero 이미지 위 `--f-color-gradient-shadow-light` 적용
 
 ---
 
-## 13. Content / Copy Voice
+## 13. Dark/Light Mode
 <!-- SOURCE: manual -->
 
-| Pattern | Rule | Example |
-|---|---|---|
-| Headline | 모델명 전체, 이탤릭 없이 | "Ferrari SF90 Stradale" |
-| Primary CTA | 발견 유도 | "Discover" / "Configure" |
-| Secondary CTA | 탐색 | "Find a Dealer" |
-| Subheading | 퍼포먼스 수치 | "1000 hp · V8 hybrid" |
-| Tone | 열정적이나 절제됨, 이탈리안 프리미엄 | |
+Ferrari는 **기본 다크 모드** 사이트다. 라이트 모드 섹션은 `--f-color-background-0` (white)을 배경으로 사용하는 컨텐츠 섹션에서만 등장한다. 토글 없음.
 
 ---
 
 ## 14. Drop-in CSS
-<!-- SOURCE: auto+manual -->
+<!-- SOURCE: css -->
 
 ```css
-/* Ferrari — copy into your root stylesheet */
-/* ⚠️ CSS 파싱 데이터 없음. 브랜드 가이드라인 기반 추정값 */
+/* Ferrari Design System — insane-design */
 :root {
-  /* Fonts (CSS 미감지 — 시각 관찰 기반) */
-  --ferrari-font-family: "Neue Haas Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --ferrari-font-weight-normal: 400;
-  --ferrari-font-weight-bold: 700;
+  /* Brand */
+  --f-color-accent-100: #DA291C;
+  --f-color-accent-90: #B01E0A;
+  --f-color-accent-80: #9D2211;
+  --f-color-gradient-red: linear-gradient(180deg, #a00c01, #da291c 64%);
 
-  /* Brand (공개 브랜드 가이드 — CSS 미확인) */
-  --ferrari-color-rosso-corsa: #DA0000;
+  /* Neutral */
+  --f-color-global-black: #181818;
+  --f-color-black-90: #303030;
+  --f-color-black-60: #666;
+  --f-color-black-55: #969696;
+  --f-color-black-50: #8F8F8F;
+  --f-color-black-20: #D2D2D2;
+  --f-color-black-10: #F7F7F7;
+  --f-color-global-white: #FFF;
 
-  /* Surfaces */
-  --ferrari-bg-page: #FFFFFF;
-  --ferrari-bg-dark: #1A1A1A;
-  --ferrari-text: #1A1A1A;
-  --ferrari-text-on-dark: #FFFFFF;
+  /* Background */
+  --f-color-background-0: var(--f-color-global-white);
+  --f-color-background-10: #EBEBEB;
+
+  /* Accent */
+  --f-color-yellow: #F6E500;
+  --f-color-focus: var(--f-color-yellow);
+  --f-color-accessible-info: #4C98B9;
+  --f-color-accessible-success: #03904A;
+  --f-color-accessible-warning: #F13A2C;
+
+  /* Gradient */
+  --f-color-gradient-dark-grey: linear-gradient(180deg, #3c3c3c, #030303 64%);
+  --f-color-gradient-shadow-dark: linear-gradient(90deg, #121212, #161616);
+  --f-color-gradient-shadow-light: linear-gradient(180deg, hsla(0,0%,9%,0), hsla(0,0%,9%,.85));
+
+  /* Spacing */
+  --f-space-xxxs: 4px;
+  --f-space-xxs: 8px;
+  --f-space-xs: 16px;
+  --f-space-s: 24px;
+  --f-space-m: 32px;
+  --f-space-l: 48px;
+  --f-space-xl: 64px;
+  --f-space-xxl: 96px;
+  --f-space-super: 128px;
+
+  /* Radius */
+  --f-radius-full: 9999px;
+
+  /* Shadow */
+  --f-shadow-small: 0px 4px 8px 0px rgba(0,0,0,.1);
+  --f-color-overlay: rgba(0,0,0,.3);
+  --f-color-overlay-darker: hsla(0,0%,7%,.8);
+
+  /* Font */
+  --f-ferrari-font: "FerrariSans";
+}
+```
+
+---
+
+## 15. Tailwind Config
+<!-- SOURCE: css -->
+
+```js
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        ferrari: {
+          red: '#DA291C',
+          red90: '#B01E0A',
+          red80: '#9D2211',
+          black: '#181818',
+          grey90: '#303030',
+          grey60: '#666',
+          grey50: '#8F8F8F',
+          grey20: '#D2D2D2',
+          grey10: '#F7F7F7',
+          yellow: '#F6E500',
+        },
+      },
+      fontFamily: {
+        ferrari: ['"FerrariSans"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+      },
+      borderRadius: {
+        pill: '9999px',
+      },
+      spacing: {
+        'xxxs': '4px',
+        'xxs': '8px',
+        'xs': '16px',
+        's': '24px',
+        'm': '32px',
+        'l': '48px',
+        'xl': '64px',
+        'xxl': '96px',
+        'super': '128px',
+      },
+    },
+  },
 }
 ```
 
@@ -176,14 +381,10 @@ body { background: var(--bg); color: var(--fg); }
 ## 16. DO / DON'T
 <!-- SOURCE: manual -->
 
-### ✅ DO
-- Ferrari 레드를 로고, 주요 CTA에만 절제적으로 사용
-- Hero는 차량 전체 폭 고화질 사진/영상으로 채우기
-- 레이아웃 최대한 여백 넓게, 그리드 정교하게
-- 모델명을 그대로 headline으로 사용
+**이 사이트에서 가장 흔한 실수 하나:**
 
-### ❌ DON'T
-- Ferrari 레드를 배경 전체에 쓰지 말 것
-- 과장된 마케팅 문구 쓰지 말 것
-- CSS 데이터 없는 값을 확정적으로 사용하지 말 것
-- 레이아웃을 복잡하게 만들지 말 것 — 미니멀이 핵심
+> **DON'T**: 브랜드 레드 `#DA291C`를 배경색으로 사용하는 것.
+>
+> Ferrari는 레드를 **그라디언트 포인트와 소형 요소**에만 사용한다. 레드 배경 섹션을 만들면 "싸구려 이탈리아 레스토랑" 느낌이 된다.
+>
+> **DO**: 레드는 `linear-gradient(180deg, #a00c01, #da291c 64%)` 형태의 그라디언트 버튼과 accent line에만. 배경은 항상 `#181818` 또는 `#fff`.
