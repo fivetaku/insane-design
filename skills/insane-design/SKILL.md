@@ -92,59 +92,165 @@ URL: {url}
 
 HTML/CSS와 스크린샷을 **병렬**로 수집한다.
 
-#### 2A. HTML + CSS 수집
+> **접근 전략**: insane-search Phase 0→1→2→3 에스컬레이션 체인을 적용.
+> 어떤 방법도 미리 제외하지 않는다 — 되는지는 시도해봐야 안다.
 
-5-tier fallback 체인으로 HTML 홈페이지를 수집한다:
+#### 성공 판정 함수
+
+모든 tier에서 수집한 HTML에 반드시 적용:
 
 ```bash
-# Tier 1: curl + Chrome UA (절대 경로)
-# ⚠️ URL은 Step 1에서 검증 완료된 값만 사용. 반드시 큰따옴표로 감쌈.
-URL="{url}"  # Step 1에서 검증된 URL
-curl -sL \
-  -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
-  -H "Accept: text/html,application/xhtml+xml" \
-  -H "Accept-Language: en-US,en;q=0.9" \
-  --compressed --max-time 30 \
-  -o "$WORK_DIR/insane-design/{slug}/index.html" \
-  "$URL"
+html_ok() {
+  local f="$1"
+  [ -s "$f" ] || return 1
+  [ "$(wc -c < "$f")" -ge 5000 ] || return 1
+  grep -q "<html" "$f" || return 1
+  # Cloudflare/WAF 챌린지 감지
+  grep -qiE "challenge-error-text|cf_chl_opt|__cf_chl_jschl|verify you are human|checking your browser" "$f" && return 1
+  return 0
+}
+
+css_ok() {
+  local f="$1"
+  [ -s "$f" ] || return 1
+  [ "$(wc -c < "$f")" -ge 200 ] || return 1
+  # 403/error HTML이 CSS로 저장된 경우 감지
+  grep -qiE "DOCTYPE HTML|403 ERROR|Access Denied|Request could not be satisfied|challenge-error-text" "$f" && return 1
+  return 0
+}
 ```
 
-성공 판정: 파일 크기 ≥ 5KB + `<html>` 태그 존재 + Cloudflare challenge 없음.
-실패 시 Tier 2(Mobile UA) → Tier 3(Jina HTML mode: `curl -H "X-Return-Format: html" "https://r.jina.ai/$URL"`) 순서로 시도.
+#### 2A. HTML + CSS 수집
 
-> **⚠️ 외부 API 고지**: Tier 3에서 Jina Reader API(`r.jina.ai`)와 Step 2B 스크린샷 수집에서 대상 URL이 외부 서비스로 전송됩니다. 민감한 내부 URL에는 사용하지 마세요.
+**6-tier 에스컬레이션 체인**으로 HTML을 수집한다:
 
-HTML에서 CSS 링크 추출 + 병렬 다운로드:
 ```bash
-# 1. CSS 링크 추출 (상대/절대 URL 모두)
-grep -oE 'href="[^"]+\.css[^"]*"' "$WORK_DIR/insane-design/{slug}/index.html" | \
-  sed 's/href="//;s/"$//' > "$WORK_DIR/insane-design/{slug}/css/_urls.txt"
+URL="{url}"  # Step 1에서 검증된 URL
+OUT="$WORK_DIR/insane-design/{slug}/index.html"
 
-# 2. 상대 경로 → 절대 URL 변환 후 병렬 다운로드
-BASE_URL="{url}"  # Step 1에서 검증된 URL
+# Tier 1: curl Chrome Desktop UA
+curl -sL \
+  -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" \
+  -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" \
+  -H "Accept-Language: en-US,en;q=0.9" \
+  --compressed --max-time 30 -o "$OUT" "$URL"
+
+# Tier 2: curl Mobile UA
+if ! html_ok "$OUT"; then
+  curl -sL \
+    -A "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1" \
+    -H "Accept-Language: en-US,en;q=0.9" \
+    --compressed --max-time 30 -o "$OUT" "$URL"
+fi
+
+# Tier 3: Jina Reader HTML 모드 (Cloudflare/WAF 우회 — 실증된 방법)
+# ⚠️ 대상 URL이 r.jina.ai로 전송됩니다. 민감한 내부 URL 사용 금지.
+if ! html_ok "$OUT"; then
+  curl -sL --max-time 45 \
+    -H "X-Return-Format: html" \
+    "https://r.jina.ai/$URL" -o "$OUT"
+fi
+
+# Tier 4: curl_cffi TLS 임퍼소네이션 (Phase 2 에스컬레이션)
+if ! html_ok "$OUT"; then
+  python3 -c "import curl_cffi" 2>/dev/null || pip install curl_cffi -q
+  python3 - <<'PYEOF'
+from curl_cffi import requests as cffi_req
+import sys
+url = "{url}"
+out = "$OUT"
+for target in ["safari", "chrome", "firefox"]:
+    try:
+        r = cffi_req.get(url, impersonate=target, timeout=20,
+                         headers={"Accept-Language": "en-US,en;q=0.9",
+                                  "Referer": "https://www.google.com/"})
+        if r.status_code == 200 and len(r.text) > 5000:
+            open(out, "w").write(r.text)
+            break
+    except: continue
+PYEOF
+fi
+
+# Tier 5: Wayback Machine 캐시 (사이드카 — 원본 전부 실패 시)
+if ! html_ok "$OUT"; then
+  WB=$(curl -sL --max-time 15 "http://archive.org/wayback/available?url=$URL" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('archived_snapshots',{}).get('closest',{}).get('url',''))" 2>/dev/null)
+  [ -n "$WB" ] && curl -sL --max-time 30 "$WB" -o "$OUT"
+fi
+
+# Tier 6: Playwright MCP (최후 수단 — JS 챌린지 전용)
+# html_ok "$OUT" 실패 시 → Playwright MCP browser_navigate + browser_snapshot 호출
+```
+
+> **⚠️ 외부 API 고지**: Tier 3(Jina), Tier 5(Wayback Machine)에서 대상 URL이 외부로 전송됩니다.
+
+**CSS 수집 — 403 fallback 포함**:
+
+```bash
+# 1. CSS 링크 추출
+grep -oE 'href="[^"]+\.css[^"]*"' "$OUT" | \
+  sed 's/href="//;s/"$//' | sort -u > "$WORK_DIR/insane-design/{slug}/css/_urls.txt"
+
+# 2. CSS 다운로드 + 403 fallback
+BASE_URL="{url}"
 while IFS= read -r css_href; do
-  # 절대 URL이면 그대로, 상대 경로면 BASE_URL과 결합
   case "$css_href" in
     http*) abs_url="$css_href" ;;
     //*) abs_url="https:$css_href" ;;
-    /*) abs_url="$(echo "$BASE_URL" | grep -oE 'https?://[^/]+')$css_href" ;;
+    /*) abs_url="$(echo "$BASE_URL" | grep -oE 'https?://[^/]+')\$css_href" ;;
     *) abs_url="$BASE_URL/$css_href" ;;
   esac
   fname="$(echo "$css_href" | sed 's/[?#].*//' | xargs basename)"
-  curl -sL --max-time 15 -o "$WORK_DIR/insane-design/{slug}/css/$fname" "$abs_url" &
+  dest="$WORK_DIR/insane-design/{slug}/css/$fname"
+
+  # 직접 다운로드
+  curl -sL --max-time 15 -o "$dest" "$abs_url"
+
+  # CSS 유효성 검사 — 403/challenge HTML이면 순차 fallback
+  if ! css_ok "$dest"; then
+    # Fallback 1: curl_cffi (safari → firefox) — WAF/CDN 403 우회
+    python3 - <<PYEOF
+from curl_cffi import requests as cffi_req
+for target in ["safari", "firefox", "chrome"]:
+    try:
+        r = cffi_req.get("$abs_url", impersonate=target, timeout=15)
+        if r.status_code == 200 and len(r.text) > 200 and "{" in r.text[:500]:
+            open("$dest", "w").write(r.text)
+            break
+    except: continue
+PYEOF
+  fi
+
+  if ! css_ok "$dest"; then
+    # Fallback 2: Wayback Machine CDX 캐시
+    WB_CSS=$(curl -sL --max-time 10 "http://archive.org/wayback/available?url=$abs_url" | \
+      python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('archived_snapshots',{}).get('closest',{}).get('url',''))" 2>/dev/null)
+    [ -n "$WB_CSS" ] && curl -sL --max-time 15 "$WB_CSS" -o "$dest"
+    # 여전히 유효하지 않으면 삭제
+    css_ok "$dest" || rm -f "$dest"
+  fi
 done < "$WORK_DIR/insane-design/{slug}/css/_urls.txt"
 wait
 rm -f "$WORK_DIR/insane-design/{slug}/css/_urls.txt"
+
+# 3. CSS 0개면 인라인 <style> 추출
+if [ -z "$(ls "$WORK_DIR/insane-design/{slug}/css/"*.css 2>/dev/null)" ]; then
+  python3 -c "
+import re, pathlib
+html = pathlib.Path('$OUT').read_text(errors='replace')
+styles = re.findall(r'<style[^>]*>(.*?)</style>', html, re.DOTALL)
+combined = '\n'.join(s for s in styles if len(s.strip()) > 50)
+if combined:
+    pathlib.Path('$WORK_DIR/insane-design/{slug}/css/_inline.css').write_text(combined)
+    print(f'Inline CSS extracted: {len(combined)} bytes')
+"
+fi
 ```
 
 #### 2B. 스크린샷 수집 (병렬)
 
 ```bash
-# Jina Reader API로 스크린샷 캡처
-# ⚠️ 프라이버시 고지: 대상 URL이 Jina Reader API (r.jina.ai)로 전송됩니다.
-#    Jina는 이를 Puppeteer로 렌더링 후 스크린샷을 반환합니다.
-#    민감한 내부 URL에는 사용하지 마세요.
-# ⏱️ X-Wait-For: 5000 → 페이지 로드 후 5초 대기 (애니메이션/lazy load 완료 보장)
+# 1차: Jina 스크린샷 (X-Respond-With: screenshot + 5초 대기)
+# ⚠️ 대상 URL이 r.jina.ai로 전송됩니다.
 curl -sL \
   -H "X-Respond-With: screenshot" \
   -H "X-Wait-For: 5000" \
@@ -152,36 +258,43 @@ curl -sL \
   "https://r.jina.ai/$URL" \
   -o "$WORK_DIR/insane-design/{slug}/screenshots/jina-hero.png"
 
-# PIL crop (1280×1280 → 1280×800)
+# PIL crop
 python3 -c "
 from PIL import Image
 img = Image.open('$WORK_DIR/insane-design/{slug}/screenshots/jina-hero.png')
-w, h = img.size
-cropped = img.crop((0, 0, w, min(800, h)))
+cropped = img.crop((0, 0, img.width, min(800, img.height)))
 cropped.save('$WORK_DIR/insane-design/{slug}/screenshots/hero-cropped.png')
-"
-```
+" 2>/dev/null
 
-Jina Reader 실패 시 (파일 < 5KB) → Playwright fallback 시도:
-```bash
-# Playwright fallback — networkidle 대기 + 추가 3초 딜레이
-python3 -c "
+# 2차: Playwright fallback (Jina 실패 또는 < 50KB)
+SHOT="$WORK_DIR/insane-design/{slug}/screenshots/hero-cropped.png"
+if [ ! -s "$SHOT" ] || [ "$(wc -c < "$SHOT")" -lt 50000 ]; then
+  python3 -c "
 from playwright.sync_api import sync_playwright
 import time
 with sync_playwright() as p:
-    browser = p.chromium.launch(headless=True)
-    page = browser.new_page(viewport={'width': 1280, 'height': 800})
-    page.goto('$URL', wait_until='networkidle', timeout=30000)
-    time.sleep(3)  # 애니메이션/lazy load 완료 대기
-    page.screenshot(path='$WORK_DIR/insane-design/{slug}/screenshots/jina-hero.png')
+    browser = p.chromium.launch(headless=True, args=[
+        '--no-sandbox','--disable-blink-features=AutomationControlled'])
+    ctx = browser.new_context(viewport={'width':1280,'height':800},
+        user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36')
+    ctx.add_init_script(\"Object.defineProperty(navigator,'webdriver',{get:()=>undefined})\")
+    page = ctx.new_page()
+    page.goto('$URL', wait_until='domcontentloaded', timeout=60000)
+    try: page.wait_for_load_state('networkidle', timeout=15000)
+    except: pass
+    time.sleep(8)
+    page.evaluate('window.scrollTo(0,0)')
+    time.sleep(1)
+    page.screenshot(path='$SHOT', clip={'x':0,'y':0,'width':1280,'height':800})
     browser.close()
-"
+" 2>/dev/null && echo "Playwright screenshot saved"
+fi
 ```
 
 #### 수집 실패 처리
 
-- HTML 5-tier 전부 실패 → 사용자에게 "접근 불가" 메시지 + 중단
-- CSS 0개 → 인라인 `<style>` 블록 추출 시도
+- HTML Tier 1~6 전부 실패 → 사용자에게 "접근 불가" 메시지 + 중단
+- CSS 0개 (인라인 추출도 실패) → "CSS 토큰 부족" 경고 후 Step 3 hex frequency 분석으로 진행
 - 스크린샷 실패 → 경고 후 계속 진행 (스크린샷 없어도 design.md 생성 가능)
 
 ---
