@@ -491,7 +491,7 @@
 
     <div class="toc__foot">
       insane-design/sony/<br>
-      design.md · 2026-04-13
+      design.md · 2026-04-23
     </div>
   </aside>
 
@@ -500,10 +500,11 @@
 
     <section id="hero" class="hero">
       <div class="hero__eye"><span class="dot"></span>Design System Report</div>
-      <h1 class="hero__title">Sony <span class="sub">— SST W20 · Dark 모노크롬</span></h1>
+      <h1 class="hero__title">Sony <span class="sub">— SST W20 · mixed monochrome</span></h1>
       <p class="hero__sub">
-        https://www.sony.com 이 실제로 서빙하는 CSS에서 직접 뽑은 디자인 토큰·타이포그래피·컴포넌트 스펙.
-        순흑(<code>#000000</code>) 배경의 dark 테마가 기본 — 파란색은 PlayStation 서브브랜드 전용이다.
+        <code>https://www.sony.com/en/</code>의 live CSS와 공식 브랜드 CSS를 함께 대조해
+        Sony의 실제 frame palette, SST 타이포그래피, 레거시 red utility만 남긴 리포트.
+        홈 런타임의 핵심은 <code>#000000</code> 프레임과 <code>#FFFFFF</code> 컨텐츠, 그리고 <code>#656565</code> body text다.
       </p>
 
       <div class="hero__screenshot">
@@ -517,61 +518,63 @@
         </div>
         <div class="qs__grid">
           <div class="qs__step">
-            <span class="qs__step-label">1 · 폰트 + weight 400</span>
+            <span class="qs__step-label">1 · SST 본문 + Bold 분리</span>
             <code>body {
   font-family: "SST W20 Roman",
     "SST W55 Regular",
-    Arial, sans-serif;
-  font-weight: 400;
+    "Yu Gothic Medium",
+    YuGothic, Arial, sans-serif;
+  font-size: .875rem;
+  color: <b>#656565</b>;
 }</code>
           </div>
           <div class="qs__step">
-            <span class="qs__step-label">2 · 배경 + 텍스트 (dark)</span>
+            <span class="qs__step-label">2 · mixed frame palette</span>
             <code>:root {
-  --bg: <b>#000000</b>; /* pure black */
-  --fg: <b>#FFFFFF</b>; /* pure white */
+  --frame: <b>#000000</b>;
+  --surface: <b>#FFFFFF</b>;
+  --surface-subtle: <b>#EFEFEF</b>;
+  --border: <b>#BFBFBF</b>;
+  --accent-red: <b>#CC0000</b>;
+}</code>
+          </div>
+          <div class="qs__step">
+            <span class="qs__step-label">3 · 1190px shell</span>
+            <code>.page-shell {
+  max-width: <b>1190px</b>;
+  margin: 0 auto;
+  padding-inline: <b>20px</b>;
 }
-body {
-  background: var(--bg);
-  color: var(--fg);
-}</code>
-          </div>
-          <div class="qs__step">
-            <span class="qs__step-label">3 · 브랜드 컬러</span>
-            <code>:root {
-  /* 모노크롬 — 파랑 금지 */
-  --brand: <b>#000000</b>;
-  /* CTA: bg #FFFFFF, color #000 */
-}</code>
+section { padding: 64px 0 80px; }</code>
           </div>
         </div>
         <div class="qs__warn">
-          <b>절대 하지 말아야 할 것 하나</b>: Sony UI에 파란색(<code>#003087</code>)을 넣는 것.
-          현재 Sony.com은 블랙 기반 dark 테마가 주류이며, 파랑은 <b>PlayStation 등 서브브랜드에만 존재</b>한다.
-          기본 Sony.com UI는 순수한 흑백 모노크롬이다.
+          <b>절대 하지 말아야 할 것 하나</b>: Sony를 full-dark 또는 neon-red 사이트로 만들지 마라.
+          실제 홈은 <b>검은 frame + 흰 content</b> 구조이며, 2026-04-23 기준 Sony-owned CSS에서
+          <code>#FF0000</code>는 확인되지 않았다. red는 브랜드 CSS의 <code>#CC0000</code> utility 수준에서만 검증됐다.
         </div>
       </div>
 
       <div class="hero__stats">
         <div class="stat">
           <div class="stat__label">Source</div>
-          <div class="stat__val stat__val--mono">sony.com</div>
-          <div class="stat__hint">글로벌 제품 사이트</div>
+          <div class="stat__val stat__val--mono">sony.com/en</div>
+          <div class="stat__hint">home CSS + brand CSS cross-check</div>
         </div>
         <div class="stat">
           <div class="stat__label">Fetched</div>
-          <div class="stat__val">2026.04.13</div>
-          <div class="stat__hint">SST 폰트 패밀리 8종+</div>
+          <div class="stat__val">2026.04.23</div>
+          <div class="stat__hint">owned CSS 기준 재수집</div>
         </div>
         <div class="stat">
           <div class="stat__label">Primary Font</div>
           <div class="stat__val stat__val--mono">SST W20 Roman</div>
-          <div class="stat__hint">weight normal = 400</div>
+          <div class="stat__hint">bold는 family 분리</div>
         </div>
         <div class="stat">
-          <div class="stat__label">Brand</div>
-          <div class="stat__val stat__val--mono">#000000</div>
-          <div class="stat__hint">dark 배경 앵커</div>
+          <div class="stat__label">Core Frame</div>
+          <div class="stat__val stat__val--mono">#000000 / #FFFFFF</div>
+          <div class="stat__hint">legacy red = #CC0000</div>
         </div>
       </div>
     </section>
@@ -580,16 +583,17 @@ body {
       <div class="section__num">01 · Provenance</div>
       <h2 class="section__title">출처와 수집 기준</h2>
       <p class="section__lede">
-        URL · fetch 시점 · 파싱 방식까지 모두 CSS 번들에서 직접 뽑은 값이다.
+        홈 런타임 CSS와 공식 브랜드 CSS만 사용해 값이 보이는 부분만 기록했다.
       </p>
       <div class="prov">
-        <div class="prov__row"><span class="prov__k">Source URL</span><span class="prov__v"><code>https://www.sony.com</code></span></div>
-        <div class="prov__row"><span class="prov__k">Fetched</span><span class="prov__v">2026-04-13</span></div>
-        <div class="prov__row"><span class="prov__k">Extractor</span><span class="prov__v">curl + Chrome UA (5-tier fallback)</span></div>
-        <div class="prov__row"><span class="prov__k">HTML size</span><span class="prov__v">N/A</span></div>
-        <div class="prov__row"><span class="prov__k">CSS files</span><span class="prov__v">SST 폰트 패밀리 8종+, FontAwesome, Swiper, OneTrust</span></div>
-        <div class="prov__row"><span class="prov__k">Token prefix</span><span class="prov__v">N/A (CSS 커스텀 프로퍼티 미발견)</span></div>
-        <div class="prov__row"><span class="prov__k">Method</span><span class="prov__v">CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음</span></div>
+        <div class="prov__row"><span class="prov__k">Source URL</span><span class="prov__v"><code>https://www.sony.com/en/</code></span></div>
+        <div class="prov__row"><span class="prov__k">Fetched</span><span class="prov__v">2026-04-23</span></div>
+        <div class="prov__row"><span class="prov__k">Extractor</span><span class="prov__v"><code>curl_cffi</code> Chrome impersonation + <code>Referer</code> header</span></div>
+        <div class="prov__row"><span class="prov__k">Owned CSS</span><span class="prov__v"><code>gnavi.css</code> 37.5KB, <code>footer.css</code> 3.0KB, <code>sitemap.css</code> 3.8KB, <code>flick-nav.css</code> 7.3KB, <code>styles.css</code> 31.7KB, <code>search_resp.css</code> 5.7KB</span></div>
+        <div class="prov__row"><span class="prov__k">Support CSS</span><span class="prov__v"><code>brand/shared/v2/css/common.css</code> → <code>SST W20 Light</code>, <code>brand/shared/css/includeStyleCMS.css</code> → <code>fCoRed { color: #CC0000; }</code></span></div>
+        <div class="prov__row"><span class="prov__k">Excluded vendor CSS</span><span class="prov__v">Swiper / Marsflag / OneTrust는 존재하지만 core Sony palette 판정에서는 분리</span></div>
+        <div class="prov__row"><span class="prov__k">Token prefix</span><span class="prov__v">N/A — Sony-owned layer는 literal value 위주</span></div>
+        <div class="prov__row"><span class="prov__k">Method</span><span class="prov__v">selector + literal value direct parse. 추측 값은 넣지 않음</span></div>
       </div>
     </section>
 
@@ -597,36 +601,40 @@ body {
       <div class="section__num">02 · Tech Stack</div>
       <h2 class="section__title">테크 스택</h2>
       <p class="section__lede">
-        프레임워크, 디자인 시스템, CSS 아키텍처, 테마, 폰트 로딩 방식.
+        Sony의 공개 home bundle은 토큰 시스템보다 글로벌 템플릿과 페이지 모듈의 조합에 가깝다.
       </p>
       <div class="ts">
         <div class="ts__item">
           <div class="ts__head">FRAMEWORK</div>
-          <div class="ts__body">N/A (글로벌 제품 사이트)</div>
+          <div class="ts__body">server-rendered corporate portal + 정적 CSS 경로 <code>/template/2023</code>, <code>/template/2024</code>, <code>/top/2021</code></div>
         </div>
         <div class="ts__item">
           <div class="ts__head">DESIGN SYSTEM</div>
-          <div class="ts__body">Bespoke — SST 전용 폰트 패밀리, dark 테마 중심</div>
+          <div class="ts__body">공개 토큰형 DS 없음. <code>tmpl-*</code> 글로벌 프레임 + <code>hero-*</code>, <code>panel-*</code>, <code>news-*</code> 모듈 조합</div>
         </div>
         <div class="ts__item">
           <div class="ts__head">CSS ARCHITECTURE</div>
-          <div class="ts__body">Flat CSS, 폰트 weight를 별도 파일로 분리. FontAwesome, Swiper 라이브러리 혼용.</div>
-        </div>
-        <div class="ts__item">
-          <div class="ts__head">CLASS NAMING</div>
-          <div class="ts__body">기능적 클래스 (Swiper, FontAwesome 혼용)</div>
+          <div class="ts__body">semantic class naming + fixed-width shell + vendor CSS 병행</div>
         </div>
         <div class="ts__item">
           <div class="ts__head">DEFAULT THEME</div>
-          <div class="ts__body">dark (bg = <code>#000000</code> pure black)</div>
+          <div class="ts__body"><code>mixed</code> — black header/hero/footer + white content + gray sitemap</div>
         </div>
         <div class="ts__item">
           <div class="ts__head">FONT LOADING</div>
-          <div class="ts__body">셀프 호스트 — <code>SST W20 Roman</code>, <code>SST W20 Bold</code>, <code>SST W20 Light</code> 등 8종+. weight별 별도 파일 관리.</div>
+          <div class="ts__body"><code>SST W20 Roman</code>, <code>SST W20 Bold</code>, <code>SST W20 Light</code>, <code>SST W55 Regular/Bold</code></div>
         </div>
         <div class="ts__item">
           <div class="ts__head">CANONICAL ANCHOR</div>
-          <div class="ts__body"><code>#000000</code> — 기본 다크 배경</div>
+          <div class="ts__body"><code>#000000</code> — header, hero, scroll guide, flyout nav의 공통 frame</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">LAYOUT RULE</div>
+          <div class="ts__body"><code>1190px</code> fixed inner width + <code>20px</code> outer gutter</div>
+        </div>
+        <div class="ts__item">
+          <div class="ts__head">MOTION</div>
+          <div class="ts__body"><code>.3s</code> / <code>.38s</code> / <code>.48s</code> transition과 scroll-guide bounce만 사용</div>
         </div>
       </div>
     </section>
@@ -635,63 +643,71 @@ body {
       <div class="section__num">03 · Typography</div>
       <h2 class="section__title">타이포그래피</h2>
       <p class="section__lede">
-        SST 폰트 패밀리 — weight별 별도 파일. <code>font-weight: 700</code>이 아닌 <code>font-family: "SST W20 Bold"</code>로 굵기 제어.
+        Sony 홈의 핵심은 <code>14px</code> 본문과 <code>SST W20 Bold</code> family 분리다. 굵기를 weight만으로 흉내 내면 질감이 달라진다.
       </p>
 
       <div class="type-sub">Font stack</div>
       <div class="fs-card">
         <div class="fs-card__row">
-          <span class="fs-card__k">Display font</span>
-          <span class="fs-card__v"><code>SST W20 Bold</code> (Sony 독점 라이선스)</span>
+          <span class="fs-card__k">Body / UI</span>
+          <span class="fs-card__v"><code>"SST W20 Roman", "SST W55 Regular", "Yu Gothic Medium", YuGothic, sans-serif</code></span>
         </div>
         <div class="fs-card__row">
-          <span class="fs-card__k">Body font</span>
-          <span class="fs-card__v"><code>SST W20 Roman</code> (Sony 독점)</span>
+          <span class="fs-card__k">Strong / Bold</span>
+          <span class="fs-card__v"><code>"SST W20 Bold", "SST W55 Bold", Arial, sans-serif</code></span>
         </div>
         <div class="fs-card__row">
-          <span class="fs-card__k">Light font</span>
-          <span class="fs-card__v"><code>SST W20 Light</code> (Sony 독점)</span>
+          <span class="fs-card__k">Light variant</span>
+          <span class="fs-card__v"><code>"SST W20 Light", sans-serif</code> (brand CSS verification)</span>
         </div>
         <div class="fs-card__row">
-          <span class="fs-card__k">Weight normal / bold</span>
-          <span class="fs-card__v"><code>400</code> / <code>700</code></span>
+          <span class="fs-card__k">Locale helper</span>
+          <span class="fs-card__v"><code>"SST Japanese"</code></span>
+        </div>
+        <div class="fs-card__row">
+          <span class="fs-card__k">Weight model</span>
+          <span class="fs-card__v"><code>400</code> / <code>700</code>, 하지만 강조는 family 교체와 함께 사용</span>
         </div>
       </div>
 
       <div class="callout">
-        <b>라이선스 주의</b>: <code>SST</code> (Sharp Sans Text) 시리즈는 Sony 독점 폰트. 대체재로 <code>Sharp Grotesk</code> 또는 <code>Helvetica Neue</code> 사용.
-        또한 SST는 <b>weight별 별도 파일</b>로 관리 — <code>font-weight: 700</code>이 아니라 <code>font-family: "SST W20 Bold"</code>로 굵기를 제어한다.
+        <b>확인된 패턴</b>: <code>.b { font-family: "SST W20 Bold"; font-weight: 700; }</code>.
+        Sony는 <code>font-weight: 700</code>만 쓰지 않고, 실제 굵은 family를 별도로 잡는다.
       </div>
 
       <div class="type-sub" style="margin-top:28px;">Typography scale</div>
       <div class="type-table">
         <div class="type-row">
-          <div class="type-row__s" style="font-size:64px;font-weight:700;line-height:1.05;letter-spacing:-0.02em">Display</div>
-          <div class="type-row__spec"><span class="tk">display</span>4rem · weight <b>700</b> · lh 1.05 · ls -0.02em</div>
+          <div class="type-row__s" style="font-size:40px;font-weight:700;line-height:1.1">Campaign Heading</div>
+          <div class="type-row__spec"><span class="tk">.panels-new-heading</span>2.5rem · weight <b>element default</b> · desktop campaign block</div>
         </div>
         <div class="type-row">
-          <div class="type-row__s" style="font-size:40px;font-weight:700;line-height:1.1;letter-spacing:-0.01em">Heading L</div>
-          <div class="type-row__spec"><span class="tk">heading-l</span>2.5rem · weight <b>700</b> · lh 1.1 · ls -0.01em</div>
+          <div class="type-row__s" style="font-size:30px;font-weight:700;line-height:1">News Title</div>
+          <div class="type-row__spec"><span class="tk">.news h2</span>1.5rem → 1.875rem · weight <b>700</b> · lh 1</div>
         </div>
         <div class="type-row">
-          <div class="type-row__s" style="font-size:28px;font-weight:700;line-height:1.2">Heading M</div>
-          <div class="type-row__spec"><span class="tk">heading-m</span>1.75rem · weight <b>700</b> · lh 1.2</div>
+          <div class="type-row__s" style="font-size:18px;line-height:1.5">Section Lead</div>
+          <div class="type-row__spec"><span class="tk">.panels-new-lead</span>1.125rem · explanatory supporting text</div>
         </div>
         <div class="type-row">
-          <div class="type-row__s" style="font-size:20px;font-weight:600;line-height:1.3">Heading S</div>
-          <div class="type-row__spec"><span class="tk">heading-s</span>1.25rem · weight <b>600</b> · lh 1.3</div>
+          <div class="type-row__s" style="font-size:16px;font-weight:700;line-height:1.625rem">Hero Card Title</div>
+          <div class="type-row__spec"><span class="tk">html[lang=en] .hero-item-title</span>1rem · weight <b>700 via .b</b> · lh 1.625rem</div>
         </div>
         <div class="type-row">
-          <div class="type-row__s" style="font-size:16px;font-weight:400;line-height:1.6">Body — 본문 텍스트. SST W20 Roman으로 깔끔하게.</div>
-          <div class="type-row__spec"><span class="tk">body</span>1rem · weight <b>400</b> · lh 1.6</div>
+          <div class="type-row__s" style="font-size:14px;font-weight:700;line-height:1">Hero Kicker</div>
+          <div class="type-row__spec"><span class="tk">.hero-item-category</span>.875rem · weight <b>700</b> · lh 1</div>
         </div>
         <div class="type-row">
-          <div class="type-row__s" style="font-size:14px;font-weight:400;line-height:1.55">Small — 스펙 설명</div>
-          <div class="type-row__spec"><span class="tk">small</span>0.875rem · weight <b>400</b> · lh 1.55</div>
+          <div class="type-row__s" style="font-size:14px;line-height:1.3125rem">Body / Description</div>
+          <div class="type-row__spec"><span class="tk">.main / .hero-item-description</span>.875rem · body base + hero description lh 1.3125rem</div>
         </div>
         <div class="type-row">
-          <div class="type-row__s" style="font-size:13px;font-weight:500;line-height:1.4">Spec — 기술 사양</div>
-          <div class="type-row__spec"><span class="tk">spec</span>0.8125rem · weight <b>500</b> · lh 1.4</div>
+          <div class="type-row__s" style="font-size:12px;line-height:1">UI Small</div>
+          <div class="type-row__spec"><span class="tk">.language-select</span>.75rem · compact utility controls</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row__s" style="font-size:11px;line-height:1.5rem">Timestamp</div>
+          <div class="type-row__spec"><span class="tk">.news-table a &gt; time</span>.6875rem · lh 1.5rem</div>
         </div>
       </div>
     </section>
@@ -700,74 +716,55 @@ body {
       <div class="section__num">04 · Colors</div>
       <h2 class="section__title">컬러</h2>
       <p class="section__lede">
-        순수 흑백 모노크롬 시스템. dark 테마가 기본 — 불필요한 악센트 없음.
+        홈 런타임의 실제 palette는 black/white/gray가 대부분이고, color는 taxonomy label에서만 제한적으로 튀어나온다.
       </p>
 
       <div class="ramp-group">
-        <div class="ramp-label"><b>Monochrome Brand Ramp</b> <span class="muted">5 steps — 흑백 모노크롬</span></div>
-        <div class="ramp ramp--5">
-          <div class="sw sw--d is-anchor" style="background:#000000"><div class="n">black</div><div>#000000</div></div>
-          <div class="sw sw--d" style="background:#1A1A1A"><div class="n">dark</div><div>#1A1A1A</div></div>
-          <div class="sw sw--d" style="background:#555555"><div class="n">mid</div><div>#555555</div></div>
-          <div class="sw sw--l" style="background:#CCCCCC"><div class="n">light</div><div>#CCCCCC</div></div>
-          <div class="sw sw--l" style="background:#FFFFFF;border:1px solid #e4e4e7;"><div class="n">white</div><div>#FFFFFF</div></div>
+        <div class="ramp-label"><b>Core Frame Ramp</b> <span class="muted">Sony-owned CSS에서 반복되는 실제 값</span></div>
+        <div class="ramp ramp--6">
+          <div class="sw sw--d is-anchor" style="background:#000000"><div class="n">frame</div><div>#000000</div></div>
+          <div class="sw sw--d" style="background:#1F2024"><div class="n">footer</div><div>#1F2024</div></div>
+          <div class="sw sw--d" style="background:#262626"><div class="n">hero floor</div><div>#262626</div></div>
+          <div class="sw sw--d" style="background:#656565"><div class="n">body</div><div>#656565</div></div>
+          <div class="sw sw--l" style="background:#BFBFBF"><div class="n">border</div><div>#BFBFBF</div></div>
+          <div class="sw sw--l" style="background:#FFFFFF;border:1px solid #e4e4e7;"><div class="n">surface</div><div>#FFFFFF</div></div>
         </div>
       </div>
 
       <div class="ramp-group">
-        <div class="ramp-label"><b>Neutral Ramp (Dark Theme)</b> <span class="muted">6 steps</span></div>
+        <div class="ramp-label"><b>Taxonomy Accent Ramp</b> <span class="muted">panel-category 계열에만 사용</span></div>
         <div class="ramp ramp--6">
-          <div class="sw sw--d" style="background:#000000"><div class="n">0</div><div>#000000</div></div>
-          <div class="sw sw--d" style="background:#1A1A1A"><div class="n">100</div><div>#1A1A1A</div></div>
-          <div class="sw sw--d" style="background:#2A2A2A"><div class="n">200</div><div>#2A2A2A</div></div>
-          <div class="sw sw--d" style="background:#555555"><div class="n">400</div><div>#555555</div></div>
-          <div class="sw sw--d" style="background:#9E9E9E"><div class="n">700</div><div>#9E9E9E</div></div>
-          <div class="sw sw--l" style="background:#CCCCCC"><div class="n">900</div><div>#CCCCCC</div></div>
+          <div class="sw sw--d" style="background:#BC5B00"><div class="n">gaming</div><div>#BC5B00</div></div>
+          <div class="sw sw--d" style="background:#B83744"><div class="n">music</div><div>#B83744</div></div>
+          <div class="sw sw--d" style="background:#186FA4"><div class="n">electronics</div><div>#186FA4</div></div>
+          <div class="sw sw--d" style="background:#5B2C6E"><div class="n">finance</div><div>#5B2C6E</div></div>
+          <div class="sw sw--d" style="background:#003366"><div class="n">brand</div><div>#003366</div></div>
+          <div class="sw sw--d" style="background:#614C63"><div class="n">technology</div><div>#614C63</div></div>
         </div>
       </div>
 
-      <div class="dark-preview">
-        <div class="dark-preview__label">Dark Theme — Semantic Tokens</div>
-        <div class="dark-preview__row">
-          <div class="dark-preview__chip" style="background:#000000;border:1px solid #2A2A2A;"></div>
-          <div class="dark-preview__info">
-            <div class="dark-preview__name">bg-dark / bg-page</div>
-            <div class="dark-preview__hex">#000000</div>
-            <div class="dark-preview__use">기본 dark 배경</div>
+      <div class="sem-row">
+        <div class="sem-card">
+          <div class="sem-card__chip" style="background:#EFEFEF"></div>
+          <div>
+            <div class="sem-card__n">Sitemap Surface</div>
+            <div class="sem-card__h">#EFEFEF</div>
+            <div class="sem-card__u">`.lm-contents-menu` background</div>
           </div>
         </div>
-        <div class="dark-preview__row">
-          <div class="dark-preview__chip" style="background:#1A1A1A;"></div>
-          <div class="dark-preview__info">
-            <div class="dark-preview__name">bg-surface</div>
-            <div class="dark-preview__hex">#1A1A1A</div>
-            <div class="dark-preview__use">카드·섹션 배경</div>
+        <div class="sem-card">
+          <div class="sem-card__chip" style="background:#CC0000"></div>
+          <div>
+            <div class="sem-card__n">Legacy Brand Red</div>
+            <div class="sem-card__h">#CC0000</div>
+            <div class="sem-card__u">brand CSS <code>fCoRed</code> utility only</div>
           </div>
         </div>
-        <div class="dark-preview__row">
-          <div class="dark-preview__chip" style="background:#FFFFFF;border:1px solid rgba(255,255,255,.1);"></div>
-          <div class="dark-preview__info">
-            <div class="dark-preview__name">btn-primary-bg</div>
-            <div class="dark-preview__hex">#FFFFFF</div>
-            <div class="dark-preview__use">주 CTA 배경 (dark bg에서)</div>
-          </div>
-        </div>
-        <div class="dark-preview__row">
-          <div class="dark-preview__chip" style="background:#CCCCCC;"></div>
-          <div class="dark-preview__info">
-            <div class="dark-preview__name">fg-secondary</div>
-            <div class="dark-preview__hex">#CCCCCC</div>
-            <div class="dark-preview__use">보조 텍스트</div>
-          </div>
-        </div>
-        <div class="dark-preview__row">
-          <div class="dark-preview__chip" style="background:#2A2A2A;"></div>
-          <div class="dark-preview__info">
-            <div class="dark-preview__name">border</div>
-            <div class="dark-preview__hex">#2A2A2A</div>
-            <div class="dark-preview__use">dark 구분선</div>
-          </div>
-        </div>
+      </div>
+
+      <div class="callout">
+        <b>검증 메모</b>: user requirement의 <code>#FF0000</code>는 Sony-owned CSS에서 찾지 못했다.
+        공식 CSS에서 확인된 red는 <code>#CC0000</code> 하나뿐이며, 홈 런타임 primary surface는 여전히 <code>#000000 / #FFFFFF</code>다.
       </div>
     </section>
 
@@ -775,19 +772,18 @@ body {
       <div class="section__num">05 · Spacing</div>
       <h2 class="section__title">스페이싱</h2>
       <p class="section__lede">
-        공간 토큰 스케일. 섹션 기본 패딩 64px.
+        20px gutter, 40px horizontal frame, 64/80px section rhythm이 Sony 홈의 주요 spacing 축이다.
       </p>
       <div class="space-note">
-        기본 섹션 패딩 <code>space-xl (64px)</code>. 컴포넌트 내부 <code>space-sm (8px)</code>.
-        max-width <b>1440px</b>.
+        데스크톱은 <code>1190px</code> inner shell을 기준으로 움직이고, 모듈 간격은 <code>20px</code> 또는 <code>24px</code>로 제한된다.
       </div>
       <div class="space-table">
-        <div class="space-row"><span class="tk">space-xs</span><span class="val">4px</span><div class="bar" style="width:4px;"></div></div>
-        <div class="space-row"><span class="tk">space-sm</span><span class="val">8px</span><div class="bar" style="width:8px;"></div></div>
-        <div class="space-row"><span class="tk">space-md</span><span class="val">16px</span><div class="bar" style="width:16px;"></div></div>
-        <div class="space-row"><span class="tk">space-lg</span><span class="val">32px</span><div class="bar" style="width:32px;"></div></div>
-        <div class="space-row"><span class="tk">space-xl</span><span class="val">64px</span><div class="bar" style="width:64px;"></div></div>
-        <div class="space-row"><span class="tk">space-xxl</span><span class="val">96px</span><div class="bar" style="width:96px;"></div></div>
+        <div class="space-row"><span class="tk">space-1</span><span class="val">10px</span><div class="bar" style="width:10px;"></div></div>
+        <div class="space-row"><span class="tk">space-2</span><span class="val">20px</span><div class="bar" style="width:20px;"></div></div>
+        <div class="space-row"><span class="tk">space-3</span><span class="val">40px</span><div class="bar" style="width:40px;"></div></div>
+        <div class="space-row"><span class="tk">space-4</span><span class="val">64px</span><div class="bar" style="width:64px;"></div></div>
+        <div class="space-row"><span class="tk">space-5</span><span class="val">80px</span><div class="bar" style="width:80px;"></div></div>
+        <div class="space-row"><span class="tk">space-6</span><span class="val">88px</span><div class="bar" style="width:88px;"></div></div>
       </div>
     </section>
 
@@ -795,28 +791,23 @@ body {
       <div class="section__num">06 · Radius</div>
       <h2 class="section__title">라디우스</h2>
       <p class="section__lede">
-        버튼·카드는 직각(0px) 기본. Sony의 날카롭고 기술적인 미학.
+        flat edge가 기본이고, roundness는 4px 또는 완전한 원형 control에서만 허용된다.
       </p>
       <div class="rad-grid">
         <div class="rad-card">
-          <div class="rad-box" style="border-radius:0px;background:#1A1A1A;border:1px solid #2A2A2A;"></div>
+          <div class="rad-box" style="border-radius:0;background:#FFFFFF;border:1px solid #BFBFBF;"></div>
           <div class="rad-card__n">radius-none</div>
-          <div class="rad-card__v"><span class="px">0px</span><br>버튼·카드 기본</div>
+          <div class="rad-card__v"><span class="px">0</span><br>기본 버튼 / 프레임</div>
         </div>
         <div class="rad-card">
-          <div class="rad-box" style="border-radius:4px;background:#1A1A1A;border:1px solid #2A2A2A;"></div>
+          <div class="rad-box" style="border-radius:4px;background:#FFFFFF;border:1px solid #BFBFBF;"></div>
           <div class="rad-card__n">radius-sm</div>
-          <div class="rad-card__v"><span class="px">4px</span><br>배지·태그</div>
+          <div class="rad-card__v"><span class="px">4px</span><br>panel / card shell</div>
         </div>
         <div class="rad-card">
-          <div class="rad-box" style="border-radius:8px;background:#1A1A1A;border:1px solid #2A2A2A;"></div>
-          <div class="rad-card__n">radius-md</div>
-          <div class="rad-card__v"><span class="px">8px</span><br>모달·드롭다운</div>
-        </div>
-        <div class="rad-card">
-          <div class="rad-box" style="border-radius:999px;background:#1A1A1A;border:1px solid #2A2A2A;"></div>
+          <div class="rad-box" style="border-radius:999px;background:#000000;border:1px solid #BFBFBF;"></div>
           <div class="rad-card__n">radius-full</div>
-          <div class="rad-card__v"><span class="px">999px</span><br>원형 아이콘 버튼</div>
+          <div class="rad-card__v"><span class="px">50%</span><br>hero dot / close control</div>
         </div>
       </div>
     </section>
@@ -825,23 +816,19 @@ body {
       <div class="section__num">07 · Shadows</div>
       <h2 class="section__title">섀도우</h2>
       <p class="section__lede">
-        dark 배경 기준 — 높은 불투명도로 가시성 확보.
+        Sony 홈은 그림자보다 검은 프레임과 보더를 사용한다. 확인된 shadow는 search/focus halo 수준이다.
       </p>
       <div class="sh-grid">
-        <div class="sh-card" style="box-shadow:0 1px 4px rgba(0,0,0,0.30);">
+        <div class="sh-card" style="box-shadow:0 0 8px #dddddd;">
           <div>
-            <div class="sh-card__n">shadow-sm</div>
-            <div class="sh-card__d">dark 카드 — 불투명도 30%</div>
+            <div class="sh-card__n">focus-halo</div>
+            <div class="sh-card__d">검색 / 포커스 강조</div>
           </div>
-          <div class="sh-card__v">0 1px 4px rgba(0,0,0,0.30)</div>
+          <div class="sh-card__v">0 0 8px #dddddd</div>
         </div>
-        <div class="sh-card" style="box-shadow:0 4px 16px rgba(0,0,0,0.40);">
-          <div>
-            <div class="sh-card__n">shadow-md</div>
-            <div class="sh-card__d">dark 드롭다운 — 불투명도 40%</div>
-          </div>
-          <div class="sh-card__v">0 4px 16px rgba(0,0,0,0.40)</div>
-        </div>
+      </div>
+      <div class="callout">
+        <b>해석</b>: Sony는 card elevation보다 <code>#000000</code> frame, <code>#BFBFBF</code> border, blur overlay로 계층을 만든다.
       </div>
     </section>
 
@@ -849,25 +836,33 @@ body {
       <div class="section__num">08 · Layout Patterns</div>
       <h2 class="section__title">레이아웃 패턴</h2>
       <p class="section__lede">
-        Hero, 섹션 리듬. 전체폭 dark 배경이 기본.
+        full-bleed hero와 1190px shell이 공존하는 corporate-home 구조다.
       </p>
       <div class="lp-grid">
         <div class="lp-card">
           <h3>Hero</h3>
           <ul>
-            <li>전체폭 dark 배경</li>
-            <li>배경: <code>#000000</code> — 제품 이미지 배경도 동일</li>
-            <li>H1: <code>4rem</code> / weight <code>700</code> / tracking <code>-0.02em</code></li>
-            <li>max-width: <code>1440px</code></li>
+            <li><code>.hero { background: #000 }</code></li>
+            <li><code>.hero-bg { background: #262626 }</code></li>
+            <li><code>rgba(0,0,0,.4)</code> overlay + blur(10px)</li>
+            <li>slide width <code>74.66667vw</code></li>
           </ul>
         </div>
         <div class="lp-card">
           <h3>Section Rhythm</h3>
           <pre>section {
-  padding: 64px 40px;
-  max-width: 1440px;
-  background: #000000;
+  padding: 64px 0 80px;
+  max-width: 1190px;
 }</pre>
+        </div>
+        <div class="lp-card">
+          <h3>Frame</h3>
+          <ul>
+            <li>desktop inner width <code>1190px</code></li>
+            <li>outer gutter <code>20px</code></li>
+            <li>header height <code>70px</code></li>
+            <li>footer height <code>60px</code></li>
+          </ul>
         </div>
       </div>
     </section>
@@ -876,63 +871,92 @@ body {
       <div class="section__num">09 · Components</div>
       <h2 class="section__title">컴포넌트</h2>
       <p class="section__lede">
-        버튼(dark bg에서 흰 CTA), 제품 카드.
+        실제 CSS에서 바로 재현 가능한 버튼, 배지, control만 남겼다.
       </p>
 
       <div class="cmp-block">
         <div class="cmp-block__head">
-          <span class="cmp-block__name">Primary Button (Dark Theme)</span>
-          <span class="cmp-block__desc">dark 배경에서 흰 버튼 — 직각</span>
+          <span class="cmp-block__name">News More CTA</span>
+          <span class="cmp-block__desc">white surface + thin gray border</span>
         </div>
         <div class="cmp-block__body">
           <div>
             <div class="cmp-demo">
-              <button style="background:#FFFFFF;color:#000000;padding:14px 28px;border-radius:0px;font-weight:700;font-size:14px;border:none;cursor:pointer;">Buy Now</button>
-              <button style="background:transparent;color:#FFFFFF;padding:14px 28px;border-radius:0px;font-weight:700;font-size:14px;border:1px solid #FFFFFF;cursor:pointer;">Learn more</button>
+              <button style="height:57px;padding:0 38px;background:#FFFFFF;color:#000000;border:1px solid #BFBFBF;font-size:16px;">view more</button>
             </div>
             <div class="cmp-code">
               <button class="copy" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">copy</button>
-              <pre>&lt;button class="btn btn--primary"&gt;Buy Now&lt;/button&gt;</pre>
+              <pre>.news-more {
+  height: 57px;
+  padding: 0 38px;
+  border: 1px solid #BFBFBF;
+  background: #FFFFFF;
+}</pre>
             </div>
           </div>
           <div class="cmp-spec">
-            <code>background: #FFFFFF</code><br>
-            <code>color: #000000</code><br>
-            <code>padding: 14px 28px</code><br>
-            <code>border-radius: 0px</code><br>
-            <code>font-family: "SST W20 Bold"</code><br>
-            <code>font-weight: 700</code><br>
-            <span class="kr">dark 배경 → 흰 CTA가 역설적 강조</span>
+            <code>height: 57px</code><br>
+            <code>padding: 0 38px</code><br>
+            <code>border: 1px solid #BFBFBF</code><br>
+            <code>font-size: 1rem</code><br>
+            <span class="kr">shadow 대신 border로 구조를 만든다</span>
           </div>
         </div>
       </div>
 
       <div class="cmp-block">
         <div class="cmp-block__head">
-          <span class="cmp-block__name">Product Card (Dark)</span>
-          <span class="cmp-block__desc">#1A1A1A 카드 배경 — 직각</span>
+          <span class="cmp-block__name">Panel Category Badge</span>
+          <span class="cmp-block__desc">bold label + taxonomy color</span>
         </div>
         <div class="cmp-block__body">
           <div>
             <div class="cmp-demo">
-              <div style="background:#1A1A1A;border:1px solid #2A2A2A;border-radius:0;width:180px;font-size:12px;overflow:hidden;">
-                <div style="height:120px;background:#000000;border-bottom:1px solid #2A2A2A;display:flex;align-items:center;justify-content:center;color:#555;font-size:10px;">product image</div>
-                <div style="padding:12px;">
-                  <div style="color:#9E9E9E;font-size:10px;margin-bottom:4px;">Cameras</div>
-                  <div style="font-weight:700;font-size:13px;color:#FFFFFF;margin-bottom:4px;">Alpha 7R V</div>
-                  <div style="font-weight:600;font-size:13px;color:#FFFFFF;">$3,499.99</div>
-                </div>
+              <span style="font:700 14px/1 sans-serif;color:#BC5B00;margin-right:16px;">Gaming</span>
+              <span style="font:700 14px/1 sans-serif;color:#B83744;margin-right:16px;">Music</span>
+              <span style="font:700 14px/1 sans-serif;color:#186FA4;">Electronics</span>
+            </div>
+            <div class="cmp-code">
+              <button class="copy" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent)">copy</button>
+              <pre>.panel-category {
+  font-size: .875rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.panel-category-music { color: #B83744; }</pre>
+            </div>
+          </div>
+          <div class="cmp-spec">
+            <code>font-size: .875rem</code><br>
+            <code>font-weight: 700</code><br>
+            <code>line-height: 1</code><br>
+            <code>gaming: #BC5B00</code><br>
+            <code>music: #B83744</code><br>
+            <code>electronics: #186FA4</code><br>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmp-block">
+        <div class="cmp-block__head">
+          <span class="cmp-block__name">Flyout Close Control</span>
+          <span class="cmp-block__desc">30px circle + white stroke</span>
+        </div>
+        <div class="cmp-block__body">
+          <div>
+            <div class="cmp-demo">
+              <div style="width:30px;height:30px;border:1px solid #FFFFFF;border-radius:50%;background:#000000;position:relative;">
+                <span style="position:absolute;left:8px;top:14px;width:12px;height:1px;background:#FFFFFF;transform:rotate(45deg);display:block;"></span>
+                <span style="position:absolute;left:8px;top:14px;width:12px;height:1px;background:#FFFFFF;transform:rotate(-45deg);display:block;"></span>
               </div>
             </div>
           </div>
           <div class="cmp-spec">
-            <code>background: #1A1A1A</code><br>
-            <code>border: 1px solid #2A2A2A</code><br>
-            <code>border-radius: 0px</code><br>
-            <code>category color: #9E9E9E</code><br>
-            <code>name weight: 700</code><br>
-            <code>price weight: 600</code><br>
-            <span class="kr">제품 이미지 배경도 #000000</span>
+            <code>width / height: 30px</code><br>
+            <code>border: 1px solid #FFF</code><br>
+            <code>border-radius: 50%</code><br>
+            <code>background: #000</code><br>
+            <span class="kr">full-screen flyout에서만 쓰는 control</span>
           </div>
         </div>
       </div>
@@ -942,28 +966,28 @@ body {
       <div class="section__num">10 · Writing Principles</div>
       <h2 class="section__title">라이팅 원칙</h2>
       <p class="section__lede">
-        카피 패턴, CTA 규칙, 톤 앤 매너.
+        Sony 홈 카피는 짧고 권위적이되, 제품보다는 creator / future / initiative 같은 기업형 명사를 자주 쓴다.
       </p>
       <div class="voice-grid">
         <div class="voice-card">
           <div class="voice-card__label">Headline</div>
-          <div class="voice-card__rule">제품 중심, 기술 명세 강조.</div>
-          <div class="voice-card__ex" style="background:#000000;color:#FFFFFF;">"Unparalleled image quality."</div>
+          <div class="voice-card__rule">비전형 동사 + 미래 명사</div>
+          <div class="voice-card__ex">"Create the Future of Entertainment"</div>
         </div>
         <div class="voice-card">
           <div class="voice-card__label">Primary CTA</div>
-          <div class="voice-card__rule">동사구, 간결.</div>
-          <div class="voice-card__ex" style="background:#000000;color:#FFFFFF;">"Buy Now"</div>
+          <div class="voice-card__rule">설명형 탐색 문장 허용</div>
+          <div class="voice-card__ex">"Explore the Initiatives Shaping the Future..."</div>
         </div>
         <div class="voice-card">
           <div class="voice-card__label">Secondary CTA</div>
-          <div class="voice-card__rule">소문자, 링크형 텍스트.</div>
-          <div class="voice-card__ex" style="background:#000000;color:#FFFFFF;">"Learn more"</div>
+          <div class="voice-card__rule">짧은 utility label</div>
+          <div class="voice-card__ex">"view index"</div>
         </div>
         <div class="voice-card">
-          <div class="voice-card__label">Tone</div>
-          <div class="voice-card__rule">기술적 권위, 간결 명료, 과장 적절히 허용.</div>
-          <div class="voice-card__ex" style="background:#000000;color:#FFFFFF;">"The world's highest resolution full-frame sensor."</div>
+          <div class="voice-card__label">Subheading</div>
+          <div class="voice-card__rule">1문장 가치 제안</div>
+          <div class="voice-card__ex">"With our technology, we empower creators..."</div>
         </div>
       </div>
     </section>
@@ -972,7 +996,7 @@ body {
       <div class="section__num">11 · Code Export</div>
       <h2 class="section__title">CSS · Tailwind</h2>
       <p class="section__lede">
-        복사해서 바로 쓸 수 있는 CSS 변수 선언과 Tailwind 설정.
+        검은 frame과 1190px shell, 그리고 legacy red utility까지 포함한 실전용 starting point.
       </p>
       <div class="code-export">
         <div class="code-tabs">
@@ -983,36 +1007,32 @@ body {
         <div class="code-pane is-active" id="pane-css">
           <pre><span class="c">/* Sony — copy into your root stylesheet */</span>
 <span class="k">:root</span> {
-  <span class="c">/* Fonts — weight별 별도 font-family */</span>
-  <span class="k">--font-family</span>: <span class="v">"SST W20 Roman", "SST W55 Regular", Arial, sans-serif</span>;
-  <span class="k">--font-family-bold</span>: <span class="v">"SST W20 Bold", "SST W55 Bold", Arial, sans-serif</span>;
-  <span class="k">--font-family-light</span>: <span class="v">"SST W20 Light", Arial, sans-serif</span>;
-  <span class="k">--font-family-code</span>: <span class="v">ui-monospace, monospace</span>;
-  <span class="k">--font-weight-normal</span>: <span class="v">400</span>;
-  <span class="k">--font-weight-bold</span>:   <span class="v">700</span>;
+  <span class="k">--sony-font-family</span>: <span class="v">"SST W20 Roman", "SST W55 Regular", "Yu Gothic Medium", YuGothic, Arial, sans-serif</span>;
+  <span class="k">--sony-font-family-strong</span>: <span class="v">"SST W20 Bold", "SST W55 Bold", Arial, sans-serif</span>;
+  <span class="k">--sony-font-weight-normal</span>: <span class="v">400</span>;
+  <span class="k">--sony-font-weight-bold</span>: <span class="v">700</span>;
 
-  <span class="c">/* Brand (anchor + 4 steps) — monochrome */</span>
-  <span class="k">--color-brand-25</span>:  <span class="v">#F5F5F5</span>;
-  <span class="k">--color-brand-300</span>: <span class="v">#9E9E9E</span>;
-  <span class="k">--color-brand-500</span>: <span class="v">#555555</span>;
-  <span class="k">--color-brand-600</span>: <span class="v">#000000</span>;   <span class="c">/* ← canonical */</span>
-  <span class="k">--color-brand-900</span>: <span class="v">#000000</span>;
+  <span class="k">--sony-color-brand-25</span>: <span class="v">#FFFFFF</span>;
+  <span class="k">--sony-color-brand-300</span>: <span class="v">#BFBFBF</span>;
+  <span class="k">--sony-color-brand-500</span>: <span class="v">#656565</span>;
+  <span class="k">--sony-color-brand-600</span>: <span class="v">#000000</span>;
+  <span class="k">--sony-color-brand-900</span>: <span class="v">#1F2024</span>;
+  <span class="k">--sony-color-accent-red</span>: <span class="v">#CC0000</span>;
 
-  <span class="c">/* Surfaces (dark default) */</span>
-  <span class="k">--bg-page</span>:   <span class="v">#000000</span>;
-  <span class="k">--bg-surface</span>:<span class="v">#1A1A1A</span>;
-  <span class="k">--bg-dark</span>:   <span class="v">#000000</span>;
-  <span class="k">--text</span>:      <span class="v">#FFFFFF</span>;
-  <span class="k">--text-muted</span>:<span class="v">#CCCCCC</span>;
+  <span class="k">--sony-bg-page</span>: <span class="v">#FFFFFF</span>;
+  <span class="k">--sony-bg-frame</span>: <span class="v">#000000</span>;
+  <span class="k">--sony-bg-subtle</span>: <span class="v">#EFEFEF</span>;
+  <span class="k">--sony-text</span>: <span class="v">#656565</span>;
+  <span class="k">--sony-text-strong</span>: <span class="v">#000000</span>;
+  <span class="k">--sony-border</span>: <span class="v">#BFBFBF</span>;
 
-  <span class="c">/* Key spacing */</span>
-  <span class="k">--space-sm</span>:  <span class="v">8px</span>;
-  <span class="k">--space-md</span>:  <span class="v">16px</span>;
-  <span class="k">--space-lg</span>:  <span class="v">32px</span>;
+  <span class="k">--sony-space-sm</span>: <span class="v">10px</span>;
+  <span class="k">--sony-space-md</span>: <span class="v">20px</span>;
+  <span class="k">--sony-space-lg</span>: <span class="v">40px</span>;
+  <span class="k">--sony-space-xl</span>: <span class="v">64px</span>;
 
-  <span class="c">/* Radius */</span>
-  <span class="k">--radius-sm</span>: <span class="v">0px</span>;
-  <span class="k">--radius-md</span>: <span class="v">4px</span>;
+  <span class="k">--sony-radius-none</span>: <span class="v">0</span>;
+  <span class="k">--sony-radius-sm</span>: <span class="v">4px</span>;
 }</pre>
         </div>
         <div class="code-pane" id="pane-tw">
@@ -1021,39 +1041,31 @@ body {
   theme: {
     extend: {
       colors: {
-        brand: {
-          25:  <span class="v">'#F5F5F5'</span>,
-          300: <span class="v">'#9E9E9E'</span>,
-          500: <span class="v">'#555555'</span>,
+        sony: {
+          25: <span class="v">'#FFFFFF'</span>,
+          300: <span class="v">'#BFBFBF'</span>,
+          500: <span class="v">'#656565'</span>,
           600: <span class="v">'#000000'</span>,
-          900: <span class="v">'#000000'</span>,
+          900: <span class="v">'#1F2024'</span>,
         },
-        neutral: {
-          0:   <span class="v">'#000000'</span>,
-          100: <span class="v">'#1A1A1A'</span>,
-          200: <span class="v">'#2A2A2A'</span>,
-          400: <span class="v">'#555555'</span>,
-          700: <span class="v">'#9E9E9E'</span>,
-          900: <span class="v">'#CCCCCC'</span>,
+        accent: {
+          red: <span class="v">'#CC0000'</span>,
         },
       },
       fontFamily: {
-        sans: [<span class="v">'"SST W20 Roman"'</span>, <span class="v">'"SST W55 Regular"'</span>, <span class="v">'Arial'</span>, <span class="v">'sans-serif'</span>],
-        bold: [<span class="v">'"SST W20 Bold"'</span>, <span class="v">'"SST W55 Bold"'</span>, <span class="v">'Arial'</span>, <span class="v">'sans-serif'</span>],
-        mono: [<span class="v">'ui-monospace'</span>, <span class="v">'monospace'</span>],
+        sans: [<span class="v">'"SST W20 Roman"'</span>, <span class="v">'"SST W55 Regular"'</span>, <span class="v">'"Yu Gothic Medium"'</span>, <span class="v">'Arial'</span>, <span class="v">'sans-serif'</span>],
+        strong: [<span class="v">'"SST W20 Bold"'</span>, <span class="v">'"SST W55 Bold"'</span>, <span class="v">'Arial'</span>, <span class="v">'sans-serif'</span>],
       },
-      fontWeight: {
-        normal: <span class="v">'400'</span>,
-        bold:   <span class="v">'700'</span>,
+      maxWidth: {
+        shell: <span class="v">'1190px'</span>,
       },
       borderRadius: {
-        <span class="v">'none'</span>: <span class="v">'0px'</span>,
-        <span class="v">'sm'</span>:   <span class="v">'4px'</span>,
-        <span class="v">'md'</span>:   <span class="v">'8px'</span>,
+        none: <span class="v">'0'</span>,
+        sm: <span class="v">'4px'</span>,
+        full: <span class="v">'9999px'</span>,
       },
       boxShadow: {
-        <span class="v">'sm'</span>: <span class="v">'0 1px 4px rgba(0,0,0,0.30)'</span>,
-        <span class="v">'md'</span>: <span class="v">'0 4px 16px rgba(0,0,0,0.40)'</span>,
+        focus: <span class="v">'0 0 8px #dddddd'</span>,
       },
     },
   },
@@ -1066,27 +1078,27 @@ body {
       <div class="section__num">12 · Do / Don't</div>
       <h2 class="section__title">Do / Don't</h2>
       <p class="section__lede">
-        Sony 디자인 시스템의 핵심 규칙.
+        Sony를 Sony답게 보이게 만드는 건 black frame, compact SST, 얇은 border다.
       </p>
       <div class="dd-grid">
         <div class="dd-card dd-card--do">
           <h3>✓ DO</h3>
           <ul>
-            <li>기본 배경은 <code>#000000</code>(pure black)으로 설정한다</li>
-            <li>dark 배경에서 primary CTA는 <code>background: #FFFFFF</code>, <code>color: #000000</code></li>
-            <li>heading은 <code>font-family: "SST W20 Bold"</code>로 별도 지정한다</li>
-            <li>제품 이미지 배경은 <code>#000000</code> 또는 <code>#1A1A1A</code> 유지</li>
-            <li>그림자는 불투명도를 30% 이상으로 설정한다 (dark 배경 가시성)</li>
+            <li><code>70px</code> black masthead와 <code>#363636</code> divider를 유지한다</li>
+            <li>본문은 <code>14px</code> <code>SST W20 Roman</code> + <code>#656565</code>로 시작한다</li>
+            <li>hero는 black shell + blur background + dark overlay 구조를 쓴다</li>
+            <li><code>1190px</code> fixed shell과 <code>20px</code> gutter를 지킨다</li>
+            <li>radius는 <code>4px</code> 이하로 제한한다</li>
           </ul>
         </div>
         <div class="dd-card dd-card--dont">
           <h3>✗ DON'T</h3>
           <ul>
-            <li>파란색을 기본 Sony.com UI에 넣지 않는다 — PlayStation 서브브랜드 전용</li>
-            <li><code>font-weight: 700</code>만으로 굵기를 조절하지 않는다 — SST Bold 폰트 파일 사용</li>
-            <li>배경을 밝은 회색(<code>#F5F5F5</code>)으로 두지 않는다 — Sony는 dark 테마 기본</li>
-            <li>불필요한 색상 악센트를 UI에 추가하지 않는다 — 모노크롬 시스템</li>
-            <li><code>border-radius</code>에 큰 값(16px 이상)을 버튼에 쓰지 않는다</li>
+            <li>Sony를 full-dark 한 장짜리 surface로 단순화하지 않는다</li>
+            <li><code>font-weight: 700</code>만으로 SST Bold를 흉내 내지 않는다</li>
+            <li>taxonomy color를 primary brand tone처럼 넓게 쓰지 않는다</li>
+            <li>soft radius, floating shadow, glass effect를 추가하지 않는다</li>
+            <li><code>#FF0000</code>를 검증 없이 primary brand token으로 채택하지 않는다</li>
           </ul>
         </div>
       </div>
@@ -1098,30 +1110,30 @@ body {
           <div class="kr">이유</div>
         </div>
         <div class="myth-row">
-          <div class="wrong">color: #003087 (파랑)</div>
-          <div class="right">color: #FFFFFF or #000000</div>
-          <div class="why">파랑은 PlayStation 서브브랜드 전용. Sony.com UI는 흑백 모노크롬.</div>
+          <div class="wrong">page 전체를 #000000 하나로 고정</div>
+          <div class="right">black frame + white content + #EFEFEF sitemap</div>
+          <div class="why">Sony 홈의 핵심은 mixed monochrome 구조다.</div>
         </div>
         <div class="myth-row">
           <div class="wrong">font-weight: 700</div>
           <div class="right">font-family: "SST W20 Bold"</div>
-          <div class="why">SST는 weight별 별도 파일. font-weight가 아닌 font-family로 굵기를 제어한다.</div>
+          <div class="why">Sony는 실제 bold family를 분리해서 사용한다.</div>
         </div>
         <div class="myth-row">
-          <div class="wrong">background: #F5F5F5</div>
-          <div class="right">background: #000000</div>
-          <div class="why">Sony 기본 테마는 dark. 밝은 배경은 Sony.com의 정체성을 훼손한다.</div>
+          <div class="wrong">card { border-radius: 16px }</div>
+          <div class="right">card { border-radius: 4px }</div>
+          <div class="why">flat edge와 thin border가 Sony의 기본 질감이다.</div>
         </div>
         <div class="myth-row">
-          <div class="wrong">btn { background: #000000 } (dark bg에서)</div>
-          <div class="right">btn { background: #FFFFFF; color: #000000 }</div>
-          <div class="why">dark 배경에서 primary CTA는 흰 배경. 검정 버튼은 배경과 구분이 안 됨.</div>
+          <div class="wrong">brand: #FF0000</div>
+          <div class="right">frame: #000000, legacy accent: #CC0000</div>
+          <div class="why">2026-04-23 기준 공식 CSS에서 확인된 red는 #CC0000 utility뿐이다.</div>
         </div>
       </div>
     </section>
 
     <footer class="rfoot">
-      <span class="kr">insane-design · Sony Design System Report · 2026-04-13</span>
+      <span class="kr">insane-design · Sony Design System Report · 2026-04-23</span>
       <span>sony / design.md</span>
     </footer>
 

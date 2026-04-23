@@ -1,40 +1,89 @@
 ---
+schema_version: 3.1
 slug: medium
 service_name: Medium
 site_url: https://medium.com
-fetched_at: 2026-04-13
+fetched_at: 2026-04-23
 default_theme: light
 brand_color: "#1A8917"
 primary_font: Sohne
 font_weight_normal: 400
-token_prefix: N/A
+token_prefix: "N/A (hashed utility classes; first-party custom properties 없음)"
+
+bold_direction: "Human Editorial"
+aesthetic_category: "Editorial Magazine"
+signature_element: typo_contrast
+code_complexity: medium
+
+medium: web
+medium_confidence: high
 ---
 
 # DESIGN.md — Medium (Claude Code Edition)
 
 ---
 
+## 00. Visual Theme & Atmosphere
+<!-- SOURCE: auto+manual -->
+
+현재 접근 가능한 Medium의 live CSS는 예전의 "노랑 영웅 섹션" 인상이 아니라, **따뜻한 크림 landing hero + 검정 pill + 초록 CTA**의 훨씬 절제된 조합으로 잡힌다. 홈(`/`)의 상단 hero는 `#F7F4ED` 배경 위에 놓이고, 핵심 텍스트는 `#242424` / `#000000`으로 처리된다. 이 조합이 주는 인상은 "신문처럼 무겁지 않은 에디토리얼, 하지만 충분히 인간적인 warmth가 있는 플랫폼"이다.
+
+색상 전략은 면적과 역할이 명확하게 분리된다. 넓은 면은 `#F7F4ED`와 `#FFFFFF`가 맡고, 구조선은 `#242424`, 보조 텍스트는 `#6B6B6B`가 담당한다. 강조는 두 종류뿐이다. 내비게이션의 `Get started` pill은 `rgba(25, 25, 25, 1)` 검정 계열이고, hero의 `Start reading`은 `#1A8917` 초록이다. hover는 각각 `#000000`과 `#156D12`로 한 단계만 더 진해진다. 이 얇은 변화가 Medium 특유의 조용한 상호작용 톤을 만든다.
+
+타이포그래피는 **한 번의 큰 대비**로 정체성을 만든다. UI 전체는 `sohne, "Helvetica Neue", Helvetica, Arial, sans-serif`가 지배하고, 홈 hero만 `gt-super, Georgia, Cambria, "Times New Roman", Times, serif`로 전환된다. 즉, Medium은 모든 레벨에서 폰트를 바꾸지 않는다. 대부분은 Sohne로 유지하고, 단 하나의 거대한 hero headline만 GT Super로 들어간다. 이 한 번의 serif 전환이 "사람이 쓴 이야기"라는 무드를 만든다.
+
+레이아웃 역시 이 톤을 그대로 따른다. 상단 rail은 `75px` 높이로 고정되고, hero는 desktop에서 `460x600` 브랜드 이미지를 오른쪽에 두는 2열 구성이다. headline column은 `max-width: 720px`, horizontal shell은 desktop 기준 `64px`, hero 내부 vertical rhythm은 `48px` 단위가 반복된다. 카드와 리스트는 둥근 panel 대신 **평평한 면 + 1px 경계선**으로 처리된다.
+
+중요한 점은, 이번 수집에서 요청받은 legacy dark/yellow references는 현재 접근 가능한 live CSS(`/`, `/about?autoplay=1`, `/tag/technology`, sign-in flows)에서 재확인되지 않았다는 것이다. 따라서 이 문서의 canonical token 세트는 실제로 확인된 값만 사용한다.
+
+### Key Characteristics
+
+- warm landing hero `#F7F4ED` + white secondary surfaces `#FFFFFF`
+- UI 전체를 Sohne로 통일하고, hero headline만 GT Super로 분기
+- CTA는 두 축만 사용: green `#1A8917`와 near-black `rgba(25, 25, 25, 1)`
+- 본문/구조선은 `#242424`, 보조 정보는 `#6B6B6B`
+- pill radius `99em`, 그림자보다 border와 배경 대비로 깊이 표현
+- interaction은 `300ms linear` 수준의 조용한 배경색 전환
+- first-party custom property 레이어 없음, hashed utility class 중심
+
+### BOLD Direction Summary (apply Lv3 입력점)
+
+> **BOLD Direction**: Human Editorial
+> **Aesthetic Category**: Editorial Magazine
+> **Signature Element**: 이 사이트는 **GT Super hero와 Sohne UI가 만드는 거대한 타이포 대비**로 기억된다.
+> **Code Complexity**: medium — semantic token layer는 없지만, runtime-injected hashed utility classes와 여러 route별 스타일셋을 함께 읽어야 한다.
+
+---
+
 ## 01. Quick Start
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto+manual -->
 
 > 5분 안에 Medium처럼 만들기 — 3가지만 하면 80%
 
 ```css
-/* 1. 폰트 + weight */
+/* 1. UI 폰트 */
 body {
-  font-family: "Sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
+  color: #242424;
 }
 
-/* 2. 배경 + 텍스트 */
-:root { --bg: #FFFFFF; --fg: #242424; }
-body { background: var(--bg); color: var(--fg); }
+/* 2. landing hero 배경 */
+.hero {
+  background: #F7F4ED;
+  border-bottom: 1px solid #242424;
+}
 
-/* 3. 브랜드 그린 */
-:root { --brand: #1A8917; }
+/* 3. CTA 축 */
+.btn-primary {
+  background: #1A8917;
+  border: 1px solid #1A8917;
+  color: #FFFFFF;
+  border-radius: 99em;
+}
 ```
 
-**절대 하지 말아야 할 것 하나**: 기사 본문 폰트를 sans-serif로 쓰는 것. Medium 기사는 `Georgia` 또는 `Charter` 계열의 serif가 핵심 가독성 정체성이다.
+**절대 하지 말아야 할 것 하나**: headline까지 전부 sans-serif로 처리하지 마라. 현재 Medium의 첫인상은 `gt-super` hero headline 하나가 만든다. 이 serif 전환이 빠지면 Medium이 아니라 그냥 깔끔한 블로그 landing이 된다.
 
 ---
 
@@ -44,341 +93,460 @@ body { background: var(--bg); color: var(--fg); }
 | | |
 |---|---|
 | Source URL | `https://medium.com` |
-| Fetched | 2026-04-13 |
-| Extractor | curl + Chrome UA (5-tier fallback) |
-| HTML size | N/A |
-| CSS files | CSS 파싱 결과 최소 — Webpack/Parcel 번들 난독화 |
-| Token prefix | N/A (토큰 prefix 없음) |
-| Method | CSS 커스텀 프로퍼티 파싱 · frequency 분석 · 브랜드 지식 보완 |
+| Audited routes | `/`, `/about?autoplay=1`, `/tag/technology`, sign-in flows |
+| Fetched | 2026-04-23 |
+| Extractor | Playwright Chromium (stealth init) + direct CSS download |
+| HTML size | `50,095` bytes |
+| CSS files | first-party `1`개 외부 (`unbound.css`, `19,440` bytes) + inline `15`개 (`15,603` chars) |
+| Third-party CSS | reCAPTCHA + GSI (`84,062` bytes, token extraction 제외) |
+| Token prefix | `N/A (hashed utility classes; first-party custom properties 없음)` |
+| Method | live DOM 렌더 + CSSOM 추출 + `https://glyph.medium.com/css/unbound.css` 직접 다운로드 |
+
+> 팩트 기준: first-party external CSS는 `unbound.css` 1개, first-party custom property는 확인되지 않았다. inline runtime CSS에 `--reach-menu-button`, `--reach-tabs` 2개만 존재한다.
 
 ---
 
 ## 03. Tech Stack
 <!-- SOURCE: auto+manual -->
 
-- **Framework**: React SPA (custom bundler, 인하우스 Next.js 이전 아키텍처)
-- **Design system**: 인-하우스 (공개 DS 없음)
-- **CSS architecture**: CSS Modules (hashed classname) — 토큰 prefix 미노출
-- **Default theme**: light (흰 배경 #FFFFFF)
-- **Font loading**: 자체 호스트 — Sohne (UI), Charter/GT Sectra (기사 본문)
-- **Notable**: CSS 파싱 결과가 매우 희박함 (Webpack 번들링으로 인라인 최소화)
+- **Framework**: server-rendered shell 위에 hydration 되는 React SPA
+- **Design system**: 공개된 token system 없음 — route별 runtime-injected utility class sheet
+- **CSS architecture**: hashed utility classes + external font-face sheet
+  ```
+  external  glyph.medium.com/css/unbound.css   font-face only
+  inline    <style> x15                        utility class + route layout
+  runtime   --reach-menu-button / --reach-tabs library 변수 2개
+  ```
+- **Class naming**: `.cl`, `.cm`, `.dx`, `.ao`, `.ep:hover` 식의 1~2자 축약 class
+- **Default theme**: light
+  `hero = #F7F4ED`, `secondary surface = #FFFFFF`, `text = #242424`
+- **Font loading**: `glyph.medium.com`에서 `sohne`, `gt-super`, `charter`, `source-code-pro`, `source-serif-pro`, `fell`, `noe`, `opendyslexic` 선언
+- **Canonical anchor**: green hero CTA `#1A8917` + near-black pill `rgba(25, 25, 25, 1)` + GT Super headline
+
+Medium의 핵심은 "토큰이 잘 정리된 DS"가 아니라 **hydrated page가 직접 스타일을 조립하는 구조**에 있다. 즉, class 이름만 보고 의미를 유추하기 어렵고, DOM 위치와 computed style을 같이 봐야 한다. 이는 구현 복잡도가 아주 높지는 않지만, 단순한 CSS 변수 복제만으로는 충분하지 않다는 뜻이다.
 
 ---
 
 ## 04. Font Stack
-<!-- SOURCE: auto+manual -->
+<!-- SOURCE: auto -->
 
-- **UI 폰트**: `Sohne` (Klim Type Foundry, 유료) — 일반 UI, nav, label
-- **기사 제목**: `Sohne` (weight 700–900)
-- **기사 본문**: `Charter` (Bitstream, 유료) 또는 `GT Sectra` — serif, 가독성 중심
-- **Code**: 시스템 monospace
+- **Primary UI**: `"sohne", "Helvetica Neue", Helvetica, Arial, sans-serif`
+- **Display / hero**: `"gt-super", Georgia, Cambria, "Times New Roman", Times, serif`
+- **Reading serif pool (declared)**: `charter`, `fell`, `source-serif-pro`, `noe`
+- **Code**: `source-code-pro`
+- **A11y / alternate**: `opendyslexic`
 - **Weight normal / bold**: `400` / `700`
 
 ```css
-/* UI / 네비게이션 */
+/* 실제 first-party font-face 이름 */
 body {
-  font-family: "Sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
 }
-/* 기사 본문 */
-.article-body {
-  font-family: "Charter", "Bitstream Charter", Georgia, "Times New Roman", serif;
-  font-size: 20px;
+
+.hero-title {
+  font-family: "gt-super", Georgia, Cambria, "Times New Roman", Times, serif;
   font-weight: 400;
-  line-height: 1.75;
-  letter-spacing: -0.003em;
+}
+
+code,
+pre {
+  font-family: "source-code-pro", monospace;
 }
 ```
 
-> **라이선스 주의**: Sohne 유료 라이선스. 대체재: UI → `Inter`, 기사 본문 → `Lora` (Google Fonts) 또는 `Source Serif 4`.
+### Loaded vs Declared
+
+- **Loaded on homepage** — `sohne 400 normal`, `gt-super 400 normal`
+- **Declared but unloaded on homepage** — `charter 400/700`, `source-serif-pro 400/700`, `fell 400`, `noe 500`, `source-code-pro 400/700`, `opendyslexic 400`
+
+> 핵심 인사이트: Medium은 "여러 글꼴을 다 쓰는 시스템"이 아니라, 필요한 route에서 쓸 수 있도록 font pool을 넓게 선언하고, 현재 route는 극도로 제한된 폰트만 로드하는 구조다.
 
 ---
 
 ## 05. Typography Scale
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto -->
 
-| 역할 | font-family | size | weight | line-height | letter-spacing |
-|---|---|---|---|---|---|
-| Hero Title | Sohne | 46–60px | 700 | 1.1 | -0.02em |
-| Article Heading | Sohne | 28–36px | 700 | 1.2 | -0.015em |
-| Article Sub | Sohne | 22px | 400 | 1.4 | 0 |
-| Article Body | Charter/serif | 20px | 400 | 1.75 | -0.003em |
-| UI Body | Sohne | 14–16px | 400 | 1.5 | 0 |
-| Caption / Meta | Sohne | 13px | 400 | 1.4 | 0 |
-| Label / Tag | Sohne | 12px | 500 | 1 | 0.02em |
+| Token | Size | Weight | Line-height | Letter-spacing |
+|---|---|---|---|---|
+| `hero-display / 375w` | `80px` | `400` | `72px` | `-4.4px` |
+| `hero-display / 768w` | `106px` | `400` | `95px` | `-5.83px` |
+| `hero-display / 1440w` | `120px` | `400` | `100px` | `-6.6px` |
+| `hero-subtitle` | `22px` | `400` | `28px` | `normal` |
+| `topic-title` | `42px` | `500` | `52px` | `-0.462px` |
+| `feed-card-title` | `20px` | `700` | `24px` | `normal` |
+| `nav-link` | `14px` | `400` | `20px` | `normal` |
+| `meta` | `13px` | `400` | `20px` | `normal` |
+| `hero-cta` | `20px` | `400` | `28px` | `normal` |
+| `nav-pill` | `14px` | `400` | `20px` | `normal` |
+
+> Medium의 live CSS는 거의 전부 Sohne의 좁은 스케일 위에 놓이고, 단 하나의 GT Super hero만 과감하게 크게 튄다. 즉 "전 레벨 serif"가 아니라 **one-shot display contrast**가 핵심이다.
 
 ---
 
 ## 06. Colors
-<!-- SOURCE: auto+manual -->
+<!-- SOURCE: auto -->
 
-### Brand Palette
+### 06-1. Confirmed Brand / CTA
 
-| 이름 | Hex | 용도 |
+| Token | Value | Evidence |
 |---|---|---|
-| Medium Green | `#1A8917` | CTA 버튼, 팔로우 버튼, 링크 악센트 |
-| Green Dark | `#156012` | hover 상태 |
-| Green Light | `#E6F2E6` | 초록 tint 배경 |
-| Page BG | `#FFFFFF` | body 배경 |
-| Card BG | `#F9F9F9` | 카드/사이드바 배경 |
-| Ink | `#242424` | 본문 텍스트 (warm near-black) |
-| Muted | `#757575` | 부제목, 메타 |
-| Border | `#E6E6E6` | 경계선 |
+| `hero-cta-bg` | `#1A8917` | `.em { background: #1A8917 }` |
+| `hero-cta-border` | `#1A8917` | `.eo { border-color: #1A8917 }` |
+| `hero-cta-hover` | `#156D12` | `.ep:hover { background: #156D12 }` |
+| `hero-cta-text` | `#FFFFFF` | `.ej { color: #FFFFFF }` |
 
-### Semantic Roles
+### 06-2. Confirmed Neutral / Warm Surfaces
 
-| 역할 | Hex | 용도 |
+| Token | Value | Usage |
 |---|---|---|
-| Page BG | `#FFFFFF` | body 기본 배경 |
-| Ink (Text Primary) | `#242424` | 헤드라인, 본문 |
-| Text Muted | `#757575` | 부제목, 작성자, 날짜 |
-| Border Default | `#E6E6E6` | 구분선 |
-| CTA Primary | `#1A8917` | Follow · Subscribe 버튼 |
-| Tag Tint | `#E6F2E6` | 토픽 태그 배경 |
+| `hero-bg` | `#F7F4ED` | landing hero `.ao`, `.at` |
+| `surface` | `#FFFFFF` | about page surface, pill text, neutral panels |
+| `surface-muted` | `#F2F2F2` | about / error route muted area |
+| `ink` | `#242424` | base text, border-bottom, card titles |
+| `text-muted` | `#6B6B6B` | secondary info, disabled text |
+| `ink-pure` | `#000000` | hero display text, black-pill hover |
+| `pill-bg` | `rgba(25, 25, 25, 1)` | nav `Get started` |
+
+### 06-3. Semantic Roles
+
+| Role | Value | Notes |
+|---|---|---|
+| `bg/hero` | `#F7F4ED` | first screen tone |
+| `bg/default` | `#FFFFFF` | secondary pages / content |
+| `text/primary` | `#242424` | 대부분의 UI 텍스트 |
+| `text/secondary` | `#6B6B6B` | 부가 정보 |
+| `action/primary` | `#1A8917` | hero CTA |
+| `action/hover` | `#156D12` | hero CTA hover |
+| `action/secondary` | `rgba(25, 25, 25, 1)` | nav pill |
+| `action/secondary-hover` | `#000000` | nav pill hover |
+
+> 검증 메모: 요청받은 legacy dark / yellow references는 현재 접근 가능한 live CSS에서 재확인되지 않았다. 그래서 canonical palette는 위 표의 확인값만 사용한다.
 
 ---
 
 ## 07. Spacing
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto -->
 
-> Medium은 8px 기반 그리드. 기사 본문 최대 너비 740px.
-
-| 이름 | 값 | 용도 |
+| Token | Value | Evidence / Usage |
 |---|---|---|
-| xs | 4px | 아이콘·아바타 간격 |
-| sm | 8px | 인라인 요소 간격 |
-| md | 16px | 컴포넌트 내부 패딩 |
-| lg | 24px | 카드 패딩 |
-| xl | 32px | 섹션 간격 |
-| 2xl | 48px | 기사 paragraph 간격 |
-| 3xl | 64px | hero 섹션 패딩 |
-| article-max | 740px | 기사 본문 최대 너비 |
+| `shell-x-mobile` | `24px` | `.bc { margin: 0 24px }` |
+| `shell-x-tablet` | `48px` | `.be { margin: 0 48px }` |
+| `shell-x-desktop` | `64px` | `.bg { margin: 0 64px }` |
+| `nav-padding-y` | `25px` | `.bj { padding: 25px 0 }` |
+| `rail-height` | `75px` | `.bk { height: 75px }` |
+| `hero-gap-mobile` | `32px` | `.dq { margin-bottom: 32px }` |
+| `hero-gap-desktop` | `48px` | `.du`, `.ec { margin-bottom: 48px }` |
+| `nav-pill-x` | `16px` | `.cr { padding: 8px 16px }` |
+| `hero-pill-x` | `20px` | `.ek { padding: 8px 20px }` |
+| `hero-min-height` | `560px` | `.ap { min-height: 560px }` |
+
+Medium의 공간감은 카드 padding보다 **outer shell 리듬**이 더 중요하다. 좌우 여백이 `24 → 48 → 64`로 커지고, hero 내부 문단/CTA/이미지 간 간격은 `32`와 `48`이 반복된다. 이 때문에 레이아웃이 넓어도 산만하지 않고, 읽기 전에 이미 "조용하다"는 인상을 준다.
 
 ---
 
 ## 08. Radius
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto -->
 
-| 이름 | 값 | 용도 |
+| Token | Value | Usage |
 |---|---|---|
-| sm | 2px | 태그·배지 |
-| md | 4px | 버튼 |
-| lg | 8px | 카드 |
-| full | 100px | 아바타, 팔로우 버튼 pill |
+| `pill` | `99em` | nav / hero CTA `.dc` |
+| `circle` | `50%` | loading spinner `.l` |
+
+> N/A — 접근 가능한 first-party route에서는 카드/패널용 별도 radius token이 관찰되지 않았다. 현재 Medium은 panel softness보다 flat surface를 우선한다.
 
 ---
 
 ## 09. Shadows
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto -->
 
-| 이름 | 값 | 용도 |
+| Token | Value | Usage |
 |---|---|---|
-| card | `0 2px 8px rgba(0,0,0,.06)` | 기사 카드 hover |
-| dropdown | `0 4px 16px rgba(0,0,0,.12)` | 드롭다운 메뉴 |
-| sticky-nav | `0 1px 0 rgba(0,0,0,.1)` | 스크롤 후 네비게이션 |
+| `surface-shadow` | `none` | first-party `box-shadow` 미관측 |
+
+Medium의 accessible first-party CSS는 그림자를 거의 쓰지 않는다. depth는 border와 배경 명도 차이로 만든다.
 
 ---
 
 ## 10. Motion
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto -->
 
-| 속성 | 값 | 용도 |
+| Token | Value | Usage |
 |---|---|---|
-| duration-fast | 150ms | hover · focus 전환 |
-| duration-base | 250ms | 카드 트랜지션 |
-| easing | `ease` | 대부분 애니메이션 |
+| `button-bg` | `background-color 300ms linear` | `.ba`, `.bb button` |
+| `button-fg` | `color 300ms linear` | `.bb button` |
+| `black-pill-hover` | `#000000` | `.cv:hover` |
+| `green-pill-hover` | `#156D12` | `.ep:hover`, `.eq:hover` |
+| `spinner` | `k1 2s infinite linear` | loading indicator `.p` |
+
+모션은 거의 전부 버튼 hover에만 모인다. translate, blur, spring 같은 효과는 없고, **배경색이 천천히 진해지는 것**만으로 반응성을 준다.
 
 ---
 
 ## 11. Layout Patterns
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto+manual -->
 
-- **기사 본문**: max-width 740px, 좌우 auto margin, serif 폰트
-- **홈 피드**: 3-col 카드 그리드 (desktop), 1-col (mobile)
-- **사이드바**: 우측 280px — 추천, 태그, 작가 정보
-- **네비게이션**: 상단 sticky, 배경 흰색, 1px 하단 보더
-- **Tag/Topic 페이지**: 최대 너비 1080px, 좌우 패딩 20px
+- **Landing hero** — warm hero `#F7F4ED`, fixed top rail `75px`, 오른쪽 `460x600` brand image, 왼쪽 `max-width: 720px` display headline
+- **Top rail** — 1px `#242424` border-bottom + 작은 Sohne link set + 검정 pill `Get started`
+- **Topic page** — `42px / 52px` topic headline + 단일 column feed + `20px / 24px` card title
+- **Secondary pages** — `/about`는 white surface 비율이 더 높고, 같은 Sohne scale을 유지
+- **Visual depth** — 그림자 대신 면의 색 차이와 구조선으로 분리
+
+현재 Medium은 강한 masonry나 복잡한 card grid보다, **headline / subtitle / pill / image** 네 가지 재료를 route마다 조금씩 재배치하는 방식에 가깝다.
 
 ---
 
-## 12. Components
-<!-- SOURCE: manual -->
+## 12. Responsive Behavior
+<!-- SOURCE: auto -->
 
-### CTA 버튼 (팔로우 / 구독)
+### Observed Hero Scaling
+
+| Viewport | Hero size | Line-height | Notes |
+|---|---|---|---|
+| `375px` | `80px` | `72px` | hero 문구가 가장 먼저 화면을 점유 |
+| `768px` | `106px` | `95px` | headline이 2단 사이즈로 확장 |
+| `1440px` | `120px` | `100px` | 이미지와 headline이 2열 균형 완성 |
+
+### Responsive Summary
+
+- mobile에서는 nav link 일부가 줄고, hero 메시지가 화면 대부분을 차지한다
+- tablet부터 topic/title 폭이 크게 열리며 `42px` headline이 안정적으로 유지된다
+- desktop은 `64px` shell과 `720px` headline column이 핵심 구조가 된다
+
+> breakpoint 숫자 자체는 minified CSS에서 semantic하게 노출되지 않았고, 위 표는 실제 viewport 관찰값이다.
+
+---
+
+## 13. Components
+<!-- SOURCE: auto -->
+
+### 13-1. Nav Secondary Pill
 
 ```css
-.btn-follow {
-  background: #1A8917;
-  color: #FFFFFF;
-  font-family: "Sohne", sans-serif;
-  font-size: 14px; font-weight: 500;
+.btn-nav {
+  font-family: "sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  background: rgba(25, 25, 25, 1);
+  border: 1px solid rgba(25, 25, 25, 1);
+  border-radius: 99em;
   padding: 8px 16px;
-  border-radius: 100px; /* pill */
-  border: none; cursor: pointer;
-  transition: background 150ms ease;
 }
-.btn-follow:hover { background: #156012; }
-```
-
-### 기사 카드
-
-```css
-.article-card {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 24px;
-  padding: 20px 0;
-  border-bottom: 1px solid #E6E6E6;
-}
-.article-card__title {
-  font-family: "Sohne", sans-serif;
-  font-size: 20px; font-weight: 700;
-  line-height: 1.3; color: #242424;
-}
-.article-card__meta {
-  font-family: "Sohne", sans-serif;
-  font-size: 13px; color: #757575;
-  margin-top: 8px;
+.btn-nav:hover {
+  background: #000000;
+  border-color: #242424;
 }
 ```
 
-### 토픽 태그
+### 13-2. Hero Primary CTA
 
 ```css
-.topic-tag {
-  display: inline-block;
-  background: #F2F2F2;
+.btn-hero {
+  font-family: "sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
+  color: #FFFFFF;
+  background: #1A8917;
+  border: 1px solid #1A8917;
+  border-radius: 99em;
+  padding: 8px 20px;
+}
+.btn-hero:hover {
+  background: #156D12;
+  border-color: #156D12;
+}
+```
+
+### 13-3. Topic Feed Card Title
+
+```css
+.feed-card__title {
+  font-family: "sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
   color: #242424;
-  font-size: 13px; font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 100px;
-  transition: background 150ms;
 }
-.topic-tag:hover { background: #E6E6E6; }
+
+.feed-card__meta {
+  font-family: "sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #6B6B6B;
+}
 ```
 
 ---
 
-## 13. Content Voice
+## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
-- **기사 제목**: 명사형 또는 호기심 유발형. "How X changes Y", "The truth about X"
-- **서브 타이틀**: 제목 보완, 보다 구체적인 가치 제안 1문장
-- **byline**: "Author · 읽기 N분 · 날짜"
-- **CTA**: "Follow", "Subscribe", "Sign up" — 단순 동사
-- **토픽 태그**: 소문자, 2–3 단어 최대
+- **Voice** — 직접적이고 짧다. 설명은 차분하지만 감정 과장은 없다.
+- **Headline pattern** — `Human stories & ideas`처럼 추상 명사 2~3개로 플랫폼 정체성을 압축한다.
+- **Subcopy** — `A place to read, write, and deepen your understanding`처럼 동사 3개를 나열해 효용을 설명한다.
+- **CTA** — `Get started`, `Start reading`, `Sign in`처럼 한 문장 대신 한 동사에 가깝다.
+
+Medium의 카피는 "브랜드가 말하는 문장"보다 **행동을 제안하는 짧은 인터페이스 언어**에 가깝다. 레이아웃이 크고 조용하기 때문에 문장도 그만큼 더 짧아진다.
 
 ---
 
-## 14. Drop-in CSS
-<!-- SOURCE: manual -->
+## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
 :root {
-  /* Brand */
-  --brand: #1A8917;
-  --brand-hover: #156012;
-  --brand-tint: #E6F2E6;
-
-  /* Surface */
-  --bg: #FFFFFF;
-  --bg-card: #F9F9F9;
-
-  /* Text */
-  --ink: #242424;
-  --fg-muted: #757575;
-
-  /* Border */
-  --border: #E6E6E6;
-
-  /* Spacing */
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-  --space-2xl: 48px;
-
-  /* Radius */
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 8px;
-  --radius-pill: 100px;
+  --medium-brand: #1A8917;
+  --medium-brand-hover: #156D12;
+  --medium-surface-warm: #F7F4ED;
+  --medium-surface: #FFFFFF;
+  --medium-surface-muted: #F2F2F2;
+  --medium-ink: #242424;
+  --medium-ink-strong: rgba(25, 25, 25, 1);
+  --medium-ink-pure: #000000;
+  --medium-text-muted: #6B6B6B;
+  --medium-pill-radius: 99em;
 }
 
 body {
-  font-family: "Sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  background: var(--bg);
-  color: var(--ink);
-  -webkit-font-smoothing: antialiased;
+  color: var(--medium-ink);
+  background: var(--medium-surface);
 }
 
-.article-body {
-  font-family: "Charter", Georgia, "Times New Roman", serif;
-  font-size: 20px;
-  line-height: 1.75;
-  letter-spacing: -0.003em;
-  max-width: 740px;
-  margin: 0 auto;
+.medium-hero {
+  background: var(--medium-surface-warm);
+  border-bottom: 1px solid var(--medium-ink);
+  min-height: 560px;
+}
+
+.medium-hero__title {
+  font-family: "gt-super", Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: clamp(80px, 8vw, 120px);
+  line-height: clamp(72px, 7vw, 100px);
+  letter-spacing: -0.055em;
+  color: var(--medium-ink-pure);
+  max-width: 720px;
+}
+
+.medium-btn {
+  display: inline-block;
+  border-radius: var(--medium-pill-radius);
+  border: 1px solid transparent;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 300ms linear, color 300ms linear;
+}
+
+.medium-btn--primary {
+  padding: 8px 20px;
+  background: var(--medium-brand);
+  border-color: var(--medium-brand);
+  color: #FFFFFF;
+}
+
+.medium-btn--primary:hover {
+  background: var(--medium-brand-hover);
+  border-color: var(--medium-brand-hover);
+}
+
+.medium-btn--secondary {
+  padding: 8px 16px;
+  background: var(--medium-ink-strong);
+  border-color: var(--medium-ink-strong);
+  color: rgba(255, 255, 255, 1);
+}
+
+.medium-btn--secondary:hover {
+  background: var(--medium-ink-pure);
+  border-color: var(--medium-ink);
 }
 ```
 
 ---
 
-## 15. Tailwind Config
+## 16. Tailwind Config
 <!-- SOURCE: manual -->
 
 ```js
-module.exports = {
+export default {
   theme: {
     extend: {
       colors: {
-        brand: '#1A8917',
-        'brand-hover': '#156012',
-        'brand-tint': '#E6F2E6',
-        ink: '#242424',
-        'text-muted': '#757575',
-        'bg-card': '#F9F9F9',
-        border: '#E6E6E6',
+        medium: {
+          brand: "#1A8917",
+          brandHover: "#156D12",
+          warm: "#F7F4ED",
+          surface: "#FFFFFF",
+          surfaceMuted: "#F2F2F2",
+          ink: "#242424",
+          inkPure: "#000000",
+          muted: "#6B6B6B",
+        },
       },
       fontFamily: {
-        sans: ['"Sohne"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
-        serif: ['"Charter"', 'Georgia', '"Times New Roman"', 'serif'],
+        sans: ['"sohne"', '"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+        display: ['"gt-super"', "Georgia", "Cambria", '"Times New Roman"', "Times", "serif"],
+        mono: ['"source-code-pro"', "monospace"],
       },
       borderRadius: {
-        DEFAULT: '4px',
-        sm: '2px',
-        lg: '8px',
-        pill: '100px',
+        mediumPill: "99em",
+      },
+      minHeight: {
+        mediumHero: "560px",
       },
       maxWidth: {
-        article: '740px',
+        mediumHero: "720px",
+      },
+      transitionDuration: {
+        medium: "300ms",
+      },
+      transitionTimingFunction: {
+        medium: "linear",
       },
     },
   },
-}
+};
 ```
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Prompt 1 — Landing Hero Recreation
+
+> Create a quiet editorial landing page with a warm cream hero (`#F7F4ED`), a single oversized GT Super display headline, Sohne for all supporting UI, one green primary CTA (`#1A8917`), and one near-black secondary pill. Keep the structure flat, border-led, and human rather than corporate.
+
+### Prompt 2 — Component Guardrails
+
+> Use pill buttons with `99em` radius, 1px borders, and 300ms linear background transitions. Do not introduce gradients, glow, drop shadows, or a visible token-dashboard aesthetic. Treat green as CTA-only, not as a full-page wash.
+
+### Prompt 3 — Tone Guardrails
+
+> Copy should sound like an invitation to read and think, not like aggressive SaaS conversion copy. Prefer short noun-led headlines, short supporting sentences, and one- or two-word CTAs.
+
+---
+
+## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
 ### DO
 
-- **기사 본문은 반드시 serif** (Charter/Georgia) — 가독성이 Medium 브랜드의 핵심
-- **CTA 버튼은 pill 형태** (border-radius: 100px) — 팔로우, 구독 버튼 모두
-- **텍스트는 #242424** — 순흑(#000) 아닌 warm near-black
-- **그린(#1A8917)은 CTA 전용** — 본문 링크는 기본적으로 밑줄 텍스트색
-- **기사 본문 max-width 740px** 유지 — 더 넓으면 가독성 저하
+- use `gt-super` only for the one oversized hero statement
+- keep UI text in Sohne with compact `14px / 20px` and `13px / 20px` scales
+- reserve `#1A8917` for primary CTA moments
+- use `#F7F4ED` for the first-screen warmth and `#FFFFFF` for follow-up surfaces
+- rely on border and tone change instead of shadow for separation
 
 ### DON'T
 
-- **sans-serif로 기사 본문 쓰지 않는다** — Medium 정체성 완전 파괴
-- **그린(#1A8917)을 배경 전면 도배하지 않는다** — CTA 포인트 컬러 역할
-- **본문 폰트 size를 16px 이하로 줄이지 않는다** — 기사 본문 최소 20px
-- **border-radius 0로 버튼 각지게 만들지 않는다** — Medium은 pill 스타일
-- **다크 배경을 기본으로 쓰지 않는다** — 흰 배경 + 그린 CTA가 정체성
+- turn the whole site green
+- replace the hero serif with a generic sans display
+- add glassmorphism, blur, or oversized shadow cards
+- invent a custom-property palette that the current live CSS does not expose
+- assume older dark/yellow references are still canonical without current CSS evidence

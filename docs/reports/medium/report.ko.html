@@ -41,13 +41,13 @@
   section:last-of-type{border-bottom:none;}
   .section__num{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:10px;}
   .section__title{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.35;margin-bottom:12px;}
-  .section__lede{font-size:15px;color:var(--subtle);max-width:720px;line-height:1.7;margin-bottom:40px;}
+  .section__lede{font-size:15px;color:var(--subtle);max-width:760px;line-height:1.7;margin-bottom:40px;}
   .hero{padding:80px 64px 64px;border-bottom:1px solid var(--border);}
   .hero__eye{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;background:var(--muted);border:1px solid var(--border);border-radius:999px;font-family:var(--font-mono);font-size:11px;color:var(--subtle);margin-bottom:24px;}
   .hero__eye .dot{width:6px;height:6px;border-radius:99px;background:var(--brand-color);}
   .hero__title{font-size:44px;font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px;max-width:780px;}
   .hero__title .sub{color:var(--muted-fg);font-weight:400;}
-  .hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:680px;margin-bottom:32px;}
+  .hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:760px;margin-bottom:32px;}
   .hero__screenshot{margin-bottom:32px;max-width:880px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);}
   .hero__screenshot img{width:100%;height:auto;display:block;}
   .qs{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 32px;max-width:880px;margin-top:8px;}
@@ -57,7 +57,7 @@
   .qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
   .qs__step{background:#08090a;color:#f7f8f8;border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:6px;font-family:var(--font-mono);font-size:11px;line-height:1.55;border:1px solid #1f2023;}
   .qs__step-label{color:#7d8ba4;font-size:10px;letter-spacing:.06em;text-transform:uppercase;}
-  .qs__step code{color:#f7f8f8;font-size:11px;}
+  .qs__step code{color:#f7f8f8;font-size:11px;white-space:pre-wrap;}
   .qs__step b{color:#c3d3ff;font-weight:500;}
   .qs__warn{margin-top:16px;padding:14px 18px;background:#fef2f2;border:1px solid #fecaca;border-left:3px solid #dc2626;border-radius:var(--radius);font-size:13px;color:#991b1b;line-height:1.6;}
   .qs__warn b{color:#7f1d1d;font-weight:600;}
@@ -69,7 +69,7 @@
   .stat__val{font-size:18px;font-weight:600;letter-spacing:-.01em;}
   .stat__val--mono{font-family:var(--font-mono);font-size:15px;}
   .stat__hint{font-size:11px;color:var(--muted-fg);margin-top:4px;line-height:1.4;}
-  .prov{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);overflow:hidden;max-width:820px;}
+  .prov{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);overflow:hidden;max-width:860px;}
   .prov__row{display:grid;grid-template-columns:180px 1fr;padding:14px 24px;border-bottom:1px solid var(--border);font-size:13px;align-items:center;}
   .prov__row:last-child{border-bottom:none;}
   .prov__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
@@ -91,17 +91,16 @@
   .type-row__spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.6;}
   .type-row__spec .tk{color:var(--fg);display:block;margin-bottom:2px;}
   .type-sub{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
-  .callout{margin-top:16px;padding:16px 20px;background:var(--muted);border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:var(--radius);font-size:13px;color:var(--subtle);line-height:1.75;max-width:820px;}
-  .callout b{color:var(--fg);font-weight:600;}
-  .callout code{background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px;border:1px solid var(--border);}
+  .callout,.space-note{margin-top:16px;padding:16px 20px;background:var(--muted);border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:var(--radius);font-size:13px;color:var(--subtle);line-height:1.75;max-width:860px;}
+  .callout b,.space-note b{color:var(--fg);font-weight:600;}
+  .callout code,.space-note code{background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px;border:1px solid var(--border);}
   .ramp-group{margin-bottom:28px;}
   .ramp-label{font-family:var(--font-mono);font-size:11px;margin-bottom:10px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;}
   .ramp-label b{color:var(--fg);font-weight:600;}
   .ramp{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  .ramp--2{grid-template-columns:repeat(2,minmax(0,1fr));}
   .ramp--3{grid-template-columns:repeat(3,minmax(0,1fr));}
   .ramp--4{grid-template-columns:repeat(4,minmax(0,1fr));}
-  .ramp--5{grid-template-columns:repeat(5,minmax(0,1fr));}
-  .ramp--6{grid-template-columns:repeat(6,minmax(0,1fr));}
   .sw{aspect-ratio:1/2.2;display:flex;flex-direction:column;justify-content:flex-end;padding:8px 6px;font-family:var(--font-mono);font-size:9px;line-height:1.3;transition:transform 160ms;position:relative;cursor:default;}
   .sw:hover{transform:scale(1.06);z-index:2;box-shadow:0 6px 18px rgba(0,0,0,.12);}
   .sw--l{color:#09090b;}
@@ -115,27 +114,42 @@
   .sem-card__h{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:2px;}
   .sem-card__u{font-size:12px;color:var(--muted-fg);}
   .space-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
-  .space-row{display:grid;grid-template-columns:120px 70px 1fr;gap:16px;padding:8px 20px;border-bottom:1px solid var(--border);align-items:center;font-family:var(--font-mono);font-size:11px;}
+  .space-row{display:grid;grid-template-columns:160px 70px 1fr;gap:16px;padding:8px 20px;border-bottom:1px solid var(--border);align-items:center;font-family:var(--font-mono);font-size:11px;}
   .space-row:last-child{border-bottom:none;}
   .space-row .tk{color:var(--fg);}
   .space-row .val{color:var(--muted-fg);text-align:right;}
   .space-row .bar{height:8px;background:var(--accent);border-radius:1px;}
-  .rad-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .rad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
   .rad-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;}
   .rad-box{width:100%;aspect-ratio:1;background:var(--muted);border:1px solid var(--border-str);}
   .rad-card__n{font-family:var(--font-mono);font-size:11px;font-weight:500;}
   .rad-card__v{font-size:10px;color:var(--muted-fg);text-align:center;line-height:1.4;}
-  .sh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:16px;}
+  .sh-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:16px;}
   .sh-card{background:var(--card);padding:24px 24px 20px;border-radius:var(--radius-lg);border:1px solid var(--border);min-height:120px;display:flex;flex-direction:column;justify-content:space-between;}
   .sh-card__n{font-family:var(--font-mono);font-size:11px;font-weight:500;}
   .sh-card__d{font-size:13px;color:var(--muted-fg);margin-top:4px;margin-bottom:10px;line-height:1.6;}
   .sh-card__v{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);}
   .motion-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:820px;}
-  .motion-row{display:grid;grid-template-columns:180px 120px 1fr;gap:20px;padding:14px 20px;border-bottom:1px solid var(--border);font-size:13px;align-items:center;}
+  .motion-row{display:grid;grid-template-columns:180px 200px 1fr;gap:20px;padding:14px 20px;border-bottom:1px solid var(--border);font-size:13px;align-items:center;}
   .motion-row:last-child{border-bottom:none;}
   .motion-row .pt{font-family:var(--font-mono);font-size:11px;color:var(--fg);}
   .motion-row .val{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
   .motion-row .use{color:var(--subtle);line-height:1.55;}
+  .lp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  .lp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;}
+  .lp-card h3{font-size:13px;font-weight:600;margin-bottom:12px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted-fg);}
+  .lp-card ul{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--subtle);line-height:1.6;}
+  .lp-card ul li{padding-left:14px;position:relative;}
+  .lp-card ul li::before{content:"·";position:absolute;left:2px;color:var(--muted-fg);font-weight:700;}
+  .lp-card ul li b{color:var(--fg);font-weight:600;}
+  .lp-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;}
+  .resp-table{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px;}
+  .resp-row{display:grid;grid-template-columns:100px 120px 1fr;gap:16px;padding:12px 20px;border-bottom:1px solid var(--border);font-size:13px;align-items:center;}
+  .resp-row:last-child{border-bottom:none;}
+  .resp-row--head{background:var(--muted);font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;padding:10px 20px;}
+  .bp-name{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--fg);}
+  .bp-val{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
+  .bp-desc{color:var(--subtle);line-height:1.55;}
   .cmp-block{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:12px;}
   .cmp-block__head{display:flex;align-items:baseline;gap:12px;padding-bottom:14px;margin-bottom:18px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
   .cmp-block__name{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--fg);}
@@ -144,8 +158,8 @@
   .cmp-demo{padding:24px;background:var(--muted);border-radius:var(--radius);display:flex;flex-wrap:wrap;gap:12px;align-items:center;min-height:88px;}
   .cmp-spec{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);line-height:1.8;}
   .cmp-spec code{color:var(--fg);font-size:11px;}
-  .cmp-spec .kr{font-family:var(--font-sans);display:block;margin-top:8px;color:var(--subtle);font-size:12px;line-height:1.55;}
   .cmp-code{margin-top:14px;background:#08090a;color:#f7f8f8;border-radius:var(--radius);padding:14px 18px;font-family:var(--font-mono);font-size:11px;line-height:1.65;overflow-x:auto;border:1px solid #1f2023;position:relative;}
+  .cmp-code pre{margin:0;white-space:pre-wrap;}
   .cmp-code .copy{position:absolute;top:10px;right:10px;font-family:var(--font-mono);font-size:10px;color:#7d8ba4;background:#1f2023;padding:3px 8px;border-radius:4px;border:1px solid #2f3135;}
   .cmp-code .copy:hover{color:#f7f8f8;background:#2f3135;}
   .voice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
@@ -159,10 +173,7 @@
   .code-tabs button.is-active{color:var(--fg);background:var(--card);border-bottom-color:var(--accent);}
   .code-pane{display:none;}
   .code-pane.is-active{display:block;}
-  .code-pane pre{background:#08090a;color:#f7f8f8;padding:24px 28px;font-family:var(--font-mono);font-size:12px;line-height:1.65;overflow-x:auto;max-height:560px;margin:0;}
-  .code-pane .k{color:#92adff;}
-  .code-pane .v{color:#f7f8f8;}
-  .code-pane .c{color:#64748d;font-style:italic;}
+  .code-pane pre{background:#08090a;color:#f7f8f8;padding:24px 28px;font-family:var(--font-mono);font-size:12px;line-height:1.65;overflow-x:auto;max-height:560px;margin:0;white-space:pre-wrap;}
   .dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
   .dd-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;}
   .dd-card h3{font-family:var(--font-mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px;display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;}
@@ -177,7 +188,17 @@
   .dd-card ul li b{color:var(--fg);font-weight:600;}
   .rfoot{padding:40px 64px;display:flex;justify-content:space-between;align-items:center;gap:32px;font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
   .rfoot .kr{font-family:var(--font-sans);font-size:12px;}
-  @media(max-width:1024px){.layout{grid-template-columns:1fr;}.toc{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:24px 32px;}.hero,section,.rfoot{padding-left:32px;padding-right:32px;}.cmp-block__body,.ts,.voice-grid,.dd-grid,.sem-row{grid-template-columns:1fr;}.hero__stats{grid-template-columns:1fr 1fr;}.stat{border-right:none;border-bottom:1px solid var(--border);}.rad-grid{grid-template-columns:repeat(2,1fr);}.sh-grid{grid-template-columns:1fr;}}
+  @media(max-width:1024px){
+    .layout{grid-template-columns:1fr;}
+    .toc{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:24px 32px;}
+    .hero,section,.rfoot{padding-left:32px;padding-right:32px;}
+    .cmp-block__body,.ts,.voice-grid,.dd-grid,.sem-row,.lp-grid,.qs__grid{grid-template-columns:1fr;}
+    .hero__stats{grid-template-columns:1fr 1fr;}
+    .stat{border-right:none;border-bottom:1px solid var(--border);}
+    .rad-grid{grid-template-columns:1fr;}
+    .sh-grid{grid-template-columns:1fr;}
+    .resp-row{grid-template-columns:90px 100px 1fr;}
+  }
 </style>
 </head>
 <body>
@@ -214,6 +235,7 @@
     <div class="toc__group">
       <div class="toc__group-label">Patterns</div>
       <ul class="toc__list">
+        <li><a href="#layout"><span class="toc__num">09</span>레이아웃</a></li>
         <li><a href="#components"><span class="toc__num">10</span>컴포넌트</a></li>
         <li><a href="#voice"><span class="toc__num">11</span>라이팅 원칙</a></li>
       </ul>
@@ -230,14 +252,14 @@
         <li><a href="#verdict"><span class="toc__num">13</span>Do / Don't</a></li>
       </ul>
     </div>
-    <div class="toc__foot">insane-design/medium/<br>design.md · 2026-04-13</div>
+    <div class="toc__foot">insane-design/medium/<br>design.md · 2026-04-23</div>
   </aside>
 
   <main class="main">
     <section id="hero" class="hero">
       <div class="hero__eye"><span class="dot"></span>Design System Report</div>
-      <h1 class="hero__title">Medium <span class="sub">— 실제 CSS 기반 분석</span></h1>
-      <p class="hero__sub">medium.com의 디자인 시스템 분석 — 그린(#1A8917) CTA, serif 기사 본문, 흰 배경의 독서 중심 미학.</p>
+      <h1 class="hero__title">Medium <span class="sub">— 실제 live CSS 기준</span></h1>
+      <p class="hero__sub">현재 접근 가능한 Medium의 핵심은 <b>warm hero</b> `#F7F4ED`, <b>GT Super headline</b>, <b>Sohne UI</b>, 그리고 <b>`#1A8917` CTA</b>다. 요청받은 legacy dark / yellow reference는 이번 live CSS 수집 범위에서 재확인되지 않아 canonical token에서 제외했다.</p>
       <div class="hero__screenshot"><img src="screenshots/hero-cropped.png" alt="medium.com 홈페이지 스크린샷"></div>
       <div class="qs">
         <div class="qs__head">
@@ -246,249 +268,368 @@
         </div>
         <div class="qs__grid">
           <div class="qs__step">
-            <span class="qs__step-label">1 · 폰트</span>
+            <span class="qs__step-label">1 · UI 폰트</span>
             <code>body {
-  font-family: "Sohne",
+  font-family: "sohne",
     "Helvetica Neue",
     Helvetica, Arial, sans-serif;
   font-weight: 400;
+  color: #242424;
 }</code>
           </div>
           <div class="qs__step">
-            <span class="qs__step-label">2 · 배경 + 텍스트</span>
-            <code>:root {
-  --bg: <b>#FFFFFF</b>;
-  --fg: <b>#242424</b>;
+            <span class="qs__step-label">2 · hero 톤</span>
+            <code>.hero {
+  background: <b>#F7F4ED</b>;
+  border-bottom: 1px solid
+    <b>#242424</b>;
 }
-body {
-  background: var(--bg);
-  color: var(--fg);
-}</code>
-          </div>
-          <div class="qs__step">
-            <span class="qs__step-label">3 · 브랜드 그린</span>
-            <code>:root {
-  --brand: <b>#1A8917</b>;
-}
-
-/* 기사 본문 */
-.article {
-  font-family: "Charter",
+.hero-title {
+  font-family: "gt-super",
     Georgia, serif;
-  font-size: 20px;
-  line-height: 1.75;
+}</code>
+          </div>
+          <div class="qs__step">
+            <span class="qs__step-label">3 · CTA 축</span>
+            <code>.btn-primary {
+  background: <b>#1A8917</b>;
+  border-color: <b>#1A8917</b>;
+  color: <b>#FFFFFF</b>;
+  border-radius: 99em;
+}
+.btn-primary:hover {
+  background: <b>#156D12</b>;
 }</code>
           </div>
         </div>
         <div class="qs__warn">
-          <b>절대 하지 말아야 할 것 하나</b>: 기사 본문에 <code>sans-serif</code> 폰트를 쓰는 것. Medium의 정체성은 <b>Charter(serif) 20px 본문</b>이다. sans로 바꾸면 Medium다움이 사라진다.
+          <b>절대 하지 말아야 할 것 하나</b>: hero headline까지 전부 sans-serif로 밀어붙이지 마라. 현재 Medium의 첫인상은 <code>gt-super</code> 한 방에서 나온다.
         </div>
       </div>
       <div class="hero__stats">
-        <div class="stat"><div class="stat__label">Source</div><div class="stat__val stat__val--mono">medium.com</div><div class="stat__hint">React SPA</div></div>
-        <div class="stat"><div class="stat__label">Fetched</div><div class="stat__val">2026.04.13</div><div class="stat__hint">CSS + 브랜드 지식 보완</div></div>
-        <div class="stat"><div class="stat__label">Primary Font</div><div class="stat__val stat__val--mono">Sohne</div><div class="stat__hint">UI · body weight 400</div></div>
-        <div class="stat"><div class="stat__label">Brand</div><div class="stat__val stat__val--mono">#1A8917</div><div class="stat__hint">Follow · Subscribe CTA</div></div>
+        <div class="stat"><div class="stat__label">Source</div><div class="stat__val stat__val--mono">medium.com</div><div class="stat__hint">SSR shell + hydrated React</div></div>
+        <div class="stat"><div class="stat__label">Fetched</div><div class="stat__val">2026.04.23</div><div class="stat__hint">Playwright render + direct CSS download</div></div>
+        <div class="stat"><div class="stat__label">Fonts</div><div class="stat__val stat__val--mono">Sohne / GT Super</div><div class="stat__hint">home route loaded</div></div>
+        <div class="stat"><div class="stat__label">Brand</div><div class="stat__val stat__val--mono">#1A8917</div><div class="stat__hint">current live CTA token</div></div>
       </div>
     </section>
 
     <section id="provenance">
       <div class="section__num">01 · Provenance</div>
       <h2 class="section__title">출처와 수집 기준</h2>
-      <p class="section__lede">URL · fetch 시점 · 파싱 방식.</p>
+      <p class="section__lede">홈, about, topic, sign-in route를 실제 렌더링해 first-party CSS만 뽑았다.</p>
       <div class="prov">
         <div class="prov__row"><span class="prov__k">Source URL</span><span class="prov__v"><code>https://medium.com</code></span></div>
-        <div class="prov__row"><span class="prov__k">Fetched</span><span class="prov__v">2026-04-13</span></div>
-        <div class="prov__row"><span class="prov__k">CSS 추출</span><span class="prov__v">희박 (Webpack 번들 난독화) — #313131 1개만 파싱됨</span></div>
-        <div class="prov__row"><span class="prov__k">Token prefix</span><span class="prov__v">없음</span></div>
-        <div class="prov__row"><span class="prov__k">Method</span><span class="prov__v">CSS 파싱 + 브랜드 지식 보완 · AI 추론 최소화</span></div>
+        <div class="prov__row"><span class="prov__k">Audited routes</span><span class="prov__v"><code>/</code> · <code>/about?autoplay=1</code> · <code>/tag/technology</code> · sign-in flows</span></div>
+        <div class="prov__row"><span class="prov__k">Fetched</span><span class="prov__v">2026-04-23</span></div>
+        <div class="prov__row"><span class="prov__k">HTML size</span><span class="prov__v"><code>50,095</code> chars</span></div>
+        <div class="prov__row"><span class="prov__k">First-party CSS</span><span class="prov__v"><code>unbound.css</code> 19,440 bytes + inline style 15개 / 15,603 chars</span></div>
+        <div class="prov__row"><span class="prov__k">Custom properties</span><span class="prov__v">first-party 0개, runtime library 변수 <code>--reach-menu-button</code> · <code>--reach-tabs</code>만 확인</span></div>
+        <div class="prov__row"><span class="prov__k">Method</span><span class="prov__v">stealth Chromium 렌더 + CSSOM 추출 + <code>https://glyph.medium.com/css/unbound.css</code> 직접 다운로드</span></div>
+      </div>
+      <div class="space-note">
+        <b>검증 메모</b>: 요청받은 legacy dark / yellow reference는 이번 live CSS 범위에서 발견되지 않았다. 이 리포트의 컬러 값은 실제로 확인된 값만 쓴다.
       </div>
     </section>
 
     <section id="stack">
       <div class="section__num">02 · Tech Stack</div>
       <h2 class="section__title">테크 스택</h2>
-      <p class="section__lede">프레임워크, 디자인 아키텍처, 폰트 로딩.</p>
+      <p class="section__lede">공개 token DS보다는 runtime-injected utility class 조합에 가까운 구조다.</p>
       <div class="ts">
-        <div class="ts__item"><div class="ts__head">FRAMEWORK</div><div class="ts__body">React SPA (custom bundler)</div></div>
-        <div class="ts__item"><div class="ts__head">DESIGN SYSTEM</div><div class="ts__body">인-하우스 (공개 DS 없음)</div></div>
-        <div class="ts__item"><div class="ts__head">CSS ARCHITECTURE</div><div class="ts__body">CSS Modules (hashed classname) — 토큰 미노출</div></div>
-        <div class="ts__item"><div class="ts__head">DEFAULT THEME</div><div class="ts__body">Light — 흰 배경 <code>#FFFFFF</code>, 그린 CTA</div></div>
-        <div class="ts__item"><div class="ts__head">FONT LOADING</div><div class="ts__body">자체 호스트 — Sohne (UI), Charter (기사 본문)</div></div>
-        <div class="ts__item"><div class="ts__head">READING UX</div><div class="ts__body">기사 본문 max-width <code>740px</code>, Charter 20px serif</div></div>
+        <div class="ts__item"><div class="ts__head">FRAMEWORK</div><div class="ts__body">server-rendered shell + hydrated React SPA</div></div>
+        <div class="ts__item"><div class="ts__head">DESIGN SYSTEM</div><div class="ts__body">공개 token layer 없음 — route별 runtime utility sheet</div></div>
+        <div class="ts__item"><div class="ts__head">CSS ARCHITECTURE</div><div class="ts__body">1~2자 hashed utility classes + inline style tags</div></div>
+        <div class="ts__item"><div class="ts__head">CLASS NAMING</div><div class="ts__body"><code>.cl</code> · <code>.cm</code> · <code>.dx</code> · <code>.ao</code> 식 minified class</div></div>
+        <div class="ts__item"><div class="ts__head">FONT LOADING</div><div class="ts__body"><code>glyph.medium.com/css/unbound.css</code>에서 <code>sohne</code>, <code>gt-super</code>, <code>charter</code> 등 선언</div></div>
+        <div class="ts__item"><div class="ts__head">THEME ANCHOR</div><div class="ts__body">warm hero <code>#F7F4ED</code> + white secondary page <code>#FFFFFF</code> + green CTA <code>#1A8917</code></div></div>
       </div>
     </section>
 
     <section id="typography">
       <div class="section__num">03 · Typography</div>
       <h2 class="section__title">타이포그래피</h2>
-      <p class="section__lede">2-레이어 폰트 — UI(Sohne) + 기사 본문(Charter serif).</p>
+      <p class="section__lede">현재 live route의 핵심은 <b>Sohne UI</b> 위에 <b>GT Super hero</b>를 한 번만 꽂는 대비다.</p>
       <div class="type-sub">Font stack</div>
       <div class="fs-card">
-        <div class="fs-card__row"><span class="fs-card__k">UI 폰트</span><span class="fs-card__v"><code>Sohne</code> — Klim Type Foundry · 유료 · weight 400</span></div>
-        <div class="fs-card__row"><span class="fs-card__k">기사 본문</span><span class="fs-card__v"><code>Charter</code> (Bitstream) 또는 GT Sectra — serif · 20px · 1.75</span></div>
-        <div class="fs-card__row"><span class="fs-card__k">Weight 정의</span><span class="fs-card__v">normal = <b>400</b> · bold = <b>700</b></span></div>
-        <div class="fs-card__row"><span class="fs-card__k">대체재</span><span class="fs-card__v">UI → <code>Inter</code> · 본문 → <code>Lora</code> 또는 <code>Source Serif 4</code></span></div>
+        <div class="fs-card__row"><span class="fs-card__k">Primary UI</span><span class="fs-card__v"><code>sohne</code> · 300 / 400 / 500 / 700 normal + italic 선언</span></div>
+        <div class="fs-card__row"><span class="fs-card__k">Display</span><span class="fs-card__v"><code>gt-super</code> · hero headline 전용으로 관측</span></div>
+        <div class="fs-card__row"><span class="fs-card__k">Serif pool</span><span class="fs-card__v"><code>charter</code> · <code>fell</code> · <code>source-serif-pro</code> · <code>noe</code> declared</span></div>
+        <div class="fs-card__row"><span class="fs-card__k">Code</span><span class="fs-card__v"><code>source-code-pro</code></span></div>
+        <div class="fs-card__row"><span class="fs-card__k">Loaded on home</span><span class="fs-card__v"><b>sohne 400 normal</b> · <b>gt-super 400 normal</b></span></div>
       </div>
-      <div class="callout"><b>핵심 원칙</b>: 기사 본문 폰트를 sans로 바꾸면 Medium 정체성이 사라진다. <code>Charter</code> 또는 동급 serif만 사용.</div>
-      <div class="type-sub" style="margin-top:32px;">Typography Scale</div>
+      <div class="callout"><b>핵심 원칙</b>: 여러 폰트를 다 쓰는 것이 아니라, 거의 모든 UI는 Sohne로 두고 hero에서만 GT Super로 강한 대비를 만든다.</div>
+      <div class="type-sub" style="margin-top:32px;">Observed Typography Scale</div>
       <div class="type-table">
-        <div class="type-row"><div style="font-size:48px;font-weight:700;line-height:1.1;letter-spacing:-0.02em;">Hero</div><div class="type-row__spec"><span class="tk">Hero Title</span>Sohne · 46–60px · 700<br>line-height 1.1</div></div>
-        <div class="type-row"><div style="font-size:30px;font-weight:700;line-height:1.2;">기사 제목</div><div class="type-row__spec"><span class="tk">Article H1</span>Sohne · 28–36px · 700<br>line-height 1.2</div></div>
-        <div class="type-row"><div style="font-size:20px;font-weight:400;line-height:1.75;font-family:Georgia,serif;">본문 기사 텍스트 (Charter)</div><div class="type-row__spec"><span class="tk">Article Body</span>Charter/serif · 20px · 400<br>line-height 1.75 · letter-spacing -0.003em</div></div>
-        <div class="type-row"><div style="font-size:15px;font-weight:400;line-height:1.5;">UI Body</div><div class="type-row__spec"><span class="tk">UI Body</span>Sohne · 14–16px · 400<br>line-height 1.5</div></div>
-        <div class="type-row"><div style="font-size:12px;font-weight:500;letter-spacing:0.02em;text-transform:uppercase;">LABEL</div><div class="type-row__spec"><span class="tk">Label / Tag</span>Sohne · 12px · 500<br>uppercase · letter-spacing 0.02em</div></div>
+        <div class="type-row"><div style="font-family:gt-super, Georgia, serif;font-size:80px;line-height:72px;letter-spacing:-0.055em;">Hero</div><div class="type-row__spec"><span class="tk">Hero Display / 375w</span>GT Super · 80px · 400<br>72px line-height · -4.4px</div></div>
+        <div class="type-row"><div style="font-family:gt-super, Georgia, serif;font-size:106px;line-height:95px;letter-spacing:-0.055em;">Hero</div><div class="type-row__spec"><span class="tk">Hero Display / 768w</span>GT Super · 106px · 400<br>95px line-height · -5.83px</div></div>
+        <div class="type-row"><div style="font-family:gt-super, Georgia, serif;font-size:120px;line-height:100px;letter-spacing:-0.055em;">Hero</div><div class="type-row__spec"><span class="tk">Hero Display / 1440w</span>GT Super · 120px · 400<br>100px line-height · -6.6px</div></div>
+        <div class="type-row"><div style="font-size:42px;font-weight:500;line-height:52px;letter-spacing:-0.462px;">Technology</div><div class="type-row__spec"><span class="tk">Topic Title</span>Sohne · 42px · 500<br>52px line-height</div></div>
+        <div class="type-row"><div style="font-size:22px;font-weight:400;line-height:28px;">A place to read, write, and deepen your understanding</div><div class="type-row__spec"><span class="tk">Hero Subtitle</span>Sohne · 22px · 400<br>28px line-height</div></div>
+        <div class="type-row"><div style="font-size:20px;font-weight:700;line-height:24px;">What 18,000 PC Games Taught Me About Building Better Rating Systems</div><div class="type-row__spec"><span class="tk">Feed Card Title</span>Sohne · 20px · 700<br>24px line-height</div></div>
+        <div class="type-row"><div style="font-size:14px;font-weight:400;line-height:20px;">Sign in</div><div class="type-row__spec"><span class="tk">Nav Link</span>Sohne · 14px · 400<br>20px line-height</div></div>
+        <div class="type-row"><div style="font-size:13px;font-weight:400;line-height:20px;color:#6B6B6B;">In · 5 min read</div><div class="type-row__spec"><span class="tk">Meta</span>Sohne · 13px · 400<br>20px line-height</div></div>
       </div>
     </section>
 
     <section id="colors">
       <div class="section__num">04 · Colors</div>
       <h2 class="section__title">컬러</h2>
-      <p class="section__lede">그린 단색 CTA + 따뜻한 흰-회색 팔레트.</p>
+      <p class="section__lede">확인된 current palette는 green CTA + warm cream hero + near-black UI의 3축으로 구성된다.</p>
       <div class="ramp-group">
-        <div class="ramp-label"><b>Brand Green</b></div>
-        <div class="ramp ramp--3">
-          <div class="sw sw--d is-anchor" style="background:#1A8917;"><span class="n">CTA Green</span>#1A8917</div>
-          <div class="sw sw--d" style="background:#156012;"><span class="n">Hover</span>#156012</div>
-          <div class="sw sw--l" style="background:#E6F2E6;"><span class="n">Green Tint</span>#E6F2E6</div>
+        <div class="ramp-label"><b>Confirmed CTA</b></div>
+        <div class="ramp ramp--4">
+          <div class="sw sw--d is-anchor" style="background:#1A8917;"><span class="n">Hero CTA</span>#1A8917</div>
+          <div class="sw sw--d" style="background:#156D12;"><span class="n">Hero Hover</span>#156D12</div>
+          <div class="sw sw--d" style="background:#242424;"><span class="n">Ink</span>#242424</div>
+          <div class="sw sw--d" style="background:#000000;"><span class="n">Pill Hover</span>#000000</div>
         </div>
       </div>
       <div class="ramp-group">
-        <div class="ramp-label"><b>Neutral</b></div>
-        <div class="ramp ramp--5">
-          <div class="sw sw--l" style="background:#FFFFFF;"><span class="n">White</span>#FFFFFF</div>
-          <div class="sw sw--l" style="background:#F9F9F9;"><span class="n">Card BG</span>#F9F9F9</div>
-          <div class="sw sw--l" style="background:#E6E6E6;"><span class="n">Border</span>#E6E6E6</div>
-          <div class="sw sw--l" style="background:#757575;"><span class="n">Muted</span>#757575</div>
-          <div class="sw sw--d" style="background:#242424;"><span class="n">Ink</span>#242424</div>
+        <div class="ramp-label"><b>Surfaces</b></div>
+        <div class="ramp ramp--3">
+          <div class="sw sw--l" style="background:#F7F4ED;"><span class="n">Hero</span>#F7F4ED</div>
+          <div class="sw sw--l" style="background:#FFFFFF;"><span class="n">Default</span>#FFFFFF</div>
+          <div class="sw sw--l" style="background:#F2F2F2;"><span class="n">Muted</span>#F2F2F2</div>
         </div>
+      </div>
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Secondary Text</b></div>
+        <div class="ramp ramp--2">
+          <div class="sw sw--l" style="background:#6B6B6B;"><span class="n">Muted Text</span>#6B6B6B</div>
+          <div class="sw sw--d" style="background:rgba(25,25,25,1);"><span class="n">Nav Pill</span>rgba(25,25,25,1)</div>
+        </div>
+      </div>
+      <div class="space-note">
+        <b>검증 메모</b>: hover 가능한 swatch는 모두 current route CSS에서 실제로 확인한 값이다. 검증되지 않은 legacy dark / yellow reference는 표에 넣지 않았다.
       </div>
       <div class="type-sub" style="margin-top:24px;">Semantic Roles</div>
       <div class="sem-row">
-        <div class="sem-card"><div class="sem-card__chip" style="background:#FFFFFF;border:1px solid #E6E6E6;"></div><div><div class="sem-card__n">Page BG</div><div class="sem-card__h">#FFFFFF</div><div class="sem-card__u">body 기본 배경</div></div></div>
-        <div class="sem-card"><div class="sem-card__chip" style="background:#1A8917;"></div><div><div class="sem-card__n">CTA Primary</div><div class="sem-card__h">#1A8917</div><div class="sem-card__u">Follow · Subscribe 버튼</div></div></div>
-        <div class="sem-card"><div class="sem-card__chip" style="background:#242424;"></div><div><div class="sem-card__n">Ink</div><div class="sem-card__h">#242424</div><div class="sem-card__u">본문 텍스트 (warm near-black)</div></div></div>
-        <div class="sem-card"><div class="sem-card__chip" style="background:#757575;"></div><div><div class="sem-card__n">Text Muted</div><div class="sem-card__h">#757575</div><div class="sem-card__u">부제목, 날짜, 읽기 시간</div></div></div>
+        <div class="sem-card"><div class="sem-card__chip" style="background:#F7F4ED;border:1px solid #242424;"></div><div><div class="sem-card__n">Hero Surface</div><div class="sem-card__h">#F7F4ED</div><div class="sem-card__u">landing first screen</div></div></div>
+        <div class="sem-card"><div class="sem-card__chip" style="background:#FFFFFF;border:1px solid #242424;"></div><div><div class="sem-card__n">Default Surface</div><div class="sem-card__h">#FFFFFF</div><div class="sem-card__u">about / content page</div></div></div>
+        <div class="sem-card"><div class="sem-card__chip" style="background:#1A8917;"></div><div><div class="sem-card__n">Primary CTA</div><div class="sem-card__h">#1A8917</div><div class="sem-card__u">hero Start reading</div></div></div>
+        <div class="sem-card"><div class="sem-card__chip" style="background:#242424;"></div><div><div class="sem-card__n">Ink</div><div class="sem-card__h">#242424</div><div class="sem-card__u">topic title · border · UI text</div></div></div>
+        <div class="sem-card"><div class="sem-card__chip" style="background:#6B6B6B;"></div><div><div class="sem-card__n">Secondary Text</div><div class="sem-card__h">#6B6B6B</div><div class="sem-card__u">meta · disabled</div></div></div>
+        <div class="sem-card"><div class="sem-card__chip" style="background:#000000;"></div><div><div class="sem-card__n">Pure Ink</div><div class="sem-card__h">#000000</div><div class="sem-card__u">hero display / pill hover</div></div></div>
       </div>
     </section>
 
     <section id="spacing">
       <div class="section__num">05 · Spacing</div>
       <h2 class="section__title">스페이싱</h2>
-      <p class="section__lede">8px 기반 그리드 — 기사 본문 max-width 740px.</p>
+      <p class="section__lede">Medium은 내부 padding보다 외곽 shell 리듬이 먼저 눈에 들어오는 레이아웃이다.</p>
+      <div class="space-note">
+        <b>읽는 리듬</b>: outer shell은 <code>24 → 48 → 64px</code>, hero 내부 여백은 <code>32px</code>와 <code>48px</code>, rail은 <code>75px</code> 높이로 고정된다.
+      </div>
       <div class="space-table">
-        <div class="space-row"><span class="tk">xs</span><span class="val">4px</span><div class="bar" style="width:4%;"></div></div>
-        <div class="space-row"><span class="tk">sm</span><span class="val">8px</span><div class="bar" style="width:8%;"></div></div>
-        <div class="space-row"><span class="tk">md</span><span class="val">16px</span><div class="bar" style="width:16%;"></div></div>
-        <div class="space-row"><span class="tk">lg</span><span class="val">24px</span><div class="bar" style="width:24%;"></div></div>
-        <div class="space-row"><span class="tk">xl</span><span class="val">32px</span><div class="bar" style="width:32%;"></div></div>
-        <div class="space-row"><span class="tk">2xl</span><span class="val">48px</span><div class="bar" style="width:48%;"></div></div>
-        <div class="space-row"><span class="tk">3xl</span><span class="val">64px</span><div class="bar" style="width:64%;"></div></div>
-        <div class="space-row"><span class="tk">article-max</span><span class="val">740px</span><div class="bar" style="width:80%;"></div></div>
+        <div class="space-row"><span class="tk">shell-x-mobile</span><span class="val">24px</span><div class="bar" style="width:24%;"></div></div>
+        <div class="space-row"><span class="tk">shell-x-tablet</span><span class="val">48px</span><div class="bar" style="width:48%;"></div></div>
+        <div class="space-row"><span class="tk">shell-x-desktop</span><span class="val">64px</span><div class="bar" style="width:64%;"></div></div>
+        <div class="space-row"><span class="tk">nav-padding-y</span><span class="val">25px</span><div class="bar" style="width:25%;"></div></div>
+        <div class="space-row"><span class="tk">rail-height</span><span class="val">75px</span><div class="bar" style="width:75%;"></div></div>
+        <div class="space-row"><span class="tk">hero-gap-mobile</span><span class="val">32px</span><div class="bar" style="width:32%;"></div></div>
+        <div class="space-row"><span class="tk">hero-gap-desktop</span><span class="val">48px</span><div class="bar" style="width:48%;"></div></div>
+        <div class="space-row"><span class="tk">nav-pill-x</span><span class="val">16px</span><div class="bar" style="width:16%;"></div></div>
+        <div class="space-row"><span class="tk">hero-pill-x</span><span class="val">20px</span><div class="bar" style="width:20%;"></div></div>
+        <div class="space-row"><span class="tk">hero-min-height</span><span class="val">560px</span><div class="bar" style="width:100%;"></div></div>
       </div>
     </section>
 
     <section id="radius">
       <div class="section__num">06 · Radius</div>
       <h2 class="section__title">라디우스</h2>
-      <p class="section__lede">pill 형태 버튼 + 소프트 카드 레이아웃.</p>
+      <p class="section__lede">현재 first-party route에서 radius는 사실상 pill CTA와 spinner에만 등장한다.</p>
       <div class="rad-grid">
-        <div class="rad-card"><div class="rad-box" style="border-radius:2px;"></div><div class="rad-card__n">sm</div><div class="rad-card__v">2px<br>태그·배지</div></div>
-        <div class="rad-card"><div class="rad-box" style="border-radius:4px;"></div><div class="rad-card__n">md</div><div class="rad-card__v">4px<br>버튼</div></div>
-        <div class="rad-card"><div class="rad-box" style="border-radius:8px;"></div><div class="rad-card__n">lg</div><div class="rad-card__v">8px<br>카드</div></div>
-        <div class="rad-card"><div class="rad-box" style="border-radius:100px;"></div><div class="rad-card__n">full</div><div class="rad-card__v">100px<br>Follow pill</div></div>
+        <div class="rad-card"><div class="rad-box" style="border-radius:99em;background:#1A8917;"></div><div class="rad-card__n">pill</div><div class="rad-card__v">99em<br>nav / hero CTA</div></div>
+        <div class="rad-card"><div class="rad-box" style="border-radius:50%;background:#F2F2F2;"></div><div class="rad-card__n">circle</div><div class="rad-card__v">50%<br>loading spinner</div></div>
+        <div class="rad-card"><div class="rad-box" style="border-radius:0;background:#FFFFFF;border:1px solid #242424;"></div><div class="rad-card__n">flat panel</div><div class="rad-card__v">card radius token<br>미관측</div></div>
       </div>
     </section>
 
     <section id="shadows">
       <div class="section__num">07 · Shadows</div>
       <h2 class="section__title">섀도우</h2>
-      <p class="section__lede">라이트 배경에 미세한 depth 표현.</p>
+      <p class="section__lede">접근 가능한 first-party CSS에서는 box-shadow 대신 flat surface + border 대비를 사용한다.</p>
       <div class="sh-grid">
-        <div class="sh-card" style="box-shadow:0 2px 8px rgba(0,0,0,.06);"><div class="sh-card__n">card</div><div class="sh-card__d">기사 카드 hover</div><div class="sh-card__v">0 2px 8px rgba(0,0,0,.06)</div></div>
-        <div class="sh-card" style="box-shadow:0 4px 16px rgba(0,0,0,.12);"><div class="sh-card__n">dropdown</div><div class="sh-card__d">드롭다운 메뉴</div><div class="sh-card__v">0 4px 16px rgba(0,0,0,.12)</div></div>
-        <div class="sh-card" style="box-shadow:0 1px 0 rgba(0,0,0,.1);"><div class="sh-card__n">sticky-nav</div><div class="sh-card__d">스크롤 네비게이션</div><div class="sh-card__v">0 1px 0 rgba(0,0,0,.1)</div></div>
+        <div class="sh-card" style="box-shadow:none;border:1px solid #242424;"><div class="sh-card__n">surface-shadow</div><div class="sh-card__d">first-party box-shadow 미관측</div><div class="sh-card__v">none</div></div>
       </div>
     </section>
 
     <section id="motion">
       <div class="section__num">08 · Motion</div>
       <h2 class="section__title">모션</h2>
-      <p class="section__lede">미세하고 부드러운 전환.</p>
+      <p class="section__lede">배경색만 조용하게 변한다. transform, blur, spring은 거의 없다.</p>
       <div class="motion-table">
-        <div class="motion-row"><span class="pt">duration-fast</span><span class="val">150ms</span><span class="use">hover · focus 전환</span></div>
-        <div class="motion-row"><span class="pt">duration-base</span><span class="val">250ms</span><span class="use">카드 트랜지션</span></div>
-        <div class="motion-row"><span class="pt">easing</span><span class="val">ease</span><span class="use">대부분 애니메이션</span></div>
+        <div class="motion-row"><span class="pt">button-bg</span><span class="val">background-color 300ms linear</span><span class="use">CTA button hover</span></div>
+        <div class="motion-row"><span class="pt">button-fg</span><span class="val">color 300ms linear</span><span class="use">button text color sync</span></div>
+        <div class="motion-row"><span class="pt">black-pill-hover</span><span class="val">#000000</span><span class="use">secondary pill background</span></div>
+        <div class="motion-row"><span class="pt">green-pill-hover</span><span class="val">#156D12</span><span class="use">primary hero CTA hover</span></div>
+        <div class="motion-row"><span class="pt">spinner</span><span class="val">k1 2s infinite linear</span><span class="use">loading state only</span></div>
+      </div>
+    </section>
+
+    <section id="layout">
+      <div class="section__num">09 · Layout Patterns</div>
+      <h2 class="section__title">레이아웃 패턴</h2>
+      <p class="section__lede">headline, subtitle, pill, image 네 가지 재료를 route마다 재배치하는 구조다.</p>
+      <div class="lp-grid">
+        <div class="lp-card">
+          <h3>landing hero</h3>
+          <ul>
+            <li><b>배경</b> <code>#F7F4ED</code></li>
+            <li><b>headline column</b> max-width <code>720px</code></li>
+            <li><b>image</b> <code>460x600</code> 우측 배치</li>
+            <li><b>rail</b> <code>75px</code> height + <code>1px</code> <code>#242424</code> border</li>
+          </ul>
+        </div>
+        <div class="lp-card">
+          <h3>topic page</h3>
+          <ul>
+            <li><b>page title</b> <code>42px / 52px</code></li>
+            <li><b>feed card title</b> <code>20px / 24px</code></li>
+            <li><b>meta</b> <code>13px / 20px</code> + <code>#6B6B6B</code></li>
+            <li><b>surface</b> white + minimal decoration</li>
+          </ul>
+        </div>
+        <div class="lp-card">
+          <h3>secondary pages</h3>
+          <ul>
+            <li><b>/about</b>는 white surface 비중이 더 높다</li>
+            <li><b>sign-in flow</b>는 compact CTA 중심 sheet다</li>
+            <li><b>custom property</b>보다 route-specific class sheet에 의존한다</li>
+          </ul>
+        </div>
+        <div class="lp-card">
+          <h3>depth strategy</h3>
+          <ul>
+            <li><b>그림자보다 경계선</b>을 우선한다</li>
+            <li><b>면 분리</b>는 <code>#F7F4ED</code> / <code>#FFFFFF</code> 톤 차이로 해결한다</li>
+            <li><b>강조</b>는 green CTA와 one-shot display serif로 끝낸다</li>
+          </ul>
+        </div>
+      </div>
+      <div class="type-sub" style="margin-top:32px;">Observed Responsive Hero</div>
+      <div class="resp-table">
+        <div class="resp-row resp-row--head"><span>Viewport</span><span>Hero</span><span>Observation</span></div>
+        <div class="resp-row"><span class="bp-name">375w</span><span class="bp-val">80 / 72</span><span class="bp-desc">headline이 화면 대부분을 점유하고, nav copy가 크게 줄어든다.</span></div>
+        <div class="resp-row"><span class="bp-name">768w</span><span class="bp-val">106 / 95</span><span class="bp-desc">hero text가 한 단계 크게 열리면서 image와 균형을 맞춘다.</span></div>
+        <div class="resp-row"><span class="bp-name">1440w</span><span class="bp-val">120 / 100</span><span class="bp-desc"><code>64px</code> shell 위에서 <code>720px</code> title column이 완성된다.</span></div>
       </div>
     </section>
 
     <section id="components">
       <div class="section__num">10 · Components</div>
       <h2 class="section__title">컴포넌트</h2>
-      <p class="section__lede">팔로우 버튼, 기사 카드, 토픽 태그.</p>
+      <p class="section__lede">실제 live CSS에서 바로 가져온 세 가지 구성요소.</p>
       <div class="cmp-block">
-        <div class="cmp-block__head"><span class="cmp-block__name">btn-follow</span><span class="cmp-block__desc">팔로우 / 구독 CTA — pill 형태 그린 버튼</span></div>
+        <div class="cmp-block__head"><span class="cmp-block__name">btn-nav</span><span class="cmp-block__desc">top rail secondary pill — 검정 Get started 버튼</span></div>
         <div class="cmp-block__body">
           <div>
             <div class="cmp-demo">
-              <button style="background:#1A8917;color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:500;padding:8px 16px;border-radius:100px;border:none;cursor:pointer;">Follow</button>
-              <button style="background:#242424;color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:500;padding:8px 16px;border-radius:100px;border:none;cursor:pointer;">Subscribe</button>
+              <button style="background:rgba(25,25,25,1);color:#fff;font-family:var(--font-sans);font-size:14px;font-weight:400;line-height:20px;padding:8px 16px;border-radius:99em;border:1px solid rgba(25,25,25,1);cursor:pointer;">Get started</button>
             </div>
             <div class="cmp-code">
-              <button class="copy" onclick="navigator.clipboard.writeText(this.closest('.cmp-code').querySelector('pre').textContent)">copy</button>
-              <pre>.btn-follow {
-  background: #1A8917;
-  color: #FFFFFF;
-  font-size: 14px; font-weight: 500;
+              <button class="copy" onclick="copyCode(this)">copy</button>
+              <pre>.btn-nav {
+  font-family: "sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  background: rgba(25, 25, 25, 1);
+  border: 1px solid rgba(25, 25, 25, 1);
+  color: rgba(255, 255, 255, 1);
   padding: 8px 16px;
-  border-radius: 100px; /* pill */
-  border: none;
-  transition: background 150ms ease;
+  border-radius: 99em;
+  transition: background-color 300ms linear, color 300ms linear;
 }
-.btn-follow:hover { background: #156012; }</pre>
-            </div>
-          </div>
-          <div class="cmp-spec">
-            <code>배경</code> #1A8917<br>
-            <code>hover</code> #156012<br>
-            <code>반경</code> 100px (pill)<br>
-            <code>weight</code> 500<br>
-            <code>전환</code> 150ms ease
-          </div>
-        </div>
-      </div>
-      <div class="cmp-block">
-        <div class="cmp-block__head"><span class="cmp-block__name">article-card</span><span class="cmp-block__desc">기사 목록 카드</span></div>
-        <div class="cmp-block__body">
-          <div>
-            <div class="cmp-demo" style="flex-direction:column;align-items:flex-start;gap:6px;">
-              <div style="font-size:18px;font-weight:700;color:#242424;line-height:1.3;">The future of collaborative writing tools</div>
-              <div style="font-size:13px;color:#757575;">Tom Warren · 5 min read · Apr 13</div>
-              <div style="width:80px;height:80px;background:#E6E6E6;border-radius:4px;margin-left:auto;"></div>
-            </div>
-            <div class="cmp-code">
-              <button class="copy" onclick="navigator.clipboard.writeText(this.closest('.cmp-code').querySelector('pre').textContent)">copy</button>
-              <pre>.article-card {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 24px;
-  padding: 20px 0;
-  border-bottom: 1px solid #E6E6E6;
-}
-.article-card__title {
-  font-size: 20px; font-weight: 700;
-  color: #242424; line-height: 1.3;
-}
-.article-card__meta {
-  font-size: 13px; color: #757575; margin-top: 8px;
+.btn-nav:hover {
+  background: #000000;
+  border-color: #242424;
 }</pre>
             </div>
           </div>
           <div class="cmp-spec">
-            <code>레이아웃</code> 2-col grid<br>
-            <code>구분선</code> border-bottom 1px #E6E6E6<br>
-            <code>제목</code> 700 · #242424<br>
-            <code>메타</code> 13px · #757575
+            <code>배경</code> rgba(25,25,25,1)<br>
+            <code>hover</code> #000000 / #242424<br>
+            <code>반경</code> 99em<br>
+            <code>타입</code> 14 / 20 · 400<br>
+            <code>전환</code> 300ms linear
+          </div>
+        </div>
+      </div>
+      <div class="cmp-block">
+        <div class="cmp-block__head"><span class="cmp-block__name">btn-hero</span><span class="cmp-block__desc">landing primary CTA — green Start reading</span></div>
+        <div class="cmp-block__body">
+          <div>
+            <div class="cmp-demo">
+              <button style="background:#1A8917;color:#fff;font-family:var(--font-sans);font-size:20px;font-weight:400;line-height:28px;padding:8px 20px;border-radius:99em;border:1px solid #1A8917;cursor:pointer;">Start reading</button>
+            </div>
+            <div class="cmp-code">
+              <button class="copy" onclick="copyCode(this)">copy</button>
+              <pre>.btn-hero {
+  font-family: "sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
+  color: #FFFFFF;
+  background: #1A8917;
+  border: 1px solid #1A8917;
+  border-radius: 99em;
+  padding: 8px 20px;
+}
+.btn-hero:hover {
+  background: #156D12;
+  border-color: #156D12;
+}</pre>
+            </div>
+          </div>
+          <div class="cmp-spec">
+            <code>배경</code> #1A8917<br>
+            <code>hover</code> #156D12<br>
+            <code>반경</code> 99em<br>
+            <code>타입</code> 20 / 28 · 400<br>
+            <code>용도</code> landing primary action
+          </div>
+        </div>
+      </div>
+      <div class="cmp-block">
+        <div class="cmp-block__head"><span class="cmp-block__name">feed-card</span><span class="cmp-block__desc">topic page article headline + meta</span></div>
+        <div class="cmp-block__body">
+          <div>
+            <div class="cmp-demo" style="flex-direction:column;align-items:flex-start;gap:8px;">
+              <div style="font-size:20px;font-weight:700;line-height:24px;color:#242424;max-width:520px;">What 18,000 PC Games Taught Me About Building Better Rating Systems</div>
+              <div style="font-size:16px;font-weight:400;line-height:20px;color:#6B6B6B;max-width:520px;">Sparse reviews, price effects, and post launch drift make one-number scores less reliable than they look.</div>
+              <div style="font-size:13px;font-weight:400;line-height:20px;color:#6B6B6B;">In · 5 min read</div>
+            </div>
+            <div class="cmp-code">
+              <button class="copy" onclick="copyCode(this)">copy</button>
+              <pre>.feed-card__title {
+  font-family: "sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  color: #242424;
+}
+
+.feed-card__dek {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #6B6B6B;
+}
+
+.feed-card__meta {
+  font-size: 13px;
+  line-height: 20px;
+  color: #6B6B6B;
+}</pre>
+            </div>
+          </div>
+          <div class="cmp-spec">
+            <code>제목</code> 20 / 24 · 700 · #242424<br>
+            <code>dek</code> 16 / 20 · 400 · #6B6B6B<br>
+            <code>meta</code> 13 / 20 · 400 · #6B6B6B<br>
+            <code>route</code> /tag/technology
           </div>
         </div>
       </div>
@@ -497,71 +638,94 @@ body {
     <section id="voice">
       <div class="section__num">11 · Content Voice</div>
       <h2 class="section__title">라이팅 원칙</h2>
-      <p class="section__lede">독자 중심, 지식 공유 플랫폼의 보이스.</p>
+      <p class="section__lede">현재 landing copy는 짧고 조용하며, 행동을 한 단어 CTA로 끝낸다.</p>
       <div class="voice-grid">
-        <div class="voice-card"><div class="voice-card__label">헤드라인</div><div class="voice-card__rule">명사형 또는 호기심 유발형. "How X changes Y".</div><div class="voice-card__ex">"The future of AI in writing is more human than you think"</div></div>
-        <div class="voice-card"><div class="voice-card__label">CTA</div><div class="voice-card__rule">단순 동사. 무엇을 얻는지 명확히.</div><div class="voice-card__ex">"Follow" / "Subscribe" / "Sign up"</div></div>
-        <div class="voice-card"><div class="voice-card__label">Byline</div><div class="voice-card__rule">작성자 · 읽기 시간 · 날짜 순서.</div><div class="voice-card__ex">"Author · 5 min read · Apr 13"</div></div>
-        <div class="voice-card"><div class="voice-card__label">토픽 태그</div><div class="voice-card__rule">소문자 · 2–3 단어 최대.</div><div class="voice-card__ex">"artificial intelligence" / "product design"</div></div>
+        <div class="voice-card"><div class="voice-card__label">플랫폼 헤드라인</div><div class="voice-card__rule">추상 명사 2~3개로 identity를 압축한다.</div><div class="voice-card__ex">“Human stories &amp; ideas”</div></div>
+        <div class="voice-card"><div class="voice-card__label">서브카피</div><div class="voice-card__rule">동사 나열로 효용을 설명하고, 문장은 짧게 끝낸다.</div><div class="voice-card__ex">“A place to read, write, and deepen your understanding”</div></div>
+        <div class="voice-card"><div class="voice-card__label">CTA</div><div class="voice-card__rule">완전한 문장 대신 1~2단어 action verb로 끝낸다.</div><div class="voice-card__ex">“Get started” / “Start reading” / “Sign in”</div></div>
+        <div class="voice-card"><div class="voice-card__label">메타 정보</div><div class="voice-card__rule">작성자보다 읽기 맥락을 먼저 보조한다.</div><div class="voice-card__ex">“In · 5 min read”</div></div>
       </div>
     </section>
 
     <section id="export">
       <div class="section__num">12 · CSS · Tailwind</div>
       <h2 class="section__title">코드 익스포트</h2>
-      <p class="section__lede">즉시 사용 가능한 CSS 변수 세트.</p>
+      <p class="section__lede">현재 live CSS를 바탕으로 정리한 drop-in token 세트.</p>
       <div class="code-export">
         <div class="code-tabs">
           <button class="is-active" onclick="switchTab(this,'m-css')">CSS Variables</button>
           <button onclick="switchTab(this,'m-tw')">Tailwind Config</button>
         </div>
         <div id="m-css" class="code-pane is-active">
-          <pre><span class="c">/* Medium — Drop-in CSS */</span>
-<span class="k">:root</span> {
-  <span class="k">--brand</span>: <span class="v">#1A8917</span>;
-  <span class="k">--brand-hover</span>: <span class="v">#156012</span>;
-  <span class="k">--brand-tint</span>: <span class="v">#E6F2E6</span>;
-  <span class="k">--bg</span>: <span class="v">#FFFFFF</span>;
-  <span class="k">--bg-card</span>: <span class="v">#F9F9F9</span>;
-  <span class="k">--ink</span>: <span class="v">#242424</span>;
-  <span class="k">--fg-muted</span>: <span class="v">#757575</span>;
-  <span class="k">--border</span>: <span class="v">#E6E6E6</span>;
-  <span class="k">--radius-pill</span>: <span class="v">100px</span>;
+          <pre>/* Medium — Drop-in CSS */
+:root {
+  --medium-brand: #1A8917;
+  --medium-brand-hover: #156D12;
+  --medium-surface-warm: #F7F4ED;
+  --medium-surface: #FFFFFF;
+  --medium-surface-muted: #F2F2F2;
+  --medium-ink: #242424;
+  --medium-ink-strong: rgba(25, 25, 25, 1);
+  --medium-ink-pure: #000000;
+  --medium-text-muted: #6B6B6B;
+  --medium-pill-radius: 99em;
 }
-<span class="k">body</span> {
-  font-family: <span class="v">"Sohne", "Helvetica Neue", Helvetica, Arial, sans-serif</span>;
-  font-weight: <span class="v">400</span>;
-  background: <span class="v">var(--bg)</span>;
-  color: <span class="v">var(--ink)</span>;
+
+body {
+  font-family: "sohne", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  background: var(--medium-surface);
+  color: var(--medium-ink);
 }
-<span class="k">.article-body</span> {
-  font-family: <span class="v">"Charter", Georgia, "Times New Roman", serif</span>;
-  font-size: <span class="v">20px</span>;
-  line-height: <span class="v">1.75</span>;
-  letter-spacing: <span class="v">-0.003em</span>;
-  max-width: <span class="v">740px</span>;
-  margin: <span class="v">0 auto</span>;
+
+.medium-hero {
+  background: var(--medium-surface-warm);
+  border-bottom: 1px solid var(--medium-ink);
+  min-height: 560px;
+}
+
+.medium-hero__title {
+  font-family: "gt-super", Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: clamp(80px, 8vw, 120px);
+  line-height: clamp(72px, 7vw, 100px);
+  letter-spacing: -0.055em;
+}
+
+.medium-btn--primary {
+  background: var(--medium-brand);
+  border: 1px solid var(--medium-brand);
+  color: #FFFFFF;
+  border-radius: var(--medium-pill-radius);
+  padding: 8px 20px;
 }</pre>
         </div>
         <div id="m-tw" class="code-pane">
-          <pre><span class="c">// tailwind.config.js — Medium</span>
+          <pre>// tailwind.config.js — Medium
 module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: <span class="v">'#1A8917'</span>,
-        <span class="v">'brand-hover'</span>: <span class="v">'#156012'</span>,
-        ink: <span class="v">'#242424'</span>,
-        <span class="v">'text-muted'</span>: <span class="v">'#757575'</span>,
-        <span class="v">'bg-card'</span>: <span class="v">'#F9F9F9'</span>,
-        border: <span class="v">'#E6E6E6'</span>,
+        medium: {
+          brand: '#1A8917',
+          brandHover: '#156D12',
+          warm: '#F7F4ED',
+          surface: '#FFFFFF',
+          surfaceMuted: '#F2F2F2',
+          ink: '#242424',
+          inkPure: '#000000',
+          muted: '#6B6B6B',
+        },
       },
       fontFamily: {
-        sans: [<span class="v">'"Sohne"'</span>, <span class="v">'Helvetica'</span>, <span class="v">'Arial'</span>, <span class="v">'sans-serif'</span>],
-        serif: [<span class="v">'"Charter"'</span>, <span class="v">'Georgia'</span>, <span class="v">'serif'</span>],
+        sans: ['"sohne"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+        display: ['"gt-super"', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+        mono: ['"source-code-pro"', 'monospace'],
       },
-      maxWidth: { article: <span class="v">'740px'</span> },
-      borderRadius: { pill: <span class="v">'100px'</span> },
+      borderRadius: { mediumPill: '99em' },
+      minHeight: { mediumHero: '560px' },
+      maxWidth: { mediumHero: '720px' },
+      transitionDuration: { medium: '300ms' },
+      transitionTimingFunction: { medium: 'linear' },
     },
   },
 }</pre>
@@ -577,38 +741,48 @@ module.exports = {
         <div class="dd-card dd-card--do">
           <h3>✓ DO</h3>
           <ul>
-            <li><b>기사 본문은 serif</b> (Charter/Georgia) — 가독성이 Medium 핵심</li>
-            <li><b>CTA 버튼은 pill 형태</b> (border-radius 100px)</li>
-            <li><b>텍스트는 #242424</b> — 순흑 아닌 warm near-black</li>
-            <li><b>그린(#1A8917)은 CTA 전용</b> — Follow, Subscribe</li>
-            <li><b>기사 본문 font-size 최소 20px</b> + line-height 1.75</li>
+            <li><b>hero는 GT Super</b>로 한 번만 크게 튀게 만든다</li>
+            <li><b>UI는 Sohne로 일관</b>되게 유지한다</li>
+            <li><b>`#1A8917`는 primary CTA에만</b> 쓴다</li>
+            <li><b>배경 분리는 `#F7F4ED`와 `#FFFFFF`</b>의 면 차이로 해결한다</li>
+            <li><b>flat surface + 1px border</b>를 우선한다</li>
           </ul>
         </div>
         <div class="dd-card dd-card--dont">
           <h3>✗ DON'T</h3>
           <ul>
-            <li><b>sans-serif로 기사 본문</b> 쓰지 않는다 — 정체성 파괴</li>
-            <li><b>그린을 배경으로 전면 사용</b>하지 않는다 — 포인트 컬러</li>
-            <li><b>본문 font-size 16px 이하</b>로 줄이지 않는다</li>
-            <li><b>border-radius 0</b>로 버튼 각지게 만들지 않는다</li>
-            <li><b>다크 배경을 기본</b>으로 쓰지 않는다 — 라이트 우선</li>
+            <li><b>headline까지 sans로 처리</b>하지 않는다</li>
+            <li><b>green wash</b>로 전체 페이지를 덮지 않는다</li>
+            <li><b>그림자 카드 UI</b>를 얹지 않는다</li>
+            <li><b>임의의 custom property palette</b>를 live CSS인 것처럼 꾸미지 않는다</li>
+            <li><b>검증되지 않은 legacy dark / yellow refs</b>를 current canonical token으로 쓰지 않는다</li>
           </ul>
         </div>
       </div>
     </section>
 
     <footer class="rfoot">
-      <span class="kr">Medium — Design System Report · 2026-04-13</span>
+      <span class="kr">Medium — Design System Report · 2026-04-23</span>
       <span>insane-design/medium/report.ko.html</span>
     </footer>
   </main>
 </div>
 <script>
 function switchTab(btn, panelId) {
-  btn.closest('.code-export').querySelectorAll('.code-tabs button').forEach(b => b.classList.remove('is-active'));
-  btn.closest('.code-export').querySelectorAll('.code-pane').forEach(p => p.classList.remove('is-active'));
+  btn.closest('.code-export').querySelectorAll('.code-tabs button').forEach((node) => node.classList.remove('is-active'));
+  btn.closest('.code-export').querySelectorAll('.code-pane').forEach((node) => node.classList.remove('is-active'));
   btn.classList.add('is-active');
   document.getElementById(panelId).classList.add('is-active');
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.cmp-code').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent);
+  const prev = btn.textContent;
+  btn.textContent = 'copied';
+  setTimeout(() => {
+    btn.textContent = prev;
+  }, 1200);
 }
 </script>
 </body>

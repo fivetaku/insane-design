@@ -3,436 +3,1217 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Volvo — Design System Report</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Volvo Cars — Design System Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   :root {
-    --font-sans:"Pretendard Variable","Inter",-apple-system,sans-serif;
-    --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
-    --bg:#fafafa;--fg:#09090b;--card:#fff;--muted:#f4f4f5;--muted-fg:#71717a;--subtle:#52525b;
-    --border:#e4e4e7;--border-str:#d4d4d8;--accent:#18181b;--radius:.5rem;--radius-lg:.75rem;
-    --brand-color:#1F1F1F;
+    --font-sans: "Pretendard Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --bg: #f6f7f8;
+    --fg: #09090b;
+    --card: #ffffff;
+    --muted: #eef1f5;
+    --muted-fg: #5f6672;
+    --subtle: #3f4855;
+    --border: #dde3ea;
+    --border-str: #c8d0da;
+    --accent: #0b2ded;
+    --brand-color: #0b2ded;
+    --radius: .5rem;
+    --radius-lg: .9rem;
+    --shadow: 0 16px 40px rgba(11, 18, 32, .06);
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;scroll-padding-top:32px;}
-  body{font-family:var(--font-sans);font-size:14px;font-weight:400;line-height:1.6;color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;}
-  a{color:inherit;text-decoration:none;}code,kbd,samp{font-family:var(--font-mono);font-size:.85em;}button{font:inherit;cursor:pointer;border:none;background:none;color:inherit;}
-  .layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1440px;margin:0 auto;}
-  .toc{position:sticky;top:0;align-self:start;height:100vh;padding:28px 24px 28px 40px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:22px;overflow-y:auto;}
-  .toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
-  .toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
-  .toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
-  .toc__group{display:flex;flex-direction:column;gap:2px;}
-  .toc__group-label{font-family:var(--font-mono);font-size:10px;color:var(--border-str);text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin-bottom:4px;}
-  .toc__list{list-style:none;display:flex;flex-direction:column;gap:1px;}
-  .toc__list a{display:grid;grid-template-columns:26px 1fr;align-items:center;padding:6px 10px;font-size:13px;color:var(--muted-fg);border-radius:var(--radius);transition:background 140ms,color 140ms;}
-  .toc__list a:hover{background:var(--muted);color:var(--fg);}
-  .toc__num{font-family:var(--font-mono);font-size:10px;color:var(--border-str);}
-  .toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
-  .main{min-width:0;}
-  section{padding:72px 64px;max-width:1040px;border-bottom:1px solid var(--border);}
-  section:last-of-type{border-bottom:none;}
-  .section__num{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:10px;}
-  .section__title{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.35;margin-bottom:12px;}
-  .section__lede{font-size:15px;color:var(--subtle);max-width:720px;line-height:1.7;margin-bottom:40px;}
-  .hero{padding:80px 64px 64px;border-bottom:1px solid var(--border);}
-  .hero__eye{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;background:var(--muted);border:1px solid var(--border);border-radius:999px;font-family:var(--font-mono);font-size:11px;color:var(--subtle);margin-bottom:24px;}
-  .hero__eye .dot{width:6px;height:6px;border-radius:99px;background:var(--brand-color);}
-  .hero__title{font-size:44px;font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px;max-width:780px;}
-  .hero__title .sub{color:var(--muted-fg);font-weight:400;}
-  .hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:680px;margin-bottom:32px;}
-  .hero__screenshot{margin-bottom:32px;max-width:880px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);}
-  .hero__screenshot img{width:100%;height:auto;display:block;}
-  .qs{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 32px;max-width:880px;margin-top:8px;}
-  .qs__head{display:flex;align-items:center;gap:12px;padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid var(--border);}
-  .qs__head-label{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;}
-  .qs__head-title{font-size:15px;font-weight:600;}
-  .qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-  .qs__step{background:#08090a;color:#f7f8f8;border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:6px;font-family:var(--font-mono);font-size:11px;line-height:1.55;border:1px solid #1f2023;}
-  .qs__step-label{color:#7d8ba4;font-size:10px;letter-spacing:.06em;text-transform:uppercase;}
-  .qs__step code{color:#f7f8f8;font-size:11px;}
-  .qs__step b{color:#c3d3ff;font-weight:500;}
-  .qs__warn{margin-top:16px;padding:14px 18px;background:#fef2f2;border:1px solid #fecaca;border-left:3px solid #dc2626;border-radius:var(--radius);font-size:13px;color:#991b1b;line-height:1.6;}
-  .qs__warn b{color:#7f1d1d;font-weight:600;}
-  .qs__warn code{background:#fee2e2;padding:1px 6px;border-radius:3px;font-size:12px;}
-  .hero__stats{display:grid;grid-template-columns:repeat(4,1fr);max-width:880px;margin-top:32px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);overflow:hidden;}
-  .stat{padding:20px 24px;border-right:1px solid var(--border);}
-  .stat:last-child{border-right:none;}
-  .stat__label{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
-  .stat__val{font-size:18px;font-weight:600;letter-spacing:-.01em;}
-  .stat__val--mono{font-family:var(--font-mono);font-size:15px;}
-  .stat__hint{font-size:11px;color:var(--muted-fg);margin-top:4px;line-height:1.4;}
-  .prov{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);overflow:hidden;max-width:820px;}
-  .prov__row{display:grid;grid-template-columns:180px 1fr;padding:14px 24px;border-bottom:1px solid var(--border);font-size:13px;align-items:center;}
-  .prov__row:last-child{border-bottom:none;}
-  .prov__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
-  .prov__v code{font-size:12px;padding:2px 6px;background:var(--muted);border-radius:4px;}
-  .callout{margin-top:16px;padding:16px 20px;background:var(--muted);border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:var(--radius);font-size:13px;color:var(--subtle);line-height:1.75;max-width:820px;}
-  .callout--warn{background:#fef2f2;border-color:#fecaca;border-left-color:#dc2626;color:#991b1b;}
-  .callout b{color:var(--fg);font-weight:600;}
-  .callout--warn b{color:#7f1d1d;}
-  .callout code{background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px;border:1px solid var(--border);}
-  .ramp-group{margin-bottom:28px;}
-  .ramp-label{font-family:var(--font-mono);font-size:11px;margin-bottom:10px;display:flex;gap:8px;align-items:baseline;}
-  .ramp-label b{color:var(--fg);font-weight:600;}
-  .ramp{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
-  .ramp--2{grid-template-columns:repeat(2,minmax(0,1fr));}
-  .ramp--4{grid-template-columns:repeat(4,minmax(0,1fr));}
-  .ramp--5{grid-template-columns:repeat(5,minmax(0,1fr));}
-  .sw{aspect-ratio:1/2.2;display:flex;flex-direction:column;justify-content:flex-end;padding:8px 6px;font-family:var(--font-mono);font-size:9px;line-height:1.3;transition:transform 160ms;position:relative;cursor:default;}
-  .sw:hover{transform:scale(1.06);z-index:2;}
-  .sw--l{color:#09090b;}.sw--d{color:#fff;}
-  .sw .n{opacity:.7;margin-bottom:2px;}
-  .fs-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;max-width:820px;margin-bottom:24px;}
-  .fs-card__row{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
-  .fs-card__row:last-child{border-bottom:none;padding-bottom:0;}
-  .fs-card__row:first-child{padding-top:0;}
-  .fs-card__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
-  .fs-card__v code{background:var(--muted);padding:1px 6px;border-radius:4px;font-size:12px;}
-  .fs-card__v b{font-weight:600;}
-  .weight-demo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;max-width:820px;margin-bottom:16px;}
-  .weight-demo__row{display:flex;align-items:baseline;gap:24px;padding:8px 0;border-bottom:1px solid var(--border);font-family:"Arial Narrow",Arial,sans-serif;}
-  .weight-demo__row:last-child{border-bottom:none;}
-  .weight-demo__label{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);width:60px;flex-shrink:0;}
-  .weight-demo__text{font-size:20px;color:var(--fg);}
-  .code-export{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:900px;}
-  .code-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--muted);}
-  .code-tabs button{padding:12px 18px;font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid transparent;}
-  .code-tabs button.is-active{color:var(--fg);background:var(--card);border-bottom-color:var(--accent);}
-  .code-copy{margin-left:auto;padding:12px 18px;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);}
-  .code-pane{display:none;}.code-pane.is-active{display:block;}
-  .code-pane pre{background:#08090a;color:#f7f8f8;padding:24px 28px;font-family:var(--font-mono);font-size:12px;line-height:1.65;overflow-x:auto;max-height:560px;margin:0;}
-  .dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
-  .dd-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;}
-  .dd-card h3{font-family:var(--font-mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px;display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;}
-  .dd-card--do h3{background:#dcfce7;color:#166534;}.dd-card--dont h3{background:#fee2e2;color:#991b1b;}
-  .dd-card ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
-  .dd-card ul li{font-size:13px;line-height:1.7;color:var(--subtle);padding-left:20px;position:relative;}
-  .dd-card ul li::before{position:absolute;left:0;top:3px;font-family:var(--font-mono);font-size:11px;}
-  .dd-card--do ul li::before{content:"✓";color:#16a34a;}.dd-card--dont ul li::before{content:"✗";color:#dc2626;}
-  .dd-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;font-family:var(--font-mono);}
-  .rfoot{padding:40px 64px;display:flex;justify-content:space-between;align-items:center;gap:32px;font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
-  .rfoot .kr{font-family:var(--font-sans);font-size:12px;}
-  @media (max-width:1024px){.layout{grid-template-columns:1fr;}.toc{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:24px 32px;}.hero,section,.rfoot{padding-left:32px;padding-right:32px;}.dd-grid,.qs__grid{grid-template-columns:1fr;}.hero__stats{grid-template-columns:1fr 1fr;}.stat{border-right:none;border-bottom:1px solid var(--border);}}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 32px; }
+  body {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--fg);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  a { color: inherit; text-decoration: none; }
+  code, kbd, samp { font-family: var(--font-mono); font-size: .85em; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  .layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); max-width: 1460px; margin: 0 auto; }
+  .toc {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    padding: 28px 24px 28px 40px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    overflow-y: auto;
+    background: rgba(246, 247, 248, .92);
+    backdrop-filter: blur(14px);
+  }
+  .toc__brand { padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+  .toc__brand-name { font-size: 14px; font-weight: 700; letter-spacing: -.01em; }
+  .toc__brand-sub { font-family: var(--font-mono); font-size: 11px; color: var(--muted-fg); margin-top: 4px; }
+  .toc__group { display: flex; flex-direction: column; gap: 2px; }
+  .toc__group-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--border-str);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    padding: 0 10px;
+    margin-bottom: 4px;
+  }
+  .toc__list { list-style: none; display: flex; flex-direction: column; gap: 1px; }
+  .toc__list a {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    align-items: center;
+    padding: 7px 10px;
+    font-size: 13px;
+    color: var(--muted-fg);
+    border-radius: var(--radius);
+    transition: background 140ms, color 140ms;
+  }
+  .toc__list a:hover { background: var(--muted); color: var(--fg); }
+  .toc__num { font-family: var(--font-mono); font-size: 10px; color: var(--border-str); }
+  .toc__foot {
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-fg);
+    line-height: 1.6;
+  }
+  .main { min-width: 0; }
+  section {
+    padding: 72px 64px;
+    max-width: 1060px;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-of-type { border-bottom: none; }
+  .section__num { font-family: var(--font-mono); font-size: 11px; color: var(--muted-fg); margin-bottom: 10px; }
+  .section__title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+  .section__lede { font-size: 15px; color: var(--subtle); max-width: 760px; line-height: 1.72; margin-bottom: 34px; }
+  .hero {
+    padding: 82px 64px 64px;
+    border-bottom: 1px solid var(--border);
+    background:
+      radial-gradient(circle at top right, rgba(11, 45, 237, .08), transparent 32%),
+      linear-gradient(180deg, rgba(255, 255, 255, .75), rgba(255, 255, 255, 0));
+  }
+  .hero__eye {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    background: rgba(11, 45, 237, .06);
+    border: 1px solid rgba(11, 45, 237, .12);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #2643c9;
+    margin-bottom: 24px;
+  }
+  .hero__eye .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--brand-color); }
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: 46px;
+    font-weight: 700;
+    letter-spacing: -.035em;
+    line-height: 1.08;
+    margin-bottom: 14px;
+    max-width: 860px;
+  }
+  .hero__title .sub { color: var(--muted-fg); font-weight: 500; }
+  .hero__sub {
+    font-size: 16px;
+    color: var(--subtle);
+    line-height: 1.72;
+    max-width: 760px;
+    margin-bottom: 32px;
+  }
+  .hero__screenshot {
+    margin-bottom: 32px;
+    max-width: 900px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    background: var(--card);
+  }
+  .hero__screenshot img { width: 100%; height: auto; display: block; }
+  .qs {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    max-width: 900px;
+    margin-top: 8px;
+    box-shadow: var(--shadow);
+  }
+  .qs__head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .qs__head-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-fg);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .qs__head-title { font-size: 15px; font-weight: 700; }
+  .qs__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .qs__step {
+    background: #070b13;
+    color: #f7f8f8;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.55;
+    border: 1px solid #172135;
+  }
+  .qs__step-label { color: #93a7dd; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+  .qs__step code { color: #f7f8f8; font-size: 11px; white-space: pre-wrap; }
+  .qs__step b { color: #8ca2ff; font-weight: 500; }
+  .qs__warn {
+    margin-top: 16px;
+    padding: 14px 18px;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-left: 3px solid var(--brand-color);
+    border-radius: var(--radius);
+    font-size: 13px;
+    color: #22315c;
+    line-height: 1.65;
+  }
+  .qs__warn b { color: #0e1a3d; font-weight: 700; }
+  .qs__warn code { background: rgba(11, 45, 237, .08); padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 900px;
+    margin-top: 32px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--card);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .stat { padding: 20px 24px; border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: none; }
+  .stat__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-fg);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin-bottom: 8px;
+  }
+  .stat__val { font-size: 18px; font-weight: 700; letter-spacing: -.01em; }
+  .stat__hint { font-size: 11px; color: var(--muted-fg); margin-top: 4px; line-height: 1.45; }
+  .mood {
+    max-width: 900px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    box-shadow: var(--shadow);
+  }
+  .mood__bar { width: 52px; height: 4px; border-radius: 999px; background: var(--brand-color); margin-bottom: 20px; }
+  .mood__body { display: flex; flex-direction: column; gap: 16px; color: var(--subtle); font-size: 14px; line-height: 1.8; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--subtle);
+  }
+  .prov {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--card);
+    overflow: hidden;
+    max-width: 860px;
+    box-shadow: var(--shadow);
+  }
+  .prov__row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    align-items: center;
+  }
+  .prov__row:last-child { border-bottom: none; }
+  .prov__k { font-family: var(--font-mono); font-size: 11px; color: var(--muted-fg); }
+  .prov__v code {
+    font-size: 12px;
+    padding: 2px 6px;
+    background: var(--muted);
+    border-radius: 4px;
+  }
+  .callout {
+    margin-top: 16px;
+    padding: 16px 20px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+    border-radius: var(--radius);
+    font-size: 13px;
+    color: var(--subtle);
+    line-height: 1.75;
+    max-width: 860px;
+  }
+  .callout b { color: var(--fg); font-weight: 700; }
+  .callout code {
+    background: var(--card);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    border: 1px solid var(--border);
+  }
+  .token-table {
+    max-width: 920px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+  .token-table table { width: 100%; border-collapse: collapse; }
+  .token-table th,
+  .token-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+    font-size: 13px;
+  }
+  .token-table th {
+    background: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-fg);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .token-table tr:last-child td { border-bottom: none; }
+  .token-table code { background: var(--muted); padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+  .fs-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    max-width: 860px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+  }
+  .fs-card__row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .fs-card__row:last-child { border-bottom: none; padding-bottom: 0; }
+  .fs-card__row:first-child { padding-top: 0; }
+  .fs-card__k { font-family: var(--font-mono); font-size: 11px; color: var(--muted-fg); }
+  .fs-card__v code { background: var(--muted); padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+  .ramp-group { margin-bottom: 26px; }
+  .ramp-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+  .ramp-label b { color: var(--fg); font-weight: 700; }
+  .ramp {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .ramp--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .ramp--5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .sw {
+    aspect-ratio: 1 / 2.15;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px 8px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    line-height: 1.35;
+    transition: transform 160ms;
+    position: relative;
+    cursor: default;
+  }
+  .sw:hover { transform: scale(1.04); z-index: 2; }
+  .sw--l { color: #0b0f19; }
+  .sw--d { color: #fff; }
+  .sw .n { opacity: .75; margin-bottom: 2px; }
+  .component-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    max-width: 920px;
+  }
+  .component-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 24px 22px;
+    box-shadow: var(--shadow);
+  }
+  .component-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    margin-bottom: 12px;
+  }
+  .component-card p {
+    font-size: 13px;
+    color: var(--subtle);
+    line-height: 1.72;
+    margin-bottom: 14px;
+  }
+  .component-card pre {
+    background: #070b13;
+    color: #f7f8f8;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.62;
+    overflow-x: auto;
+    margin-bottom: 14px;
+  }
+  .component-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .component-card li { font-size: 13px; color: var(--subtle); line-height: 1.65; }
+  .component-card code { background: var(--muted); padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+  .quote-list {
+    display: grid;
+    gap: 14px;
+    max-width: 900px;
+  }
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .quote-card__text {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: -.02em;
+    margin-bottom: 8px;
+  }
+  .quote-card__meta { font-size: 12px; color: var(--muted-fg); }
+  .code-export {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    max-width: 920px;
+    box-shadow: var(--shadow);
+  }
+  .code-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--muted); }
+  .code-tabs button[data-tab] {
+    padding: 12px 18px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-fg);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    border-bottom: 2px solid transparent;
+  }
+  .code-tabs button.is-active {
+    color: var(--fg);
+    background: var(--card);
+    border-bottom-color: var(--accent);
+  }
+  .code-copy {
+    margin-left: auto;
+    padding: 12px 18px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-fg);
+  }
+  .code-pane { display: none; }
+  .code-pane.is-active { display: block; }
+  .code-pane pre {
+    background: #070b13;
+    color: #f7f8f8;
+    padding: 24px 28px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.68;
+    overflow-x: auto;
+    max-height: 620px;
+    margin: 0;
+  }
+  .dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 920px; }
+  .dd-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    box-shadow: var(--shadow);
+  }
+  .dd-card h3 {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .dd-card--do h3 { background: #dcfce7; color: #166534; }
+  .dd-card--dont h3 { background: #fee2e2; color: #991b1b; }
+  .dd-card ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .dd-card ul li {
+    font-size: 13px;
+    line-height: 1.72;
+    color: var(--subtle);
+    padding-left: 20px;
+    position: relative;
+  }
+  .dd-card ul li::before {
+    position: absolute;
+    left: 0;
+    top: 3px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .dd-card--do ul li::before { content: "✓"; color: #16a34a; }
+  .dd-card--dont ul li::before { content: "✗"; color: #dc2626; }
+  .dd-card ul li code { background: var(--muted); padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+  .rfoot {
+    padding: 40px 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-fg);
+  }
+  .rfoot .kr { font-family: var(--font-sans); font-size: 12px; }
+  @media (max-width: 1024px) {
+    .layout { grid-template-columns: 1fr; }
+    .toc {
+      position: relative;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 24px 32px;
+    }
+    .hero, section, .rfoot { padding-left: 32px; padding-right: 32px; }
+    .qs__grid, .hero__stats, .component-grid, .dd-grid { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+    .prov__row, .fs-card__row { grid-template-columns: 1fr; gap: 8px; }
+  }
 </style>
 </head>
 <body>
 <div class="layout">
   <aside class="toc">
     <div class="toc__brand">
-      <div class="toc__brand-name">Volvo</div>
-      <div class="toc__brand-sub">Design System Report</div>
+      <div class="toc__brand-name">Volvo Cars</div>
+      <div class="toc__brand-sub">Design System Report / 2026-04-23</div>
     </div>
+
     <div class="toc__group">
       <div class="toc__group-label">Overview</div>
       <ul class="toc__list">
         <li><a href="#hero"><span class="toc__num">00</span>한눈에 보기</a></li>
-        <li><a href="#provenance"><span class="toc__num">01</span>출처와 수집 기준</a></li>
+        <li><a href="#mood"><span class="toc__num">01</span>분위기와 철학</a></li>
+        <li><a href="#provenance"><span class="toc__num">02</span>출처와 수집 기준</a></li>
+        <li><a href="#stack"><span class="toc__num">03</span>테크 스택</a></li>
       </ul>
     </div>
+
     <div class="toc__group">
       <div class="toc__group-label">Foundations</div>
       <ul class="toc__list">
-        <li><a href="#typography"><span class="toc__num">02</span>타이포그래피</a></li>
-        <li><a href="#colors"><span class="toc__num">03</span>컬러 (OneTrust)</a></li>
+        <li><a href="#typography"><span class="toc__num">04</span>타이포그래피</a></li>
+        <li><a href="#colors"><span class="toc__num">05</span>컬러</a></li>
       </ul>
     </div>
+
+    <div class="toc__group">
+      <div class="toc__group-label">Tokens</div>
+      <ul class="toc__list">
+        <li><a href="#spacing"><span class="toc__num">06</span>스페이싱</a></li>
+        <li><a href="#radius"><span class="toc__num">07</span>라디우스</a></li>
+        <li><a href="#motion"><span class="toc__num">08</span>모션</a></li>
+      </ul>
+    </div>
+
+    <div class="toc__group">
+      <div class="toc__group-label">Structure</div>
+      <ul class="toc__list">
+        <li><a href="#layout"><span class="toc__num">09</span>레이아웃 패턴</a></li>
+        <li><a href="#responsive"><span class="toc__num">10</span>반응형</a></li>
+      </ul>
+    </div>
+
     <div class="toc__group">
       <div class="toc__group-label">Patterns</div>
       <ul class="toc__list">
-        <li><a href="#components"><span class="toc__num">04</span>컴포넌트</a></li>
+        <li><a href="#components"><span class="toc__num">11</span>컴포넌트</a></li>
+        <li><a href="#voice"><span class="toc__num">12</span>라이팅 원칙</a></li>
       </ul>
     </div>
+
     <div class="toc__group">
       <div class="toc__group-label">Code</div>
       <ul class="toc__list">
-        <li><a href="#export"><span class="toc__num">05</span>CSS 스니펫</a></li>
+        <li><a href="#export"><span class="toc__num">13</span>CSS Export</a></li>
+        <li><a href="#agent"><span class="toc__num">14</span>에이전트 가이드</a></li>
       </ul>
     </div>
+
     <div class="toc__group">
       <div class="toc__group-label">Rules</div>
       <ul class="toc__list">
-        <li><a href="#verdict"><span class="toc__num">06</span>Do / Don't</a></li>
+        <li><a href="#verdict"><span class="toc__num">15</span>Do / Don&apos;t</a></li>
       </ul>
     </div>
-    <div class="toc__foot">insane-design/volvo/<br>design.md<br>2026-04-13</div>
+
+    <div class="toc__foot">insane-design / volvo /<br>shared CSS + homepage chunks<br>`Volvo Novum` confirmed / centenary active</div>
   </aside>
 
   <main class="main">
     <section id="hero" class="hero">
       <div class="hero__eye"><span class="dot"></span>Design System Report</div>
-      <h1 class="hero__title">Volvo <span class="sub">— font-weight 9종, OneTrust 컬러</span></h1>
-      <p class="hero__sub">volvo.com CSS 파싱의 두 가지 발견: (1) 컬러 데이터 전체가 OneTrust 쿠키 동의 UI — 실제 Volvo 브랜드 블루는 미추출. (2) <strong>Volvo Novum</strong>은 weight 100~bold까지 9가지 변형. 이 타이포그래피 다양성이 스칸디나비아 디자인의 핵심이다.</p>
+      <h1 class="hero__title">Volvo Cars <span class="sub">— centenary active, `Volvo Novum` confirmed in shared CSS</span></h1>
+      <p class="hero__sub">이번 캡처의 핵심은 두 겹이다. shared pkg에는 <strong>`Volvo Novum`이 실제로 남아 있고</strong>, 현재 `/kr/` 홈은 <strong>`data-theme="centenary"`</strong>에서 sans를 `Volvo Centum`, display를 `Volvo Broad Pro`, accent를 `#0B2DED`로 다시 묶는다. 즉 Volvo Novum은 존재하지만, active homepage의 시각적 결과물은 Centum 기반이다.</p>
 
       <div class="hero__screenshot">
-        <img src="screenshots/hero-cropped.png" alt="volvo.com — 실제 홈페이지 스크린샷">
+        <img src="screenshots/hero-cropped.png" alt="Volvo Cars /kr/ 실제 홈페이지 스크린샷">
       </div>
 
       <div class="qs">
         <div class="qs__head">
           <span class="qs__head-label">Quick Start</span>
-          <span class="qs__head-title">5분 안에 Volvo처럼 만들기 — 3가지만 하면 80%</span>
+          <span class="qs__head-title">현재 Volvo 홈처럼 보이게 하려면 이 3가지를 먼저 맞춘다</span>
         </div>
         <div class="qs__grid">
           <div class="qs__step">
-            <span class="qs__step-label">1 · 폰트 — 다중 weight</span>
-            <code>body {
-  font-family:
-    <b>"Volvo Novum"</b>,
-    "Arial Narrow",
+            <span class="qs__step-label">1 · Active Sans</span>
+            <code>[data-theme="centenary"] {
+  --v-font-sans-family:
+    <b>"Volvo Centum"</b>,
     "Helvetica Neue",
-    Arial, sans-serif;
-  font-weight: <b>400</b>;
-}
-h1 { font-weight: <b>300</b>; }
-.caption { font-weight: <b>100</b>; }</code>
-          </div>
-          <div class="qs__step">
-            <span class="qs__step-label">2 · 배경 + 텍스트</span>
-            <code>:root {
-  --bg: <b>#FFFFFF</b>;
-  --fg: <b>#1F1F1F</b>;
-}
-body {
-  background: var(--bg);
-  color: var(--fg);
+    "Helvetica",
+    "Noto Sans",
+    "Segoe UI",
+    "Arial",
+    sans-serif;
+  --v-font-regular-weight: <b>400</b>;
+  --v-font-emphasis-weight: <b>600</b>;
 }</code>
           </div>
           <div class="qs__step">
-            <span class="qs__step-label">3 · 다크 버튼</span>
-            <code>:root {
-  /* OneTrust 레이어 파싱 */
-  --btn-dark: <b>#1F1F1F</b>;
-  --btn-hover: <b>#3A3A3A</b>;
-  --btn-active: <b>#4C4C4C</b>;
+            <span class="qs__step-label">2 · White / Black Shell</span>
+            <code>[data-theme="centenary"] {
+  --bg: <b>#FFFFFF</b>;
+  --fg: <b>#000000</b>;
+  --muted: <b>#5E5E5E</b>;
+  --surface: <b>#000000</b>;
+}</code>
+          </div>
+          <div class="qs__step">
+            <span class="qs__step-label">3 · Blue State Only</span>
+            <code>[data-theme="centenary"] {
+  --accent: <b>#0B2DED</b>;
+  --accent-subtle: <b>#0B2DED0A</b>;
+  --accent-medium: <b>#0B2DED1F</b>;
 }</code>
           </div>
         </div>
         <div class="qs__warn">
-          <b>절대 하지 말아야 할 것:</b> 폰트를 일반 Regular(400)만 쓰는 것. Volvo Novum은 <code>SemiLight</code> 변형이 별도로 있고, weight spectrum이 100~bold까지 9가지. 이 다양한 weight 조합이 Volvo 타이포그래피의 핵심이다.
+          <b>주의:</b> `Volvo Novum`은 실제로 존재하지만, 현재 홈의 전체 기본 폰트는 아니다. <code>Novum = shared base</code>, <code>Centum = active centenary</code>로 구분해서 써야 한다. 또한 이번 캡처에서 OneTrust는 <code>--ot-*</code> custom property보다 <code>ot-*</code> selector namespace로 드러났다.
         </div>
       </div>
 
       <div class="hero__stats">
         <div class="stat">
-          <div class="stat__label">Default Theme</div>
-          <div class="stat__val">Light</div>
-          <div class="stat__hint">라이트 기반</div>
+          <div class="stat__label">Theme</div>
+          <div class="stat__val">Centenary</div>
+          <div class="stat__hint">light default / `data-theme` active</div>
         </div>
         <div class="stat">
-          <div class="stat__label">Primary Font</div>
-          <div class="stat__val" style="font-size:14px;">Volvo Novum</div>
-          <div class="stat__hint">24회 감지</div>
+          <div class="stat__label">Fonts</div>
+          <div class="stat__val">Centum / Novum</div>
+          <div class="stat__hint">Centum active, Novum confirmed</div>
         </div>
         <div class="stat">
-          <div class="stat__label">Font Weights</div>
-          <div class="stat__val">9종</div>
-          <div class="stat__hint">100~bold</div>
+          <div class="stat__label">Token Layer</div>
+          <div class="stat__val">`--v-*`</div>
+          <div class="stat__hint">utility + CSS Module hybrid</div>
         </div>
         <div class="stat">
-          <div class="stat__label">Color Data</div>
-          <div class="stat__val" style="font-size:14px;">OneTrust</div>
-          <div class="stat__hint">Volvo 브랜드 미추출</div>
+          <div class="stat__label">CSS Footprint</div>
+          <div class="stat__val">22 + 7</div>
+          <div class="stat__hint">external 22 / inline 7 / 362,468 chars</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mood">
+      <div class="section__num">01</div>
+      <h2 class="section__title">분위기와 철학</h2>
+      <p class="section__lede">현재 Volvo 홈은 감성적인 스칸디나비아 화이트 미니멀리즘이라기보다, 시스템적으로 정리된 흑백 구조 위에 파란 상태 신호만 얹는 방식에 가깝다.</p>
+      <div class="mood">
+        <div class="mood__bar"></div>
+        <div class="mood__body">
+          <p>실제 `/kr/` 홈의 active token은 `#FFFFFF`와 `#000000`을 가장 강한 축으로 쓴다. 보조 텍스트는 `#5E5E5E`, tertiary는 `#787878`, 상태 강조만 `#0B2DED`다. 이 조합 덕분에 제품 사진, 가격, CTA가 모두 같은 페이지 안에 있어도 구조가 무너지지 않는다.</p>
+          <p>폰트는 더 흥미롭다. shared CSS는 여전히 `Volvo Novum`을 base sans로 선언하지만, centenary 테마가 실제 렌더 단계에서 `Volvo Centum`으로 갈아탄다. 그래서 브랜드 고유 폰트 계보는 이어지되, 화면 결과는 더 단단하고 묵직한 Centum 톤으로 보인다.</p>
+          <p>공간은 `8 -> 12` column grid, `81rem` grid max, `160rem` page shell, `.125rem`부터 `8rem`까지 이어지는 spacing ladder로 운영된다. 표면 분리는 drop shadow보다 ring, border, blur, scrim에 가깝고, selection/focus에만 파란색이 날카롭게 튀어나온다.</p>
+        </div>
+        <div class="pill-row">
+          <span class="pill">white / black shell</span>
+          <span class="pill">electric blue state</span>
+          <span class="pill">Centum active</span>
+          <span class="pill">Novum confirmed</span>
+          <span class="pill">8 -> 12 col grid</span>
+          <span class="pill">ring over shadow</span>
         </div>
       </div>
     </section>
 
     <section id="provenance">
-      <div class="section__num">01</div>
+      <div class="section__num">02</div>
       <h2 class="section__title">출처와 수집 기준</h2>
-      <p class="section__lede">CSS 커스텀 프로퍼티를 직접 파싱했으나 컬러 데이터 대부분이 OneTrust 쿠키 동의 UI다.</p>
+      <p class="section__lede">이번 업데이트는 `volvo.com`이 아니라 실제 렌더와 CSS가 살아 있는 `https://www.volvocars.com/kr/`를 기준으로 다시 수집했다.</p>
       <div class="prov">
-        <div class="prov__row"><span class="prov__k">Source URL</span><span class="prov__v"><code>https://volvo.com</code></span></div>
-        <div class="prov__row"><span class="prov__k">Fetched</span><span class="prov__v">2026-04-13</span></div>
-        <div class="prov__row"><span class="prov__k">Token prefix</span><span class="prov__v"><code>--ot-btn-*</code> (OneTrust 동의 버튼 레이어)</span></div>
-        <div class="prov__row"><span class="prov__k">Method</span><span class="prov__v">CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음</span></div>
-        <div class="prov__row"><span class="prov__k">한계</span><span class="prov__v">실제 Volvo 브랜드 CSS는 정적 파싱으로 추출 불충분</span></div>
+        <div class="prov__row"><span class="prov__k">Source URL</span><span class="prov__v"><code>https://www.volvocars.com/kr/</code></span></div>
+        <div class="prov__row"><span class="prov__k">Fetched</span><span class="prov__v">2026-04-23</span></div>
+        <div class="prov__row"><span class="prov__k">Extractor</span><span class="prov__v"><code>curl_cffi</code> Chrome impersonation + direct CSS fetch</span></div>
+        <div class="prov__row"><span class="prov__k">HTML Size</span><span class="prov__v">`338,055` bytes, Next.js App Router SSR</span></div>
+        <div class="prov__row"><span class="prov__k">CSS</span><span class="prov__v">external `22` + inline `7`, total `362,468` chars</span></div>
+        <div class="prov__row"><span class="prov__k">Token Prefix</span><span class="prov__v"><code>--v-*</code> custom properties + <code>ot-*</code> / <code>#onetrust-*</code> consent selectors</span></div>
       </div>
-      <div class="callout callout--warn" style="margin-top:20px;">
-        <b>OneTrust 경고:</b> 파싱된 컬러 토큰(<code>--ot-btn-primary-bg</code> 등)은 Volvo 마케팅 사이트가 아닌 OneTrust 쿠키 동의 UI의 것이다. 실제 Volvo 브랜드 블루는 CSS에서 추출되지 않았다. <code>#1C6BBA</code> 같은 Volvo 브랜드 블루를 이 데이터에서 유추하지 말 것.
+      <div class="callout">
+        <b>중요한 정정:</b> 이전 산출물은 Volvo 컬러를 사실상 OneTrust에서 읽어 왔다. 현재 캡처에서는 shared pkg의 실제 token layer가 <code>--v-*</code>로 확인됐고, OneTrust는 selector namespace 쪽이었다. 이번 리포트는 그 차이를 분리해서 썼다.
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="section__num">03</div>
+      <h2 class="section__title">테크 스택</h2>
+      <p class="section__lede">Volvo 홈의 CSS는 한 덩어리 테마 파일이 아니라 shared pkg, utility, feature CSS Module, site-navigation 번들이 동시에 작동하는 구조다.</p>
+      <div class="fs-card">
+        <div class="fs-card__row"><div class="fs-card__k">Framework</div><div class="fs-card__v">Next.js App Router (`/_next/static/chunks/app/[siteSlug]/page-*.js`)</div></div>
+        <div class="fs-card__row"><div class="fs-card__k">Shared pkg</div><div class="fs-card__v"><code>/static/shared/pkg/css/v1/</code> — `font-face`, `tokens`, `styles`, `styles_md`, `styles_xl`, `styles_hover`</div></div>
+        <div class="fs-card__row"><div class="fs-card__k">Architecture</div><div class="fs-card__v">token `--v-*` -> utility atom (`text-primary`, `rounded-lg`, `border-ring-2`) -> feature CSS Module (`SubNavigation_*`, `ChargingTool_*`, `discovery-card_*`)</div></div>
+        <div class="fs-card__row"><div class="fs-card__k">Theme</div><div class="fs-card__v">root `<html>`에서 `data-theme="centenary"` active, 기본 light</div></div>
+        <div class="fs-card__row"><div class="fs-card__k">Anchor Color</div><div class="fs-card__v">current centenary accent = <code>#0B2DED</code>, shared legacy accent = <code>#1C6EBA</code></div></div>
+      </div>
+      <div class="callout">
+        <b>이 구조가 중요한 이유:</b> `Volvo Novum`과 `Volvo Centum`이 동시에 존재해도 모순이 아니다. shared base와 active theme가 따로 있기 때문이다.
       </div>
     </section>
 
     <section id="typography">
-      <div class="section__num">02</div>
+      <div class="section__num">04</div>
       <h2 class="section__title">타이포그래피</h2>
-      <p class="section__lede">Volvo Novum — 스칸디나비아 감성의 narrow sans. 9가지 weight 변형이 핵심이다.</p>
+      <p class="section__lede">공유 패키지의 base sans는 `Volvo Novum`, 현재 홈의 active sans는 `Volvo Centum`이다. 이 이중 구조를 모르면 Volvo를 재현해도 화면이 계속 어긋난다.</p>
+
       <div class="fs-card">
-        <div class="fs-card__row">
-          <span class="fs-card__k">Display</span>
-          <span class="fs-card__v"><b>Volvo Broad</b> — Volvo 독점, 디스플레이 전용</span>
-        </div>
-        <div class="fs-card__row">
-          <span class="fs-card__k">Body</span>
-          <span class="fs-card__v"><b>Volvo Novum</b> — Volvo 독점 (24회 감지)</span>
-        </div>
-        <div class="fs-card__row">
-          <span class="fs-card__k">Narrow</span>
-          <span class="fs-card__v"><b>Volvo Novum SemiLight</b> — Volvo 독점 (14회 감지)</span>
-        </div>
-        <div class="fs-card__row">
-          <span class="fs-card__k">CSS Token</span>
-          <span class="fs-card__v"><code>--volvo-font-family</code> / <code>--volvo-font-family-semi</code></span>
-        </div>
-        <div class="fs-card__row">
-          <span class="fs-card__k">Weights (9종)</span>
-          <span class="fs-card__v"><code>100, 300, 350, 400, 500, 600, 700, bold, normal</code></span>
-        </div>
-        <div class="fs-card__row">
-          <span class="fs-card__k">라이선스</span>
-          <span class="fs-card__v">Volvo 독점. 외부: Source Sans Pro / Noto Sans Narrow</span>
-        </div>
+        <div class="fs-card__row"><div class="fs-card__k">Active Sans</div><div class="fs-card__v"><code>Volvo Centum</code> — theme token에서 `400 / 600` 계층으로 사용</div></div>
+        <div class="fs-card__row"><div class="fs-card__k">Shared Sans</div><div class="fs-card__v"><code>Volvo Novum</code> — base token과 `font-face.8324f4d8.css`에 실제 존재</div></div>
+        <div class="fs-card__row"><div class="fs-card__k">Display</div><div class="fs-card__v"><code>Volvo Broad</code> / <code>Volvo Broad Pro</code></div></div>
+        <div class="fs-card__row"><div class="fs-card__k">Weights</div><div class="fs-card__v">active theme = `400 / 600`, shared font-face = `Volvo Novum 300/500`, `Volvo Centum 380/570`</div></div>
       </div>
 
-      <div class="weight-demo">
-        <div class="weight-demo__row">
-          <span class="weight-demo__label">100</span>
-          <span class="weight-demo__text" style="font-weight:100;">Electric. Safe. Sustainable.</span>
-        </div>
-        <div class="weight-demo__row">
-          <span class="weight-demo__label">300</span>
-          <span class="weight-demo__text" style="font-weight:300;">Electric. Safe. Sustainable.</span>
-        </div>
-        <div class="weight-demo__row">
-          <span class="weight-demo__label">400</span>
-          <span class="weight-demo__text" style="font-weight:400;">Electric. Safe. Sustainable.</span>
-        </div>
-        <div class="weight-demo__row">
-          <span class="weight-demo__label">600</span>
-          <span class="weight-demo__text" style="font-weight:600;">Electric. Safe. Sustainable.</span>
-        </div>
-        <div class="weight-demo__row">
-          <span class="weight-demo__label">700</span>
-          <span class="weight-demo__text" style="font-weight:700;">Electric. Safe. Sustainable.</span>
-        </div>
+      <div class="token-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Size</th>
+              <th>Weight</th>
+              <th>Line-height</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>--v-font-12</code></td><td>.75rem</td><td>400</td><td>1.667</td><td>micro / caption</td></tr>
+            <tr><td><code>--v-font-14</code></td><td>.875rem</td><td>400</td><td>1.572</td><td>secondary body</td></tr>
+            <tr><td><code>--v-font-16</code></td><td>1rem</td><td>400</td><td>1.5</td><td>base body</td></tr>
+            <tr><td><code>--v-font-20</code></td><td>1.25rem</td><td>400</td><td>1.4</td><td>intro / compact heading</td></tr>
+            <tr><td><code>--v-font-24</code></td><td>1.5rem</td><td>400</td><td>1.334</td><td>small display</td></tr>
+            <tr><td><code>--v-font-heading-1</code></td><td>`round(down, clamp(2rem, 2.143vw + 1.357rem, 3.5rem), 2px)`</td><td>400</td><td>`calc(1em + .5rem)`</td><td>main heading</td></tr>
+            <tr><td><code>--v-font-statement-1</code></td><td>`round(down, clamp(4.5rem, 6.786vw + 2.464rem, 9.25rem), 2px)`</td><td>400</td><td>`calc(1em + .5rem)`</td><td>largest statement</td></tr>
+            <tr><td><code>--v-font-statement-signature</code></td><td>`round(down, clamp(2.5rem, 3.929vw + 1.321rem, 5.25rem), 2px)`</td><td>400</td><td>`calc(1em + .5rem)`</td><td>`Volvo Broad Pro` display</td></tr>
+          </tbody>
+        </table>
       </div>
-      <p style="font-size:11px;color:var(--muted-fg);font-family:var(--font-mono);">* 실제 Volvo Novum 미로딩 — 시스템 폰트로 weight 차이 미리보기</p>
+
+      <div class="callout">
+        <b>핵심 해석:</b> Volvo는 헤비한 700/800 타이포그래피보다 넓은 statement scale과 400/600 대비를 선호한다. 거대한 크기를 써도 무게는 과도하게 올리지 않는다.
+      </div>
     </section>
 
     <section id="colors">
-      <div class="section__num">03</div>
-      <h2 class="section__title">컬러 (OneTrust 레이어)</h2>
-      <p class="section__lede">파싱된 컬러는 OneTrust 쿠키 동의 UI의 것이다. Volvo 브랜드 CSS는 미추출.</p>
+      <div class="section__num">05</div>
+      <h2 class="section__title">컬러</h2>
+      <p class="section__lede">실제 CSS는 흑백 기반이다. 블루는 브랜드 면적색이 아니라 current / selected / focus state를 표시하는 상태색으로 읽는 편이 정확하다.</p>
 
       <div class="ramp-group">
-        <div class="ramp-label"><b>OneTrust 버튼 — Dark / Light 테마</b></div>
-        <div class="ramp ramp--4">
-          <div class="sw sw--d" style="background:#1F1F1F;"><span class="n">Dark Btn BG</span>#1F1F1F</div>
-          <div class="sw sw--d" style="background:#3A3A3A;"><span class="n">Dark Hover</span>#3A3A3A</div>
-          <div class="sw sw--d" style="background:#4C4C4C;"><span class="n">Dark Active</span>#4C4C4C</div>
-          <div class="sw sw--l" style="background:#E5E7EB;"><span class="n">Light Btn BG</span>#E5E7EB</div>
+        <div class="ramp-label"><b>Active Centenary Light</b><span>`#FFFFFF / #000000 / #5E5E5E / #0B2DED / #E3E3E3`</span></div>
+        <div class="ramp ramp--5">
+          <div class="sw sw--l" style="background:#FFFFFF;"><span class="n">bg primary</span>#FFFFFF</div>
+          <div class="sw sw--d" style="background:#000000;"><span class="n">fg primary</span>#000000</div>
+          <div class="sw sw--l" style="background:#5E5E5E;"><span class="n">fg secondary</span>#5E5E5E</div>
+          <div class="sw sw--d" style="background:#0B2DED;"><span class="n">accent blue</span>#0B2DED</div>
+          <div class="sw sw--l" style="background:#E3E3E3;"><span class="n">surface gray</span>#E3E3E3</div>
         </div>
       </div>
 
-      <div class="callout callout--warn">
-        <b>주의:</b> 이 컬러들은 OneTrust 쿠키 동의 UI의 것이다. Volvo 자체 브랜드 컬러(파란 계열, 스칸디나비아 컬러)는 CSS 파싱에서 추출되지 않았다. <code>#1C6BBA</code> 등의 Volvo 브랜드 블루는 이 데이터와 무관하다.
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Active Centenary Dark</b><span>`#000000 / #FFFFFF / #969696 / #3354FF / #171717`</span></div>
+        <div class="ramp ramp--5">
+          <div class="sw sw--d" style="background:#000000;"><span class="n">bg primary</span>#000000</div>
+          <div class="sw sw--l" style="background:#FFFFFF;"><span class="n">fg primary</span>#FFFFFF</div>
+          <div class="sw sw--l" style="background:#969696;"><span class="n">fg secondary</span>#969696</div>
+          <div class="sw sw--d" style="background:#3354FF;"><span class="n">accent blue</span>#3354FF</div>
+          <div class="sw sw--d" style="background:#171717;"><span class="n">bg secondary</span>#171717</div>
+        </div>
+      </div>
+
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Shared Base / Legacy</b><span>`#1C6EBA / #378FE1 / #1F1F1F / #FAFAFA`</span></div>
+        <div class="ramp ramp--4">
+          <div class="sw sw--d" style="background:#1C6EBA;"><span class="n">legacy blue</span>#1C6EBA</div>
+          <div class="sw sw--d" style="background:#378FE1;"><span class="n">dark legacy blue</span>#378FE1</div>
+          <div class="sw sw--d" style="background:#1F1F1F;"><span class="n">legacy surface</span>#1F1F1F</div>
+          <div class="sw sw--l" style="background:#FAFAFA;"><span class="n">secondary bg</span>#FAFAFA</div>
+        </div>
+      </div>
+
+      <div class="ramp-group">
+        <div class="ramp-label"><b>Accent Families</b><span>`#FC6408 / #048220 / #E52715 / #CE6700`</span></div>
+        <div class="ramp ramp--4">
+          <div class="sw sw--d" style="background:#FC6408;"><span class="n">safety</span>#FC6408</div>
+          <div class="sw sw--d" style="background:#048220;"><span class="n">feedback green</span>#048220</div>
+          <div class="sw sw--d" style="background:#E52715;"><span class="n">feedback red</span>#E52715</div>
+          <div class="sw sw--d" style="background:#CE6700;"><span class="n">feedback orange</span>#CE6700</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>state layer:</b> `#0B2DED0A`, `#0B2DED1F`, `#0B2DED33`처럼 투명도 레이어를 단계별로 두고, 기본 border는 `#0000001F`로 처리한다. 파란색을 면적으로 채우지 않는 이유가 여기에 있다.
+      </div>
+    </section>
+
+    <section id="spacing">
+      <div class="section__num">06</div>
+      <h2 class="section__title">스페이싱</h2>
+      <p class="section__lede">컴포넌트 내부는 고정 계단, 섹션 간 호흡은 fluid clamp. Volvo는 두 레이어를 동시에 운용한다.</p>
+      <div class="token-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Value</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>--v-space-2</code></td><td>.125rem</td><td>micro gap</td></tr>
+            <tr><td><code>--v-space-8</code></td><td>.5rem</td><td>tight padding</td></tr>
+            <tr><td><code>--v-space-16</code></td><td>1rem</td><td>base inner spacing</td></tr>
+            <tr><td><code>--v-space-24</code></td><td>1.5rem</td><td>card / control padding</td></tr>
+            <tr><td><code>--v-space-32</code></td><td>2rem</td><td>section inner spacing</td></tr>
+            <tr><td><code>--v-space-48</code></td><td>3rem</td><td>large card / dialog spacing</td></tr>
+            <tr><td><code>--v-space-64</code></td><td>4rem</td><td>desktop generous spacing</td></tr>
+            <tr><td><code>--v-space-xs</code></td><td>`round(clamp(.5rem, 1.071vw + .179rem, 1.25rem), 2px)`</td><td>fluid tiny section gap</td></tr>
+            <tr><td><code>--v-space-md</code></td><td>`round(clamp(1.5rem, 2.143vw + .857rem, 3rem), 2px)`</td><td>fluid section gap</td></tr>
+            <tr><td><code>--v-space-2xl</code></td><td>`round(clamp(4rem, 5.714vw + 2.286rem, 8rem), 2px)`</td><td>hero / large section spacing</td></tr>
+            <tr><td><code>--v-space-gutter</code></td><td>`clamp(1rem, 2.6vw + .3rem, 1.5rem)`</td><td>grid gutter</td></tr>
+            <tr><td><code>--v-space-pagemargin</code></td><td>`round(clamp(1rem, 4.286vw + -.286rem, 4rem), 2px)`</td><td>page outer margin</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="radius">
+      <div class="section__num">07</div>
+      <h2 class="section__title">라디우스</h2>
+      <p class="section__lede">둥글지만 무르지 않다. 기본 라디우스는 작고, pill과 dialog에서만 크게 벌어진다.</p>
+      <div class="token-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Value</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>--v-radius-sm</code></td><td>.25rem</td><td>default small rounding</td></tr>
+            <tr><td><code>--v-radius-md</code></td><td>.5rem</td><td>mid card / dialog</td></tr>
+            <tr><td><code>--v-radius-lg</code></td><td>1rem</td><td>emphasized modal / large card</td></tr>
+            <tr><td><code>--v-radius-full</code></td><td>9999px</td><td>pills / circle controls</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <b>shape rule:</b> Volvo는 border-radius를 넓게 쓰지 않는다. `rounded-full` pill과 `1rem` dialog만 예외이고, 기본 컴포넌트는 `.25rem`~`.5rem`에 머문다.
+      </div>
+    </section>
+
+    <section id="motion">
+      <div class="section__num">08</div>
+      <h2 class="section__title">모션</h2>
+      <p class="section__lede">과장된 parallax보다 blur, scale, sheet transition처럼 상태 전달용 모션이 중심이다.</p>
+      <div class="token-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Token / Selector</th>
+              <th>Value</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>--v-transition-default</code></td><td>.22s ease</td><td>default transition</td></tr>
+            <tr><td><code>--v-transition-micro</code></td><td>.11s ease</td><td>micro interaction</td></tr>
+            <tr><td><code>--v-transition-notable</code></td><td>.8s ease</td><td>larger staged transition</td></tr>
+            <tr><td><code>prefers-reduced-motion</code></td><td>50ms / 25ms / 12ms</td><td>motion reduction</td></tr>
+            <tr><td><code>.SubNavigation_backgroundBlur__C2rTe:before</code></td><td>blur(12px)</td><td>sticky nav glass effect</td></tr>
+            <tr><td><code>.MediaDialog_media-dialog__JyYXu</code></td><td>.22s scale / translate</td><td>dialog open transition</td></tr>
+            <tr><td><code>.BentoGallery_galleryItemAnimation__Ul8G5:hover</code></td><td>scale(1.05)</td><td>gallery hover zoom</td></tr>
+            <tr><td><code>.ChargingTool_overlayModal__vyivl::backdrop</code></td><td>.25s ease</td><td>sheet backdrop fade</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="layout">
+      <div class="section__num">09</div>
+      <h2 class="section__title">레이아웃 패턴</h2>
+      <p class="section__lede">Volvo는 광활한 shell 안에 엄격한 콘텐츠 그리드를 넣는다. 풀블리드 이미지는 자유롭지만, 텍스트와 카드의 정렬은 매우 체계적이다.</p>
+      <div class="component-grid">
+        <div class="component-card">
+          <h3>Page Shell</h3>
+          <p>페이지 자체는 `160rem`까지 허용하지만, 실제 콘텐츠는 `81rem` grid max에 묶인다. 넓은 캔버스를 가지면서도 읽기 폭은 통제된다.</p>
+          <pre>--v-size-pagemax: min(160rem, 100vw);
+--v-size-grid-maxwidth:
+  min(81rem, 100vw - var(--safe-area) * 2);</pre>
+          <ul>
+            <li>full-bleed asset과 constrained copy를 동시에 허용</li>
+            <li>page margin은 fluid clamp</li>
+          </ul>
+        </div>
+        <div class="component-card">
+          <h3>Discovery Card</h3>
+          <p>기본은 stacked grid, tablet 이상에서 horizontal 2-column 카드로 바뀐다. 내부 패딩은 `24 / 32 / 64` 토큰을 계층적으로 쓴다.</p>
+          <pre>.discovery-card {
+  grid-template-areas:
+    "top"
+    "media"
+    "main";
+}
+@media (min-width:30rem) {
+  .discovery-card.horizontal {
+    grid-template-areas:"media main";
+    grid-template-columns:1fr 1fr;
+  }
+}</pre>
+          <ul>
+            <li>media와 text가 같은 비중으로 균형을 잡음</li>
+            <li>selection / CTA는 ring 기반</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="responsive">
+      <div class="section__num">10</div>
+      <h2 class="section__title">반응형</h2>
+      <p class="section__lede">breakpoint는 적지만 역할이 명확하다. `30rem`과 `64rem`이 거의 모든 구조 전환의 기준점이다.</p>
+      <div class="token-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Breakpoint</th>
+              <th>Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>&lt; 30rem</code></td><td>mobile default, 8-column grid, stacked cards, drawer / dialog full-width 경향</td></tr>
+            <tr><td><code>&gt;= 30rem</code></td><td>12-column grid, discovery card horizontal mode, carousel card width 재계산</td></tr>
+            <tr><td><code>&gt;= 64rem</code></td><td>desktop padding 증가, sticky navigation 3-track layout, gallery / tool desktop variant</td></tr>
+            <tr><td><code>&gt;= 100rem</code></td><td>`until-xl:*` utility hidden/invisible 기준</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
     <section id="components">
-      <div class="section__num">04</div>
+      <div class="section__num">11</div>
       <h2 class="section__title">컴포넌트</h2>
-      <p class="section__lede">OneTrust 레이어에서 파싱된 버튼 스타일. 다크 배경 + 흰 텍스트 패턴.</p>
-      <div style="background:#f8f8f8;border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px 40px;max-width:820px;display:flex;gap:16px;flex-wrap:wrap;">
-        <button style="background:#1F1F1F;color:#fff;border:1px solid #fff;padding:12px 28px;font-family:'Arial Narrow',Arial,sans-serif;font-size:15px;font-weight:400;cursor:pointer;border-radius:0;">Explore</button>
-        <button style="background:#FFFFFF;color:#1F1F1F;border:1px solid #1F1F1F;padding:12px 28px;font-family:'Arial Narrow',Arial,sans-serif;font-size:15px;font-weight:400;cursor:pointer;border-radius:0;">Configure</button>
+      <p class="section__lede">Volvo의 컴포넌트는 "큰 그림자 카드"보다 "선택 상태가 또렷한 구조화된 UI"에 가깝다.</p>
+      <div class="component-grid">
+        <div class="component-card">
+          <h3>SubNavigation</h3>
+          <p>sticky subnav는 blur backdrop 위에서 현재 링크를 검정 필로, CTA accent는 파란색 state로 처리한다.</p>
+          <pre>&lt;nav class="SubNavigation_container__7WUT3"&gt;
+  &lt;div class="SubNavigation_backgroundBlur__C2rTe"&gt;&lt;/div&gt;
+  &lt;a class="SubNavigation_link__haBVG"
+     aria-current="page"&gt;Electrification&lt;/a&gt;
+&lt;/nav&gt;</pre>
+          <ul>
+            <li><code>aria-current="page"</code> -> black fill + inverted text</li>
+            <li>light hover -> <code>rgba(0 0 0 / 4%)</code></li>
+            <li>minimum tap width -> <code>2.5rem</code></li>
+          </ul>
+        </div>
+        <div class="component-card">
+          <h3>Selection Card</h3>
+          <p>선택 카드의 존재감은 blue ring 한 줄에서 나온다. Volvo UI는 여기서 그림자보다 selection contour를 택한다.</p>
+          <pre>.SelectionCard:hover {
+  box-shadow: 0 0 0 1px var(--v-color-always-black);
+}
+.SelectionCard:has(button[aria-checked="true"]) {
+  box-shadow: 0 0 0 2px
+    var(--v-color-surface-accent-blue);
+}</pre>
+          <ul>
+            <li>hover = black 1px ring</li>
+            <li>selected = blue 2px ring</li>
+          </ul>
+        </div>
+        <div class="component-card">
+          <h3>Charging Tool</h3>
+          <p>폼형 툴은 mobile single-column에서 tablet 이상 2열로 바뀌며, focus / hover 역시 accent blue로만 처리한다.</p>
+          <pre>.ChargingTool {
+  grid-template-areas:
+    "info"
+    "media"
+    "cta";
+}
+@media (min-width:30rem) {
+  .ChargingTool.md {
+    grid-template-areas:
+      "media info"
+      "media cta";
+  }
+}</pre>
+          <ul>
+            <li>desktop hover = inset blue ring</li>
+            <li>focus-visible = 2px blue border</li>
+          </ul>
+        </div>
+        <div class="component-card">
+          <h3>State Color Utilities</h3>
+          <p>실제 shared pkg는 semantic utility class를 제공한다. 이 계층이 token을 직접 써서 컴포넌트 일관성을 유지한다.</p>
+          <pre>.text-primary      { color: var(--v-color-foreground-primary); }
+.text-accent-blue  { color: var(--v-color-foreground-accent-blue); }
+.border-ring-2     { box-shadow: inset 0 0 0 2px ...; }
+.rounded-lg        { border-radius: var(--v-radius-lg); }</pre>
+          <ul>
+            <li>token -> utility -> feature CSS Module 흐름</li>
+            <li>custom Tailwind가 아니라 자체 utility layer</li>
+          </ul>
+        </div>
       </div>
-      <div class="callout" style="margin-top:12px;">
-        <b>버튼 스타일 (OneTrust 파싱값):</b> <code>background:#1F1F1F; color:#FFFFFF; border:1px solid #FFFFFF; hover:background:#3A3A3A; active:background:#4C4C4C</code> — 이 값은 Volvo 실제 버튼이 아닌 OneTrust 레이어에서 파싱됨.
+    </section>
+
+    <section id="voice">
+      <div class="section__num">12</div>
+      <h2 class="section__title">라이팅 원칙</h2>
+      <p class="section__lede">볼보의 카피는 과장된 감성보다 안전, 지속가능성, 실용적 행동 유도를 앞세운다.</p>
+      <div class="quote-list">
+        <div class="quote-card">
+          <div class="quote-card__text">“Volvo 역사상 가장 안전한 자동차”</div>
+          <div class="quote-card__meta">안전이 제품 서사의 첫 문장으로 온다.</div>
+        </div>
+        <div class="quote-card">
+          <div class="quote-card__text">“개인적이고 지속 가능하며 안전하게 이동할 수 있는 자유”</div>
+          <div class="quote-card__meta">personal / sustainable / safe 세 단어를 반복해서 브랜드 미션을 고정한다.</div>
+        </div>
+        <div class="quote-card">
+          <div class="quote-card__text">“상담 신청하기 / 시승 신청하기 / 서비스 센터 예약”</div>
+          <div class="quote-card__meta">CTA는 감성형보다 실용형이 우세하다.</div>
+        </div>
       </div>
     </section>
 
     <section id="export">
-      <div class="section__num">05</div>
-      <h2 class="section__title">CSS 스니펫</h2>
-      <p class="section__lede">루트 스타일시트에 복사해서 바로 쓸 수 있는 Volvo 디자인 토큰.</p>
+      <div class="section__num">13</div>
+      <h2 class="section__title">CSS Export</h2>
+      <p class="section__lede">Volvo Cars `/kr/`의 centenary active layer를 프로젝트에 옮길 때 바로 복사할 수 있는 최소 토큰 묶음.</p>
       <div class="code-export">
         <div class="code-tabs">
           <button class="is-active" data-tab="css">CSS</button>
+          <button data-tab="notes">Notes</button>
           <button class="code-copy" data-copy>복사</button>
         </div>
         <div class="code-pane is-active" id="pane-css">
-          <pre>/* Volvo — copy into your root stylesheet */
-:root {
-  /* Fonts */
-  --volvo-font-family: "Volvo Novum", "Arial Narrow",
-    "Helvetica Neue", Arial, sans-serif;
-  --volvo-font-family-semi: "Volvo Novum SemiLight",
-    "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-  --volvo-font-weight-normal: 400;
-  --volvo-font-weight-bold: 700;
-
-  /* Brand (다크 버튼 / OneTrust 레이어에서 관찰) */
-  --volvo-color-btn-dark: #1F1F1F;
-  --volvo-color-btn-dark-hover: #3A3A3A;
-  --volvo-color-btn-dark-active: #4C4C4C;
-
-  /* Surfaces */
-  --volvo-bg-page: #FFFFFF;
-  --volvo-bg-dark: #1F1F1F;
-  --volvo-text: #1F1F1F;
-  --volvo-text-muted: #4C4C4C;
+          <pre>/* Volvo Cars /kr/ — centenary active */
+[data-theme="centenary"] {
+  --volvo-bg: #fff;
+  --volvo-bg-secondary: #fafafa;
+  --volvo-surface: #000;
+  --volvo-text: #000;
+  --volvo-text-secondary: #5e5e5e;
+  --volvo-accent: #0B2DED;
+  --volvo-accent-subtle: #0B2DED0A;
+  --volvo-accent-medium: #0B2DED1F;
+  --volvo-border: #0000001F;
+  --volvo-radius-sm: .25rem;
+  --volvo-radius-md: .5rem;
+  --volvo-radius-lg: 1rem;
+  --volvo-space-16: 1rem;
+  --volvo-space-24: 1.5rem;
+  --volvo-space-32: 2rem;
+  --volvo-space-48: 3rem;
+  --volvo-font-sans:
+    "Volvo Centum", "Helvetica Neue", "Helvetica",
+    "Noto Sans", "Segoe UI", "Arial", sans-serif;
+  --volvo-font-display: "Volvo Broad Pro", "Arial Black", sans-serif;
 }
 
-/* Typography weight scale */
-.text-100 { font-weight: 100; }
-.text-300 { font-weight: 300; }
-.text-400 { font-weight: 400; }
-.text-500 { font-weight: 500; }
-.text-600 { font-weight: 600; }
-.text-700 { font-weight: 700; }</pre>
+body {
+  font-family: var(--volvo-font-sans);
+  color: var(--volvo-text);
+  background: var(--volvo-bg);
+}
+
+.volvo-current-pill {
+  color: #fff;
+  background: #000;
+  border-radius: 9999px;
+}
+
+.volvo-ring-focus {
+  box-shadow: inset 0 0 0 2px var(--volvo-accent);
+}</pre>
+        </div>
+        <div class="code-pane" id="pane-notes">
+          <pre>- Shared CSS still confirms `Volvo Novum`; do not delete that knowledge if you are rebuilding older modules.
+- Current `/kr/` homepage active sans is `Volvo Centum`, display is `Volvo Broad Pro`.
+- Blue is a state color. Use it on current/focus/selected first, not on big background panels.
+- Surface separation should come from ring, border, blur, and scrim before you reach for heavy shadows.
+- Grid rhythm: 8 columns mobile, 12 columns from 30rem, stronger desktop spacing from 64rem.</pre>
         </div>
       </div>
     </section>
 
+    <section id="agent">
+      <div class="section__num">14</div>
+      <h2 class="section__title">에이전트 가이드</h2>
+      <p class="section__lede">리디자인 또는 구현 에이전트에게 바로 전달할 수 있는 짧은 실행 지시.</p>
+      <div class="fs-card">
+        <div class="fs-card__row"><div class="fs-card__k">Prompt</div><div class="fs-card__v"><code>Recreate Volvo Cars /kr/ as the centenary active layer: white page, black neutral surfaces, electric blue (#0B2DED) for current / focus / selected states. Use Volvo Centum as the active UI font, but keep Volvo Novum as a confirmed shared legacy layer. Prefer ring, border, blur, and scrim over soft card shadows. Keep the 8-column mobile -> 12-column desktop grid and the 16/24/32/48/64 spacing rhythm.</code></div></div>
+      </div>
+    </section>
+
     <section id="verdict">
-      <div class="section__num">06</div>
-      <h2 class="section__title">Do / Don't</h2>
-      <p class="section__lede">Volvo 디자인을 구현할 때 지켜야 할 핵심 규칙.</p>
+      <div class="section__num">15</div>
+      <h2 class="section__title">Do / Don&apos;t</h2>
+      <p class="section__lede">Volvo를 Volvo답게 보이게 하는 규칙은 화려한 장식보다 시스템을 정확히 읽는 데 있다.</p>
       <div class="dd-grid">
         <div class="dd-card dd-card--do">
-          <h3>✓ DO</h3>
+          <h3>Do</h3>
           <ul>
-            <li>폰트 weight를 다양하게 (100~bold 9단계)</li>
-            <li><code>Volvo Novum SemiLight</code> 변형 활용</li>
-            <li>버튼은 다크 배경 <code>#1F1F1F</code> + 흰 텍스트</li>
-            <li>스칸디나비아식 미니멀 레이아웃 (여백 충분)</li>
-            <li>안전과 지속가능성 메시지 강조</li>
+            <li>현재 홈을 기준으로 할 때는 <code>data-theme="centenary"</code>를 전제로 구현</li>
+            <li>active sans는 <code>Volvo Centum</code>, display는 <code>Volvo Broad Pro</code>로 사용</li>
+            <li><code>Volvo Novum</code>이 shared CSS에 실제 존재한다는 사실은 문서화해 둘 것</li>
+            <li>블루 <code>#0B2DED</code>는 current / focus / selected 상태에 우선 배치</li>
+            <li>ring, border, blur, scrim으로 표면을 구분</li>
+            <li>8열 mobile -> 12열 desktop grid 전환을 유지</li>
           </ul>
         </div>
         <div class="dd-card dd-card--dont">
-          <h3>✗ DON'T</h3>
+          <h3>Don&apos;t</h3>
           <ul>
-            <li>weight를 <code>400</code> 하나로만 쓰지 말 것</li>
-            <li>OneTrust 색(<code>#1C6BBA</code> 등)을 Volvo 브랜드 색으로 쓰지 말 것</li>
-            <li>CSS 파싱에서 미확인된 Volvo 브랜드 블루를 추정으로 채우지 말 것</li>
-            <li>레이아웃을 복잡하게 만들지 말 것</li>
+            <li>shared Novum layer를 현재 홈의 기본 폰트라고 단정하지 말 것</li>
+            <li>blue를 hero 전체 배경이나 대면적 카드 배경으로 남발하지 말 것</li>
+            <li>legacy shared blue <code>#1C6EBA</code>와 active centenary blue <code>#0B2DED</code>를 섞어 쓰지 말 것</li>
+            <li>soft card shadow를 여러 겹 쌓아 Volvo 분위기를 만들려 하지 말 것</li>
+            <li>OneTrust selector namespace를 Volvo 본체 token layer처럼 해석하지 말 것</li>
           </ul>
         </div>
       </div>
     </section>
   </main>
 </div>
+
 <footer class="rfoot">
   <span>insane-design / volvo</span>
-  <span class="kr">컬러 = OneTrust 파싱 · 폰트 = CSS 직접 감지 · AI 추론 없음</span>
-  <span>2026-04-13</span>
+  <span class="kr">CSS 직접 수집 · `Volvo Novum` confirmed / centenary active · AI 추정값 없음</span>
+  <span>2026-04-23</span>
 </footer>
+
 <script>
-  document.querySelectorAll('.code-tabs button[data-tab]').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const tab=btn.dataset.tab;
-      btn.closest('.code-export').querySelectorAll('.code-tabs button[data-tab]').forEach(b=>b.classList.remove('is-active'));
+  document.querySelectorAll('.code-tabs button[data-tab]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      btn.closest('.code-export').querySelectorAll('.code-tabs button[data-tab]').forEach((button) => button.classList.remove('is-active'));
       btn.classList.add('is-active');
-      btn.closest('.code-export').querySelectorAll('.code-pane').forEach(p=>p.classList.remove('is-active'));
-      btn.closest('.code-export').querySelector('#pane-'+tab).classList.add('is-active');
+      btn.closest('.code-export').querySelectorAll('.code-pane').forEach((pane) => pane.classList.remove('is-active'));
+      btn.closest('.code-export').querySelector('#pane-' + tab).classList.add('is-active');
     });
   });
-  document.querySelectorAll('[data-copy]').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const active=btn.closest('.code-export').querySelector('.code-pane.is-active pre');
-      if(active)navigator.clipboard.writeText(active.textContent).then(()=>{const t=btn.textContent;btn.textContent='복사됨';setTimeout(()=>btn.textContent=t,1400);});
+
+  document.querySelectorAll('[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const active = btn.closest('.code-export').querySelector('.code-pane.is-active pre');
+      if (!active) return;
+      navigator.clipboard.writeText(active.textContent).then(() => {
+        const previous = btn.textContent;
+        btn.textContent = '복사됨';
+        setTimeout(() => {
+          btn.textContent = previous;
+        }, 1400);
+      });
     });
   });
 </script>

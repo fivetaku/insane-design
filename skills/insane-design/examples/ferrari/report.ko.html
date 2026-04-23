@@ -4,343 +4,2136 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Ferrari — Design System Report</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   :root {
-    --font-sans:"Pretendard Variable","Inter",-apple-system,sans-serif;
-    --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
-    --bg:#fafafa;--fg:#09090b;--card:#fff;--muted:#f4f4f5;--muted-fg:#71717a;--subtle:#52525b;
-    --border:#e4e4e7;--border-str:#d4d4d8;--accent:#18181b;--radius:.5rem;--radius-lg:.75rem;
-    --brand-color:#DA0000;
+    --f-ferrari-font: "FerrariSans";
+    --f-color-accent-100: #DA291C;
+    --f-color-accent-90: #B01E0A;
+    --f-color-accent-80: #9D2211;
+    --f-color-gradient-red: linear-gradient(180deg, #a00c01, #da291c 64%);
+    --f-color-global-black: #181818;
+    --f-color-black-90: #303030;
+    --f-color-black-60: #666;
+    --f-color-black-55: #969696;
+    --f-color-black-50: #8F8F8F;
+    --f-color-black-20: #D2D2D2;
+    --f-color-black-10: #F7F7F7;
+    --f-color-global-white: #FFF;
+    --f-color-background-0: var(--f-color-global-white);
+    --f-color-background-10: #EBEBEB;
+    --f-color-background-darker: var(--f-color-black-55);
+    --f-color-yellow: #F6E500;
+    --f-color-focus: var(--f-color-yellow);
+    --f-color-yellow-hypersail: #FFF200;
+    --f-color-accessible-info: #4C98B9;
+    --f-color-accessible-success: #03904A;
+    --f-color-accessible-warning: #F13A2C;
+    --f-color-gradient-dark-grey: linear-gradient(180deg, #3c3c3c, #030303 64%);
+    --f-color-gradient-shadow-dark: linear-gradient(90deg, #121212, #161616);
+    --f-color-gradient-shadow-light: linear-gradient(180deg, hsla(0,0%,9%,0), hsla(0,0%,9%,.85));
+    --f-space-xxxs: 4px;
+    --f-space-xxs: 8px;
+    --f-space-xs: 16px;
+    --f-space-s: 24px;
+    --f-space-m: 32px;
+    --f-space-l: 48px;
+    --f-space-xl: 64px;
+    --f-space-xxl: 96px;
+    --f-space-super: 128px;
+    --f-radius-full: 9999px;
+    --f-shadow-small: 0px 4px 8px 0px rgba(0,0,0,.1);
+    --f-color-overlay: rgba(0,0,0,.3);
+    --f-color-overlay-darker: hsla(0,0%,7%,.8);
+    --font-ui: "Pretendard Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-display: var(--f-ferrari-font), "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --page-max: 1480px;
+    --sidebar-width: 280px;
+    --radius-card: 24px;
+    --line-dark: rgba(255,255,255,.08);
+    --line-light: rgba(24,24,24,.08);
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;scroll-padding-top:32px;}
-  body{font-family:var(--font-sans);font-size:14px;font-weight:400;line-height:1.6;color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;}
-  a{color:inherit;text-decoration:none;}code,kbd,samp{font-family:var(--font-mono);font-size:.85em;}button{font:inherit;cursor:pointer;border:none;background:none;color:inherit;}
-  .layout{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1440px;margin:0 auto;}
-  .toc{position:sticky;top:0;align-self:start;height:100vh;padding:28px 24px 28px 40px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:22px;overflow-y:auto;}
-  .toc__brand{padding-bottom:18px;border-bottom:1px solid var(--border);}
-  .toc__brand-name{font-size:14px;font-weight:600;letter-spacing:-.01em;}
-  .toc__brand-sub{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-top:4px;}
-  .toc__group{display:flex;flex-direction:column;gap:2px;}
-  .toc__group-label{font-family:var(--font-mono);font-size:10px;color:var(--border-str);text-transform:uppercase;letter-spacing:.1em;padding:0 10px;margin-bottom:4px;}
-  .toc__list{list-style:none;display:flex;flex-direction:column;gap:1px;}
-  .toc__list a{display:grid;grid-template-columns:26px 1fr;align-items:center;padding:6px 10px;font-size:13px;color:var(--muted-fg);border-radius:var(--radius);transition:background 140ms,color 140ms;}
-  .toc__list a:hover{background:var(--muted);color:var(--fg);}
-  .toc__num{font-family:var(--font-mono);font-size:10px;color:var(--border-str);}
-  .toc__foot{margin-top:auto;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);line-height:1.6;}
-  .main{min-width:0;}
-  section{padding:72px 64px;max-width:1040px;border-bottom:1px solid var(--border);}
-  section:last-of-type{border-bottom:none;}
-  .section__num{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);margin-bottom:10px;}
-  .section__title{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.35;margin-bottom:12px;}
-  .section__lede{font-size:15px;color:var(--subtle);max-width:720px;line-height:1.7;margin-bottom:40px;}
-  .hero{padding:80px 64px 64px;border-bottom:1px solid var(--border);}
-  .hero__eye{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;background:var(--muted);border:1px solid var(--border);border-radius:999px;font-family:var(--font-mono);font-size:11px;color:var(--subtle);margin-bottom:24px;}
-  .hero__eye .dot{width:6px;height:6px;border-radius:99px;background:var(--brand-color);}
-  .hero__title{font-size:44px;font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px;max-width:780px;}
-  .hero__title .sub{color:var(--muted-fg);font-weight:400;}
-  .hero__sub{font-size:16px;color:var(--subtle);line-height:1.7;max-width:680px;margin-bottom:32px;}
-  .hero__screenshot{margin-bottom:32px;max-width:880px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);}
-  .hero__screenshot img{width:100%;height:auto;display:block;}
-  .qs{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 32px;max-width:880px;margin-top:8px;}
-  .qs__head{display:flex;align-items:center;gap:12px;padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid var(--border);}
-  .qs__head-label{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;}
-  .qs__head-title{font-size:15px;font-weight:600;}
-  .qs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-  .qs__step{background:#08090a;color:#f7f8f8;border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:6px;font-family:var(--font-mono);font-size:11px;line-height:1.55;border:1px solid #1f2023;}
-  .qs__step-label{color:#7d8ba4;font-size:10px;letter-spacing:.06em;text-transform:uppercase;}
-  .qs__step code{color:#f7f8f8;font-size:11px;}
-  .qs__step b{color:#c3d3ff;font-weight:500;}
-  .qs__warn{margin-top:16px;padding:14px 18px;background:#fef2f2;border:1px solid #fecaca;border-left:3px solid #dc2626;border-radius:var(--radius);font-size:13px;color:#991b1b;line-height:1.6;}
-  .qs__warn b{color:#7f1d1d;font-weight:600;}
-  .qs__warn code{background:#fee2e2;padding:1px 6px;border-radius:3px;font-size:12px;}
-  .hero__stats{display:grid;grid-template-columns:repeat(4,1fr);max-width:880px;margin-top:32px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);overflow:hidden;}
-  .stat{padding:20px 24px;border-right:1px solid var(--border);}
-  .stat:last-child{border-right:none;}
-  .stat__label{font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
-  .stat__val{font-size:18px;font-weight:600;letter-spacing:-.01em;}
-  .stat__val--mono{font-family:var(--font-mono);font-size:15px;}
-  .stat__hint{font-size:11px;color:var(--muted-fg);margin-top:4px;line-height:1.4;}
-  .prov{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);overflow:hidden;max-width:820px;}
-  .prov__row{display:grid;grid-template-columns:180px 1fr;padding:14px 24px;border-bottom:1px solid var(--border);font-size:13px;align-items:center;}
-  .prov__row:last-child{border-bottom:none;}
-  .prov__k{font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
-  .prov__v code{font-size:12px;padding:2px 6px;background:var(--muted);border-radius:4px;}
-  .callout{margin-top:16px;padding:16px 20px;background:var(--muted);border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:var(--radius);font-size:13px;color:var(--subtle);line-height:1.75;max-width:820px;}
-  .callout--warn{background:#fef2f2;border-color:#fecaca;border-left-color:#dc2626;color:#991b1b;}
-  .callout b{color:var(--fg);font-weight:600;}
-  .callout--warn b{color:#7f1d1d;}
-  .callout code{background:var(--card);padding:1px 6px;border-radius:4px;font-size:12px;border:1px solid var(--border);}
-  .ramp-group{margin-bottom:28px;}
-  .ramp-label{font-family:var(--font-mono);font-size:11px;margin-bottom:10px;display:flex;gap:8px;align-items:baseline;}
-  .ramp-label b{color:var(--fg);font-weight:600;}
-  .ramp{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
-  .ramp--3{grid-template-columns:repeat(3,minmax(0,1fr));}
-  .sw{aspect-ratio:1/2.2;display:flex;flex-direction:column;justify-content:flex-end;padding:8px 6px;font-family:var(--font-mono);font-size:9px;line-height:1.3;transition:transform 160ms;position:relative;cursor:default;}
-  .sw:hover{transform:scale(1.06);z-index:2;}
-  .sw--l{color:#09090b;}.sw--d{color:#fff;}
-  .sw .n{opacity:.7;margin-bottom:2px;}
-  .na-section{background:var(--muted);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 28px;max-width:820px;font-size:13px;color:var(--muted-fg);line-height:1.6;}
-  .na-section strong{color:var(--fg);}
-  .code-export{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:900px;}
-  .code-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--muted);}
-  .code-tabs button{padding:12px 18px;font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid transparent;}
-  .code-tabs button.is-active{color:var(--fg);background:var(--card);border-bottom-color:var(--accent);}
-  .code-copy{margin-left:auto;padding:12px 18px;font-family:var(--font-mono);font-size:10px;color:var(--muted-fg);}
-  .code-pane{display:none;}.code-pane.is-active{display:block;}
-  .code-pane pre{background:#08090a;color:#f7f8f8;padding:24px 28px;font-family:var(--font-mono);font-size:12px;line-height:1.65;overflow-x:auto;max-height:560px;margin:0;}
-  .dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
-  .dd-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;}
-  .dd-card h3{font-family:var(--font-mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px;display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;}
-  .dd-card--do h3{background:#dcfce7;color:#166534;}.dd-card--dont h3{background:#fee2e2;color:#991b1b;}
-  .dd-card ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
-  .dd-card ul li{font-size:13px;line-height:1.7;color:var(--subtle);padding-left:20px;position:relative;}
-  .dd-card ul li::before{position:absolute;left:0;top:3px;font-family:var(--font-mono);font-size:11px;}
-  .dd-card--do ul li::before{content:"✓";color:#16a34a;}.dd-card--dont ul li::before{content:"✗";color:#dc2626;}
-  .dd-card ul li code{background:var(--muted);padding:1px 5px;border-radius:3px;font-size:11px;font-family:var(--font-mono);}
-  .rfoot{padding:40px 64px;display:flex;justify-content:space-between;align-items:center;gap:32px;font-family:var(--font-mono);font-size:11px;color:var(--muted-fg);}
-  .rfoot .kr{font-family:var(--font-sans);font-size:12px;}
-  @media (max-width:1024px){.layout{grid-template-columns:1fr;}.toc{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:24px 32px;}.hero,section,.rfoot{padding-left:32px;padding-right:32px;}.dd-grid,.qs__grid{grid-template-columns:1fr;}.hero__stats{grid-template-columns:1fr 1fr;}.stat{border-right:none;border-bottom:1px solid var(--border);}}
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 28px;
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: var(--font-ui);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--f-color-black-10);
+    background:
+      radial-gradient(circle at top right, rgba(218,41,28,.22), transparent 22rem),
+      radial-gradient(circle at 0% 0%, rgba(255,255,255,.04), transparent 30rem),
+      var(--f-color-global-black);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  ::selection {
+    background: var(--f-color-accent-100);
+    color: var(--f-color-global-white);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  textarea {
+    font: inherit;
+  }
+
+  button {
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  code,
+  pre,
+  samp {
+    font-family: var(--font-mono);
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    max-width: var(--page-max);
+    margin: 0 auto;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    align-self: start;
+    padding: 28px 24px 32px 40px;
+    border-right: 1px solid var(--line-dark);
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+    backdrop-filter: blur(18px);
+    overflow-y: auto;
+  }
+
+  .sidebar__brand {
+    padding-bottom: 22px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .sidebar__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    margin-bottom: 16px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.04);
+    color: rgba(247,247,247,.72);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .sidebar__eyebrow::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--f-color-accent-100);
+    box-shadow: 0 0 0 6px rgba(218,41,28,.14);
+  }
+
+  .sidebar__title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    line-height: 1.12;
+    letter-spacing: -.03em;
+  }
+
+  .sidebar__subtitle {
+    margin-top: 10px;
+    color: rgba(247,247,247,.7);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .nav {
+    display: grid;
+    gap: 20px;
+  }
+
+  .nav__group {
+    display: grid;
+    gap: 6px;
+  }
+
+  .nav__label {
+    padding: 0 10px;
+    color: rgba(247,247,247,.42);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .nav__list {
+    list-style: none;
+    display: grid;
+    gap: 4px;
+  }
+
+  .nav__list a {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 9px 10px;
+    border-radius: 14px;
+    color: rgba(247,247,247,.74);
+    transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+
+  .nav__list a:hover,
+  .nav__list a:focus-visible {
+    background: rgba(255,255,255,.07);
+    color: var(--f-color-global-white);
+    transform: translateX(2px);
+    outline: none;
+  }
+
+  .nav__num {
+    color: rgba(247,247,247,.36);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  .sidebar__foot {
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line-dark);
+    color: rgba(247,247,247,.52);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.7;
+  }
+
+  .main {
+    min-width: 0;
+  }
+
+  .hero {
+    padding: 64px 64px 56px;
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .hero__panel {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 32px;
+    padding: 36px;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+      var(--f-color-gradient-dark-grey);
+    box-shadow: 0 32px 70px rgba(0,0,0,.28);
+  }
+
+  .hero__panel::after {
+    content: "";
+    position: absolute;
+    inset: auto -20% -55% auto;
+    width: 26rem;
+    height: 26rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(218,41,28,.3), transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 999px;
+    background: rgba(255,255,255,.04);
+    color: rgba(247,247,247,.72);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .hero__eyebrow::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: var(--f-color-accent-100);
+  }
+
+  .hero__title {
+    margin-top: 22px;
+    max-width: 11ch;
+    font-family: var(--font-display);
+    font-size: clamp(44px, 6vw, 78px);
+    line-height: .95;
+    letter-spacing: -.05em;
+  }
+
+  .hero__title .accent {
+    display: block;
+    background: var(--f-color-gradient-red);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .hero__sub {
+    margin-top: 18px;
+    max-width: 700px;
+    color: rgba(247,247,247,.74);
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .hero__tag {
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.04);
+    color: rgba(247,247,247,.86);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
+    gap: 28px;
+    margin-top: 36px;
+  }
+
+  .hero__media {
+    overflow: hidden;
+    border-radius: 28px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+    min-height: 100%;
+  }
+
+  .hero__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__aside {
+    display: grid;
+    gap: 20px;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .stat-card,
+  .panel,
+  .code-shell {
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius-card);
+    background: rgba(255,255,255,.04);
+    box-shadow: 0 20px 40px rgba(0,0,0,.18);
+  }
+
+  .stat-card {
+    padding: 18px 20px;
+  }
+
+  .stat-card__label {
+    color: rgba(247,247,247,.48);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .stat-card__value {
+    margin-top: 10px;
+    font-family: var(--font-display);
+    font-size: 24px;
+    line-height: 1.05;
+    letter-spacing: -.03em;
+  }
+
+  .stat-card__value--mono {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: var(--f-color-accent-100);
+  }
+
+  .stat-card__hint {
+    margin-top: 6px;
+    color: rgba(247,247,247,.64);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .quickstart {
+    padding: 24px;
+  }
+
+  .quickstart__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+
+  .quickstart__eyebrow {
+    color: rgba(247,247,247,.48);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .quickstart__title {
+    margin-top: 8px;
+    font-family: var(--font-display);
+    font-size: 24px;
+    line-height: 1.05;
+    letter-spacing: -.03em;
+  }
+
+  .quickstart__summary {
+    color: rgba(247,247,247,.7);
+    max-width: 36ch;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .quickstart__steps {
+    display: grid;
+    gap: 12px;
+  }
+
+  .quickstart__step {
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: rgba(0,0,0,.22);
+    border: 1px solid rgba(255,255,255,.06);
+  }
+
+  .quickstart__label {
+    color: rgba(247,247,247,.5);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .quickstart pre {
+    margin-top: 10px;
+    white-space: pre-wrap;
+    color: var(--f-color-black-10);
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .quickstart__warning {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-left: 3px solid var(--f-color-yellow);
+    border-radius: 14px;
+    background: rgba(246,229,0,.08);
+    color: rgba(247,247,247,.86);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .section {
+    --section-text: var(--f-color-black-10);
+    --section-muted: rgba(247,247,247,.7);
+    --section-soft: rgba(247,247,247,.5);
+    --section-border: rgba(255,255,255,.09);
+    --section-panel: rgba(255,255,255,.04);
+    --section-panel-strong: rgba(255,255,255,.06);
+    --section-chip: rgba(255,255,255,.06);
+    --section-code: #101010;
+    --section-shadow: 0 20px 40px rgba(0,0,0,.18);
+    padding: 72px 64px;
+    border-bottom: 1px solid var(--line-dark);
+    color: var(--section-text);
+  }
+
+  .section--light {
+    --section-text: var(--f-color-global-black);
+    --section-muted: rgba(24,24,24,.72);
+    --section-soft: rgba(24,24,24,.5);
+    --section-border: var(--line-light);
+    --section-panel: #F3F3F3;
+    --section-panel-strong: var(--f-color-global-white);
+    --section-chip: rgba(24,24,24,.05);
+    --section-code: #0d0d0d;
+    --section-shadow: 0 16px 28px rgba(0,0,0,.08);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,1)),
+      var(--f-color-background-0);
+    border-bottom-color: var(--line-light);
+  }
+
+  .section:last-of-type {
+    border-bottom: none;
+  }
+
+  .section__eyebrow {
+    color: var(--section-soft);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .section__title {
+    margin-top: 12px;
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: .98;
+    letter-spacing: -.05em;
+  }
+
+  .section__lede {
+    margin-top: 16px;
+    max-width: 760px;
+    color: var(--section-muted);
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .section__stack {
+    display: grid;
+    gap: 28px;
+    margin-top: 34px;
+  }
+
+  .meta-grid,
+  .foundation-grid,
+  .effect-grid,
+  .pattern-grid,
+  .rules-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .meta-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .foundation-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .panel {
+    padding: 22px 24px;
+    background: var(--section-panel);
+    border-color: var(--section-border);
+    box-shadow: var(--section-shadow);
+  }
+
+  .panel__label {
+    color: var(--section-soft);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .panel__value {
+    margin-top: 10px;
+    font-size: 18px;
+    line-height: 1.45;
+    letter-spacing: -.01em;
+  }
+
+  .panel__value strong {
+    color: var(--section-text);
+    font-weight: 600;
+  }
+
+  .panel__note {
+    margin-top: 8px;
+    color: var(--section-muted);
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .callout {
+    padding: 18px 20px;
+    border-left: 3px solid var(--f-color-accent-100);
+    border-radius: 18px;
+    background: var(--section-panel);
+    border: 1px solid var(--section-border);
+    box-shadow: var(--section-shadow);
+    color: var(--section-muted);
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .callout strong {
+    color: var(--section-text);
+  }
+
+  .font-card {
+    display: grid;
+    grid-template-columns: minmax(0, .85fr) minmax(280px, .65fr);
+    gap: 18px;
+  }
+
+  .font-preview {
+    padding: 24px;
+    border-radius: 24px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)),
+      var(--f-color-gradient-dark-grey);
+    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 18px 36px rgba(0,0,0,.14);
+  }
+
+  .font-preview__eyebrow {
+    color: rgba(247,247,247,.5);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .font-preview__line {
+    margin-top: 16px;
+    font-family: var(--font-display);
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.02;
+    letter-spacing: -.04em;
+  }
+
+  .font-preview__copy {
+    margin-top: 12px;
+    color: rgba(247,247,247,.74);
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .type-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .type-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 230px;
+    gap: 18px;
+    align-items: center;
+    padding: 20px 24px;
+    border-radius: 22px;
+    border: 1px solid var(--section-border);
+    background: var(--section-panel);
+    box-shadow: var(--section-shadow);
+  }
+
+  .type-row__sample {
+    font-family: var(--font-display);
+    color: var(--section-text);
+  }
+
+  .type-row__meta {
+    color: var(--section-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.8;
+    text-align: right;
+  }
+
+  .type-row__meta span {
+    display: block;
+  }
+
+  .group-stack {
+    display: grid;
+    gap: 24px;
+  }
+
+  .token-group__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .token-group__title {
+    font-family: var(--font-display);
+    font-size: 26px;
+    line-height: 1.02;
+    letter-spacing: -.04em;
+  }
+
+  .token-group__desc {
+    color: var(--section-muted);
+    font-size: 14px;
+  }
+
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .swatch-card,
+  .gradient-card {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    padding: 16px;
+    border-radius: 20px;
+    border: 1px solid var(--section-border);
+    background: var(--section-panel);
+    box-shadow: var(--section-shadow);
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+  }
+
+  .swatch-card {
+    text-align: left;
+  }
+
+  .swatch-card[data-copy]:hover,
+  .swatch-card[data-copy]:focus-visible,
+  .gradient-card[data-copy]:hover,
+  .gradient-card[data-copy]:focus-visible {
+    transform: translateY(-2px);
+    border-color: rgba(218,41,28,.45);
+    outline: none;
+  }
+
+  .swatch-card__sample {
+    display: block;
+    height: 88px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: var(--swatch);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.04);
+  }
+
+  .section--light .swatch-card__sample {
+    border-color: rgba(24,24,24,.08);
+  }
+
+  .swatch-card__token,
+  .gradient-card__token {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--section-text);
+    line-height: 1.55;
+  }
+
+  .swatch-card__value,
+  .gradient-card__value {
+    display: block;
+    margin-top: 4px;
+    color: var(--section-soft);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .swatch-card__usage,
+  .gradient-card__usage {
+    display: block;
+    margin-top: 8px;
+    color: var(--section-muted);
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .swatch-card__hint,
+  .gradient-card__hint {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--section-chip);
+    color: var(--section-soft);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .04em;
+  }
+
+  .swatch-card__alias {
+    display: block;
+    margin-top: 6px;
+    color: var(--section-soft);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.65;
+  }
+
+  .gradient-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .gradient-card__preview {
+    height: 120px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: var(--gradient);
+  }
+
+  .section--light .gradient-card__preview {
+    border-color: rgba(24,24,24,.08);
+  }
+
+  .spacing-stack {
+    display: grid;
+    gap: 12px;
+  }
+
+  .spacing-row {
+    display: grid;
+    grid-template-columns: 170px 86px minmax(0, 1fr);
+    gap: 16px;
+    align-items: center;
+    padding: 16px 18px;
+    border-radius: 18px;
+    border: 1px solid var(--section-border);
+    background: var(--section-panel);
+    box-shadow: var(--section-shadow);
+  }
+
+  .spacing-row__token {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--section-text);
+  }
+
+  .spacing-row__value {
+    color: var(--section-soft);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-align: right;
+  }
+
+  .spacing-row__track {
+    width: 100%;
+    height: 12px;
+    display: flex;
+    align-items: center;
+  }
+
+  .spacing-row__bar {
+    width: min(var(--bar), 100%);
+    height: 12px;
+    border-radius: 999px;
+    background: var(--f-color-gradient-red);
+    box-shadow: 0 8px 24px rgba(218,41,28,.22);
+  }
+
+  .effect-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .effect-card {
+    padding: 20px;
+    border-radius: 24px;
+    border: 1px solid var(--section-border);
+    background: var(--section-panel);
+    box-shadow: var(--section-shadow);
+  }
+
+  .effect-card__label {
+    color: var(--section-soft);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .effect-card__title {
+    margin-top: 10px;
+    font-family: var(--font-display);
+    font-size: 24px;
+    line-height: 1.02;
+    letter-spacing: -.04em;
+  }
+
+  .effect-card__body {
+    margin-top: 14px;
+    color: var(--section-muted);
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .radius-demo,
+  .shadow-demo {
+    margin-top: 18px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--section-border);
+    background: var(--section-panel-strong);
+  }
+
+  .radius-demo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .radius-demo__cell {
+    padding: 24px 22px;
+    border-right: 1px solid var(--section-border);
+  }
+
+  .radius-demo__cell:last-child {
+    border-right: none;
+  }
+
+  .radius-demo__shape {
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    color: var(--f-color-global-white);
+    font-family: var(--font-display);
+    font-size: 14px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .radius-demo__shape--pill {
+    border-radius: var(--f-radius-full);
+    background: var(--f-color-gradient-red);
+  }
+
+  .radius-demo__shape--flat {
+    border-radius: 0;
+    background: linear-gradient(135deg, #303030, #181818);
+  }
+
+  .radius-demo__meta {
+    color: var(--section-soft);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .shadow-stack {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .shadow-stack__item {
+    padding: 18px 16px;
+    border-radius: 18px;
+    background: var(--f-color-global-white);
+    color: var(--f-color-global-black);
+  }
+
+  .shadow-stack__item--shadow {
+    box-shadow: var(--f-shadow-small);
+  }
+
+  .shadow-stack__item--overlay {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.82)),
+      var(--f-color-overlay);
+  }
+
+  .shadow-stack__item--overlay-dark {
+    background: var(--f-color-overlay-darker);
+    color: var(--f-color-global-white);
+  }
+
+  .shadow-stack__value {
+    margin-top: 12px;
+    color: inherit;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.7;
+    opacity: .72;
+  }
+
+  .pattern-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pattern-card {
+    overflow: hidden;
+    border-radius: 28px;
+    border: 1px solid var(--section-border);
+    background: var(--section-panel);
+    box-shadow: var(--section-shadow);
+  }
+
+  .pattern-card__stage {
+    position: relative;
+    min-height: 260px;
+    padding: 28px;
+  }
+
+  .pattern-card__stage--hero {
+    background:
+      var(--f-color-gradient-shadow-light),
+      url("screenshots/hero-cropped.png") center/cover no-repeat;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .pattern-card__stage--buttons {
+    background:
+      radial-gradient(circle at top left, rgba(218,41,28,.18), transparent 16rem),
+      var(--f-color-global-black);
+  }
+
+  .pattern-card__stage--light {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,1)),
+      var(--f-color-background-0);
+    color: var(--f-color-global-black);
+  }
+
+  .pattern-card__stage--contrast {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)),
+      var(--f-color-gradient-dark-grey);
+  }
+
+  .pattern-card__content {
+    max-width: 22rem;
+  }
+
+  .pattern-card__kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.28);
+    color: rgba(247,247,247,.82);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .pattern-card__title {
+    margin-top: 14px;
+    font-family: var(--font-display);
+    font-size: 34px;
+    line-height: .94;
+    letter-spacing: -.05em;
+  }
+
+  .pattern-card__copy {
+    margin-top: 12px;
+    color: rgba(247,247,247,.8);
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .pattern-card__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .btn-demo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 164px;
+    padding: 16px 24px;
+    border-radius: var(--f-radius-full);
+    font-family: var(--font-display);
+    font-size: 13px;
+    line-height: 1;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .btn-demo--primary {
+    background: var(--f-color-gradient-red);
+    color: var(--f-color-global-white);
+    box-shadow: var(--f-shadow-small);
+  }
+
+  .btn-demo--secondary {
+    border: 1px solid rgba(255,255,255,.3);
+    color: var(--f-color-black-10);
+  }
+
+  .btn-demo--focus {
+    outline: 3px solid var(--f-color-yellow);
+    outline-offset: 4px;
+  }
+
+  .pattern-card__body {
+    padding: 22px 24px 24px;
+    color: var(--section-muted);
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .pattern-list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+  }
+
+  .pattern-list li {
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .pattern-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .75em;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--f-color-accent-100);
+  }
+
+  .code-shell {
+    overflow: hidden;
+    background: var(--section-panel);
+    border-color: var(--section-border);
+    box-shadow: var(--section-shadow);
+  }
+
+  .code-shell__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--section-border);
+    background: var(--section-panel-strong);
+  }
+
+  .code-shell__title {
+    color: var(--section-text);
+    font-family: var(--font-display);
+    font-size: 24px;
+    line-height: 1.02;
+    letter-spacing: -.04em;
+  }
+
+  .code-shell__meta {
+    color: var(--section-muted);
+    font-size: 13px;
+  }
+
+  .copy-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--section-border);
+    background: var(--section-chip);
+    color: var(--section-text);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .copy-button:hover,
+  .copy-button:focus-visible {
+    border-color: rgba(218,41,28,.45);
+    outline: none;
+  }
+
+  .code-shell pre {
+    padding: 24px 26px 28px;
+    overflow: auto;
+    background: var(--section-code);
+    color: var(--f-color-black-10);
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .rules-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rule-card {
+    padding: 24px;
+    border-radius: 24px;
+    border: 1px solid var(--section-border);
+    background: var(--section-panel);
+    box-shadow: var(--section-shadow);
+  }
+
+  .rule-card__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .rule-card--do .rule-card__label {
+    background: rgba(3,144,74,.12);
+    color: #7EE3A5;
+  }
+
+  .rule-card--dont .rule-card__label {
+    background: rgba(241,58,44,.12);
+    color: #FF9B91;
+  }
+
+  .rule-card__title {
+    margin-top: 16px;
+    font-family: var(--font-display);
+    font-size: 26px;
+    line-height: 1.02;
+    letter-spacing: -.04em;
+  }
+
+  .rule-card ul {
+    list-style: none;
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .rule-card li {
+    padding-left: 18px;
+    position: relative;
+    color: var(--section-muted);
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .rule-card li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .7em;
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+  }
+
+  .rule-card--do li::before {
+    background: #39B96C;
+  }
+
+  .rule-card--dont li::before {
+    background: #F13A2C;
+  }
+
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px 28px;
+    padding: 34px 64px 44px;
+    color: rgba(247,247,247,.52);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translate(-50%, 20px);
+    padding: 11px 16px;
+    border-radius: 999px;
+    background: rgba(3,3,3,.92);
+    border: 1px solid rgba(255,255,255,.08);
+    color: var(--f-color-black-10);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease, transform 180ms ease;
+    z-index: 30;
+  }
+
+  .toast.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .reveal {
+    animation: reveal 540ms ease both;
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 1180px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+      position: relative;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--line-dark);
+      padding: 24px 28px 28px;
+    }
+
+    .hero,
+    .section,
+    .footer {
+      padding-left: 28px;
+      padding-right: 28px;
+    }
+
+    .hero__grid,
+    .font-card,
+    .meta-grid,
+    .foundation-grid,
+    .effect-grid,
+    .pattern-grid,
+    .rules-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 880px) {
+    .hero__panel,
+    .quickstart,
+    .panel,
+    .stat-card,
+    .swatch-card,
+    .gradient-card,
+    .effect-card,
+    .pattern-card,
+    .rule-card,
+    .type-row,
+    .spacing-row {
+      border-radius: 20px;
+    }
+
+    .stat-grid,
+    .swatch-grid,
+    .gradient-grid,
+    .shadow-stack {
+      grid-template-columns: 1fr;
+    }
+
+    .type-row,
+    .spacing-row,
+    .radius-demo {
+      grid-template-columns: 1fr;
+    }
+
+    .type-row__meta {
+      text-align: left;
+    }
+
+    .spacing-row__value {
+      text-align: left;
+    }
+
+    .hero__title {
+      max-width: none;
+    }
+  }
 </style>
 </head>
 <body>
 <div class="layout">
-  <aside class="toc">
-    <div class="toc__brand">
-      <div class="toc__brand-name">Ferrari</div>
-      <div class="toc__brand-sub">Design System Report</div>
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <div class="sidebar__eyebrow">Ferrari Report</div>
+      <h1 class="sidebar__title">Ferrari<br>Design System</h1>
+      <p class="sidebar__subtitle">
+        `design.md`에 정리된 실제 Ferrari 토큰과 패턴만으로 다시 짠 인터랙티브 리포트.
+      </p>
     </div>
-    <div class="toc__group">
-      <div class="toc__group-label">Overview</div>
-      <ul class="toc__list">
-        <li><a href="#hero"><span class="toc__num">00</span>한눈에 보기</a></li>
-        <li><a href="#provenance"><span class="toc__num">01</span>출처와 수집 기준</a></li>
-      </ul>
+
+    <nav class="nav">
+      <div class="nav__group">
+        <div class="nav__label">Overview</div>
+        <ul class="nav__list">
+          <li><a href="#hero"><span class="nav__num">00</span><span>한눈에 보기</span></a></li>
+          <li><a href="#provenance"><span class="nav__num">01</span><span>출처와 토큰 범위</span></a></li>
+        </ul>
+      </div>
+      <div class="nav__group">
+        <div class="nav__label">Foundations</div>
+        <ul class="nav__list">
+          <li><a href="#typography"><span class="nav__num">02</span><span>타이포그래피</span></a></li>
+          <li><a href="#colors"><span class="nav__num">03</span><span>컬러와 그라디언트</span></a></li>
+          <li><a href="#spacing"><span class="nav__num">04</span><span>스페이싱</span></a></li>
+          <li><a href="#effects"><span class="nav__num">05</span><span>라디우스와 섀도우</span></a></li>
+        </ul>
+      </div>
+      <div class="nav__group">
+        <div class="nav__label">Patterns</div>
+        <ul class="nav__list">
+          <li><a href="#patterns"><span class="nav__num">06</span><span>컴포넌트와 레이아웃</span></a></li>
+          <li><a href="#export"><span class="nav__num">07</span><span>Drop-in CSS</span></a></li>
+          <li><a href="#rules"><span class="nav__num">08</span><span>Do / Don’t</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="sidebar__foot">
+      insane-design / ferrari<br>
+      source: `design.md`<br>
+      fetched: 2026-04-23
     </div>
-    <div class="toc__group">
-      <div class="toc__group-label">Foundations</div>
-      <ul class="toc__list">
-        <li><a href="#colors"><span class="toc__num">02</span>컬러</a></li>
-        <li><a href="#components"><span class="toc__num">03</span>컴포넌트</a></li>
-      </ul>
-    </div>
-    <div class="toc__group">
-      <div class="toc__group-label">Code</div>
-      <ul class="toc__list">
-        <li><a href="#export"><span class="toc__num">04</span>CSS 스니펫</a></li>
-      </ul>
-    </div>
-    <div class="toc__group">
-      <div class="toc__group-label">Rules</div>
-      <ul class="toc__list">
-        <li><a href="#verdict"><span class="toc__num">05</span>Do / Don't</a></li>
-      </ul>
-    </div>
-    <div class="toc__foot">insane-design/ferrari/<br>design.md<br>2026-04-13</div>
   </aside>
 
   <main class="main">
     <section id="hero" class="hero">
-      <div class="hero__eye"><span class="dot"></span>Design System Report</div>
-      <h1 class="hero__title">Ferrari <span class="sub">— CSS 파싱 데이터 없음</span></h1>
-      <p class="hero__sub">ferrari.com은 정적 CSS 파싱으로 어떤 chromatic 컬러도, font-family도 감지되지 않았다. 극도로 절제된 레이아웃 — 그리고 레드는 로고와 핵심 accent에만 나타난다.</p>
-
-      <div class="hero__screenshot">
-        <img src="screenshots/hero-cropped.png" alt="ferrari.com — 실제 홈페이지 스크린샷">
-      </div>
-
-      <div class="qs">
-        <div class="qs__head">
-          <span class="qs__head-label">Quick Start</span>
-          <span class="qs__head-title">5분 안에 Ferrari처럼 만들기 — 3가지만 하면 80%</span>
+      <div class="hero__panel reveal">
+        <div class="hero__eyebrow">Luxury Performance Dark</div>
+        <h2 class="hero__title">
+          Dark cinema with
+          <span class="accent">a single red accent.</span>
+        </h2>
+        <p class="hero__sub">
+          Ferrari의 웹 경험은 `#181818` 근-검정 위에 자동차를 전시하는 방식으로 럭셔리와 속도를 동시에 밀어낸다.
+          이 리포트는 기존 placeholder 기반 초안을 버리고, `design.md`에 명시된 실제 Ferrari 토큰과 규칙만으로 재구성했다.
+        </p>
+        <div class="hero__meta">
+          <span class="hero__tag">theme: dark</span>
+          <span class="hero__tag">brand: #DA291C</span>
+          <span class="hero__tag">font: FerrariSans</span>
+          <span class="hero__tag">prefix: --f-</span>
         </div>
-        <div class="qs__grid">
-          <div class="qs__step">
-            <span class="qs__step-label">1 · 폰트 (시각 관찰)</span>
-            <code>body {
-  font-family:
-    <b>"Neue Haas Grotesk"</b>,
-    "Helvetica Neue",
-    Helvetica, Arial,
-    sans-serif;
-  font-weight: <b>400</b>;
-}</code>
+
+        <div class="hero__grid">
+          <div class="hero__media">
+            <img src="screenshots/hero-cropped.png" alt="Ferrari 공식 웹사이트 히어로 스크린샷">
           </div>
-          <div class="qs__step">
-            <span class="qs__step-label">2 · 배경 + 텍스트</span>
-            <code>:root {
-  --bg: <b>#FFFFFF</b>;
-  --fg: <b>#1A1A1A</b>;
-}
-body {
-  background: var(--bg);
-  color: var(--fg);
-}</code>
-          </div>
-          <div class="qs__step">
-            <span class="qs__step-label">3 · Rosso Corsa (브랜드)</span>
-            <code>:root {
-  /* 브랜드 가이드 기반 */
-  /* CSS 미확인 */
-  --brand: <b>#DA0000</b>;
-}</code>
-          </div>
-        </div>
-        <div class="qs__warn">
-          <b>절대 하지 말아야 할 것:</b> Ferrari 레드를 UI 전반에 과용하는 것. CSS 파싱에서 어떤 chromatic 컬러도 감지되지 않을 만큼 레드는 극도로 절제되어 있다. 레드는 로고와 핵심 accent에만.
-        </div>
-      </div>
 
-      <div class="hero__stats">
-        <div class="stat">
-          <div class="stat__label">Default Theme</div>
-          <div class="stat__val">Light</div>
-          <div class="stat__hint">시각 관찰 기반</div>
-        </div>
-        <div class="stat">
-          <div class="stat__label">Brand Color</div>
-          <div class="stat__val stat__val--mono" style="color:#DA0000;">#DA0000</div>
-          <div class="stat__hint">Rosso Corsa (브랜드 가이드)</div>
-        </div>
-        <div class="stat">
-          <div class="stat__label">CSS Data</div>
-          <div class="stat__val" style="font-size:15px;">없음</div>
-          <div class="stat__hint">정적 파싱 한계</div>
-        </div>
-        <div class="stat">
-          <div class="stat__label">Font (CSS)</div>
-          <div class="stat__val" style="font-size:15px;">미감지</div>
-          <div class="stat__hint">JS 렌더링 추정</div>
-        </div>
-      </div>
-    </section>
+          <div class="hero__aside">
+            <div class="stat-grid">
+              <div class="stat-card">
+                <div class="stat-card__label">Primary Surface</div>
+                <div class="stat-card__value">#181818</div>
+                <div class="stat-card__hint">근-검정 히어로와 섹션 전환의 중심축</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card__label">Brand Accent</div>
+                <div class="stat-card__value stat-card__value--mono">#DA291C</div>
+                <div class="stat-card__hint">면적 사용 금지, 버튼과 포인트에만</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card__label">Focus Color</div>
+                <div class="stat-card__value">#F6E500</div>
+                <div class="stat-card__hint">다크 배경 위 접근성 대비용 포커스 링</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card__label">Typography</div>
+                <div class="stat-card__value">28 → 9px</div>
+                <div class="stat-card__hint">FerrariSans 단일 시스템과 타이트한 리듬</div>
+              </div>
+            </div>
 
-    <section id="provenance">
-      <div class="section__num">01</div>
-      <h2 class="section__title">출처와 수집 기준</h2>
-      <p class="section__lede">CSS 커스텀 프로퍼티를 직접 파싱했으나 Ferrari 사이트는 정적 파싱으로 데이터가 추출되지 않았다.</p>
-      <div class="prov">
-        <div class="prov__row"><span class="prov__k">Source URL</span><span class="prov__v"><code>https://ferrari.com</code></span></div>
-        <div class="prov__row"><span class="prov__k">Fetched</span><span class="prov__v">2026-04-13</span></div>
-        <div class="prov__row"><span class="prov__k">Extractor</span><span class="prov__v">curl + Chrome UA (5-tier fallback)</span></div>
-        <div class="prov__row"><span class="prov__k">Token prefix</span><span class="prov__v">N/A — 커스텀 프로퍼티 시스템 미감지</span></div>
-        <div class="prov__row"><span class="prov__k">Method</span><span class="prov__v">CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음</span></div>
-        <div class="prov__row"><span class="prov__k">한계</span><span class="prov__v">고도로 인라인화 또는 JS 렌더링 — 정적 CSS 파싱 제한</span></div>
-      </div>
-      <div class="callout callout--warn" style="margin-top:20px;">
-        <b>데이터 없음 경고:</b> ferrari.com CSS 파싱 결과 chromatic 컬러 후보 0개, font-family 0개. 이 리포트의 색상과 폰트 정보는 공개 브랜드 가이드라인 기반이며 CSS 데이터로 확인되지 않았다. <code>#DA0000</code>은 Rosso Corsa 브랜드 레드이나 CSS 미확인.
-      </div>
-    </section>
+            <div class="quickstart">
+              <div class="quickstart__head">
+                <div>
+                  <div class="quickstart__eyebrow">Quick Start</div>
+                  <div class="quickstart__title">3가지로 Ferrari 무드 만들기</div>
+                </div>
+                <p class="quickstart__summary">
+                  폰트, 레드 그라디언트 CTA, 다크 그라디언트 섹션 전환. 나머지는 회색 ramp가 정리한다.
+                </p>
+              </div>
 
-    <section id="colors">
-      <div class="section__num">02</div>
-      <h2 class="section__title">컬러</h2>
-      <p class="section__lede">CSS 파싱 데이터 없음. 아래 값은 공개 브랜드 가이드라인 기반 참고값이며 CSS에서 확인되지 않았다.</p>
-
-      <div class="ramp-group">
-        <div class="ramp-label"><b>Rosso Corsa + Monochrome (브랜드 가이드 참고)</b></div>
-        <div class="ramp ramp--3">
-          <div class="sw sw--d" style="background:#DA0000;"><span class="n">Rosso Corsa</span>#DA0000</div>
-          <div class="sw sw--l" style="background:#FFFFFF;"><span class="n">White (추정)</span>#FFFFFF</div>
-          <div class="sw sw--d" style="background:#1A1A1A;"><span class="n">Near-black (추정)</span>#1A1A1A</div>
-        </div>
-      </div>
-
-      <div class="callout callout--warn">
-        <b>중요:</b> 위 컬러는 CSS 파싱 데이터가 아니다. <code>#DA0000</code>은 Ferrari의 공개 브랜드 레드(Rosso Corsa)이나 실제 사이트 CSS에서 확인되지 않았다. 이 값을 확정적으로 사용하지 말 것.
-      </div>
-    </section>
-
-    <section id="components">
-      <div class="section__num">03</div>
-      <h2 class="section__title">컴포넌트</h2>
-      <p class="section__lede">CSS 데이터가 없으므로 시각 관찰 기반 추정. 실제 클래스명·토큰은 확인 불가.</p>
-      <div class="na-section">
-        <strong>Hero 패턴 (시각 관찰):</strong> 차량 전체 폭 영상/사진 → 그라디언트 오버레이(어두운→투명) → H1 흰 텍스트 → Discover / Configure CTA 버튼. CTA는 <code>#DA0000</code> 배경 또는 <code>transparent + white border</code> 패턴으로 보임. 실제 CSS 확인 불가.
-      </div>
-    </section>
-
-    <section id="export">
-      <div class="section__num">04</div>
-      <h2 class="section__title">CSS 스니펫</h2>
-      <p class="section__lede">CSS 파싱 데이터가 없어 브랜드 가이드라인 기반 추정값이다. 사용 시 주의.</p>
-      <div class="code-export">
-        <div class="code-tabs">
-          <button class="is-active" data-tab="css">CSS</button>
-          <button class="code-copy" data-copy>복사</button>
-        </div>
-        <div class="code-pane is-active" id="pane-css">
-          <pre>/* Ferrari — copy into your root stylesheet */
-/* ⚠️ CSS 파싱 데이터 없음. 브랜드 가이드라인 기반 추정값 */
-:root {
-  /* Fonts (CSS 미감지 — 시각 관찰 기반) */
-  --ferrari-font-family: "Neue Haas Grotesk", "Helvetica Neue",
-    Helvetica, Arial, sans-serif;
-  --ferrari-font-weight-normal: 400;
-  --ferrari-font-weight-bold: 700;
-
-  /* Brand (공개 브랜드 가이드 — CSS 미확인) */
-  --ferrari-color-rosso-corsa: #DA0000;
-
-  /* Surfaces (추정) */
-  --ferrari-bg-page: #FFFFFF;
-  --ferrari-bg-dark: #1A1A1A;
-  --ferrari-text: #1A1A1A;
-  --ferrari-text-on-dark: #FFFFFF;
+              <div class="quickstart__steps">
+                <div class="quickstart__step">
+                  <div class="quickstart__label">1 · Font + Base</div>
+                  <pre>body {
+  font-family: "FerrariSans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  background: #181818;
+  color: #f7f7f7;
 }</pre>
+                </div>
+                <div class="quickstart__step">
+                  <div class="quickstart__label">2 · Primary CTA</div>
+                  <pre>.btn-primary {
+  background: linear-gradient(180deg, #a00c01, #da291c 64%);
+  border-radius: 9999px;
+  color: #fff;
+  padding: 16px 48px;
+}</pre>
+                </div>
+                <div class="quickstart__step">
+                  <div class="quickstart__label">3 · Section Switch</div>
+                  <pre>.section-dark {
+  background: linear-gradient(180deg, #3c3c3c, #030303 64%);
+}</pre>
+                </div>
+              </div>
+
+              <div class="quickstart__warning">
+                레드를 배경 전체에 쓰지 않는다. Ferrari는 레드를 섹션 바탕색이 아니라
+                <strong>그라디언트 버튼과 accent line</strong>에만 올린다.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="verdict">
-      <div class="section__num">05</div>
-      <h2 class="section__title">Do / Don't</h2>
-      <p class="section__lede">Ferrari 디자인 철학 — CSS 데이터 없이 관찰 가능한 원칙.</p>
-      <div class="dd-grid">
-        <div class="dd-card dd-card--do">
-          <h3>✓ DO</h3>
-          <ul>
-            <li>Ferrari 레드를 로고, 주요 CTA에만 절제적으로 사용</li>
-            <li>Hero는 차량 전체 폭 고화질 사진/영상으로 채우기</li>
-            <li>레이아웃 최대한 여백 넓게, 그리드 정교하게</li>
-            <li>모델명을 그대로 headline으로 사용</li>
-          </ul>
-        </div>
-        <div class="dd-card dd-card--dont">
-          <h3>✗ DON'T</h3>
-          <ul>
-            <li>Ferrari 레드를 배경 전체에 쓰지 말 것</li>
-            <li>과장된 마케팅 문구 쓰지 말 것</li>
-            <li>CSS 데이터 없는 값을 확정적으로 사용하지 말 것</li>
-            <li>레이아웃을 복잡하게 만들지 말 것 — 미니멀이 핵심</li>
-          </ul>
+    <section id="provenance" class="section">
+      <div class="section__eyebrow">01 · Provenance</div>
+      <h2 class="section__title">출처와 토큰 범위</h2>
+      <p class="section__lede">
+        아래 정보는 `design.md`에 기록된 Ferrari CSS 수집 결과와 서술을 그대로 반영한다.
+        이 보고서에는 빈 표기나 설명용 placeholder를 넣지 않고, 확인된 값만 남겼다.
+      </p>
+
+      <div class="section__stack">
+        <div id="meta-grid" class="meta-grid"></div>
+        <div id="foundation-grid" class="foundation-grid"></div>
+        <div class="callout">
+          <strong>핵심 해석:</strong> Ferrari는 밝은 배경에 레드를 칠하는 방식이 아니라
+          <strong>`#181818` 다크 스테이지 + `#DA291C` 한 점 accent</strong>로 긴장감을 만든다.
+          회색 ramp와 노란 포커스가 실제 UI 계층을 정리하고, 라이트 섹션은 `--f-color-background-0`와 `--f-color-background-10`만 제한적으로 사용한다.
         </div>
       </div>
     </section>
+
+    <section id="typography" class="section section--light">
+      <div class="section__eyebrow">02 · Typography</div>
+      <h2 class="section__title">FerrariSans 단일 시스템</h2>
+      <p class="section__lede">
+        `design.md` 기준 Ferrari의 기본 스택은 `FerrariSans` 단일 시스템이며, 폴백은 `Helvetica Neue`다.
+        아래 프리뷰는 실제 CSS 스택 그대로 렌더링하므로, 로컬에 FerrariSans가 없으면 Helvetica Neue로 떨어진다.
+      </p>
+
+      <div class="section__stack">
+        <div class="font-card">
+          <div class="font-preview">
+            <div class="font-preview__eyebrow">Font Preview</div>
+            <div class="font-preview__line">Ferrari F80 // Maranello</div>
+            <div class="font-preview__copy">
+              Display 28px에서 Micro 9px까지 동일한 가족을 유지하고,
+              헤딩은 1.23 line-height로 긴장감을 만든다.
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__label">Font Stack</div>
+            <div class="panel__value">
+              <strong>`"FerrariSans"`</strong><br>
+              `"Helvetica Neue"`, Helvetica, Arial, sans-serif
+            </div>
+            <div class="panel__note">
+              CSS 변수는 `var(--f-ferrari-font)`이며, 기본 weight는 `400`.
+              한국어 설명은 Pretendard Variable로 읽기 좋게 보강하고, 실제 프리뷰는 Ferrari 스택으로 출력한다.
+            </div>
+          </div>
+        </div>
+        <div id="type-scale" class="type-list"></div>
+      </div>
+    </section>
+
+    <section id="colors" class="section">
+      <div class="section__eyebrow">03 · Color</div>
+      <h2 class="section__title">Dark ramp, controlled red, sharp focus yellow</h2>
+      <p class="section__lede">
+        클릭 가능한 스와치는 hex 값을 클립보드로 복사한다. alias 토큰은 원문 값을 그대로 보여주고,
+        실제 렌더링에 쓰이는 hex도 함께 제공한다.
+      </p>
+
+      <div class="section__stack">
+        <div class="group-stack">
+          <div class="token-group">
+            <div class="token-group__head">
+              <div class="token-group__title">Brand Red</div>
+              <div class="token-group__desc">CTA와 포인트에만 쓰는 3단계 red ramp</div>
+            </div>
+            <div id="swatches-accent" class="swatch-grid"></div>
+          </div>
+
+          <div class="token-group">
+            <div class="token-group__head">
+              <div class="token-group__title">Neutral Ramp</div>
+              <div class="token-group__desc">#181818에서 #FFF까지 이어지는 실제 회색 계층</div>
+            </div>
+            <div id="swatches-neutral" class="swatch-grid"></div>
+          </div>
+
+          <div class="token-group">
+            <div class="token-group__head">
+              <div class="token-group__title">Background & Focus</div>
+              <div class="token-group__desc">라이트 섹션, 포커스, 특별 에디션용 yellow</div>
+            </div>
+            <div id="swatches-background" class="swatch-grid"></div>
+          </div>
+
+          <div class="token-group">
+            <div class="token-group__head">
+              <div class="token-group__title">Semantic Colors</div>
+              <div class="token-group__desc">정보, 성공, 경고 상태용 접근성 색상</div>
+            </div>
+            <div id="swatches-semantic" class="swatch-grid"></div>
+          </div>
+        </div>
+
+        <div class="token-group">
+          <div class="token-group__head">
+            <div class="token-group__title">Gradient Tokens</div>
+            <div class="token-group__desc">Ferrari 시그니처인 레드와 다크 그라디언트</div>
+          </div>
+          <div id="gradient-grid" class="gradient-grid"></div>
+        </div>
+
+        <div class="callout">
+          <strong>브랜드 원칙:</strong> `#DA291C`는 Ferrari의 목소리지만 면적의 주연은 아니다.
+          배경은 거의 항상 `#181818` 또는 white에 맡기고, 레드는 CTA와 작은 포인트에서만 압축해서 사용한다.
+        </div>
+      </div>
+    </section>
+
+    <section id="spacing" class="section section--light">
+      <div class="section__eyebrow">04 · Spacing</div>
+      <h2 class="section__title">4px에서 128px까지의 명확한 스케일</h2>
+      <p class="section__lede">
+        Ferrari spacing은 `--f-space-xxxs`부터 `--f-space-super`까지 명확하게 커진다.
+        작은 UI 간격은 4/8/16px에서 시작하고, 큰 레이아웃 전환은 64/96/128px에서 만들어진다.
+      </p>
+
+      <div class="section__stack">
+        <div id="spacing-stack" class="spacing-stack"></div>
+        <div class="callout">
+          <strong>레이아웃 감각:</strong> 전체 viewport hero, 다크/라이트 섹션 교차, 그리고 좌측 혹은 하단 오버레이 배치가 Ferrari의 기본 구문이다.
+        </div>
+      </div>
+    </section>
+
+    <section id="effects" class="section">
+      <div class="section__eyebrow">05 · Effects</div>
+      <h2 class="section__title">Pill radius, zero-radius cards, restrained shadow</h2>
+      <p class="section__lede">
+        Ferrari는 중간 radius를 거의 쓰지 않는다. 버튼은 `9999px`, 카드와 이미지 컨테이너는 `0`.
+        그림자도 과장하지 않고 `0px 4px 8px 0px rgba(0,0,0,.1)` 한 단계로 정리한다.
+      </p>
+
+      <div class="section__stack">
+        <div class="effect-grid">
+          <div class="effect-card">
+            <div class="effect-card__label">Radius</div>
+            <div class="effect-card__title">극단만 남긴 곡률</div>
+            <div class="effect-card__body">
+              토큰은 `--f-radius-full` 하나뿐이다. 이미지와 카드에는 inline `0`만 사용해 직선적인 긴장감을 유지한다.
+            </div>
+            <div class="radius-demo">
+              <div class="radius-demo__cell">
+                <div class="radius-demo__shape radius-demo__shape--pill">Launch Configurator</div>
+                <div class="radius-demo__meta">`--f-radius-full`<br>`9999px`</div>
+              </div>
+              <div class="radius-demo__cell">
+                <div class="radius-demo__shape radius-demo__shape--flat">Flat media frame</div>
+                <div class="radius-demo__meta">inline radius<br>`0`</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="effect-card">
+            <div class="effect-card__label">Shadow & Overlay</div>
+            <div class="effect-card__title">한 단계 섀도우와 두 단계 오버레이</div>
+            <div class="effect-card__body">
+              작은 depth는 `--f-shadow-small`, 이미지 어둡힘은 `--f-color-overlay`와 `--f-color-overlay-darker`가 담당한다.
+            </div>
+            <div class="shadow-demo">
+              <div class="shadow-stack" id="shadow-stack"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="patterns" class="section">
+      <div class="section__eyebrow">06 · Patterns</div>
+      <h2 class="section__title">Dark hero, red CTA, white relief sections</h2>
+      <p class="section__lede">
+        레이아웃은 전면 hero, 다크/라이트 섹션 교차, 좌측 또는 하단 오버레이 배치가 핵심이다.
+        컴포넌트는 pill CTA와 flat media frame만으로 인상을 세운다.
+      </p>
+
+      <div class="section__stack">
+        <div class="pattern-grid">
+          <div class="pattern-card">
+            <div class="pattern-card__stage pattern-card__stage--hero">
+              <div class="pattern-card__content">
+                <div class="pattern-card__kicker">Full-viewport hero</div>
+                <div class="pattern-card__title">F80</div>
+                <div class="pattern-card__copy">
+                  `--f-color-gradient-shadow-light`로 이미지 위 텍스트 대비를 확보하고,
+                  headline은 FerrariSans와 white만 사용한다.
+                </div>
+              </div>
+            </div>
+            <div class="pattern-card__body">
+              Hero는 자동차를 무대 위 오브젝트처럼 다룬다. 다크 오버레이가 올라가도 레드를 전면에 깔지 않는다.
+            </div>
+          </div>
+
+          <div class="pattern-card">
+            <div class="pattern-card__stage pattern-card__stage--buttons">
+              <div class="pattern-card__content">
+                <div class="pattern-card__kicker">CTA system</div>
+                <div class="pattern-card__buttons" style="margin-top: 18px;">
+                  <button class="btn-demo btn-demo--primary" type="button">Discover model</button>
+                  <button class="btn-demo btn-demo--secondary btn-demo--focus" type="button">Configure</button>
+                </div>
+              </div>
+            </div>
+            <div class="pattern-card__body">
+              Primary는 red gradient, secondary는 border-only, focus는 `#F6E500` outline.
+              세 가지가 Ferrari 버튼 시스템의 대부분을 차지한다.
+            </div>
+          </div>
+
+          <div class="pattern-card">
+            <div class="pattern-card__stage pattern-card__stage--light">
+              <div class="pattern-card__content">
+                <div class="pattern-card__kicker" style="background: rgba(24,24,24,.06); color: rgba(24,24,24,.74);">Light relief section</div>
+                <div class="pattern-card__title" style="color: #181818;">White surface, black type</div>
+                <div class="pattern-card__copy" style="color: rgba(24,24,24,.72);">
+                  라이트 섹션은 `--f-color-background-0`와 `--f-color-background-10` 안에서만 등장한다.
+                </div>
+              </div>
+            </div>
+            <div class="pattern-card__body">
+              기본 모드는 dark다. 라이트 섹션은 콘텐츠 호흡을 주기 위한 relief로만 사용하고, 토글 UI는 없다.
+            </div>
+          </div>
+
+          <div class="pattern-card">
+            <div class="pattern-card__stage pattern-card__stage--contrast">
+              <div class="pattern-card__content">
+                <div class="pattern-card__kicker">Layout rules</div>
+                <ul class="pattern-list" style="margin-top: 18px;">
+                  <li>Full-viewport hero (100vw × 100vh)</li>
+                  <li>다크/라이트 섹션 전환</li>
+                  <li>텍스트는 좌측 혹은 하단 오버레이</li>
+                  <li>카드와 이미지 컨테이너는 flat edge</li>
+                </ul>
+              </div>
+            </div>
+            <div class="pattern-card__body">
+              Ferrari는 토큰 수보다 배치의 절제가 더 중요하다. 그리드보다 여백 리듬과 배경 전환이 인상을 만든다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="export" class="section section--light">
+      <div class="section__eyebrow">07 · Export</div>
+      <h2 class="section__title">Drop-in CSS</h2>
+      <p class="section__lede">
+        아래 코드는 `design.md`에 명시된 Ferrari 토큰만 다시 정리한 것이다.
+        alias 토큰은 원문 값을 유지했고, 누락됐던 `--f-color-background-darker`와 `--f-color-yellow-hypersail`도 보고서 데이터에 맞춰 포함했다.
+      </p>
+
+      <div class="section__stack">
+        <div class="code-shell">
+          <div class="code-shell__head">
+            <div>
+              <div class="code-shell__title">Ferrari root tokens</div>
+              <div class="code-shell__meta">click to copy the full token block</div>
+            </div>
+            <button class="copy-button" type="button" data-copy-target="css-export">Copy CSS</button>
+          </div>
+          <pre id="css-export"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules" class="section">
+      <div class="section__eyebrow">08 · Rules</div>
+      <h2 class="section__title">Do / Don’t</h2>
+      <p class="section__lede">
+        Ferrari의 가장 흔한 실수는 레드를 욕심내는 것이다. 토큰보다도 사용 비율과 배경 선택이 브랜드를 결정한다.
+      </p>
+
+      <div class="section__stack">
+        <div class="rules-grid">
+          <div class="rule-card rule-card--do">
+            <div class="rule-card__label">Do</div>
+            <div class="rule-card__title">긴장감을 만드는 쪽으로 사용</div>
+            <ul>
+              <li>배경은 `#181818` 또는 white 계열로 유지하고 레드는 포인트에만 올린다.</li>
+              <li>CTA는 `linear-gradient(180deg, #a00c01, #da291c 64%)`와 pill radius를 함께 쓴다.</li>
+              <li>타이포그래피는 FerrariSans 단일 시스템과 28px → 9px 스케일을 유지한다.</li>
+              <li>라이트 섹션은 relief 용도로만 제한적으로 사용한다.</li>
+            </ul>
+          </div>
+
+          <div class="rule-card rule-card--dont">
+            <div class="rule-card__label">Don’t</div>
+            <div class="rule-card__title">이탈리아 레스토랑처럼 만들지 않기</div>
+            <ul>
+              <li>`#DA291C`를 섹션 배경 전체에 깔지 않는다.</li>
+              <li>4px, 8px 같은 중간 radius를 카드에 추가해 분위기를 흐리지 않는다.</li>
+              <li>밝은 회색 ramp를 무시하고 임의의 레드/블랙을 섞어 쓰지 않는다.</li>
+              <li>포커스 색상을 삭제해 다크 배경 접근성을 떨어뜨리지 않는다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>insane-design / ferrari / report.ko.html</span>
+      <span>source: `design.md` · fetched 2026-04-23</span>
+      <span>dark background `#181818` · accent `#DA291C`</span>
+    </footer>
   </main>
 </div>
-<footer class="rfoot">
-  <span>insane-design / ferrari</span>
-  <span class="kr">CSS 파싱 데이터 없음 — 브랜드 가이드 기반 참고값</span>
-  <span>2026-04-13</span>
-</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
 <script>
-  document.querySelectorAll('.code-tabs button[data-tab]').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const tab=btn.dataset.tab;
-      btn.closest('.code-export').querySelectorAll('.code-tabs button[data-tab]').forEach(b=>b.classList.remove('is-active'));
-      btn.classList.add('is-active');
-      btn.closest('.code-export').querySelectorAll('.code-pane').forEach(p=>p.classList.remove('is-active'));
-      btn.closest('.code-export').querySelector('#pane-'+tab).classList.add('is-active');
-    });
-  });
-  document.querySelectorAll('[data-copy]').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const active=btn.closest('.code-export').querySelector('.code-pane.is-active pre');
-      if(active)navigator.clipboard.writeText(active.textContent).then(()=>{const t=btn.textContent;btn.textContent='복사됨';setTimeout(()=>btn.textContent=t,1400);});
-    });
+  const metaCards = [
+    { label: "Source URL", value: "<strong>https://www.ferrari.com/en-US</strong>", note: "Ferrari global English locale" },
+    { label: "CSS file", value: "<strong>clientlib-site.lc-9c0501eb97f1.min.css</strong>", note: "design.md provenance 기준" },
+    { label: "Fetched", value: "<strong>2026-04-23</strong>", note: "curl_cffi · safari impersonation" },
+    { label: "Default theme", value: "<strong>dark</strong>", note: "body background = `#181818` 중심" },
+    { label: "Primary font", value: "<strong>FerrariSans</strong>", note: "fallback = Helvetica Neue" },
+    { label: "Token prefix", value: "<strong>--f-*</strong>", note: "color / space / radius / shadow namespace" }
+  ];
+
+  const foundationCards = [
+    {
+      label: "Aesthetic",
+      value: "<strong>Luxury Automotive</strong>",
+      note: "bold direction = Luxury Performance Dark"
+    },
+    {
+      label: "Signature element",
+      value: "<strong>red gradient accent</strong>",
+      note: "`--f-color-gradient-red`가 CTA와 accent를 정의"
+    },
+    {
+      label: "Structure",
+      value: "<strong>dark hero + white relief</strong>",
+      note: "full-viewport hero와 다크/라이트 섹션 교차"
+    }
+  ];
+
+  const typographyScale = [
+    { label: "Display", size: 28, lineHeight: 1.23, usage: "대형 헤드라인", sample: "Ferrari F80" },
+    { label: "Heading", size: 26, lineHeight: 1.23, usage: "섹션 제목", sample: "Scuderia" },
+    { label: "Title", size: 18, lineHeight: 1.4, usage: "카드 제목", sample: "Track-inspired detail" },
+    { label: "Body", size: 13, lineHeight: 1.5, usage: "본문", sample: "Dark surfaces keep the car under a spotlight." },
+    { label: "Caption", size: 11, lineHeight: 1.5, usage: "캡션 · 레이블", sample: "Ferrari configuration" },
+    { label: "Micro", size: 9, lineHeight: 1.5, usage: "법적 고지 · 메타", sample: "Legal / accessibility" }
+  ];
+
+  const swatchGroups = {
+    accent: [
+      { token: "--f-color-accent-100", value: "#DA291C", usage: "브랜드 레드 — CTA, 포인트", copy: "#DA291C" },
+      { token: "--f-color-accent-90", value: "#B01E0A", usage: "레드 다크 — hover", copy: "#B01E0A" },
+      { token: "--f-color-accent-80", value: "#9D2211", usage: "레드 딥", copy: "#9D2211" }
+    ],
+    neutral: [
+      { token: "--f-color-global-black", value: "#181818", usage: "기본 다크 배경", copy: "#181818" },
+      { token: "--f-color-black-90", value: "#303030", usage: "다크 섹션과 panel 깊이", copy: "#303030" },
+      { token: "--f-color-black-60", value: "#666", usage: "보조 텍스트", copy: "#666" },
+      { token: "--f-color-black-55", value: "#969696", usage: "background darker alias의 실제 값", copy: "#969696" },
+      { token: "--f-color-black-50", value: "#8F8F8F", usage: "보조 대비", copy: "#8F8F8F" },
+      { token: "--f-color-black-20", value: "#D2D2D2", usage: "라이트 섹션 보더 / 서브톤", copy: "#D2D2D2" },
+      { token: "--f-color-black-10", value: "#F7F7F7", usage: "다크 배경 위 기본 텍스트", copy: "#F7F7F7" },
+      { token: "--f-color-global-white", value: "#FFF", usage: "라이트 섹션 기본 배경", copy: "#FFF" }
+    ],
+    background: [
+      { token: "--f-color-background-0", value: "var(--f-color-global-white)", resolved: "#FFF", usage: "라이트 컨텐츠 섹션", copy: "#FFF" },
+      { token: "--f-color-background-10", value: "#EBEBEB", usage: "soft light panel", copy: "#EBEBEB" },
+      { token: "--f-color-background-darker", value: "var(--f-color-black-55)", resolved: "#969696", usage: "더 어두운 background alias", copy: "#969696" },
+      { token: "--f-color-yellow", value: "#F6E500", usage: "포커스 링", copy: "#F6E500" },
+      { token: "--f-color-focus", value: "var(--f-color-yellow)", resolved: "#F6E500", usage: "focus alias", copy: "#F6E500" },
+      { token: "--f-color-yellow-hypersail", value: "#FFF200", usage: "Hypersail 에디션용 yellow", copy: "#FFF200" }
+    ],
+    semantic: [
+      { token: "--f-color-accessible-info", value: "#4C98B9", usage: "정보 상태", copy: "#4C98B9" },
+      { token: "--f-color-accessible-success", value: "#03904A", usage: "성공 상태", copy: "#03904A" },
+      { token: "--f-color-accessible-warning", value: "#F13A2C", usage: "경고 상태", copy: "#F13A2C" }
+    ]
+  };
+
+  const gradients = [
+    {
+      token: "--f-color-gradient-red",
+      value: "linear-gradient(180deg, #a00c01, #da291c 64%)",
+      usage: "버튼과 accent line",
+      preview: "linear-gradient(180deg, #a00c01, #da291c 64%)",
+      copy: "linear-gradient(180deg, #a00c01, #da291c 64%)"
+    },
+    {
+      token: "--f-color-gradient-dark-grey",
+      value: "linear-gradient(180deg, #3c3c3c, #030303 64%)",
+      usage: "다크 섹션 전환",
+      preview: "linear-gradient(180deg, #3c3c3c, #030303 64%)",
+      copy: "linear-gradient(180deg, #3c3c3c, #030303 64%)"
+    },
+    {
+      token: "--f-color-gradient-shadow-dark",
+      value: "linear-gradient(90deg, #121212, #161616)",
+      usage: "shadow dark overlay",
+      preview: "linear-gradient(90deg, #121212, #161616)",
+      copy: "linear-gradient(90deg, #121212, #161616)"
+    },
+    {
+      token: "--f-color-gradient-shadow-light",
+      value: "linear-gradient(180deg, hsla(0,0%,9%,0), hsla(0,0%,9%,.85))",
+      usage: "히어로 이미지 위 텍스트 대비",
+      preview: "linear-gradient(180deg, hsla(0,0%,9%,0), hsla(0,0%,9%,.85))",
+      copy: "linear-gradient(180deg, hsla(0,0%,9%,0), hsla(0,0%,9%,.85))"
+    }
+  ];
+
+  const spacingScale = [
+    { token: "--f-space-xxxs", value: "4px" },
+    { token: "--f-space-xxs", value: "8px" },
+    { token: "--f-space-xs", value: "16px" },
+    { token: "--f-space-s", value: "24px" },
+    { token: "--f-space-m", value: "32px" },
+    { token: "--f-space-l", value: "48px" },
+    { token: "--f-space-xl", value: "64px" },
+    { token: "--f-space-xxl", value: "96px" },
+    { token: "--f-space-super", value: "128px" }
+  ];
+
+  const shadowCards = [
+    {
+      title: "--f-shadow-small",
+      value: "0px 4px 8px 0px rgba(0,0,0,.1)",
+      modifier: "shadow",
+      copy: "0px 4px 8px 0px rgba(0,0,0,.1)"
+    },
+    {
+      title: "--f-color-overlay",
+      value: "rgba(0,0,0,.3)",
+      modifier: "overlay",
+      copy: "rgba(0,0,0,.3)"
+    },
+    {
+      title: "--f-color-overlay-darker",
+      value: "hsla(0,0%,7%,.8)",
+      modifier: "overlay-dark",
+      copy: "hsla(0,0%,7%,.8)"
+    }
+  ];
+
+  const cssExport = `/* Ferrari Design System — insane-design */\n:root {\n  /* Font */\n  --f-ferrari-font: "FerrariSans";\n\n  /* Brand */\n  --f-color-accent-100: #DA291C;\n  --f-color-accent-90: #B01E0A;\n  --f-color-accent-80: #9D2211;\n  --f-color-gradient-red: linear-gradient(180deg, #a00c01, #da291c 64%);\n\n  /* Neutral */\n  --f-color-global-black: #181818;\n  --f-color-black-90: #303030;\n  --f-color-black-60: #666;\n  --f-color-black-55: #969696;\n  --f-color-black-50: #8F8F8F;\n  --f-color-black-20: #D2D2D2;\n  --f-color-black-10: #F7F7F7;\n  --f-color-global-white: #FFF;\n\n  /* Background */\n  --f-color-background-0: var(--f-color-global-white);\n  --f-color-background-10: #EBEBEB;\n  --f-color-background-darker: var(--f-color-black-55);\n\n  /* Accent & semantic */\n  --f-color-yellow: #F6E500;\n  --f-color-focus: var(--f-color-yellow);\n  --f-color-yellow-hypersail: #FFF200;\n  --f-color-accessible-info: #4C98B9;\n  --f-color-accessible-success: #03904A;\n  --f-color-accessible-warning: #F13A2C;\n\n  /* Gradient */\n  --f-color-gradient-dark-grey: linear-gradient(180deg, #3c3c3c, #030303 64%);\n  --f-color-gradient-shadow-dark: linear-gradient(90deg, #121212, #161616);\n  --f-color-gradient-shadow-light: linear-gradient(180deg, hsla(0,0%,9%,0), hsla(0,0%,9%,.85));\n\n  /* Spacing */\n  --f-space-xxxs: 4px;\n  --f-space-xxs: 8px;\n  --f-space-xs: 16px;\n  --f-space-s: 24px;\n  --f-space-m: 32px;\n  --f-space-l: 48px;\n  --f-space-xl: 64px;\n  --f-space-xxl: 96px;\n  --f-space-super: 128px;\n\n  /* Radius */\n  --f-radius-full: 9999px;\n\n  /* Shadow / overlay */\n  --f-shadow-small: 0px 4px 8px 0px rgba(0,0,0,.1);\n  --f-color-overlay: rgba(0,0,0,.3);\n  --f-color-overlay-darker: hsla(0,0%,7%,.8);\n}`;
+
+  const toast = document.getElementById("toast");
+
+  const escapeHtml = (value) => value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll("\"", "&quot;")
+    .replaceAll("'", "&#39;");
+
+  const renderPanelCards = (id, cards) => {
+    const target = document.getElementById(id);
+    target.innerHTML = cards.map((card) => `
+      <article class="panel reveal">
+        <div class="panel__label">${card.label}</div>
+        <div class="panel__value">${card.value}</div>
+        <div class="panel__note">${card.note}</div>
+      </article>
+    `).join("");
+  };
+
+  const renderTypeScale = () => {
+    const target = document.getElementById("type-scale");
+    target.innerHTML = typographyScale.map((item) => `
+      <article class="type-row reveal">
+        <div class="type-row__sample" style="font-size:${item.size}px;line-height:${item.lineHeight};">
+          ${escapeHtml(item.sample)}
+        </div>
+        <div class="type-row__meta">
+          <span>${item.label}</span>
+          <span>${item.size}px / ${item.lineHeight}</span>
+          <span>${item.usage}</span>
+        </div>
+      </article>
+    `).join("");
+  };
+
+  const renderSwatches = (id, items) => {
+    const target = document.getElementById(id);
+    target.innerHTML = items.map((item) => `
+      <button class="swatch-card reveal" type="button" data-copy="${escapeHtml(item.copy)}" style="--swatch:${item.copy};">
+        <span class="swatch-card__sample"></span>
+        <span>
+          <span class="swatch-card__token">${escapeHtml(item.token)}</span>
+          <span class="swatch-card__value">${escapeHtml(item.resolved || item.value)}</span>
+          ${item.resolved ? `<span class="swatch-card__alias">원문: ${escapeHtml(item.value)}</span>` : ""}
+          <span class="swatch-card__usage">${escapeHtml(item.usage)}</span>
+        </span>
+        <span class="swatch-card__hint">hex copy</span>
+      </button>
+    `).join("");
+  };
+
+  const renderGradients = () => {
+    const target = document.getElementById("gradient-grid");
+    target.innerHTML = gradients.map((item) => `
+      <button class="gradient-card reveal" type="button" data-copy="${escapeHtml(item.copy)}">
+        <span class="gradient-card__preview" style="--gradient:${item.preview};"></span>
+        <span>
+          <span class="gradient-card__token">${escapeHtml(item.token)}</span>
+          <span class="gradient-card__value">${escapeHtml(item.value)}</span>
+          <span class="gradient-card__usage">${escapeHtml(item.usage)}</span>
+        </span>
+        <span class="gradient-card__hint">value copy</span>
+      </button>
+    `).join("");
+  };
+
+  const renderSpacing = () => {
+    const target = document.getElementById("spacing-stack");
+    target.innerHTML = spacingScale.map((item) => `
+      <article class="spacing-row reveal">
+        <div class="spacing-row__token">${escapeHtml(item.token)}</div>
+        <div class="spacing-row__value">${escapeHtml(item.value)}</div>
+        <div class="spacing-row__track">
+          <div class="spacing-row__bar" style="--bar:${item.value};"></div>
+        </div>
+      </article>
+    `).join("");
+  };
+
+  const renderShadows = () => {
+    const target = document.getElementById("shadow-stack");
+    target.innerHTML = shadowCards.map((item) => `
+      <button class="shadow-stack__item shadow-stack__item--${item.modifier} reveal" type="button" data-copy="${escapeHtml(item.copy)}">
+        <strong>${escapeHtml(item.title)}</strong>
+        <div class="shadow-stack__value">${escapeHtml(item.value)}</div>
+      </button>
+    `).join("");
+  };
+
+  const showToast = (message) => {
+    toast.textContent = message;
+    toast.classList.add("is-visible");
+    window.clearTimeout(showToast._timer);
+    showToast._timer = window.setTimeout(() => {
+      toast.classList.remove("is-visible");
+    }, 1400);
+  };
+
+  const copyText = async (value) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(value);
+      return;
+    }
+
+    const helper = document.createElement("textarea");
+    helper.value = value;
+    helper.setAttribute("readonly", "");
+    helper.style.position = "absolute";
+    helper.style.left = "-9999px";
+    document.body.appendChild(helper);
+    helper.select();
+    document.execCommand("copy");
+    helper.remove();
+  };
+
+  renderPanelCards("meta-grid", metaCards);
+  renderPanelCards("foundation-grid", foundationCards);
+  renderTypeScale();
+  renderSwatches("swatches-accent", swatchGroups.accent);
+  renderSwatches("swatches-neutral", swatchGroups.neutral);
+  renderSwatches("swatches-background", swatchGroups.background);
+  renderSwatches("swatches-semantic", swatchGroups.semantic);
+  renderGradients();
+  renderSpacing();
+  renderShadows();
+  document.getElementById("css-export").textContent = cssExport;
+
+  document.addEventListener("click", async (event) => {
+    const target = event.target.closest("[data-copy], [data-copy-target]");
+    if (!target) return;
+
+    const payload = target.dataset.copyTarget
+      ? document.getElementById(target.dataset.copyTarget).textContent
+      : target.dataset.copy;
+
+    if (!payload) return;
+
+    try {
+      await copyText(payload);
+      showToast(target.dataset.copyTarget ? "css copied" : "value copied");
+    } catch (error) {
+      showToast("copy failed");
+    }
   });
 </script>
 </body>
