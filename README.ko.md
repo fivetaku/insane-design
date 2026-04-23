@@ -94,6 +94,8 @@ stripe/
 | `/insane-design [slug]` | 사전 분석된 디자인을 내 프로젝트에 적용 |
 | `/insane-design:analysis [URL]` | 분석 모드만 실행 |
 | `/insane-design:apply [slug]` | 적용 모드만 실행 |
+| `/insane-design:build [design.md]` | `design.md` 기반으로 새 페이지/컴포넌트 스캐폴드 (또는 URL에서 즉석 합성) |
+| `/insane-design:verify [job_id]` | 비동기 verifier 결과 수거 — §18 DON'T 위반 + 스크린샷 diff |
 
 자연어도 인식합니다. "이 사이트 분석해줘"는 analysis 모드, "Stripe 스타일 적용해줘"는 apply 모드로 진입합니다.
 

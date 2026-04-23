@@ -94,6 +94,8 @@ stripe/
 | `/insane-design [slug]` | Apply a pre-analyzed design to your project |
 | `/insane-design:analysis [URL]` | Analysis mode only |
 | `/insane-design:apply [slug]` | Apply mode only |
+| `/insane-design:build [design.md]` | Scaffold a new page/component from a `design.md` (or synthesize on the fly from a URL) |
+| `/insane-design:verify [job_id]` | Poll the async verifier — collects §18 DON'T violations + screenshot diff |
 
 Natural language also works. "Analyze this site" triggers analysis mode, "apply the Stripe style" triggers apply mode.
 
