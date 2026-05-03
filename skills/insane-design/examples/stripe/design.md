@@ -1,181 +1,230 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: stripe
 service_name: Stripe
 site_url: https://stripe.com
-fetched_at: 2026-04-20
-default_theme: light
-brand_color: "#635BFF"
+fetched_at: 2026-05-03T07:15:28Z
+default_theme: mixed
+brand_color: "#533AFD"
 primary_font: sohne-var
-font_weight_normal: 400
-token_prefix: --hds-*
+font_weight_normal: 300
+token_prefix: hds
 
-bold_direction: "Refined Fintech"
-aesthetic_category: "Refined Fintech"
-signature_element: gradient_glow
+bold_direction: Gradient Infrastructure
+aesthetic_category: Refined SaaS
+signature_element: typo_contrast
 code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: saas-marketing
+archetype_confidence: high
+design_system_level: lv3
+design_system_level_evidence: "HDS namespace, 320 CSS variables, 315 resolved tokens, tiered core/util/action/component aliases, and explicit component states."
+
+colors:
+  hds-color-core-brand-600: "#533AFD"
+  hds-color-core-brand-500: "#665EFD"
+  hds-color-core-neutral-25: "#F8FAFD"
+  hds-color-core-neutral-990: "#061B31"
+  hds-color-core-neutralDark-990: "#0D1738"
+  hds-color-core-neutral-50: "#E5EDF5"
+  hds-color-core-orange-350: "#FF6118"
+  hds-color-core-success-400: "#00B261"
+  hds-color-core-error-400: "#F3432A"
+typography:
+  display: "sohne-var"
+  body: "sohne-var"
+  code: "SourceCodePro"
+  ladder:
+    - { token: hds-font-heading-xxl, size: "2.125rem|3.5rem", weight: 300, line_height: "1.03", tracking: "-0.02em" }
+    - { token: hds-font-heading-xl, size: "1.75rem|2.125rem|3rem", weight: 300, line_height: "1.07", tracking: "-0.01em" }
+    - { token: hds-font-text-md, size: "1rem", weight: 300, line_height: "1.4", tracking: "0em" }
+    - { token: hds-font-input-label-md, size: "0.875rem", weight: 400, line_height: "1.3", tracking: "0px" }
+  weights_used: [300, 400, 425, 450, 500, 550, 600, 700]
+  weights_absent: []
+components:
+  hds-button-primary: { bg: "{colors.hds-color-core-brand-600}", radius: "4px", padding_block: "15.5px 16.5px", padding_inline: "24px" }
+  hds-button-secondary: { bg: "transparent", border: "1px", radius: "4px", padding_block: "calc button padding minus 1px" }
+  hds-navigation-menu: { max_width: "1349px", radius: "6px", gap: "28px", padding: "16px 24px" }
+  hds-textinput: { height: "48px", radius: "4px", border: "1px" }
 ---
 
-# DESIGN.md — Stripe (Claude Code Edition)
+# DESIGN.md — Stripe Designer Guidebook
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-Stripe의 마케팅 사이트는 **"금융 인프라를 디자인 언어로 번역한 사이트"**다. 대부분의 결제 SaaS가 파란색과 안전감으로 도배할 때, Stripe는 오히려 **인디고 보라(`#635BFF`)와 그라디언트 글로우**로 "기술이 발전하는 방향"을 시각화한다. hero 섹션 배경은 순백 `#FFFFFF`이지만, 텍스트 제목 뒤로 `#BDB4FF → #643AFD → #533AFD` 가로 그라디언트가 조용히 흐르고, 하단으로 내려갈수록 `#0d1738` 짙은 네이비로 섹션이 전환된다.
+### Narrative
 
-색상 전략은 **"brand indigo 한 축 + neutral blue-gray 두 축"**이다. 브랜드는 `#635BFF` (anchor)와 `#533AFD` (brand-600, gradient stop) 한 쌍으로 압축되고, neutral은 light 쪽 `#F8FAFD / #E5EDF5 / #D4DEE9` + dark 쪽 `#1A2C44 / #11273E / #0D253D / #061B31`의 두 계단을 평행 운용한다. 그래서 light 섹션과 dark 섹션이 같은 페이지 안에서 교차해도 어색하지 않다. 이 사이트의 진짜 시그니처는 shadow — `--hds-color-shadow-xs/sm/md/lg/xl` 각 레벨이 **top + bottom 2-layer 원자**로 정의되어 있어서, 모든 카드가 "위에서 내려오는 빛"과 "아래로 떨어지는 그림자"를 동시에 받는다.
+Stripe is not a generic fintech landing page. It is a glass-walled payment terminal room: bright enough for institutional trust, technical enough for developers, and constantly threaded with motion, product UI fragments, and chromatic energy. The visual system starts on a near-white technical floor, but the page is remembered through compressed gradients and the canonical violet #533AFD (`{colors.hds-color-core-brand-600}`), as if the circuitry beneath the surface is briefly visible.
 
-타이포그래피는 자체 호스팅한 **`sohne-var`**이 축이다. 이 폰트의 variable axis는 `400 / 425 / 450 / 500 / 550 / 600 / 700`의 미세 weight를 제공하며, 본문은 `16px weight 400`, 헤딩은 `500~600` variable axis 값을 정확히 사용한다. 코드 폰트는 `SourceCodePro`. hds(Home Design System) 네임스페이스 아래 `--hds-font-heading-{xs,sm,md,lg,xl,xxl,hero-sm,hero-lg}` 8단 반응형 scale이 선언되어 있고, breakpoint별로 heading 크기가 독립적으로 성장한다.
+The typography is the tell. Stripe's page does not rely on heavy SaaS boldness; there is no poster-weight founder manifesto voice. Headings sit at weight 300 with tight optical tracking, so the H1 feels machined rather than shouted, like engraved labeling on precision equipment. Body copy also stays light. This lets dense product diagrams, bento panels, stats, and navigation behave like an operations console whose labels are calm even when the system behind them is busy.
 
-레이아웃은 1080-1609px max-width + 반응형 grid. breakpoint가 촘촘하다 — `400/480/600/640/768/840/940/1115/1264/1300px`로 거의 모든 구간에 대응한다. `--hds-space-core-{100,200,300,...}` 토큰 + `--hds-button-padding-block-*`이 반응형 3단 성장으로 설계되어 있어 버튼 하나도 화면이 커지면 크기가 커진다.
+Color works in two registers. The product chrome uses cool neutrals like #F8FAFD (`{colors.hds-color-core-neutral-25}`), #E5EDF5 (`{colors.hds-color-core-neutral-50}`), and dark ink #0D1738 (`{colors.hds-color-core-neutralDark-990}`): not white paper, but the pale blue-gray enamel of financial infrastructure. The brand moments are concentrated: #533AFD for action, focus, and gradient terminals; #FF6118 and hot magentas appear as current inside illustrations and bento graphics, not as a second general UI color. No second brand color gets equal citizenship.
 
-인터랙션은 Stripe 특유의 **캐러셀 / case-study carousel / bento grid 애니메이션**이 중심이다. `--carousel-card-scale`, `--carousel-item-progress`, `--bento-right-blob`, `--agentic-box-shadow` 같은 토큰이 존재하며, 이들은 scroll-linked animation의 일부다. transition 자체는 짧지만 연출은 정교하다.
+The craft signature is layered infrastructure: 12-column grids, small-radius controls, dual shadows, blurred overlays, gradient orbs, and many responsive breakpoints. Navigation behaves like a translucent control-room visor rather than a flat dropdown. Shadows belong to panels and product graphics like depth cues on stacked hardware, while the chrome itself stays disciplined. Nothing is rustic, soft editorial, or playful-card casual. Stripe's surface is polished but busy: a financial operating system being staged as a marketing site, with the page trying to disappear just enough for the machinery to feel inevitable.
+
+To pull the picture tighter: the gradient orb behind the hero behaves like a magnetometer reading rendered into wallpaper, the bento product cards act like instrument cluster panels lifted out of an aircraft cockpit, and the dashboard previews look like oscilloscope traces pinned to a glass wall. The customer logo strip is the row of port stickers on a payment terminal — proof of throughput, not decoration. The compressed `weight: 300` headlines arrive like serial numbers etched into chrome, never shouting. There is no second brand color competing with `#533AFD` because the room is already lit by violet edge-light.
 
 ### Key Characteristics
 
-- Brand Indigo 한 축 `#635BFF` + accent gradient `#BDB4FF → #643AFD → #533AFD`
-- Light + Dark neutral 이중 ramp (`#F8FAFD` vs `#0D253D`)
-- 2-layer dual shadow 원자 (top + bottom, xs~xl 5단계)
-- `sohne-var` variable font + SourceCodePro mono
-- `--hds-*` Home Design System prefix (수천 토큰)
-- 10단 breakpoint (400/480/600/640/768/840/940/1115/1264/1300)
-- 반응형 크기 성장 (button padding, heading size가 bp별 자체 scale)
-- Scroll-linked carousel / bento grid 시그니처 연출
+- HDS namespace throughout: `--hds-*` core, util, action, component, and surface aliases.
+- Canonical brand action is #533AFD, not the older public-logo purple alone.
+- Default text is light-weight `sohne-var`; headings use weight 300 with negative tracking at larger sizes.
+- Neutral surfaces are cool blue-gray, especially #F8FAFD and #E5EDF5, rather than plain beige or warm off-white.
+- Hero structure uses a 12-column grid and min-height `min(68svh, 826px)` on tablet/desktop.
+- Buttons are compact 4px-radius HDS controls, not oversized rounded pills.
+- Motion is mostly compositional: gradient graphics, carousel progress, menu overlays, and state transitions with `.3s cubic-bezier(.25,1,.5,1)`.
+- Shadows are multi-layered and directional, frequently mixing `rgba(50,50,93,...)` with black alpha.
+- Navigation is a serious component: `max-width: 1349px`, menu viewport, overlay blur, and responsive hamburger behavior.
+- Negative space is systematic but not empty; Stripe uses space to separate dense modules, not to create luxury minimalism.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Refined Fintech
-> **Aesthetic Category**: Refined Fintech
-> **Signature Element**: 이 사이트는 **인디고 보라와 그라디언트 글로우 + 2-layer dual shadow**로 기억된다.
-> **Code Complexity**: high — HDS variable 수천 개 + sohne-var + reactive padding + scroll animation. 화려하지 않지만 정교.
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Gradient Infrastructure
+> **Aesthetic Category**: Refined SaaS
+> **Signature Element**: 이 사이트는 **lightweight typography stretched over gradient infrastructure diagrams**으로 기억된다.
+> **Code Complexity**: high — HDS tokens, 390 media queries, multi-layer shadows, gradient graphics, overlay blur, and stateful navigation all interact.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: auto+manual -->
 
 > 5분 안에 Stripe처럼 만들기 — 3가지만 하면 80%
 
 ```css
 /* 1. 폰트 + weight */
 body {
-  font-family: "sohne-var", "SF Pro Display",
-    -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
+  font-family: "sohne-var", "SF Pro Display", -apple-system, sans-serif;
+  font-weight: 300;
+  color: #0D1738;
 }
 
-/* 2. 배경 + 텍스트 (light default) */
+/* 2. 배경 + 텍스트 */
 :root {
-  --bg: #FFFFFF;
+  --bg: #F8FAFD;
   --fg: #0D1738;
-  --surface: #F8FAFD;
-  --surface-alt: #F6F9FC;
-  --border: #D4DEE9;
-  --text-muted: #64748D;
+  --muted: #64748D;
 }
-body { background: var(--bg); color: var(--fg); }
 
-/* 3. 브랜드 인디고 + 그라디언트 */
+/* 3. 브랜드 컬러 */
 :root {
-  --brand:        #635BFF;
-  --brand-strong: #533AFD;
-  --accent-gradient:
-    linear-gradient(90deg,
-      #BDB4FF 0%, #643AFD 50%, #533AFD 100%);
+  --brand: #533AFD;
+  --brand-hover: #4032C8;
+  --border: #E5EDF5;
 }
 ```
 
-**절대 하지 말아야 할 것 하나**: 브랜드 `#635BFF`를 flat 배경으로 쓰지 마라. Stripe의 인디고는 CTA, focus ring, gradient stop에만 등장한다. Flat indigo 배경은 Discord 또는 Linear인데, Stripe가 아니다. Stripe에서 indigo를 면적으로 쓰는 유일한 방법은 **gradient**다.
+**절대 하지 말아야 할 것 하나**: Stripe를 `font-weight: 400`의 평범한 Inter SaaS로 만들지 말 것. 실제 인상은 `sohne-var` 300 + tight tracking + violet action tokens에서 나온다.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
 | Source URL | `https://stripe.com` |
-| Fetched | 2026-04-20 |
-| Extractor | curl + Chrome UA (5-tier fallback) |
-| HTML size | 573,555 bytes (Next.js SSR) |
-| CSS files | 7개 외부, 총 약 428KB minified |
-| Token prefix | `--hds-*` (Home Design System), `--accent-*`, `--carousel-*`, `--bento-*` |
-| Method | CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음 |
+| Fetched | 2026-05-03T07:15:28Z |
+| Extractor | reused existing phase1 + CSS + index.html artifacts |
+| HTML size | 573555 bytes |
+| CSS files | 7 external CSS files, total 427883 chars |
+| Token prefix | `hds` |
+| Phase1 evidence | `brand_candidates.json`, `typography.json`, `alias_layer.json`, `resolved_tokens.json` |
+| Method | CSS custom property parsing + HTML/CSS structural interpretation |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: Next.js (mkt-ssr-statics 번들)
-- **Design system**: HDS (Home Design System) — prefix `--hds-color-*`, `--hds-font-*`, `--hds-space-*`, `--hds-button-*`
-- **CSS architecture**: core → util → component 3-tier semantic system
+- **Framework**: SSR marketing site with generated bundled CSS and componentized HTML.
+- **Design system**: Stripe HDS — prefix `hds`.
+- **CSS architecture**:
+  ```text
+  core       (--hds-color-core-*)       raw ramps and primitives
+  util       (--hds-color-util-*)       semantic utility aliases
+  action     (--hds-color-action-*)     interactive actions and focus
+  component  (--hds-button-*, etc.)     component-level values
+  surface    (--hds-color-surface-*)    page and container semantics
   ```
-  core   (--hds-color-core-brand-600 : #533afd)      raw hex 원자
-  util   (--hds-color-util-accent-lemon-500)         컨텍스트 alias
-  comp   (--hds-color-action-bg-disabled)            상호작용 컴포넌트
-  ```
-- **Class naming**: hashed CSS modules + utility classes
-- **Default theme**: light (`<html lang="en-US">`, 배경 `#FFFFFF` / hero 하단 `#0D1738`로 전환)
-- **Font loading**: 셀프 호스트 `sohne-var.woff2`, `SourceCodePro.woff2`
-- **Canonical anchor**: `#635BFF` — `--hds-canary-color-border-focus`, `--hds-color-core-brand-500` 계열
-- **Animation primitives**: `--carousel-*`, `--bento-*`, `--agentic-*`, `--stats-*` (scroll-linked)
+- **Class naming**: BEM-like component names such as `.hds-button`, `.hero-section__layout-grid`, `.hds-navigation-menu__trigger`.
+- **Default theme**: mixed. Light marketing surface first, dark adaptive tokens for selected sections and overlays.
+- **Font loading**: custom `sohne-var`, `SourceCodePro`, and system fallback declarations.
+- **Canonical anchor**: Primary action and focus settle on `--hds-color-core-brand-600: #533AFD`.
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Display/Body**: `sohne-var` (Klim Type Foundry, 유료)
-- **Code**: `SourceCodePro` (Adobe, OFL)
-- **Fallback**: `"SF Pro Display", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif`
-- **Weight normal / bold**: `400` / `600`
-- **Variable weights used**: `400 / 425 / 450 / 500 / 550 / 600 / 700`
+- **Display font**: `sohne-var` (commercial/custom brand font)
+- **Body font**: `sohne-var`, fallback `"SF Pro Display"`, then system sans.
+- **Code font**: `SourceCodePro`
+- **Weight normal / bold**: `300` / `500-700` depending on component and locale.
 
 ```css
 :root {
-  --hds-font-family:
-    "sohne-var", "SF Pro Display", -apple-system,
-    BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Ubuntu, sans-serif;
-  --hds-font-family-code: SourceCodePro, ui-monospace,
-    "SF Mono", Menlo, monospace;
+  --hds-font-family: "sohne-var", "SF Pro Display", sans-serif;
+  --hds-font-family-code: SourceCodePro;
+  --hds-font-weight-normal: 300;
+  --hds-font-weight-bold: 500;
 }
+
 body {
-  font-family: var(--hds-font-family);
-  font-weight: 400;
+  font-family: "sohne-var", "SF Pro Display", sans-serif;
+  color: #0D1738;
 }
 ```
 
-> **라이선스 주의**: sohne-var는 Klim Type Foundry 유료 라이선스. 복제 시 `Inter Variable` 또는 `Söhne Buch / Kraftig` 근사 대체. SourceCodePro는 OFL 무료 이므로 그대로 사용 가능.
+### Note on Font Substitutes
+
+- **Sohne substitute** — Use **Inter** only with restraint: body at 300, headings at 300, and avoid default Inter 400 density. Inter's x-height and rhythm will feel louder than Sohne, so reduce headline letter-spacing only where Stripe already does it (`-0.01em` to `-0.02em`).
+- **Display fallback** — `SF Pro Display` is the closer macOS substitute for the hero and HDS headings. Keep line-height tight: `1.03` for XXL and `1.07` for XL.
+- **Code fallback** — If `SourceCodePro` is unavailable, use `ui-monospace` or `SFMono-Regular`; keep it visually secondary and never let monospace become the brand voice.
 
 ---
 
 ## 05. Typography Scale
+<!-- SOURCE: auto -->
 
-> HDS는 heading을 **반응형 3단 scale**로 설계: mobile/tablet/desktop 각각 다른 크기 자동 성장.
+| Token | Size | Weight | Line-height | Letter-spacing |
+|---|---:|---:|---:|---:|
+| `hds-font-heading-xs` | `1rem` | 400 | `1.2` | `0em` |
+| `hds-font-heading-sm` | `1.125rem / 1.25rem / 1.375rem` | 300 | `1.25` | `0em` |
+| `hds-font-heading-md` | `1.25rem / 1.375rem / 1.625rem` | 300 | `1.2` | `-0.01em` |
+| `hds-font-heading-lg` | `1.375rem / 1.75rem / 2rem` | 300 | `1.2` | `-0.01em` |
+| `hds-font-heading-xl` | `1.75rem / 2.125rem / 3rem` | 300 | `1.07` | `-0.01em` |
+| `hds-font-heading-xxl` | `2.125rem / 3.5rem` | 300 | `1.03` | `-0.02em` |
+| `hds-font-heading-hero-sm` | `1.625rem / 2rem / 2.25rem` | 300 | `1.12` | `-0.01em` |
+| `hds-font-heading-hero-lg` | `1.75rem / 3rem` | 300 | `1.1` | `-0.01em` |
+| `hds-font-text-md` | `1rem` | 300 | `1.4` | `0em` |
+| `hds-font-input-label-md` | `0.875rem` | 400 | `1.3` | `0px` |
 
-| Token | Mobile | Tablet | Desktop | Weight | ls |
-|---|---|---|---|---|---|
-| `--hds-font-heading-xs-size` | 1rem (16px) | — | — | 500 | -0.01em |
-| `--hds-font-heading-sm-size` | 1.125rem (18px) | 1.25rem (20px) | 1.375rem (22px) | 500 | -0.01em |
-| `--hds-font-heading-md-size` | 1.25rem (20px) | 1.375rem (22px) | 1.625rem (26px) | 550 | -0.02em |
-| `--hds-font-heading-lg-size` | 1.375rem (22px) | 1.75rem (28px) | 2rem (32px) | 550 | -0.02em |
-| `--hds-font-heading-xl-size` | 1.75rem (28px) | 2.125rem (34px) | 3rem (48px) | 600 | -0.02em |
-| `--hds-font-heading-xxl-size` | 2.125rem (34px) | — | 3.5rem (56px) | 600 | -0.03em |
-| `--hds-font-heading-hero-sm-size` | 1.625rem (26px) | 2rem (32px) | 2.25rem (36px) | 600 | -0.02em |
-| `--hds-font-heading-hero-lg-size` | 1.75rem (28px) | — | 3rem (48px) | 600 | -0.03em |
-| `body` | 1rem (16px) | 1rem | 1rem | 400 | 0 |
+> ⚠️ Stripe's visual identity is not only the size ladder; it is the combination of light weights, compact line-height, and negative display tracking.
 
-> ⚠️ Stripe의 heading은 반응형으로 **크기가 독립 성장**한다. 단일 `clamp()`가 아니라 breakpoint별 `--hds-font-heading-*-size`가 재선언된다.
+### Principles
+
+1. Body and most prose sit at weight 300. This is the main Stripe correction; using 400 immediately turns the page into generic SaaS.
+2. Display sizes get optical compression. The largest heading token uses `letter-spacing: -0.02em`; mid-large headings use `-0.01em`; body keeps `0em`.
+3. Inputs and labels are slightly sturdier than prose. Label tokens use weight 400 while surrounding copy remains 300.
+4. Locale-specific overrides exist. Japanese and Chinese selectors lift weight to 400/500/600, so the system is not a single universal weight map.
+5. Hero does not need huge 72px typography. The captured scale tops at `3.5rem` for XXL and `3rem` for hero/lg contexts; authority comes from layout and graphics.
+6. Monospace is a supporting technical accent, not the main brand font.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto -->
 
-### 06-1. Brand (Indigo, core ramp 14 steps)
+### 06-1. Brand Ramp (15 steps)
 
 | Token | Hex |
 |---|---|
@@ -186,7 +235,7 @@ body {
 | `--hds-color-core-brand-200` | `#B9B9F9` |
 | `--hds-color-core-brand-300` | `#9A9AFE` |
 | `--hds-color-core-brand-400` | `#7F7DFC` |
-| `--hds-color-core-brand-500 ★` | `#665EFD` |
+| `--hds-color-core-brand-500` | `#665EFD` |
 | `--hds-color-core-brand-600` | `#533AFD` |
 | `--hds-color-core-brand-700` | `#4032C8` |
 | `--hds-color-core-brand-800` | `#2E2B8C` |
@@ -194,478 +243,525 @@ body {
 | `--hds-color-core-brand-950` | `#161741` |
 | `--hds-color-core-brand-975` | `#0F1137` |
 
-> **Canonical anchor**: `#635BFF` (= `--hds-canary-color-border-focus`, visual brand 500). Core ramp의 500 (`#665EFD`)과 인접 tint.
+### 06-2. Brand Dark Variant
 
-### 06-2. Accent Gradient (hero)
+| Token | Hex |
+|---|---|
+| `--hds-color-core-brandDark-25` | `#F6F7FF` |
+| `--hds-color-core-brandDark-100` | `#C3D3FF` |
+| `--hds-color-core-brandDark-300` | `#92ADFF` |
+| `--hds-color-core-brandDark-500` | `#5D64FE` |
+| `--hds-color-core-brandDark-600` | `#533AFD` |
+| `--hds-color-core-brandDark-700` | `#362BAA` |
+| `--hds-color-core-brandDark-800` | `#2C2484` |
+| `--hds-color-core-brandDark-975` | `#171055` |
 
-```css
---accent-gradient-color-stop-1: #BDB4FF;
---accent-gradient-color-stop-2: #643AFD;
---accent-gradient-color-stop-3: #533AFD;
---gradient-color: #533AFD;
-```
+### 06-3. Neutral Ramp
 
-### 06-3. Neutral Ramp (cool blue-gray, 13 steps)
-
-| Token | Hex | Usage |
+| Step | Light | Dark |
 |---|---|---|
-| `--hds-color-core-neutral-0` | `#FFFFFF` | page bg |
-| `--hds-color-core-neutral-25` | `#F8FAFD` | subtle surface |
-| `--hds-color-core-neutral-50` | `#E5EDF5` | divider tint |
-| `--hds-color-core-neutral-100` | `#D4DEE9` | card border |
-| `--hds-color-core-neutral-200` | `#BAC8DA` | input border |
-| `--hds-color-core-neutral-300` | `#95A4BA` | placeholder |
-| `--hds-color-core-neutral-400` | `#7D8BA4` | text tertiary |
-| `--hds-color-core-neutral-500` | `#64748D` | text muted |
-| `--hds-color-core-neutral-600` | `#50617A` | text secondary |
-| `--hds-color-core-neutral-700` | `#3C4F69` | text body strong |
-| `--hds-color-core-neutral-800` | `#273951` | text heading |
-| `--hds-color-core-neutral-900` | `#1A2C44` | text deepest |
-| `--hds-color-core-neutral-950` | `#11273E` | dark bg panel |
-| `--hds-color-core-neutral-975` | `#0D253D` | dark bg strong |
-| `--hds-color-core-neutral-990` | `#061B31` | near-black |
+| 0 / 25 | `#FFFFFF` / `#F8FAFD` | `#F2F7FE` |
+| 50 / 100 | `#E5EDF5` / `#D4DEE9` | `#E3ECF7` / `#D4DEEF` |
+| 200 / 300 | `#BAC8DA` / `#95A4BA` | `#C0CEE6` / `#A3B5D6` |
+| 500 / 600 | `#64748D` / `#50617A` | `#6480B2` / `#45639D` |
+| 800 / 900 | `#273951` / `#1A2C44` | `#23356E` / `#182659` |
+| 975 / 990 | `#0D253D` / `#061B31` | `#101D4E` / `#0D1738` |
 
-### 06-4. Accent Families (product lines + status)
+### 06-4. Accent Families
 
-| Family | Hex | Use |
+| Family | Key step | Hex |
 |---|---|---|
-| `success-400` | `#00B261` | success state |
-| `success-600` | `#006F3A` | success deep |
-| `error-400` | `#F3432A` | error |
-| `error-500` | `#D8351E` | error strong |
-| `error-600` | `#A01400` | error deep |
-| `lemon-200` | `#F9B900` | warning / highlight |
-| `lemon-300` | `#E8A30B` | warning deep |
-| `magenta-350` | `#F44BCC` | bento blob |
-| `magenta-600` | `#A51D85` | magenta deep |
-| `ruby-600` | `#B51145` | ruby alert |
-| `suite-ea2261` | `#EA2261` | suite marker red |
-| `suite-ff6118` | `#FF6118` | suite marker orange |
-| `suite-fc5` | `#FFCC55` | suite marker yellow |
-| `suite-f363f3` | `#F363F3` | suite marker magenta |
+| Orange | `--hds-color-core-orange-350` | `#FF6118` |
+| Lemon | `--hds-color-core-lemon-200` | `#F9B900` |
+| Success | `--hds-color-core-success-400` | `#00B261` |
+| Error | `--hds-color-core-error-400` | `#F3432A` |
+| Gradient stop | `--accent-gradient-color-stop-1` | `#BDB4FF` |
+| Gradient stop | `--accent-gradient-color-stop-2` | `#643AFD` |
 
 ### 06-5. Semantic
 
-| Token | Hex | Usage |
+| Token | Resolves to | Usage |
 |---|---|---|
-| `--hds-color-input-bg-default` (light) | `#0D17380D` (5% black alpha) | form input 배경 |
-| `--hds-color-input-bg-default` (dark) | `#FFFFFF40` (25% white alpha) | dark form input |
-| `--hds-color-input-border-default` (light) | `#D4DEE9BF` | form border |
-| `--hds-canary-color-border-focus` | `#635BFF` | focus ring |
-| `--hds-color-action-bg-disabled` | `#23356EA6` | disabled CTA |
-| `--stats-color` (a) | `#0810BF` | stat number blue |
-| `--stats-color` (b) | `#4304EA` | stat number indigo |
-| `--stats-color` (c) | `#8A35DF` | stat number purple |
-| `--stats-color` (d) | `#C42FA5` | stat number magenta |
+| `--hds-color-action-bg-solid` | `#533AFD` | primary action background |
+| `--hds-color-action-bg-solidHover` | `#4032C8` | primary hover |
+| `--hds-color-action-focus-outer` | `#533AFD` | focus ring |
+| `--hds-color-surface-bg-subdued` | `#F8FAFD` or dark adaptive | subdued sections |
+| `--hds-color-surface-border-quiet` | `#E5EDF5` or dark adaptive | hairline borders |
+| `--hds-color-text-solid` | `#061B31` / `#FFFFFF` adaptive | text on current theme |
+| `--hds-color-input-border-error` | `#F3432A` family | invalid state |
 
-### 06-6. Shadow Tokens (dual-layer atom)
+### 06-6. Semantic Alias Layer
 
-Stripe shadow는 **top + bottom 두 원자**로 분리. alpha도 light/dark 두 값 병존.
-
-| Token | Light (light theme) | Dark (dark theme) |
+| Alias | Resolves to | Usage |
 |---|---|---|
-| `--hds-color-shadow-xs-top` | `#0037700F` | `#0D173826` |
-| `--hds-color-shadow-xs-bottom` | `#003B890A` | `#0D173833` |
-| `--hds-color-shadow-sm-top` | `#00377014` | `#0D173826` |
-| `--hds-color-shadow-sm-bottom` | `#003B890D` | `#0D173833` |
-| `--hds-color-shadow-md-top` | `#0037701A` | `#0D173826` |
-| `--hds-color-shadow-md-bottom` | `#003B8905` | `#0D173833` |
-| `--hds-color-shadow-lg-top` | `#0037701A` | `#0D173826` |
-| `--hds-color-shadow-lg-bottom` | `#003B890A` | `#0D173833` |
-| `--hds-color-shadow-xl-top` | `#00377024` | `#0D173826` |
-| `--hds-color-shadow-xl-bottom` | `#003B890F` | `#0D173833` |
+| `--hds-color-button-primary-bg` | `--hds-color-action-bg-solid` | primary button |
+| `--hds-color-button-secondary-border` | action border aliases | secondary button border |
+| `--hds-color-input-bg-default` | translucent neutral values | input field base |
+| `--hds-color-input-border-default` | neutral border values | input chrome |
+| `--hds-color-shadow-xs-top` | `#0037700F` / `#0D173826` | elevation top layer |
+| `--hds-color-shadow-xs-bottom` | `#003B890A` / `#0D173833` | elevation bottom layer |
 
-### 06-7. Dominant Colors (실제 CSS 빈도)
+### 06-7. Dominant Colors (실제 DOM/CSS 빈도 순)
 
-| Rank | Hex | Count | Role |
-|---|---|---|---|
-| 1 | `#0D1738` | 15 | text-heading (deepest ink) |
-| 2 | `#F8FAFD` | 11 | neutral-25 surface |
-| 3 | `#FFFFFF` | 10 | page bg |
-| 4 | `#533AFD` | 10 | brand-600 / gradient |
-| 5 | `#FF6118` | 8 | suite orange marker |
-| 6 | `#061B31` | 7 | neutral-990 near-black |
-| 7 | `#FCFDFE` | 6 | stats-bg option |
-| 8 | `#FB76FA` | 6 | stop-color gradient |
-| 9 | `#F6F9FC` | 6 | surface alt |
-| 10 | `#D4DEE9` | 6 | neutral-100 border |
-| 11 | `#7232F1` | 6 | accent magenta-purple |
-| 12 | `#1318C1` | 6 | stat deep blue |
+| Hex | Frequency | Role |
+|---|---:|---|
+| `#FFFFFF` / `#fff` | 43 combined approx | white surfaces and text |
+| `#0D1738` | 15 in phase1 selector/frequency evidence | body text / dark neutral |
+| `#F8FAFD` | 11 | subdued surface |
+| `#533AFD` | 10 | brand action |
+| `#FF6118` | 8 | illustration/accent energy |
+| `#061B31` | 7 | deep neutral |
+| `#FB76FA` | 6 | gradient/graphic accent |
+| `#7232F1` | 6 | gradient/graphic accent |
+
+### 06-8. Color Stories
+
+**`--hds-color-core-brand-600` (`#533AFD`)** — The canonical Stripe action violet. It owns primary buttons, focus, gradient terminals, and the interactive confidence of the page. Use it as the action anchor, not as a page-wide wash.
+
+**`--hds-color-core-neutral-25` (`#F8FAFD`)** — The cool infrastructure floor. It is close to white but carries enough blue-gray temperature to make white cards, diagrams, and browser chrome separate cleanly.
+
+**`--hds-color-core-neutralDark-990` (`#0D1738`)** — The ink color that prevents the light-weight type from disappearing. It is deep navy, not black, and keeps Stripe away from stark monochrome minimalism.
+
+**`--hds-color-core-neutral-50` (`#E5EDF5`)** — The quiet hairline and divider color. Stripe leans on this more than heavy borders; it lets dense sections remain readable without boxed-card clutter.
 
 ---
 
 ## 07. Spacing
-
-Stripe는 `--hds-space-core-*` 토큰 시스템 + button padding 반응형 3단을 쓴다.
+<!-- SOURCE: auto -->
 
 | Token | Value | Use case |
-|---|---|---|
-| `--hds-space-core-100` | `4px` | 세밀 gap |
-| `--hds-space-core-200` | `8px` | small gutter |
-| `--hds-space-core-300` | `12px` | form padding |
-| `--hds-space-core-400` | `16px` | card inner |
-| `--hds-space-core-500` | `24px` | section vertical |
-| `--hds-space-core-600` | `32px` | section generous |
-| `--hds-space-core-700` | `48px` | hero block |
-| `--hds-space-core-800` | `64px` | mega section |
-| `--hds-button-padding-block-start` (sm/md/lg) | `11.5 / 13.5 / 15.5px` | 버튼 상단 padding 3단 |
-| `--hds-button-padding-block-end` (sm/md/lg) | `12.5 / 14.5 / 16.5px` | 버튼 하단 padding 3단 |
-| `--hds-button-border-width` | `1px` | 모든 버튼 공통 |
-| `page-max-width` (관찰) | `1080~1609px` | 섹션별 다름 |
-| `carousel-gutter` | `16px` | caro 내부 간격 |
-| `divider-height` | `120px` | 섹션 분리자 |
+|---|---:|---|
+| `--hds-space-core-50` | `4px` | icon/link micro gaps |
+| `--hds-space-core-100` | `8px` | common compact gap |
+| `--hds-space-core-150` | `12px` | input and list rhythm |
+| `--hds-space-core-200` | `16px` | layout gap, mobile content margin |
+| `--hds-space-core-300` | `24px` | button inline padding, larger gaps |
+| `--hds-space-core-400` | `32px` | section row gap |
+| `--hds-space-core-550` | `44px` | button/input height anchor |
+| `--hds-space-core-700` | `56px` | mobile section gap |
+| `--hds-space-core-800` | `64px` | tablet section gap |
+| `--hds-space-core-1200` | `96px` | desktop section top/bottom gap |
+| `--hds-space-core-2500` | `200px` | large-scale graphic spacing |
+
+**주요 alias**:
+- `--hds-space-layout-columns` → `4 / 8 / 12` responsive grid columns.
+- `--hds-space-layout-gap` → `16px`, reused by grids and section headers.
+- `--hds-space-section-gap-top` → `56px / 64px / 96px` across breakpoints.
+- `--hds-space-button-height` → `44px`, matching touch-target minimum.
+
+### Whitespace Philosophy
+
+Stripe uses whitespace as routing infrastructure. The page is not sparse; it is densely illustrated and information-heavy. The air appears in section boundaries, grid gutters, and content-column separation so the system can carry dashboards, stats, bento modules, and nav menus without collapsing into noise.
+
+The spacing ladder is unusually explicit: 2px increments at the bottom, then 8px rhythm, then 56/64/96px section scales. That lets Stripe make compact UI controls and large marketing bands feel like one system.
 
 ---
 
 ## 08. Radius
+<!-- SOURCE: auto -->
 
 | Token | Value | Context |
-|---|---|---|
-| `radius-xs` | `4px` | chip / tag |
-| `radius-sm` | `5px` (`--card-radius-inner`) | nested card inner |
-| `radius-md` | `8px` | button / input |
-| `radius-lg` | `12px` | card 기본 |
-| `radius-xl` | `16px` | hero card |
-| `radius-2xl` | `20px` | bento block |
-| `radius-pill` | `9999px` | pill button |
+|---|---:|---|
+| `--hds-space-core-radius-xs` | `2px` | checkbox/small marks |
+| `--hds-space-core-radius-sm` | `4px` | primary buttons, inputs, most controls |
+| `--hds-space-core-radius-md` | `6px` | navigation menu, popovers |
+| `--hds-space-core-radius-lg` | `16px` | larger cards or media modules |
+| `--hds-space-core-radius-xl` | `32px` | oversized graphic containers |
+| `--hds-space-core-radius-round` | `99999px` | circular/fully round exceptions |
 
-> 관찰: Stripe는 **nested radius**를 엄격히 — 카드가 16px이면 내부 요소는 `--card-radius-inner: 5px`처럼 명시적으로 작은 값을 가진다.
+Stripe's default control radius is small. Recreating it with 999px pill buttons is one of the fastest ways to lose the HDS feel.
 
 ---
 
 ## 09. Shadows
+<!-- SOURCE: auto -->
 
-> Stripe의 shadow는 **2-layer dual-shadow 원자**. `shadow-xs` 하나만 해도 top + bottom 2개 색으로 조합됨. light/dark variant 각각 정의.
-
-| Level | Value (light) | Usage |
+| Level | Value | Usage |
 |---|---|---|
-| `shadow-xs` | `0 1px 2px var(--hds-color-shadow-xs-top), 0 2px 4px var(--hds-color-shadow-xs-bottom)` | 얕은 버튼 rest |
-| `shadow-sm` | `0 2px 4px var(--shadow-sm-top), 0 4px 8px var(--shadow-sm-bottom)` | 카드 rest |
-| `shadow-md` | `0 4px 8px var(--shadow-md-top), 0 8px 16px var(--shadow-md-bottom)` | 드롭다운 |
-| `shadow-lg` | `0 8px 16px var(--shadow-lg-top), 0 16px 32px var(--shadow-lg-bottom)` | 모달 |
-| `shadow-xl` | `0 16px 32px var(--shadow-xl-top), 0 32px 64px var(--shadow-xl-bottom)` | popup / hero card |
-| `agentic-box-shadow` | `0 20.187px 40.374px -20.187px` | AI 에이전틱 카드 signature |
-| `hds-canary-ui-shadow` | `0 16px 32px ...` | canary floating UI |
+| `xs` | top `0 2px 10px #0037700F`, bottom `0 1px 4px #003B890A` | subtle UI elevation |
+| `sm` | top `0 5px 14px #00377014`, bottom `0 2px 8px #003B890D` | small popovers/cards |
+| `md` | top `0 6px 22px #0037701A`, bottom `0 4px 8px #003B8905` | medium panels |
+| `lg` | top `0 15px 40px -2px #0037701A`, bottom `0 5px 20px -2px #003B890A` | prominent modules |
+| `xl` | top `0 20px 80px -16px #00377024`, bottom `0 10px 60px -16px #003B890F` | hero/product graphics |
+| graphic | `0 30px 60px -12px rgba(50,50,93,.25), 0 18px 36px -18px rgba(0,0,0,.3)` | diagram depth |
+
+Pattern: Stripe's elevation is almost never a single generic shadow. It pairs colored navy top/bottom layers or the classic `rgba(50,50,93)` plus black-alpha stack.
 
 ---
 
 ## 10. Motion
+<!-- SOURCE: auto+manual -->
 
-> Stripe motion은 CSS 토큰으로 덜 노출되어 있고 대부분 JS scroll-linked. 기본 transition은 짧다.
-
-| Pattern | Value | Use |
+| Token / pattern | Value | Usage |
 |---|---|---|
-| `transition` (기본) | `200ms cubic-bezier(0.4,0,0.2,1)` | hover / focus |
-| `transition-colors` | `150ms ease-out` | 색 전환 |
-| `--carousel-item-progress` | `clamp(-1, value, 1)` | scroll-linked progress |
-| `--carousel-card-scale` | `calc(1 - max(progress, -1 * progress))` | 카드 scale 연동 |
-| bento blob shift | `200-400ms ease-out` | hover 반응 |
+| button transition | `.3s cubic-bezier(.25,1,.5,1)` | background/color/border on HDS buttons |
+| reduced motion | `prefers-reduced-motion` branches | accessible animation gating |
+| navigation overlay | opacity + blur transition | menu open/close |
+| carousel state | `--carousel-card-scale`, progress clamp | card scaling |
+| bento reveal | `.5s cubic-bezier(.33,1,.68,1)` | dialog/graphic reveal |
+
+Motion is precise and component-scoped. Avoid decorative global page animations that are not tied to a real component state.
 
 ---
 
 ## 11. Layout Patterns
+<!-- SOURCE: auto+manual -->
 
 ### Grid System
 
-- **Content max-width**: 1080~1609px (섹션별) — 단일 고정폭 없음
-- **Grid type**: CSS Grid + Flex 혼합
-- **Column count**: 12 subdivision base + bento custom
-- **Gutter**: 16px (`--carousel-gutter`) / 24px (섹션)
+- **Content max-width**: navigation `1349px`; other content uses HDS section containers and CSS variables.
+- **Grid type**: CSS Grid with responsive HDS columns.
+- **Column count**: `4` mobile, `8` tablet, `12` desktop via `--hds-space-layout-columns`.
+- **Gutter**: `--hds-space-layout-gap: 16px` and component-specific gaps.
 
 ### Hero
 
-- **🆕 Pattern Summary**: `~90vh + 순백 bg + 그라디언트 글로우 뒤배 + 좌측 H1 + 우측 product bento/animation`
-- Layout: 2-column split (텍스트 + 시각 애셋)
-- Background: `#FFFFFF` solid + 뒷면 accent gradient `#BDB4FF → #533AFD`
-- H1: `48-56px (desktop) / weight 600 / ls -0.03em`
-- Max-width: `1232-1295px`
+- **Pattern Summary**: `min(68svh, 826px) + 12-column grid + lightweight H1 + gradient/product graphics`.
+- Layout: `.hero-section__layout-grid` uses `grid-template-columns: repeat(12, minmax(0, 1fr))`.
+- Background: light/cool surface with full-bleed divider lines and chromatic graphic layers.
+- **Background Treatment**: gradient-mesh/product-ui composition, not a plain gradient hero.
+- H1: `sohne-var`, hero tokens up to `3rem`, weight `300`, tracking `-0.01em`.
+- Max-width: grid-bounded, not a centered single text column.
 
 ### Section Rhythm
 
 ```css
-section {
-  padding: 96px 32px;     /* vertical / horizontal */
-  max-width: 1295px;
-  margin: 0 auto;
+.section-container {
+  padding-block-start: var(--section-container-pbs-dt, var(--hds-space-core-1200));
+  padding-block-end: var(--section-container-pbe-dt, var(--hds-space-core-800));
+}
+
+.hero-section__layout-grid {
+  display: grid;
+  column-gap: var(--hds-space-core-200);
+  row-gap: var(--hds-space-core-400);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 ```
 
 ### Card Patterns
 
-- **Card background**: `#FFFFFF` (light) / `#0D253D` (dark 섹션)
-- **Card border**: `1px solid #D4DEE9` (light) / none (dark, shadow로 구분)
-- **Card radius**: `12-16px` (hero), `8px` (일반)
-- **Card padding**: `24-32px`
-- **Card shadow**: `shadow-sm` rest → `shadow-md` hover (2-layer dual)
+- **Card background**: mostly #FFFFFF or #F8FAFD-adjacent surfaces, sometimes translucent.
+- **Card border**: quiet #E5EDF5 / dark adaptive hairline.
+- **Card radius**: 6px for menus and many panels; 16px/32px for larger graphic containers.
+- **Card padding**: 16px to 32px common, larger bento modules use 48px+ equivalents.
+- **Card shadow**: dual shadow or no shadow; never a generic single 0 4 12 shadow.
 
 ### Navigation Structure
 
-- **Type**: horizontal desktop + mega-dropdown
-- **Position**: `position: sticky; top: 0`
-- **Height**: `~72px`
-- **Background**: `rgba(255,255,255,0.85)` + `backdrop-filter: blur(12px)`
-- **Border**: 하단 `1px solid rgba(0,0,0,0.08)` 스크롤 시 나타남
+- **Type**: horizontal desktop navigation with stateful menu viewport; collapses below desktop.
+- **Position**: page-top marketing nav; menu overlay/viewport is componentized.
+- **Height**: `--navigation-height: 76px`.
+- **Background**: transparent until menu/open contexts; overlay uses gradient + blur.
+- **Border**: radius `6px`; open menu removes lower radius.
 
 ### Content Width
 
-- **Prose max-width**: `~720px`
-- **Container max-width**: `1295px` 기본 / `1609px` wide
-- **Sidebar width**: docs에서만
+- **Prose max-width**: content-specific `ch` limits appear, e.g. 42ch, 36ch, 32ch.
+- **Container max-width**: navigation `1349px`; section/graphic modules use variable constraints.
+- **Sidebar width**: no fixed app-sidebar pattern on homepage; bento/dialog modules create local side columns.
 
 ---
 
 ## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
 
 ### Breakpoints
 
 | Name | Value | Description |
-|---|---|---|
-| XS | `≥ 400px` | 모바일 small 보정 |
-| SM | `≥ 480px` | 모바일 large |
-| MD | `≥ 600px` | 태블릿 portrait |
-| LG | `≥ 640px` | 태블릿 land |
-| LG+ | `≥ 768px` | small laptop |
-| XL | `≥ 840px` | hero 2-col 복원 |
-| XXL | `≥ 940px` | full nav |
-| Desktop | `≥ 1115px` | container 확장 |
-| Wide | `≥ 1264px` | carousel 확장 |
-| XWide | `≥ 1300px` | max layout |
-
-*모바일 퍼스트* — 10단계 breakpoint는 Stripe 특유의 정교한 반응형
+|---|---:|---|
+| Mobile | `<640px` | 4-column layout, extra hero vertical padding, collapsed nav |
+| Tablet | `640px` | 8-column HDS layout, row gaps increase |
+| Desktop | `940px` | 12-column HDS layout, desktop section padding, full nav/menu behavior |
+| Wide | `1264px+ / 1300px+` | graphic and carousel refinements |
 
 ### Touch Targets
 
-- **Minimum tap size**: `44px` (iOS HIG)
-- **Button height**: sm `32px` / md `40px` / lg `48px` (반응형 padding 자동)
-- **Input height**: `40-48px`
+- **Minimum tap size**: `44px` from `--hds-space-button-height`.
+- **Button height mobile**: mobile padding `13.5px / 14.5px` yields approximately 44px.
+- **Input height mobile**: text input uses `height: var(--hds-space-core-600)` = 48px.
 
 ### Collapsing Strategy
 
-- **Navigation**: 940px 이하에서 햄버거, mega-dropdown 접힘
-- **Grid columns**: 3-col → 2-col → 1-col
-- **Hero layout**: 2-column → 1-column (840px 이하)
-- **Carousel**: card-width `clamp(240px, 30.38cqi, 384px)` container query 사용
+- **Navigation**: desktop menu becomes hamburger/collapsed menu below desktop.
+- **Grid columns**: 4 → 8 → 12 HDS columns.
+- **Sidebar**: no global sidebar; dialog and bento side columns collapse locally.
+- **Hero layout**: mobile adds large block padding (`72px`/`88px`) while desktop relies on min-height and grid.
 
 ### Image Behavior
 
-- **Strategy**: Next.js `<Image>` + CDN (`b.stripecdn.com`)
-- **Max-width**: `100%`
-- **Aspect ratio**: hero `16/9`, product mockup `3/2`
+- **Strategy**: product graphics and illustrations are component-scoped with grid placement.
+- **Max-width**: frequent `100%`, `min(...)`, and fixed graphic constraints.
+- **Aspect ratio handling**: handled per component; no single global image rule was proven.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
 ### Buttons
 
-Stripe 버튼은 `.hds-button-*` 클래스 + `--hds-button-padding-block-*` 반응형 padding.
-
 ```html
-<button class="hds-button hds-button--primary">Start now</button>
-<button class="hds-button hds-button--secondary">Contact sales</button>
+<a class="hds-button" href="#">
+  Start now
+  <span class="hds-icon-hover-arrow"></span>
+</a>
 ```
 
-| Variant | background | color | radius | padding (sm/md/lg) | hover |
-|---|---|---|---|---|---|
-| primary | `#635BFF` | `#FFFFFF` | `8px` | `11.5/13.5/15.5px` top | `filter: brightness(1.06)` |
-| primary-dark | `#0D1738` | `#FFFFFF` | `8px` | 동일 | lighten to `#1A2C44` |
-| secondary | `transparent` | `#0D1738` | `8px` | 동일 + `1px solid #D4DEE9` | `bg #F8FAFD` |
-| ghost | `transparent` | `#635BFF` | `8px` | 동일 | `bg #F5F5FF` |
+| Property | Value |
+|---|---|
+| font | `var(--hds-font-family)`, `1rem`, weight `var(--hds-font-weight-bold)` |
+| base bg | `--hds-color-button-primary-bg` → `#533AFD` |
+| hover bg | `--hds-color-button-primary-bgHover` → `#4032C8` |
+| radius | `--hds-space-core-radius-sm` = `4px` |
+| padding | `15.5px 16.5px` block, `24px` inline |
+| focus | `outline: 2px solid var(--hds-color-action-border-solid); outline-offset: 3px` |
+| transition | `.3s cubic-bezier(.25,1,.5,1)` |
+| disabled | disabled bg/text tokens, cursor default |
+
+### Badges
+
+Badges are not the primary homepage signature in the extracted evidence. When needed, use HDS text scales (`0.75rem` to `0.875rem`), small radius (`2px` or `4px`), and semantic action/surface aliases rather than inventing a new saturated badge system.
 
 ### Cards & Containers
 
 ```html
-<article class="hds-card">
-  <h3>Accept payments</h3>
-  <p>...</p>
+<article class="stripe-infra-card">
+  <h3 class="hds-heading hds-heading--md">Reliable infrastructure</h3>
+  <p class="hds-text hds-text--md">Dense product content on a cool neutral surface.</p>
 </article>
 ```
 
-- bg: `#FFFFFF` (light) / `#0D253D` (dark)
-- border: `1px solid #D4DEE9` or none
-- radius: `12px` 기본 / `16px` hero
-- padding: `24px` / `32px`
-- shadow: `shadow-sm` (2-layer dual) rest → `shadow-md` hover
+| Property | Value |
+|---|---|
+| background | `#FFFFFF`, `#F8FAFD`, or translucent `rgba(248,250,253,.45)` |
+| border | `1px solid #E5EDF5` or adaptive surface border |
+| radius | 6px for chrome, 16px+ for larger visual modules |
+| shadow | dual HDS shadow or graphic shadow stack |
+| hover | border/color/transform only where component evidence exists |
 
 ### Navigation
 
-- 로고: 좌측 Stripe mark (검정 `#0D1738`)
-- 링크: sohne-var 14px weight 400, color `#3C4F69`, hover `#0D1738`
-- Active: color `#0D1738`, weight 500
-- CTA: 우측 "Sign in" + primary "Contact sales"
-- Backdrop: `blur(12px)` on scroll
+```html
+<nav class="hds-navigation-menu">
+  <button class="hds-navigation-menu__trigger">Products</button>
+  <a class="hds-button hds-button--transparent">Sign in</a>
+</nav>
+```
+
+| Property | Value |
+|---|---|
+| max-width | `1349px` |
+| padding | `16px 24px` |
+| gap | `28px` |
+| radius | `6px`, lower radius removed when open |
+| overlay | `linear-gradient(transparent, rgba(236,239,241,.8))` + `backdrop-filter: blur(5px)` |
+| trigger font | `0.875rem` |
 
 ### Inputs & Forms
 
-- height: `40px`
-- padding: `0 12px`
-- border: `1px solid #D4DEE9`
-- radius: `8px`
-- focus: `box-shadow: 0 0 0 3px rgba(99,91,255,0.25); border-color: #635BFF`
-- placeholder: `color: #95A4BA`
-
-### Stats / Numbers (signature)
-
 ```html
-<div class="stats"><span style="color:#0810BF">2.8B+</span></div>
+<label class="hds-field">
+  <span class="hds-label">Email</span>
+  <input class="hds-textinput" type="email" />
+</label>
 ```
 
-- color: `#0810BF / #4304EA / #8A35DF / #C42FA5` 4색 순환
-- font: sohne-var `56-72px weight 600 ls -0.03em`
-- 개별 stat마다 다른 색 할당
+| Property | Value |
+|---|---|
+| height | `48px` (`--hds-space-core-600`) |
+| border | `1px solid var(--hds-color-input-border-default)` |
+| radius | `4px` |
+| padding | around `16px` vertical and `16px/24px` horizontal depending component |
+| focus | `3px` focus outline on relevant controls |
+| invalid | `--hds-color-input-border-error` |
 
----
+### Hero Section
+
+The hero is a grid/graphic system, not a text-only center stack. Keep the H1 light, compress tracking, place CTA(s) in the grid, and let product/gradient composition create the memorable mass.
+
+### 13-2. Named Variants
+
+| Variant | Spec | Notes |
+|---|---|---|
+| `hds-button-primary` | #533AFD bg, #4032C8 hover, 4px radius | action anchor |
+| `hds-button-secondary` | transparent bg, 1px border, hover border | secondary on subdued surfaces |
+| `hds-button-transparent` | transparent bg, text color changes on hover | nav and low-emphasis actions |
+| `hds-button-compact` | `11.5px / 12.5px` block padding | dense nav/util actions |
+| `hds-navigation-menu` | 1349px max, 6px radius, menu viewport | desktop global nav |
+| `hds-textinput` | 48px height, 4px radius, focus/invalid states | form controls |
+
+### 13-3. Signature Micro-Specs
+
+#### stripe-lightweight-display-compression
+
+```yaml
+stripe-lightweight-display-compression:
+  description: "Large headings stay engineered and calm instead of becoming heavy SaaS display type."
+  technique: "font-family: sohne-var; font-weight: 300; line-height: 1.03-1.07; letter-spacing: -0.01em to -0.02em"
+  applied_to: ["{typography.ladder.hds-font-heading-xl}", "{typography.ladder.hds-font-heading-xxl}", "{component.hero-section}"]
+  visual_signature: "A financial-infrastructure H1 that feels engraved and precise, not shouted or poster-bold."
+```
+
+#### hds-dual-shadow-elevation
+
+```yaml
+hds-dual-shadow-elevation:
+  description: "Depth is built from layered blue/navy shadow tokens rather than a single generic drop shadow."
+  technique: "box-shadow stacks such as 0 6px 22px #0037701A, 0 4px 8px #003B8905; graphic depth mixes rgba(50,50,93,.25) with rgba(0,0,0,.3)"
+  applied_to: ["{component.cards-containers}", "{component.hero-section}", "{component.stripe-infra-card}"]
+  visual_signature: "Panels read like stacked interface hardware with directional depth, never like flat SaaS cards floating on gray."
+```
+
+#### blurred-navigation-veil
+
+```yaml
+blurred-navigation-veil:
+  description: "The desktop navigation opens as a translucent system layer, not a conventional dropdown box."
+  technique: "linear-gradient(transparent, rgba(236,239,241,.8)) with backdrop-filter: blur(5px); navigation height 76px; menu radius 6px with lower radius removed when open"
+  applied_to: ["{components.hds-navigation-menu}", "{component.navigation.overlay}", "{component.navigation.menu-viewport}"]
+  visual_signature: "A control-room visor effect: page content remains present, but softened behind the menu plane."
+```
+
+#### cool-neutral-infrastructure-floor
+
+```yaml
+cool-neutral-infrastructure-floor:
+  description: "The page floor keeps Stripe's graphics and violet actions vivid without turning the UI into a purple site."
+  technique: "surface #F8FAFD /* {colors.hds-color-core-neutral-25} */; border #E5EDF5 /* {colors.hds-color-core-neutral-50} */; ink #0D1738 /* {colors.hds-color-core-neutralDark-990} */"
+  applied_to: ["{component.page-surface}", "{component.cards-containers}", "{component.inputs-forms}"]
+  visual_signature: "A pale blue-gray infrastructure enamel where gradients feel like live current inside the product layer."
+```
+
+#### small-radius-precision-controls
+
+```yaml
+small-radius-precision-controls:
+  description: "Interactive chrome stays rectangular and precise, avoiding consumer-fintech pill softness."
+  technique: "button radius 4px; input radius 4px; navigation/menu radius 6px; button padding 15.5px 24px 16.5px; compact padding 11.5px/12.5px"
+  applied_to: ["{components.hds-button-primary}", "{components.hds-button-secondary}", "{components.hds-textinput}", "{components.hds-navigation-menu}"]
+  visual_signature: "Controls feel like exact infrastructure switches rather than friendly rounded payment-app buttons."
+```
 
 ## 14. Content / Copy Voice
+<!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
 |---|---|---|
-| Headline | 간결한 선언 + 비즈니스 impact | "Financial infrastructure to grow your revenue" |
-| Primary CTA | 2단어, 강한 동사 | "Start now" / "Contact sales" |
-| Secondary CTA | 관찰형 | "Learn more" |
-| Stat copy | 큰 숫자 + 짧은 단위 | "2.8B+ API requests daily" |
-| Tone | 신뢰 + 정밀 + 약간의 자신감 | — |
+| Headline | Infrastructure promise + business outcome | "Financial infrastructure to grow your revenue." |
+| Primary CTA | direct action, short | "Start now" |
+| Secondary CTA | product exploration | "Contact sales" / "Explore payments" |
+| Subheading | expands audience and capability | "Accept payments, offer financial services..." |
+| Tone | confident, technical, revenue-oriented | global commerce, reliable infrastructure, extensible stack |
 
 ---
 
 ## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
-/* Stripe — copy into your root stylesheet */
+/* Stripe-inspired HDS baseline */
 :root {
   /* Fonts */
-  --stripe-font-sans: "sohne-var","SF Pro Display",
-    -apple-system,BlinkMacSystemFont,sans-serif;
-  --stripe-font-mono: SourceCodePro,ui-monospace,"SF Mono",Menlo,monospace;
+  --hds-font-family: "sohne-var", "SF Pro Display", -apple-system, sans-serif;
+  --hds-font-family-code: SourceCodePro, ui-monospace, SFMono-Regular, monospace;
+  --hds-font-weight-normal: 300;
+  --hds-font-weight-bold: 500;
 
   /* Brand */
-  --stripe-brand:        #635BFF;
-  --stripe-brand-strong: #533AFD;
-  --stripe-brand-50:     #E8E9FF;
-  --stripe-brand-100:    #D6D9FC;
-  --stripe-brand-700:    #4032C8;
-  --stripe-brand-900:    #1C1E54;
+  --hds-color-brand-25:  #F5F5FF;
+  --hds-color-brand-300: #9A9AFE;
+  --hds-color-brand-500: #665EFD;
+  --hds-color-brand-600: #533AFD;
+  --hds-color-brand-900: #1C1E54;
 
-  /* Gradient */
-  --stripe-accent-gradient:
-    linear-gradient(90deg, #BDB4FF 0%, #643AFD 50%, #533AFD 100%);
+  /* Surfaces */
+  --hds-bg-page:    #F8FAFD;
+  --hds-bg-quiet:   #FFFFFF;
+  --hds-bg-dark:    #0D1738;
+  --hds-text:       #0D1738;
+  --hds-text-muted: #64748D;
+  --hds-border:     #E5EDF5;
 
-  /* Surfaces (light) */
-  --stripe-bg:         #FFFFFF;
-  --stripe-surface:    #F8FAFD;
-  --stripe-surface-alt:#F6F9FC;
-  --stripe-border:     #D4DEE9;
-  --stripe-fg:         #0D1738;
-  --stripe-fg-muted:   #64748D;
-  --stripe-fg-subtle:  #7D8BA4;
-
-  /* Surfaces (dark) */
-  --stripe-bg-dark:     #0D253D;
-  --stripe-bg-darkest:  #061B31;
-  --stripe-fg-on-dark:  #FFFFFF;
-
-  /* Status */
-  --stripe-success: #00B261;
-  --stripe-error:   #D8351E;
-  --stripe-warning: #F9B900;
-
-  /* Spacing */
-  --stripe-space-sm:  8px;
-  --stripe-space-md:  16px;
-  --stripe-space-lg:  32px;
-  --stripe-space-xl:  64px;
-  --stripe-space-2xl: 96px;
+  /* Key spacing */
+  --hds-space-sm:  8px;
+  --hds-space-md:  16px;
+  --hds-space-lg:  24px;
+  --hds-space-xl:  64px;
+  --hds-space-section: 96px;
 
   /* Radius */
-  --stripe-radius-sm:  8px;
-  --stripe-radius-md:  12px;
-  --stripe-radius-lg:  16px;
-  --stripe-radius-pill:9999px;
+  --hds-radius-sm: 4px;
+  --hds-radius-md: 6px;
+  --hds-radius-lg: 16px;
+}
 
-  /* Shadow (2-layer dual) */
-  --stripe-shadow-sm:
-    0 2px 4px rgba(0,55,112,0.08),
-    0 4px 8px rgba(0,59,137,0.05);
-  --stripe-shadow-md:
-    0 4px 8px rgba(0,55,112,0.10),
-    0 8px 16px rgba(0,59,137,0.03);
-  --stripe-shadow-lg:
-    0 8px 16px rgba(0,55,112,0.10),
-    0 16px 32px rgba(0,59,137,0.04);
+body {
+  font-family: var(--hds-font-family);
+  font-weight: var(--hds-font-weight-normal);
+  background: var(--hds-bg-page);
+  color: var(--hds-text);
+}
+
+.stripe-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 15.5px 24px 16.5px;
+  border-radius: var(--hds-radius-sm);
+  background: var(--hds-color-brand-600);
+  color: #FFFFFF;
+  font-weight: var(--hds-font-weight-bold);
+  line-height: 1;
+  transition:
+    background-color .3s cubic-bezier(.25,1,.5,1),
+    color .3s cubic-bezier(.25,1,.5,1),
+    border .3s cubic-bezier(.25,1,.5,1);
+}
+
+.stripe-button:hover {
+  background: #4032C8;
 }
 ```
 
 ---
 
 ## 16. Tailwind Config
+<!-- SOURCE: auto+manual -->
 
 ```js
-// tailwind.config.js — Stripe
+// tailwind.config.js — Stripe-inspired tokens
 module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          DEFAULT: '#635BFF',
-          25:  '#F5F5FF',
-          50:  '#E8E9FF',
-          100: '#D6D9FC',
-          200: '#B9B9F9',
-          300: '#9A9AFE',
-          400: '#7F7DFC',
-          500: '#665EFD',
-          600: '#533AFD',
-          700: '#4032C8',
-          800: '#2E2B8C',
-          900: '#1C1E54',
-          950: '#161741',
-        },
-        neutral: {
-          0:   '#FFFFFF',
-          25:  '#F8FAFD',
-          50:  '#E5EDF5',
-          100: '#D4DEE9',
-          200: '#BAC8DA',
-          300: '#95A4BA',
-          400: '#7D8BA4',
-          500: '#64748D',
-          600: '#50617A',
-          700: '#3C4F69',
-          800: '#273951',
-          900: '#1A2C44',
-          950: '#11273E',
-          975: '#0D253D',
-          990: '#061B31',
+        stripe: {
+          brand: '#533AFD',
+          brandHover: '#4032C8',
+          bg: '#F8FAFD',
+          ink: '#0D1738',
+          border: '#E5EDF5',
+          muted: '#64748D',
+          orange: '#FF6118',
         },
       },
       fontFamily: {
-        sans: ['sohne-var', 'SF Pro Display', 'system-ui'],
-        mono: ['SourceCodePro', 'ui-monospace'],
+        sans: ['sohne-var', 'SF Pro Display', 'system-ui', 'sans-serif'],
+        mono: ['SourceCodePro', 'ui-monospace', 'monospace'],
       },
       fontWeight: {
-        normal:   '400',
-        medium:   '500',
-        semibold: '550',
-        bold:     '600',
+        normal: '300',
+        medium: '500',
+        bold: '600',
       },
       borderRadius: {
-        sm: '4px', DEFAULT: '8px',
-        md: '12px', lg: '16px', xl: '20px',
-        pill: '9999px',
+        sm: '4px',
+        md: '6px',
+        lg: '16px',
       },
-      screens: {
-        xs:  '400px',
-        sm:  '480px',
-        md:  '600px',
-        lg:  '640px',
-        xl:  '840px',
-        '2xl': '940px',
-        '3xl': '1115px',
-        '4xl': '1264px',
-      },
-      backgroundImage: {
-        'accent-gradient':
-          'linear-gradient(90deg, #BDB4FF 0%, #643AFD 50%, #533AFD 100%)',
+      boxShadow: {
+        hds: '0 6px 22px #0037701A, 0 4px 8px #003B8905',
+        graphic: '0 30px 60px -12px rgba(50,50,93,.25), 0 18px 36px -18px rgba(0,0,0,.3)',
       },
     },
   },
@@ -675,116 +771,129 @@ module.exports = {
 ---
 
 ## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
 
 ### Quick Color Reference
 
 | Role | Token | Hex |
 |---|---|---|
-| Brand primary | `--stripe-brand` | `#635BFF` |
-| Brand gradient end | `--stripe-brand-strong` | `#533AFD` |
-| Background | `--stripe-bg` | `#FFFFFF` |
-| Surface | `--stripe-surface` | `#F8FAFD` |
-| Text heading | `--stripe-fg` | `#0D1738` |
-| Text muted | `--stripe-fg-muted` | `#64748D` |
-| Border | `--stripe-border` | `#D4DEE9` |
-| Dark bg | `--stripe-bg-dark` | `#0D253D` |
-| Success | `--stripe-success` | `#00B261` |
-| Error | `--stripe-error` | `#D8351E` |
+| Brand primary | `--hds-color-core-brand-600` | `#533AFD` |
+| Brand hover | `--hds-color-core-brand-700` | `#4032C8` |
+| Background | `--hds-color-core-neutral-25` | `#F8FAFD` |
+| Text primary | `--hds-color-core-neutralDark-990` | `#0D1738` |
+| Text muted | `--hds-color-core-neutral-500` | `#64748D` |
+| Border | `--hds-color-core-neutral-50` | `#E5EDF5` |
+| Success | `--hds-color-core-success-400` | `#00B261` |
+| Error | `--hds-color-core-error-400` | `#F3432A` |
 
 ### Example Component Prompts
 
 #### Hero Section
 
-```
-Stripe 스타일 히어로 섹션.
-- 배경: #FFFFFF + 뒷면 accent-gradient
-  (linear-gradient(90deg, #BDB4FF, #643AFD, #533AFD))
-- H1: sohne-var 48px weight 600, tracking -0.03em, color #0D1738
-- Sub: 18px color #50617A line-height 1.5
-- Primary CTA: bg #635BFF color #FFF radius 8px
-  padding 15.5px 24px 16.5px, font weight 500
-- Secondary CTA: transparent border 1px solid #D4DEE9
-  color #0D1738
-- 2-column split: 좌측 텍스트, 우측 product mockup
-- Max-width: 1295px
+```text
+Stripe 스타일 히어로 섹션을 만들어줘.
+- 배경: #F8FAFD, 텍스트: #0D1738
+- H1: sohne-var, 3rem~3.5rem, weight 300, line-height 1.03~1.1, tracking -0.01em
+- 레이아웃: 12-column CSS Grid, min-height min(68svh, 826px)
+- CTA: #533AFD 배경, #FFFFFF 텍스트, 4px radius, 15.5px 24px 16.5px padding
+- 그래픽: product UI + violet/orange gradient accents, not generic abstract blobs
 ```
 
 #### Card Component
 
-```
-Stripe 스타일 카드.
-- bg #FFFFFF, border 1px solid #D4DEE9, radius 12px
-- padding 32px
-- shadow rest:
-    0 2px 4px rgba(0,55,112,0.08),
-    0 4px 8px rgba(0,59,137,0.05)
-- shadow hover (2-layer dual upgrade):
-    0 4px 8px rgba(0,55,112,0.10),
-    0 8px 16px rgba(0,59,137,0.03)
-- transition 200ms cubic-bezier(0.4,0,0.2,1)
-- 제목: sohne-var 22px weight 550 color #0D1738
-- 본문: 16px color #3C4F69 line-height 1.6
-```
-
-#### Stats Block (signature)
-
-```
-Stripe stat number 블록.
-- 숫자: sohne-var 72px weight 600, tracking -0.03em
-- 색상 순환: #0810BF → #4304EA → #8A35DF → #C42FA5
-- 단위/설명: 14px color #64748D, 상단 margin 8px
-- 1-row 3-col grid, gap 48px
+```text
+Stripe HDS 카드 컴포넌트를 만들어줘.
 - 배경: #FFFFFF 또는 #F8FAFD
+- border: 1px solid #E5EDF5
+- radius: 6px for chrome, 16px for larger graphic modules
+- shadow: 0 6px 22px #0037701A, 0 4px 8px #003B8905
+- 제목: sohne-var, weight 300, letter-spacing -0.01em
+- 본문: 1rem, weight 300, color #0D1738, line-height 1.4
+```
+
+#### Badge
+
+```text
+Stripe 스타일 배지를 만들어줘.
+- font: sohne-var, 0.75rem~0.875rem
+- radius: 4px 이하
+- bg: #F5F5FF 또는 #F8FAFD
+- color: #533AFD 또는 #0D1738
+- border: 1px solid #E5EDF5
 ```
 
 #### Navigation
 
-```
-Stripe 상단 네비게이션.
-- height 72px, position sticky top 0
-- bg rgba(255,255,255,0.85) + backdrop-filter blur(12px)
-- 스크롤 시 border-bottom 1px solid rgba(0,0,0,0.08)
-- 로고 Stripe mark, 좌측
-- 링크 sohne-var 14px weight 400 color #3C4F69 hover #0D1738
-- Active: color #0D1738 weight 500
-- CTA 우측: "Sign in" 링크 + "Contact sales" primary button
+```text
+Stripe 스타일 상단 네비게이션을 만들어줘.
+- height: 76px
+- nav max-width: 1349px
+- menu padding: 16px 24px, gap 28px, radius 6px
+- links: 0.875rem, lightweight text, hover to #0D1738
+- dropdown overlay: transparent-to-rgba gradient + backdrop-filter blur(5px)
+- CTA: compact HDS button with #533AFD
 ```
 
 ### Iteration Guide
 
-- **색상 변경 시**: `--hds-*` 또는 `--stripe-*` semantic token만 사용. raw hex 직접 금지.
-- **폰트 변경 시**: `sohne-var`가 기본. 대체 시 `Inter Variable` + weight 400/500/550/600 매핑.
-- **여백 조정 시**: `--hds-space-core-*` (4/8/12/16/24/32/48/64) 중에서만.
-- **새 컴포넌트 추가 시**: radius `4/8/12/16/20` 중 하나. nested 시 `card-radius-inner: 5px` 패턴.
-- **Shadow**: 단층 shadow 금지. 반드시 top + bottom 2-layer dual.
-- **반응형**: 10단계 breakpoint 중 적절한 것 선택. 커스텀 breakpoint 금지.
-- **Dark 섹션**: 같은 페이지에서 light/dark 교차 가능. dark bg는 `#0D253D` 또는 `#061B31`.
-- **transition**: `200ms cubic-bezier(0.4,0,0.2,1)` 기본. 400ms 이상 금지 (scroll animation 제외).
+- **색상 변경 시**: #533AFD를 액션 앵커로 유지하고, #FF6118은 illustration/graphic accent 범위에 둔다.
+- **폰트 변경 시**: `font-weight: 300`을 먼저 맞춘 뒤 크기를 조정한다.
+- **여백 조정 시**: 8px core ladder와 56/64/96px section ladder를 섞어 쓴다.
+- **새 컴포넌트 추가 시**: 4px/6px radius, quiet border, dual shadow 원칙을 따른다.
+- **다크 섹션 추가 시**: dark adaptive neutral/brandDark tokens를 써라. light palette에 opacity만 얹지 않는다.
+- **반응형**: 640px, 940px, 1264px 계열 breakpoints를 우선 사용한다.
 
 ---
 
 ## 18. DO / DON'T
+<!-- SOURCE: manual -->
 
 ### ✅ DO
 
-- 배경은 `#FFFFFF`로 (light) 또는 `#0D253D`로 (dark 섹션). 둘 다 같은 페이지에서 교차 가능.
-- CTA primary는 `#635BFF` 배경 + `#FFFFFF` 텍스트 + `border-radius: 8px`.
-- 본문은 sohne-var `16px` `weight 400` `color #3C4F69` 또는 `#0D1738`.
-- Card radius는 `12px` 기본, `16px` hero.
-- Shadow는 반드시 **top + bottom 2-layer dual** — 예: `0 2px 4px rgba(0,55,112,0.08), 0 4px 8px rgba(0,59,137,0.05)`.
-- Heading weight는 `500 / 550 / 600` variable axis 값 사용.
-- Stat number는 `#0810BF → #4304EA → #8A35DF → #C42FA5` 4색 순환.
-- Gradient는 `#BDB4FF → #643AFD → #533AFD` 3-stop.
+- Use #533AFD as the canonical action color and #4032C8 for primary hover.
+- Keep body and headings light: `font-weight: 300` is the default Stripe read.
+- Use cool blue-gray neutrals: #F8FAFD, #E5EDF5, #0D1738, #061B31.
+- Build with a 4/8/12 responsive grid and 16px HDS layout gap.
+- Use 4px buttons and 6px menu/panel radius before reaching for large radii.
+- Apply dual shadows for elevation; use `rgba(50,50,93,...)` style depth on graphics.
+- Gate decorative motion with reduced-motion awareness.
+- Treat the navigation menu as a real component with overlay, blur, and state.
 
 ### ❌ DON'T
 
-- `#635BFF`를 flat 배경으로 쓰지 말 것 — indigo는 CTA, focus, gradient stop에만.
-- 본문 텍스트를 `#000000`로 두지 말 것 — 대신 `#0D1738` (heading) 또는 `#3C4F69` (body).
-- `box-shadow: 0 2px 4px rgba(0,0,0,0.1)` 같은 단층 shadow 금지 — 반드시 2-layer dual.
-- body에 `font-weight: 500`을 쓰지 말 것 — Stripe body는 `400`. Heading만 `500/550/600`.
-- radius `10px` 같은 비표준 값 금지 — `4 / 8 / 12 / 16 / 20` 중 하나.
-- Single breakpoint 반응형 금지 — Stripe는 10단계. heading size가 bp별 자체 성장.
-- `sohne-var` 대신 Söhne non-variable을 쓰지 말 것 — weight 550, 425 같은 중간값을 잃는다.
-- transition `400ms` 이상 금지 (scroll animation 제외) — Stripe hover는 `200ms` 고정.
-- Gradient를 수직(`linear-gradient(180deg, …)`)으로 쓰지 말 것 — Stripe accent gradient는 `90deg` 수평 고정.
-- `--hds-color-brand-100`을 CTA 배경에 쓰지 말 것 — `--hds-color-brand-500/600` 만 primary.
+- 배경을 `#FFFFFF` 단독 또는 `white` 전체 페이지로 두지 말 것 — 대신 `#F8FAFD`를 기본 surface로 사용.
+- 텍스트를 `#000000` 또는 `black`으로 두지 말 것 — 대신 `#0D1738` 또는 `#061B31` 사용.
+- Primary CTA를 `#635BFF`만으로 고정하지 말 것 — 현재 action anchor는 `#533AFD`, hover는 `#4032C8`.
+- Orange `#FF6118`을 primary button color로 쓰지 말 것 — illustration/accent energy로 제한.
+- Border를 `#DDDDDD` 같은 warm gray로 두지 말 것 — 대신 `#E5EDF5` 또는 HDS adaptive border 사용.
+- body에 `font-weight: 400` 사용 금지 — Stripe의 기본 인상은 `font-weight: 300`.
+- CTA 버튼을 `border-radius: 999px` pill로 만들지 말 것 — 기본 HDS control은 `4px`.
+- 단층 `box-shadow: 0 4px 12px rgba(0,0,0,.1)`로 대체하지 말 것 — Stripe는 dual shadow/elevation stack을 쓴다.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- Warm beige system: absent. Stripe neutrals are cool blue-gray, not cream/tan.
+- Heavy display weight: never the default. Big type is light and compressed, not bold and loud.
+- Pill-first controls: absent from default HDS buttons. The system starts at 4px radius.
+- Single flat brand color everywhere: no. #533AFD is concentrated in actions and gradient endpoints.
+- Generic purple-blue AI gradient: no. Stripe gradients are tied to product graphics and accent families, not full-page decoration.
+- Black typography: absent. The ink is navy (#0D1738 / #061B31), not #000000.
+- Card-only SaaS layout: no. The page uses bento graphics, stats, carousels, and product UI fragments beyond feature cards.
+- Warm drop shadows: absent. Elevation uses blue/navy shadow tokens and `rgba(50,50,93,...)`.
+- Static brochure nav: no. The nav is stateful, overlay-based, and component-rich.
+- Over-rounded friendly fintech tone: absent. Stripe is precise infrastructure, not bubbly consumer finance.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Homepage-only scope** — This guidebook reused the existing `stripe` homepage HTML/CSS/phase1 artifacts. Checkout, dashboard, docs, and authenticated product surfaces were not visited.
+- **Screenshot not reinterpreted in-browser** — Existing `hero-cropped.png` was available, but this run skipped Step 6 HTML rendering and did not perform a fresh browser screenshot comparison.
+- **CSS bundle ambiguity** — Seven CSS files were present and parsed together. Some selectors may belong to below-the-fold modules or shared HDS components rather than the first viewport only.
+- **Component extraction partial** — Phase1 `components.json`, `layout.json`, and `responsive.json` carried "No CSS files found" warnings from an older extractor; component analysis was therefore interpreted from raw CSS snippets and HTML counts.
+- **Dark-mode mapping incomplete** — Dark adaptive tokens are present, but a full light/dark semantic matrix was not exhaustively mapped.
+- **Motion logic not fully traced** — CSS transitions, keyframes, and reduced-motion media queries were observed; JavaScript scroll triggers, carousel timing internals, and menu state logic were not executed.
+- **Exact font metrics unavailable** — `sohne-var` was detected, but precise variable font axes and license details were not measured from font binaries.
+- **Logo/graphic color contamination possible** — Frequency candidates include illustration and gradient colors such as #FF6118, #FB76FA, and #7232F1. They are intentionally treated as accents, not primary UI tokens.
+- **Form-state coverage limited** — Input focus/invalid/disabled styles are present in CSS, but live form validation flows were not exercised.

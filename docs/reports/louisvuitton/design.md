@@ -59,13 +59,13 @@ components:
 
 ### Narrative
 
-This capture is not the normal Louis Vuitton commerce homepage. It is the guarded waiting surface served by the site when access is denied, and that constraint matters: the page turns a technical refusal into a luxury-brand stage. The system does not apologize with a utility banner. It behaves like a locked maison storefront after hours: the door is closed, but the window is still lit, polished, and composed for the passerby.
+Louis Vuitton stages even its access-refusal page like a museum storefront after hours: the door is closed, but the window is still lit, polished, and composed for the passerby. This is the guarded waiting surface served by the site when access is denied, and that constraint matters — the page turns a technical refusal into a luxury-brand stage. The system does not apologize with a utility banner.
 
 The page has almost no site-like self-expression. A small white administrative strip carries the reference number, then the interface steps aside and a campaign masthead takes over. It feels less like an error page than a customs desk placed in front of a desert showroom: operational content exists, but the visitor is made to wait inside the brand's photographic atmosphere rather than inside a software state.
 
 The visual language is monochrome first. Black text on #FFFFFF (`{colors.surface-white}`), white logo and white copy over photography, and one dark maison ink #19110B (`{colors.brand-ink}`) reserved for favicon and brand identity. There is no second brand color, no CTA accent, no alert red. The only chroma is smuggled in by the photograph itself: desert blue, pale sky, sun flare, and the warm object glow inside the frame.
 
-Typography behaves like a product label in a vitrined catalogue rather than a marketing shout. `Louis Vuitton Web` stays at weight 400 across body and headings; `font-weight: 500` and `font-weight: 700` are absent. Heading hierarchy is built by small shifts in size, line-height, and 0.4px tracking, not by weight contrast. The refusal message has the manners of a museum wall label: small, formal, and exact, while the image beside it does the emotional speaking.
+Typography behaves like a parchment product label in a vitrined catalogue rather than a marketing shout. `Louis Vuitton Web` stays at weight 400 across body and headings; `font-weight: 500` and `font-weight: 700` are absent. Heading hierarchy is built by small shifts in size, line-height, and 0.4px tracking, not by weight contrast. The refusal message has the manners of a museum wall label: small, formal, and exact, while the image beside it does the emotional speaking.
 
 Space is the signature restraint. The top reference area is bare white utility space, then the masthead cuts in with a hard horizontal edge like a magazine spread trimmed against the page. On desktop, the two language blocks sit apart inside the image, creating a ceremonial bilateral composition. On mobile, the masthead becomes a 4/5 vertical crop, turning the blocked session into a cover image rather than a failure notice.
 

@@ -1,650 +1,843 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: uniqlo
 service_name: UNIQLO
 site_url: https://www.uniqlo.com/us/en
-fetched_at: 2026-04-23
+fetched_at: 2026-05-03T00:00:00+09:00
 default_theme: light
 brand_color: "#E00"
-primary_font: UniqloProRegular
+primary_font: "UniqloProRegular"
 font_weight_normal: 400
-token_prefix: "brand-global-ec-uikit + ec-components (--ec-*)"
+token_prefix: fr-ec
 
-bold_direction: "Retail Utility Minimal"
-aesthetic_category: "Monochrome Retail System"
-signature_element: square_black_cta
-code_complexity: medium
+bold_direction: Functional Editorial
+aesthetic_category: other
+signature_element: hero_impact
+code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: commerce-marketplace
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "A production commerce UI kit is present in CSS classes and component variants, but custom property token extraction returned 0 resolved vars."
+
+colors:
+  brand-red: "#E00"
+  surface-base: "#FFFFFF"
+  text-primary: "#000000"
+  text-secondary: "#6A6A6A"
+  surface-muted: "#F4F4F4"
+  border-default: "#DADADA"
+  border-strong: "#767676"
+  link-blue: "#005DB5"
+typography:
+  display: "UniqloProRegular"
+  body: "Twemoji Country Flags, Helvetica Neue, Helvetica, Arial, system-ui, -apple-system, sans-serif"
+  ladder:
+    - { token: hero-title, size: "32px", weight: 300, line_height: "1.3", tracking: ".36px" }
+    - { token: body, size: "16px", weight: 400, line_height: "1.5", tracking: "0" }
+    - { token: label, size: "13px", weight: 400, line_height: "1.2", tracking: ".025rem" }
+  weights_used: [300, 400, 600]
+  weights_absent: [500]
+components:
+  button-primary: { bg: "{colors.text-primary}", color: "{colors.surface-base}", radius: "0", hover_bg: "#2A2A2A" }
+  button-secondary: { bg: "{colors.surface-base}", color: "{colors.text-primary}", border: "1px solid #1B1B1B", radius: "0" }
+  search-pill: { bg: "{colors.surface-base}", radius: "999px", height: "44px" }
+  card-standard: { bg: "{colors.surface-base}", border: "1px solid #DADADA", padding: "16px-24px" }
 ---
 
-# DESIGN.md — UNIQLO (Claude Code Edition)
+# DESIGN.md - UNIQLO
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-UNIQLO의 미국 글로벌 네비게이션 CSS 3개 번들은 `#000` / `#fff` / `#dadada` / `#6a6a6a` 같은 모노크롬 토큰을 기본축으로 두고, `#e00` 계열 red를 `attention`, `promotional`, `error`, `selected-heart` 상태에만 제한적으로 배치한다. primary action 계열 root token도 `--primaryDefaultBackgroundColor: #000`, `--primaryHoverBackgroundColor: #2a2a2a`, `--primaryPressedBackgroundColor: #3e3e3e`처럼 black ramp를 중심으로 잡혀 있다. 즉, 사용자가 체감하는 브랜드 인상은 red·white·black이지만, 실제 UI 작동층은 black/white/gray가 대부분을 담당한다.
+### Narrative
 
-타이포그래피도 이 이중 구조가 명확하다. Latin display/UI는 `UniqloProBold`, `UniqloProRegular`, `UniqloProLight` 3개 커스텀 폰트가 잡고, body copy는 영어에서 `"Twemoji Country Flags", "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif`를 사용한다. 일본어는 `:lang(ja)` 전용 CJK stack이 별도로 존재하고, 한국어 selector도 다수 존재하지만 이 3개 CSS 안에서는 `--body-font-ko` 같은 dedicated custom property는 확인되지 않았다.
+UNIQLO is the canonical example of catalogue-first commerce marketplace — a retail operating system where editorial photography lives in the window and warehouse precision runs every aisle.
 
-레이아웃은 매우 기능적이다. `--min-target-size: 44px`, navigation header height `64px` / `56px`, search content max `976px`, centered tabs max `412px`, search bar button width `382px → 324px → 231px` 같은 수치가 먼저 나오고, radius는 button height 32/40/50/52용 token이 모두 `0`이다. rounded retail-card보다 square utility system에 가깝다.
+The page lets a full-width lifestyle image create warmth, then immediately returns to disciplined black, white, red, and gray. The brand mark is pure red, but the interface does not flood itself with red. Red is a stamp, a sale/state signal, and a logo memory. The working UI is almost entirely #FFFFFF (`{colors.surface-base}`), #000000 (`{colors.text-primary}`), #DADADA (`{colors.border-default}`), and compact spacing.
 
-색상 면적 배분도 보수적이다. 다운로드한 CSS에서 literal hex 빈도 상위는 `#FFFFFF`(266), `#000000`(188), `#DADADA`(172), `#ABABAB`(115), `#EE0000`(86) 순이었고, literal `#FF0000`는 이 세 개 CSS 번들 안에서 발견되지 않았다. red는 존재하지만 system root literal은 `#e00`으로 압축돼 있다.
+The hero is the emotional canvas: large lifestyle photography, white overlaid copy, product price, a small colored topic badge, and a persistent top navigation. Under that, the system becomes a marketplace: categories, product tiles, chips, cards, tabs, and buttons follow a commerce grammar where clarity wins over ornament. This store wants the user to find clothing, compare sizes, and move through shopping flows without noticing the frame.
+
+The distinctive tension is "LifeWear editorial" plus "warehouse precision." Photography supplies season, body, material, and use case. The UI supplies square edges, explicit borders, 44px controls, and unambiguous action states. UNIQLO's craft is the refusal to let commerce chrome compete with product imagery.
+
+Typography is similarly functional. `UniqloProRegular` appears for brand-specific surfaces, while the broader stack falls back through Helvetica/Arial/system fonts and locale-aware CJK stacks. The extracted CSS uses 300, 400, and 600 frequently; the result is lighter than a typical marketplace but less precious than luxury editorial. To press the metaphor: the homepage behaves like a flagship store vitrine — the lookbook poster lives in the window, the price tags live on the rack just inside the door, and the red logo is a folded paper tag pinned to a cotton tee.
+
+비유를 한 단계 더 밀자면 UNIQLO는 단일 boutique가 아니라 catalogue-type marketplace다. 시즌 lookbook은 store 윈도우에 붙은 포스터, 카테고리 nav는 마켓 통로의 사이즈별 매대, 제품 카드는 창고에서 갓 꺼낸 basics가 차곡히 올라간 shelf, 검정 CTA는 카운터 위에 찍힌 결제 도장처럼 작동한다. 페이지가 종이 catalogue처럼 펼쳐지지만, 동선은 물류센터의 화물 라벨처럼 정확하게 끊긴다. no second brand color — store interior는 의도적으로 white canvas에 daylight로만 켜져 있다.
 
 ### Key Characteristics
 
-- black primary action ramp — `#000 → #2a2a2a → #3e3e3e`
-- white canvas + gray separator — `#fff`, `#f4f4f4`, `#dadada`, `#6a6a6a`, `#ababab`
-- red is sparse — `#e00`, `#ee3535`, `#ef5555`, `#dd3535`
-- blue is utility, not brand — `#005db5`, `#006ed7`
-- custom Latin fonts + system body stack
-- square buttons and tabs — button radius tokens `0`
-- 44px minimum target, 64/56px navigation header
-- 599 / 600 / 959 / 960 responsive thresholds
-- `--ec-*` custom props concentrate in navigation/search/product modules
+- Red is the brand anchor (`#E00`), not a page-wide decorative wash.
+- The UI baseline is monochrome: `#FFFFFF`, `#000000`, `#DADADA`, `#6A6A6A`.
+- Product/lifestyle photography carries the emotional weight of the page.
+- Primary commerce buttons are black rectangles, not red brand buttons.
+- Search is a white 999px pill placed over or near the hero layer.
+- Corners are mostly zero-radius; pills and icon circles are deliberate exceptions.
+- 44px touch targets appear repeatedly for carousel and commerce controls.
+- Layout breaks at 600px and 960px, with desktop commerce density above 960px.
+- Motion is utility-level: opacity, transform, and color fades around .18s-.4s.
+- Shadows are sparse and functional, mostly for overlays, focus, or image/text legibility.
 
-### BOLD Direction Summary
+---
 
-> **BOLD Direction**: Retail Utility Minimal
-> **Aesthetic Category**: Monochrome Retail System
-> **Signature Element**: `square_black_cta` — black action surfaces, white canvas, red only for promotional/error micro-surfaces
-> **Code Complexity**: medium — global semantic root tokens + module-level `--ec-*` variables + locale-scoped typography
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Functional Editorial
+> **Aesthetic Category**: other
+> **Signature Element**: 이 사이트는 **full-bleed lifestyle commerce photography held inside a black-white-red retail grid**으로 기억된다.
+> **Code Complexity**: high — production commerce UI kit, responsive breakpoints, carousel states, locale typography, and many component variants.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: auto+manual -->
 
-> CSS literal 기준으로 UNIQLO 느낌을 재현할 때 가장 먼저 복원해야 하는 축은 typography, monochrome action palette, square layout이다.
-
-```css
-/* 1. typography */
-:root {
-  --font-display: UniqloProRegular, sans-serif;
-  --font-display-light: UniqloProLight, system-ui, -apple-system, sans-serif;
-  --font-body-en: "Twemoji Country Flags", "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif;
-  --font-weight-light: 300;
-  --font-weight-regular: 400;
-  --font-weight-semi-bold: 600;
-  --letter-spacing-uniqlo-pro: 0.025rem;
-  --line-height-body: 1.5;
-}
-```
+> 5분 안에 UNIQLO처럼 만들기 — 3가지만 하면 80%
 
 ```css
-/* 2. color system */
-:root {
-  --fg: #000;
-  --fg-hover: #2a2a2a;
-  --fg-pressed: #3e3e3e;
-  --fg-muted: #6a6a6a;
-  --fg-disabled: #ababab;
-  --bg: #fff;
-  --bg-subtle: #f4f4f4;
-  --border: #dadada;
-  --brand-accent: #e00;
-  --brand-accent-hover: #ef5555;
-  --utility-link: #005db5;
-  --utility-link-hover: #006ed7;
-  --positive: #00ab0f;
+/* 1. 폰트 + weight */
+body {
+  font-family: "UniqloProRegular", "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif;
+  font-weight: 400;
 }
+
+/* 2. 배경 + 텍스트 */
+:root { --bg: #FFFFFF; --fg: #000000; }
+body { background: var(--bg); color: var(--fg); }
+
+/* 3. 브랜드 컬러 */
+:root { --brand: #E00; }
 ```
 
-```css
-/* 3. shape + layout */
-:root {
-  --radius-ui: 0;
-  --radius-pill: 999px;
-  --space-4: 4px;
-  --space-12: 12px;
-  --space-16: 16px;
-  --nav-height-lg: 64px;
-  --nav-height-sm: 56px;
-  --target-min: 44px;
-}
-.button,
-.chip,
-.tab {
-  border-radius: var(--radius-ui);
-  min-height: var(--target-min);
-}
-```
-
-**절대 하지 말 것 하나**: 다운로드한 CSS 3개를 기준으로 보면 literal red `#FF0000`는 없고, red family token도 primary action 기본값이 아니다. CTA를 빨갛게 채우기보다 `#000` filled action + `#e00` promotional/error accent 조합으로 가야 한다.
+**절대 하지 말아야 할 것 하나**: primary CTA를 `#E00` red로 칠하지 말 것. UNIQLO의 commerce CTA는 대체로 black-on-white 또는 white-on-black이다.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
 | Source URL | `https://www.uniqlo.com/us/en` |
-| Fetched | `2026-04-23` |
-| Extractor | `python3 + curl_cffi` (`requests.Session(impersonate="safari")`) |
-| Referer | `https://www.uniqlo.com/` |
-| CSS bundle 1 | `brand-global-ec-uikit-ece049ccc6d736d49b41.css` — `559,312` bytes |
-| CSS bundle 2 | `fr-ito-web-react-ece049ccc6d736d49b41.css` — `136,687` bytes |
-| CSS bundle 3 | `ec-components-ece049ccc6d736d49b41.css` — `89,234` bytes |
-| Total inspected CSS | `785,233` bytes |
-| `@font-face` count | `4` (`UniqloProRegular`, `UniqloProBold`, `UniqloProLight`, `swiper-icons`) |
-| Confirmed `--ec-*` props | `11` |
-| Literal `#FF0000` in downloaded CSS | `not found` |
-| Method | CSS literal / selector / custom property extraction only — AI-generated values 없음 |
+| Fetched | 2026-05-03T00:00:00+09:00 |
+| Extractor | reused local phase1 artifacts: HTML + CSS + screenshot |
+| HTML size | 1,624,356 bytes |
+| CSS files | 3 external + 1 inline stub, approx. 785,279 CSS chars |
+| Token prefix | `fr-ec` / `ito` class utilities |
+| Method | local phase1 JSON, CSS frequency summary, screenshot inspection, HTML structure summary |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Bundle split** — `brand-global-ec-uikit`가 global token과 utility layer를, `ec-components`가 search / navigation / product-table component vars를 담당한다. `fr-ito-web-react`라는 asset name도 함께 배포된다.
-- **Class naming** — `.fr-ec-*`, `.ec-*`, `.navigation-*`, `.tab-group-*`, `.product-table*`처럼 기능명 중심.
-- **Theme default** — `light`. `--fill-secondary-color: #fff`, `--text-primary-dark-color: #000`, `--fill-background-color: #f4f4f4`.
-- **Typography model** — Latin custom font + locale-specific system stacks + `:lang(ja)` / `:lang(ko)` selector 분기.
-- **Responsive model** — `599px`, `600px`, `959px`, `960px`, `1249px` 기준. `--grid-size-lg: 1200px`.
-- **Interaction palette** — brand-red보다 black primary palette, blue utility palette, green positive state 분리.
-- **Shape system** — pill token은 존재하지만 core action/button height radii가 전부 `0`.
+- **Framework**: React commerce storefront with server-rendered metadata.
+- **Design system**: `fr-ec` commerce UI kit + `ito-*` utility layer.
+- **CSS architecture**:
+  ```text
+  fr-ec-*        commerce components: button, card, header, footer, links
+  ito-*          typography, spacing, color, border, alignment utilities
+  media-banner*  editorial/product hero and campaign image bands
+  swiper*        carousel behavior and navigation
+  ```
+- **Class naming**: BEM-like component modifiers (`fr-ec-button--variant-primary`) plus utility classes (`ito-font-size-32`, `ito-border-radius-0`).
+- **Default theme**: light (`#FFFFFF` page floor, black text).
+- **Font loading**: CSS references `UniqloProRegular`, `UniqloProLight`, and locale-aware system stacks.
+- **Canonical anchor**: title and metadata identify the local artifact as UNIQLO US women's clothing/accessories; screenshot artifact is Korean-localized, noted in §19.
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Title / Latin strong** — `UniqloProBold, system-ui, -apple-system, sans-serif`
-- **Regular / Latin UI** — `UniqloProRegular, sans-serif`
-- **Light / Latin secondary** — `UniqloProLight, system-ui, -apple-system, sans-serif`
-- **Body / English** — `"Twemoji Country Flags", "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif`
-- **Title / Japanese** — `"ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "Hiragino Sans", "Noto Sans CJK JP", Osaka, Meiryo, メイリオ, "MS PGothic", "ＭＳ Ｐゴシック", YuGothic, "Yu Gothic", "Hiragino Sans GB", Helvetica Neue, HelveticaNeue, Helvetica, Noto Sans, Roboto, Arial, "Arial Unicode MS", sans-serif`
-- **Body / Japanese** — `"Twemoji Country Flags", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "Hiragino Sans", "Noto Sans CJK JP", Osaka, Meiryo, メイリオ, "MS PGothic", "ＭＳ Ｐゴシック", YuGothic, "Yu Gothic", "Hiragino Sans GB", Helvetica Neue, HelveticaNeue, Helvetica, Noto Sans, Roboto, Arial, "Arial Unicode MS", sans-serif`
-- **Body / Thai** — `"Twemoji Country Flags", "Leelawadee UI", "Segoe UI", Thonburi, "Helvetica Neue", Helvetica, Arial, -apple-system, system-ui, sans-serif`
-- **Body / Vietnamese** — `"Twemoji Country Flags", "Segoe UI", "Helvetica Neue", Helvetica, Arial, -apple-system, system-ui, sans-serif`
-- **Korean note** — `:lang(ko)` selector는 다수 존재하지만 이 세 CSS 안에서는 `--body-font-ko` / `--title-font-ko` custom property를 찾지 못했다.
-- **Weights** — `300 / 400 / 500 / 600 / 700 / 800`
+- **Display font**: `UniqloProRegular` / `UniqloProLight` where brand classes are used.
+- **Body font**: `Twemoji Country Flags, Helvetica Neue, Helvetica, Arial, system-ui, -apple-system, sans-serif` for English-like contexts.
+- **CJK fallback stack**: `Hiragino Kaku Gothic Pro`, `Hiragino Sans`, `Noto Sans CJK JP`, `Meiryo`, `Yu Gothic`, `Noto Sans`, `Roboto`, `Arial`.
+- **Weight normal / bold**: `400` / `600`; 300 appears frequently for light editorial/product text.
 
 ```css
 :root {
-  --title-font-en: UniqloProBold, system-ui, -apple-system, sans-serif;
-  --regular-font-en: UniqloProRegular, sans-serif;
-  --light-font-en: UniqloProLight, system-ui, -apple-system, sans-serif;
-  --body-font-en: "Twemoji Country Flags", "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif;
-  --font-weight-light: 300;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semi-bold: 600;
-  --font-weight-bold: 700;
-  --font-weight-extra-bold: 800;
+  --uq-font-family: "UniqloProRegular", "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif;
+  --uq-font-family-cjk: "Hiragino Kaku Gothic Pro", "Hiragino Sans", "Noto Sans CJK JP", "Meiryo", sans-serif;
+  --uq-font-weight-light: 300;
+  --uq-font-weight-normal: 400;
+  --uq-font-weight-semibold: 600;
+}
+body {
+  font-family: var(--uq-font-family);
+  font-weight: var(--uq-font-weight-normal);
 }
 ```
+
+### Note on Font Substitutes
+
+- **UniqloProRegular** — proprietary brand font; do not assume it exists in a user project.
+  - Open-source substitute: **Helvetica Neue / Arial / system-ui** at weight 400.
+  - Display correction: use weight 300 for campaign title text when the page sits over photography.
+  - Tracking correction: preserve small positive tracking such as `.025rem` or `.36px`; do not add negative luxury-style display tracking.
+- **CJK surfaces** — use Noto Sans CJK or platform CJK sans fonts.
+  - Keep line-height around `1.2`-`1.5` depending on component density.
+  - Avoid condensed or geometric substitutes; UNIQLO reads plain, human, and retail-practical.
 
 ---
 
 ## 05. Typography Scale
+<!-- SOURCE: auto+manual -->
 
-### Latin scale
+| Token | Size | Weight | Line-height | Letter-spacing |
+|---|---|---|---|---|
+| Hero title | `32px` | 300/400 | `1.3` | `.36px` |
+| Product/banner title | `18px`-`22px` | 300/400 | `1.3`-`1.5` | `0` |
+| Body | `16px` | 400 | `1.5` | `0` |
+| Product tile title | `13px`-`17px` | 300/400 | `1.2`-`1.5` | `0` |
+| Label / nav | `13px`-`14px` | 400/600 | `1.2` | `.025rem` |
+| Micro label | `11px`-`12px` | 400 | `1.1`-`1.3` | `.12px`-.24px` |
 
-| Token | Value |
-|---|---|
-| `--type-scale-latin-minus-2` | `0.75rem` |
-| `--type-scale-latin-minus-1` | `0.875rem` |
-| `--type-scale-latin-base` | `1rem` |
-| `--type-scale-latin-plus-1` | `1.125rem` |
-| `--type-scale-latin-plus-2` | `1.25rem` |
-| `--type-scale-latin-plus-3` | `1.5rem` |
-| `--type-scale-latin-plus-4` | `1.75rem` |
-| `--type-scale-latin-plus-5` | `2rem` |
-| `--type-scale-latin-plus-6` | `2.25rem` |
+> ⚠️ Extracted `typography.json` did not resolve a token scale, so this table is derived from CSS frequency and class names such as `ito-font-size-32`, `ito-font-size-13`, `ito-font-lh-1-2`, and `ito-font-weight-400`.
 
-### CJK scale
+### Principles
 
-| Token | Value |
-|---|---|
-| `--type-scale-cjk-minus-2` | `0.6875rem` |
-| `--type-scale-cjk-minus-1` | `0.8125rem` |
-| `--type-scale-cjk-base` | `0.9375rem` |
-| `--type-scale-cjk-plus-1` | `1.0625rem` |
-| `--type-scale-cjk-plus-2` | `1.1875rem` |
-| `--type-scale-cjk-plus-3` | `1.375rem` |
-| `--type-scale-cjk-plus-4` | `1.625rem` |
-| `--type-scale-cjk-plus-5` | `1.875rem` |
-| `--type-scale-cjk-plus-6` | `2.25rem` |
-
-### Line-height and tracking
-
-| Token | Value |
-|---|---|
-| `--line-height-01` | `1` |
-| `--line-height-02` | `1.1` |
-| `--line-height-03` | `1.2` |
-| `--line-height-04-minus-1` | `1.3` |
-| `--line-height-04` | `1.4` |
-| `--line-height-05` | `1.5` |
-| `--letter-spacing-uniqlo-pro` | `0.025rem` |
-
-### Representative selectors
-
-| Selector | Size | Weight | Line-height |
-|---|---|---|---|
-| `.body--standard` | `0.9375rem` (`--type-scale-cjk-base`) | `300` | `1.5` |
-| `.display--display5` | `1.125rem` (Latin) / `1.0625rem` (JA/KO) | `400` / `300` | `1.2` / `1.5` |
-| `.display--display3` | `calc(1.375rem + 2px)` | `400` | `1.2` |
-| `.display--display2` | `calc(1.875rem + 2px)` | `400` | `1.4` |
-| `.display--display1` | `2.25rem` | `400` | `1.2` |
+1. Editorial hero text can be light (`300`) because the image and price provide hierarchy.
+2. Commerce text defaults to `400`; use `600` for selected nav, emphasis, and stateful labels.
+3. Weight `500` is effectively absent in the observed CSS; do not use it as a generic middle weight.
+4. Positive or neutral tracking is the signature. Negative display tracking would make UNIQLO feel too premium-tech.
+5. Use locale-aware font stacks. English, Korean, and Japanese surfaces are explicitly separated by CSS language selectors.
+6. Keep product tile type small and quiet; tile density is part of the marketplace rhythm.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
 
-### 06-1. Core monochrome
+### 06-1. Brand Ramp (observed)
 
-| Token | Value | Usage |
+| Token | Hex |
+|---|---|
+| `colors.brand-red` | `#E00` |
+| `colors.brand-red-dark` | `#C00` |
+| `colors.red-feedback` | `#DD3535` |
+| `colors.red-light` | `#EF5555` |
+
+### 06-2. Brand Dark Variant
+
+> N/A — no independent dark-theme brand ramp was confirmed in the reused phase1 data.
+
+### 06-3. Neutral Ramp
+
+| Step | Light | Usage |
 |---|---|---|
-| `--fill-primary-color` | `#000` | primary fill |
-| `--primaryHoverBackgroundColor` | `#2a2a2a` | primary hover |
-| `--primaryPressedBackgroundColor` | `#3e3e3e` | primary pressed |
-| `--fill-secondary-color` | `#fff` | inverse / neutral fill |
-| `--fill-background-color` | `#f4f4f4` | surface background |
-| `--border-lines-color` | `#dadada` | lines / dividers |
-| `--text-secondary-color` | `#6a6a6a` | secondary text |
-| `--text-disabled-color` | `#ababab` | disabled text |
-| `--border-interactive-outline-color` | `#767676` | interactive outline |
+| `white` | `#FFFFFF` | page background, secondary buttons, cards |
+| `gray-100` | `#F4F4F4` | muted card background, commerce surface bands |
+| `gray-300` | `#DADADA` | borders, disabled button background |
+| `gray-500` | `#ABABAB` | disabled text / soft divider |
+| `gray-600` | `#767676` | strong border, muted text |
+| `gray-700` | `#6A6A6A` | secondary text, active secondary state |
+| `gray-900` | `#1B1B1B` / `#2A2A2A` | border/hover/active black variants |
+| `black` | `#000000` | primary text and primary button background |
 
-### 06-2. Promotional / error red
+### 06-4. Accent Families
 
-| Token | Value | Usage |
+| Family | Key step | Hex |
 |---|---|---|
-| `--fill-promotional-color` | `#e00` | promo fill |
-| `--fill-promotional-hover-color` | `#ee3535` | promo hover |
-| `--fill-error-color` | `#e00` | error fill |
-| `--fill-error-hover-color` | `#ef5555` | error hover |
-| `--fill-selected-heart-color` | `#e00` | selected heart |
-| `--fill-selected-heart-hover-color` | `#dd3535` | selected heart hover |
+| Link blue | default | `#005DB5` |
+| iOS blue | utility/focus | `#007AFF` |
+| Success green | default | `#00AB0F` |
+| Success light | default | `#34BC3F` |
+| Pink/red status | default | `#FF728D` |
 
-> 참고: 다운로드한 CSS 번들 안에서는 literal `#FF0000`는 발견되지 않았고, red family literal은 `#e00` / `#ee3535` / `#ef5555` / `#dd3535`로 나타난다.
+### 06-5. Semantic
 
-### 06-3. Utility accents
-
-| Token | Value | Usage |
+| Token | Hex | Usage |
 |---|---|---|
-| `--fill-noticeable-color` | `#005db5` | noticeable fill |
-| `--fill-noticeable-hover-color` | `#006ed7` | noticeable hover |
-| `--text-noticeable-color` | `#005db5` | link / text utility |
-| `--text-noticeable-hover-color` | `#006ed7` | utility hover |
-| `--fill-positive-color` | `#00ab0f` | positive state |
+| `brand-red` | `#E00` | logo, selected icon/state, warning/sale memory |
+| `text-primary` | `#000000` | body, buttons, product information |
+| `text-muted` | `#6A6A6A` | secondary labels and de-emphasized states |
+| `surface-base` | `#FFFFFF` | page, cards, secondary controls |
+| `surface-muted` | `#F4F4F4` | muted panels/card backgrounds |
+| `border-default` | `#DADADA` | standard divider and card border |
+| `border-strong` | `#767676` | stronger secondary active border |
 
-### 06-4. Dominant literal colors in downloaded CSS
+### 06-6. Semantic Alias Layer
 
-| Rank | Hex | Count |
+> N/A — `alias_layer.json` returned empty tier counts because the CSS uses class utilities and environment tokens more than extractable custom property aliases.
+
+### 06-7. Dominant Colors (실제 CSS 빈도 순)
+
+| Token | Hex | Frequency signal |
 |---|---|---|
-| 1 | `#FFFFFF` | 266 |
-| 2 | `#000000` | 188 |
-| 3 | `#DADADA` | 172 |
-| 4 | `#ABABAB` | 115 |
-| 5 | `#EE0000` | 86 |
-| 6 | `#6A6A6A` | 81 |
-| 7 | `#F4F4F4` | 77 |
-| 8 | `#005DB5` | 73 |
-| 9 | `#767676` | 70 |
-| 10 | `#2A2A2A` | 53 |
+| `surface-base` | `#FFFFFF` / `#FFF` | highest surface and text-over-image usage |
+| `text-primary` | `#000000` / `#000` | primary UI text and button fill |
+| `border-default` | `#DADADA` | high-frequency border/disabled tone |
+| `disabled-muted` | `#ABABAB` | disabled text and light UI detail |
+| `brand-red` | `#E00` | repeated brand/status/action accent |
+| `surface-muted` | `#F4F4F4` | muted commerce backgrounds |
+| `link-blue` | `#005DB5` | link/focus utility |
+
+### 06-8. Color Stories
+
+**`{colors.brand-red}` (`#E00`)** — UNIQLO red is a stamp, not a wash. It belongs to the square logo, status emphasis, sale memory, and small state signals. Using it for every CTA makes the site feel like a discount banner instead of LifeWear retail.
+
+**`{colors.surface-base}` (`#FFFFFF`)** — The page floor is plain white so product photography stays legible and purchasable. White also keeps the commerce UI from fighting lifestyle imagery.
+
+**`{colors.text-primary}` (`#000000`)** — Black is the true action color. Primary buttons use black fills, nav uses black/white contrast, and product information remains uncompromised.
+
+**`{colors.border-default}` (`#DADADA`)** — Gray borders do the structural work. Cards, secondary buttons, disabled states, and separators rely on hairline neutrality instead of decorative color.
 
 ---
 
 ## 07. Spacing
+<!-- SOURCE: auto+manual -->
 
-### Root spacing scale
+| Token | Value | Use case |
+|---|---|---|
+| `--spacing4` | `4px` | tight icon/text offset |
+| `--spacing8` | `8px` | small gaps, control internals |
+| `--spacing12` | `12px` | compact vertical rhythm |
+| `--spacing16` | `16px` | default card/text spacing |
+| `--spacing24` | `24px` | common component gap and card padding |
+| `--spacing32` | `32px` | section grouping |
+| `--spacing40` | `40px` | larger band rhythm |
+| `--spacing48` | `48px` | hero/category transitions |
+| `--spacing88` | `88px` | large commerce/display separation |
 
-| Token | Value |
-|---|---|
-| `--spacing0` | `0` |
-| `--spacing4` | `4px` |
-| `--spacing8` | `8px` |
-| `--spacing12` | `12px` |
-| `--spacing16` | `16px` |
-| `--spacing20` | `20px` |
-| `--spacing24` | `24px` |
-| `--spacing28` | `28px` |
-| `--spacing32` | `32px` |
-| `--spacing36` | `36px` |
-| `--spacing40` | `40px` |
-| `--spacing44` | `44px` |
-| `--spacing48` | `48px` |
-| `--spacing52` | `52px` |
-| `--spacing88` | `88px` |
+**주요 alias**:
+- `gap: 24px` → repeated commerce grid/card rhythm.
+- `height: 44px` → carousel and touch controls.
+- `padding: 16px` / `24px` → card and panel density.
 
-### Grid margins
+### Whitespace Philosophy
 
-| Token | Value |
-|---|---|
-| `--spacing-grid-margin-at-medium` | `1.5rem` |
-| `--spacing-grid-margin-at-large` | `3rem` |
+UNIQLO uses air as a retail sorting tool, not as luxury emptiness. The hero has enough open image space to let clothing and body silhouette register. Immediately below, category and product modules compress into a more operational rhythm where 16px and 24px dominate.
 
-### Observed usages
-
-- `.ec-button--search-bar` — horizontal padding `var(--spacing12)`
-- `.product-table` — left padding `var(--spacing16)`
-- `.product-table__current-product .product-tile` — bottom margin `var(--spacing8)`
-- `.navigation-header__gender-tab__left` — left padding `var(--spacing52)` on large screens
+This creates the essential contrast: open photography above, dense marketplace below. The page should never feel like a boutique lookbook all the way down. It should feel like a store that borrowed editorial framing only where it helps the product.
 
 ---
 
 ## 08. Radius
+<!-- SOURCE: auto+manual -->
 
-| Token | Value | Note |
+| Token | Value | Context |
 |---|---|---|
-| `--border-radius-pill` | `999px` | pill / chip |
-| `--border-radius-round` | `0` | core square shape |
-| `--border-radius-button-h-32` | `0` | button |
-| `--border-radius-button-h-40` | `0` | button |
-| `--border-radius-button-h-50` | `0` | button |
-| `--border-radius-button-h-52` | `0` | button |
-| `--borderRadius4` | `4px` | generic radius token |
-| `--borderRadius8` | `8px` | generic radius token |
-| `--borderRadius12` | `12px` | generic radius token |
-| `--borderRadius16` | `16px` | generic radius token |
-| `--borderRadius999` | `999px` | generic pill |
-| `--borderRadius50Percent` | `50%` | circular icon / indicator |
-
-> Core action/button layer는 raw button radius token이 전부 `0`이라 square bias가 매우 강하다.
+| `radius-none` | `0` | chips, cards, buttons, most commerce frames |
+| `radius-circle` | `50%` | icon buttons, circular controls |
+| `radius-pill` | `999px` | search bar and select pill controls |
+| `radius-small` | `8px`-`10px` | occasional overlays or system panels |
+| `radius-large` | `16px`-`20px` | limited app-like components, not the dominant visual language |
 
 ---
 
 ## 09. Shadows
+<!-- SOURCE: auto+manual -->
 
-| Token | Value | Usage signal |
+| Level | Value | Usage |
 |---|---|---|
-| `--shadow-floating` | `0px 2px 4px #0003` | floating layer |
-| `--shadow-floating-er` | `0px 0px 10px #0000001a` | extended floating layer |
-| `--shadow-other` | `0px 2px 2px #0009` | dense dark shadow |
-| `--shadow-chip` | `0px 0px 4px #000c` | chip edge |
-| `--shadowBottom1` | `0px 1px 1px #00000080` | subtle elevation |
-| `--shadowBottom4` | `0px 2px 4px #0000001a` | card/flyout |
-| `--shadowBevel15` | `0px 0px 15px #0000001a` | large blur |
-| `--shadowNone` | `none` | explicit reset |
+| `none` | `none` | default chrome; most cards do not float |
+| `focus-soft` | `0 0 0 10px #1b1b1b33` | accessibility/focus ring style |
+| `overlay-soft` | `0 2px 4px #0003` | overlays and light separation |
+| `image-legibility` | text shadow via env tokens | hero/banner text over photography |
+| `strong-outline` | `0 1px 1px #0009` | selected/overlay state |
 
 ---
 
 ## 10. Motion
+<!-- SOURCE: auto+manual -->
 
-| Token | Value |
-|---|---|
-| `--animate-duration-shortest` | `150ms` |
-| `--animate-duration-micro` | `180ms` |
-| `--animate-duration-leave` | `195ms` |
-| `--animate-duration-shorter` | `200ms` |
-| `--animate-duration-enter` | `225ms` |
-| `--animate-duration-short` | `250ms` |
-| `--animate-duration-normal` | `300ms` |
-| `--animate-duration-standard` | `300ms` |
-| `--animate-duration-complex` | `375ms` |
-| `--animate-duration-macro` | `500ms` |
-| `--animate-ease-in-out` | `cubic-bezier(0.4,0,0.2,1)` |
-| `--animate-ease-out` | `cubic-bezier(0.0,0,0.2,1)` |
-| `--animate-ease-in` | `cubic-bezier(0.4,0,1,1)` |
-| `--animate-ease-sharp` | `cubic-bezier(0.4,0,0.6,1)` |
+| Token | Value | Usage |
+|---|---|---|
+| `motion-standard` | `all .4s cubic-bezier(.4,0,.2,1)` | panels, overlays, menu-like transitions |
+| `motion-fast-color` | `color .18s cubic-bezier(.4,0,.2,1)` | link/control color state |
+| `motion-fast-border` | `border-color .18s cubic-bezier(.4,0,.2,1)` | secondary button and borders |
+| `motion-opacity` | `opacity .3s` / `.4s` | carousel, overlays, visibility changes |
+| `motion-transform` | `transform .2s` / `.4s` | swipeable and overlay state |
 
 ---
 
 ## 11. Layout Patterns
+<!-- SOURCE: auto+manual -->
 
-- **Root font size** — `16px`
-- **Minimum target size** — `44px`
-- **Large grid width** — `1200px`
-- **Large grid fixed-margin limit** — `1248px`
-- **Large grid auto-margin limit** — `1249px`
-- **Navigation header height** — `64px` large / `56px` small
-- **Navigation logo max size** — `75px × 34px` large / `63px × 28px` small
-- **Centered tabs max width** — `412px`
-- **Navigation search content max width** — `976px`
-- **Product table content gap** — `1px`
+### Grid System
+- **Content max-width**: 1176px and 1200px are common large-container signals; 1248px appears for larger limits.
+- **Grid type**: CSS Grid and Flexbox mixed; product/category areas use grid/flex, carousel uses Swiper flex track.
+- **Column count**: responsive commerce grids; category tiles observed in 2x/3x image ratios, desktop density above 960px.
+- **Gutter**: 16px / 24px / 32px are the main gutters.
+
+### Hero
+- **Pattern Summary**: 80-100vh-feeling full-bleed lifestyle image + overlaid nav/search + left-bottom product copy + price.
+- Layout: full-width image banner with text overlay and persistent top navigation.
+- Background: photography, not gradient or illustration.
+- **Background Treatment**: image-overlay through shadow/text legibility utilities (`media-banner__shadow-bottom-2`) rather than a visible color scrim.
+- H1: `32px` / weight `300-400` / tracking `.36px` in observed localized hero.
+- Max-width: full viewport image; text block sits inside the image area rather than a separate card.
+
+### Section Rhythm
 
 ```css
-.navigation-header__wrapper {
-  height: var(--ec-navigation-header-height-lg);
-}
-.navigation-search__content {
-  max-width: var(--ec-search-max-width);
-  width: 100%;
-}
-.navigation-header__gender-tab__center .tab-group-outer-wrapper {
-  max-width: var(--ec-tabs-max-width);
-  width: 100%;
+section-like-commerce-band {
+  padding: 16px 24px;
+  max-width: 1176px;
+  gap: 24px;
 }
 ```
+
+### Card Patterns
+- **Card background**: `#FFFFFF`, with muted variant `#F4F4F4`.
+- **Card border**: `1px solid #DADADA`; strong variant `1px solid #767676`.
+- **Card radius**: mostly `0`.
+- **Card padding**: `16px` or `24px`.
+- **Card shadow**: none by default; separation via border/background.
+
+### Navigation Structure
+- **Type**: horizontal top navigation with category links, search field, account/favorite/cart/menu icons.
+- **Position**: visually over hero in the captured artifact; treat as sticky/static top chrome depending page state.
+- **Height**: controls cluster around 44px; header visual height around 64px-72px.
+- **Background**: transparent/over-image on hero, white overlay panels for menus.
+- **Border**: minimal; active category uses underline rather than boxed tab.
+
+### Content Width
+- **Prose max-width**: narrow text overlays; product/category copy avoids long prose.
+- **Container max-width**: 1176px/1200px family.
+- **Sidebar width**: not observed on homepage artifact; likely used in listing/filter subflows, not confirmed here.
 
 ---
 
-## 12. Responsive
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
 
-| Breakpoint | Value | Observed behavior |
+### Breakpoints
+
+| Name | Value | Description |
 |---|---|---|
-| small max | `599px` | small header `56px`, logo `63 × 28`, search button height `38px`, search button max `231px` |
-| medium min | `600px` | app-download button wrapper hidden |
-| medium max | `959px` | centered gender tabs hidden, search bar `324px`, right navigation condensed |
-| large min | `960px` | large header `64px`, search button `382px`, centered gender tabs restored |
-| extra large auto margin | `1249px` | grid auto margin threshold |
+| Mobile | `max-width: 599px` | dominant mobile cutoff; many rules target small screens. |
+| Tablet | `600px-959px` | medium layout, intermediate grid/header behavior. |
+| Desktop | `min-width: 960px` | full commerce/navigation layout. |
+| Large | `1201px+` / `1249px+` | larger container and desktop refinements. |
 
-```css
-.ec-button--search-bar {
-  max-width: var(--ec-search-bar-button-max-width-lg);
-  padding: 0 var(--spacing12);
-  width: 100vw;
-}
-@media screen and (max-width:959px) {
-  .ec-button--search-bar { max-width: var(--ec-search-bar-button-max-width-md); }
-}
-@media screen and (max-width:599px) {
-  .ec-button--search-bar {
-    height: var(--ec-search-bar-button-height-sm);
-    max-width: var(--ec-search-bar-button-max-width-sm);
-  }
-  .ec-button--search-bar:before {
-    top: var(--ec-search-bar-button-tappable-offset-sm);
-    bottom: var(--ec-search-bar-button-tappable-offset-sm);
-  }
-}
-```
+### Touch Targets
+- **Minimum tap size**: 44px appears repeatedly for carousel/navigation buttons.
+- **Button height (mobile)**: 44px/52px family.
+- **Input height (mobile)**: search controls around 38px-44px depending variant.
+
+### Collapsing Strategy
+- **Navigation**: category links collapse toward icon/menu patterns on smaller screens.
+- **Grid columns**: product/category grids reduce at 960px and 600px thresholds.
+- **Sidebar**: not confirmed on homepage artifact.
+- **Hero layout**: image remains dominant; overlay copy and header controls compress.
+
+### Image Behavior
+- **Strategy**: ratio utilities (`image--ratio-1x1`, `2x1`, `3x1`) and full-width responsive imagery.
+- **Max-width**: 100% for imagery; container widths handle layout.
+- **Aspect ratio handling**: explicit ratio classes rather than arbitrary image cropping.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
-### Navigation header
+### Buttons
 
-- background — `#fff`
-- wrapper height — `64px` / `56px`
-- logo max size — `75px × 34px` / `63px × 28px`
-- centered tab wrapper — `412px`
-- search content max width — `976px`
-- notification dot — `6px × 6px`, `background: #e00`
+**Primary button**
 
-### Search bar button
+| Property | Value |
+|---|---|
+| Class | `.fr-ec-button--variant-primary` |
+| Background | `#000000` |
+| Text | `#FFFFFF` |
+| Radius | `0` unless a special pill/icon variant is used |
+| Hover/active | `#2A2A2A` |
+| Disabled | `#DADADA`, no border |
 
-- base max width — `382px`
-- tablet max width — `324px`
-- mobile max width — `231px`
-- mobile height — `38px`
-- horizontal padding — `12px`
-- tappable pseudo offset — `-3px`
-
-### Tab group
-
-- group border bottom — `1px solid #dadada`
-- active tab text — `#000`
-- active hover text — `#2a2a2a`
-
-```css
-.tab-group {
-  border-bottom: 1px solid #dadada;
-  display: flex;
-  padding: 0;
-}
-.tab--is-active {
-  color: #000;
-}
-.tab--is-active:hover {
-  color: #2a2a2a;
-}
+```html
+<button class="fr-ec-button fr-ec-button--variant-primary">
+  <span class="fr-ec-label">Add to cart</span>
+</button>
 ```
 
-### Product comparison table
+**Secondary button**
 
-- container left padding — `16px`
-- inner gap — `1px`
-- product tile bottom margin — `8px`
+| Property | Value |
+|---|---|
+| Class | `.fr-ec-button--variant-secondary` |
+| Background | `#FFFFFF` |
+| Text | `#000000` |
+| Border | `1px solid #1B1B1B` |
+| Active border/text | `#6A6A6A` |
+| Disabled text | `#ABABAB` |
 
-```css
-.product-table {
-  padding-left: var(--spacing16);
-}
-.product-table-inner-container {
-  gap: var(--ec-product-table-content-gap);
-}
-.product-table__current-product .product-tile,
-.product-table__similar-product .product-tile {
-  margin-bottom: var(--spacing8);
-}
+### Badges
+
+Badges are compact commerce/editorial labels. In the observed hero, the topic badge is a small filled rectangle over photography, not a rounded marketing pill. Keep typography white, compact, and utility-like. For sale/status badges, prefer `#E00` or red family tokens only when the state genuinely requires urgency.
+
+### Cards & Containers
+
+Cards are flat store modules:
+
+| Property | Value |
+|---|---|
+| Class | `.fr-ec-card` |
+| Background | `#FFFFFF` |
+| Padding | `16px` or `24px` |
+| Border normal | `1px solid #DADADA` |
+| Border strong | `1px solid #767676` |
+| Background variant | `#F4F4F4` |
+| Radius | `0` |
+
+### Navigation
+
+Navigation combines category text, logo square, search pill, and utility icons. Active top category uses underline/contrast rather than a filled tab. Search is visually larger than the surrounding icon controls and is allowed to be rounded because search is a functional input, not a brand flourish.
+
+### Inputs & Forms
+
+Search input:
+
+| Property | Value |
+|---|---|
+| Background | `#FFFFFF` |
+| Height | `38px`-`44px` |
+| Radius | `999px` |
+| Placeholder | muted gray |
+| Icon | left-aligned search icon |
+| Width | wide desktop pill; responsive constrained widths around 231px/324px/382px appear in CSS vars |
+
+### Hero Section
+
+Hero is a commerce campaign banner:
+
+| Property | Value |
+|---|---|
+| Image | full-bleed lifestyle/product photography |
+| Text placement | lower-left overlay in captured artifact |
+| Text color | `#FFFFFF` over image |
+| Title | 32px light/regular |
+| Price | large, high-contrast, product-commerce explicit |
+| Header | overlaid nav/search/icons |
+
+### 13-2. Named Variants
+
+**button-primary-black** — the default transactional action.
+
+| State | Spec |
+|---|---|
+| default | `background-color: #000000; color: #FFFFFF; border: none` |
+| hover | `background-color: #2A2A2A` |
+| active | `background-color: #2A2A2A` |
+| disabled | `background-color: #DADADA; border: none` |
+
+**button-secondary-outline** — the neutral alternative action.
+
+| State | Spec |
+|---|---|
+| default | `background-color: #FFFFFF; color: #000000; border: 1px solid #1B1B1B` |
+| active | `border-color: #6A6A6A; color: #6A6A6A` |
+| disabled | `color: #ABABAB` |
+
+**search-pill-desktop** — the only major rounded chrome element.
+
+| State | Spec |
+|---|---|
+| default | white pill, `999px` radius, search icon left |
+| focus | strong accessible outline/focus ring rather than decorative shadow |
+| responsive | width constrained by 231px/324px/382px variable family |
+
+**card-border-normal** — standard commerce panel.
+
+| State | Spec |
+|---|---|
+| default | `#FFFFFF`, `1px solid #DADADA`, no shadow |
+| strong | `1px solid #767676` |
+| muted | `background-color: #F4F4F4` |
+
+### 13-3. Signature Micro-Specs
+
+#### red-as-stamp
+
+```yaml
+red-as-stamp:
+  description: "UNIQLO red (#E00) is a brand stamp, not a CTA palette."
+  technique: "#E00 reserved for logo and compact status accents only; never used as button background; commerce controls use black instead."
+  applied_to: ["{component.logo}", "status flag", "narrow brand accent line"]
+  visual_signature: "the page carries brand memory through a single saturated mark — like a postal seal on a folded shirt."
+  intent: "a global retail brand needs one mnemonic colour that survives any photography crop; CTAs are operational and earn black."
 ```
+
+#### black-transactional-button
+
+```yaml
+black-transactional-button:
+  description: "Action is a black rectangle. Hover deepens, never softens."
+  technique: "background #000000, hover/active #2A2A2A, color #FFFFFF, radius 0, weight 600, padding 12-16px vertical."
+  applied_to: ["{components.button-primary}", "Add to cart", "Continue", "Login"]
+  visual_signature: "every commerce action looks like a bar code stamp — heavy, square, deliberate."
+  intent: "fashion retail competes with editorial whitespace; the action must out-weight the photo without competing for hue."
+```
+
+#### square-commerce-chrome
+
+```yaml
+square-commerce-chrome:
+  description: "Radius 0 dominates the site — UNIQLO is engineered like a paper catalogue, not a rounded SaaS app."
+  technique: "border-radius: 0 on cards, chips, product modules, buttons; radius is spent only on search pills (999px) and circular icon controls (50%)."
+  applied_to: ["{component.product-card}", "{component.chip}", "{components.button-primary}"]
+  visual_signature: "the entire grid feels like printed retail — corners snap to a paper edge, never a screen pillow."
+  intent: "fashion identity at scale needs a typographic floor — radius softens type; sharp corners keep the page silent."
+```
+
+#### photography-legibility-shadow
+
+```yaml
+photography-legibility-shadow:
+  description: "Drop shadow exists exclusively to keep banner copy legible over lifestyle imagery."
+  technique: "text-shadow / linear-gradient overlay utilities applied only to text rendered on top of photography; chrome cards never receive shadow."
+  applied_to: ["{component.hero-banner}", "campaign overlay caption"]
+  visual_signature: "shadow is a typographic concession to photography, never a decorative depth move."
+  intent: "fashion photography must lead; shadow is borrowed from the image only when type would otherwise vanish."
+```
+
+#### locale-typography-switch
+
+```yaml
+locale-typography-switch:
+  description: "Font stack and base size shift per language context — UNIQLO is not one global marketing page."
+  technique: "CSS [lang=\"ja\"] / [lang=\"ko\"] selectors swap to Hiragino Kaku Gothic Pro / Noto Sans CJK; base size lifted ~1px to compensate for ideographic density."
+  applied_to: ["{typography.body}", "{typography.display}", "category navigation"]
+  visual_signature: "Japanese and Korean shoppers see a page that looks native, not a translated layer."
+  intent: "operational international retail must respect script-level legibility; one font globally would feel imported."
+```
+
+## 14. Content / Copy Voice
+<!-- SOURCE: manual -->
+
+| Pattern | Rule | Example |
+|---|---|---|
+| Headline | Product-first, plain, seasonal/use-case oriented | "Wide Leg Pants" / "Women's Clothing & Accessories" |
+| Primary CTA | Direct shopping verbs; no clever phrasing | "Shop now", "Add to cart" |
+| Secondary CTA | Category and utility navigation | "Women", "Men", "Kids", "Baby" |
+| Subheading | Practical benefit, size, season, material, or offer detail | "stylish and comfortable clothes" |
+| Tone | Functional, calm, democratic, product-led | retail clarity over fashion mystique |
 
 ---
 
-## 14. Content Voice
-
-이 리포트는 CSS 기반이므로 marketing copy tone 자체는 추출하지 않았다. 다만 token/selector naming은 매우 utilitarian하다: `primary`, `secondary`, `promotional`, `noticeable`, `positive`, `error`, `selected-heart`, `product-table`, `navigation-search`. 감성적인 naming보다 기능/상태 naming이 우선이며, 이 naming discipline이 UI 인상에도 그대로 반영된다.
-
----
-
-## 15. CSS Export
+## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
+/* UNIQLO-inspired commerce system */
 :root {
-  --uq-font-display: UniqloProRegular, sans-serif;
-  --uq-font-display-light: UniqloProLight, system-ui, -apple-system, sans-serif;
-  --uq-font-body-en: "Twemoji Country Flags", "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif;
+  /* Fonts */
+  --uq-font-family: "UniqloProRegular", "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif;
+  --uq-font-family-cjk: "Hiragino Kaku Gothic Pro", "Hiragino Sans", "Noto Sans CJK JP", "Meiryo", sans-serif;
+  --uq-font-weight-light: 300;
+  --uq-font-weight-normal: 400;
+  --uq-font-weight-semibold: 600;
 
-  --uq-fg: #000;
-  --uq-fg-hover: #2a2a2a;
-  --uq-fg-pressed: #3e3e3e;
-  --uq-fg-muted: #6a6a6a;
-  --uq-fg-disabled: #ababab;
-  --uq-bg: #fff;
-  --uq-bg-subtle: #f4f4f4;
-  --uq-border: #dadada;
+  /* Brand */
+  --uq-color-brand-red: #E00;
+  --uq-color-brand-red-dark: #C00;
 
-  --uq-brand: #e00;
-  --uq-brand-hover: #ef5555;
-  --uq-brand-heart-hover: #dd3535;
-  --uq-link: #005db5;
-  --uq-link-hover: #006ed7;
-  --uq-positive: #00ab0f;
+  /* Surfaces */
+  --uq-bg-page: #FFFFFF;
+  --uq-bg-muted: #F4F4F4;
+  --uq-text: #000000;
+  --uq-text-muted: #6A6A6A;
+  --uq-border: #DADADA;
+  --uq-border-strong: #767676;
 
-  --uq-radius: 0;
+  /* Key spacing */
+  --uq-space-xs: 4px;
+  --uq-space-sm: 8px;
+  --uq-space-md: 16px;
+  --uq-space-lg: 24px;
+  --uq-space-xl: 32px;
+
+  /* Radius */
+  --uq-radius-none: 0;
   --uq-radius-pill: 999px;
-  --uq-shadow-floating: 0px 2px 4px #0003;
+  --uq-radius-circle: 50%;
+}
 
-  --uq-space-4: 4px;
-  --uq-space-8: 8px;
-  --uq-space-12: 12px;
-  --uq-space-16: 16px;
-  --uq-space-24: 24px;
-  --uq-space-32: 32px;
-  --uq-space-44: 44px;
-  --uq-space-52: 52px;
+.uq-button-primary {
+  background: var(--uq-text);
+  color: var(--uq-bg-page);
+  border: 0;
+  border-radius: var(--uq-radius-none);
+  min-height: 44px;
+  padding: 0 24px;
+  font-weight: 600;
+}
 
-  --uq-nav-h-lg: 64px;
-  --uq-nav-h-sm: 56px;
-  --uq-search-max: 976px;
-  --uq-tabs-max: 412px;
+.uq-button-primary:hover,
+.uq-button-primary:active {
+  background: #2A2A2A;
+}
+
+.uq-card {
+  background: var(--uq-bg-page);
+  border: 1px solid var(--uq-border);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 24px;
 }
 ```
 
 ---
 
-## 16. Tailwind Export
+## 16. Tailwind Config
+<!-- SOURCE: manual -->
 
 ```js
-export default {
+// tailwind.config.js - UNIQLO-inspired tokens
+module.exports = {
   theme: {
     extend: {
       colors: {
         uniqlo: {
-          black: "#000",
-          blackHover: "#2a2a2a",
-          blackPressed: "#3e3e3e",
-          white: "#fff",
-          surface: "#f4f4f4",
-          border: "#dadada",
-          muted: "#6a6a6a",
-          disabled: "#ababab",
-          red: "#e00",
-          redHover: "#ef5555",
-          redHeartHover: "#dd3535",
-          blue: "#005db5",
-          blueHover: "#006ed7",
-          positive: "#00ab0f"
-        }
+          red: '#E00',
+          redDark: '#C00',
+          black: '#000000',
+          ink: '#1B1B1B',
+          hover: '#2A2A2A',
+          muted: '#6A6A6A',
+          border: '#DADADA',
+          surface: '#FFFFFF',
+          surfaceMuted: '#F4F4F4',
+        },
       },
       fontFamily: {
-        uniqlo: ["UniqloProRegular", "sans-serif"],
-        uniqloLight: ["UniqloProLight", "system-ui", "-apple-system", "sans-serif"],
-        body: ["Twemoji Country Flags", "Helvetica Neue", "Helvetica", "Arial", "system-ui", "-apple-system", "sans-serif"]
+        sans: ['UniqloProRegular', 'Helvetica Neue', 'Helvetica', 'Arial', 'system-ui', 'sans-serif'],
+      },
+      fontWeight: {
+        light: '300',
+        normal: '400',
+        semibold: '600',
       },
       borderRadius: {
-        none: "0",
-        pill: "999px"
+        none: '0',
+        pill: '999px',
       },
       boxShadow: {
-        floating: "0px 2px 4px #0003",
-        floatingEr: "0px 0px 10px #0000001a"
+        none: 'none',
+        overlay: '0 2px 4px #0003',
       },
-      spacing: {
-        1: "4px",
-        2: "8px",
-        3: "12px",
-        4: "16px",
-        5: "20px",
-        6: "24px",
-        7: "28px",
-        8: "32px",
-        9: "36px",
-        10: "40px",
-        11: "44px",
-        12: "48px",
-        13: "52px",
-        22: "88px"
-      },
-      screens: {
-        uqMd: "600px",
-        uqLg: "960px"
-      }
-    }
-  }
+    },
+  },
 };
 ```
 
 ---
 
-## 17. Agent Prompt
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
 
-- white canvas `#fff`, black primary action `#000`, border `#dadada`, muted text `#6a6a6a`를 기본으로 시작할 것
-- red accent는 `#e00` family만 사용하고 promotional / error / favorite heart처럼 면적이 작은 상태에 제한할 것
-- 링크 / focus / noticeable state는 `#005db5` → hover `#006ed7`로 분리할 것
-- 버튼과 탭은 square radius `0`을 기본값으로 둘 것
-- 44px minimum target, 64px desktop header, 56px mobile header, 382/324/231px search widths를 그대로 유지할 것
-- Latin display가 필요하면 `UniqloProRegular` / `UniqloProLight` 계열을 우선하고, body는 Helvetica/Arial/system stack으로 떨어질 수 있게 둘 것
+### Quick Color Reference
+
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary | `colors.brand-red` | `#E00` |
+| Background | `colors.surface-base` | `#FFFFFF` |
+| Text primary | `colors.text-primary` | `#000000` |
+| Text muted | `colors.text-secondary` | `#6A6A6A` |
+| Border | `colors.border-default` | `#DADADA` |
+| Surface muted | `colors.surface-muted` | `#F4F4F4` |
+| Link | `colors.link-blue` | `#005DB5` |
+
+### Example Component Prompts
+
+#### Hero Section
+```text
+UNIQLO-style commerce hero를 만들어줘.
+- full-bleed lifestyle/product photography를 배경으로 사용
+- 상단에는 빨간 정사각형 로고, category nav, white rounded search pill, utility icons
+- H1/product title: UniqloProRegular or Helvetica fallback, 32px, weight 300/400, white
+- product price는 large white text로 명확히
+- CTA가 필요하면 red가 아니라 black/white commerce button 사용
+- decorative gradient, glass card, purple accent는 쓰지 말 것
+```
+
+#### Card Component
+```text
+UNIQLO-style product/category card를 만들어줘.
+- background: #FFFFFF
+- border: 1px solid #DADADA, radius: 0, shadow: none
+- padding: 16px or 24px
+- title: 13-17px, weight 400, color #000000
+- muted text: #6A6A6A
+- product image owns the card; chrome stays quiet
+```
+
+#### Navigation
+```text
+UNIQLO-style navigation을 만들어줘.
+- logo: red square #E00 with white UNIQLO lettering area
+- nav links: uppercase/simple category labels, 13-14px, white over hero or black on white surface
+- active link: underline or stronger contrast, not filled tab
+- search: wide #FFFFFF pill with 999px radius and muted placeholder
+- icon buttons: 44px touch target, minimal line icons
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: red is brand memory; black is primary action.
+- **폰트 변경 시**: use 300/400/600. Avoid 500 unless the real flow proves it.
+- **여백 조정 시**: stay on 8/16/24/32/48 rhythm.
+- **새 컴포넌트 추가 시**: default to square radius and border separation.
+- **사진 추가 시**: product/lifestyle image should do the emotional work; UI should stay plain.
+- **반응형**: keep 600px and 960px breakpoints unless a target subflow proves otherwise.
 
 ---
 
-## 18. Do / Don’t
+## 18. DO / DON'T
+<!-- SOURCE: manual -->
 
-### Do
+### ✅ DO
 
-- black filled action을 기본 동작색으로 사용
-- `#fff` / `#f4f4f4` / `#dadada` 위계로 surface를 분리
-- `#e00`를 작은 상태 색으로만 사용
-- 버튼, 탭, chip의 기본 corner를 square로 유지
-- 599 / 959 / 960 breakpoint 체계를 그대로 사용
+- Use `#E00` as brand stamp/accent, not as the universal action color.
+- Use black primary commerce buttons with `#2A2A2A` hover/active.
+- Keep most cards and commerce modules square with `border-radius: 0`.
+- Let lifestyle/product photography carry atmosphere.
+- Use `#DADADA` and `#767676` borders for structure.
+- Preserve 44px touch targets for icon/carousel controls.
+- Use locale-aware sans stacks for English/CJK surfaces.
+- Keep motion practical: opacity, transform, and color transitions under `.4s`.
 
-### Don’t
+### ❌ DON'T
 
-- `#FF0000` full-fill CTA를 primary button 기본값으로 두지 말 것
-- 12px / 16px rounded card를 기본 UI 문법으로 확대하지 말 것
-- blue `#005db5`를 브랜드 메인 컬러처럼 확대하지 말 것
-- neutral text를 pure black 하나로만 처리하지 말 것 — `#6a6a6a` / `#ababab` 계층을 유지
-- search / nav / product table의 실제 max-width 수치를 임의로 바꾸지 말 것
+- 배경을 `#FAFAFA` 또는 `#F8F8F8` 중심으로 두지 말 것 — 대신 `#FFFFFF` 사용.
+- 기본 텍스트를 `#111111` 또는 `#1D1D1F`로 두지 말 것 — 대신 `#000000` 사용.
+- primary CTA 배경을 `#E00`로 두지 말 것 — 대신 `#000000` 사용.
+- hover/active black을 `#333333`로 임의 대체하지 말 것 — 대신 `#2A2A2A` 사용.
+- standard border를 `#E5E7EB`로 두지 말 것 — 대신 `#DADADA` 사용.
+- muted text를 `#9CA3AF`로 두지 말 것 — 대신 `#6A6A6A` 사용.
+- product card 배경을 `#F9FAFB`로 두지 말 것 — 기본은 `#FFFFFF`, muted variant는 `#F4F4F4` 사용.
+- body에 `font-weight: 500`을 기본으로 쓰지 말 것 — `400` 기본, `600` 강조, `300` editorial light 사용.
+- 모든 버튼에 `border-radius: 8px`를 주지 말 것 — 기본 commerce chrome은 `0`, search/icon만 `999px`/`50%`.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- Brand gradient: **none** — UNIQLO red is flat and square, never a wash.
+- Universal red CTA: **absent** — red is never the transactional default; the carry of the 매대/카운터 stays black.
+- Rounded card system: **absent** — commerce cards and chips are square by default; pill softness is zero in the catalog grid.
+- Heavy decorative shadows: **zero** — borders and photography create structure inside the marketplace 진열대.
+- Purple/blue SaaS accent palette: **absent** — blue appears only as utility/link, never as brand mood.
+- Negative luxury tracking: **never** — tracking is neutral or slightly positive across all utilities.
+- Weight 500 as a core step: **absent** in observed CSS — 300/400/600 only.
+- Illustration-led hero: **none** — real product/lifestyle photography is the only hero material.
+- Glassmorphism panels: **absent** — white surfaces are solid, utilitarian, warehouse-grade.
+- Overwritten brand palette: **never** — black/white/red/gray is the entire system, no extras.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Custom property extraction gap** — `resolved_tokens.json` reported `total_vars: 0`, so named tokens in this guide are normalized from observed CSS/classes rather than literal CSS custom property names.
+- **Locale mismatch in screenshot** — requested URL is `https://www.uniqlo.com/us/en`, but the reused `hero-cropped.png` displays Korean-localized homepage content. The design language appears consistent, but copy and current hero campaign may differ from the live US page.
+- **Single-page scope** — homepage/category artifact only. Checkout, account, cart, size selector, store locator, and error states were not visited.
+- **Subflow form states unconfirmed** — search input is observed; validation, loading, payment, and address error states are inferred only from shared component CSS.
+- **Dark mode not proven** — CSS includes black/white variants, but a complete dark theme was not confirmed.
+- **Motion runtime not executed** — CSS transitions and Swiper classes were summarized; JavaScript-driven carousel timing, lazy loading, and menu animation details were not measured live.
+- **Exact image treatment may drift** — hero photography, campaign badge, and product price are content-managed and likely change frequently.
+- **Frequency contamination possible** — CSS contains utility colors for status, focus, and component libraries; logo/status colors were manually separated from core UI recommendations.
+- **Report HTML skipped by instruction** — Step 6 RENDER-HTML was intentionally not run; this file is the only requested output.

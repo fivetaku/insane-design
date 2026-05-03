@@ -68,15 +68,15 @@ components:
 
 ### Narrative
 
-NOL / Yanolja is not a quiet hotel-booking page. It behaves like a travel mall kiosk: a fixed white counter, a large rounded search slot, a row of pictographic aisles, and promotional tiles that sit close enough to feel transactional. The page is built for repeated scanning, not for slow brand admiration. The visual contract is "find the leisure product fast, then let the deal art do the persuasion."
+NOL is the canonical example of Korean travel commerce marketplace — a white canvas counter, a large rounded search slot, a row of pictographic aisles, and promotional tiles close enough to feel transactional. The page is built for repeated scanning, not for slow brand admiration: find the leisure product fast, let the deal art do the persuasion.
 
-The identity comes from a sharp blue-violet primary, `#4154FF` (`{colors.primary}`), used with unusually pale blue support surfaces like `#F5F6FF` (`{colors.primary-weak}`) and `#B2BAFF` (`{colors.primary-line-weak2}`). This is not the red/pink travel-commerce palette of many Korean consumer apps. The accent is synthetic and app-like, almost utility SaaS in its hue, but it is softened by big icon illustrations and coupon banners.
+The identity comes from a sharp blue-violet primary, `#4154FF` (`{colors.primary}`), used with unusually pale blue support surfaces like `#F5F6FF` (`{colors.primary-weak}`) and `#B2BAFF` (`{colors.primary-line-weak2}`). This is not the red/pink travel-commerce palette of many Korean consumer apps. The accent is synthetic and app-like, but softened by big icon illustrations and coupon banners that turn the marketplace into a theatre of deals.
 
-Typography is dense Korean commerce typography: Pretendard, mostly 400 for normal labels, 600 for medium emphasis, and 700 for promotional titles. The site does not rely on letter-spacing craft. Instead, it relies on weight contrast, icon scale, rounded containers, and mobile-first rem sizing. Text blocks are short because the product categories and card images do the semantic work.
+Typography is dense Korean commerce typography: Pretendard, mostly 400 for normal labels, 600 for medium emphasis, and 700 for promotional titles. The store does not rely on letter-spacing craft. Instead, it relies on weight contrast, icon scale, rounded containers, and mobile-first rem sizing. Text blocks are short because product categories and card images do the semantic work.
 
-The homepage spacing is split in two. Header and search have generous white air, then category rows and coupon modules compress into a marketplace cadence. This "open top, dense catalog below" rhythm is the site. It must not be recreated as a hero-centered SaaS landing page or a full-bleed editorial travel page.
+The homepage spacing splits in two. Header and search have generous white air — the marketplace entrance. Then category rows and coupon modules compress into a commerce cadence. This "open top, dense catalogue below" rhythm is the site. It must not be recreated as a hero-centered SaaS landing page or a full-bleed editorial travel page.
 
-조금 더 풀면, NOL의 홈은 **공항 터미널 옆에 세워진 여행 마켓의 카운터**처럼 작동한다. 위쪽 흰 카운터는 체크인 데스크와 시장 입구의 안내 카운터를 겸하고, 둥근 search slot은 시장 한가운데 매대 위에 박힌 가격표 카탈로그 슬릿이다. 카테고리 픽토그램 행은 면세점 통로 위 천장에 매달린 안내 사인이자, 시장 진열대 끝에 꽂혀 있는 색상 표지다. 쿠폰 banner는 게이트 옆 벽면에 붙은 라스트-미닛 카탈로그 포스터, 우측 promotion card는 마켓 카운터 옆 즉석 장바구니 매대다 — 가격이 먼저 보이고 출발 시간은 그 다음. 두 번째 브랜드 컬러가 없는 이유: 시장 안내 시스템은 단일 노선 색만으로 충분히 빠르다.
+조금 더 풀면, NOL의 홈은 **공항 터미널 옆 travel marketplace의 단일 canvas**처럼 작동한다. 위쪽 흰 카운터는 시장 입구의 안내 데스크이고, 둥근 search slot은 catalogue slit 역할을 한다. 카테고리 픽토그램 행은 면세점 통로 천장의 안내 사인이자 store 진열대 끝의 색상 표지다. 쿠폰 banner는 게이트 옆 라스트-미닛 포스터, promotion card는 마켓 카운터 옆 즉석 장바구니 매대다. 두 번째 브랜드 컬러가 없는 이유: 시장 안내 시스템은 단일 accent 색만으로 충분히 빠르다.
 
 ### Key Characteristics
 

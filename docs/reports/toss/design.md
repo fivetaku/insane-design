@@ -66,7 +66,7 @@ components:
 
 ### Narrative
 
-Toss is not a bank website wearing a startup costume. It is a consumer app world expanded to a homepage: the screen opens on a full-viewport light-blue financial miniature set, then drops the user into generous white sections, large Korean headlines, and simple app-store CTAs. The emotional contract is clear: finance should feel easy before it feels powerful.
+Toss reads like a consumer dashboard rendered in app-grade canvas — finance made tangible before it feels institutional. The screen opens on a full-viewport light-blue financial miniature set, then drops the user into generous white sections, large Korean headlines, and simple app-store CTAs. The emotional contract is clear: the ledger should feel welcoming before it feels powerful.
 
 The visual center is Toss Blue #3182F6 (`{colors.primary}`), but the page does not flood itself blue. Blue appears as a precise active state, CTA color, link accent, and logo signal. The actual page mass is #FFFFFF (`{colors.surface}`), pale blue imagery, and the grey-mauve text ladder from #191F28 (`{colors.text-primary}`) through #6B7684 (`{colors.text-muted}`). This restraint is why the page feels trustworthy rather than promotional.
 

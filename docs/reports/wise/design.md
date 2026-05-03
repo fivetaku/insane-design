@@ -60,15 +60,17 @@ components:
 
 ### Narrative
 
-Wise is built like a money utility that refuses to look like a bank. The homepage keeps the canvas almost brutally plain: a #FFFFFF (`{colors.surface}`) page, a fixed calm header, and a massive black-green headline in #0E0F0C (`{colors.display-ink}`). The emotional move is not decoration. It is scale. "MONEY FOR HERE, THERE AND EVERYWHERE" lands as a billboard, then the product earns softness through a lime pill CTA and a world/coin visual below the fold.
+Wise reads like a currency exchange rendered in monumental display type — a white canvas stripped bare so the headline can land like a billboard, with a lime-green accent as the sole instrument of action.
 
-The system's signature color is not the common blue finance accent. The remembered color is #9FE870 (`{colors.primary}`), a high-energy lime used for signup and account-opening actions. It sits against #163300 (`{colors.ink}`), a deep green-black that makes the button feel proprietary rather than neon. Blue still exists in the CSS as #00A2DD (`{colors.accent-blue}`), but it behaves like an older/action accent and link layer, not the homepage's emotional anchor.
+The homepage keeps the canvas almost brutally plain: a #FFFFFF (`{colors.surface}`) page, a fixed calm header, and a massive black-green headline in #0E0F0C (`{colors.display-ink}`). The emotional move is not decoration. It is scale. "MONEY FOR HERE, THERE AND EVERYWHERE" lands as a billboard, then the product earns softness through a lime pill CTA and a world/coin visual below the fold.
 
-Typography carries most of the brand. Display copy uses "Wise Sans" with black weight behavior around 900, while body and utility text sit in Inter at 400/600. The contrast is deliberate: a gigantic display face for confidence, plain body text for financial trust. Letter-spacing stays at 0; Wise gets density from weight and uppercase mass, not optical tracking tricks.
+The system's signature accent is not the common blue finance color. The remembered color is #9FE870 (`{colors.primary}`), a high-energy lime used for signup and account-opening actions. It sits against #163300 (`{colors.ink}`), a deep green-black that makes the button feel proprietary rather than neon. Blue still exists in the CSS as #00A2DD (`{colors.accent-blue}`), but it behaves like an older action accent and link layer, not the homepage's emotional anchor.
 
-The layout philosophy is "open hero, operational product underneath." The first viewport gives the headline room to dominate, then immediately exposes concrete actions: open an account, send money, currency controls, app QR, country/currency claims. It does not let the brand become abstract. Every visual flourish is tied to movement of money, currency, or app utility.
+Typography carries most of the brand. Display copy uses "Wise Sans" with black weight behavior around 900, while body and utility text sit in Inter at 400/600. The contrast is deliberate: a gigantic display face for confidence, plain body text for financial trust. Letter-spacing stays at 0; Wise gets density from weight and uppercase mass, not tracking tricks.
 
-Wise는 결국 **money flow의 단일 입구를 가진 도구판**이다. centered hero는 거대한 스위치 한 개를 누르기 전의 단순입구이고, 거대한 black-green 카피는 그 스위치 위에 새겨진 라벨, 라임 pill은 손가락이 닿는 단 하나의 버튼이다. 아래에 깔리는 currency calculator와 country grid는 도구함의 옆 칸 — 라벨된 작은 다이얼들이지, 메인 도구가 아니다. white 페이지는 수리 매트, 라임은 켜진 단일 LED, deep forest ink는 도구 손잡이의 무광 마감이다. 핀테크 대시보드가 아니라 손에 쥐는 환전 도구 하나, 그 도구의 단순입구만 거대한 활자로 표시한 페이지다.
+The layout philosophy is "open exchange canvas, operational dashboard underneath." The first viewport gives the headline room to dominate, then immediately exposes concrete actions: open an account, send money, currency controls, app QR, country/currency claims. Every visual flourish is tied to movement of money — a currency exchange that refuses to look like a bank, because the instrument is the product.
+
+Wise는 결국 **money flow의 단일 exchange 입구**다. centered canvas hero는 거대한 스위치 한 개를 누르기 전의 단순 입구이고, 거대한 black-green 카피는 그 스위치 위에 새겨진 라벨, 라임 pill은 손가락이 닿는 단 하나의 버튼이다. currency calculator와 country grid는 dashboard의 옆 칸 다이얼들이지, 메인 도구가 아니다. white canvas는 수리 매트, 라임은 켜진 단일 LED, deep forest ink는 도구 손잡이의 무광 마감이다.
 
 ### Key Characteristics
 

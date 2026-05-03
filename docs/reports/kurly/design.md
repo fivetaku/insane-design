@@ -64,7 +64,7 @@ components:
 
 ### Narrative
 
-Kurly is not built like a loud discount store. It behaves like a refrigerated neighborhood grocer whose whole storefront has been measured with a ruler: clinical white counters, tightly labeled aisles, and one unmistakable house color, deep purple #5F0080 (`{colors.kpds_ldmw172m}`). There is no second brand color competing for attention. The banner, search border, coupon economics, selected states, and cart memory all return to the same purple register, so the marketplace feels edited rather than scattered.
+Kurly reads like a refrigerated marketplace where every aisle has been measured with a ruler: clinical white canvas, tightly labeled counters, and one unmistakable house color, deep purple #5F0080 (`{colors.kpds_ldmw172m}`). There is no second brand color competing for attention. The banner, search border, coupon economics, selected states, and cart memory all return to the same purple register, so the store feels edited rather than scattered.
 
 The visible homepage rhythm is a sandwich of dense utility and promotional editorial. The top 200px works like a checkout counter before the aisle begins: coupon strip, logo, membership links, search, location, favorite, cart, category navigation. Below it, the hero turns into a refrigerated display case: photography creates appetite, while a lavender coupon object in #F5EFFA (`{colors.kpds_ldmw172x}`) interrupts the white grid like a clipped paper voucher placed on glass.
 

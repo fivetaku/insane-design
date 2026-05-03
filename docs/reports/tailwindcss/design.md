@@ -64,9 +64,9 @@ components:
 
 ### Narrative
 
-Tailwind CSS의 현재 사이트는 "문서 사이트"라는 말보다 "프레임워크의 데모룸"에 가깝다. 페이지는 단순히 Tailwind를 설명하지 않고, Tailwind v4가 무엇을 잘하는지 자기 몸으로 보여준다. 색상은 흰 바닥 #ffffff (`{colors.surface-light}`)과 거의 검정에 가까운 #030712 (`{colors.surface-dark}`) 사이에서 왕복하고, 그 사이를 cyan #00d2ef (`{colors.primary}`), sky #00a5ef (`{colors.accent-sky}`), indigo #625fff (`{colors.accent-indigo}`)가 전기 신호처럼 통과한다.
+Tailwind CSS의 마케팅 표면은 흰 canvas 위에 terminal-grade 컬러 토큰을 올려둔 구조다 — "utility-first"를 시각 언어로 번역한 사이트가 자기 몸으로 그 증거를 보여준다. 색상은 흰 바닥 #ffffff (`{colors.surface-light}`)와 거의 검정에 가까운 #030712 (`{colors.surface-dark}`) 사이에서 왕복하고, 그 사이를 cyan #00d2ef (`{colors.primary}`), sky #00a5ef (`{colors.accent-sky}`), indigo #625fff (`{colors.accent-indigo}`)가 전기 신호처럼 통과한다.
 
-이 사이트의 시그니처는 "utility-first"를 시각 언어로 번역한 것이다. 한 덩어리의 브랜드 컬러가 모든 것을 덮는 대신, 작은 토큰들이 정확한 위치에 꽂힌다. 브랜드 컬러 하나가 왕좌에 앉아 있는 구조가 아니라, 배전반처럼 cyan/sky/indigo 회로가 필요한 컴포넌트에만 전류를 보낸다. 그래서 no second brand color라는 말조차 정확하지 않다. Tailwind에서는 두 번째 색이 없는 게 아니라, 색상 ramp 전체가 제품의 말투다.
+이 사이트의 시그니처는 "utility-first"를 시각 언어로 번역한 것이다. 한 덩어리의 브랜드 컬러가 모든 것을 덮는 대신, 작은 토큰들이 정확한 위치에 꽂힌다. 브랜드 컬러 하나가 왕좌에 앉아 있는 구조가 아니라, console처럼 cyan/sky/indigo 회로가 필요한 컴포넌트에만 전류를 보낸다. 그래서 no second brand color라는 말조차 정확하지 않다. Tailwind에서는 두 번째 색이 없는 게 아니라, 색상 ramp 전체가 제품의 말투다.
 
 첫 화면은 소프트웨어 박람회의 부스보다 실험실의 조명 테이블에 가깝다. 흰 표면 위에 놓인 텍스트와 코드 조각은 종이 위 인쇄물이 아니라, utility class가 바로 아래에서 발광하는 샘플처럼 보인다. hero gradient는 장식용 aurora가 아니라 "이 프레임워크는 색상 공간까지 다룬다"는 시연 장치다. oklab/oklch gradient는 포스터의 배경이 아니라 도구 설명서 안에 꽂힌 네온 테스트 스트립처럼 작동한다.
 

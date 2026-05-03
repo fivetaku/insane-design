@@ -60,7 +60,7 @@ components:
 
 ### Narrative
 
-Dior's homepage behaves less like a shop window and more like a two-room maison entrance. The first viewport is split between fashion and beauty, each tile filled by photography, with the Dior wordmark floating across the seam. The interface chrome almost disappears; the product world, models, packaging, and light carry the brand. The page does not announce luxury through gold UI or ornamental borders. It lets the image take the risk, then anchors it with severe monochrome restraint.
+Dior's homepage reads like a museum-grade store where two boutique salons open side by side. The first viewport is split between fashion and beauty, each tile filled by photography, with the Dior wordmark floating across the seam as a house plaque. The interface chrome almost disappears; the product world, models, packaging, and light carry the brand. The page does not announce luxury through gold UI or ornamental borders. It lets the image take the risk, then anchors it with severe monochrome restraint.
 
 The operating palette is not a perfume-box pink or a couture metallic. The UI's actual anchor is #33383C (`{colors.ink-primary}`), a cool charcoal used for content, outlines, and contained controls. White #FFFFFF (`{colors.white}`) appears as boutique light on image, not as a generic SaaS canvas. Black #000000 (`{colors.image-black}`) is mostly photographic material and overlay gauze. There is no second brand color waiting in the system: the maison refuses the expected gold clasp, and lets neutral ink behave like the stitching inside a couture garment.
 

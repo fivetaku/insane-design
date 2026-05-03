@@ -60,17 +60,17 @@ components:
 
 ### Narrative
 
-Uber.com is not trying to look decorative. It behaves like a dispatch surface that has been widened into a public website: black chrome at the top, white operating floor underneath, gray input machinery, and one decisive black action. The brand color is not a chromatic blue, even though `#276EF1` appears in focus rings. The brand is operational black: `#000000` (`{colors.ink}`) against `#FFFFFF` (`{colors.surface}`).
+Uber is the canonical example of dispatch-first marketplace design: a monochrome canvas where the booking slot is the only stall open, and every decorative element has been stripped back to a single operating counter.
 
 The hero is a utility split screen. Left side: location, time, pickup, dropoff, price. Right side: an illustration card and a travel prompt. The page does not start with a cinematic city photo or gradient. It starts with the mental model of booking a trip. The site earns personality through product specificity, not decoration.
 
-Typography carries the confidence. `UberMove` gives the H1 a compact, blunt geometry at 52px/64px, while `UberMoveText` handles the service controls at 16px/24px. Letter spacing is deliberately `0`: no luxury tightening, no editorial looseness, no faux-tech tracking. The type sits squarely on the grid.
+Typography carries the confidence. `UberMove` gives the H1 a compact, blunt geometry at 52px/64px, while `UberMoveText` handles the service controls at 16px/24px. Letter spacing is deliberately `0`: no luxury tightening, no editorial looseness, no faux-tech tracking. The type sits squarely on the marketplace grid.
 
-The system's softness is local. Inputs use `#F3F3F3` fields with 8px corners; promo CTAs use a mint pill `#ADDEC9`; focus uses `#276EF1`. These are not broad brand colors. They are task colors, applied to limited jobs so the black/white structure stays dominant.
+The system's softness is local. Inputs use `#F3F3F3` fields with 8px corners; promo CTAs use a mint pill `#ADDEC9`; focus uses `#276EF1`. These are not broad brand colors. They are task colors, applied to limited jobs so the black/white canvas structure stays dominant.
 
-If the page were a physical room it would be a 24-hour airport dispatch counter: the black header is the suspended gantry sign, the gray input strip is the routing slip pad bolted to the desk, and the single black "Request now" CTA is the hard pickup-bell at the corner. The illustration card on the right behaves like the wall map of available zones, not like marketing decoration. Even the focus blue acts like the tarmac edge-light around an active gate — a guidance signal, not a paint job. There is no second brand color because dispatch ops are run in monochrome so the call-out colors mean something.
+If the page were a physical room it would be a 24-hour dispatch counter inside an otherwise empty marketplace: the black header is the suspended gantry sign, the gray input strip is the routing slip stage bolted to the desk, and the single black "Request now" CTA is the hard pickup-bell at the corner. The illustration card on the right behaves like the wall map of available zones, not like marketing decoration. There is no second brand color because this marketplace runs in monochrome so every accent signal counts.
 
-이 사이트는 마켓플레이스 페이지 같지만 실제로는 **dispatch 카운터에 놓인 routing slip pad**다. pickup/dropoff 입력은 매대 위 주문 카드가 아니라 카운터 슬립 한 장이고, 카탈로그 진열대는 비어 있다 — 가능한 trip 한 건만 주문된다. 창고처럼 깊은 검은 nav는 dispatch 천장 사인이고, 회색 input chassis는 카운터에 볼트로 박힌 routing slip pad다. 마켓의 모든 장바구니/진열 동선이 이 한 칸의 카운터 호출로 환원된다 — 시장의 다양한 매대를 줄이고, 단일 카운터만 켜둔 dispatch 마켓이다.
+이 사이트는 **단일 카운터만 켜둔 dispatch marketplace**다. pickup/dropoff 입력은 매대 위 주문 카드가 아니라 canvas 위의 routing slip 한 장이고, 카탈로그 진열대는 비어 있다 — 가능한 trip 한 건만 주문된다. 검은 nav는 dispatch 천장 사인이고, 회색 input chassis는 카운터에 볼트로 박힌 stage다. 시장의 모든 장바구니 동선이 이 한 칸의 카운터 호출로 환원된다.
 
 ### Key Characteristics
 

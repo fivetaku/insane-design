@@ -1,608 +1,915 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: spotify
 service_name: Spotify
 site_url: https://spotify.com
-fetched_at: 2026-04-20
+fetched_at: 2026-05-03
 default_theme: dark
 brand_color: "#1ED760"
 primary_font: SpotifyMixUI
 font_weight_normal: 400
-token_prefix: "Encore (--encore-*) + semantic layer (--text-*, --background-*, --essential-*)"
+token_prefix: encore
 
-bold_direction: "Vibrant Minimal"
-aesthetic_category: "Vibrant Minimal"
-signature_element: pill_cta_impact
-code_complexity: medium
+bold_direction: Streaming Utility
+aesthetic_category: other
+signature_element: hero_impact
+code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: other
+archetype_confidence: medium
+design_system_level: lv2
+design_system_level_evidence: "Encore CSS variables, SpotifyMix font loading, button action tokens, plan-card component tokens, and consistent dark-theme semantic aliases are present in the captured CSS."
+
+colors:
+  spotify-green: "#1ED760"
+  green-hover: "#3BE477"
+  green-press: "#1ABC54"
+  surface-black: "#000000"
+  surface-card: "#1F1F1F"
+  surface-deep: "#121212"
+  text-primary: "#FFFFFF"
+  text-secondary: "#B3B3B3"
+  text-on-light: "#000000"
+  plan-pink: "#FFD2D7"
+  plan-mint: "#96F0B6"
+  plan-blue: "#C8E0FC"
+typography:
+  display: SpotifyMixUITitle
+  body: SpotifyMixUI
+  ladder:
+    - { token: marginal, size: "0.625rem-0.75rem", weight: 400 }
+    - { token: body, size: "1rem", weight: 400 }
+    - { token: body-bold, size: "1rem", weight: 700 }
+    - { token: large, size: "1.25rem", weight: 700 }
+    - { token: display-xl, size: "3rem desktop / 2rem mobile", weight: 900 }
+  weights_used: [100, 400, 700, 800, 900]
+  weights_absent: [500, 600]
+components:
+  button-primary-green: { bg: "{colors.spotify-green}", hover: "{colors.green-hover}", press: "{colors.green-press}", radius: "9999px", hover_scale: "1.04" }
+  button-light-pill: { bg: "{colors.text-primary}", fg: "{colors.text-on-light}", radius: "9999px" }
+  premium-plan-card: { bg: "{colors.surface-card}", radius: "24px", shadow: "0 4px 20px rgba(0,0,0,.25)" }
+  top-search-pill: { bg: "#1F1F1F", fg: "{colors.text-secondary}", radius: "9999px" }
 ---
 
-# DESIGN.md — Spotify (Claude Code Edition)
+# DESIGN.md — Spotify
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-Spotify의 마케팅 사이트(`spotify.com`)는 검정 배경 위에 시그니처 `#1ED760` **Spotify green**이 pill-shape 버튼과 헤드라인 액센트에 그룹 지어져 튀어나오는 **Vibrant-on-Dark** 구성이다. 이 초록은 임의의 브랜드 컬러가 아니라 2015년 리브랜딩 이후 10년 넘게 고수해온 audio-first identity — true black (`#000`)과 극명하게 대비되며, 긴 음악 스트리밍 시간 동안 눈의 피로 없이 재생 버튼을 즉시 찾게 만들어주는 기능적 초록이다.
+### Narrative
 
-컬러 시스템은 **Encore design system**(Spotify 자체 디자인 시스템)의 semantic token 레이어로 움직인다. `--text-bright-accent` · `--essential-bright-accent` 같은 **의도 기반 이름**이 실제로는 context에 따라 `#1ED760`(default), `#107434`(dark text), `#FFFFFF`, `#159542` 등으로 리맵된다. Campaign별 테마 컬러(빨강 `#590810`, 갈색 `#491E00`, 깊은 녹색 `#073116`, 네이비 `#052A56`) 가 존재해서 각 landing 페이지마다 `--text-bright-accent`를 localize하는 구조다. 결과적으로 Spotify는 "하나의 초록"이 아니라 "초록을 중심으로 하는 6~8개 themeable variant"를 운영한다.
+Spotify's captured surface is not a polished marketing postcard. It is a dark listening cockpit: dense, black, rounded, and designed to make album art feel like the only true color in the room. The UI chrome recedes into #000000 (`{colors.surface-black}`), #121212 (`{colors.surface-deep}`), and #1F1F1F (`{colors.surface-card}`); imagery and the single green action system do the emotional work. It behaves like a recording studio after the overhead lights are cut: walls still exist, but the eye only catches illuminated controls, cover art, and the one live signal.
 
-타이포그래피는 Spotify 전용 **SpotifyMixUI** + **SpotifyMixUITitle**(display) 2종을 main stack으로, CircularSp 계열을 다국어(Arab/Cyrl/Deva/Grek/Hebr) fallback으로 병렬 로드한다. weight는 400(body) · 700(bold) · 800(display) · 900(impact)의 4단 계단이고, `--encore-text-size-*` 시스템이 `0.625rem`(10px) → `6rem`(96px)까지 9단 계단을 제공한다. Headline은 `larger-3`~`larger-5` (48-96px)을 즐겨 쓰고 line-height를 1.0~1.1로 타이트하게 조여 impact를 만든다.
+The brand color is exact and narrow: #1ED760 (`{colors.spotify-green}`). It is not a general wash across the page. It appears as the canonical Premium CTA, plan-standard marker, selected border/checkmark, and key action state. The system protects this green by surrounding it with black, white, and muted gray rather than inventing a second brand family. No second brand color enters the booth; pink, mint, blue, and yellow are plan labels, not a rival identity.
 
-레이아웃은 Encore grid + SLDS 없는 자체 Svelte 컴포넌트(`.svelte-164a8y4` 해시)로 조립된다. Hero는 거의 예외없이 **full-bleed dark bg + centered headline + 초록 pill CTA** 구조다. `button-primary` 컴포넌트는 `border-radius: 9999px`의 완전한 pill, `:hover`에 `background-color:#3BE477 + transform:scale(1.04)` — scale 94% 상태에서 4% pop이 Spotify 시그니처 인터랙션이다. `:active`에서는 `#1ABC54`로 살짝 어두워지며 finger press 감각을 준다.
+Typography is utility with a stage voice. Body text sits in SpotifyMixUI at 400/700, while hero or promotional display moves to SpotifyMixUITitle/Variable with heavy 900 weight and even `font-stretch: 156.25%` in the captured Premium hero HTML. The result is not delicate editorial type; it is compressed, confident signage inside a player shell, closer to a venue marquee over a queue of tracks than to magazine typography.
 
-Radius는 pill(9999) 외에도 `--encore-radius-*` 토큰이 있지만 실제 markup에서는 "기본 8px card · 16px modal · 9999 pill"의 3단으로만 리듬을 유지한다. Motion도 `0.15s` transition duration과 `scale(1.04)` hover, 그 외에는 거의 모션이 없다 — 음악이 주인공이라 UI가 배경으로 밀려나는 게 맞는 설계다.
+The craft is in the product motion rather than decorative layout. Buttons are pill forms with a precise `--encore-button-hover-scale: 1.04`, active states snap back to scale 1, and surfaces use hairline separation, rounded cards, and strong image crops. Spotify does not decorate the frame; it lets rows of square covers and circular artist portraits create rhythm. The page is less "website" than turntable cabinet: the furniture stays matte black, while the records provide the color.
+
+Premium sections add a second, more cinematic layer without abandoning the shell. The scrolling hero's fixed `100vh` video/mask plane works like a stage scrim in a dark venue: motion sits behind the copy, but the black mask keeps the scene inside Spotify's room. Even plan cards are not paper pricing sheets; with `24px` radius, `48px 24px 24px` padding, and `0 4px 20px rgba(0,0,0,.25)`, they feel like thick product blocks pulled from the same audio-console material.
 
 ### Key Characteristics
 
-- Spotify green `#1ED760` — 10년 고수한 audio-first identity
-- True black `#000` / off-black `#121212` / `#141414` 다크 레이어 3단
-- Encore semantic token layer: `--text-bright-accent`, `--essential-*`, `--background-*`
-- Campaign theme variants (`#590810` / `#491E00` / `#073116` / `#052A56`)
-- SpotifyMixUI + SpotifyMixUITitle + 다국어 CircularSp 병렬 로드
-- weight 400/700/800/900 4단 계단 (중간 weight 없음)
-- pill CTA 시그니처: radius 9999 + scale(1.04) hover + `#3BE477` light-up
-- headline 48-96px, line-height 1.0-1.1 impact
+- Dark-first shell with #000000 and #121212 as the main environment.
+- One chromatic brand anchor: #1ED760 green for action and selection.
+- White text is dominant, with #B3B3B3 for secondary metadata.
+- Album covers and artist portraits are the real color field.
+- Black chrome acts like a studio booth: present, useful, and deliberately unshowy.
+- Large rounded controls: 9999px pills for primary buttons and search surfaces.
+- Component hover is physical: `scale(1.04)` on buttons, not a color-only state.
+- Cards are practical, dark, and dense; plan cards use 24px radius and a heavy shadow.
+- Typography jumps from 1rem utility body to 3rem/900 promotional display.
+- Spacing is an 8/12/16/20/24/32/48/64 style Encore ladder.
+- Premium hero motion is masked and theatrical, but still anchored to the dark player environment.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Vibrant Minimal — black canvas 위 초록 pill의 single-accent 미니멀리즘
-> **Aesthetic Category**: Vibrant Minimal
-> **Signature Element**: pill_cta_impact — radius 9999 + scale(1.04) hover + `#3BE477` glow
-> **Code Complexity**: medium — Encore semantic tokens + Svelte hash class + campaign theme variants
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Streaming Utility
+> **Aesthetic Category**: other
+> **Signature Element**: 이 사이트는 **dark player shell with one electric green action language**으로 기억된다.
+> **Code Complexity**: high — Encore tokens, responsive token branches, masked scrolling hero CSS, image-heavy shelves, and animated button states all need coordinated implementation.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: auto+manual -->
 
 > 5분 안에 Spotify처럼 만들기 — 3가지만 하면 80%
 
 ```css
-/* 1. 다크 + Spotify green 시그니처 */
-:root {
-  --spotify-green: #1ED760;
-  --spotify-green-hover: #3BE477;
-  --spotify-green-active: #1ABC54;
-  --bg-base: #000000;
-  --bg-elevated: #121212;
-  --fg: #FFFFFF;
-}
-body { background: var(--bg-base); color: var(--fg); }
-```
-
-```css
-/* 2. 폰트 스택 */
+/* 1. 폰트 + weight */
 body {
   font-family: "SpotifyMixUI", "CircularSp", Helvetica, Arial, sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
 }
-h1, .display { font-family: "SpotifyMixUITitle", "SpotifyMixUI", sans-serif; font-weight: 700; }
+
+/* 2. 배경 + 텍스트 */
+:root { --sp-bg: #000000; --sp-surface: #121212; --sp-card: #1F1F1F; --sp-fg: #FFFFFF; }
+body { background: var(--sp-bg); color: var(--sp-fg); }
+
+/* 3. 브랜드 컬러 */
+:root { --sp-green: #1ED760; --sp-green-hover: #3BE477; --sp-green-press: #1ABC54; }
 ```
 
-```css
-/* 3. 시그니처 pill CTA */
-.btn-primary {
-  background: #1ED760;
-  color: #000;
-  padding: 12px 32px;
-  border-radius: 9999px;
-  font-weight: 700;
-  transition: background .15s ease, transform .15s ease;
-}
-.btn-primary:hover { background: #3BE477; transform: scale(1.04); }
-.btn-primary:active { background: #1ABC54; transform: scale(1.0); }
-```
-
-**절대 하지 말아야 할 것 하나**: pill CTA 모서리를 `8px`이나 `12px`로 둥글게 하지 마라 — Spotify의 CTA는 `9999px` 완전 pill만 쓴다. `scale(1.04)` hover도 필수. 이 두 개 중 하나라도 빠지면 Spotify가 아니라 Twitch/Discord 느낌이 된다.
+**절대 하지 말아야 할 것 하나**: Spotify를 초록색 배경 사이트로 만들지 말 것. #1ED760은 전체 배경이 아니라 CTA, selected, checkmark, plan-standard 같은 좁은 액션 표식이다.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
 | Source URL | `https://spotify.com` |
-| Fetched | 2026-04-20 |
-| Extractor | curl + Chrome UA |
-| HTML size | ~180KB (hero landing) |
-| CSS files | 6개 외부, 총 ~600KB (Encore + campaign themes) |
-| Token system | Encore design system (`--encore-*` + `--text-*`, `--background-*`, `--essential-*`) |
-| Method | CSS custom properties + Svelte hash selectors |
-| Vars resolved | 185 / 221 (84%) |
+| Fetched | 2026-05-03 |
+| Extractor | reused existing phase1 artifacts from `insane-design/spotify/` |
+| HTML size | 158,836 bytes |
+| CSS files | 6 CSS files plus `_urls.txt`, 635,514 CSS bytes excluding `_urls.txt` |
+| Token prefix | `encore` plus local plan-card variables |
+| Method | Existing CSS + phase1 JSON + screenshot interpretation; no fresh full-site crawl |
+| Screenshot | `insane-design/spotify/screenshots/hero-cropped.png` |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: Svelte (hash class `svelte-164a8y4` 등)
-- **Design system**: Encore (Spotify 자체, 공개 일부 github.com/spotify/encore-web)
-- **CSS architecture**: semantic token layer (`--text-*`, `--essential-*`, `--background-*`, `--decorative-*`)
-- **Naming**: `button-primary__inner`, `mh-mobile-menu`, `o-section` 등 BEM-ish
-- **Default theme**: dark (black base)
-- **Font loading**: 셀프 호스트 SpotifyMixUI + CircularSp 다국어 변형 병렬
-- **i18n**: Arab / Cyrl / Deva / Grek / Hebr · 각 언어별 CircularSp-[Script]
-- **Campaign variants**: landing별 `--text-bright-accent` 재매핑
+- **Framework**: Next.js/Svelte-hybrid rendered surface. HTML includes `__next`, `data-sentry-source-file`, Svelte-scoped masthead classes, and React-style component names for Premium sections.
+- **Design system**: Spotify Encore-style token layer — prefix `encore`, plus local variables such as `--color-spotify-green`, `--card-border-radius`, and `--card-padding`.
+- **CSS architecture**:
+  ```text
+  core      (--background-*, --text-*, --essential-*)     semantic dark theme aliases
+  encore    (--encore-spacing-*, --encore-text-size-*)     platform scale tokens
+  action    (--encore-button-*)                            button-specific behavior tokens
+  component (--card-*, --color-plan-*)                     plan/card local component API
+  ```
+- **Class naming**: Mixed scoped hashes and BEM-ish component names: `.e-1050-button-primary`, `.button-primary__inner`, `.ScrollingHero_container__Vajti`, `.PremiumLiteCard_premiumLiteCard__u5rVj`.
+- **Default theme**: dark; captured CSS uses `.encore-dark-theme` and primary text #FFFFFF.
+- **Font loading**: `@font-face` from `https://encore.scdn.co/fonts/`, `font-display: swap`, with SpotifyMixUI, SpotifyMixUITitle, CircularSp, and script-specific CircularSp subsets.
+- **Canonical anchor**: Green CTA/button states and dark app shell. The screenshot shows the player shell; the HTML title and hero sections show Spotify Premium.
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Body/UI**: `SpotifyMixUI`, `CircularSp`, `Helvetica`, `Arial`, `sans-serif`
-- **Display/Title**: `SpotifyMixUITitle`, `SpotifyMixUITitleVariable` (variable font)
-- **i18n bodies**: `CircularSp-Arab`, `CircularSp-Cyrl`, `CircularSp-Deva`, `CircularSp-Grek`, `CircularSp-Hebr`
-- **i18n aliases**: `circular-spotify-arabic` / `cyrillic` / `deva` / `greek` / `hebrew`
-- **Weights used**: 100 · 400 · 700 · 800 · 900 (중간 weight 300/500/600 없음)
+- **Display font**: `SpotifyMixUITitle` / `SpotifyMixUITitleVariable` (Spotify proprietary web font)
+- **Body font**: `SpotifyMixUI`, then `CircularSp`, `Helvetica`, `Arial`, `sans-serif`
+- **Script fallback fonts**: `CircularSp-Arab`, `CircularSp-Cyrl`, `CircularSp-Deva`, `CircularSp-Grek`, `CircularSp-Hebr`
+- **Weight normal / bold**: `400` / `700`; promotional display reaches `800` and `900`
+
+```css
+:root {
+  --encore-font-family: "SpotifyMixUI", "CircularSp", Helvetica, Arial, sans-serif;
+  --encore-font-family-title: "SpotifyMixUITitle", "SpotifyMixUI", Helvetica, Arial, sans-serif;
+  --encore-font-weight-normal: 400;
+  --encore-font-weight-bold: 700;
+  --encore-font-weight-black: 900;
+}
+
+body,
+button,
+input,
+textarea {
+  font-family: var(--encore-font-family);
+}
+```
+
+### Note on Font Substitutes
+
+- **SpotifyMixUI unavailable** — use **Inter** only as a mechanical fallback, not as the aesthetic target. Set body weight to 400, labels/buttons to 700, and avoid 500/600 as the default middle ground.
+- **SpotifyMixUITitle unavailable** — use **Inter Tight** or **Archivo** at 800/900 for large display. The Premium hero used `font-stretch: 156.25%`; if the substitute has no width axis, increase size slightly and keep line-height tight rather than using letter-spacing tricks.
+- **CircularSp fallback** — Helvetica/Arial is already present in the captured stack. Keep it for parity with the actual fallback path.
 
 ---
 
 ## 05. Typography Scale
+<!-- SOURCE: auto+manual -->
 
-> Encore `--encore-text-size-*` 계단. 400 body + 700/800/900 display. smaller-3(10px) ~ larger-5(96px).
-
-| Token | Size | Weight | Line-height | Use |
+| Token | Size | Weight | Line-height | Letter-spacing |
 |---|---|---|---|---|
-| `--encore-text-size-smaller-3` | 0.625rem (10px) | 400 | 1.4 | micro caption |
-| `--encore-text-size-smaller-2` | 0.75rem (12px) | 400 | 1.5 | caption |
-| `--encore-text-size-smaller` | 0.875rem (14px) | 400 | 1.5 | small |
-| `--encore-text-size-base` | 1rem (16px) | 400 | 1.5 | body |
-| `--encore-text-size-large` | 1.25rem (20px) | 400 | 1.4 | lead |
-| `--encore-text-size-larger` | 1.5rem (24px) | 700 | 1.3 | h3 |
-| `--encore-text-size-larger-2` | 2rem (32px) | 700 | 1.2 | h2 |
-| `--encore-text-size-larger-3` | 3rem (48px) | 800 | 1.1 | h1 |
-| `--encore-text-size-larger-4` | 4rem (64px) | 800 | 1.05 | display |
-| `--encore-text-size-larger-5` | 6rem (96px) | 900 | 1.0 | hero impact |
+| `--encore-text-size-smaller-3` | `0.625rem` desktop / `0.5625rem` mobile | 400 | N/A | 0 |
+| `--encore-text-size-smaller-2` | `0.75rem` desktop / `0.6875rem` mobile | 400/700 | N/A | 0 |
+| `--encore-text-size-smaller` | `0.875rem` desktop / `0.8125rem` mobile | 400/700 | N/A | 0 |
+| `--encore-text-size-base` | `1rem` | 400/700 | N/A | 0 |
+| `--encore-text-size-large` | `1.25rem` desktop / `1.125rem` mobile | 700 | N/A | 0 |
+| `--encore-text-size-larger` | `1.5rem` desktop / `1.25rem` mobile | 700/800 | N/A | 0 |
+| `--encore-text-size-larger-2` | `2rem` desktop / `1.5rem` mobile | 800/900 | N/A | 0 |
+| `--encore-text-size-larger-3` | `3rem` desktop / `2rem` mobile | 900 | N/A | 0 |
+| `--encore-text-size-larger-4` | N/A desktop from snippet / `2.5rem` mobile | 900 | N/A | 0 |
+| `--encore-text-size-larger-5` | N/A desktop from snippet / `3rem` mobile | 900 | N/A | 0 |
+
+> ⚠️ The extracted typography script found no single complete scale object, but CSS snippets and inline hero styles expose the Encore text-size ladder and actual weights.
+
+### Principles
+
+1. Body is utility-first: `1rem` and weight 400 carry the everyday player/search/list surface.
+2. Weight 700 is the main emphasis weight; do not replace it with 600 just because most SaaS sites do.
+3. Promotional display uses heavy 900, not a gentle 600/700 editorial headline.
+4. SpotifyMixUI is multilingual and operational; the stack carries Arabic, Cyrillic, Devanagari, Greek, and Hebrew subsets rather than a single Latin-only webfont.
+5. Letter-spacing is not the signature move. Density comes from font family, weight, crop, and spacing.
+6. Weight 500 is effectively absent in the captured extraction; using 500 everywhere makes the UI feel less Spotify.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
 
-> Black-canvas + Spotify green 축. Campaign별 theme variant 6종. 실제 CSS에서 추출한 ramp.
+### 06-1. Brand Ramp (4 observed action steps)
 
-### Signature
+| Token | Hex |
+|---|---|
+| `--color-spotify-green` | `#1ED760` |
+| primary hover observed in `button-primary` | `#3BE477` |
+| primary active observed in `button-primary` | `#1ABC54` |
+| Premium hero inline hover/press family | `#2DE26D`, `#43E57D` |
 
-| Name | Hex | Role |
+### 06-2. Brand Dark Variant
+
+> N/A — the captured system keeps the brand green stable across dark surfaces rather than defining a separate dark-mode green ramp.
+
+### 06-3. Neutral Ramp
+
+| Step | Light / Text | Dark / Surface |
 |---|---|---|
-| spotify-green | `#1ED760` | primary brand |
-| green-hover | `#3BE477` | pill hover |
-| green-active | `#1ABC54` | pill press |
-| green-dark | `#107434` | text-bright-accent on light |
-| green-dark-2 | `#127E38` | alt accent dark |
-| green-mid | `#159542` | essential-bright-accent alt |
-| green-mid-2 | `#169F47` | alt essential |
-| green-tint | `#96F0B6` | chip / pale accent |
+| foreground primary | `#FFFFFF` | `#000000` |
+| surface deep | N/A | `#121212` |
+| surface card | N/A | `#1F1F1F` |
+| badge/elevated neutral | N/A | `#2A2A2A` |
+| secondary text | `#B3B3B3` | `#343434` |
+| subdued legacy gray | `#919496` | `#141414` |
+| light UI chip | `#F0F0F0` | N/A |
 
-### Neutral (dark-first layer)
+### 06-4. Accent Families
 
-| Name | Hex | Use |
+| Family | Key step | Hex |
 |---|---|---|
-| bg-base | `#000000` | true black canvas |
-| bg-elevated | `#121212` | card base |
-| bg-elevated-2 | `#141414` | raised card |
-| bg-elevated-3 | `#1F1F1F` | popover |
-| surface-high | `#343434` | input / divider |
-| fg | `#FFFFFF` | primary text |
-| fg-muted | `#C7C7C7` | secondary |
-| fg-subtle | `#919496` | meta |
-| border-alt | `#2A2A2A` | subtle divider |
-| off-white | `#F0F0F0` | high contrast surface |
+| Standard / Spotify Green | plan-standard, CTA, checkmark | `#1ED760` |
+| Pink plan/accent | plan color | `#FFD2D7` |
+| Mint plan/accent | premium-basic | `#96F0B6` |
+| Lite blue | plan-lite | `#C8E0FC` |
+| Platinum yellow | plan-platinum | `#F6F609` |
+| Warning/orange | support accent | `#FFA42B` |
+| Negative/red | error/promo accent | `#E91429` |
 
-### Campaign Theme Variants
+### 06-5. Semantic
 
-> 각 landing은 `--text-bright-accent`를 자기 테마 hex로 재매핑한다
-
-| Theme | Hex | Context |
+| Token | Hex | Usage |
 |---|---|---|
-| Deep-Red | `#590810` | Wrapped / Halloween 계열 |
-| Deep-Brown | `#491E00` | Podcast 계열 |
-| Deep-Green | `#073116` | Premium Family 계열 |
-| Deep-Navy | `#052A56` | Tech / Annual |
-| Rose | `#FFD2D7` | Love / Duo |
-| Amber | `#FFD97E` | Wrapped Top Artist |
-| Sky | `#C8E0FC` | Discover Weekly |
-| Violet | `#C4B1D4` | Rap Caviar 계열 |
+| `--color-spotify-green` | `#1ED760` | canonical brand/action |
+| `--color-text-primary` | `#FFFFFF` | primary dark-theme text |
+| `--color-text-secondary` | `#B3B3B3` | metadata and muted text |
+| `--color-text-on-light` | `#000000` | green/white/light-pill text |
+| `--color-bg-card` | `#1F1F1F` | premium plan cards and panels |
+| `--color-bg-badge` | `#2A2A2A` | dark badges |
+| `--color-border-default` | `#1F1F1F` | plan table borders |
+| `--color-border-selected` | `#1ED760` | selected plan/table state |
+| `--color-checkmark` | `#1ED760` | positive feature marks |
 
-### Utility Accent
+### 06-6. Semantic Alias Layer
 
-| Name | Hex | Use |
+| Alias | Resolves to | Usage |
 |---|---|---|
-| link-blue | `#0D72EA` | external link |
-| link-blue-dark | `#0C69D8` | link hover |
-| link-blue-deep | `#0951A6` | link active |
-| warn-orange | `#FFA42B` / `#FFB656` | warning badge |
-| error-red | `#E91429` / `#D81326` | error state |
+| `--background-base` | `rgba(0,0,0,.54)` in resolved sample | dark overlay/elevated base |
+| `--background-highlight` | `rgba(0,0,0,.58)` | hover/highlight overlay |
+| `--background-press` | `rgba(0,0,0,.68)` | pressed overlay |
+| `--text-base` | `#fff` | primary dark text |
+| `--text-subdued` | `#fff` in sample, secondary variants elsewhere | subdued text semantic |
+| `--essential-base` | `#fff` | icon/essential foreground |
+| `--decorative-subdued` | `hsla(0,0%,100%,.13)` | subtle dividers/chrome |
+| `--encore-button-hover-scale` | `1.04` | button interaction behavior |
+
+### 06-7. Dominant Colors (실제 DOM 빈도 순)
+
+| Token | Hex | Frequency |
+|---|---|---|
+| neutral/text | `#FFFFFF` | 510 |
+| neutral/surface/text-on-light | `#000000` | 454 |
+| Spotify Green | `#1ED760` | 81 |
+| plan pink | `#FFD2D7` | 51 |
+| plan mint | `#96F0B6` | 48 |
+| plan blue | `#C8E0FC` | 44 |
+| deep blue accent | `#052A56` | 40 |
+| deep green accent | `#073116` | 40 |
+
+### Color Stories
+<!-- §06-8 -->
+
+**`{colors.text-primary}` (#FFFFFF)** — White is the real dominant foreground. It gives the black player shell enough contrast to keep album art readable and makes navigation labels, list titles, and CTA text instantly scannable.
+
+**`{colors.surface-black}` (#000000)** — Black is not a decorative luxury background here; it is the utility floor of the player. It lets cover art and plan accents become the variable color system.
+
+**`{colors.spotify-green}` (#1ED760)** — The only brand action color. It marks Premium CTAs, selected plan states, checkmarks, and canonical Spotify ownership; it should be used sparingly and never diluted into a general green theme.
+
+**`{colors.plan-pink}` (#FFD2D7)** — A plan/accent color, not the brand. Use it only as a product-tier or campaign panel color when the UI needs secondary categorization.
 
 ---
 
 ## 07. Spacing
+<!-- SOURCE: auto+manual -->
 
-> Encore graphic-size 시스템. 12 → 88px decorative scale + informative 별도 scale.
-
-| Token | Value | Use |
+| Token | Value | Use case |
 |---|---|---|
-| `--encore-graphic-size-decorative-smaller-2` | 12px | chip / badge |
-| `--encore-graphic-size-decorative-smaller` | 16px | icon small |
-| `--encore-graphic-size-decorative-base` | 24px | icon base |
-| `--encore-graphic-size-decorative-larger` | 32px | header icon |
-| `--encore-graphic-size-decorative-larger-2` | 40px | avatar |
-| `--encore-graphic-size-decorative-larger-3` | 48px | CTA icon |
-| `--encore-graphic-size-decorative-larger-4` | 64px | hero mark |
-| `--encore-graphic-size-decorative-larger-5` | 88px | feature icon |
+| `--encore-spacing-tighter-5` | `2px` | micro alignment |
+| `--encore-spacing-tighter-4` | `4px` | tiny icon/text offsets |
+| `--encore-spacing-tighter-3` | `6px` | compact inline gaps |
+| `--encore-spacing-tighter-2` | `8px` | dense control spacing |
+| `--encore-spacing-tighter` | `12px` | compact component padding |
+| `--encore-spacing-base` | `16px` | default component unit |
+| `--encore-spacing-looser` | `20px` | button/icon offset |
+| `--encore-spacing-looser-2` | `24px` | card/chunk padding |
+| `--encore-spacing-looser-3` | `32px` | sidebar/mobile nav padding |
+| `--encore-spacing-looser-4` | `40px` | section chunk |
+| `--encore-spacing-looser-5` | `48px` | large card padding |
+| `--encore-spacing-looser-6` | `64px` | broad section breathing |
 
-### Section Padding
+**주요 alias**:
+- `--encore-button-icon-offset` → `--encore-spacing-tighter` (12px)
+- `--encore-button-icon-padding` → `--encore-spacing-looser` (20px)
+- `--card-padding` → `48px 24px 24px`
+- `--card-padding-mobile` → `40px 24px 24px`
 
-- mobile: 32px vertical (`.mh-mobile-menu nav { padding:32px }` 참조)
-- standard: 64-80px
-- hero: 96-160px
+### Whitespace Philosophy
+
+Spotify's spacing is compact where the product behaves like a player and generous where the page sells Premium. The screenshot shell uses tight 8-16px rhythms around shelves and controls, while Premium plan cards jump to 40-48px top padding and 24px horizontal padding.
+
+The system is not airy minimalism. It is dense browsing with controlled pockets of breath: a sidebar card can sit close to another card, but every clickable pill keeps a large tactile hit area.
 
 ---
 
 ## 08. Radius
+<!-- SOURCE: auto+manual -->
 
-> pill(9999)이 시그니처. card/modal은 8/16px.
-
-| Name | Value | Use |
+| Token | Value | Context |
 |---|---|---|
-| `radius-pill` | 9999px | **CTA 전용 · Spotify 시그니처** |
-| `radius-lg` | 16px | modal / hero card |
-| `radius-md` | 8px | album cover / card |
-| `radius-sm` | 4px | input / small chip |
+| `--encore-corner-radius-smaller` | `2px` | minor UI corners |
+| `--encore-corner-radius-base` | `4px` | contextual banners |
+| `--encore-corner-radius-larger` | `6px` | small panels |
+| `--encore-corner-radius-larger-2` | `8px` | overlays |
+| `--encore-corner-radius-larger-3` | `16px` | larger panels |
+| `--encore-border-radius-rounded` | `9999px` | pills, primary buttons, search |
+| `--card-border-radius` | `24px` | Premium plan cards |
 
 ---
 
 ## 09. Shadows
+<!-- SOURCE: auto+manual -->
 
-Spotify는 그림자에 의존하지 않는다 — black 배경 위에서 그림자는 거의 보이지 않기 때문에, elevation은 `#121212` → `#141414` → `#1F1F1F` **layered bg** 로 표현한다.
-
-| Name | Value | Use |
+| Level | Value | Usage |
 |---|---|---|
-| `shadow-sm` | `0 2px 4px rgba(0,0,0,0.5)` | 거의 사용 안 함 |
-| `shadow-lg` | `0 16px 24px rgba(0,0,0,0.5)` | modal / popover |
-| elevation via bg | bg-elevated layering | **실사용 패턴** |
+| overlay | `0 4px 12px 0 rgba(0,0,0,.3)` | Encore overlays/popovers |
+| plan card | `0 4px 20px rgba(0,0,0,.25)` | Premium plan card depth |
+| focus | `0 3px 0 0` | focus box-shadow token |
+
+Spotify uses shadows as dark-surface separation, not soft lifestyle depth. The strongest depth belongs to cards and overlays; ordinary shelves rely more on background contrast and imagery.
 
 ---
 
 ## 10. Motion
+<!-- SOURCE: auto+manual -->
 
-| Pattern | Value | Use |
+| Token | Value | Usage |
 |---|---|---|
-| pill hover | `background-color, transform 0.15s ease-out` | button-primary |
-| pill scale | `scale(1.04)` on hover, `scale(1.0)` on active | 시그니처 |
-| link hover | `0.15s ease` color transition | link underline |
-| focus ring | border-width 2px + color | `--encore-border-width-focus: 2px` |
+| `--encore-button-hover-scale` | `1.04` | hover lift/physical affordance |
+| `--encore-productive-enter` | `var(--encore-short-1) var(--encore-productive-decelerate)` | productive enter transitions |
+| `--encore-productive-exit` | `var(--encore-shortest-4) var(--encore-productive-accelerate)` | productive exit transitions |
+| primary button hover | background + transform | green CTA interaction |
+| primary button active | `transform: scale(1)` | snap back on press |
+
+Motion is functional and tactile. The key interaction is the 1.04 hover scale on buttons, guarded by `prefers-reduced-motion: no-preference`.
 
 ---
 
 ## 11. Layout Patterns
+<!-- SOURCE: auto+manual -->
 
-### Grid
-
-- **Max-width**: 1400px (content container)
-- **Gutter**: 24px (base) / 16px (mobile)
-- **Columns**: 12 grid + Flexbox mix via Svelte components
-- **Breakpoint**: 768 / 1024 / 1280
+### Grid System
+- **Content max-width**: player screenshot uses a viewport-filling app shell; Premium plan cards include fixed `420px` desktop card widths.
+- **Grid type**: Flexbox-heavy rows and shelves, with card grids/plan tables in Premium sections.
+- **Column count**: observed player shelf behaves as horizontal carousel; Premium card width suggests 2-3 cards depending on viewport.
+- **Gutter**: 16-24px for cards and shelves; dense nav/search gaps.
 
 ### Hero
-
-- **Layout**: full-bleed dark bg, centered 1-column headline + dual CTA
-- **Bg**: solid `#000` 또는 campaign theme solid
-- **H1**: 64-96px (`--encore-text-size-larger-4` ~ `larger-5`) · weight 900
-- **CTA**: primary pill `#1ED760` + secondary outline pill
+- **🆕 Pattern Summary**: `150vh scrolling hero + fixed 100vh video/mask layer + heavy 900 title + green pill CTA`.
+- Layout: Premium HTML exposes a `ScrollingHero_container__Vajti` with content over a fixed video/mask layer; screenshot capture shows a logged-out player shell instead.
+- Background: dark base, `var(--background-base)`, with black masked video area in the Premium hero CSS.
+- **🆕 Background Treatment**: `fixed-video-mask` — `.ScrollingHero_videoContainer__RMUh6` is fixed at 100vh, and `.ScrollingHero_mask__YCnyA` uses mask-image/mask-composite over black.
+- H1: `--encore-text-size-larger-5` / weight `900` / tracking `0`, with `font-stretch:156.25%` in inline hero style.
+- Max-width: not reliably extracted; hero content is centered within full-width sections.
 
 ### Section Rhythm
 
-- **Padding**: 96-160px (hero) / 64-80px (feature) / 32px (mobile)
-- **Inner max-width**: 1400px
-- **Variant**: campaign theme를 section scoped `--text-bright-accent` 재매핑으로 토글
+```css
+section {
+  padding: 64px 16px; /* broad Premium sections inferred from Encore/ComparisonTable */
+}
 
-### Card
+.ComparisonTable_wrapper__n6PFJ {
+  padding: 120px 16px 48px;
+}
+```
 
-- **Padding**: 16-24px
-- **Radius**: 8px (standard) / 16px (feature)
-- **Bg**: `#121212` / `#141414` / `#1F1F1F` 3단 elevation
-- **Border**: 1px solid `#2A2A2A` 또는 none
+### Card Patterns
+- **Card background**: `#1F1F1F`
+- **Card border**: default border `#1F1F1F`; selected border uses `#1ED760`
+- **Card radius**: 24px for Premium plan cards; 8-16px for smaller UI panels
+- **Card padding**: `40px 24px 24px` mobile, `48px 24px 24px` desktop
+- **Card shadow**: `0 4px 20px rgba(0,0,0,.25)`
 
-### Navigation
+### Navigation Structure
+- **Type**: fixed masthead in Premium HTML; player screenshot uses top app rail with home/search and right auth/app controls.
+- **Position**: `.mh-fixed` for masthead; player top nav is visually fixed within app shell.
+- **Height**: approximately 64px visual shell in screenshot; Encore control base is 48px.
+- **Background**: #000000 / #121212 dark surfaces.
+- **Border**: minimal; separation comes from rounded dark containers and contrast.
 
-- **Type**: horizontal desktop + hamburger mobile
-- **Height**: ~72px
-- **Bg**: solid `#000` or transparent on dark hero
-- **Mobile menu bg**: `#000` fullscreen overlay, padding 32px
+### Content Width
+- **Prose max-width**: not directly measured.
+- **Container max-width**: app shell fills viewport; Premium cards fixed at 420px on tablet/desktop snippets.
+- **Sidebar width**: captured player sidebar is roughly 294px; Encore has `--encore-sidebar-base-width:200px` for system sidebars.
 
 ---
 
 ## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
 
 ### Breakpoints
 
 | Name | Value | Description |
 |---|---|---|
-| `sm` | 768px | mobile stacked |
-| `md` | 1024px | tablet 2-col |
-| `lg` | 1280px | desktop full |
-| `xl` | 1400px | max container cap |
+| Mobile | `max-width: 767px` | smaller text ladder, compact layout margins, overflow buttons hidden |
+| Tablet | `min-width: 768px` | desktop text ladder begins, dialogs/card dimensions increase |
+| Desktop | `min-width: 1024px` | scrolling hero mask sizing changes |
+| Wide | `min-width: 1200px` | Premium cards expand to full grid allocation in snippets |
+
+### Touch Targets
+- **Minimum tap size**: Encore control base is `48px`; smaller is `32px`, larger is `56px`.
+- **Button height (mobile)**: implied by `--encore-control-size-base:48px`.
+- **Input height (mobile)**: search pill in screenshot visually matches large control height around 48px.
 
 ### Collapsing Strategy
+- **Navigation**: Premium masthead exposes mobile menu button and mobile CTA.
+- **Grid columns**: plan cards move from full-width mobile to fixed 420px cards at `min-width:768px`.
+- **Sidebar**: player shell sidebar likely collapses/changes outside captured desktop viewport; not directly measured.
+- **Hero layout**: hero mask changes at `min-width:1024px`; text scale changes at 767/768 boundary.
 
-- Mobile: 1-column stack · nav → hamburger fullscreen · hero H1 48-56px로 축소
-- Tablet: 2-column grid 유지 · feature card 2-wide
-- Desktop: 3-4 column feature grid · sticky nav 유지
+### Image Behavior
+- **Strategy**: album art square crops; artist images circular; Premium hero video uses `object-fit: cover`.
+- **Max-width**: media containers fill shelf/card slots.
+- **Aspect ratio handling**: square album covers, circular artist portraits, fixed full-viewport video background.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
-### Primary Button (Pill CTA) — 시그니처
+### Buttons
 
-**Spec**: bg `#1ED760` · color `#000` · radius 9999 · weight 700 · padding 12px 32px · hover `#3BE477` + scale(1.04) · active `#1ABC54`
+**Primary green pill**
 
-```css
-.button-primary__inner {
-  position: relative;
-  color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #1ED760;
-  border-radius: 9999px;
-  font-weight: 700;
-  padding: 12px 32px;
-  transition-property: background-color, transform;
-  transition-duration: 0.15s;
-  transition-timing-function: cubic-bezier(0.3, 0, 0, 1);
-}
-.button-primary:hover .button-primary__inner {
-  background-color: #3BE477;
-  transform: scale(1.04);
-}
-.button-primary:active .button-primary__inner {
-  background-color: #1ABC54;
-}
-.button-primary:disabled .button-primary__inner {
-  opacity: 0.3;
-  color: #000;
-  background-color: #1ED760;
-}
+```html
+<a class="e-1050-focus-border e-1050-button-primary e-1050-button">
+  <span class="e-1050-button-primary__inner">Try 1 month for $0</span>
+</a>
 ```
 
-### Secondary Button (Outline Pill)
+| Property | Value |
+|---|---|
+| bg | `#1ED760` |
+| hover bg | `#3BE477` or Premium inline `#2DE26D` |
+| active/press bg | `#1ABC54` or Premium inline `#43E57D` |
+| text | `#000000` |
+| radius | `9999px` |
+| hover transform | `scale(1.04)` |
+| disabled | opacity `.3`, transform scale 1 |
 
-**Spec**: bg transparent · border 1px solid #FFF · color `#FFF` · radius 9999 · hover border + bg `rgba(255,255,255,0.1)`
+**Light auth/search pill**
 
-```css
-.button-secondary {
-  background: transparent;
-  border: 1px solid #FFFFFF;
-  color: #FFFFFF;
-  padding: 12px 32px;
-  border-radius: 9999px;
-  font-weight: 700;
-  transition: background .15s ease, transform .15s ease;
-}
-.button-secondary:hover {
-  background: rgba(255,255,255,0.1);
-  transform: scale(1.04);
-}
+| Property | Value |
+|---|---|
+| bg | `#FFFFFF` |
+| text | `#000000` |
+| radius | `9999px` |
+| role | Log in, Create playlist, Browse podcasts, sign-up CTA in capture |
+
+### Badges
+
+| Property | Value |
+|---|---|
+| bg | `#2A2A2A` / `#1A1A1A` |
+| text | `#FFFFFF` |
+| radius | likely pill or small rounded token |
+| usage | Premium plan labels, compact metadata |
+
+### Cards & Containers
+
+**Player sidebar prompt card**
+
+| Property | Value |
+|---|---|
+| bg | dark elevated panel near `#1F1F1F` |
+| radius | 8px visual |
+| padding | 16-20px visual |
+| shadow | none; separation through contrast |
+
+**Premium plan card**
+
+| Property | Value |
+|---|---|
+| bg | `#1F1F1F` |
+| radius | `24px` |
+| padding | `40px 24px 24px` mobile, `48px 24px 24px` desktop |
+| shadow | `0 4px 20px rgba(0,0,0,.25)` |
+| width | `420px` from tablet breakpoint |
+
+### Navigation
+
+| Property | Value |
+|---|---|
+| masthead fg | `#FFFFFF` |
+| nav bg | dark/black |
+| logo | white Spotify glyph on black |
+| links | white/secondary gray, bold utility labels |
+| mobile | hamburger with CTA retained |
+| player top rail | icon buttons + large rounded search pill |
+
+### Inputs & Forms
+
+**Search pill**
+
+| Property | Value |
+|---|---|
+| bg | `#1F1F1F` visual |
+| text | `#B3B3B3` placeholder |
+| radius | `9999px` |
+| height | around 48px |
+| icon | search at left, secondary action icon at right |
+| border | none visible; dark surface contrast |
+
+### Hero Section
+
+| Property | Value |
+|---|---|
+| container | `.ScrollingHero_container__Vajti` |
+| min-height | `150vh` |
+| video layer | fixed, `100vh`, `object-fit: cover` |
+| mask | black background with CSS mask-image and mask-composite |
+| title | `--encore-text-size-larger-5`, 900, `font-stretch:156.25%` |
+| CTA | green pill primary |
+
+### 13-2. Named Variants
+
+**button-primary-green**
+
+| Property | Value |
+|---|---|
+| default | `#1ED760` bg, `#000000` text |
+| hover | `#3BE477`, transform `scale(1.04)` |
+| active | `#1ABC54`, transform `scale(1)` |
+| focus | Encore focus border/box-shadow token |
+
+**button-light-pill**
+
+| Property | Value |
+|---|---|
+| default | `#FFFFFF` bg, `#000000` text |
+| usage | auth, playlist creation, podcast browse, sign-up free |
+| radius | `9999px` |
+
+**premium-plan-card**
+
+| Property | Value |
+|---|---|
+| bg | `#1F1F1F` |
+| radius | `24px` |
+| padding | `48px 24px 24px` desktop |
+| shadow | `0 4px 20px rgba(0,0,0,.25)` |
+
+**top-search-pill**
+
+| Property | Value |
+|---|---|
+| bg | dark elevated search field |
+| fg | `#B3B3B3` placeholder, `#FFFFFF` active text |
+| shape | 9999px rounded capsule |
+
+### 13-3. Signature Micro-Specs
+<!-- §13-3 -->
+
+#### encore-physical-pill-hover
+
+```yaml
+encore-physical-pill-hover:
+  description: "Spotify's button affordance is a tiny physical expansion, not a shadow lift."
+  technique: "--encore-button-hover-scale: 1.04; hover transform: scale(1.04); active transform: scale(1); gated by prefers-reduced-motion: no-preference"
+  applied_to: ["{components.button-primary-green}", "primary and tertiary Encore buttons"]
+  visual_signature: "Pill controls feel tactile and playable without adding ornamental shadow choreography."
 ```
 
-### Card
+#### dark-shell-image-color-field
 
-앨범/플레이리스트 썸네일 카드
-
-**Spec**: bg `#121212` · radius 8px · padding 16px · hover bg `#1F1F1F`
-
-```css
-.card {
-  background: #121212;
-  border-radius: 8px;
-  padding: 16px;
-  transition: background .2s ease;
-}
-.card:hover { background: #1F1F1F; }
+```yaml
+dark-shell-image-color-field:
+  description: "The chrome stays nearly monochrome so album covers, artist portraits, and plan accents become the color system."
+  technique: "surface stack #000000 / #121212 / #1F1F1F with #FFFFFF primary text, #B3B3B3 metadata, square album crops, and circular artist crops"
+  applied_to: ["player home shelves", "library prompt area", "artist rows"]
+  visual_signature: "The product frame reads as matte-black audio equipment while content supplies the saturation."
 ```
 
-### Hero Headline
+#### premium-scrolling-video-mask
 
-**Spec**: font-size 96px (`--encore-text-size-larger-5`) · weight 900 · line-height 1.0 · letter-spacing -0.04em · color `#FFFFFF`
-
-```css
-.hero h1 {
-  font-family: "SpotifyMixUITitle", sans-serif;
-  font-size: 6rem; /* 96px */
-  font-weight: 900;
-  line-height: 1.0;
-  letter-spacing: -0.04em;
-  color: #FFFFFF;
-}
+```yaml
+premium-scrolling-video-mask:
+  description: "Premium hero uses a fixed video plane and black mask instead of a static marketing hero image."
+  technique: ".ScrollingHero_container__Vajti min-height: 150vh; video layer position: fixed; height: 100vh; object-fit: cover; mask-image / mask-composite: exclude"
+  applied_to: [".ScrollingHero_container__Vajti", ".ScrollingHero_videoContainer__RMUh6", ".ScrollingHero_mask__YCnyA"]
+  visual_signature: "Motion sits behind the headline like a dark venue scrim, keeping spectacle inside the Spotify shell."
 ```
 
-### Campaign Section Theme Override
+#### plan-card-heavy-chassis
 
-**Spec**: section scope에서 accent 재매핑 (e.g. Wrapped는 Deep-Red)
-
-```css
-section.theme-wrapped {
-  --text-bright-accent: #590810;
-  --essential-bright-accent: #590810;
-  background: #FFD2D7;
-  color: #590810;
-}
+```yaml
+plan-card-heavy-chassis:
+  description: "Premium plan cards are thick dark product blocks, not light SaaS pricing sheets."
+  technique: "background #1F1F1F; border-radius: 24px; padding: 48px 24px 24px desktop / 40px 24px 24px mobile; box-shadow: 0 4px 20px rgba(0,0,0,.25); width: 420px at tablet breakpoint"
+  applied_to: ["{components.premium-plan-card}", "Premium plan cards"]
+  visual_signature: "Subscription offers feel like hardware tiles lifted from the same dark player material."
 ```
 
----
+#### single-green-action-contract
+
+```yaml
+single-green-action-contract:
+  description: "Spotify green is a narrow action contract, not a decorative atmosphere."
+  technique: "#1ED760 across primary CTA, selected border, checkmark, and plan-standard markers; hover #3BE477; press #1ABC54"
+  applied_to: ["{components.button-primary-green}", "plan comparison", "feature confirmation"]
+  visual_signature: "One electric green means go, selected, or Spotify-owned; there is no second brand color."
+```
 
 ## 14. Content / Copy Voice
+<!-- SOURCE: manual -->
 
-| Label | Rule | Example |
+| Pattern | Rule | Example |
 |---|---|---|
-| Tone | confident, music-forward, universal | "Play your favorites" |
-| Copy length | Headline 3-6 단어 impact · body 1-2 문장 | — |
-| i18n | Arab / Cyrl / Deva / Grek / Hebr 스크립트 병렬 | — |
-| CTA verb | "Get Spotify Free" · "Try Premium" · "Play" | — |
+| Headline | Big, direct, benefit-first, occasionally hyperbolic | "The ultimate home for music" |
+| Primary CTA | Price/trial concrete, action immediate | "Try 1 month for $0" |
+| Secondary CTA | Utility verbs, no elaborate phrasing | "Create playlist", "Browse podcasts" |
+| Subheading | Plain product promise | "Spotify Premium is a digital music service..." |
+| Tone | confident, consumer-simple, not enterprise formal | "It's easy, we'll help you" |
 
 ---
 
 ## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
+/* Spotify — copy into your root stylesheet */
 :root {
-  --spotify-green: #1ED760;
-  --spotify-green-hover: #3BE477;
-  --spotify-green-active: #1ABC54;
-  --spotify-green-dark: #107434;
-  --bg-base: #000000;
-  --bg-elevated: #121212;
-  --bg-elevated-2: #141414;
-  --bg-elevated-3: #1F1F1F;
-  --fg: #FFFFFF;
-  --fg-muted: #C7C7C7;
-  --fg-subtle: #919496;
-  --border-alt: #2A2A2A;
+  /* Fonts */
+  --sp-font-family: "SpotifyMixUI", "CircularSp", Helvetica, Arial, sans-serif;
+  --sp-font-family-title: "SpotifyMixUITitle", "SpotifyMixUI", Helvetica, Arial, sans-serif;
+  --sp-font-weight-normal: 400;
+  --sp-font-weight-bold: 700;
+  --sp-font-weight-black: 900;
 
-  --font-body: "SpotifyMixUI", "CircularSp", Helvetica, Arial, sans-serif;
-  --font-display: "SpotifyMixUITitle", "SpotifyMixUI", sans-serif;
-  --font-weight-body: 400;
-  --font-weight-bold: 700;
-  --font-weight-display: 900;
+  /* Brand */
+  --sp-color-brand-500: #1ED760;
+  --sp-color-brand-hover: #3BE477;
+  --sp-color-brand-press: #1ABC54;
 
-  --radius-pill: 9999px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
+  /* Surfaces */
+  --sp-bg-page: #000000;
+  --sp-bg-surface: #121212;
+  --sp-bg-card: #1F1F1F;
+  --sp-bg-badge: #2A2A2A;
+  --sp-text: #FFFFFF;
+  --sp-text-muted: #B3B3B3;
+  --sp-text-on-light: #000000;
+
+  /* Key spacing */
+  --sp-space-xs: 8px;
+  --sp-space-sm: 12px;
+  --sp-space-md: 16px;
+  --sp-space-lg: 24px;
+  --sp-space-xl: 48px;
+  --sp-space-2xl: 64px;
+
+  /* Radius */
+  --sp-radius-sm: 4px;
+  --sp-radius-md: 8px;
+  --sp-radius-lg: 16px;
+  --sp-radius-card: 24px;
+  --sp-radius-pill: 9999px;
+
+  /* Motion */
+  --sp-button-hover-scale: 1.04;
 }
 
-body {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--fg);
-  background: var(--bg-base);
+.spotify-button-primary {
+  border: 0;
+  border-radius: var(--sp-radius-pill);
+  background: var(--sp-color-brand-500);
+  color: var(--sp-text-on-light);
+  font: 700 1rem/1 var(--sp-font-family);
+  padding: 14px 28px;
+  transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
-.hero h1 {
-  font-family: var(--font-display);
-  font-size: 6rem;
-  font-weight: 900;
-  line-height: 1.0;
-  letter-spacing: -0.04em;
+@media (prefers-reduced-motion: no-preference) {
+  .spotify-button-primary:hover {
+    background: var(--sp-color-brand-hover);
+    transform: scale(var(--sp-button-hover-scale));
+  }
 }
 
-.btn-primary {
-  background: var(--spotify-green);
-  color: #000;
-  padding: 12px 32px;
-  border-radius: var(--radius-pill);
-  font-weight: 700;
-  transition: background .15s cubic-bezier(.3,0,0,1), transform .15s cubic-bezier(.3,0,0,1);
+.spotify-button-primary:active {
+  background: var(--sp-color-brand-press);
+  transform: scale(1);
 }
-.btn-primary:hover { background: var(--spotify-green-hover); transform: scale(1.04); }
-.btn-primary:active { background: var(--spotify-green-active); transform: scale(1.0); }
+
+.spotify-card {
+  background: var(--sp-bg-card);
+  color: var(--sp-text);
+  border-radius: var(--sp-radius-card);
+  padding: 48px 24px 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+}
 ```
 
 ---
 
 ## 16. Tailwind Config
+<!-- SOURCE: auto+manual -->
 
 ```js
-// tailwind.config.js
+// tailwind.config.js — Spotify-inspired tokens
 module.exports = {
   theme: {
     extend: {
       colors: {
-        'spotify-green': {
-          DEFAULT: '#1ED760',
+        spotify: {
+          green: '#1ED760',
           hover: '#3BE477',
-          active: '#1ABC54',
-          dark: '#107434',
-        },
-        'bg-base': '#000000',
-        'bg-elev': {
-          1: '#121212',
-          2: '#141414',
-          3: '#1F1F1F',
+          press: '#1ABC54',
+          black: '#000000',
+          deep: '#121212',
+          card: '#1F1F1F',
+          badge: '#2A2A2A',
+          white: '#FFFFFF',
+          muted: '#B3B3B3',
+          pink: '#FFD2D7',
+          mint: '#96F0B6',
+          blue: '#C8E0FC',
         },
       },
       fontFamily: {
         sans: ['SpotifyMixUI', 'CircularSp', 'Helvetica', 'Arial', 'sans-serif'],
-        display: ['SpotifyMixUITitle', 'SpotifyMixUI', 'sans-serif'],
+        display: ['SpotifyMixUITitle', 'SpotifyMixUI', 'Helvetica', 'Arial', 'sans-serif'],
       },
-      fontSize: {
-        hero: ['6rem', { lineHeight: '1.0', letterSpacing: '-0.04em' }],
-        display: ['4rem', { lineHeight: '1.05', letterSpacing: '-0.03em' }],
+      fontWeight: {
+        normal: '400',
+        bold: '700',
+        black: '900',
       },
       borderRadius: {
+        spotify: '24px',
         pill: '9999px',
       },
-    }
-  }
-}
+      boxShadow: {
+        'spotify-card': '0 4px 20px rgba(0,0,0,.25)',
+      },
+    },
+  },
+};
 ```
 
 ---
 
 ## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
 
 ### Quick Color Reference
 
 | Role | Token | Hex |
 |---|---|---|
-| Brand primary | `--spotify-green` | `#1ED760` |
-| Brand hover | `--spotify-green-hover` | `#3BE477` |
-| Brand active | `--spotify-green-active` | `#1ABC54` |
-| Background base | `--bg-base` | `#000000` |
-| Background elevated | `--bg-elevated` | `#121212` |
-| Text primary | `--fg` | `#FFFFFF` |
-| Text muted | `--fg-muted` | `#C7C7C7` |
-| Text subtle | `--fg-subtle` | `#919496` |
+| Brand primary | `{colors.spotify-green}` | `#1ED760` |
+| Brand hover | `{colors.green-hover}` | `#3BE477` |
+| Background | `{colors.surface-black}` | `#000000` |
+| Surface | `{colors.surface-deep}` | `#121212` |
+| Card | `{colors.surface-card}` | `#1F1F1F` |
+| Text primary | `{colors.text-primary}` | `#FFFFFF` |
+| Text muted | `{colors.text-secondary}` | `#B3B3B3` |
+| Text on light | `{colors.text-on-light}` | `#000000` |
+| Plan accent | `{colors.plan-pink}` | `#FFD2D7` |
 
 ### Example Component Prompts
 
-**🎯 Hero Section**
+#### Hero Section
 
-> Spotify style hero: black `#000` background full-bleed, headline 96px / weight 900 / line-height 1.0 / color white, 3-6 word impact. Primary CTA: pill bg `#1ED760` color `#000` radius 9999. Secondary CTA: outline white pill.
+```text
+Spotify 스타일의 dark hero를 만들어줘.
+- 배경: #000000 / #121212 dark shell
+- H1: SpotifyMixUITitle, 3rem 이상, weight 900, letter-spacing 0
+- 서브텍스트: #B3B3B3 또는 #FFFFFF with opacity, 1rem
+- CTA 버튼: 배경 #1ED760, 텍스트 #000000, radius 9999px, hover scale 1.04
+- 미디어: 앨범 커버나 영상이 실제 색상 필드가 되게 하고, UI chrome은 거의 monochrome으로 유지
+```
 
-**🔘 Pill CTA**
+#### Card Component
 
-> Spotify pill button: bg `#1ED760`, color `#000` (검정 텍스트!), padding 12px 32px, border-radius 9999. Hover: bg `#3BE477` + transform scale(1.04). Active: bg `#1ABC54`. Transition `.15s cubic-bezier(.3,0,0,1)`.
+```text
+Spotify Premium plan card 스타일로 만들어줘.
+- 배경: #1F1F1F, 텍스트 #FFFFFF, secondary #B3B3B3
+- radius: 24px
+- padding: desktop 48px 24px 24px, mobile 40px 24px 24px
+- shadow: 0 4px 20px rgba(0,0,0,.25)
+- 선택 상태: border/checkmark에 #1ED760만 사용
+```
 
-**🎴 Album Card**
+#### Badge
 
-> Spotify card: bg `#121212`, radius 8px, padding 16px. Hover: bg `#1F1F1F`. Cover image 1:1 ratio radius 4px. Title 16px weight 700 white. Artist 14px weight 400 `#C7C7C7`.
+```text
+Spotify dark badge를 만들어줘.
+- bg #2A2A2A 또는 #1A1A1A
+- text #FFFFFF
+- radius는 pill 또는 8px 이내
+- 브랜드 green을 badge 배경으로 남발하지 말고 plan/status에만 제한
+```
 
-**🎨 Campaign Theme Variant**
+#### Navigation
 
-> Spotify campaign section: override `--text-bright-accent` to campaign hex. Wrapped = `#590810` on `#FFD2D7`. Premium = `#073116` on `#96F0B6`. Change brand green to theme pair — but keep pill CTA shape.
+```text
+Spotify top navigation을 만들어줘.
+- 배경 #000000, controls #1F1F1F, text #FFFFFF / #B3B3B3
+- 왼쪽에는 white glyph/icon, 중앙에는 9999px search pill
+- search placeholder는 #B3B3B3, active text는 #FFFFFF
+- 오른쪽 auth CTA는 #FFFFFF pill with #000000 text
+```
 
-### Iteration Tips
+### Iteration Guide
 
-- `#1ED760` Spotify green은 CTA/heading-accent 전용. bg fill로는 쓰지 않는다 (너무 튐).
-- pill radius는 `9999px` 강제. `12px` 등으로 둥글리면 Spotify 느낌이 증발한다.
-- weight는 400/700/800/900만 사용. 300/500/600 absent.
-- hover `scale(1.04)` 는 반드시 `transform` 기반이어야 한다 — `padding` 변경 안 됨.
-- campaign 변형시 `--text-bright-accent` 재매핑하는 scoped CSS 패턴 권장.
+- **색상 변경 시**: #1ED760은 CTA/selected/checkmark 전용으로 남긴다. 배경으로 확장하지 않는다.
+- **폰트 변경 시**: SpotifyMixUI가 없으면 Inter를 쓰되 500/600 중간 weight를 기본값으로 만들지 않는다.
+- **여백 조정 시**: 8/12/16/20/24/32/48/64 중심으로 조절한다.
+- **새 컴포넌트 추가 시**: dark surface, white text, muted metadata, pill controls, image-driven color hierarchy를 유지한다.
+- **모션 추가 시**: hover scale 1.04 이상으로 과장하지 않는다.
 
 ---
 
 ## 18. DO / DON'T
+<!-- SOURCE: manual -->
 
-### DO
+### ✅ DO
 
-- ✅ true black `#000` 또는 off-black `#121212/#141414/#1F1F1F` 3단 elevation 사용
-- ✅ Spotify green `#1ED760`을 CTA + heading accent + 재생버튼 icon에만 제한
-- ✅ pill CTA는 `border-radius: 9999px`로 완전 pill
-- ✅ hover에 `transform: scale(1.04)` + `background-color: #3BE477` 조합 고수
-- ✅ display/title은 SpotifyMixUITitle · weight 900 · line-height 1.0~1.05
-- ✅ i18n시 CircularSp-[Script] 서브 폰트 병렬 로드
+- Use `#000000`, `#121212`, and `#1F1F1F` as the main surface stack.
+- Use `#1ED760` for primary action, selected state, checkmark, and plan-standard markers.
+- Keep buttons pill-shaped with `border-radius:9999px`.
+- Use `scale(1.04)` for hover affordance when motion is allowed.
+- Let album covers, artists, and plan art supply the page's broader color.
+- Use SpotifyMixUI/CircularSp-style font stacks and strong 700/900 weights.
+- Build dense shelves and side panels; avoid over-spaced SaaS marketing rhythm in player-like surfaces.
 
-### DON'T
+### ❌ DON'T
 
-- 배경을 `#1A1A1A` 같은 어중간한 그레이로 두지 말 것 — `#000` / `#121212` / `#141414` / `#1F1F1F` 중 하나
-- `#1ED760` 초록을 body 텍스트 컬러로 쓰지 말 것 — accent 전용
-- pill CTA를 `12px`/`8px`/`16px` radius로 둥글리지 말 것 — `9999px`만
-- body 폰트를 weight 300/500/600로 두지 말 것 — 400/700만 이원화
-- hover에 transform 없이 color만 바꾸지 말 것 — scale(1.04)가 시그니처
-- true black 위에 `box-shadow`로 elevation 표현하지 말 것 — bg-layer로 처리
-- 초록을 `#00E25A` / `#1DB954` (구 Spotify 로고 컬러) 로 쓰지 말 것 — 2015 리브랜딩 이후 `#1ED760`이 공식
+- 배경을 `#FFFFFF` 또는 `white`로 두지 말 것 — 대신 `#000000` / `#121212` dark shell 사용.
+- 본문 텍스트를 `#000000` 또는 `black`으로 두지 말 것 — dark surface에서는 `#FFFFFF` 사용.
+- primary CTA를 `#0D72EA` blue로 두지 말 것 — Spotify action은 `#1ED760` 사용.
+- secondary text를 `#FFFFFF` full strength로만 두지 말 것 — metadata에는 `#B3B3B3` 사용.
+- card background를 `#FFFFFF`로 두지 말 것 — Premium/player cards는 `#1F1F1F` 계열 사용.
+- 버튼 radius를 `8px` 이하로 두지 말 것 — primary/button controls는 `9999px` pill 사용.
+- body 기본 weight를 `500` 또는 `600`으로 두지 말 것 — captured system은 400/700 중심.
+- hover를 box-shadow만으로 표현하지 말 것 — Encore signature는 `transform: scale(1.04)`.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- Second brand color: none. #1ED760 is the only real brand action color; pink, mint, blue, and yellow are plan/campaign accents.
+- Light-page neutrality: absent in the captured shell. White appears as text or auth pills, not the environmental floor.
+- Pastel SaaS gradients: none in the core shell. Plan colors exist as flat product-tier accents.
+- Decorative border cards: minimal. Cards separate through dark surfaces, radius, and media, not ornate borders.
+- Weight 500/600 defaulting: absent from extracted weights; 400, 700, 800, and 900 do the work.
+- Over-explained hover states: no elaborate shadow choreography. The button scale is enough.
+- Thin-outline primary buttons: never for main action. The CTA is filled green or filled white.
+- Generic stock illustration: absent from the player shell; real album/artist art is the visual payload.
+- Wide airy whitespace as identity: absent. Spotify compresses shelves and controls so browsing feels continuous.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **HTML/screenshot mismatch** — `index.html` identifies "Spotify Premium - Spotify (USA)" and contains Premium hero/plan sections, while the available screenshot shows a Spotify web-player home shell. This guide prioritizes CSS/phase1 tokens and calls out where evidence comes from each surface.
+- **Single viewport screenshot** — visual interpretation is based on one 1280x800 cropped screenshot. Mobile player behavior was inferred from CSS breakpoints, not visually rechecked.
+- **No fresh crawl by request** — existing phase1 artifacts were reused. Current live Spotify.com may differ from this cached capture.
+- **Token extraction incomplete for typography** — `typography.json` reported an empty `scale`; text sizes were recovered from CSS snippets and inline hero styles.
+- **CSS duplicated files** — the CSS folder contains repeated hash pairs (`00/03`, `01/04`, `02/05` pattern by size). Counts may double some frequency values.
+- **Dark overlay aliases are contextual** — several resolved samples map to rgba overlays rather than simple hex. This guide uses those as behavioral aliases, not standalone brand colors.
+- **Form validation states not surfaced** — search input visual state is observed, but error/loading/validation form states were not present in the captured surface.
+- **Player internals not exhaustively mapped** — album row hover overlays, playback bar, queue, settings, and logged-in flows were not separately captured.
+- **Motion curves partially observed** — button scale and productive enter/exit tokens were present, but scroll-triggered Premium hero JS behavior was not executed for timing analysis.

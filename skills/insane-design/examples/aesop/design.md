@@ -1,579 +1,805 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: aesop
 service_name: Aesop
 site_url: https://www.aesop.com/us/
-fetched_at: 2026-04-23
-default_theme: light
-brand_color: "#333333"
+fetched_at: 2026-04-23T11:45:00+09:00
+default_theme: mixed
+brand_color: "#CA432F"
 primary_font: SuisseIntl
 font_weight_normal: 400
-token_prefix: "N/A"
+token_prefix: aesop
 
-bold_direction: "Warm Apothecary Minimalism"
-aesthetic_category: "Refined Minimalism"
-signature_element: warm_paper_ink_contrast
-code_complexity: medium
+bold_direction: Warm Apothecary
+aesthetic_category: luxury-brand
+signature_element: hero_impact
+code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: luxury-brand
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "CSS 변수 토큰은 없지만 SuisseIntl/Zapf-Humanist, BEM 컴포넌트, l-section/c-button/c-navigation 계층이 일관되게 운영된다."
+
+colors:
+  surface-warm: "#FFFEF2"
+  text-primary: "#333"
+  text-strong: "#000"
+  text-muted: "#666"
+  surface-soft: "#F6F5E8"
+  surface-alt: "#EBEADE"
+  border-warm: "#D5D5CB"
+  alert-earth: "#CA432F"
+  success-olive: "#6B6B60"
+
+typography:
+  display: "Zapf-Humanist"
+  body: "SuisseIntl"
+  medium: "SuisseIntl-Medium"
+  ladder:
+    - { token: hero-title, size: "1.875rem", weight: 400, line_height: "1.2" }
+    - { token: content-title, size: "1.5625rem", weight: 400, line_height: "1.2" }
+    - { token: nav-link, size: ".875rem", weight: 500, line_height: "1.5" }
+    - { token: product-copy, size: ".75rem", weight: 400, line_height: "normal" }
+  weights_used: [300, 400, 500, 600, 700, 900]
+  weights_absent: []
+
+components:
+  button-outline-hero: { bg: "transparent", color: "#FFFEF2", border: "1px solid #FFFEF2", radius: "0" }
+  button-solid-dark: { bg: "#333", color: "#FFFEF2", border: "1px solid #333", radius: "0" }
+  input-warm-field: { bg: "#FFFEF2", color: "#333", border: "1px solid rgba(51,51,51,.2)", radius: "0" }
 ---
 
-# DESIGN.md — Aesop (Claude Code Edition)
+# DESIGN.md — Aesop (Designer Guidebook)
+
+---
+
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
+
+### Narrative
+
+Aesop is a masterclass in product-as-artifact apothecary museography. The browser surface becomes parchment: not a pharmacy shelf but a warm archive where specimen labels, formulation names, and cabinet-index navigation behave like annotations on preserved paper. The dominant ground is #FFFEF2 (`{colors.surface-warm}`), not white — a cream that reads like warm stock, product carton, and limestone counter simultaneously. Pure white would press the site into pharmacy-shelf territory; this tint makes the page feel like a bound catalogue from a herbalist's archive.
+
+The store is disciplined by restraint. The centered wordmark sits high and still above the display case opening; the purchase path waits inside a thin rectangular outline; hero video supplies atmosphere while the interface stays as flat as printed signage on glass. Shadow is not a UI material here. Depth belongs to photography and motion, while the canvas returns to cream silence between every product tile. There is no second brand color doing theatrical work: #CA432F (`{colors.alert-earth}`) appears like a small earth pigment stamp on parchment — identification, not decoration.
+
+Typography orchestrates the museum-grade split. SuisseIntl handles the utilitarian layer — navigation, tiles, buttons, price labels — while Zapf-Humanist appears at gallery scale: content-tile titles and hero editorial lines. The contrast is not size alone; it is the shift from product taxonomy to literary label, like a shelf code turning into a book spine.
+
+The interface avoids softness. Inputs are square, buttons rectangular, product cards surface-and-type arrangements rather than raised surfaces. Rounded shapes exist only for circular controls or thumbnails, never for the core commerce chassis. Aesop's luxury is the refusal of gloss: the page evacuates until what remains is a warm parchment counter, a specimen label, a vessel, and a line inviting discovery — museum authority without museum distance.
+
+비유로 한 단계 더 풀자면 Aesop은 약국과 부티크와 공방이 한 공간에 정렬된 큐레이션 박스다. 중앙 워드마크는 store 입구 위 동판 간판, 카테고리 nav는 museum 캐비닛의 라벨된 서랍, 사각 outline CTA는 gallery 진열대 옆에 끼워둔 작은 안내 카드, warm cream surface는 parchment 작업대의 석회암 카운터다. 제품 타일은 진열장에 정렬된 유리 vessel, 검색 입력창은 공방 카운터의 처방전 받침대처럼 단정하게 놓인다. shadow가 없는 이유는 luxury가 광택이 아니라 정렬된 큐레이션이기 때문.
+
+### Key Characteristics
+
+- Warm cream ground: #FFFEF2 is the site floor, used far more than pure white.
+- Editorial-serif display: Zapf-Humanist gives titles a cultivated, printed quality.
+- Utility sans body: SuisseIntl keeps commerce, navigation, forms, and product taxonomy precise.
+- Centered heritage mark: the logo sits as a visual anchor above a dense category nav.
+- Full-bleed sensory hero: video/image ambience supplies warmth while UI chrome stays sparse.
+- Rectangular interaction: buttons and inputs use radius 0; luxury is not pill-shaped.
+- BEM component architecture: `c-button`, `c-navigation`, `c-product-tile`, `l-section` reveal a mature component layer.
+- Neutral-first color strategy: chromatic color is scarce; #CA432F appears as alert/earth accent, not broad branding.
+- Product-grid density below editorial air: broad hero and section breathing room collapse into tighter commerce modules.
+
+---
+
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Warm Apothecary
+> **Aesthetic Category**: luxury-brand
+> **Signature Element**: 이 사이트는 **warm cream apothecary hero with square editorial commerce chrome**으로 기억된다.
+> **Code Complexity**: high — BEM commerce components, responsive flyout navigation, video hero, carousels, form states, and multiple font faces are present.
 
 ---
 
 ## 01. Quick Start
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto+manual -->
 
 > 5분 안에 Aesop처럼 만들기 — 3가지만 하면 80%
 
 ```css
-/* 1. Warm paper + dark ink */
+/* 1. 폰트 + weight */
 body {
-  background: #fffef2;
-  color: #333333;
-  font: normal 0.75rem/1.5 "SuisseIntl", sans-serif;
+  font-family: "SuisseIntl", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 400;
 }
 
-/* 2. Editorial serif is reserved for hero/section titles */
-.aesop-title {
-  font-family: "Zapf-Humanist", sans-serif;
-  font-size: clamp(1.5625rem, 2vw, 1.9375rem);
-  line-height: 1.2;
+h1,
+.editorial-title {
+  font-family: "Zapf-Humanist", "Times New Roman", serif;
+  font-weight: 400;
 }
 
-/* 3. CTA stays square, quiet, and high-contrast */
-.aesop-cta {
-  background: transparent;
-  border: 1px solid #fffef2;
-  color: #fffef2;
-  padding: 0.8125rem 1.5rem 0.75rem;
-  transition: background-color 0.25s ease-out, color 0.25s ease-out;
+/* 2. 배경 + 텍스트 */
+:root {
+  --aesop-bg: #FFFEF2;
+  --aesop-fg: #333;
+  --aesop-muted: #666;
+}
+body {
+  background: var(--aesop-bg);
+  color: var(--aesop-fg);
+}
+
+/* 3. 버튼/입력은 사각형 */
+.aesop-button,
+.aesop-input {
+  border-radius: 0;
+  border: 1px solid currentColor;
 }
 ```
 
-**절대 하지 말아야 할 것 하나**: 배경을 순백 `#ffffff`로 바꾸고 버튼에 큰 라운드를 주지 마라. Aesop의 인상은 `#fffef2` 종이색 배경, `#333333` 잉크색 텍스트, 직각 버튼의 긴장감에서 나온다.
+**절대 하지 말아야 할 것 하나**: Aesop을 둥근 SaaS 카드 UI로 번역하지 말 것. `border-radius: .625rem`은 보조 썸네일/일부 모듈에만 있고, 핵심 버튼과 입력은 `border-radius: 0`이다.
 
 ---
 
 ## 02. Provenance
-<!-- SOURCE: css -->
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
 | Source URL | `https://www.aesop.com/us/` |
-| HTML title | `Formulations for Skin, Hair & Body Care of the Finest Quality - Aesop` |
-| Fetched | `2026-04-23` |
-| Extractor | `python3` + `curl_cffi` Safari impersonation |
-| HTML size | `926663` bytes |
-| CSS files | `5` external bundles, `0` inline bundles |
-| CSS total size | `865944` bytes |
-| CSS custom properties | `0` |
-| Token prefix | `"N/A"` — site ships raw declarations instead of `--*` variables |
-| Method | Live CSS download, selector/declaration parsing, no guessed colors or fonts |
-
-### CSS Sources
-
-- `commons.css` — `536337` bytes  
-  `https://www.aesop.com/on/demandware.static/Sites-aesop-us-Site/-/en_US/v1776853715160/dist/css/commons.css`
-- `category.css` — `73136` bytes  
-  `https://www.aesop.com/on/demandware.static/Sites-aesop-us-Site/-/en_US/v1776853715160/dist/css/category.css`
-- `product.css` — `157643` bytes  
-  `https://www.aesop.com/on/demandware.static/Sites-aesop-us-Site/-/en_US/v1776853715160/dist/css/product.css`
-- `pagedesigner.css` — `69790` bytes  
-  `https://www.aesop.com/on/demandware.static/Sites-aesop-us-Site/-/en_US/v1776853715160/dist/css/pagedesigner.css`
-- `header-transparent.css` — `29038` bytes  
-  `https://www.aesop.com/on/demandware.static/Sites-aesop-us-Site/-/en_US/v1776853715160/dist/css/header-transparent.css`
+| Fetched | 2026-04-23 11:45 KST |
+| Extractor | 기존 phase1 재사용: HTML + CSS + screenshot |
+| HTML size | 1,008,273 bytes |
+| CSS files | 7개 CSS, 약 931,214 characters |
+| Token prefix | `aesop` |
+| Method | CSS frequency, BEM selector samples, HTML text/classes, hero screenshot interpretation |
+| Screenshot | `insane-design/aesop/screenshots/hero-cropped.png` |
 
 ---
 
 ## 03. Tech Stack
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: Salesforce Commerce Cloud / Demandware SSR (`on/demandware.static/Sites-aesop-us-Site/...`)
-- **Design system**: bespoke helper-class system, no exported CSS token namespace
-- **CSS architecture**: layout + helper + component layering
+- **Framework**: server-rendered commerce site with large hydrated HTML payload.
+- **Design system**: Aesop commerce component system; no CSS custom-property token graph detected.
+- **CSS architecture**: BEM-style components plus layout/utilities.
   ```text
-  layout   .l-section / .l-row / .l-column
-  helper   .h-color-* / .h-bgcolor-* / .h-text-size-*
-  comp     .c-button / .c-content-hero / .c-product-tile / .c-simple-search
+  l-*       layout chassis: l-section, l-row, l-column, l-footer
+  c-*       component layer: c-button, c-navigation, c-product-tile, c-content-hero
+  h-*       helpers: h-color-light, h-text-align-center, h-show-for-large
+  m-*       modifiers: m-level-1, m-dark, m-full-width, m-caption-center
   ```
-- **Class naming**: `l-` layout, `c-` component, `h-` helper, `m-` modifier
-- **Default theme**: light (`body { background: #fffef2; color: #333; }`)
-- **Font loading**: self-hosted `woff2` / `woff` / `ttf` bundles from Aesop CDN
-- **Canonical anchor**: `#333333` dark ink is the real brand anchor; `#ca432f` is reserved for alert/error states
-- **Implementation note**: because there are no `--*` variables, any reusable token layer must be synthesized from repeated declarations
+- **Class naming**: BEM + modifier classes. Examples: `c-navigation__item`, `c-product-tile__wrapper`, `c-content-hero__caption`, `l-section__row`.
+- **Default theme**: mixed. Commerce floor uses #FFFEF2; hero uses warm photographic/video overlay with white text.
+- **Font loading**: `@font-face` for `SuisseIntl`, `SuisseIntl-Medium`, and `Zapf-Humanist`.
+- **Canonical anchor**: centered Aesop wordmark, category navigation, and square outline CTA over sensory editorial media.
 
 ---
 
 ## 04. Font Stack
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-| Role | Family | Weight(s) | Evidence |
-|---|---|---|---|
-| Primary UI / body | `"SuisseIntl", sans-serif` | `400`, `700` | `body`, nav, inputs, descriptions |
-| Primary medium UI | `"SuisseIntl-Medium", sans-serif` | `500` | buttons, labels, product names |
-| Editorial serif | `"Zapf-Humanist", sans-serif` | `400` | hero title span, section titles, quotes |
-| Code / system fallback | `monospace, monospace` | N/A | normalize only, not part of the visual system |
+- **Display font**: `Zapf-Humanist` (brand-proprietary/local asset in CSS)
+- **Body font**: `SuisseIntl` (brand-proprietary/local asset in CSS)
+- **Medium UI font**: `SuisseIntl-Medium`
+- **Code font**: `monospace, monospace` where present
+- **Weight normal / bold**: `400` / `500` for signature UI; heavier weights exist in generic/commercial modules but are not the premium voice.
 
 ```css
 @font-face {
-  font-family: "SuisseIntl";
+  font-display: swap;
+  font-family: SuisseIntl;
   font-style: normal;
   font-weight: 400;
-  src: url("https://www.aesop.com/on/demandware.static/Sites-aesop-us-Site/-/en_US/v1776853715160/dist/fonts/SuisseIntl-Regular-WebXL.woff2") format("woff2");
 }
+
 @font-face {
-  font-family: "SuisseIntl-Medium";
+  font-display: swap;
+  font-family: SuisseIntl-Medium;
   font-style: normal;
   font-weight: 500;
-  src: url("https://www.aesop.com/on/demandware.static/Sites-aesop-us-Site/-/en_US/v1776853715160/dist/fonts/SuisseIntl-Medium-WebXL.woff2") format("woff2");
 }
+
 @font-face {
-  font-family: "Zapf-Humanist";
+  font-display: swap;
+  font-family: Zapf-Humanist;
   font-style: normal;
   font-weight: 400;
-  src: url("https://www.aesop.com/on/demandware.static/Sites-aesop-us-Site/-/en_US/v1776853715160/dist/fonts/Zapf-Humanist.woff2") format("woff2");
+}
+
+:root {
+  --aesop-font-body: "SuisseIntl", sans-serif;
+  --aesop-font-medium: "SuisseIntl-Medium", sans-serif;
+  --aesop-font-display: "Zapf-Humanist", serif;
 }
 ```
 
-핵심은 sans/serif의 역할 분리다. 대부분의 UI는 `SuisseIntl`가 맡고, 감정이 필요한 헤드라인만 `Zapf-Humanist`가 맡는다.
+### Note on Font Substitutes
+<!-- SOURCE: manual -->
+
+- **SuisseIntl** — if the licensed face is unavailable, use `Inter` or `Helvetica Neue` at weight 400, but reduce the feeling of modern SaaS by keeping letter-spacing at `0` and avoiding oversized bold labels.
+- **SuisseIntl-Medium** — substitute `Inter` 500 only for navigation and label weight. Do not push navigation to 600/700; that turns Aesop into a generic retail header.
+- **Zapf-Humanist** — substitute `Georgia` or `Cormorant Garamond` 400 for editorial titles. Tighten line-height from `1.25` to about `1.2` so the replacement keeps the compact literary posture.
+- **System fallback** — the CSS includes a broad `system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif` fallback. Treat it as emergency fallback, not the intended aesthetic.
 
 ---
 
 ## 05. Typography Scale
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-| Token | Selector evidence | Size | Weight | Line-height | Font |
-|---|---|---|---|---|---|
-| `body` | `body` | `0.75rem` | `400` | `1.5` | SuisseIntl |
-| `nav` | `.c-navigation__item-title.m-level-1` | `0.875rem` | `400` | `1.2` | SuisseIntl |
-| `body-md` | `.c-content-hero__description`, `.c-product-tile__description` | `0.875rem` | `400` | `1.5` | SuisseIntl |
-| `label-md` | `.c-content-hero__label`, `.c-content-tile__label` | `0.875rem` | `500` | `1.5` | SuisseIntl-Medium |
-| `button` | `.c-button` | `0.875rem` | `500` | `1.3125rem` | SuisseIntl-Medium |
-| `section-title-sm` | `.c-section__title,.c-section__title.m-secondary` | `1.5625rem` | `400` | `1.33` | Zapf-Humanist |
-| `section-title-lg` | `.c-section__title` large rule | `1.9375rem` | `400` | `1.33` | Zapf-Humanist |
-| `hero-title-sm` | `.h-text-size-25` on hero title span | `1.5625rem` | `400` | `1.2` | Zapf-Humanist |
-| `hero-title-lg` | `.h-text-size-31-for-large` on hero title span | `1.9375rem` | `400` | `1.2` | Zapf-Humanist |
-| `category-cover` | `.c-category-cover__title` | `1.875rem` | `400` | `1.25` | SuisseIntl |
+| Token | Size | Weight | Line-height | Letter-spacing |
+|---|---|---|---|---|
+| `hero-title` | `1.875rem` | 400 | `1.2` | `0` |
+| `content-title-large` | `1.5625rem` | 400 | `1.2` | `0` |
+| `nav-category` | `.875rem` | 500 | `1.5` | `0` |
+| `body-copy` | `.875rem` | 400 | `1.5` | `0` |
+| `product-copy` | `.75rem` | 400 | `normal` | `0` |
+| `form-input` | `.875rem` | 400 | `normal` | `0` |
 
-> 핵심 인사이트: 감성은 serif가 만들지만, 시스템의 대부분은 `0.75rem` / `0.875rem`의 절제된 sans UI가 유지한다. 과장된 display scale보다 “작고 정제된 문장”이 Aesop답다.
+> ⚠️ Aesop does not win by enormous type scale. It wins by switching voice: SuisseIntl for function, Zapf-Humanist for editorial gravity.
+
+### Principles
+
+1. Display text is literary, not loud. `Zapf-Humanist` at 400 gives product storytelling a printed, humanist tone.
+2. Navigation uses `.875rem/1.5` with `SuisseIntl-Medium`; category density is controlled by weight 500, not by uppercase or extra tracking.
+3. Product tiles are deliberately small. `.75rem` copy lets the object and formulation name sit in a catalog rhythm.
+4. Letter-spacing is not a visible signature in the sampled CSS. Do not invent negative tracking to make it feel more "premium."
+5. Weight 700 appears in the CSS corpus, but the signature Aesop surface is lighter: 400 body, 500 labels, 400 editorial display.
 
 ---
 
 ## 06. Colors
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-### 06-1. Brand Ramp
+### 06-1. Brand Ramp (neutral-warm system)
 
-| Token | Hex | Role |
-|---|---|---|
-| `paper` | `#fffef2` | body / hero light text counterpart |
-| `paper-alt` | `#f6f5e8` | muted surface, cards, countdown background |
-| `panel` | `#ebeade` | soft panel / muted block background |
-| `ink-muted` | `#666666` | secondary copy |
-| `ink` | `#333333` | primary text, buttons, navigation |
-| `ink-strong` | `#000000` | active / pressed / deepest contrast |
-
-### 06-2. Neutral Ramp
-
-| Step | Hex | Usage |
-|---|---|---|
-| `0` | `#fffef2` | main paper background |
-| `50` | `#f6f5e8` | secondary surface |
-| `100` | `#f3f3f3` | utility light panel |
-| `200` | `#ebeade` | content panel / muted block |
-| `300` | `#d5d5cb` | light divider |
-| `400` | `#bcbbb4` | tertiary neutral |
-| `500` | `#999999` | disabled state |
-| `600` | `#666666` | secondary text |
-| `700` | `#4f4f4c` | deeper supporting neutral |
-| `800` | `#333333` | default ink |
-| `900` | `#252525` | hover/pressed dark |
-| `950` | `#000000` | primary active |
-
-### 06-3. Accent Families
-
-| Family | Values | Usage |
-|---|---|---|
-| `alert-earth` | `#ca432f`, `#ff816b` | error, alert, discontinuation |
-| `herbal` | `#6b6b60`, `#5f5f5f`, `#4f4f4c` | success / earthy utility |
-| `ochre` | `#e1be5e`, `#ead290`, `#bf900d` | warning / promotional highlights |
-| `warm-brown` | `#965d34`, `#945c26` | editorial accent / detail |
-
-### 06-4. Semantic
-
-| Token | Value | Selector evidence |
-|---|---|---|
-| `bg-page` | `#fffef2` | `body`, `.h-bgcolor-light` |
-| `bg-surface` | `#f6f5e8` | `.c-minicart__recommendation`, `.c-countdown` |
-| `bg-panel` | `#ebeade` | `.c-product-promotion` |
-| `fg-primary` | `#333333` | `body`, `.h-color-primary`, `.c-button` |
-| `fg-secondary` | `#666666` | `.c-content-hero__description`, placeholders |
-| `fg-disabled` | `#999999` | `.h-color-disabled` |
-| `border-default` | `rgba(51,51,51,.2)` | inputs, secondary buttons, search frames |
-| `accent-active` | `#000000` | `.h-bgcolor-primary-active` |
-| `accent-success` | `#6b6b60` | `.h-bgcolor-success` |
-| `accent-alert` | `#ca432f` | `.h-bgcolor-alert`, error states |
-
-### 06-5. Semantic Alias Layer
-
-| Helper class | Value |
+| Token | Hex |
 |---|---|
-| `.h-color-dark`, `.h-color-primary` | `#333333` |
-| `.h-color-primary-active` | `#000000` |
-| `.h-color-secondary` | `#666666` |
-| `.h-color-success` | `#6b6b60` |
-| `.h-color-alert` | `#ca432f` |
-| `.h-color-disabled` | `#999999` |
-| `.h-color-light` | `#fffef2` |
-| `.h-bgcolor-light` | `#fffef2` |
-| `.h-bgcolor-primary` | `#333333` |
-| `.h-bgcolor-primary-active` | `#000000` |
-| `.h-bgcolor-secondary` | `#666666` |
-| `.h-bgcolor-success` | `#6b6b60` |
-| `.h-bgcolor-alert` | `#ca432f` |
-| `.h-bgcolor-disabled` | `#999999` |
+| `aesop-surface-warm` | `#FFFEF2` |
+| `aesop-surface-soft` | `#F6F5E8` |
+| `aesop-surface-alt` | `#EBEADE` |
+| `aesop-border-warm` | `#D5D5CB` |
+| `aesop-text-primary` | `#333` |
+| `aesop-text-strong` | `#000` |
+| `aesop-text-muted` | `#666` |
+| `aesop-alert-earth` | `#CA432F` |
+| `aesop-success-olive` | `#6B6B60` |
 
-### 06-6. Dominant Colors (hex frequency in live CSS)
+### 06-2. Brand Dark Variant
 
-| Rank | Hex | Count | Role |
-|---|---|---|---|
-| `1` | `#333333` | `762` | ink / button / nav / icon |
-| `2` | `#fffef2` | `557` | paper / light text on dark hero |
-| `3` | `#000000` | `268` | active/pressed depth |
-| `4` | `#666666` | `180` | muted text |
-| `5` | `#252525` | `92` | dark hover / pressed |
-| `6` | `#999999` | `70` | disabled |
-| `7` | `#f6f5e8` | `68` | muted surface |
-| `8` | `#ebeade` | `46` | soft panel |
+| Token | Hex |
+|---|---|
+| `aesop-hero-text-light` | `#FFFEF2` |
+| `aesop-dark-text-primary` | `#333` |
+| `aesop-dark-text-strong` | `#000` |
+
+### 06-3. Neutral Ramp
+
+| Step | Warm neutral | Usage |
+|---|---|---|
+| 0 | `#FFFEF2` | page floor, light text on dark hero |
+| 50 | `#F6F5E8` | soft surfaces, commerce modules |
+| 100 | `#F3F3F3` | cool utility surface where present |
+| 150 | `#EBEADE` | alternate warm panel |
+| 250 | `#D5D5CB` | warm border/hairline |
+| 500 | `#999` | disabled/helper text |
+| 700 | `#666` | secondary text |
+| 900 | `#333` | primary text and dark UI |
+| 1000 | `#000` | active/strong text |
+
+### 06-4. Accent Families
+
+| Family | Key step | Hex |
+|---|---|---|
+| Earth alert | alert | `#CA432F` |
+| Warm coral | soft accent | `#FF816B` |
+| Brown | product/imagery-adjacent accent | `#965D34` |
+| Olive | success/status | `#6B6B60` |
+| Gold | merchandising/accent | `#E1BE5E` |
+
+### 06-5. Semantic
+
+| Token | Hex | Usage |
+|---|---|---|
+| `h-color-light` | `#FFFEF2` | text over dark/hero surfaces |
+| `h-color-primary` | `#333` | primary text |
+| `h-color-primary-active` | `#000` | active/hover strong state |
+| `h-color-secondary` | `#666` | secondary text and links |
+| `h-color-alert` | `#CA432F` | alert/error messaging |
+| `h-color-disabled` | `#999` | disabled text |
+
+### 06-6. Semantic Alias Layer
+
+| Alias | Resolves to | Usage |
+|---|---|---|
+| `surface.page` | `#FFFEF2` | default page and form input background |
+| `surface.soft` | `#F6F5E8` | warm alternate modules |
+| `text.primary` | `#333` | commerce and editorial text |
+| `text.active` | `#000` | active text, hover emphasis |
+| `text.muted` | `#666` | secondary links, category descriptions |
+| `border.warm` | `rgba(51,51,51,.2)` / `#D5D5CB` | hairlines and form borders |
+
+### 06-7. Dominant Colors (실제 CSS 빈도 순)
+
+| Token | Hex | Frequency |
+|---|---|---|
+| `text-primary` | `#333` | 766 |
+| `surface-warm` | `#FFFEF2` | 557 |
+| `text-strong` | `#000` | 276 |
+| `text-muted` | `#666` | 180 |
+| `text-dark` | `#252525` | 92 |
+| `disabled-muted` | `#999` | 70 |
+| `surface-soft` | `#F6F5E8` | 68 |
+| `utility-surface` | `#F3F3F3` | 50 |
+| `surface-alt` | `#EBEADE` | 46 |
+| `border-warm` | `#D5D5CB` | 34 |
+| `alert-earth` | `#CA432F` | 29 |
+
+### 06-8. Color Stories
+
+**`{colors.surface-warm}` (#FFFEF2)** — This is the Aesop floor. It is close enough to white for commerce clarity, but warm enough to feel like paper, stone, and product packaging rather than a software canvas.
+
+**`{colors.text-primary}` (#333)** — The core ink. Aesop avoids pure black for most reading surfaces, using #333 to keep dense navigation and product copy calm.
+
+**`{colors.text-muted}` (#666)** — Secondary taxonomy and supporting links. It keeps flyouts and product metadata legible without adding a second brand color.
+
+**`{colors.alert-earth}` (#CA432F)** — The only strong chromatic accent in the top observed system. It should remain alert/status/earth-toned, not become a broad CTA brand fill.
 
 ---
 
 ## 07. Spacing
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-Aesop은 4px grid보다 **5px 계열(`0.3125rem`) 리듬**이 더 강하다. 가장 자주 반복되는 값은 `5px / 10px / 15px / 20px / 30px / 40px` 축이다.
-
-| Token | Value | Typical use |
+| Token | Value | Use case |
 |---|---|---|
-| `space-1` | `0.3125rem` (`5px`) | micro label gap, text margin |
-| `space-2` | `0.625rem` (`10px`) | inline gap, icon/text spacing |
-| `space-3` | `0.9375rem` (`15px`) | section gutters, caption padding |
-| `space-4` | `1.25rem` (`20px`) | default horizontal padding |
-| `space-5` | `1.5rem` (`24px`) | button horizontal balance |
-| `space-6` | `1.875rem` (`30px`) | component separation |
-| `space-7` | `2.5rem` (`40px`) | hero body padding, input height system |
-| `space-8` | `5rem` (`80px`) | standard section rhythm |
-| `space-9` | `6.25rem` (`100px`) | large section rhythm variant |
+| `aesop-space-xxs` | `.0625rem` | hairline-level offsets and focus shadow width |
+| `aesop-space-xs` | `.3125rem` | compact inline spacing |
+| `aesop-space-sm` | `.625rem` | common small gap, product/card internal rhythm |
+| `aesop-space-md` | `.9375rem` | row padding and section gutters |
+| `aesop-space-lg` | `1.25rem` | component padding, flyout category padding |
+| `aesop-space-xl` | `1.875rem` | larger margins and flyout column gutters |
+| `aesop-space-2xl` | `2.5rem` | hero body vertical padding |
+| `aesop-section-v` | `5rem` | standard `l-section` top/bottom rhythm |
 
-```css
-.l-section:not(.m-full-width) > .l-section__row {
-  max-width: 75rem;
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
-}
-.l-section:not(.m-plain) > .l-section__row {
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-}
-```
+**주요 alias**:
+- `l-section__row` → `padding-left/right: .9375rem`, `max-width: 75rem`
+- `c-navigation-flyout__row` → `margin: 0 -1.875rem`, `padding: 1.5625rem 0`
+- `c-content-hero__body` → `padding: 2.5rem 0 1.5625rem`
+
+### Whitespace Philosophy
+
+Aesop uses air as a retail deceleration device. The hero can be immersive, but product and category modules return to disciplined `.625rem`, `.9375rem`, and `1.25rem` increments. This produces a controlled alternation: broad sensory opening, then compact catalog operation.
+
+The section rhythm is not a decorative "large whitespace" blanket. `l-section` rows sit inside `75rem` max-width with `5rem` vertical rhythm, while flyouts and product tiles compress into narrower module spacing. The brand feels quiet because the layout knows when to breathe and when to sell.
 
 ---
 
 ## 08. Radius
-<!-- SOURCE: css -->
+<!-- SOURCE: auto -->
 
-| Token | Value | Usage |
+| Token | Value | Context |
 |---|---|---|
-| `radius-none` | `0` | buttons, inputs, selects, cards |
-| `radius-sm` | `0.25rem` (`4px`) | alerts, sticky refinement CTA, select badges |
-| `radius-md` | `0.3125rem` (`5px`) | small media tiles, comparison labels |
-| `radius-lg` | `0.625rem` (`10px`) | rounded media variants, scrollbar thumbs |
-| `radius-pill` | `1.875rem` (`30px`) | switch rails |
-| `radius-full` | `50%` | icon buttons, radio controls, back-to-top, video play badges |
-
-정체성은 `radius-none` 쪽에 가깝다. 둥근 corners는 보조 요소나 utility에만 허용된다.
+| `aesop-radius-none` | `0` | core buttons, grouped inputs, square UI chassis |
+| `aesop-radius-hair` | `.0625rem` | rare tiny rounding |
+| `aesop-radius-xs` | `.125rem` | minor UI elements |
+| `aesop-radius-sm` | `.25rem` | utility cards or panels where present |
+| `aesop-radius-md` | `.3125rem` | secondary surfaces |
+| `aesop-radius-lg` | `.625rem` | isolated tile/modal style surfaces |
+| `aesop-radius-circle` | `50%` | circular controls, icons, swatches |
 
 ---
 
 ## 09. Shadows
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-| Token | Value | Usage |
+| Level | Value | Usage |
 |---|---|---|
-| `shadow-focus-ink` | `0 0 0 0.0625rem #333` | inputs / selects / active outlines |
-| `shadow-hover-soft` | `0 0 0.25rem 0 rgba(51,51,51,.2)` | hoverable controls, video play badge |
-| `shadow-raised-soft` | `0 0 0.25rem 0 rgba(51,51,51,.1)` | sticky refinement CTA |
-| `shadow-switch-knob` | `0 0 0.125rem 0 rgba(51,51,51,.5)` | toggle knob |
-| `shadow-paper-glow` | `0 0.125rem 0.25rem 0 rgba(255,254,242,.2)` | floating circular controls on dark media |
+| `focus-ring` | `0 0 0 .0625rem #333` | input hover/focus emphasis |
+| `none-default` | `none` | primary commerce chrome; structure relies on borders/surface contrast |
 
-전반적으로 그림자보다 **색 대비와 보더**를 선호한다. shadow는 깊이 연출이 아니라 컨트롤 가독성 보조용이다.
+> Aesop's sampled CSS does not expose a rich elevation system. Do not add multi-layer SaaS shadows. The product imagery and video provide depth; the UI chrome stays flat.
 
 ---
 
 ## 10. Motion
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-| Pattern | Value | Where |
+| Token | Value | Usage |
 |---|---|---|
-| `ui-color` | `background-color .25s ease-out, color .25s ease-out` | `.c-button`, icon pseudo-elements |
-| `form-focus` | `box-shadow .2s, border-color .2s ease-in-out` | inputs, selects, radio / checkbox |
-| `media-transform` | `transform .3s ease-in-out` | animated carousel product tile / image |
-| `header-fade` | `background .5s ease-out` | transparent header states |
-| `switch` | `all .2s ease-in-out` | toggle rail / knob |
-
-`@media (prefers-reduced-motion: reduce)`가 실제로 존재한다. Aesop의 모션은 시각적 과시보다 상태 전환을 조용히 연결하는 쪽이다.
+| `input-focus` | `box-shadow .2s, border-color .2s ease-in-out` | text fields and search inputs |
+| `reduced-motion` | `@media (prefers-reduced-motion: reduce)` | accessibility branch present in CSS |
+| `hover-capable` | `@media (hover:hover)` | hover-only refinements |
+| `hero-video` | observed in screenshot | sensory full-bleed hero with playback/mute controls |
 
 ---
 
 ## 11. Layout Patterns
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-### Fullscreen Hero
+### Grid System
+- **Content max-width**: `75rem` for `l-section__row`; older extraction also saw `.main-content { max-width: 60rem }`.
+- **Grid type**: Flexbox/BEM layout. `body` and many commerce modules use flex; dense product and navigation systems are component-driven.
+- **Column count**: variable; product/category surfaces use repeated `l-column` and `l-row` classes rather than a single named grid token.
+- **Gutter**: `.9375rem` section gutters, `.625rem` common module gap, `1.875rem` flyout column gutter.
 
-```css
-.c-content-hero.m-fullscreen {
-  height: calc(var(--dvh, var(--vh, 1vh)) * 100);
-}
-.c-content-hero__caption {
-  margin: 0 auto;
-  max-width: 75rem;
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
-}
-.c-content-hero__body {
-  display: inline-block;
-  padding: 2.5rem 0 1.5625rem;
-}
-```
+### Hero
+- **Pattern Summary**: `near-100vh + warm full-bleed video/image + centered logo/nav + centered editorial title + outline CTA`
+- Layout: full-width hero media with absolute/overlay caption behavior.
+- Background: photographic/video hero with amber-brown tone and dark lower gradient/overlay.
+- **Background Treatment**: image/video overlay; the UI text is #FFFEF2 over a warm darkened media field.
+- H1: about `1.875rem` / weight `400` / tracking `0`.
+- Max-width: caption visually constrained near center; page section max-width uses `75rem` below.
 
 ### Section Rhythm
 
 ```css
-.l-section:not(.m-full-width) > .l-section__row {
-  margin: 0 auto;
-  max-width: 75rem;
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
-  width: 100%;
-}
 .l-section:not(.m-plain) > .l-section__row {
   margin-top: 5rem;
   margin-bottom: 5rem;
 }
-```
 
-### Split Editorial Tile
-
-```css
-.c-content-tile {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 0.9375rem;
-}
-.c-content-tile.m-large .c-content-tile__section:last-child {
-  padding-left: 1.25rem;
+.l-section:not(.m-full-width) > .l-section__row {
+  max-width: 75rem;
+  padding-left: .9375rem;
+  padding-right: .9375rem;
 }
 ```
 
-레이아웃은 “넓은 종이 위에 올린 콘텐츠 블록” 구조다. hero와 section 모두 `75rem` 컨테이너를 기준으로 움직이고, 이미지가 시선을 끌더라도 텍스트는 늘 조용한 인쇄물처럼 정렬된다.
+### Card Patterns
+- **Card background**: usually `#FFFEF2` or image/product asset; cards are not raised by default.
+- **Card border**: sparse; flyout uses `1px solid rgba(51,51,51,.2)`.
+- **Card radius**: usually `0`; `.25rem`/`.625rem` appear in secondary contexts only.
+- **Card padding**: common `1.25rem` and `.625rem`.
+- **Card shadow**: absent by default; focus/field emphasis uses 1px box-shadow.
+
+### Navigation Structure
+- **Type**: horizontal desktop mega-navigation with multi-level categories; hamburger/mobile structure present.
+- **Position**: sticky behavior present via `.l-header.m-sticked`.
+- **Height**: not captured as a single token; visual header is tall because logo, top utility links, category nav, and search are stacked around hero.
+- **Background**: transparent/light over hero, `#FFFEF2` in flyouts.
+- **Border**: flyout top border `1px solid rgba(51,51,51,.2)`.
+
+### Content Width
+- **Prose max-width**: not exposed as a named token; extracted `.main-content` max-width is `60rem`.
+- **Container max-width**: `75rem`.
+- **Sidebar width**: not observed on homepage sample.
 
 ---
 
-## 12. Components
-<!-- SOURCE: css -->
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
 
-### Hero CTA
+### Breakpoints
+
+| Name | Value | Description |
+|---|---|---|
+| Mobile | `< 48em` | small-screen branch appears as `screen and (max-width:47.99875em)` |
+| Tablet | `48em` | repeated `print,screen and (min-width:48em)` media query |
+| Desktop | `64em` | repeated `print,screen and (min-width:64em)` and max-width counterpart |
+| Large | `75em` | large-screen branch appears as `screen and (min-width:75em)` |
+
+### Touch Targets
+- **Minimum tap size**: not proven from CSS summary; buttons and inputs require visual QA on mobile.
+- **Button height (mobile)**: not captured as a single token.
+- **Input height (mobile)**: `2.5rem` for text/search inputs.
+
+### Collapsing Strategy
+- **Navigation**: desktop horizontal/mega-navigation collapses to hamburger/mobile navigation classes (`c-header-mobile-navigation`, `m-hamburger-active`).
+- **Grid columns**: component and row classes adjust across `48em`, `64em`, and `75em`.
+- **Sidebar**: not observed.
+- **Hero layout**: caption alignment modifiers exist (`m-caption-left`, `m-caption-right`, `m-caption-center`); stack/unstack modifiers exist for hero body.
+
+### Image Behavior
+- **Strategy**: product and hero media are componentized; hero uses full-bleed media, product tile images sit inside wrappers.
+- **Max-width**: image handling not fully summarized from CSS, but product image classes are dominant in HTML.
+- **Aspect ratio handling**: not confidently extracted; treat product imagery as fixed component responsibility.
+
+---
+
+## 13. Components
+<!-- SOURCE: auto+manual -->
+
+### Buttons
 
 ```html
-<a class="c-button c-button m-secondary m-readmore-light m-expand-for-medium-down">
-  Discover Solais
+<a class="c-button aesop-button-outline" href="#">
+  <span>Discover Solais</span>
+  <span aria-hidden="true">→</span>
 </a>
 ```
 
-| Spec | Value |
+| Property | Value |
 |---|---|
-| background | `transparent` |
-| border | `1px solid #fffef2` |
-| color | `#fffef2` |
-| font | `0.875rem / 1.3125rem` `SuisseIntl-Medium` |
-| min-width | `14.375rem` |
-| padding | `0.8125rem 1.5rem 0.75rem` |
-| icon | `1rem` masked arrow with `margin-left: 1rem` |
+| Font | `SuisseIntl-Medium`, `.875rem`, weight 500 |
+| Radius | `0` |
+| Border | `1px solid currentColor` |
+| Hero text | `#FFFEF2` |
+| Padding | use `1rem` to `1.25rem` horizontal rhythm |
+| Hover | invert/strengthen border and text; avoid animated lift |
+| Focus | use 1px ring, matching form `box-shadow: 0 0 0 .0625rem #333` |
 
-### Product Tile
+### Badges
+
+> N/A — homepage sample did not expose a strong badge system. Product labels and category titles exist, but no reusable pill badge should be invented.
+
+### Cards & Containers
 
 ```html
-<article class="c-product-tile m-color-dark">
-  <h3 class="c-product-tile__name">Replenishing Hand Serum</h3>
-  <p class="c-product-tile__description">Meticulously assembled...</p>
+<article class="c-product-tile">
+  <div class="c-product-tile__wrapper">
+    <figure class="c-product-tile__figure"></figure>
+    <h3 class="c-product-tile__name">Resurrection Aromatique Hand Wash</h3>
+  </div>
 </article>
 ```
 
-| Spec | Value |
+| Property | Value |
 |---|---|
-| wrapper background | `.c-product-tile__wrapper.m-dark { background: #fffef2; }` |
-| root text color | `#333333` |
-| name font | `1rem / 1.5` `SuisseIntl-Medium` |
-| description font | `0.875rem / 1.5` `SuisseIntl` |
-| description clamp | `-webkit-line-clamp: 2` |
-| selection border | `#333333` on active / hover |
+| Product tile color | `#333` |
+| Product tile font | `.75rem`, `SuisseIntl` |
+| Wrapper dark modifier | `background: #FFFEF2; padding: 1.25rem .625rem` |
+| Layout | flex column, full height |
+| Disabled | `opacity: .5`, no pointer invitation |
+| Shadow | none by default |
 
-### Editorial Content Tile
+### Navigation
 
 ```html
-<a class="c-content-tile m-large">
-  <div class="c-content-tile__section">
-    <p class="c-content-tile__label">Featured</p>
-    <h3 class="c-content-tile__title">Aesop title</h3>
-    <p class="c-content-tile__description">Quiet explanatory copy.</p>
-  </div>
-</a>
+<nav class="c-navigation">
+  <ul class="c-navigation__list m-level-1">
+    <li class="c-navigation__item">
+      <a class="c-navigation__link" href="#">
+        <span class="c-navigation__link-name">Skin Care</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 ```
 
-| Spec | Value |
+| Property | Value |
 |---|---|
-| layout | `display: flex; align-items: flex-start;` |
-| title font | `1.5625rem / 1.2` `Zapf-Humanist` |
-| label font | `0.875rem / 1.5` `SuisseIntl-Medium` |
-| description font | `0.875rem / 1.5` `SuisseIntl` |
-| inter-column gap | `1.25rem` base, `2.5rem` larger rule |
+| Desktop behavior | horizontal category nav with flyout |
+| Flyout background | `#FFFEF2` |
+| Flyout border | `1px solid rgba(51,51,51,.2)` |
+| Category title | `.875rem/1.5 SuisseIntl-Medium` |
+| Category link | `.875rem/1.5 SuisseIntl`, `#666`, underlined |
+| Mobile behavior | hamburger/header mobile navigation classes present |
+
+### Inputs & Forms
+
+```html
+<label class="c-field">
+  <input class="c-text-field__input-text" type="search" placeholder="Search..." />
+</label>
+```
+
+| Property | Value |
+|---|---|
+| Background | `#FFFEF2` |
+| Text | `#333` |
+| Border | `1px solid rgba(51,51,51,.2)` |
+| Radius | `0` |
+| Height | `2.5rem` |
+| Padding | `0 1rem` |
+| Font | `normal .875rem/normal SuisseIntl,sans-serif` |
+| Hover/focus | `border: 1px solid #333; box-shadow: 0 0 0 .0625rem #333` |
+
+### Hero Section
+
+```html
+<section class="c-content-hero m-caption-center m-unstack">
+  <div class="c-content-hero__caption">
+    <div class="c-content-hero__body">
+      <p>A striking show of hands</p>
+      <h1>New Solais Replenishing Hand Serum</h1>
+      <a class="c-button">Discover Solais</a>
+    </div>
+  </div>
+</section>
+```
+
+| Property | Value |
+|---|---|
+| Media | full-bleed video/image |
+| Caption | center alignment in observed hero |
+| Body padding | `2.5rem 0 1.5625rem` when unstacked |
+| Text color | `#FFFEF2` over darkened media |
+| CTA style | transparent square outline with arrow |
+| Chrome | top navigation floats over media, logo centered |
+
+### 13-2. Named Variants
+
+#### `button-outline-hero`
+
+| Property | Value |
+|---|---|
+| Background | transparent |
+| Text | `#FFFEF2` |
+| Border | `1px solid #FFFEF2` |
+| Radius | `0` |
+| Context | hero CTA over warm dark media |
+| State | hover should remain flat; do not add shadow or transform |
+
+#### `button-solid-dark`
+
+| Property | Value |
+|---|---|
+| Background | `#333` |
+| Text | `#FFFEF2` |
+| Border | `1px solid #333` |
+| Radius | `0` |
+| Context | commerce action on warm light surface |
+| State | active may strengthen toward `#000` |
+
+#### `input-warm-field`
+
+| Property | Value |
+|---|---|
+| Background | `#FFFEF2` |
+| Text | `#333` |
+| Border | `1px solid rgba(51,51,51,.2)` |
+| Radius | `0` |
+| Height | `2.5rem` |
+| Focus | `0 0 0 .0625rem #333` |
+
+### 13-3. Signature Micro-Specs
+
+```yaml
+warm-paper-not-white:
+  description: "Aesop's core surface craft is a near-white cream floor rather than browser white."
+  technique: "background #FFFEF2 on page, flyout panels, form inputs, and product wrappers; #FFF is not the primary shell."
+  applied_to: ["body", "{component.Navigation}", "{component.Inputs & Forms}", "{component.Cards & Containers}"]
+  visual_signature: "the interface feels printed on warm stock, not rendered on a cold retail canvas"
+
+square-label-controls:
+  description: "Premium interaction is built from straight edges and hairlines, like product labels or shelf placards."
+  technique: "border-radius: 0; border: 1px solid currentColor or rgba(51,51,51,.2); min-height/height 2.5rem for controls."
+  applied_to: ["{component.button-outline-hero}", "{component.button-solid-dark}", "{component.input-warm-field}"]
+  visual_signature: "buttons and fields read as architectural labels, never SaaS pills"
+
+humanist-serum-title-switch:
+  description: "Editorial title moments switch from commerce sans to a humanist display voice."
+  technique: "font-family Zapf-Humanist; font-weight 400; font-size 1.5625rem to 1.875rem; line-height 1.2; letter-spacing 0."
+  applied_to: ["{component.Hero Section}", "{component.Cards & Containers}", "{typography.hero-title}", "{typography.content-title-large}"]
+  visual_signature: "formulation copy slows down into a literary product label without becoming ornate"
+
+amber-media-flat-chrome:
+  description: "Depth is assigned to full-bleed photography/video while commerce chrome remains flat."
+  technique: "hero media full-bleed with #FFFEF2 text over warm dark image/video; UI shadow system remains none-default."
+  applied_to: ["{component.Hero Section}", "{colors.surface-warm}", "{colors.text-primary}"]
+  visual_signature: "the page feels like a dim apothecary window: sensory media behind, printed UI in front"
+
+hairline-focus-drawing:
+  description: "Focus and hover states are drawn as exact ink lines instead of animated elevation."
+  technique: "border-color #333 plus box-shadow 0 0 0 .0625rem #333; transition box-shadow .2s, border-color .2s ease-in-out."
+  applied_to: ["{component.input-warm-field}", "{component.Inputs & Forms}"]
+  visual_signature: "state change appears as a precise black-brown rule tightening around the field"
+```
 
 ---
 
-## 13. Content / Copy Voice
-<!-- SOURCE: manual -->
+## 14. Content / Copy Voice
+<!-- SOURCE: auto+manual -->
 
-| Pattern | Rule | Live example |
+| Pattern | Rule | Example |
 |---|---|---|
-| Eyebrow | 짧고 시적인 한 줄로 mood를 연다 | `A striking show of hands` |
-| Product title | 기능보다 제품명을 먼저 세운다 | `New Solais Replenishing Hand Serum` |
-| Description | 감각적이되 성분과 효능을 정확히 적는다 | `Meticulously assembled, Niacinamide, LHA and Dandelion Root...` |
-| CTA | 조용한 동사 하나로 마무리한다 | `Discover Solais` |
-
-문장은 짧지만 장식적이지 않다. 광고 톤보다 박물관 wall text나 제품 노트에 가깝고, 과장 대신 촉감·성분·사용 감각을 정제된 문장으로 전달한다.
+| Headline | Product name as editorial object; avoid hype language | "New Solais Replenishing Hand Serum" |
+| Kicker | Short poetic or sensory line | "A striking show of hands" |
+| Body | formulation-first, ingredient-conscious, precise | "Niacinamide, LHA and Dandelion Root brighten and even the skin..." |
+| CTA | direct discovery language, not aggressive conversion | "Discover Solais" |
+| Category | taxonomic and calm | "Skin Care", "Hand & Body", "Fragrance" |
+| Tone | meticulous, cultivated, sensory, restrained | "formulations... created with meticulous attention to detail" |
 
 ---
 
-## 14. Drop-in CSS
-<!-- SOURCE: css -->
-
-사이트 자체는 custom property를 노출하지 않지만, 아래 블록은 **실제 선언값을 그대로 이름 붙인 재사용 레이어**다.
+## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
+/* Aesop — copy into your root stylesheet */
 :root {
-  --aesop-color-paper: #fffef2;
-  --aesop-color-paper-alt: #f6f5e8;
-  --aesop-color-panel: #ebeade;
-  --aesop-color-ink: #333333;
-  --aesop-color-ink-strong: #000000;
-  --aesop-color-muted: #666666;
-  --aesop-color-disabled: #999999;
-  --aesop-color-success: #6b6b60;
-  --aesop-color-alert: #ca432f;
-  --aesop-color-border: rgba(51, 51, 51, 0.2);
+  /* Fonts */
+  --aesop-font-family: "SuisseIntl", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --aesop-font-family-medium: "SuisseIntl-Medium", "SuisseIntl", sans-serif;
+  --aesop-font-family-display: "Zapf-Humanist", Georgia, serif;
+  --aesop-font-weight-normal: 400;
+  --aesop-font-weight-medium: 500;
 
-  --aesop-font-sans: "SuisseIntl", sans-serif;
-  --aesop-font-sans-medium: "SuisseIntl-Medium", sans-serif;
-  --aesop-font-serif: "Zapf-Humanist", sans-serif;
+  /* Warm neutral system */
+  --aesop-bg-page: #FFFEF2;
+  --aesop-bg-soft: #F6F5E8;
+  --aesop-bg-alt: #EBEADE;
+  --aesop-border-warm: #D5D5CB;
+  --aesop-text: #333;
+  --aesop-text-strong: #000;
+  --aesop-text-muted: #666;
+  --aesop-alert: #CA432F;
 
-  --aesop-space-1: 0.3125rem;
-  --aesop-space-2: 0.625rem;
-  --aesop-space-3: 0.9375rem;
-  --aesop-space-4: 1.25rem;
-  --aesop-space-5: 1.875rem;
-  --aesop-space-6: 2.5rem;
-  --aesop-space-7: 5rem;
+  /* Key spacing */
+  --aesop-space-xs: .3125rem;
+  --aesop-space-sm: .625rem;
+  --aesop-space-md: .9375rem;
+  --aesop-space-lg: 1.25rem;
+  --aesop-space-xl: 1.875rem;
+  --aesop-section-v: 5rem;
 
-  --aesop-radius-none: 0;
-  --aesop-radius-sm: 0.25rem;
-  --aesop-radius-md: 0.3125rem;
-  --aesop-radius-lg: 0.625rem;
-
-  --aesop-shadow-focus: 0 0 0 0.0625rem #333333;
-  --aesop-shadow-soft: 0 0 0.25rem 0 rgba(51, 51, 51, 0.2);
-  --aesop-transition-ui: background-color 0.25s ease-out, color 0.25s ease-out;
+  /* Radius */
+  --aesop-radius-control: 0;
+  --aesop-radius-small: .25rem;
+  --aesop-radius-circle: 50%;
 }
 
 body {
-  background: var(--aesop-color-paper);
-  color: var(--aesop-color-ink);
-  font: normal 0.75rem/1.5 var(--aesop-font-sans);
+  background: var(--aesop-bg-page);
+  color: var(--aesop-text);
+  font-family: var(--aesop-font-family);
+  font-weight: var(--aesop-font-weight-normal);
 }
 
-.aesop-title {
-  font-family: var(--aesop-font-serif);
-  font-size: clamp(1.5625rem, 2vw, 1.9375rem);
+.aesop-display {
+  font-family: var(--aesop-font-family-display);
+  font-weight: 400;
   line-height: 1.2;
+  letter-spacing: 0;
 }
 
 .aesop-button {
   background: transparent;
-  border: 1px solid var(--aesop-color-border);
-  border-radius: var(--aesop-radius-none);
-  color: var(--aesop-color-ink);
-  font: normal 0.875rem/1.3125rem var(--aesop-font-sans-medium);
-  min-width: 14.375rem;
-  padding: 0.8125rem 1.5rem 0.75rem;
-  transition: var(--aesop-transition-ui);
+  border: 1px solid currentColor;
+  border-radius: var(--aesop-radius-control);
+  color: inherit;
+  font-family: var(--aesop-font-family-medium);
+  min-height: 2.5rem;
+  padding: 0 1.25rem;
 }
 
-.aesop-button--light {
-  border-color: var(--aesop-color-paper);
-  color: var(--aesop-color-paper);
+.aesop-field {
+  background: var(--aesop-bg-page);
+  border: 1px solid rgba(51, 51, 51, .2);
+  border-radius: 0;
+  color: var(--aesop-text);
+  font: normal .875rem/normal var(--aesop-font-family);
+  height: 2.5rem;
+  padding: 0 1rem;
+}
+
+.aesop-field:hover,
+.aesop-field:focus {
+  border-color: var(--aesop-text);
+  box-shadow: 0 0 0 .0625rem var(--aesop-text);
+  outline: none;
 }
 ```
 
 ---
 
-## 15. Tailwind Config
-<!-- SOURCE: css -->
+## 16. Tailwind Config
+<!-- SOURCE: manual -->
 
 ```js
-export default {
+// tailwind.config.js — Aesop-inspired tokens
+module.exports = {
   theme: {
     extend: {
       colors: {
         aesop: {
-          paper: "#fffef2",
-          paperAlt: "#f6f5e8",
-          panel: "#ebeade",
-          ink: "#333333",
-          inkStrong: "#000000",
-          muted: "#666666",
-          disabled: "#999999",
-          success: "#6b6b60",
-          alert: "#ca432f",
+          paper: '#FFFEF2',
+          soft: '#F6F5E8',
+          alt: '#EBEADE',
+          border: '#D5D5CB',
+          ink: '#333',
+          strong: '#000',
+          muted: '#666',
+          alert: '#CA432F',
         },
       },
       fontFamily: {
-        aesopSans: ["SuisseIntl", "sans-serif"],
-        aesopSansMedium: ["SuisseIntl-Medium", "sans-serif"],
-        aesopSerif: ["Zapf-Humanist", "sans-serif"],
-      },
-      spacing: {
-        "aesop-1": "0.3125rem",
-        "aesop-2": "0.625rem",
-        "aesop-3": "0.9375rem",
-        "aesop-4": "1.25rem",
-        "aesop-5": "1.875rem",
-        "aesop-6": "2.5rem",
-        "aesop-7": "5rem",
+        sans: ['SuisseIntl', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        display: ['Zapf-Humanist', 'Georgia', 'serif'],
       },
       borderRadius: {
-        aesop: "0",
-        "aesop-sm": "0.25rem",
-        "aesop-md": "0.3125rem",
-        "aesop-lg": "0.625rem",
+        aesop: '0',
       },
-      boxShadow: {
-        "aesop-focus": "0 0 0 0.0625rem #333333",
-        "aesop-soft": "0 0 0.25rem 0 rgba(51,51,51,0.2)",
-      },
-      maxWidth: {
-        "aesop-content": "75rem",
+      spacing: {
+        aesopXs: '.3125rem',
+        aesopSm: '.625rem',
+        aesopMd: '.9375rem',
+        aesopLg: '1.25rem',
+        aesopXl: '1.875rem',
       },
     },
   },
@@ -582,19 +808,126 @@ export default {
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
 <!-- SOURCE: manual -->
 
-### DO
+### Quick Color Reference
 
-- `#fffef2` 종이색 배경과 `#333333` 잉크색 대비를 기본값으로 유지한다.
-- `Zapf-Humanist`는 hero / editorial headline에만 제한적으로 사용한다.
-- 버튼과 입력은 대부분 `border-radius: 0`로 두고 보더와 간격으로 정체성을 만든다.
-- 섹션 폭은 `75rem`, 기본 좌우 패딩은 `0.9375rem`로 유지한다.
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary | `aesop.alert-earth` | `#CA432F` |
+| Background | `aesop.surface-warm` | `#FFFEF2` |
+| Background soft | `aesop.surface-soft` | `#F6F5E8` |
+| Text primary | `aesop.text-primary` | `#333` |
+| Text strong | `aesop.text-strong` | `#000` |
+| Text muted | `aesop.text-muted` | `#666` |
+| Border | `aesop.border-warm` | `#D5D5CB` |
 
-### DON'T
+### Example Component Prompts
 
-- 순백 `#ffffff` 배경, 12px 이상 라운드 버튼, 과장된 gradient를 넣지 마라.
-- `#ca432f`를 브랜드 CTA 메인 컬러로 올리지 마라. 이 값은 alert/error 계층이다.
-- 본문까지 serif로 확장하지 마라. serif는 포컬 포인트일 때만 힘이 생긴다.
-- 4px 그리드 감각으로 지나치게 촘촘하게 맞추지 마라. Aesop은 5px 계열 리듬이 더 자연스럽다.
+#### Hero Section
+
+```text
+Aesop 스타일 히어로 섹션을 만들어줘.
+- 배경: 따뜻한 amber/brown 계열 full-bleed product/editorial media, 아래쪽 dark overlay
+- 로고/네비게이션: 상단 중앙 Aesop wordmark, 카테고리 링크는 SuisseIntl-Medium .875rem
+- H1: Zapf-Humanist, 1.875rem, weight 400, line-height 1.2, color #FFFEF2
+- 보조문: SuisseIntl, .875rem~1rem, color #FFFEF2
+- CTA: transparent outline, border 1px solid #FFFEF2, radius 0, arrow 포함
+- 금지: rounded SaaS pill, colorful gradient, card shadow
+```
+
+#### Product Tile
+
+```text
+Aesop 스타일 제품 타일을 만들어줘.
+- 배경: #FFFEF2 또는 제품 이미지 중심의 warm neutral surface
+- 텍스트: SuisseIntl .75rem, color #333
+- padding: 1.25rem .625rem
+- radius: 0
+- shadow: none
+- 제품명은 차분한 formulation 이름처럼 길어도 허용
+- hover는 색/텍스트 강조 정도로 제한하고 translate/shadow lift는 쓰지 마
+```
+
+#### Search Field
+
+```text
+Aesop 스타일 검색 필드를 만들어줘.
+- background #FFFEF2, color #333
+- border 1px solid rgba(51,51,51,.2), radius 0
+- height 2.5rem, padding 0 1rem
+- font normal .875rem SuisseIntl
+- focus/hover: border #333 + box-shadow 0 0 0 .0625rem #333
+```
+
+#### Navigation
+
+```text
+Aesop 스타일 상단 네비게이션을 만들어줘.
+- 로고는 중앙, 보조 링크는 좌우에 분산
+- 카테고리 링크: SuisseIntl-Medium .875rem/1.5, color는 hero 위에서는 #FFFEF2, light surface에서는 #333
+- flyout 배경은 #FFFEF2, top border는 rgba(51,51,51,.2)
+- 모바일은 hamburger로 접고, 사각 검색 박스를 유지
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: #FFFEF2를 흰색으로 바꾸면 Aesop의 종이 같은 표면이 사라진다.
+- **폰트 변경 시**: body와 nav는 sans, title은 humanist serif/display로 역할을 분리한다.
+- **여백 조정 시**: `.625rem`, `.9375rem`, `1.25rem`, `1.875rem`, `5rem` 계열을 우선 사용한다.
+- **새 컴포넌트 추가 시**: card shadow나 pill radius를 기본값으로 넣지 말고, line/border/surface contrast로 구조를 만든다.
+- **CTA 작성 시**: "Buy now!!!" 같은 강한 전환 문구보다 "Discover", "Explore", "See all"처럼 낮은 온도의 동사를 쓴다.
+
+---
+
+## 18. DO / DON'T
+<!-- SOURCE: manual -->
+
+### ✅ DO
+
+- Use #FFFEF2 as the primary page surface; it is the warm paper ground.
+- Use #333 for primary text and #666 for secondary taxonomy.
+- Use `SuisseIntl` for commerce and `Zapf-Humanist` for editorial title moments.
+- Keep controls square: buttons and inputs should use `border-radius: 0`.
+- Let product photography and video carry depth instead of UI shadows.
+- Use BEM-like structure: `c-*` components, `l-*` layout, `m-*` modifiers.
+- Preserve the dual rhythm: immersive editorial hero, then compact commerce modules.
+
+### ❌ DON'T
+
+- 배경을 `#F3F3F3` 중심의 차가운 회색 UI로 두지 말 것 — 대신 `#FFFEF2` 사용.
+- 본문 텍스트를 `#252525`처럼 지나치게 검은 앱 UI 잉크로 밀지 말 것 — 대신 `#333` 사용.
+- 보조 텍스트를 `#999`로 과하게 비활성화하지 말 것 — 대신 `#666` 사용.
+- 핵심 CTA를 `#CA432F` 배경으로 채우지 말 것 — Aesop에서 #CA432F는 alert/earth accent로 제한하고, CTA는 square outline 또는 #333 계열을 우선한다.
+- 버튼을 `.625rem` 둥근 카드형 SaaS 버튼으로 만들지 말 것 — 핵심 컨트롤은 `border-radius: 0`.
+- product tile에 box-shadow lift를 주지 말 것 — Aesop은 표면, 사진, 타이포로 위계를 만든다.
+- headline을 weight 700 이상으로 밀어붙이지 말 것 — Zapf-Humanist 400의 가벼운 문학성이 핵심이다.
+- 섹션마다 새로운 brand color를 발명하지 말 것 — neutral system이 브랜드다.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- Second brand color: **none** in the sampled homepage 부티크 — warm neutrals carry the entire identity.
+- Gradient UI token: **absent** — hero media has tonal depth, but CSS color identity is never gradient-based.
+- Pill-button commerce: **absent** — core 진열대 interaction language is square; pill softness never appears in CTA.
+- Raised card deck: **zero** — product 큐레이션박스 modules are flat, not shadow-stacked.
+- Neon accent: **never** — chromatic accents stay earthy and sparse, like 공방 pigment marks.
+- Loud uppercase marketing voice: **absent** — category and product language stays taxonomic and composed.
+- Heavy display shouting: **zero** signature surfaces — display type is 400 humanist, never 700+ billboard.
+- Decorative icon system: **none** — arrows/search/utility glyphs support tasks rather than decorate the 부티크 wall.
+- Cold white retail shell: **absent** — the surface wants `#FFFEF2` warmth, never browser white.
+- SaaS card elevation: **never** — 진열대 separation lives in line, paper, and warm surface contrast only.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Homepage-biased sample** — analysis used the saved `/us/` HTML, CSS, and hero screenshot. Checkout, account, store locator, and product detail flows were not visited live in this pass.
+- **CSS token graph absent** — `resolved_tokens.json` reported zero CSS custom properties. The guide therefore names practical aliases in frontmatter, but they are derived from real CSS values rather than native `--aesop-*` variables.
+- **Brand color ambiguity** — Aesop is neutral-led. `#CA432F` is the strongest observed chromatic semantic color, but it should not be treated like a conventional CTA primary.
+- **Motion logic incomplete** — CSS transition and media-query evidence was summarized, but JavaScript carousel/video behavior and scroll-trigger logic were not deeply inspected.
+- **Responsive visual QA limited** — breakpoint values were extracted from CSS, but mobile screenshots were not captured in this turn.
+- **Component states partial** — hover/focus for inputs are evidenced; loading, disabled, and error states are only partially visible from CSS/HTML summaries.
+- **Hero media source not normalized** — the screenshot proves the visual treatment, but the exact video asset, overlay implementation, and image focal rules were not fully decoded.
+- **Existing report HTML intentionally untouched** — Step 6 RENDER-HTML was skipped per request; only this `design.md` was regenerated.

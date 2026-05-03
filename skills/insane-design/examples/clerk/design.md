@@ -1,433 +1,817 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: clerk
 service_name: Clerk
 site_url: https://clerk.com
-fetched_at: 2026-04-20
+fetched_at: 2026-04-20T19:58:00+09:00
 default_theme: light
 brand_color: "#6C47FF"
-primary_font: Geist
+primary_font: Suisse
 font_weight_normal: 400
-token_prefix: --color-*, --font-geist-*
+token_prefix: clerk
 
-bold_direction: "Refined SaaS"
-aesthetic_category: "Refined SaaS"
+bold_direction: Precision SaaS
+aesthetic_category: Refined SaaS
 signature_element: hero_impact
-code_complexity: medium
+code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: saas-marketing
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "Production Tailwind/Next CSS with real component tokens, focus states, font variables, and repeated layout primitives; not a public token guidebook."
+
+colors:
+  primary: "#6C47FF"
+  accent-cyan: "#5DE3FF"
+  surface-page: "#FFFFFF"
+  surface-soft: "#F7F7F8"
+  text-primary: "#131316"
+  text-secondary: "#5E5F6E"
+  text-muted: "#9394A1"
+  border-soft: "#D9D9DE"
+  border-hairline: "#0000001A"
+  dark-surface: "#212126"
+
+typography:
+  display: "Suisse"
+  body: "Suisse"
+  numeric: "Geist Numbers"
+  code: "Soehne Mono"
+  ladder:
+    - { token: hero, size: "4rem", weight: 600, line_height: "4.5rem", tracking: "-0.035em" }
+    - { token: h2, size: "3rem", weight: 600, line_height: "3.5rem", tracking: "-0.035em" }
+    - { token: h3, size: "2rem", weight: 600, line_height: "2.5rem", tracking: "-0.025em" }
+    - { token: lead, size: "1.125rem", weight: 400, line_height: "1.75rem", tracking: "-0.015em" }
+    - { token: body, size: ".9375rem", weight: 400, line_height: "1.5rem", tracking: "0" }
+    - { token: label, size: ".8125rem", weight: 500, line_height: "1.25rem", tracking: "0" }
+  weights_used: [100, 400, 450, 500, 510, 600, 700, 800]
+  weights_absent: [300, 900]
+
+components:
+  button-primary: { bg: "{colors.primary}", color: "#FFFFFF", radius: "9999px", padding: ".5rem 1rem", shadow: "0 1px 1px #0000000D" }
+  button-secondary: { bg: "#FFFFFF", color: "{colors.text-primary}", radius: "9999px", border: "1px solid #0000001A", padding: ".5rem 1rem" }
+  nav-shell: { bg: "#FFFFFF", radius: ".75rem", border: "1px solid #0000001A", shadow: "0 2px 3px #0000000A" }
+  focus-ring: { outline: "2px solid {colors.text-primary}", offset: "2px / negative offsets in compact controls" }
+  input-dark: { bg: "#2F3037", border: "#FFFFFF1F", focus: "#00000026" }
 ---
 
-# DESIGN.md — Clerk (Claude Code Edition)
+# DESIGN.md — Clerk
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-흰 캔버스 위 violet CTA + wireframe BG을(를) 축으로 하는 디자인 시스템. 개발자용 인증 플랫폼. light 배경 + 보라 CTA + isometric wireframe 장식.
+### Narrative
 
-Clerk의 마케팅 홈은 refined saas 성격을 유지한다. 브랜드 컬러 `#6C47FF`는 CTA, 링크, focus ring 등 의미가 필요한 지점에만 등장하며, 넓은 면적은 light 캔버스(`#FFFFFF` 계열)가 담당한다. 이 구조는 사용자가 "콘텐츠에 집중하게 하고, 색이 개입하는 순간은 결정이 필요한 순간"이라는 일관된 규율로 설계되었다.
+Clerk looks less like an auth vendor and more like a high-precision control surface for identity infrastructure. The page is bright, almost clinical, but not empty: the hero sits over a faint circuit-board drawing, so the white field reads as a technical blueprint rather than a blank SaaS canvas. The user management promise is made in heavy black type first; the product complexity is allowed to whisper through linework behind it.
 
-색상 전략은 한 점 accent + neutral surface의 고전 SaaS 문법을 따른다. 체감상 가장 넓은 면적은 배경과 텍스트이고, `#6C47FF`는 전체 픽셀의 5% 미만이다. 이런 절제가 "Clerk다움"을 만든다.
+The first viewport behaves like an architect's vellum sheet laid over an authentication engine. The page does not stage a glossy dashboard screenshot first; it shows the blueprint underneath the promise, as if the product has already been drawn, measured, and cleared for installation. Clerk's white is not gallery emptiness. It is lab-bench white: clean enough that every hairline, node, and pill control becomes evidence.
 
-타이포그래피는 **Geist**를 기본 축으로 한다. body는 `400` weight에 `16px` 전후, H1은 `48~64px` 사이, 섹션 타이틀은 `24~32px` — 전통적인 8단 scale 안에서 움직인다. 글자 간격(letter-spacing)은 큰 사이즈에 음수 tracking을 적용해 시각 보정을 준다.
+The visual identity is built from a tight triangle: #131316 (`{colors.text-primary}`) for authority, #FFFFFF (`{colors.surface-page}`) for trust, and #6C47FF (`{colors.primary}`) for the one action that matters. Cyan #5DE3FF (`{colors.accent-cyan}`) appears as a supporting electric accent in gradients and technical details, but it never becomes a second CTA language. Purple owns conversion; cyan owns signal. There is no second brand color competing for the hand; the cyan is a diagnostic glow, not another button.
 
-레이아웃은 1200-1440px content max-width + 8px baseline spacing 시스템 위에 놓인다. 섹션 간 리듬은 80-120px vertical padding으로 정돈되어 있고, 카드/컴포넌트는 12-16px radius를 공유한다. 모션은 `150-200ms` transition에 `ease-out`/`ease-in-out` 기본값을 사용 — 과하게 오래 끌거나 bouncy하지 않다.
+Typography does the confidence work. Suisse is compact and serious, with display tracking as tight as `-.035em`, while labels and navigation stay small, dense, and practical. The giant headline "More than authentication, Complete User Management" is not decorative hero typography. It is product-scope typography: weight 600, black, wide enough to feel like infrastructure, compressed enough to feel engineered.
+
+The navigation reads like a sealed instrument tray: a white rounded shell, tiny separators, compact labels, and a purple action placed with surgical restraint. Nothing spills out of the tray. The top dark announcement strip is the only black chrome band; below it, the page returns to the white technical sheet and lets `{colors.primary}` puncture it only where conversion happens.
+
+The page's craft lives in tiny construction details: `.5px` ring shadows, pill buttons with sharp micro-shadows, focus outlines that deliberately invert between light and dark, and hero line art that gives depth without using a stock illustration. Clerk avoids the usual AI-SaaS move of flooding the hero with gradients. Instead, it makes the interface itself feel assembled, tested, and ready to embed. Shadow behaves like a caliper mark, not furniture elevation: it measures edges on controls and product islands rather than floating every card into the air.
+
+The logo wall below the hero works like a quiet compliance ledger. Black marks sit inside gridded white panels, almost as if each customer logo has been filed into the system. That restraint is the brand argument: identity infrastructure should not perform chaos. It should make every unknown user, org, session, and permission feel indexed.
 
 ### Key Characteristics
 
-- clean auth/dev
-- violet CTA
-- wireframe BG pattern
-- Geist numerals
-- Series C launch
+- White technical blueprint background, not a plain marketing white.
+- Monochrome text hierarchy anchored by #131316 and cooled by #5E5F6E / #9394A1.
+- Single conversion color: #6C47FF purple, with cyan #5DE3FF reserved for technical glow and gradient accents.
+- Heavy display typography with aggressive negative tracking (`-.035em`) on large headings.
+- Pill-shaped controls and nav shell, mostly `9999px` / `.75rem` radius.
+- Thin hairlines and half-pixel ring shadows create precision instead of heavy card shadows.
+- Top announcement bar uses dark chrome, while the main page returns to white.
+- Customer logo wall is intentionally quiet: black marks on gridded white panels.
+- Product credibility comes from embedded UI/code/auth surfaces, not lifestyle imagery.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Refined SaaS
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Precision SaaS
 > **Aesthetic Category**: Refined SaaS
-> **Signature Element**: `hero_impact`
-> **Code Complexity**: medium
+> **Signature Element**: 이 사이트는 **blueprint hero with pill auth controls**으로 기억된다.
+> **Code Complexity**: high — Tailwind/Next utility output, custom font variables, half-pixel shadows, dark/light component branches, and technical background treatments require careful reproduction.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: auto+manual -->
 
 > 5분 안에 Clerk처럼 만들기 — 3가지만 하면 80%
 
 ```css
 /* 1. 폰트 + weight */
 body {
-  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Suisse", "suisse Fallback", ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
+  letter-spacing: 0;
 }
 
-/* 2. 배경 + 텍스트 (light default) */
+/* 2. 배경 + 텍스트 */
 :root {
   --bg: #FFFFFF;
-  --fg: #171717;
-  --border: #E5E5E5;
+  --fg: #131316;
+  --muted: #5E5F6E;
+  --hairline: #0000001A;
 }
 body { background: var(--bg); color: var(--fg); }
 
-/* 3. 브랜드 악센트 */
-:root {
-  --brand: #6C47FF;
-}
+/* 3. 브랜드 액션 */
+:root { --brand: #6C47FF; }
 .cta {
-  background: var(--brand); color: #FFFFFF;
-  border-radius: 8px; padding: 0 16px; height: 40px;
-  font-weight: 500;
+  background: var(--brand);
+  color: #FFFFFF;
+  border-radius: 9999px;
+  box-shadow: 0 1px 1px #0000000D, 0 0 0 .5px #1313161A;
 }
 ```
 
-**절대 하지 말아야 할 것 하나**: #6C47FF를 본문 텍스트 색이나 긴 문단 배경으로 쓰지 말 것. Clerk의 정체성은 brand accent를 **한 점**에만 올리는 절제다. 넓은 면적으로 가져가면 즉시 다른 제품이 된다.
+**절대 하지 말아야 할 것 하나**: Clerk를 파란/보라 그라디언트 SaaS 히어로로 만들지 마라. 실제 첫 인상은 #FFFFFF 바탕, #131316 대형 타입, 아주 얇은 blueprint line art, 그리고 #6C47FF CTA 하나다.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
 | Source URL | `https://clerk.com` |
-| Fetched | 2026-04-20 |
-| Extractor | curl + Chrome UA (5-tier fallback) |
-| Method | CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음 |
-| Token prefix | `--color-*, --font-geist-*` |
-| Screenshot | Jina Reader + PIL crop 1280×800 |
+| Fetched | 2026-04-20T19:58:00+09:00 |
+| Extractor | reused phase1 artifacts: HTML + CSS + JSON + hero screenshot |
+| HTML size | 1,202,105 bytes |
+| CSS files | 3 external + 1 inline, total 578,195 CSS chars |
+| Token prefix | `clerk` (report alias; source is mostly Tailwind/custom component vars) |
+| Method | CSS hex/font/property parsing + screenshot interpretation; no Step 6 HTML report rendered |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: Next.js App Router
-- **Design system**: 자체 토큰 + Tailwind
-- **CSS architecture**: Tailwind + CSS Modules + CSS vars
-- **Class naming**: Next module hash + tailwind utility
-- **Default theme**: light (#FFFFFF)
-- **Font loading**: self-host Geist Sans + Geist Mono + Geist Numbers
-- **Canonical anchor**: #6C47FF (Start building CTA)
-- **Hero**: 중앙 정렬 H1 + primary violet CTA + 보조 light CTA pair
+- **Framework**: Next.js-style production bundle (large hydrated HTML, hashed CSS chunks, Tailwind utility output)
+- **Design system**: Internal Clerk marketing/component system — no single public namespace; variables include `--font-*`, `--focus-outline`, `--input-*`, `--tw-*`
+- **CSS architecture**: Tailwind utility layer + component-scoped CSS variables
+  ```css
+  --font-suisse              ("suisse","suisse Fallback")
+  --font-geist-numbers       ("geistNumbers")
+  --font-soehne-mono         ("soehneMono")
+  --focus-outline            (#131316 on light, #fff on dark)
+  --input-root-background-color (#fff / #2F3037)
+  --input-border-color       (#FFFFFF1F in dark component contexts)
+  --tw-*                     generated transform/ring/shadow utilities
+  ```
+- **Class naming**: Tailwind atomic utilities with escaped arbitrary values plus component variables for auth/input surfaces.
+- **Default theme**: light (`#FFFFFF`) with dark product/code islands (`#131316`, `#212126`, `#2F3037`).
+- **Font loading**: CSS variables for custom font families: Suisse, Geist Sans/Mono/Numbers, Soehne Mono.
+- **Canonical anchor**: hero screenshot shows announcement bar, pill navigation, centered headline, dual CTA row, and logo wall.
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Primary**: `Geist` — body + display 공용
-- **Code**: system mono fallback 또는 `Geist Mono` / `JetBrains Mono`
-- **Weight normal / bold**: `400` / `700`
-- **자주 쓰는 weight**: 400 / 500 / 600 / 700 4단
+- **Display font**: `Suisse` (`--font-suisse: "suisse","suisse Fallback"`)
+- **Body font**: `Suisse`, with occasional `ui-sans-serif` and `Inter` fallback declarations in CSS.
+- **Numeric font**: `Geist Numbers` (`--font-geist-numbers`) paired with Suisse.
+- **Code font**: `Soehne Mono` (`--font-soehne-mono`) and `Geist Mono` for technical/code surfaces.
+- **Weight normal / bold**: `400` / `600`, with `500` heavily used for controls and labels.
 
 ```css
 :root {
-  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI",
-               Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco,
-               "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", monospace;
+  --clerk-font-family:       "suisse","suisse Fallback",ui-sans-serif,system-ui,sans-serif;
+  --clerk-font-family-code:  "soehneMono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --clerk-font-family-numbers: "geistNumbers","suisse","suisse Fallback";
+  --clerk-font-weight-normal: 400;
+  --clerk-font-weight-medium: 500;
+  --clerk-font-weight-bold:   600;
 }
 body {
-  font-family: var(--font-sans);
-  font-weight: 400;
+  font-family: var(--clerk-font-family);
+  font-weight: var(--clerk-font-weight-normal);
 }
 ```
+
+### Note on Font Substitutes
+
+- **Suisse substitute** — use **Inter** only if custom font licensing is unavailable, but tighten it. For display sizes, set `font-weight: 600`, `letter-spacing: -0.035em`, and line-height close to `1.08-1.12`. Untuned Inter will look wider and more generic than Clerk.
+- **Soehne Mono substitute** — use **Geist Mono** or `ui-monospace`; preserve smaller sizes (`.8125rem` or below) and avoid high-contrast code themes unless the component is explicitly dark.
+- **Geist Numbers substitute** — use `font-variant-numeric: tabular-nums` when Geist Numbers is not available. Clerk's numeric/metric UI wants stable alignment, not expressive numerals.
 
 ---
 
 ## 05. Typography Scale
+<!-- SOURCE: auto+manual -->
 
 | Token | Size | Weight | Line-height | Letter-spacing |
-|---|---|---|---|---|
-| small | `14px` | 400 | 1.5 | normal |
-| base | `16px` | 400 | 1.5 | normal |
-| body-l | `18px` | 400 | 1.5 | normal |
-| h5 | `20px` | 600 | 1.3 | normal |
-| h4 | `24px` | 600 | 1.25 | `-0.01em` |
-| h3 | `32px` | 600 | 1.2 | `-0.02em` |
-| h2 | `40px` | 700 | 1.15 | `-0.02em` |
-| h1 | `48/56/64px` | 700 | 1.1 | `-0.03em` |
+|---|---:|---:|---:|---:|
+| Hero display | `4rem` | `600` | `4.5rem` | `-.035em` |
+| Section display | `3.5rem` / `3rem` | `600` | `3.5rem` | `-.035em` |
+| Large title | `2.5rem` / `2.25rem` | `600` | `2.5rem` | `-.025em` |
+| Card title | `2rem` | `600` | `2.5rem` | `-.025em` |
+| Lead copy | `1.125rem` | `400` | `1.75rem` | `-.015em` |
+| Body | `.9375rem` / `1rem` | `400` | `1.5rem` | `0` |
+| Nav / control | `.8125rem` | `500` | `1.25rem` | `0` |
+| Micro label | `.75rem` / `.6875rem` | `500` | `1rem` | `0` |
+| Eyebrow / caps | `.625rem` | `600` | `.75rem` | `.1em` |
 
-> ⚠️ 큰 사이즈(H1~H2)에 음수 tracking 필수 — optical compensation이 없으면 "덜 다듬어진" 느낌이 난다.
+> ⚠️ Clerk's typography depends on negative tracking at display sizes. Leaving headings at browser-default tracking makes the hero feel soft and generic.
+
+### Principles
+
+1. Display sizes are compressed: `-.035em` appears repeatedly and is part of the identity, not an incidental optimization.
+2. Body copy stays restrained around `.9375rem-1.125rem`; the large feeling comes from headings and air, not oversized paragraphs.
+3. Weight `500` is the control language. Buttons, nav labels, and badges often use it; hero headings lean `600`.
+4. Numeric and code contexts are treated as product UI, so mono/numeric fonts are functional surfaces rather than decorative developer flair.
+5. Uppercase/caps treatment is rare and tiny; Clerk does not build its hierarchy from loud all-caps labels.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
 
-### 06-1. Brand
+### 06-1. Brand Ramp (observed anchors)
 
-| Token | Hex | Role |
+| Token | Hex |
+|---|---|
+| `{colors.primary}` | `#6C47FF` |
+| `clerk-purple-gradient` | `#7C3AED` |
+| `clerk-cyan-signal` | `#5DE3FF` |
+| `clerk-cyan-bright` | `#64E5FF` |
+
+### 06-2. Brand Dark Variant
+
+| Token | Hex |
+|---|---|
+| dark action surface | `#131316` |
+| dark panel | `#212126` |
+| dark input | `#2F3037` |
+| dark muted text | `#B7B8C2` |
+
+### 06-3. Neutral Ramp
+
+| Step | Light | Dark |
 |---|---|---|
-| brand.primary | `#6C47FF` | CTA, link, focus ring |
-| brand.hover | 약 8% 어두움 | hover state |
-| brand.tint | 약 95% light mix | soft bg, badge |
+| page | `#FFFFFF` | `#0A0A0B` |
+| soft surface | `#F7F7F8` | `#212126` |
+| subtle border | `#EEEEF0` | `#2F3037` |
+| border | `#D9D9DE` | `#38383B` |
+| muted text | `#9394A1` | `#B7B8C2` |
+| secondary text | `#5E5F6E` | `#D9D9DE` |
+| primary text | `#131316` | `#FFFFFF` |
 
-### 06-2. Neutral Ramp (light 기본)
+### 06-4. Accent Families
 
-| Step | Hex | Use |
+| Family | Key step | Hex |
 |---|---|---|
-| 0 | `#FFFFFF` | page bg |
-| 50 | `#FAFAFA` | panel muted |
-| 100 | `#F5F5F5` | subtle bg |
-| 200 | `#E5E5E5` | border subtle |
-| 300 | `#D4D4D4` | border |
-| 500 | `#737373` | muted text |
-| 700 | `#404040` | secondary text |
-| 900 | `#171717` | primary text |
+| Purple | primary CTA / switch active | `#6C47FF` |
+| Cyan | gradient signal / technical glow | `#5DE3FF` |
+| Green | syntax link token | `#16A332` |
+| Yellow | addon/callout accent | `#FDE047` |
 
-> Clerk 회색 램프는 Tailwind neutral 계열과 유사 — 채도 0% 기준.
+### 06-5. Semantic
+
+| Token | Hex | Usage |
+|---|---|---|
+| focus light | `#131316` | focus outline on light UI |
+| focus dark | `#FFFFFF` | focus outline on dark UI |
+| input focus border | `#00000026` | input focus line/ring |
+| input ring | `#00000014` | subtle field ring |
+| dark input bg | `#2F3037` | embedded auth form fields |
+| switch active | `#6C47FF` / `#131316` | active switch states by theme |
+
+### 06-6. Semantic Alias Layer
+
+| Alias | Resolves to | Usage |
+|---|---|---|
+| `--focus-outline` | `#131316` / `#FFFFFF` | accessible ring, theme-swapped |
+| `--input-root-background-color` | `#FFFFFF` / `#2F3037` | auth/input surfaces |
+| `--input-border-color-focus` | `#00000026` | focused input border |
+| `--input-ring-color` | `#00000014` | field ring |
+| `--active-text` | `#FFFFFF` | active dark/pill state |
+| `--hover-bg` | `#202025` | dark hover state |
+| `--bar-bg` | `#5E5F6E` | small internal UI bars |
+
+### 06-7. Dominant Colors (실제 CSS 빈도 순, transparent variants included)
+
+| Token | Hex | Frequency |
+|---|---:|---:|
+| transparent black | `#0000` | 692 |
+| white | `#FFF` | 150 |
+| black | `#000` | 82 |
+| transparent white | `#FFF0` | 74 |
+| primary text / dark ink | `#131316` | 56 |
+| soft black alpha | `#0000001A` | 52 |
+| dark island | `#2F3037` | 35 |
+| muted text | `#9394A1` | 30 |
+| primary purple | `#6C47FF` | 26 |
+
+### 06-8. Color Stories
+
+**`{colors.text-primary}` (`#131316`)** — The real brand base. Clerk's authority is black-on-white before it is purple; headlines, logo treatment, focus outlines, and dark chrome all come back to this ink.
+
+**`{colors.surface-page}` (`#FFFFFF`)** — White is an engineered workspace here. It carries faint blueprint line art, logo grids, and thin dividers, so it should remain clean rather than warm or creamy.
+
+**`{colors.primary}` (`#6C47FF`)** — Purple is the conversion token. Use it for primary CTA, active switch states, and carefully scoped emphasis. Do not spread it across every icon or section heading.
+
+**`{colors.accent-cyan}` (`#5DE3FF`)** — Cyan is signal, not brand replacement. It appears in gradients/technical highlights and pairs with purple when the site wants "modern infrastructure" energy.
 
 ---
 
 ## 07. Spacing
+<!-- SOURCE: auto+manual -->
 
-8px baseline 시스템.
+| Token | Value | Use case |
+|---|---:|---|
+| `clerk-gap-xxs` | `.125rem` / `.25rem` | icon/text nudges, dense UI internals |
+| `clerk-gap-xs` | `.375rem` / `.5rem` | button icon gap, menu rows |
+| `clerk-gap-sm` | `.75rem` / `1rem` | compact cards, nav clusters |
+| `clerk-gap-md` | `1.5rem` / `2rem` | card groups, content columns |
+| `clerk-gap-lg` | `3rem` / `4rem` | section groups and hero spacing |
+| `clerk-gap-xl` | `5rem` / `8rem` | large editorial bands |
+| `clerk-gap-xxl` | `12rem` | major product section separation |
 
-| Token | Value | Use |
-|---|---|---|
-| `--space-1` | 4px | hairline, icon gap |
-| `--space-2` | 8px | 작은 gap |
-| `--space-3` | 12px | inline group |
-| `--space-4` | 16px | 기본 card padding |
-| `--space-6` | 24px | section inner |
-| `--space-8` | 32px | block 간격 |
-| `--space-12` | 48px | 섹션 수직 padding (small) |
-| `--space-16` | 64px | 섹션 수직 padding (large) |
-| `--space-24` | 96px | hero padding |
+**주요 alias**:
+- `--header-mt` → `3rem` (hero/header vertical offset)
+- Common CSS gaps: `4rem`, `1.5rem`, `1rem`, `.5rem`, `3rem`
+
+### Whitespace Philosophy
+
+Clerk uses open hero air but compresses the interaction details. The hero has enough vertical space for the headline and line-art background to breathe, while buttons, nav menus, and logo wall panels are tight and sharply measured. That contrast is the point: broad trust at the page level, precision at the component level.
+
+The site is not a 4-8-16-only system. It mixes tiny UI nudges (`.125rem`, `.375rem`) with large editorial jumps (`4rem`, `8rem`, `12rem`). When reproducing it, keep micro-spacing exact around controls and let section spacing be generous. If both layers are averaged into medium spacing, the Clerk feel disappears.
 
 ---
 
 ## 08. Radius
+<!-- SOURCE: auto -->
 
-| Token | Value | Use |
-|---|---|---|
-| `--radius-sm` | 4px | chip, badge |
-| `--radius-md` | 8px | button 기본 |
-| `--radius-lg` | 12px | card |
-| `--radius-xl` | 16px | card large |
-| `--radius-2xl` | 24px | hero block |
-| `--radius-pill` | 9999px | pill CTA |
+| Token | Value | Context |
+|---|---:|---|
+| `radius-pill` | `9999px` | primary/secondary buttons, capsules |
+| `radius-nav` | `.75rem` | floating nav shell / larger cards |
+| `radius-card` | `.625rem` / `.5rem` | compact product cards, embedded panels |
+| `radius-control` | `.375rem` | menus, inputs, small controls |
+| `radius-tight` | `.25rem` | code chips and dense UI |
+| `radius-micro` | `.125rem` / `.0625rem` | inner technical details |
 
 ---
 
 ## 09. Shadows
+<!-- SOURCE: auto -->
 
-다층 stack 방식. 단층 shadow는 피한다.
-
-| Token | Value | Use |
+| Level | Value | Usage |
 |---|---|---|
-| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | button resting |
-| `--shadow-md` | `0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.07)` | card |
-| `--shadow-lg` | `0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05)` | dropdown, modal |
+| hairline ring | `0 0 0 .5px #1313161A` | subtle card/control boundary |
+| control base | `0 1px 1px #0000000D` | button and small pill lift |
+| nav/card soft | `0 2px 3px #0000000A, 0 4px 6px #222A350A` | floating chrome without heavy elevation |
+| product panel | `0 16px 36px -6px #191C2133, 0 8px 16px -3px #00000014` | deep product UI islands |
+| dark button active | `0 1px 1px #2B2B343D, 0 2px 3px #2B2B3433, inset 0 1px 1px #FFFFFF12` | dark/auth controls |
+| full-bleed dark extension | `100vmax 0 0 100vmax #131316` | extending dark bands beyond container |
 
 ---
 
 ## 10. Motion
+<!-- SOURCE: auto+manual -->
 
-| Pattern | Value | Use |
+| Token | Value | Usage |
 |---|---|---|
-| `--duration-fast` | `150ms` | hover state |
-| `--duration-base` | `200ms` | 기본 transition |
-| `--ease-out` | `cubic-bezier(0, 0, 0.2, 1)` | 기본 ease-out |
-| `--ease-in-out` | `cubic-bezier(0.4, 0, 0.2, 1)` | 양방향 |
+| micro transform | `transform .1s, opacity .1s` | compact hover/press response |
+| micro transform alt | `transform .12s, opacity .12s` | button/menu variants |
+| color/background | `.45s cubic-bezier(.33,1,.68,1)` | smoother theme/color transitions |
+| accordion dimension | `.25s linear(...)` + `.175s cubic-bezier(.4,0,.2,1)` | expanding/collapsing technical UI |
+| fade in | `--fade-in-duration: 1s` | content reveal |
 
 ---
 
 ## 11. Layout Patterns
+<!-- SOURCE: auto+manual -->
 
-**Grid System**
-- Content max-width: 1200-1440px
-- Gutter: 24px (desktop) / 16px (mobile)
-- Grid type: CSS Grid + Flexbox 하이브리드
+### Grid System
+- **Content max-width**: common caps include `64rem`, `80rem`, `90rem`, with many component-specific caps from `20rem` to `50rem`.
+- **Grid type**: CSS Grid + Flexbox; repeated templates include `repeat(3,minmax(0,1fr))`, `repeat(2,minmax(0,1fr))`, `repeat(4,minmax(0,1fr))`, and occasional `repeat(12,minmax(0,1fr))`.
+- **Column count**: 1-6 for most sections; 12-column appears as a utility scaffold, not the visible homepage rhythm.
+- **Gutter**: common `1rem`, `1.5rem`, `3rem`, `4rem`, with small `.5rem` and `.375rem` inside controls.
 
-**Hero**
-- Layout: 1-column centered
-- H1: 48-64px / weight 700 / tracking -0.03em
-- CTA: 브랜드 primary + 보조 outline
+### Hero
+- **Pattern Summary**: centered hero + white blueprint background + large two-line H1 + dual CTA row + logo wall immediately below.
+- Layout: one-column centered content, nav/announcement above, trust grid below.
+- Background: `#FFFFFF` with faint line-art/circuit motif and subtle technical nodes.
+- **Background Treatment**: image/SVG-like blueprint line pattern on white; no full-bleed photograph, no dominant gradient wash.
+- H1: `4rem` class family / weight `600` / tracking around `-.035em`; screenshot shows heavy black, centered, multi-line.
+- Max-width: hero text visually around `64rem-80rem`, copy narrower around `42rem-48rem`.
 
-**Section Rhythm**
-- Vertical padding: 64-120px
-- 섹션 구분은 배경 톤 차이 또는 얇은 border
+### Section Rhythm
 
-**Cards**
-- Background: #FFFFFF
-- Border: 1px solid #E5E5E5
-- Radius: 12-16px
-- Padding: 24-32px
+```css
+section {
+  padding-block: 4rem 6rem;
+  padding-inline: 1rem;
+  max-width: 80rem;
+}
+```
 
-**Navigation**
-- Type: horizontal desktop / hamburger mobile
-- Position: sticky top 0 / height 64-72px
-- Background: 반투명 + backdrop-filter blur
+### Card Patterns
+- **Card background**: `#FFFFFF` for light cards; `#F7F7F8` for soft panels; `#212126` / `#2F3037` for product/auth islands.
+- **Card border**: mostly `1px` / `.5px` optical rings using `#0000001A`, `#D9D9DE`, or dark equivalents.
+- **Card radius**: `.5rem-.75rem` for panels; pill only for actions.
+- **Card padding**: `.75rem-2rem` depending on density.
+- **Card shadow**: hairline + small stacked shadows; no big generic blur on ordinary cards.
+
+### Navigation Structure
+- **Type**: horizontal desktop nav inside a rounded white shell, with dropdown chevrons.
+- **Position**: top of page below black announcement strip; visually floating but compact.
+- **Height**: screenshot nav shell around 46px; controls around 32-36px.
+- **Background**: `#FFFFFF` with subtle shadow/ring.
+- **Border**: `#0000001A` hairline; right separators around logo/menu cluster.
+
+### Content Width
+- **Prose max-width**: `40ch` appears in CSS; hero copy visually around 42-48rem.
+- **Container max-width**: `80rem` / `90rem` for wide marketing sections.
+- **Sidebar width**: not a homepage primary pattern; product/documentation surfaces may use sidebars outside this single-page analysis.
 
 ---
 
 ## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
 
-| Name | Value | Note |
-|---|---|---|
-| Mobile | `< 640px` | 1-column, hamburger nav |
-| Tablet | `≥ 768px` | 2-col hero |
-| Desktop | `≥ 1024px` | full nav |
-| Large | `≥ 1280px` | content max |
-| XL | `≥ 1536px` | 더 큰 여백 |
+### Breakpoints
 
-Mobile-first. 터치 타겟 최소 44px. 네비게이션은 1024px 이하에서 drawer 전환.
+| Name | Value | Description |
+|---|---:|---|
+| Mobile small | `23.4375em` | very small layout refinements |
+| Mobile wide | `27em` / `32.125em` | compact grid and max-width changes |
+| Tablet | `40em` | major Tailwind `sm` branch; nav/grid adjustments |
+| Medium | `48em` | content/grid upgrades |
+| Desktop | `64em` | full desktop layout, larger grids |
+| Wide | `80em` | large section caps and spacing |
+| Max wide | `96em` | final high-resolution refinements |
+
+### Touch Targets
+- **Minimum tap size**: compact controls appear around 32-36px desktop; mobile should raise clickable area toward 44px even if visual pill remains small.
+- **Button height (mobile)**: use at least `2.5rem` hit area for primary actions.
+- **Input height (mobile)**: embedded auth inputs should preserve generous vertical padding and focus outline visibility.
+
+### Collapsing Strategy
+- **Navigation**: desktop horizontal nav collapses into mobile menu; dropdown affordances should remain explicit.
+- **Grid columns**: repeated 3/4/5/6-column templates collapse to 1-2 columns below `40em` / `48em`.
+- **Sidebar**: not applicable on homepage hero; product/docs surfaces likely have separate responsive sidebar rules.
+- **Hero layout**: remains centered; headline size and line breaks must scale down rather than switching to split hero.
+
+### Image Behavior
+- **Strategy**: responsive SVG/illustration/UI surfaces with `max-width: 100%`; line-art background can crop softly.
+- **Max-width**: product panels and hero content capped; logos are constrained inside grid cells.
+- **Aspect ratio handling**: technical UI mockups should keep fixed aspect ratio; logo wall cells keep stable height.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
-### 13-1. Button (primary)
+### Buttons
+
+**Primary CTA**
 
 ```html
-<button class="btn btn--primary">Get started</button>
+<button class="clerk-button clerk-button--primary">Start building for free</button>
 ```
 
-```css
-.btn--primary {
-  background: #6C47FF;
-  color: #FFFFFF;
-  border: 0;
-  border-radius: 8px;
-  padding: 0 16px;
-  height: 40px;
-  font-weight: 500;
-  transition: transform 150ms ease-out, filter 150ms ease-out;
-}
-.btn--primary:hover {
-  filter: brightness(1.08);
-}
+| Property | Value |
+|---|---|
+| Background | `#6C47FF` |
+| Text | `#FFFFFF` |
+| Radius | `9999px` |
+| Font | Suisse, `.8125rem`, weight `500` |
+| Padding | approx `.5rem 1rem` |
+| Shadow | small black alpha + half-pixel ring |
+| Hover | subtle transform/opacity response, not large lift |
+| Focus | `2px solid #131316` or theme-swapped `#FFFFFF` |
+
+**Secondary CTA**
+
+```html
+<button class="clerk-button clerk-button--secondary">Build with agents</button>
 ```
 
-### 13-2. Card
+| Property | Value |
+|---|---|
+| Background | `#FFFFFF` |
+| Text | `#131316` |
+| Border | `1px solid #0000001A` / `#D9D9DE` |
+| Radius | `9999px` |
+| Icon | small chevron, same optical weight as label |
 
-```css
-.card {
-  background: #FFFFFF;
-  border: 1px solid #E5E5E5;
-  border-radius: 12px;
-  padding: 24px;
-  transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
-}
-.card:hover {
-  border-color: #6C47FF40;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
+### Badges
+
+```html
+<a class="clerk-announcement" href="/changelog">
+  <span>Clerk raises $50m Series C</span>
+  <span>Learn more</span>
+</a>
 ```
 
-### 13-3. Input
+| Property | Value |
+|---|---|
+| Background | dark strip around `#0A0A0B` / `#131316` |
+| Text | `#FFFFFF` and softened white alpha |
+| Divider | subtle vertical hairline |
+| Size | `.8125rem` label scale |
+| Motion | minimal hover color/opacity |
 
-```css
-.input {
-  background: #FFFFFF;
-  border: 1px solid #E5E5E5;
-  border-radius: 8px;
-  height: 40px;
-  padding: 0 12px;
-  transition: border-color 150ms, box-shadow 150ms;
-}
-.input:focus {
-  outline: 0;
-  border-color: #6C47FF;
-  box-shadow: 0 0 0 3px #6C47FF33;
-}
+### Cards & Containers
+
+```html
+<article class="clerk-card">
+  <h3>User Authentication</h3>
+  <p>Everything you need for authentication.</p>
+</article>
 ```
 
-### 13-4. Nav
+| Property | Value |
+|---|---|
+| Background | `#FFFFFF` or `#F7F7F8` |
+| Border | `#0000001A` or `#EEEEF0` |
+| Radius | `.5rem-.75rem` |
+| Padding | `1rem-2rem` |
+| Shadow | hairline ring; larger stacks only for product UI panels |
+| Hover | border/shadow refinement, no bouncy card animation |
 
-```css
-.nav {
-  position: sticky; top: 0;
-  height: 64px;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid #E5E5E5;
-}
+### Navigation
+
+```html
+<nav class="clerk-nav">
+  <a class="clerk-logo">clerk</a>
+  <a>Products</a>
+  <a>Docs</a>
+  <a>Pricing</a>
+  <button>Start building</button>
+</nav>
+```
+
+| Property | Value |
+|---|---|
+| Shell | rounded white capsule/surface |
+| Radius | `.75rem` outer, pill inner controls |
+| Border | `#0000001A` |
+| Shadow | subtle stacked shadow/ring |
+| Links | `.8125rem`, weight `500`, black/muted |
+| Active/open | chevron and menu treatment, not underline nav |
+
+### Inputs & Forms
+
+```html
+<label class="clerk-field">
+  <span>Email address</span>
+  <input placeholder="you@example.com" />
+</label>
+```
+
+| Property | Value |
+|---|---|
+| Light background | `#FFFFFF` |
+| Dark background | `#2F3037` |
+| Border focus | `#00000026` |
+| Ring | `#00000014` |
+| Radius | `.375rem-.5rem` |
+| Font | Suisse body; technical values can use Geist Numbers |
+| Error | not fully observed; use explicit red token only when sourced from form flow |
+
+### Hero Section
+
+```html
+<section class="clerk-hero">
+  <h1>More than authentication,<br />Complete User Management</h1>
+  <p>Need more than sign-in? Clerk gives you full stack auth and user management.</p>
+  <div class="clerk-hero-actions">...</div>
+</section>
+```
+
+| Property | Value |
+|---|---|
+| Background | `#FFFFFF` with blueprint/circuit line art |
+| H1 | `4rem`, weight `600`, tracking `-.035em`, color `#131316` |
+| Copy | `1.125rem`, color `#5E5F6E`, centered |
+| CTA layout | centered row, primary purple + secondary white |
+| Below fold | logo wall starts immediately after hero, separated by grid hairlines |
+
+### 13-2. Named Variants
+
+**button-primary-purple**
+
+| Property | Value |
+|---|---|
+| Background | `#6C47FF` |
+| Text | `#FFFFFF` |
+| Radius | `9999px` |
+| Use | "Start building for free", primary conversion only |
+
+**button-secondary-white-pill**
+
+| Property | Value |
+|---|---|
+| Background | `#FFFFFF` |
+| Border | `#0000001A` |
+| Text | `#131316` |
+| Use | secondary agent/build choices |
+
+**nav-floating-shell**
+
+| Property | Value |
+|---|---|
+| Background | `#FFFFFF` |
+| Radius | `.75rem` |
+| Border/shadow | hairline + small stacked shadow |
+| Use | top-level product navigation |
+
+**auth-input-dark**
+
+| Property | Value |
+|---|---|
+| Background | `#2F3037` |
+| Border | `#FFFFFF1F` |
+| Focus | `#00000026` |
+| Use | embedded sign-in/product UI panels |
+
+### 13-3. Signature Micro-Specs
+
+```yaml
+blueprint-hero-linework:
+  description: "히어로를 SaaS 장식이 아니라 인증 인프라 설계도처럼 보이게 하는 저대비 linework."
+  technique: "background #FFFFFF with faint circuit/blueprint lines near #EEEEF0, #D9D9DE, or #0000001A; small node details; no neon stroke."
+  applied_to: ["{component.hero-section}"]
+  visual_signature: "제품 스크린샷보다 먼저 '이미 설계된 시스템'이라는 인상이 깔린다."
+
+half-pixel-ring-stack:
+  description: "큰 elevation 대신 .5px optical ring과 미세 alpha shadow로 경계를 재는 Clerk식 표면 공법."
+  technique: "box-shadow: 0 0 0 .5px #1313161A, 0 1px 1px #0000000D; dark variants use inset .5px rings and low-alpha highlights."
+  applied_to: ["{component.button-primary}", "{component.button-secondary}", "{component.nav-shell}", "{component.product-panel}"]
+  visual_signature: "카드가 떠오르는 대신 계측 장비처럼 또렷하게 절단된 모서리."
+
+sealed-white-nav-shell:
+  description: "상단 네비게이션을 독립된 white instrument tray처럼 밀봉하는 compact shell."
+  technique: "background #FFFFFF; border 1px solid #0000001A; border-radius .75rem; shadow 0 2px 3px #0000000A, 0 4px 6px #222A350A; links at .8125rem/500."
+  applied_to: ["{component.nav-shell}"]
+  visual_signature: "검은 announcement bar 아래에서 흰 조작 패널 하나만 정밀하게 떠 있는 느낌."
+
+tight-suisse-infrastructure-display:
+  description: "제품 범위를 크게 말하되 playful SaaS처럼 풀어지지 않게 압축하는 display typography."
+  technique: "font-family Suisse; font-weight 600; letter-spacing -.035em on hero/h2 scale, -.025em on h3; line-height around 1.08-1.12."
+  applied_to: ["{component.hero-section}", "{component.section-title}"]
+  visual_signature: "헤드라인이 광고 문구가 아니라 인프라 명세 제목처럼 응집된다."
+
+scoped-purple-cyan-signal:
+  description: "브랜드 에너지를 CTA와 기술 신호에만 제한하는 no-second-CTA-color 규칙."
+  technique: "#6C47FF for primary action/active states; #5DE3FF and #7C3AED only in scoped gradients or technical accents; no page-wide gradient wash."
+  applied_to: ["{component.button-primary}", "{component.technical-accent}", "{component.hero-section}"]
+  visual_signature: "보라색은 손이 가는 곳, 시안은 회로가 살아 있는 곳에만 나타난다."
 ```
 
 ---
 
 ## 14. Content / Copy Voice
+<!-- SOURCE: manual -->
 
-- 짧고 단호한 헤드라인 (5-8 단어)
-- 서브헤드는 이점 중심, 기능명 나열 지양
-- CTA 동사 (Get started, Start building, Book a demo)
-- 기술적 정확함 + 친근함 중간 톤
+| Pattern | Rule | Example |
+|---|---|---|
+| Headline | Product scope expansion, direct and large | "More than authentication, Complete User Management" |
+| Primary CTA | Action-first, free-start framing | "Start building for free" |
+| Secondary CTA | Developer/tooling context | "Build with agents" |
+| Subheading | Explain operational benefit in one sentence | "launch faster, scale easier..." |
+| Tone | Confident infrastructure, not playful consumer copy | "Everything you need for authentication" |
 
 ---
 
 ## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
+/* Clerk — copy into your root stylesheet */
 :root {
-  --brand: #6C47FF;
-  --bg: #FFFFFF;
-  --fg: #171717;
-  --muted: #737373;
-  --border: #E5E5E5;
-  --card: #FFFFFF;
-  --radius: 8px;
-  --radius-lg: 12px;
-  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Fonts */
+  --clerk-font-family: "suisse","suisse Fallback",ui-sans-serif,system-ui,sans-serif;
+  --clerk-font-family-code: "soehneMono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --clerk-font-family-numbers: "geistNumbers","suisse","suisse Fallback";
+  --clerk-font-weight-normal: 400;
+  --clerk-font-weight-medium: 500;
+  --clerk-font-weight-bold: 600;
+
+  /* Core colors */
+  --clerk-color-brand-500: #6C47FF;
+  --clerk-color-accent-cyan: #5DE3FF;
+  --clerk-bg-page: #FFFFFF;
+  --clerk-bg-soft: #F7F7F8;
+  --clerk-bg-dark: #131316;
+  --clerk-bg-panel-dark: #212126;
+  --clerk-text: #131316;
+  --clerk-text-secondary: #5E5F6E;
+  --clerk-text-muted: #9394A1;
+  --clerk-border: #D9D9DE;
+  --clerk-hairline: #0000001A;
+
+  /* Spacing */
+  --clerk-space-xs: .5rem;
+  --clerk-space-sm: 1rem;
+  --clerk-space-md: 1.5rem;
+  --clerk-space-lg: 4rem;
+
+  /* Radius */
+  --clerk-radius-control: .375rem;
+  --clerk-radius-card: .75rem;
+  --clerk-radius-pill: 9999px;
+
+  /* Effects */
+  --clerk-ring-hairline: 0 0 0 .5px #1313161A;
+  --clerk-shadow-control: 0 1px 1px #0000000D;
+  --clerk-focus-outline: 2px solid #131316;
 }
 
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  background: var(--bg);
-  color: var(--fg);
+.clerk-hero {
+  background: var(--clerk-bg-page);
+  color: var(--clerk-text);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-h1 { font-size: 48px; font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 16px; }
-h2 { font-size: 32px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 12px; }
-h3 { font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; margin: 0 0 8px; }
-
-.btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  height: 40px; padding: 0 16px;
-  border-radius: var(--radius); border: 0;
-  font-weight: 500; font-size: 14px;
-  cursor: pointer; transition: all 150ms ease-out;
-}
-.btn--primary { background: var(--brand); color: #FFFFFF; }
-.btn--primary:hover { filter: brightness(1.08); }
-.btn--outline {
-  background: transparent; color: var(--fg);
-  border: 1px solid var(--border);
+.clerk-hero h1 {
+  font-family: var(--clerk-font-family);
+  font-size: clamp(3rem, 7vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: -.035em;
+  font-weight: 600;
 }
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
+.clerk-button-primary {
+  border: 0;
+  border-radius: var(--clerk-radius-pill);
+  background: var(--clerk-color-brand-500);
+  color: #FFFFFF;
+  font: 500 .8125rem/1.25rem var(--clerk-font-family);
+  padding: .5rem 1rem;
+  box-shadow: var(--clerk-shadow-control), var(--clerk-ring-hairline);
+}
+
+.clerk-button-secondary {
+  border: 1px solid var(--clerk-hairline);
+  border-radius: var(--clerk-radius-pill);
+  background: #FFFFFF;
+  color: var(--clerk-text);
+  font: 500 .8125rem/1.25rem var(--clerk-font-family);
+  padding: .5rem 1rem;
 }
 ```
 
 ---
 
 ## 16. Tailwind Config
+<!-- SOURCE: auto+manual -->
 
 ```js
-// tailwind.config.js — Clerk
+// tailwind.config.js — Clerk-inspired tokens
 module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: { DEFAULT: '#6C47FF' },
+        clerk: {
+          purple: '#6C47FF',
+          cyan: '#5DE3FF',
+          ink: '#131316',
+          muted: '#5E5F6E',
+          subtle: '#9394A1',
+          soft: '#F7F7F8',
+          border: '#D9D9DE',
+          dark: '#212126',
+        },
       },
       fontFamily: {
-        sans: ['Geist', 'system-ui', 'sans-serif'],
+        sans: ['Suisse', 'suisse Fallback', 'ui-sans-serif', 'system-ui'],
+        mono: ['Soehne Mono', 'Geist Mono', 'ui-monospace'],
+        numbers: ['Geist Numbers', 'Suisse', 'ui-sans-serif'],
       },
-      borderRadius: { DEFAULT: '8px', lg: '12px', xl: '16px' },
-      transitionDuration: { DEFAULT: '150ms', base: '200ms' },
+      fontWeight: {
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+      },
+      borderRadius: {
+        control: '.375rem',
+        card: '.75rem',
+        pill: '9999px',
+      },
+      boxShadow: {
+        hairline: '0 0 0 .5px #1313161A',
+        control: '0 1px 1px #0000000D, 0 0 0 .5px #1313161A',
+        panel: '0 16px 36px -6px #191C2133, 0 8px 16px -3px #00000014',
+      },
     },
   },
 };
@@ -436,41 +820,127 @@ module.exports = {
 ---
 
 ## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
 
 ### Quick Color Reference
 
 | Role | Token | Hex |
 |---|---|---|
-| Brand primary | `--brand` | `#6C47FF` |
-| Background | `--bg` | `#FFFFFF` |
-| Text primary | `--fg` | `#171717` |
-| Text muted | `--muted` | `#737373` |
-| Border | `--border` | `#E5E5E5` |
+| Brand primary | `{colors.primary}` | `#6C47FF` |
+| Accent signal | `{colors.accent-cyan}` | `#5DE3FF` |
+| Background | `{colors.surface-page}` | `#FFFFFF` |
+| Soft surface | `{colors.surface-soft}` | `#F7F7F8` |
+| Text primary | `{colors.text-primary}` | `#131316` |
+| Text muted | `{colors.text-muted}` | `#9394A1` |
+| Border | `{colors.border-soft}` | `#D9D9DE` |
+| Dark panel | `{colors.dark-surface}` | `#212126` |
 
-### Example Prompts
+### Example Component Prompts
 
-**Hero Section**
-> Clerk 스타일 히어로. 배경 `#FFFFFF`, H1 `Geist` 56px weight 700 tracking -0.03em color `#171717`. primary CTA `#6C47FF` radius 8px padding 0 20px height 44px, secondary outline border `#E5E5E5`.
+#### Hero Section
 
-**Card**
-> Clerk 스타일 카드. bg `#FFFFFF` border 1px solid `#E5E5E5` radius 12px padding 24px. hover border `#6C47FF40` shadow `0 4px 6px rgba(0,0,0,0.05)`.
+```text
+Clerk 스타일 히어로 섹션을 만들어줘.
+- 배경: #FFFFFF, 아주 흐린 blueprint/circuit line art를 뒤에 깔 것
+- H1: Suisse, clamp(3rem, 7vw, 4rem), weight 600, tracking -.035em, color #131316
+- 서브텍스트: #5E5F6E, 1.125rem, line-height 1.75rem, max-width 48rem
+- CTA: primary #6C47FF pill + secondary white pill with #0000001A border
+- 그림자: 큰 blur 대신 0 1px 1px #0000000D + .5px hairline ring
+```
+
+#### Card Component
+
+```text
+Clerk 스타일 카드 컴포넌트를 만들어줘.
+- 배경: #FFFFFF 또는 #F7F7F8
+- border: 1px solid #0000001A, radius .75rem
+- shadow: 0 0 0 .5px #1313161A plus tiny #0000000D control shadow
+- 제목: Suisse, 2rem 이하, weight 600, tracking -.025em
+- 본문: #5E5F6E, .9375rem, line-height 1.5rem
+- hover는 border/shadow만 미세하게 바꾸고 transform bounce 금지
+```
+
+#### Badge
+
+```text
+Clerk announcement badge/top bar를 만들어줘.
+- dark strip: #0A0A0B 또는 #131316
+- text: #FFFFFF with muted white alpha for secondary part
+- font: Suisse .8125rem weight 500
+- subtle divider, no colorful gradient background
+```
+
+#### Navigation
+
+```text
+Clerk 스타일 상단 네비게이션을 만들어줘.
+- white rounded shell, radius .75rem, border #0000001A
+- logo left, menu links .8125rem weight 500, chevrons included
+- right side: Sign in text + Start building white pill
+- shell shadow is subtle: 0 2px 3px #0000000A, not a large floating card
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: purple #6C47FF는 CTA/action에만 남기고, page structure는 #FFFFFF / #131316 / #D9D9DE로 유지한다.
+- **폰트 변경 시**: display tracking `-.035em`을 같이 보정한다. 폰트만 바꾸면 Clerk 특유의 압축감이 사라진다.
+- **여백 조정 시**: control internals는 `.375rem-.75rem`, section spacing은 `4rem+`로 분리한다.
+- **새 컴포넌트 추가 시**: pill, hairline, tiny shadow, accessible focus ring 네 가지를 먼저 맞춘다.
+- **다크 모드**: #212126 / #2F3037 기반 product island로 제한한다. 전체 페이지를 dark로 뒤집지 않는다.
+- **반응형**: `40em`, `48em`, `64em`, `80em` breakpoint 계단을 우선 사용한다.
 
 ---
 
 ## 18. DO / DON'T
+<!-- SOURCE: manual -->
 
 ### ✅ DO
-- 브랜드 색 `#6C47FF`는 CTA·링크·focus ring에만 사용
-- 배경은 `#FFFFFF` 또는 `#FAFAFA` (panel)
-- 본문 텍스트는 `#171717`, muted는 `#737373`
-- H1~H3에 음수 letter-spacing 적용 (`-0.01em ~ -0.03em`)
-- Radius 4/8/12/16/24/9999px 6단 체계 유지
+
+- Use #FFFFFF as the primary page surface and let faint technical line art create depth.
+- Use #131316 for primary text and focus authority; it is the real visual anchor.
+- Use #6C47FF only for primary conversion and active action states.
+- Preserve tight display tracking around `-.035em` for hero-scale headings.
+- Use pill buttons (`9999px`) and compact `.8125rem` control typography.
+- Build surface depth from `0 0 0 .5px` rings and tiny alpha shadows, not heavy cards.
+- Keep dark surfaces as product/auth islands rather than the whole marketing page.
+- Pair purple with #5DE3FF only for scoped technical signal moments.
 
 ### ❌ DON'T
-- 배경을 `#EEEEEE` 또는 중간 회색으로 두지 말 것 — 대신 `#FAFAFA` 사용
-- 텍스트를 `#000000`/`black`으로 두지 말 것 — 대신 `#171717` 사용
-- body에 `font-weight: 300` 사용 금지 — Clerk은 `400`이 기본
-- 브랜드 색 `#6C47FF`를 긴 문단 배경에 쓰지 말 것
-- Radius `20px`, `30px` 등 외부 값 금지 — 토큰 scale만 사용
-- 단층 shadow `0 4px 12px rgba(0,0,0,0.1)` 금지 — 2-layer stack 사용
-- transition duration `400ms+` 금지 — 150-200ms 유지
+
+- 배경을 `#F4F4F4`, `#FAFAFA`, 또는 warm cream으로 두지 말 것 — Clerk homepage는 `#FFFFFF` 기반이다.
+- 본문 텍스트를 `#000000` 또는 `black`으로만 두지 말 것 — primary ink는 `#131316`을 사용한다.
+- CTA를 `#7C3AED` 또는 generic violet으로 통일하지 말 것 — primary action은 `#6C47FF`가 canonical이다.
+- 보조 텍스트를 `#666666`으로 두지 말 것 — `#5E5F6E` 또는 `#9394A1` 계열을 사용한다.
+- 경계선을 `#E5E7EB` Tailwind gray로 대체하지 말 것 — `#D9D9DE`, `#EEEEF0`, `#0000001A`를 사용한다.
+- Hero에 `linear-gradient(135deg, #667eea, #764ba2)`를 쓰지 말 것 — white blueprint surface + scoped purple CTA가 맞다.
+- Headline letter-spacing을 `0`으로 두지 말 것 — large display는 `-.035em` 근처로 조인다.
+- 모든 카드를 `box-shadow: 0 20px 40px #00000020`로 띄우지 말 것 — `.5px` ring과 작은 alpha shadow를 우선한다.
+- 버튼을 `border-radius: 8px` 사각형으로 만들지 말 것 — primary/secondary actions는 `9999px` pill이다.
+- Dark UI의 input background를 `#111111`로 뭉개지 말 것 — observed dark input surface는 `#2F3037`이다.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- **No second CTA color** — cyan exists, but it does not compete with #6C47FF for primary action.
+- **No warm editorial palette** — no beige, cream, tan, or paper texture identity on the homepage.
+- **No stock SaaS gradient hero** — gradient accents exist in CSS, but the first viewport is white blueprint precision.
+- **No lifestyle photography** — trust is built through product surfaces, logo wall, and technical linework.
+- **No heavy card elevation** — ordinary UI chrome avoids large diffuse shadows.
+- **No playful rounded cards everywhere** — pills are for actions; panels stay controlled with `.5rem-.75rem` radius.
+- **No loud multi-color icon system** — chromatic color is scoped; monochrome marks dominate the logo wall.
+- **No casual display type** — headings are compressed and serious, not bubbly or handwritten.
+- **No full dark marketing theme** — dark appears as announcement/product/auth islands only.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Single homepage snapshot** — analysis reused `insane-design/clerk` phase1 artifacts and the hero screenshot. Logged-in dashboard, docs pages, pricing flow, and checkout/account subflows were not visited.
+- **CSS bundle is utility-heavy** — many values are generated Tailwind utilities. Some repeated tokens may come from unused or below-the-fold components rather than visible hero elements.
+- **Logo wall contamination** — frequency counts include customer logos and SVG/pattern colors. Brand color selection intentionally favors CTA/product usage over raw frequency.
+- **Motion not fully exercised** — CSS transitions were parsed, but scroll-triggered JavaScript, dropdown animation timing, and announcement interactions were not run in a browser during this pass.
+- **Form validation states not surfaced** — input variables exist, but error/loading/disabled auth states were not visually exercised from an actual sign-in flow.
+- **Dark mode mapping partial** — dark panel and input tokens are visible in CSS, but a complete theme-pair map was not proven for every component.
+- **Exact hero line-art implementation** — screenshot confirms the blueprint visual; the final drawing source may be SVG/image/CSS composition inside the large HTML bundle.
+- **Font availability** — Suisse and Soehne Mono are inferred from CSS variables; licensing and exact font files were not audited.
+- **Report HTML skipped by request** — Step 6 RENDER-HTML was intentionally not executed; this file is the deliverable.

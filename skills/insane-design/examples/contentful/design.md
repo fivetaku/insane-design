@@ -1,433 +1,811 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: contentful
 service_name: Contentful
 site_url: https://www.contentful.com
-fetched_at: 2026-04-20
+fetched_at: 2026-05-03T00:00:00+09:00
 default_theme: light
 brand_color: "#1770E5"
-primary_font: Inter
+primary_font: "Avenir Next W01"
 font_weight_normal: 400
-token_prefix: --color-*, --spacing-*
+token_prefix: contentful
 
-bold_direction: "Refined SaaS"
-aesthetic_category: "Refined SaaS"
-signature_element: section_transition
-code_complexity: medium
+bold_direction: Friendly SaaS
+aesthetic_category: refined-saas
+signature_element: hero_impact
+code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: saas-marketing
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "CSS modules plus consistent button, grid, type, and navigation patterns; only sparse public custom-property tokens were visible."
+
+colors:
+  primary: "#1770E5"
+  ink: "#2B2D31"
+  surface: "#FFFFFF"
+  mist: "#EFF2F6"
+  border: "#C4D1DE"
+  muted: "#6D7682"
+  soft-line: "#DDE5EC"
+typography:
+  display: "Avenir Next W01"
+  body: "Avenir Next W01"
+  fallback: "Arial, Helvetica, sans-serif"
+  ladder:
+    - { token: hero, size: "72px", weight: 600, line_height: "100%" }
+    - { token: heading-xl, size: "56px", weight: 600, line_height: "63.84px" }
+    - { token: heading-lg, size: "40px", weight: 600, line_height: "45.2px" }
+    - { token: body, size: "16px", weight: 400, line_height: "26px" }
+    - { token: label, size: "14px", weight: 600, line_height: "19px" }
+  weights_used: [400, 500, 600, 700]
+  weights_absent: [300, 800, 900]
+components:
+  button-primary: { bg: "{colors.ink}", color: "{colors.surface}", radius: "2rem", hover_bg: "{colors.primary}" }
+  button-secondary-outline: { bg: "transparent", border: "1px solid {colors.ink}", color: "{colors.ink}", hover_border: "{colors.primary}" }
+  nav-mega-item: { title_weight: 600, desc_color: "{colors.muted}", icon_size: "24px" }
+  hero-pill: { bg: "{colors.surface}", radius: "2rem", padding: "0.8rem 1.6rem" }
 ---
 
-# DESIGN.md — Contentful (Claude Code Edition)
+# DESIGN.md - Contentful
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-민트 파스텔 캔버스 + 검정 CTA을(를) 축으로 하는 디자인 시스템. 헤드리스 CMS 선구자 — 민트 파스텔 히어로 + 검정 CTA 그리고 Contentful blue 링크.
+### Narrative
 
-Contentful의 마케팅 홈은 refined saas 성격을 유지한다. 브랜드 컬러 `#1770E5`는 CTA, 링크, focus ring 등 의미가 필요한 지점에만 등장하며, 넓은 면적은 light 캔버스(`#FFFFFF` 계열)가 담당한다. 이 구조는 사용자가 "콘텐츠에 집중하게 하고, 색이 개입하는 순간은 결정이 필요한 순간"이라는 일관된 규율로 설계되었다.
+Contentful's marketing surface is a mint-tinted canvas holding Avenir copy in a strict 12-column scaffold — a content orchestration console that has chosen warmth over control-panel chrome. The page is light and conversational, but the underlying grid is exact: a 1320px max container and repeated 1.6rem / 2.4rem / 3.2rem spacing units give it the structure of a filing system dressed in frosted-glass panels.
 
-색상 전략은 한 점 accent + neutral surface의 고전 SaaS 문법을 따른다. 체감상 가장 넓은 면적은 배경과 텍스트이고, `#1770E5`는 전체 픽셀의 5% 미만이다. 이런 절제가 "Contentful다움"을 만든다.
+The hero is a pale work surface, not a sterile terminal. #EFF2F6 (`{colors.mist}`) behaves like the tinted glass panel of an editorial planning room, while #2B2D31 (`{colors.ink}`) arrives as the single dark instrument: H1 ink, CTA fill, and the one object that gives the soft scene authority. The brand blue #1770E5 (`{colors.primary}`) is kept like an illuminated button on a content console: dormant until intent, then bright on hover, links, and emphasis moments. There is no full blue wash, no ambient gradient cloud; the canvas stays white and misted until interaction asks for electricity.
 
-타이포그래피는 **Inter**를 기본 축으로 한다. body는 `400` weight에 `16px` 전후, H1은 `48~64px` 사이, 섹션 타이틀은 `24~32px` — 전통적인 8단 scale 안에서 움직인다. 글자 간격(letter-spacing)은 큰 사이즈에 음수 tracking을 적용해 시각 보정을 준다.
+Typography does most of the conversion work. Avenir Next W01 gives the page rounder terminals than Inter, and the headline weight sits at 600 instead of jumping to a heavy 800/900 marketing voice. Body copy remains readable at 16px with a relaxed line-height around 26px. This is an enterprise site speaking in direct sentences — a parchment of structured clarity, not a developer tool pretending to be documentation.
 
-레이아웃은 1200-1440px content max-width + 8px baseline spacing 시스템 위에 놓인다. 섹션 간 리듬은 80-120px vertical padding으로 정돈되어 있고, 카드/컴포넌트는 12-16px radius를 공유한다. 모션은 `150-200ms` transition에 `ease-out`/`ease-in-out` 기본값을 사용 — 과하게 오래 끌거나 bouncy하지 않다.
+The site's craft is in soft boundaries: 2rem buttons, 1.2rem and 2rem cards, rounded hero panels, and almost no chrome shadow. It feels like a content studio with rounded trays: every module has a rim, but few cast theatrical shadow. Borders and surface tint define hierarchy more than elevation. The mega menu reads like a library archive rebuilt for a DXP: product, solution, resource, developer, partner, and pricing taxonomy in compact Avenir labels. The site does not delete chaos; it files it into a friendly 12-column editorial structure. That is the Contentful move: the canvas receives everything, the console organizes it, and the parchment of the page stays calm throughout.
 
 ### Key Characteristics
 
-- mint pastel hero
-- dark CTA
-- Contentful blue
-- enterprise CMS
-- 94 CSS chunks
+- Soft enterprise SaaS: rounded surfaces, calm panels, and dense navigation under a friendly first impression.
+- #2B2D31 (`{colors.ink}`) carries primary CTA and headline authority; #1770E5 (`{colors.primary}`) is mostly interaction energy.
+- Avenir Next W01 is central to the brand feel; substituting generic Inter makes the page feel sharper and less Contentful.
+- Desktop layout uses a 12-column grid with 82.5% width and 1320px max-width.
+- Spacing repeats 1.6rem, 2.4rem, 3.2rem, 5.2rem, and 6.4rem rather than arbitrary one-off values.
+- Buttons and hero pills use large radii, commonly 2rem or pill-like values.
+- Navigation is a major component surface: mega-menu item density, icon rows, and product taxonomy matter.
+- Shadows are sparse and secondary; surface tint, border, and radius do more visual work.
+- The homepage mixes product-platform language with small friendly illustration diagrams rather than photographic drama.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Refined SaaS
-> **Aesthetic Category**: Refined SaaS
-> **Signature Element**: `section_transition`
-> **Code Complexity**: medium
+### 🤖 Direction Summary (Machine Interface - DO NOT EDIT)
+
+> **BOLD Direction**: Friendly SaaS
+> **Aesthetic Category**: refined-saas
+> **Signature Element**: 이 사이트는 **soft mint hero plus dark pill CTA**으로 기억된다.
+> **Code Complexity**: high — CSS modules, responsive grids, mega-navigation, and many component variants need coordinated implementation.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: auto+manual -->
 
-> 5분 안에 Contentful처럼 만들기 — 3가지만 하면 80%
+> 5분 안에 Contentful처럼 만들기 - 3가지만 하면 80%
 
 ```css
-/* 1. 폰트 + weight */
+/* 1. Font + weight */
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Avenir Next W01", "Avenir Next", Arial, Helvetica, sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
 }
 
-/* 2. 배경 + 텍스트 (light default) */
+/* 2. Background + text */
 :root {
   --bg: #FFFFFF;
-  --fg: #171717;
-  --border: #E5E5E5;
+  --fg: #2B2D31;
+  --surface-mist: #EFF2F6;
 }
-body { background: var(--bg); color: var(--fg); }
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
 
-/* 3. 브랜드 악센트 */
+/* 3. Interaction accent */
 :root {
   --brand: #1770E5;
 }
-.cta {
-  background: var(--brand); color: #FFFFFF;
-  border-radius: 8px; padding: 0 16px; height: 40px;
-  font-weight: 500;
+.button-primary {
+  background: #2B2D31;
+  color: #FFFFFF;
+  border-radius: 2rem;
+}
+.button-primary:hover {
+  background: #1770E5;
 }
 ```
 
-**절대 하지 말아야 할 것 하나**: #1770E5를 본문 텍스트 색이나 긴 문단 배경으로 쓰지 말 것. Contentful의 정체성은 brand accent를 **한 점**에만 올리는 절제다. 넓은 면적으로 가져가면 즉시 다른 제품이 된다.
+**절대 하지 말아야 할 것 하나**: primary CTA를 처음부터 #1770E5 파란 버튼으로 만들지 말 것. Contentful의 homepage CTA 기본값은 #2B2D31이고, #1770E5는 hover/interaction에서 강하게 올라온다.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
 | Source URL | `https://www.contentful.com` |
-| Fetched | 2026-04-20 |
-| Extractor | curl + Chrome UA (5-tier fallback) |
-| Method | CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음 |
-| Token prefix | `--color-*, --spacing-*` |
-| Screenshot | Jina Reader + PIL crop 1280×800 |
+| Fetched | 2026-05-03T00:00:00+09:00 |
+| Extractor | reused phase1 assets from `insane-design/contentful/` |
+| HTML size | 3,351,092 bytes (`_next/static` markers present) |
+| CSS files | 94 external CSS files, ~1,015,840 chars |
+| Token prefix | `contentful` (analysis alias; site CSS uses CSS modules plus sparse `--tw-*` / swiper vars) |
+| Method | phase1 JSON + CSS frequency + hero screenshot interpretation |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: Next.js (marketing) + Contentful CMS
-- **Design system**: 자체 `f36` Forma36 design system
-- **CSS architecture**: CSS Modules + CSS vars, code-split 94 chunks
-- **Class naming**: CSS Modules (`_ctfl-ButtonLabel_xxxxx`)
-- **Default theme**: light (#FFFFFF + mint hero #D9F5E5)
-- **Font loading**: self-host Inter
-- **Canonical anchor**: #1770E5 (Contentful blue link)
-- **CTA**: black pill #1A1A1A on mint hero
+- **Framework**: Next-style static asset pipeline (`_next/static` markers present)
+- **Design system**: CSS Modules component system; no broad public semantic token namespace was exposed.
+- **CSS architecture**:
+  ```text
+  CSS modules       .button_markup_primary__SBfwO, .navigation_navBarDesktop__QOP93
+  Utility grid      .main-grid, col-span classes, responsive span helpers
+  Sparse vars       --font-avenir-next, --tw-ring-color, --swiper-theme-color
+  Raw values        frequent #2B2D31, #FFFFFF, #1770E5, #C4D1DE, #EFF2F6
+  ```
+- **Class naming**: CSS Modules with component + element + hash suffix, e.g. `button_markup_primary__SBfwO`.
+- **Default theme**: light, with white page chrome and pastel/tinted content panels.
+- **Font loading**: Avenir Next W01 / Avenir Next declarations plus `avenirNextFont` fallback markers.
+- **Canonical anchor**: homepage hero, mega navigation, primary button, and repeated 12-column grid.
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Primary**: `Inter` — body + display 공용
-- **Code**: system mono fallback 또는 `Geist Mono` / `JetBrains Mono`
-- **Weight normal / bold**: `400` / `700`
-- **자주 쓰는 weight**: 400 / 500 / 600 / 700 4단
+- **Display font**: `Avenir Next W01` (commercial/webfont family)
+- **Body font**: `Avenir Next W01`, `Avenir Next`, `Arial`, `Helvetica`, `sans-serif`
+- **Code font**: `ui-monospace`, `SFMono-Regular`, `Menlo`, `Monaco`, `Consolas`, `Liberation Mono`, `Courier New`, `monospace`
+- **Weight normal / bold**: `400` / `600`
 
 ```css
 :root {
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
-               Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco,
-               "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", monospace;
+  --contentful-font-family: "Avenir Next W01", "Avenir Next", Arial, Helvetica, sans-serif;
+  --contentful-font-family-code: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --contentful-font-weight-normal: 400;
+  --contentful-font-weight-semibold: 600;
+  --contentful-font-weight-bold: 700;
 }
 body {
-  font-family: var(--font-sans);
-  font-weight: 400;
+  font-family: var(--contentful-font-family);
+  font-weight: var(--contentful-font-weight-normal);
 }
 ```
+
+### Note on Font Substitutes
+<!-- SOURCE: manual -->
+
+- **Best substitute**: `Avenir Next` if the local platform has it; keep heading weight at 600 and body at 400.
+- **Open-source fallback**: use `Nunito Sans` only if you need similar roundness, but tighten the display line-height from 1.10 to 1.04 so the hero does not become too soft.
+- **Safer system fallback**: `Arial` / `Helvetica` preserves enterprise neutrality but loses Avenir's friendly geometry. Increase button font-weight to 600 to compensate.
+- **Do not replace with Inter by default**: Inter makes the nav and H1 feel more developer-tool sharp than Contentful's current marketing surface.
 
 ---
 
 ## 05. Typography Scale
+<!-- SOURCE: auto+manual -->
 
 | Token | Size | Weight | Line-height | Letter-spacing |
-|---|---|---|---|---|
-| small | `14px` | 400 | 1.5 | normal |
-| base | `16px` | 400 | 1.5 | normal |
-| body-l | `18px` | 400 | 1.5 | normal |
-| h5 | `20px` | 600 | 1.3 | normal |
-| h4 | `24px` | 600 | 1.25 | `-0.01em` |
-| h3 | `32px` | 600 | 1.2 | `-0.02em` |
-| h2 | `40px` | 700 | 1.15 | `-0.02em` |
-| h1 | `48/56/64px` | 700 | 1.1 | `-0.03em` |
+|---|---:|---:|---:|---:|
+| Hero H1 | 72px / 7.2rem | 600 | 100% | 0 |
+| Display heading | 56px / 5.6rem | 600 | 63.84px | 0 |
+| Section heading | 40px / 4rem | 600 | 45.2px | 0 |
+| Card heading | 32px / 3.2rem | 600 | 36.8px | 0 |
+| Body large | 20px | 400 | 29.9px | 0 |
+| Body default | 16px | 400 | 26px | 0 |
+| Nav / label | 14px | 600 | 19px | 0 |
+| Micro label | 12px | 600 | 14px | 0 |
 
-> ⚠️ 큰 사이즈(H1~H2)에 음수 tracking 필수 — optical compensation이 없으면 "덜 다듬어진" 느낌이 난다.
+> Key insight: Contentful's typography is not extreme contrast. It relies on Avenir Next's rounded voice, 600-weight headings, and readable body line-height rather than aggressive display tracking.
+
+### Principles
+<!-- SOURCE: manual -->
+
+1. Hero type is large but not black-heavy: 600 is the signature weight; 800/900 would turn the page into generic performance marketing.
+2. Body text stays at 400 with generous line-height around 26px for 16px copy, which keeps long SaaS value propositions readable.
+3. Labels and navigation become 600 rather than larger; hierarchy comes from weight before size.
+4. Letter-spacing is effectively neutral in the observed CSS; do not add fashionable negative tracking unless matching a specific heading lockup.
+5. Weight 300 is absent from the visible system. Contentful is friendly, not delicate.
+6. The font choice is part of the brand. Rebuilding with default system UI changes the tone more than changing several colors.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
 
-### 06-1. Brand
+### 06-1. Brand Ramp
 
-| Token | Hex | Role |
+| Token | Hex | Evidence |
 |---|---|---|
-| brand.primary | `#1770E5` | CTA, link, focus ring |
-| brand.hover | 약 8% 어두움 | hover state |
-| brand.tint | 약 95% light mix | soft bg, badge |
+| `contentful-blue-hover` | `#1770E5` | button hover, link and interactive accent frequency |
+| `contentful-blue-alt` | `#1770E6` | SVG/pattern-adjacent blue variant |
+| `contentful-blue-deep` | `#0B6AE6` | secondary blue occurrence |
+| `contentful-blue-dark` | `#003CBE` | deep accent occurrence |
+| `contentful-blue-soft` | `#71A0F5` | light accent occurrence |
 
-### 06-2. Neutral Ramp (light 기본)
+### 06-2. Brand Dark Variant
 
-| Step | Hex | Use |
+| Token | Hex | Usage |
 |---|---|---|
-| 0 | `#FFFFFF` | page bg |
-| 50 | `#FAFAFA` | panel muted |
-| 100 | `#F5F5F5` | subtle bg |
-| 200 | `#E5E5E5` | border subtle |
-| 300 | `#D4D4D4` | border |
-| 500 | `#737373` | muted text |
-| 700 | `#404040` | secondary text |
-| 900 | `#171717` | primary text |
+| `contentful-ink` | `#2B2D31` | headline text, primary CTA background, dark surface authority |
+| `contentful-ink-alt` | `#2A3039` | nearby dark neutral occurrence |
+| `contentful-black` | `#121212` | rare dark text/surface occurrence |
 
-> Contentful 회색 램프는 Tailwind neutral 계열과 유사 — 채도 0% 기준.
+### 06-3. Neutral Ramp
+
+| Step | Light | Dark / Text |
+|---|---|---|
+| 0 | `#FFFFFF` | primary page and light button surface |
+| 50 | `#EFF2F6` | mist panel / pale surface |
+| 100 | `#DDE5EC` | soft line / pale divider |
+| 200 | `#C4D1DE` | border, disabled button background |
+| 500 | `#6D7682` | muted text |
+| 600 | `#55575B` | secondary text |
+| 900 | `#2B2D31` | primary text and dark CTA |
+
+### 06-4. Accent Families
+
+| Family | Key Hex | Notes |
+|---|---|---|
+| Blue | `#1770E5` | true UI accent, especially interactive states |
+| Green/mint | `#4A6E70` | low-frequency muted green, supports hero illustration/panel mood |
+| Red/error | `#D12E2E` | rare status/accent occurrence |
+| Yellow/logo | `#FFDB23` | brand/logo or decorative occurrence, not a primary UI system color |
+
+### 06-5. Semantic
+
+| Token | Hex | Usage |
+|---|---|---|
+| `surface.base` | `#FFFFFF` | global background, header, light button surface |
+| `surface.mist` | `#EFF2F6` | large calm content backgrounds |
+| `text.primary` | `#2B2D31` | primary text, H1, CTA fill |
+| `text.muted` | `#6D7682` | labels, secondary explanations |
+| `border.default` | `#C4D1DE` | disabled, dividers, input/secondary boundaries |
+| `action.hover` | `#1770E5` | primary hover, link emphasis, active accents |
+
+### 06-6. Semantic Alias Layer
+
+| Alias | Resolves to | Usage |
+|---|---|---|
+| `--font-avenir-next` | `"avenirNextFont","avenirNextFont Fallback",Arial,Helvetica,sans-serif` | site font family token |
+| `--tw-ring-color` | `rgb(59 130 246/0.5)` | Tailwind ring fallback residue |
+| `--tw-ring-offset-color` | `#FFFFFF` | focus/ring offset |
+| `--swiper-theme-color` | `#007AFF` | swiper library default, not Contentful brand |
+
+### 06-7. Dominant Colors
+
+| Hex | Frequency | Role |
+|---|---:|---|
+| `#2B2D31` | 207 normalized occurrences | ink, primary CTA, text |
+| `#FFFFFF` | 151 normalized occurrences | base surface |
+| `#1770E5` | 125 normalized occurrences | interaction accent |
+| `#C4D1DE` | 72 normalized occurrences | border / disabled |
+| `#EFF2F6` | 58 normalized occurrences | mist surface |
+| `#6D7682` | 39 normalized occurrences | muted text |
+| `#55575B` | 31 normalized occurrences | secondary text |
+| `#DDE5EC` | 19 normalized occurrences | soft line / pale surface |
+
+### 06-8. Color Stories
+<!-- SOURCE: manual -->
+
+**`{colors.ink}` (#2B2D31)** — This is the real authority color. It appears as headline ink and primary CTA fill, giving the friendly page a firm enterprise backbone.
+
+**`{colors.surface}` (#FFFFFF)** — White is the chrome floor: header, nav, cookie banner, and light controls. It should stay clean so the pastel hero panel can read as the special first-viewport surface.
+
+**`{colors.primary}` (#1770E5)** — Blue is interaction, not wallpaper. Use it for hover, active states, links, and selective emphasis; making every CTA blue collapses the Contentful distinction.
+
+**`{colors.border}` (#C4D1DE)** — The system's quiet structure. It supports disabled states, input edges, soft dividers, and card boundaries without resorting to heavy shadow.
 
 ---
 
 ## 07. Spacing
+<!-- SOURCE: auto+manual -->
 
-8px baseline 시스템.
+| Token | Value | Use case |
+|---|---:|---|
+| `space-2xs` | `0.4rem` | icon/detail nudges |
+| `space-xs` | `0.8rem` | eyebrow gaps, compact internal spacing |
+| `space-sm` | `1.6rem` | mobile gutters, component padding, row gaps |
+| `space-md` | `2.4rem` | grid gaps, section internals |
+| `space-lg` | `3.2rem` | desktop grid gap, CTA clusters |
+| `space-xl` | `4rem` | vertical section padding |
+| `space-2xl` | `5.2rem` | expanded row rhythm |
+| `space-3xl` | `6.4rem` | large section rhythm |
+| `space-hero` | `7.2rem` / `8.4rem` | high-air marketing bands |
+| `space-mega` | `12.8rem` | rare large vertical separation |
 
-| Token | Value | Use |
-|---|---|---|
-| `--space-1` | 4px | hairline, icon gap |
-| `--space-2` | 8px | 작은 gap |
-| `--space-3` | 12px | inline group |
-| `--space-4` | 16px | 기본 card padding |
-| `--space-6` | 24px | section inner |
-| `--space-8` | 32px | block 간격 |
-| `--space-12` | 48px | 섹션 수직 padding (small) |
-| `--space-16` | 64px | 섹션 수직 padding (large) |
-| `--space-24` | 96px | hero padding |
+**Major aliases**:
+- `main-grid gap` -> `3.2rem` on desktop
+- `mobile grid column-gap` -> `1.6rem`
+- `section vertical` -> usually `6.4rem 0`, with `7.2rem 0` for bigger story bands
+
+### Whitespace Philosophy
+<!-- SOURCE: manual -->
+
+Contentful uses generous vertical air around marketing claims but keeps component internals compact enough to preserve product density. The homepage hero has a large rounded field, but the nav above it is precise and economical. That contrast matters: open top, structured taxonomy below.
+
+The spacing system is rem-based and repetitive. If a rebuild starts using 13px, 27px, or ad hoc values, it immediately stops feeling like this site. The correct rhythm is 1.6 / 2.4 / 3.2 for components and 5.2 / 6.4 / 7.2 for section movement.
 
 ---
 
 ## 08. Radius
+<!-- SOURCE: auto+manual -->
 
-| Token | Value | Use |
-|---|---|---|
-| `--radius-sm` | 4px | chip, badge |
-| `--radius-md` | 8px | button 기본 |
-| `--radius-lg` | 12px | card |
-| `--radius-xl` | 16px | card large |
-| `--radius-2xl` | 24px | hero block |
-| `--radius-pill` | 9999px | pill CTA |
+| Token | Value | Context |
+|---|---:|---|
+| `radius-sm` | `0.4rem` / `0.6rem` | small fields, compact UI |
+| `radius-md` | `1.2rem` | cards and small panels |
+| `radius-lg` | `1.6rem` | larger content blocks |
+| `radius-xl` | `2rem` | buttons, hero pills, major cards |
+| `radius-2xl` | `2.4rem` | large featured modules |
+| `radius-pill` | `10rem` / `100px` / `1000px` | capsule CTAs and icon pills |
+| `radius-circle` | `50%` | round icons |
 
 ---
 
 ## 09. Shadows
+<!-- SOURCE: auto+manual -->
 
-다층 stack 방식. 단층 shadow는 피한다.
-
-| Token | Value | Use |
+| Level | Value | Usage |
 |---|---|---|
-| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | button resting |
-| `--shadow-md` | `0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.07)` | card |
-| `--shadow-lg` | `0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05)` | dropdown, modal |
+| none | `none` | default chrome and most cards |
+| subtle | `0 2px 4px 0 rgba(0,0,0,.05)` | light elevation when needed |
+| card | `0 5px 10px 0 rgba(0,0,0,.15)` | raised content cards |
+| overlay | `0 4px 24px rgba(0,0,0,.16)` | floating menus / overlays |
+| dark glow | `0 0 20px 0 rgba(0,0,0,.25)` | special dark/overlay context |
+
+Pattern: Contentful does not build its main identity from elevation. Use shadow sparingly and let radius + tint + border do the daily structural work.
 
 ---
 
 ## 10. Motion
+<!-- SOURCE: auto+manual -->
 
-| Pattern | Value | Use |
+| Token | Value | Usage |
 |---|---|---|
-| `--duration-fast` | `150ms` | hover state |
-| `--duration-base` | `200ms` | 기본 transition |
-| `--ease-out` | `cubic-bezier(0, 0, 0.2, 1)` | 기본 ease-out |
-| `--ease-in-out` | `cubic-bezier(0.4, 0, 0.2, 1)` | 양방향 |
+| hover-color | color/background transition | button and link feedback |
+| accordion-height | `rah-static` / height-zero classes | mobile nav and accordion panels |
+| carousel/swiper | swiper library markers | logo or content carousel behavior |
+| reduced-motion | `prefers-reduced-motion: reduce` present | accessibility fallback |
+
+Motion is present but not brand-dominant. Recreate it as quick color and panel transitions; avoid large parallax or scroll theatricality unless a specific Contentful campaign page proves it.
 
 ---
 
 ## 11. Layout Patterns
+<!-- SOURCE: auto+manual -->
 
-**Grid System**
-- Content max-width: 1200-1440px
-- Gutter: 24px (desktop) / 16px (mobile)
-- Grid type: CSS Grid + Flexbox 하이브리드
+### Grid System
 
-**Hero**
-- Layout: 2-column split
-- H1: 48-64px / weight 700 / tracking -0.03em
-- CTA: 브랜드 primary + 보조 outline
+- **Content max-width**: `1320px`
+- **Container width**: `82.5%` on large desktop, with `calc(100vw - 4rem)` and `calc(100vw - 6.4rem)` on smaller ranges
+- **Grid type**: CSS Grid
+- **Column count**: 4 columns mobile, 12 columns desktop
+- **Gutter**: `1.6rem` mobile, `2.4rem` intermediate, `3.2rem` desktop
+- **Container behavior**: several component grids set `container-type: inline-size`
 
-**Section Rhythm**
-- Vertical padding: 64-120px
-- 섹션 구분은 배경 톤 차이 또는 얇은 border
+### Hero
 
-**Cards**
-- Background: #FFFFFF
-- Border: 1px solid #E5E5E5
-- Radius: 12-16px
-- Padding: 24-32px
+- **Pattern Summary**: rounded pastel panel + left large H1 + right simplified product/analytics diagram + dark CTA.
+- **Layout**: desktop two-zone composition; text occupies left side, illustration/diagram occupies right.
+- **Background**: pale mint / mist panel inside a white page chrome.
+- **Background Treatment**: solid/tinted surface, no loud gradient mesh; rounded container edge is the atmospheric device.
+- **H1**: `72px` observed in CSS scale / weight `600` / tracking `0`.
+- **Max-width**: aligns to the 1320px grid family with inset rounded panel.
 
-**Navigation**
-- Type: horizontal desktop / hamburger mobile
-- Position: sticky top 0 / height 64-72px
-- Background: 반투명 + backdrop-filter blur
+### Section Rhythm
+
+```css
+section {
+  padding: 6.4rem 0;
+  max-width: 1320px;
+}
+.main-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 3.2rem;
+}
+```
+
+### Card Patterns
+
+- **Card background**: usually `#FFFFFF` or pale `#EFF2F6`.
+- **Card border**: soft neutral lines using #C4D1DE / #DDE5EC range.
+- **Card radius**: commonly `1.2rem`, `2rem`, or larger featured values.
+- **Card padding**: `1.6rem`, `2.4rem`, or `3.2rem`.
+- **Card shadow**: none by default; raised variants use `0 5px 10px 0 rgba(0,0,0,.15)`.
+
+### Navigation Structure
+
+- **Type**: desktop horizontal nav with mega-menu taxonomy; mobile nav switches to accordion/panel behavior.
+- **Position**: top page chrome, white background.
+- **Height**: around 80px for mobile nav marker; desktop header visually sits around a compact 74-80px band.
+- **Background**: `#FFFFFF`.
+- **Border**: soft or absent; hierarchy mostly from spacing and text weight.
+- **Content**: product, solution, resource, developer, partner, pricing sections with icon-rich panels.
+
+### Content Width
+
+- **Prose max-width**: approximately 560-680px for hero/body text clusters.
+- **Container max-width**: `1320px`.
+- **Sidebar width**: not a homepage pattern; mega menu panels behave as wide dropdown surfaces rather than fixed sidebars.
 
 ---
 
 ## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
 
-| Name | Value | Note |
-|---|---|---|
-| Mobile | `< 640px` | 1-column, hamburger nav |
-| Tablet | `≥ 768px` | 2-col hero |
-| Desktop | `≥ 1024px` | full nav |
-| Large | `≥ 1280px` | content max |
-| XL | `≥ 1536px` | 더 큰 여백 |
+### Breakpoints
 
-Mobile-first. 터치 타겟 최소 44px. 네비게이션은 1024px 이하에서 drawer 전환.
+| Name | Value | Description |
+|---|---:|---|
+| Mobile | `< 768px` | 4-column grid, mobile nav, tighter gutters |
+| Tablet | `min-width: 768px` | major breakpoint; many CSS rules start here |
+| Desktop | `min-width: 1024px` | 12-column desktop grid and desktop nav behavior |
+| Wide | `min-width: 1440px` | expanded spacing and max container behavior |
+
+### Touch Targets
+
+- **Minimum tap size**: target 44px+; button classes and nav controls visually satisfy this in the hero/header.
+- **Button height mobile**: use 48-56px for primary CTAs.
+- **Input height mobile**: not fully observed in the homepage flow; assume 48px+ based on input class presence.
+
+### Collapsing Strategy
+
+- **Navigation**: desktop mega nav becomes mobile nav / accordion panel.
+- **Grid columns**: 12 desktop columns collapse to 4 mobile columns.
+- **Sidebar**: no persistent sidebar in homepage; panels collapse into stacked sections.
+- **Hero layout**: two-zone desktop hero stacks or simplifies; illustration should not squeeze text below readable width.
+
+### Image Behavior
+
+- **Strategy**: responsive assets and SVG/product diagrams; object-fit use was not fully audited.
+- **Max-width**: preserve `max-width: 100%` behavior for illustrations.
+- **Aspect ratio handling**: hero diagram should keep its horizontal relationship to the H1 on desktop and become secondary on mobile.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
-### 13-1. Button (primary)
+### Buttons
+
+Primary button:
 
 ```html
-<button class="btn btn--primary">Get started</button>
+<a class="button_markup_root__sACGr button_markup_primary__SBfwO">
+  Explore Contentful Platform
+</a>
 ```
 
-```css
-.btn--primary {
-  background: #1770E5;
-  color: #FFFFFF;
-  border: 0;
-  border-radius: 8px;
-  padding: 0 16px;
-  height: 40px;
-  font-weight: 500;
-  transition: transform 150ms ease-out, filter 150ms ease-out;
-}
-.btn--primary:hover {
-  filter: brightness(1.08);
-}
+| Property | Value |
+|---|---|
+| Default bg | `#2B2D31` |
+| Default text | `#FFFFFF` |
+| Hover bg | `#1770E5` |
+| Radius | `2rem` / pill family |
+| Weight | 600 |
+| Disabled bg | `#C4D1DE` |
+
+Secondary outline:
+
+```html
+<a class="button_markup_root__sACGr button_markup_secondary__F_qxS">
+  Contact sales
+</a>
 ```
 
-### 13-2. Card
+| Property | Value |
+|---|---|
+| Background | transparent or `#FFFFFF` in table/header contexts |
+| Border | `#2B2D31` |
+| Text | `#2B2D31` |
+| Hover border/text | `#1770E5` |
+| Radius | pill / `2rem` family |
 
-```css
-.card {
-  background: #FFFFFF;
-  border: 1px solid #E5E5E5;
-  border-radius: 12px;
-  padding: 24px;
-  transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
-}
-.card:hover {
-  border-color: #1770E540;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
+States observed: hover, disabled, icon wrapper, small button, icon button. Loading/error states were not surfaced in the homepage capture.
+
+### Badges
+
+Badges are compact semantic labels such as `New`, `Beta`, and eyebrow pills like `Explore Contentful`.
+
+| Property | Value |
+|---|---|
+| Font | Avenir Next W01 |
+| Size | 12-14px |
+| Weight | 600 |
+| Radius | pill / circular when icon-led |
+| Background | `#FFFFFF` or soft neutral/tinted surfaces |
+| Text | `#2B2D31`, `#55575B`, or contextual accent |
+
+### Cards & Containers
+
+Contentful card surfaces prefer a rounded, bordered, lightly tinted chassis.
+
+```html
+<article class="promo_card_content__xI52l">
+  <p class="promo_card_eyebrow__deVrs">Customer story</p>
+  <h3 class="typography_heading04__PFAbm">Increase content production</h3>
+</article>
 ```
 
-### 13-3. Input
+| Property | Value |
+|---|---|
+| Background | `#FFFFFF`, `#EFF2F6`, or section-specific pale tint |
+| Border | `1px solid #C4D1DE` / #DDE5EC family when used |
+| Radius | `1.2rem` to `2rem` |
+| Padding | `1.6rem` to `3.2rem` |
+| Hover | color shift to `#1770E5` on article heading/eyebrow in observed rules |
 
-```css
-.input {
-  background: #FFFFFF;
-  border: 1px solid #E5E5E5;
-  border-radius: 8px;
-  height: 40px;
-  padding: 0 12px;
-  transition: border-color 150ms, box-shadow 150ms;
-}
-.input:focus {
-  outline: 0;
-  border-color: #1770E5;
-  box-shadow: 0 0 0 3px #1770E533;
-}
+### Navigation
+
+Mega-navigation is a first-class component, not simple links.
+
+```html
+<nav class="navigation_navBarDesktop__QOP93">
+  <div class="nav_item_container__EiPAy">
+    <span class="nav_item_title__pkA_C">Products</span>
+    <span class="nav_item_description__lxy1t">Deliver intelligent experiences</span>
+  </div>
+</nav>
 ```
 
-### 13-4. Nav
+| Property | Value |
+|---|---|
+| Desktop display | flex, centered |
+| Mobile display | separate mobile navbar and accordion items |
+| Link size | 14px range |
+| Title weight | 600 |
+| Description color | `#6D7682` / `#55575B` |
+| Icon size | 12px / 24px icon classes recur |
 
-```css
-.nav {
-  position: sticky; top: 0;
-  height: 64px;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid #E5E5E5;
-}
+### Inputs & Forms
+
+Input CSS was present but not a primary homepage surface.
+
+| Property | Value |
+|---|---|
+| Label muted | `#6D7682` |
+| Dark input label | `#C4D1DE` |
+| Focus/ring residue | `--tw-ring-color: rgb(59 130 246/0.5)` |
+| Radius | likely `0.6rem` to `1.2rem` family |
+| Error state | not observed in homepage |
+
+### Hero Section
+
+```html
+<section class="hero">
+  <div class="hero-pill">Explore Contentful</div>
+  <h1>Sorry, content chaos - your time's up</h1>
+  <p>Contentful DXP uses AI-driven analytics...</p>
+  <a class="button_markup_primary__SBfwO">Explore Contentful Platform</a>
+</section>
+```
+
+| Property | Value |
+|---|---|
+| Panel background | pale mint/mist surface |
+| Panel radius | large rounded rectangle, visually around 24-32px |
+| H1 color | `#2B2D31` |
+| Body color | `#2B2D31` with softer perceived density |
+| CTA | dark pill, hover blue |
+| Illustration | right-side simplified cards, A/B blocks, metric callout |
+
+### 13-2. Named Variants
+<!-- SOURCE: manual -->
+
+#### `button-primary-dark-pill`
+
+- Background: `#2B2D31`
+- Text: `#FFFFFF`
+- Hover: `#1770E5`
+- Radius: `2rem`
+- Applied to: main hero CTA and primary action moments.
+
+#### `button-secondary-outline-pill`
+
+- Background: transparent or contextual white.
+- Border/text: `#2B2D31`
+- Hover: `#1770E5`
+- Applied to: sales/contact and secondary navigation actions.
+
+#### `hero-eyebrow-pill`
+
+- Background: `#FFFFFF`
+- Text: `#2B2D31`
+- Radius: `2rem`
+- Structure: circular icon chip plus label plus arrow.
+
+#### `nav-mega-item`
+
+- Title: 14-16px, 600, ink.
+- Description: muted text.
+- Icon: small colorful or line icon.
+- Behavior: grouped in product/solution/resource panels rather than standalone list items.
+
+### 13-3. Signature Micro-Specs
+<!-- SOURCE: manual -->
+
+```yaml
+dark-pill-to-blue-hover:
+  description: "Primary actions keep enterprise weight at rest, then reveal brand energy only on intent."
+  technique: "background-color: #2B2D31 /* {colors.ink} */; color: #FFFFFF; border-radius: 2rem/1000px; hover background-color: #1770E5 /* {colors.primary} */"
+  applied_to: ["{components.button-primary}", "{components.button-primary-dark-pill}", "hero CTA"]
+  visual_signature: "A dark capsule button that turns Contentful blue only when the user acts."
+
+mist-panel-operating-field:
+  description: "The hero uses a pale workbench surface instead of a blue SaaS gradient."
+  technique: "large rounded rectangle, background #EFF2F6 /* {colors.mist} */, white #FFFFFF /* {colors.surface} */ page chrome, radius visually around 24-32px"
+  applied_to: ["{components.hero-section}", "homepage hero", "major feature bands"]
+  visual_signature: "Content chaos appears placed on a calm frosted planning table."
+
+rounded-taxonomy-mega-nav:
+  description: "Large navigation complexity is made approachable through compact labels, muted helper copy, and small icon rows."
+  technique: "Avenir Next W01; title weight 600; description color #6D7682/#55575B; icon scales 12px/24px; desktop flex nav with mobile accordion fallback"
+  applied_to: ["{components.nav-mega-item}", "desktop mega navigation", "mobile nav accordion"]
+  visual_signature: "A DXP product library that feels shelved and readable rather than dashboard-dense."
+
+twelve-column-soft-enterprise-grid:
+  description: "Friendly SaaS surfaces are locked to a strict enterprise scaffold."
+  technique: "display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3.2rem; width: 82.5%; max-width: 1320px"
+  applied_to: ["{components.hero-section}", "main-grid", "section groups", "navigation panels"]
+  visual_signature: "Soft rounded modules line up with the precision of an enterprise content archive."
+
+surface-border-before-shadow:
+  description: "Hierarchy comes from tint, border, and radius before elevation."
+  technique: "background #FFFFFF/#EFF2F6; border 1px solid #C4D1DE/#DDE5EC; radius 1.2rem-2rem; shadow none by default, overlay shadow 0 4px 24px rgba(0,0,0,.16) only when floating"
+  applied_to: ["{components.cards-containers}", "promo cards", "mega menu overlays", "feature panels"]
+  visual_signature: "Cards feel rimmed and organized, not stacked into a generic shadow wall."
 ```
 
 ---
 
 ## 14. Content / Copy Voice
+<!-- SOURCE: manual -->
 
-- 짧고 단호한 헤드라인 (5-8 단어)
-- 서브헤드는 이점 중심, 기능명 나열 지양
-- CTA 동사 (Get started, Start building, Book a demo)
-- 기술적 정확함 + 친근함 중간 톤
+| Pattern | Rule | Example |
+|---|---|---|
+| Headline | conversational problem framing, direct payoff | "Sorry, content chaos - your time's up" |
+| Primary CTA | product exploration, not vague signup | "Explore Contentful Platform" |
+| Secondary CTA | sales-assisted enterprise path | "Contact sales" |
+| Nav taxonomy | product nouns plus benefit subtitles | "Personalization - Easily create highly personalized experiences" |
+| Tone | marketer-friendly, AI-aware, enterprise-scale | "create standout digital experiences at scale" |
 
 ---
 
 ## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
+/* Contentful-inspired core tokens */
 :root {
-  --brand: #1770E5;
-  --bg: #FFFFFF;
-  --fg: #171717;
-  --muted: #737373;
-  --border: #E5E5E5;
-  --card: #FFFFFF;
-  --radius: 8px;
-  --radius-lg: 12px;
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Fonts */
+  --contentful-font-family: "Avenir Next W01", "Avenir Next", Arial, Helvetica, sans-serif;
+  --contentful-font-family-code: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --contentful-font-weight-normal: 400;
+  --contentful-font-weight-semibold: 600;
+  --contentful-font-weight-bold: 700;
+
+  /* Color */
+  --contentful-blue: #1770E5;
+  --contentful-ink: #2B2D31;
+  --contentful-surface: #FFFFFF;
+  --contentful-mist: #EFF2F6;
+  --contentful-border: #C4D1DE;
+  --contentful-muted: #6D7682;
+  --contentful-soft-line: #DDE5EC;
+
+  /* Spacing */
+  --contentful-space-xs: 0.8rem;
+  --contentful-space-sm: 1.6rem;
+  --contentful-space-md: 2.4rem;
+  --contentful-space-lg: 3.2rem;
+  --contentful-space-xl: 6.4rem;
+
+  /* Radius */
+  --contentful-radius-sm: 0.6rem;
+  --contentful-radius-md: 1.2rem;
+  --contentful-radius-lg: 2rem;
+  --contentful-radius-pill: 1000px;
 }
 
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  background: var(--bg);
-  color: var(--fg);
+.contentful-grid {
+  width: 82.5%;
+  max-width: 1320px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--contentful-space-lg);
 }
 
-h1 { font-size: 48px; font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 16px; }
-h2 { font-size: 32px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 12px; }
-h3 { font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; margin: 0 0 8px; }
-
-.btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  height: 40px; padding: 0 16px;
-  border-radius: var(--radius); border: 0;
-  font-weight: 500; font-size: 14px;
-  cursor: pointer; transition: all 150ms ease-out;
-}
-.btn--primary { background: var(--brand); color: #FFFFFF; }
-.btn--primary:hover { filter: brightness(1.08); }
-.btn--outline {
-  background: transparent; color: var(--fg);
-  border: 1px solid var(--border);
+.contentful-hero-panel {
+  background: var(--contentful-mist);
+  color: var(--contentful-ink);
+  border-radius: var(--contentful-radius-lg);
+  padding: 6.4rem 5.2rem;
 }
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
+.contentful-button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.8rem 1.6rem;
+  border-radius: var(--contentful-radius-pill);
+  background: var(--contentful-ink);
+  color: var(--contentful-surface);
+  font-family: var(--contentful-font-family);
+  font-weight: var(--contentful-font-weight-semibold);
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.contentful-button-primary:hover {
+  background: var(--contentful-blue);
 }
 ```
 
 ---
 
 ## 16. Tailwind Config
+<!-- SOURCE: manual -->
 
 ```js
-// tailwind.config.js — Contentful
+// tailwind.config.js - Contentful-inspired tokens
 module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: { DEFAULT: '#1770E5' },
+        contentful: {
+          blue: '#1770E5',
+          ink: '#2B2D31',
+          surface: '#FFFFFF',
+          mist: '#EFF2F6',
+          border: '#C4D1DE',
+          muted: '#6D7682',
+          line: '#DDE5EC',
+        },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Avenir Next W01', 'Avenir Next', 'Arial', 'Helvetica', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
-      borderRadius: { DEFAULT: '8px', lg: '12px', xl: '16px' },
-      transitionDuration: { DEFAULT: '150ms', base: '200ms' },
+      fontWeight: {
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+      },
+      borderRadius: {
+        contentfulSm: '0.6rem',
+        contentfulMd: '1.2rem',
+        contentfulLg: '2rem',
+        contentfulPill: '1000px',
+      },
+      spacing: {
+        contentfulXs: '0.8rem',
+        contentfulSm: '1.6rem',
+        contentfulMd: '2.4rem',
+        contentfulLg: '3.2rem',
+        contentfulXl: '6.4rem',
+      },
+      maxWidth: {
+        contentful: '1320px',
+      },
     },
   },
 };
@@ -436,41 +814,128 @@ module.exports = {
 ---
 
 ## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
 
 ### Quick Color Reference
 
 | Role | Token | Hex |
 |---|---|---|
-| Brand primary | `--brand` | `#1770E5` |
-| Background | `--bg` | `#FFFFFF` |
-| Text primary | `--fg` | `#171717` |
-| Text muted | `--muted` | `#737373` |
-| Border | `--border` | `#E5E5E5` |
+| Brand primary | `{colors.primary}` | `#1770E5` |
+| Background | `{colors.surface}` | `#FFFFFF` |
+| Hero surface | `{colors.mist}` | `#EFF2F6` |
+| Text primary | `{colors.ink}` | `#2B2D31` |
+| Text muted | `{colors.muted}` | `#6D7682` |
+| Border | `{colors.border}` | `#C4D1DE` |
+| Soft line | `{colors.soft-line}` | `#DDE5EC` |
 
-### Example Prompts
+### Example Component Prompts
 
-**Hero Section**
-> Contentful 스타일 히어로. 배경 `#FFFFFF`, H1 `Inter` 56px weight 700 tracking -0.03em color `#171717`. primary CTA `#1770E5` radius 8px padding 0 20px height 44px, secondary outline border `#E5E5E5`.
+#### Hero Section
 
-**Card**
-> Contentful 스타일 카드. bg `#FFFFFF` border 1px solid `#E5E5E5` radius 12px padding 24px. hover border `#1770E540` shadow `0 4px 6px rgba(0,0,0,0.05)`.
+```text
+Contentful homepage-style hero section을 만들어줘.
+- 전체 페이지 배경: #FFFFFF
+- hero panel: pale mist/mint surface #EFF2F6, large rounded rectangle around 2rem
+- layout: desktop 12-column grid, left copy, right simple analytics/product diagram
+- H1: Avenir Next W01, 72px, weight 600, line-height 100%, color #2B2D31
+- body: 16px, line-height 26px, color #2B2D31
+- CTA: background #2B2D31, text #FFFFFF, border-radius 1000px, hover #1770E5
+- keep gradients minimal; use surface tint and rounded boundaries instead
+```
+
+#### Card Component
+
+```text
+Contentful-style card를 만들어줘.
+- background: #FFFFFF or #EFF2F6
+- border: 1px solid #C4D1DE or #DDE5EC
+- radius: 1.2rem to 2rem
+- padding: 2.4rem or 3.2rem
+- title: Avenir Next W01, 600, #2B2D31
+- description: #6D7682, 16px, line-height 26px
+- hover: text or border shifts to #1770E5; avoid heavy transform
+```
+
+#### Badge
+
+```text
+Contentful-style badge/pill을 만들어줘.
+- font: Avenir Next W01, 12-14px, weight 600
+- background: #FFFFFF or soft neutral
+- text: #2B2D31
+- radius: 1000px
+- optional icon chip: 32-40px circle, centered icon
+```
+
+#### Navigation
+
+```text
+Contentful-style mega navigation을 만들어줘.
+- header background #FFFFFF, compact 74-80px visual height
+- desktop nav: horizontal labels, Avenir Next W01 14px
+- dropdown item: icon 24px, title weight 600 #2B2D31, description #6D7682
+- CTA button at right: outline or dark pill
+- mobile: accordion groups, not a tiny cramped desktop menu
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: #1770E5는 interaction accent로 남기고, 기본 CTA는 #2B2D31을 먼저 쓴다.
+- **폰트 변경 시**: Avenir Next가 없으면 Helvetica보다 Nunito Sans가 더 부드럽지만, 너무 둥글어지면 enterprise tone이 약해진다.
+- **여백 조정 시**: 1.6rem / 2.4rem / 3.2rem / 6.4rem 중심으로 움직인다.
+- **새 컴포넌트 추가 시**: radius와 border를 먼저 적용하고 shadow는 마지막에 최소로 쓴다.
+- **다크 섹션 추가 시**: #2B2D31을 base로 쓰고 #1770E5를 작은 accent로 제한한다.
 
 ---
 
 ## 18. DO / DON'T
+<!-- SOURCE: manual -->
 
 ### ✅ DO
-- 브랜드 색 `#1770E5`는 CTA·링크·focus ring에만 사용
-- 배경은 `#FFFFFF` 또는 `#FAFAFA` (panel)
-- 본문 텍스트는 `#171717`, muted는 `#737373`
-- H1~H3에 음수 letter-spacing 적용 (`-0.01em ~ -0.03em`)
-- Radius 4/8/12/16/24/9999px 6단 체계 유지
+
+- Use `#2B2D31` as the page's authority color for H1 text and primary CTA rest state.
+- Use `#1770E5` for hover, active, link, and interaction emphasis.
+- Keep large containers rounded; `2rem` is a repeated signature radius.
+- Build layouts on a 12-column desktop grid with `1320px` max-width and `3.2rem` gap.
+- Use Avenir Next W01 / Avenir Next with 400 body and 600 headings.
+- Let pale surfaces such as `#EFF2F6` create calm section distinction.
+- Prefer borders and surface tint before adding heavy shadows.
 
 ### ❌ DON'T
-- 배경을 `#EEEEEE` 또는 중간 회색으로 두지 말 것 — 대신 `#FAFAFA` 사용
-- 텍스트를 `#000000`/`black`으로 두지 말 것 — 대신 `#171717` 사용
-- body에 `font-weight: 300` 사용 금지 — Contentful은 `400`이 기본
-- 브랜드 색 `#1770E5`를 긴 문단 배경에 쓰지 말 것
-- Radius `20px`, `30px` 등 외부 값 금지 — 토큰 scale만 사용
-- 단층 shadow `0 4px 12px rgba(0,0,0,0.1)` 금지 — 2-layer stack 사용
-- transition duration `400ms+` 금지 — 150-200ms 유지
+
+- 배경을 `#F8FAFC` 또는 `#F9FAFB` 같은 generic SaaS gray로 두지 말 것 — 대신 `#FFFFFF`와 `#EFF2F6` 조합 사용.
+- 본문/헤드라인 텍스트를 `#000000` 또는 `black`으로 두지 말 것 — 대신 `#2B2D31` 사용.
+- primary CTA 기본 배경을 `#1770E5`로 두지 말 것 — 기본은 `#2B2D31`, hover/interaction에 `#1770E5` 사용.
+- disabled/border 색을 `#E5E7EB`로 대체하지 말 것 — 대신 `#C4D1DE` 또는 `#DDE5EC` 사용.
+- hero surface를 `#FFFFFF` 단색 카드로 만들지 말 것 — Contentful hero는 `#EFF2F6` 계열의 tinted panel로 읽힌다.
+- headline에 `font-weight: 900` 사용 금지 — Contentful의 display tone은 600 중심이다.
+- grid를 1200px / 24px gap으로 단순화하지 말 것 — observed desktop container is `1320px`, gap `3.2rem`.
+- card마다 큰 shadow를 넣지 말 것 — shadow는 보조이며 surface/border/radius가 우선이다.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+<!-- SOURCE: manual -->
+
+- No full-page blue wash: #1770E5 is not a background theme color.
+- No black-and-white brutalism: the site uses #2B2D31, #6D7682, #C4D1DE, and #EFF2F6 to soften contrast.
+- No ultra-heavy display voice: weight 800/900 is absent from the visible system.
+- No default Inter SaaS look: Avenir Next is a meaningful part of the identity.
+- No decorative gradient-first hero: the hero mood comes from tinted surface, illustration, radius, and layout.
+- No card wall with identical drop shadows: repeated cards should vary by content role, not by elevation gimmicks.
+- No sharp rectangular buttons: CTAs belong to pill / 2rem radius family.
+- No dense dashboard chrome on the marketing homepage: even product concepts are illustrated in friendly simplified diagrams.
+- No arbitrary spacing ladder: 1.6rem, 2.4rem, 3.2rem, 5.2rem, 6.4rem are the rhythm.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Homepage-only interpretation** — The analysis reused `insane-design/contentful/index.html`, homepage CSS, and `hero-cropped.png`. Logged-in app UI and product console surfaces were not visited.
+- **Cookie banner present in screenshot** — The screenshot includes the cookie consent banner, so lower viewport spacing and bottom chrome are contaminated by that overlay.
+- **CSS Modules reduce semantic naming** — Many visual rules are in hashed component classes. The token names in this file are analysis aliases, not official Contentful token names unless explicitly shown as real CSS variables.
+- **Limited public custom-property system** — Only sparse variables such as `--font-avenir-next`, `--tw-*`, and swiper defaults were visible. This supports `lv2`, not a fully documented `lv3` design-system claim.
+- **Form states incomplete** — Input classes appeared, but validation, loading, and error states were not surfaced in the homepage flow.
+- **Motion not deeply executed** — CSS and class markers suggest hover, accordion, and carousel behavior, but JS timing and scroll-trigger logic were not audited.
+- **Logo/decorative color pollution possible** — Some chromatic hex values likely come from logos, SVGs, or diagrams. `#1770E5` was chosen because it appears in button/link interaction rules, not only by frequency.
+- **Mobile visual not separately captured** — Responsive behavior is inferred from CSS media queries and class structure, not from a fresh mobile screenshot.
+- **Exact hero background hex** — The visual hero panel appears pale mint; CSS frequency strongly shows `#EFF2F6`, but the rendered panel may include another nearby tint from inline/asset styles.

@@ -64,9 +64,9 @@ components:
 
 ### Narrative
 
-Razer is not a clean tech storefront. It is a black-box product stage with a single voltage line running through it. The page starts from near-total darkness, then lets `#44D62C` (`{colors.primary}`) cut across navigation, CTAs, focus rings, and brand moments like a hardware status LED. The green is not decorative. It behaves as the system's power indicator.
+Razer stages each product like a midnight hardware showroom: a black canvas where `#44D62C` (`{colors.primary}`) cuts across navigation, CTAs, focus rings, and brand moments like a hardware status LED. The green is not decorative. It behaves as the system's power indicator.
 
-The hero language is built like a gaming peripheral shot: dark field, product mass, metallic gray highlights, and uppercase display type. The background is allowed to disappear into `#000000` (`{colors.surface-black}`) so the product silhouette can do the dimensional work. It is closer to a midnight hardware showroom than a web page: the lights are killed, the glass shelf vanishes, and only the edge-lit equipment remains. Razer does not soften the page with warm neutrals or lifestyle beige; it wants equipment, voltage, speed, and black glass.
+The hero language is built like a gaming peripheral shot: dark field, product mass, metallic gray highlights, and uppercase display type. The background disappears into `#000000` (`{colors.surface-black}`) so the product silhouette can do the dimensional work. It is a black-box product store where the lights are killed, the glass shelf vanishes, and only the edge-lit equipment remains. Razer does not soften the page with warm neutrals or lifestyle beige; it wants equipment, voltage, speed, and black glass.
 
 Typography is blunt and compressed by attitude rather than by extreme optical math. `RazerF5` carries the brand voice, with most utility UI sitting at 14-16px and weight 400, then jumping hard to 700 for headings and conversion copy. The site does not chase airy editorial refinement. It uses a merchandised gaming cadence: category nav, product hero, short hype line, two-link CTA. The copy behaves like labels on an equipment rack: short, bright, functional, and close to the object it activates.
 

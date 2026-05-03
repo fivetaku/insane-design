@@ -1,510 +1,755 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: planetscale
 service_name: PlanetScale
 site_url: https://planetscale.com
-fetched_at: 2026-04-20
+fetched_at: 2026-05-03T06:58:13Z
 default_theme: light
-brand_color: "#0B6EC5"
-primary_font: Inter
+brand_color: "#F35815"
+primary_font: ui-monospace
 font_weight_normal: 400
-token_prefix: --gray-*, --blue-*
+token_prefix: none
 
-bold_direction: "Refined SaaS"
-aesthetic_category: "Refined SaaS"
-signature_element: minimal_extreme
-code_complexity: low
+bold_direction: Terminal Infrastructure
+aesthetic_category: brutal-minimal
+signature_element: orange-rule-monospace-hero
+code_complexity: medium
 
 medium: web
 medium_confidence: high
+
+archetype: saas-marketing
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "Production CSS exposes a Tailwind-like utility layer plus real core color tokens, but no public named component API."
+
+colors:
+  bg-primary: "#FFFFFF"
+  text-primary: "#414141"
+  text-contrast: "#111111"
+  text-secondary: "#818181"
+  text-blue: "#0B6EC5"
+  text-blue-bright: "#1E9DE7"
+  text-orange: "#F35815"
+  border-muted: "#C1C1C1"
+  code-bg-dark: "#41414199"
+
+typography:
+  display: "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
+  body: "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
+  sans_support: "ui-sans-serif, system-ui, sans-serif"
+  code: "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
+  ladder:
+    - { token: body, size: "16px", line_height: "1.5", weight: 400, tracking: "0" }
+    - { token: h1, size: "16px inherited", line_height: "1.5", weight: 700, tracking: "0" }
+    - { token: sans-h1, size: "24px", line_height: "1.2", weight: 600, tracking: "-0.019em" }
+    - { token: sans-h2, size: "20px", line_height: "1.1", weight: 600, tracking: "-0.017em" }
+    - { token: sans-h3, size: "18px", line_height: "1.5", weight: 600, tracking: "-0.014em" }
+    - { token: small, size: "12px", line_height: "1rem", weight: 500, tracking: "0.1em" }
+  weights_used: [400, 500, 600, 700, "bold"]
+  weights_absent: [300, 800, 900]
+
+components:
+  button-primary: { bg: "{colors.text-orange}", color: "#FFFFFF", height: "40px", padding: "0 16px", radius: "0", weight: 600 }
+  button-small: { bg: "{colors.text-orange}", color: "#FFFFFF", height: "32px", padding: "0 8px", radius: "0", weight: 600 }
+  focus-ring: { ring: "{colors.text-blue-bright}", offset: "0-2px", shadow: "Tailwind ring variables" }
+  heading-rule: { border_left: "2px solid {colors.text-orange}", padding_left: "16px", margin_left: "-16px" }
+  logo-grid-cell: { border: "1px solid #414141", height: "96-128px", bg: "#FFFFFF", alignment: "center" }
 ---
 
-# DESIGN.md — PlanetScale (Claude Code Edition)
+# DESIGN.md — PlanetScale
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-PlanetScale 홈페이지는 데이터베이스 인프라 브랜드답게 조용하고 정밀하다. 배경은 순백 #FFFFFF 대신 아주 약간의 웜톤이 섞인 neutral surface로 시작되고, 그 위에 #0B6EC5 블루 한 가지만이 CTA · 링크 · 하이라이트 용도로 제한적으로 등장한다. 장식이 거의 없고 로고 월(Block, Etsy, Intercom, Cursor 등)이 첫 섹션을 차지한다.
+### Narrative
 
-컬러 전략은 grayscale 10단 + 단일 블루 악센트의 지극히 보수적인 구조다. Tailwind 스타일의 --gray-50 ~ --gray-900 ramp (#FAFAFA → #111111) 이 전체 UI의 backbone을 이루고, --blue-700 #144EB6이 primary action, --blue-300 #73C7F9이 accent로 쓰인다. Status용으로 --green, --orange, --red ramp가 존재하지만 마케팅 홈에서는 거의 노출되지 않는다.
+PlanetScale's marketing surface is a white **parchment** **canvas** holding monospaced engineering ink and a single orange warning stripe. The page borrows trust from engineering interfaces rather than lifestyle SaaS polish: no soft gradient cards, no vapor cloud imagery, no decorative hero machinery. The body type is `ui-monospace` at 16px — a **terminal** read-out printed on a technical specification sheet. The largest statement is not a giant display headline but a compact mono line with a 2px orange rule, like a shell prompt pinned to the margin of a printed runbook.
 
-타이포그래피는 Inter + ui-sans-serif system stack을 축으로 한다. 본문 기본은 16px / weight 400으로 엔터프라이즈 트러스트 톤이며, 디스플레이 제목은 weight 600-700까지 올라간다. 코드 폰트는 ui-monospace / SF Mono / Menlo fallback. Tailwind CSS가 빌드의 중심축이라 utility 클래스가 지배적이다.
+Color is a sparse operational layer. The surface is `#FFFFFF` (`{colors.bg-primary}`) with charcoal `#414141` (`{colors.text-primary}`) and near-black `#111111` (`{colors.text-contrast}`) ink — a **manuscript** in two values, with `#F35815` (`{colors.text-orange}`) reserved for active **terminal** state: heading rule, CTA fill, selected indicator, then it disappears. The customer wall is not a logo cloud; it is an evidence table — each mark boxed into a thin `#414141` grid cell as if the page were filing proof exhibits in a **ledger**, not decorating a pitch deck. Orange is not a sunset or a gradient ribbon; it behaves like an active cursor or a warning strip on a server rack.
 
-레이아웃은 마케팅 사이트 표준인 1200-1280px max-width 중앙 정렬이다. 섹션 리듬은 64-96px vertical padding으로 느슨하고, 로고 월과 feature 카드가 주요 패턴이다. 카드는 얇은 1px border + subtle shadow 조합, radius는 8-12px 범위에 머문다.
-
-인터랙션은 Tailwind 기본 .15s ease-in-out 수준으로 최소한만 움직인다. hover 시 색상 변화 위주이고, 드라마틱한 모션은 없다. 전반적으로 '데이터베이스는 안정이 제1가치'라는 메시지를 시각으로 번역한 느낌.
+The **console** metaphor holds at every scale. Shadows are almost absent because the site has no atmospheric depth to sell — its depth comes from rules, borders, focus rings, and the pressure of exact technical nouns. The `heading-rule` component (2px orange left-border, 16px left-padding) marks entry points the way a control-room operator marks a live channel with a single tape flag. There is no second brand color, no secondary **canvas** wash, no editorial illustration tier. PlanetScale feels fastest because the page refuses visual latency — the browser becomes a **console** surface where production truth has already been compiled.
 
 ### Key Characteristics
 
-- Light theme
-- Blue-only accent
-- Tailwind utility
-- Gray ramp 10단
-- Logo wall hero
-- Enterprise calm
+- Monospace-first homepage, with body copy and navigation sharing terminal cadence.
+- White default surface `#FFFFFF` with dark text rather than a dark console background.
+- 2px orange left rule attached to primary headings.
+- Orange CTA blocks with square corners, 40px height, and 600 weight.
+- Blue links and focus rings instead of broad brand gradients.
+- Logo wall rendered as a thin bordered grid, not floating logo clouds.
+- Minimal shadow language; rings and borders do most of the work.
+- Dense proof copy: benchmark, uptime, sharding, replicas, compliance, support.
+- Tailwind utility classes are visible, but tokens stay small and literal.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Refined SaaS
-> **Aesthetic Category**: Refined SaaS
-> **Signature Element**: 이 사이트는 **하얀 배경 위 절제된 블루 포인트**으로 기억된다.
-> **Code Complexity**: low — PlanetScale 홈페이지 CSS 토큰 기반 디자인 시스템 리포트. Tailwind 빌드 산출물에서 실제 사용 중인 색·폰트·여백만 추출.
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Terminal Infrastructure
+> **Aesthetic Category**: brutal-minimal
+> **Signature Element**: 이 사이트는 **orange-rule-monospace-hero**으로 기억된다.
+> **Code Complexity**: medium — utility-heavy CSS, responsive grids, dark-mode branches, and focus-ring state logic without heavy animation.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: auto+manual -->
 
 > 5분 안에 PlanetScale처럼 만들기 — 3가지만 하면 80%
 
 ```css
-/* 1. 폰트 — Inter + system stack */
+/* 1. 폰트 + weight */
 body {
-  font-family: "Inter", ui-sans-serif,
-    system-ui, sans-serif;
-  font-weight: 400;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   font-size: 16px;
   line-height: 1.5;
+  font-weight: 400;
+  text-wrap: pretty;
 }
 
-/* 2. 배경 + 텍스트 (light default) */
-:root {
-  --bg: #FFFFFF;
-  --fg: #111111;
-  --surface: #FAFAFA;
-  --border: #E1E1E1;
-}
+/* 2. 배경 + 텍스트 */
+:root { --bg: #FFFFFF; --fg: #414141; --contrast: #111111; }
 body { background: var(--bg); color: var(--fg); }
 
-/* 3. 브랜드 블루 */
-:root {
-  --brand: #0B6EC5;
-  --brand-strong: #144EB6;
-  --accent: #73C7F9;
-}
-
+/* 3. 브랜드 컬러 */
+:root { --orange: #F35815; --link: #0B6EC5; --link-bright: #1E9DE7; }
+h1 { border-left: 2px solid var(--orange); padding-left: 16px; margin-left: -16px; }
+.btn { background: var(--orange); color: #FFFFFF; height: 40px; padding: 0 16px; }
 ```
 
-**절대 하지 말아야 할 것 하나**: 파란색을 섹션 배경이나 큰 면적에 쓰지 마라. PlanetScale의 블루는 CTA 버튼과 링크에만 등장하는 포인트 컬러다. 배경으로 쓰면 즉시 Stripe 아류처럼 보인다.
+**절대 하지 말아야 할 것 하나**: PlanetScale을 둥근 카드와 보라/파랑 그라디언트가 있는 일반 SaaS 히어로로 만들지 말 것.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
-| Source URL | <code>https://planetscale.com</code> |
-| Fetched | 2026-04-20 |
-| Extractor | curl + Chrome UA (5-tier fallback) |
-| HTML size | 89,808 bytes (Next.js SSR) |
-| CSS files | 1개 외부 (81KB minified) |
-| Token prefix | <code>--gray-*</code>, <code>--blue-*</code> (Tailwind-style) |
-| Method | CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음 |
+| Source URL | `https://planetscale.com` |
+| Fetched | `2026-04-20` phase1 artifacts reused; design.md generated `2026-05-03T06:58:13Z` |
+| Extractor | Existing `insane-design/planetscale` phase1 bundle |
+| HTML size | `89808` bytes |
+| CSS files | `1` external CSS, `81300` chars |
+| Token files | `resolved_tokens.json`, `alias_layer.json`, `brand_candidates.json`, `typography.json` |
+| Screenshot | `insane-design/planetscale/screenshots/hero-cropped.png` |
+| Token prefix | `none` / direct Tailwind-style variables plus literal core names |
+| Method | CSS custom properties, HTML text, and screenshot observation; no report HTML rendered |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: Next.js (SSR + React)
-- **Design system**: Tailwind CSS + 자체 토큰 (<code>--gray-*</code>, <code>--blue-*</code>)
-- **CSS architecture**: utility-first, semantic Tailwind 변수
-- **Class naming**: Tailwind utilities (<code>bg-white text-gray-900</code>)
-- **Default theme**: <code>light</code> (bg <code>#FFFFFF</code>)
-- **Font loading**: Inter web font + <code>ui-sans-serif system-ui</code> fallback
-- **Canonical anchor**: <code>#0B6EC5</code> / <code>--blue-700</code>
-- **Color system**: 10-step gray + 10-step blue/green/orange/red + status
+- **Framework**: Static/SSR marketing build; captured HTML does not expose `__NEXT_DATA__`, but class output is Tailwind-like.
+- **Design system**: Internal utility system with direct core tokens such as `--gray-900`, `--blue-700`, `--orange-400`, plus semantic classes like `.text-primary`, `.bg-primary`, `.btn`.
+- **CSS architecture**:
+  ```css
+  core       (--gray-*, --blue-*, --orange-*, --red-*, --green-*, --purple-*) raw palette
+  utility    (.container, .grid-cols-*, .text-primary, .hover:text-orange) Tailwind-style layout
+  component  (.btn, .cta a:first-child, .dashed-box, .code-block) product-specific wrappers
+  state      (:focus-visible, .ui-open:text-orange, dark/hover media branches)
+  ```
+- **Class naming**: Tailwind utility naming plus component classes. Examples: `grid-cols-12`, `max-w-7xl`, `font-semibold`, `dashed-box`, `dot-fill`, `btn-sm`.
+- **Default theme**: light (`#FFFFFF` page surface) with `prefers-color-scheme: dark` branches present.
+- **Font loading**: system fonts only; no remote brand font required in captured CSS.
+- **Canonical anchor**: the hero screenshot shows product claims, enterprise proof, and customer grid above the fold, all in one restrained editorial block.
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Body/Display**: <code>Inter</code> (OFL)
-- **Fallback**: <code>ui-sans-serif, system-ui, sans-serif</code>
-- **Code**: <code>ui-monospace, SF Mono, Menlo, Consolas</code>
-- **Weights**: 400 / 500 / 600 / 700
+- **Display font**: `ui-monospace` stack. PlanetScale lets the product voice be monospaced even in marketing copy.
+- **Code font**: same `ui-monospace` stack.
+- **Support sans**: `ui-sans-serif, system-ui, sans-serif` appears in `.sans-prose` documentation/prose contexts.
+- **Weight normal / bold**: `400` / `700`; frequent operational emphasis uses `500` and `600`.
+
+```css
+:root {
+  --ps-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --ps-font-sans: ui-sans-serif, system-ui, sans-serif;
+  --ps-font-weight-normal: 400;
+  --ps-font-weight-medium: 500;
+  --ps-font-weight-semibold: 600;
+  --ps-font-weight-bold: 700;
+}
+
+body {
+  font-family: var(--ps-font-mono);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: var(--ps-font-weight-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-wrap: pretty;
+}
+```
+
+### Note on Font Substitutes
+
+Use the native monospace stack first. If the target environment needs a branded substitute, choose a restrained coding font with normal-width metrics, not a rounded tech font. Good substitutes are `SF Mono`, `IBM Plex Mono`, or `JetBrains Mono` with conservative tracking. Do not use `Inter` as the primary voice; it removes the database-console identity and turns the site into generic SaaS.
 
 ---
 
 ## 05. Typography Scale
+<!-- SOURCE: auto+manual -->
 
-> 16px 본문 기준 — 엔터프라이즈 표준. Tailwind 기본 스케일 (text-xs ~ text-6xl) 그대로.
+### Principles
 
-| Token | Size | Weight | Line-height | Letter-spacing |
-|---|---|---|---|---|
-| `text-xs` | 12px | 400 | 1.5 | 0 |
-| `text-sm` | 14px | 400 | 1.5 | 0 |
-| `text-base (body)` | 16px | 400 | 1.5 | 0 |
-| `text-lg` | 18px | 400 | 1.5 | 0 |
-| `text-2xl` | 24px | 600 | 1.3 | -0.01em |
-| `text-4xl` | 36px | 600 | 1.2 | -0.01em |
-| `text-6xl (hero H1)` | 60px | 700 | 1.1 | -0.02em |
+1. Keep the base paragraph at `16px / 1.5`; the page earns authority through density, not oversized hero type.
+2. Use weight jumps rather than size jumps: `400` body, `500` inline code/emphasis, `600` buttons and sans headings, `700` primary headings.
+3. Let monospace remain visible in navigation, body, proof copy, and labels.
+4. Apply optical tightening only in sans prose contexts: `-0.019em`, `-0.017em`, `-0.014em`.
+5. Use underline and left-border treatments for hierarchy instead of decorative display type.
+
+### Scale
+
+```css
+body        { font-size: 16px; line-height: 1.5; font-weight: 400; letter-spacing: 0; }
+h1          { font-size: inherit; line-height: inherit; font-weight: 700; }
+h2          { font-size: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+h3          { font-size: inherit; font-weight: 700; }
+.sans-prose h1 { font-size: 24px; line-height: 1.2;  font-weight: 600; letter-spacing: -0.019em; }
+.sans-prose h2 { font-size: 20px; line-height: 1.1;  font-weight: 600; letter-spacing: -0.017em; }
+.sans-prose h3 { font-size: 18px; line-height: 1.5;  font-weight: 600; letter-spacing: -0.014em; }
+.text-xs    { font-size: 12px; line-height: 1rem; }
+.text-sm    { font-size: 14px; line-height: 1.25rem; }
+```
+
+### Voice in Type
+
+PlanetScale's type should read like a well-edited engineering memo. Avoid fluffy headline forms like "Unlock the future of data." Prefer assertive technical nouns: `NVMe`, `Vitess`, `Postgres`, `replicas`, `failover`, `benchmarks`, `Traffic Control`, `Tier 0`.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
 
-> Gray 10단 + Blue 악센트 + status ramp. 가장 단순한 SaaS 팔레트.
+### Core Palette
 
-### Gray (backbone)
+```css
+:root {
+  --bg-primary: #FFFFFF;
+  --text-primary: #414141;
+  --text-contrast: #111111;
+  --text-secondary: #818181;
+  --text-blue: #0B6EC5;
+  --text-blue-bright: #1E9DE7;
+  --text-orange: #F35815;
+  --border-muted: #C1C1C1;
+  --code-bg-dark: #41414199;
+}
+```
 
-| Token | Hex |
-|---|---|
-| `gray-50` | `#FAFAFA` |
-| `gray-100` | `#EBEBEB` |
-| `gray-200` | `#E1E1E1` |
-| `gray-300` | `#C1C1C1` |
-| `gray-400` | `#A1A1A1` |
-| `gray-500` | `#818181` |
-| `gray-600` | `#616161` |
-| `gray-700` | `#414141` |
-| `gray-800` | `#2B2B2B` |
-| `gray-900` | `#111111` |
+### Observed Token Families
 
-### Blue (brand accent)
+- **Gray** — `#FAFAFA`, `#EBEBEB`, `#E1E1E1`, `#C1C1C1`, `#A1A1A1`, `#818181`, `#737373`, `#616161`, `#414141`, `#2B2B2B`, `#1A1A1A`, `#111111`.
+- **Blue** — `#F3FBFF`, `#DDF2FF`, `#73C7F9`, `#1E9DE7`, `#0B6EC5`, `#144EB6`, `#04122E`.
+- **Orange** — `#FFF8F3`, `#FFE8D8`, `#FFC59B`, `#FC9C66`, `#FD812D`, `#F35815`, `#962D00`, `#672002`, `#3C1403`, `#240B00`.
+- **Status colors** — green, red, purple, and yellow exist, but the public homepage should not read as a multi-color dashboard.
 
-| Token | Hex |
-|---|---|
-| `blue-50` | `#F3FBFF` |
-| `blue-100` | `#DDF2FF` |
-| `blue-300` | `#73C7F9` |
-| `blue-700 ★` | `#144EB6` |
-| `blue-950` | `#04122E` |
+### Usage Rules
 
-### Status (rarely surfaced)
+- Use `#FFFFFF` as the primary canvas and reserve `#FAFAFA` / `#EBEBEB` for subtle utility surfaces.
+- Use `#414141` for paragraph text, not full black.
+- Use `#111111` for high-contrast labels, headings, and key UI text.
+- Use `#0B6EC5` for normal links and `#1E9DE7` for focus/active link energy.
+- Use `#F35815` sparingly: CTA fill, left rule, open state, and selected tab-like moments.
 
-| Token | Hex |
-|---|---|
-| `green-50` | `#EFFFF3` |
-| `green-300` | `#75DB8C` |
-| `orange-100` | `#FFE8D8` |
-| `red (CTA alert)` | `#FF455D` |
+### Color Stories
 
-### Semantic Alias Layer
-
-| Alias | Resolves to / Usage |
-|---|---|
-| `--bg-primary` | #FFFFFF — page background |
-| `--bg-surface` | #FAFAFA — subtle surface (gray-50) |
-| `--text-primary` | #111111 — body text (gray-900) |
-| `--text-muted` | #737373 — captions (gray-550) |
-| `--brand-primary` | #0B6EC5 — primary CTA bg |
-| `--border-default` | #E1E1E1 — card/input border (gray-200) |
-
-### Dominant Colors (CSS frequency)
-
-| Rank | Hex | Count | Role |
-|---|---|---|---|
-| 1 | `#0B6EC5` | 7 | brand primary |
-| 2 | `#818181` | 7 | gray-500 muted text |
-| 3 | `#1E9DE7` | 4 | accent blue lighter |
-| 4 | `#A1A1A1` | 3 | gray-400 border |
-| 5 | `#336791` | 2 | postgres brand nod |
-| 6 | `#EBEBEB` | 1 | gray-100 surface |
+1. **White Infrastructure Paper** — `#FFFFFF` is not empty space; it is the page's operating surface, like a status report printed with no ornamental chrome.
+2. **Charcoal Engineering Ink** — `#414141` and `#111111` create a technical document feel while avoiding harsh pure-black body copy.
+3. **Query Link Blue** — `#0B6EC5` / `#1E9DE7` marks navigable technical concepts: fastest databases, NVMe drives, deployment options, docs.
+4. **Failover Orange** — `#F35815` is the only warm command color, used where the interface wants action or attention.
 
 ---
 
 ## 07. Spacing
+<!-- SOURCE: auto+manual -->
 
-> Tailwind 기본 4px baseline. p-2, p-4, p-6, p-8, p-12, p-16, p-24 표준.
+PlanetScale spacing is utilitarian and grid-bound. The captured CSS uses container ramps from `640px` to `1536px`, horizontal page padding from `var(--spacing-3)` through `var(--spacing-6)`, and prose rhythm centered on `24px` block margins.
 
-max-width: 1280px (.container) · py-16 / py-24 섹션 리듬 · gap-4 / gap-6 / gap-8 카드 간격
+```css
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: var(--spacing-4);
+  padding-left: var(--spacing-4);
+}
 
-| Token | Value | Use |
-|---|---|---|
-| `p-1` | 4px | tight chip padding |
-| `p-2` | 8px | small icon button |
-| `p-4` | 16px | card inner |
-| `p-6` | 24px | card generous |
-| `p-8` | 32px | section inner |
-| `py-16` | 64px | section vertical |
-| `py-24` | 96px | hero vertical |
-| `max-w-7xl` | 1280px | page container |
+@media (min-width: 640px)  { .container { max-width: 640px;  padding-inline: var(--spacing-3); } }
+@media (min-width: 768px)  { .container { max-width: 768px;  padding-inline: var(--spacing-4); } }
+@media (min-width: 1024px) { .container { max-width: 1024px; padding-inline: var(--spacing-5); } }
+@media (min-width: 1280px) { .container { max-width: 1280px; padding-inline: var(--spacing-6); } }
+@media (min-width: 1536px) { .container { max-width: 1536px; } }
+
+p, h1, h2, h3, blockquote, figure, pre, table, section {
+  margin-bottom: 24px;
+}
+```
+
+### Whitespace Philosophy
+
+Whitespace here is not luxury whitespace. It is separation between arguments. Blocks sit close enough to feel like a technical document, while bordered grids create precise pauses. Use `16px` for inset mechanics, `24px` for paragraph/module rhythm, and `40px` when a grid hands off to a new heading. Avoid oversized 96px marketing gaps unless the content genuinely changes mode.
 
 ---
 
-## 08. Radius
+## 08. Radius & Borders
+<!-- SOURCE: auto+manual -->
 
-> Tailwind 기본 radius — 4 / 6 / 8 / 12 / 9999. 카드 8-12px, 버튼 6-8px, pill 9999px.
+PlanetScale is mostly square. The site uses border and underline language more than radius. Captured radius values include `0`, `.125rem`, `.25rem`, `4px`, `100%`, and `9999px`, but the signature homepage CTA and grid cells are hard-edged.
 
-| Token | Value | Context |
-|---|---|---|
-| `rounded-sm` | 4px | chip |
-| `rounded` | 6px | button default |
-| `rounded-md` | 8px | input |
-| `rounded-lg` | 12px | card |
-| `rounded-full` | 9999px | avatar / pill |
+```css
+.btn {
+  border-radius: 0;
+  height: 40px;
+}
+
+.btn-sm {
+  height: 32px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+h1 {
+  margin-left: -16px;
+  border-left: 2px solid #F35815;
+  padding-left: 16px;
+  text-indent: -2px;
+}
+
+blockquote {
+  border-left: 2px solid #C1C1C1;
+  padding-left: 12px;
+}
+```
+
+Use radius only for true circular/dot controls or small utility chips. Do not round primary CTAs into pills.
 
 ---
 
 ## 09. Shadows
+<!-- SOURCE: auto+manual -->
 
-> 카드에 1px 테두리 + 얕은 0 1px 3px shadow. 드라마틱한 elevation 없음.
+Shadow is function, not atmosphere. The CSS mostly exposes Tailwind ring variables and `0 0 #0000` reset values. The brand relies on borders, focus rings, and dense layout rather than soft elevated cards.
 
-| Level | Usage | Value |
-|---|---|---|
-| `shadow-sm` | 소형 카드 | `0 1px 2px rgba(0,0,0,0.05)` |
-| `shadow` | 기본 카드 | `0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06)` |
-| `shadow-lg` | dropdown | `0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05)` |
+```css
+.btn:focus {
+  --tw-ring-color: #1E9DE7;
+  --tw-ring-offset-width: 0px;
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.btn:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+```
+
+If elevation is needed, keep it mechanical: a 1px border plus focus ring. Avoid multi-layer card shadows.
 
 ---
 
 ## 10. Motion
+<!-- SOURCE: auto+manual -->
 
-> Tailwind 기본 <code>.15s ease-in-out</code>만 쓴다. 거의 움직이지 않음.
+Motion is small and stateful. Buttons use a Tailwind default transition of `150ms` with `cubic-bezier(.4,0,.2,1)`. Disclosure arrows rotate `180deg`; hover states change text or background, and group hover reveals supporting controls.
 
-| Pattern | Value | Use |
-|---|---|---|
-| `transition-colors` | `150ms ease-in-out` | bg/color 변화 |
-| `transition-opacity` | `150ms ease-in-out` | 드롭다운 fade |
-| `duration-200` | `200ms` | hover lift (사용 빈도 낮음) |
+```css
+.btn {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+  transition-duration: .15s;
+}
+
+.ui-open\\:rotate-180[data-headlessui-state~="open"] {
+  --tw-rotate: 180deg;
+}
+```
+
+No scroll-jacking, parallax, elastic cards, or cinematic page transitions are required to reproduce the feel.
 
 ---
 
 ## 11. Layout Patterns
+<!-- SOURCE: auto+manual -->
 
-> 1280px max-width + 16-24px gutter + 64-96px vertical padding. 매우 보수적.
+### Pattern A: Document Hero
 
-### Grid System
+The hero is closer to a changelog announcement than a marketing splash. It begins with a narrow black announcement strip, then a horizontal nav, then a left-ruled title line and paragraph proof. Rebuild it as a document column inside a wide container, not as a centered H1 stack.
 
-- Container max-width: 1280px (max-w-7xl)
-- Grid type: CSS Grid + Flex (Tailwind utilities)
-- Columns: 12 subdivisions (Tailwind col-span-*)
-- Gutter: 16-24px (gap-4/gap-6)
+```css
+.document-hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 96px 32px;
+}
 
-### Hero
+.document-hero h1 {
+  border-left: 2px solid #F35815;
+  margin-left: -16px;
+  padding-left: 16px;
+  font-weight: 700;
+}
+```
 
-- Layout: 1-column centered text + 로고 월
-- Background: solid white / subtle gradient
-- H1: ~60px / weight 700 / tracking -0.02em
-- Max-width: ~800px prose
-- Pattern: ~60vh + 로고 wall 하단 + dual CTA
+### Pattern B: Bordered Proof Grid
 
-### Section Rhythm
+Customer logos are arranged in a strict grid. The borders are not decoration; they turn proof into a data table.
 
-- Padding: 64px / 96px vertical
-- Max-width: 1280px
-- 섹션 간 구분선 없음, 배경만 변함
+```css
+.logo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid #414141;
+  border-left: 1px solid #414141;
+}
 
-### Card Patterns
+.logo-grid > * {
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #414141;
+  border-bottom: 1px solid #414141;
+}
+```
 
-- Background: #FFFFFF / #FAFAFA
-- Border: 1px solid #E1E1E1
-- Radius: 8-12px
-- Padding: 24-32px
-- Shadow: shadow-sm 기본
+### Pattern C: Dense Technical Sections
 
-### Navigation
+Feature arguments appear as paragraphs with technical links and inline bold phrases. Preserve the editorial density. Do not split every sentence into separate cards.
 
-- Type: horizontal + 드롭다운 (Platform, Resources)
-- Position: sticky top
-- Height: ~64px
-- Background: white
-- Border: 1px solid #EBEBEB 하단
+### Pattern D: Responsive Utility Grid
 
-### Content Width
-
-- Prose: ~720-800px
-- Container: 1280px
-- Sidebar: docs에서만 사용
+The CSS includes `grid-cols-1`, `grid-cols-2`, `grid-cols-3`, `grid-cols-6`, `grid-cols-12`, and named responsive classes. Use 12-column structure for real product/data layouts, but keep homepage proof sections readable at narrow widths.
 
 ---
 
 ## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
 
-> Tailwind 기본 breakpoints 그대로: sm 640 / md 768 / lg 1024 / xl 1280 / 2xl 1536. Mobile-first.
+Breakpoints follow the Tailwind convention:
 
-### Breakpoints
+```css
+sm: 640px
+md: 768px
+lg: 1024px
+xl: 1280px
+2xl: 1536px
+```
 
-| Name | Value | Description |
-|---|---|---|
-| sm | `≥ 640px` | mobile landscape |
-| md | `≥ 768px` | tablet |
-| lg | `≥ 1024px` | desktop nav 복원 |
-| xl | `≥ 1280px` | full container |
-| 2xl | `≥ 1536px` | wide monitors |
-
-### Collapsing Strategy
-
-- **Touch targets**: button height 40-48px (h-10/h-12)
-- **Navigation collapse**: lg 이하에서 햄버거
-- **Grid columns**: 3-col → 2-col → 1-col
-- **Hero layout**: 유지, CTA stack
-- **Image strategy**: Next.js Image + srcset
-- **First-class**: mobile-first (Tailwind 기본)
+The logo grid should collapse by reducing columns, not by turning into free-floating logo chips. Navigation can hide lower-priority links, but the rhythm should remain monospaced and line-based. The captured CSS also includes max-width hiding utilities such as `max-xl:hidden`, `max-lg:hidden`, `max-md:hidden`, and `max-sm:hidden`.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
-> Primary CTA + Secondary CTA + 로고 월 + feature card. Tailwind 유틸 조합.
+### 13-1. Component Inventory
 
-### .btn-primary
+- **Announcement bar** — black `#111111` strip with compact mono copy and a yellow learn-more button.
+- **Primary navigation** — logo, dropdown labels, vertical separators, login/get-started links, orange contact CTA.
+- **Heading rule** — `h1` with `2px` orange left border, `16px` left padding, and negative left offset.
+- **Text link** — blue link (`#0B6EC5`) with brighter hover/focus treatment (`#1E9DE7`).
+- **Primary button** — orange square rectangle, 40px height, 16px horizontal padding, 600 weight.
+- **Small button** — same structure at 32px height and 8px horizontal padding.
+- **Logo grid cell** — bordered white cell with centered brand mark; the cell matters as much as the logo.
+- **Code/pre block** — mono block, `16px / 1.5`, `16px` padding, grey or translucent dark background.
+- **Blockquote** — 2px left border, quote marks injected with pseudo-elements, author line italicized.
+- **Focus ring** — blue ring using Tailwind CSS variables rather than custom outlines.
 
-_Primary CTA — 블루 배경_
+### 13-2. Named Variants
 
-```html
-<button style="background:#0B6EC5;color:#FFF;border:0;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:500;cursor:pointer;">Get in touch</button>
+```yaml
+button-primary:
+  height: 40px
+  padding: "0 16px"
+  background: "#F35815"
+  color: "#FFFFFF"
+  border-radius: 0
+  font-weight: 600
+  transition: "all 150ms cubic-bezier(.4,0,.2,1)"
+
+button-small:
+  height: 32px
+  padding: "0 8px"
+  background: "#F35815"
+  color: "#FFFFFF"
+  border-radius: 0
+  font-weight: 600
+
+heading-rule:
+  border-left: "2px solid #F35815"
+  margin-left: "-16px"
+  padding-left: "16px"
+  text-indent: "-2px"
+  font-weight: 700
+
+logo-grid-cell:
+  background: "#FFFFFF"
+  border: "1px solid #414141"
+  min-height: "96px"
+  align: center
 ```
 
-Spec:
+### 13-3. Signature Micro-Specs
 
-- background: #0B6EC5
-- color: #FFFFFF
-- padding: 10px 20px
-- border-radius: 6px
-- font-weight: 500
+```yaml
+orange-rule-monospace-heading:
+  description: "Turns a compact mono heading into a live command prompt rather than a display billboard."
+  technique: "font-weight: 700; border-left: 2px solid #F35815; padding-left: 16px; margin-left: -16px; text-indent: -2px"
+  applied_to: ["{component.heading-rule}", "hero h1", "section headings"]
+  visual_signature: "A thin orange server-rack marker locks the heading to the left edge and makes the line feel executable."
 
-### .btn-secondary
+square-orange-command-button:
+  description: "Primary actions read as command blocks, not rounded SaaS pills."
+  technique: "height: 40px; padding: 0 16px; background: #F35815; color: #FFFFFF; border-radius: 0; font-weight: 600; line-height: 1; transition: all 150ms cubic-bezier(.4,0,.2,1)"
+  applied_to: ["{component.button-primary}", "{component.button-small}", "contact CTA"]
+  visual_signature: "A flat orange rectangle interrupts the monochrome document like an active terminal state."
 
-_Secondary — ghost with border_
+proof-table-logo-wall:
+  description: "Customer proof is filed into a grid, making logos feel like evidence rather than decoration."
+  technique: "display: grid; border-top: 1px solid #414141; border-left: 1px solid #414141; child border-right/bottom: 1px solid #414141; min-height: 96-128px; align-items: center; justify-content: center"
+  applied_to: ["{component.logo-grid-cell}", "customer logo wall", "proof grids"]
+  visual_signature: "A white evidence table with hard charcoal rulings; no floating logo chips, no shadowed cards."
 
-```html
-<button style="background:transparent;color:#111;border:1px solid #E1E1E1;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:500;cursor:pointer;">Get started</button>
+blue-technical-link-ring:
+  description: "Links and focus states stay operational blue while orange remains reserved for action and state."
+  technique: "color: #0B6EC5; hover/focus decoration: #1E9DE7; focus ring via Tailwind ring variables with 2px transparent outline and 2px offset"
+  applied_to: ["{component.text-link}", "{component.focus-ring}", "inline technical nouns"]
+  visual_signature: "Blue marks navigable technical facts without turning the page into a multicolor dashboard."
+
+charcoal-citation-side-rule:
+  description: "Quotations and emphasis blocks echo the orange heading rule in a quieter charcoal weight, keeping the document feeling like a printed engineering memo."
+  technique: "blockquote { border-left: 2px solid #C1C1C1; padding-left: 12px; } — half the visual weight of the #F35815 heading rule (2px stays, color steps down to muted border)"
+  applied_to: ["{component.blockquote}", "callout-quote", "inline citations"]
+  visual_signature: "Body-rank annotations carry the same left-edge marker grammar as headings, but in a recessive gray so they read as supporting evidence — not commands."
 ```
 
-Spec:
+---
 
-- background: transparent
-- color: #111111
-- border: 1px solid #E1E1E1
-- hover: bg #FAFAFA
+## 14. Content Voice
+<!-- SOURCE: auto+manual -->
 
-### .announcement-bar
+PlanetScale writes for senior technical buyers. Claims are paired with operational nouns and proof phrases:
 
-_상단 공지 bar_
+- "fastest and most scalable cloud databases"
+- "NVMe drives"
+- "unlimited IOPS"
+- "Tier 0 databases"
+- "horizontal sharding"
+- "high availability"
+- "automated failover"
+- "branch-per-environment"
+- "Database Traffic Control"
 
-```html
-<div style="background:#04122E;color:#FFF;padding:8px 16px;font-size:13px;border-radius:6px;">Introducing Database Traffic Control <a style="color:#73C7F9;margin-left:8px;">Learn more →</a></div>
-```
-
-Spec:
-
-- background: #04122E (blue-950)
-- color: #FFFFFF
-- link color: #73C7F9
+The copy should be direct, evidence-heavy, and low on metaphor. The visual metaphor can be strong; the product copy should stay practical.
 
 ---
 
 ## 15. Drop-in CSS
+<!-- SOURCE: manual -->
 
 ```css
-/* PlanetScale — copy into your root */
 :root {
-  /* Fonts */
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  --ps-bg: #FFFFFF;
+  --ps-text: #414141;
+  --ps-contrast: #111111;
+  --ps-muted: #818181;
+  --ps-border: #C1C1C1;
+  --ps-border-strong: #414141;
+  --ps-link: #0B6EC5;
+  --ps-link-active: #1E9DE7;
+  --ps-orange: #F35815;
+  --ps-code-bg: #41414199;
+  --ps-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --ps-font-sans: ui-sans-serif, system-ui, sans-serif;
+}
 
-  /* Grayscale */
-  --gray-50:  #FAFAFA;
-  --gray-100: #EBEBEB;
-  --gray-200: #E1E1E1;
-  --gray-500: #818181;
-  --gray-900: #111111;
+body {
+  margin: 0;
+  background: var(--ps-bg);
+  color: var(--ps-text);
+  font-family: var(--ps-font-mono);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-wrap: pretty;
+}
 
-  /* Brand */
-  --blue-300: #73C7F9;
-  --blue-700: #144EB6;
-  --brand:    #0B6EC5;
+a {
+  color: var(--ps-link);
+  text-decoration-color: var(--ps-link-active);
+  text-underline-offset: 2px;
+}
 
-  /* Surfaces */
-  --bg:       #FFFFFF;
-  --fg:       #111111;
-  --muted-fg: #737373;
-  --border:   #E1E1E1;
+a:hover {
+  color: var(--ps-link-active);
+}
 
-  /* Scale */
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --space-4: 16px;
-  --space-8: 32px;
-  --space-16: 64px;
+.ps-container {
+  width: min(100% - 48px, 1200px);
+  margin-inline: auto;
+}
+
+.ps-announcement {
+  background: var(--ps-contrast);
+  color: #FFFFFF;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 16px;
+}
+
+.ps-heading-rule {
+  margin-left: -16px;
+  border-left: 2px solid var(--ps-orange);
+  padding-left: 16px;
+  text-indent: -2px;
+  color: var(--ps-contrast);
+  font-weight: 700;
+}
+
+.ps-btn {
+  display: inline-flex;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+  background: var(--ps-orange);
+  color: #FFFFFF;
+  padding-inline: 16px;
+  border: 0;
+  border-radius: 0;
+  font-family: var(--ps-font-mono);
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(.4, 0, .2, 1);
+}
+
+.ps-btn:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #1E9DE7;
+}
+
+.ps-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid var(--ps-border-strong);
+  border-left: 1px solid var(--ps-border-strong);
+}
+
+.ps-logo-grid > * {
+  min-height: 104px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid var(--ps-border-strong);
+  border-bottom: 1px solid var(--ps-border-strong);
+  background: #FFFFFF;
+}
+
+pre,
+code {
+  font-family: var(--ps-font-mono);
+}
+
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 16px;
+  background: #EBEBEB;
+  color: #111111;
+  font-size: 16px;
+  line-height: 1.5;
 }
 ```
 
 ---
 
-## 16. Tailwind Config
+## 16. Tailwind Mapping
+<!-- SOURCE: manual -->
 
 ```js
-// tailwind.config.js — PlanetScale-like
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        brand: { 300: '#73C7F9', 700: '#144EB6', DEFAULT: '#0B6EC5' },
-      },
-      fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
-        mono: ['ui-monospace', 'SF Mono', 'Menlo'],
-      },
-    },
+export const planetscaleTheme = {
+  colors: {
+    bg: "#FFFFFF",
+    text: "#414141",
+    contrast: "#111111",
+    muted: "#818181",
+    border: "#C1C1C1",
+    link: "#0B6EC5",
+    linkActive: "#1E9DE7",
+    orange: "#F35815",
   },
-};
+  fontFamily: {
+    mono: ['ui-monospace', 'SFMono-Regular', 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', 'monospace'],
+    sans: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+  },
+  borderRadius: {
+    none: '0',
+    sm: '.125rem',
+    md: '.25rem',
+    full: '9999px',
+  },
+}
 ```
 
 ---
 
-## 17. Agent Prompt Guide
+## 17. Agent Prompt
+<!-- SOURCE: manual -->
 
-### Quick Color Reference
+Build a PlanetScale-inspired database infrastructure page. Use a white `#FFFFFF` document surface, monospaced body typography, charcoal text `#414141`, near-black contrast `#111111`, blue technical links `#0B6EC5`, and orange action accents `#F35815`. Do not make a generic SaaS hero. Start with a compact announcement bar, then a restrained navigation row, then a document-like hero with a 2px orange left rule and dense technical proof copy.
 
-| Role | Token | Hex |
-|---|---|---|
-| Brand primary | `--brand` | `#0B6EC5` |
-| Background | `--bg` | `#FFFFFF` |
-| Surface | `--gray-50` | `#FAFAFA` |
-| Text primary | `--gray-900` | `#111111` |
-| Text muted | `--gray-550` | `#737373` |
-| Border | `--gray-200` | `#E1E1E1` |
-
-### Example Component Prompts
-
-#### Hero Section
-
-```
-PlanetScale 스타일 히어로를 만들어줘.
-- 배경: #FFFFFF
-- H1: Inter, 60px, weight 700, tracking -0.02em
-- Sub: 18px, color #737373
-- CTA: background #0B6EC5, padding 10px 20px, radius 6px
-- 하단 로고 월 5개
-```
-
-#### Card
-
-```
-PlanetScale feature card:
-- bg #FFFFFF, border 1px solid #E1E1E1, radius 8px
-- padding 24px
-- title 16px weight 600
-- body 14px color #616161
-```
-
-### Iteration Guide
-
-- **색상 변경 시**: 반드시 §06의 semantic token을 사용. raw hex 직접 사용 금지.
-- **폰트 변경 시**: weight 400이 기본.
-- **여백 조정 시**: §07의 spacing scale 단위로만.
-- **새 컴포넌트 추가 시**: §13의 기존 패턴을 따를 것.
+Use square orange CTAs at 40px height with 16px horizontal padding and 600 weight. Use bordered proof grids for customer logos or metrics. Prefer line, border, underline, and focus-ring language over shadows. Keep copy practical and operational: database scale, NVMe, Vitess, Postgres, failover, replicas, benchmarks, compliance, support. Avoid decorative gradients, oversized display type, floating rounded cards, soft drop shadows, and playful illustration.
 
 ---
 
-## 18. DO / DON'T
+## 18. 🚫 What This Site Doesn't Use
+<!-- SOURCE: manual -->
 
-### ✅ DO
+- 배경을 `#F7F7F5`, `#FAF4E8`, `#0B1020`, 또는 `#111827`로 두지 말 것 — PlanetScale의 기본 표면은 `#FFFFFF`이다.
+- 본문 텍스트를 `#000000` 또는 `#1D1D1F`로 두지 말 것 — 대신 차콜 `#414141`을 사용한다.
+- 주요 CTA를 `#0B6EC5`, `#6366F1`, `#7C3AED`로 만들지 말 것 — 행동 색은 오렌지 `#F35815`이다.
+- 링크를 `#F35815`로 통일하지 말 것 — 링크는 블루 `#0B6EC5`, hover/focus 장식은 `#1E9DE7`이다.
+- 히어로 제목에 보라 그라디언트 `#667EEA` → `#764BA2`를 쓰지 말 것 — 제목은 `#111111` 텍스트와 `#F35815` left rule로 충분하다.
+- 로고 wall 배경을 카드 회색 `#F3F4F6` 또는 테두리 없는 흰 카드로 만들지 말 것 — `#FFFFFF` 셀과 `#414141` 얇은 그리드 라인이 필요하다.
+- primary button에 `border-radius: 9999px`를 쓰지 말 것 — 기본 CTA는 `border-radius: 0`인 square command이다.
+- body를 `Inter`, `Roboto`, `Arial`, `system-ui` 산세리프 중심으로 바꾸지 말 것 — primary voice는 `ui-monospace`이다.
+- `box-shadow: 0 20px 60px rgba(0,0,0,.15)` 같은 부드러운 카드 그림자를 쓰지 말 것 — border와 `#1E9DE7` focus ring이 깊이 역할을 한다.
+- 80px 이상 hero display type과 중앙 정렬 CTA stack을 쓰지 말 것 — PlanetScale은 문서형 left-rule hero와 16px mono density가 핵심이다.
 
-- 배경은 #FFFFFF를 쓰고 surface는 --gray-50 #FAFAFA를 사용한다.
-- CTA primary 배경은 반드시 #0B6EC5 (또는 --blue-700 #144EB6) — 다른 블루 금지.
-- 카드는 1px solid #E1E1E1 border + 8-12px radius + shadow-sm.
-- 본문은 Inter 16px / weight 400 / line-height 1.5로.
-- 섹션 vertical padding은 64px-96px (py-16 / py-24)만 사용.
+### Absent / None / Zero / Never (Negative-Space Identity)
 
-### ❌ DON'T
+- Lab demo video autoplay on hero: absent. The runbook does not perform; it documents.
+- Toolbox iconography / wrench illustrations: zero. Tools are typeset, not drawn.
+- Engineering blueprint mesh background: never. The page surface is flat printed paper.
+- Animated benchmark chart in the hero: none. Numbers are inline body copy.
+- Decorative server-rack 3D render: absent. The proof grid replaces the diagram.
+- Second action color competing with orange: none. Blue is link-only, not a CTA.
 
-- 본문 텍스트를 #000000 또는 black으로 두지 말 것 — 대신 #111111 (gray-900) 사용.
-- 섹션 배경을 #0B6EC5로 채우지 말 것 — 블루는 포인트용. 대신 #FFFFFF 또는 #FAFAFA.
-- Tailwind arbitrary value (text-[13px]) 남용 금지 — text-sm / text-base 표준 스케일만.
-- 카드 border를 #000이나 #CCC로 두지 말 것 — #E1E1E1 (gray-200).
-- body에 font-weight: 300 쓰지 말 것 — PlanetScale은 400이 기본.
-- radius 16px, 20px 같은 외부 값 금지 — 6 / 8 / 12 / 9999만.
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- phase1 artifacts were reused from `insane-design/planetscale`; no fresh May 3 live fetch was performed, so content or CSS may have shifted after the captured April 20 bundle.
+- The captured CSS does not expose a public design-token namespace such as `--ps-*`; token names in this guide are normalized aliases for implementation clarity, while raw observed tokens remain listed.
+- The screenshot used for visual interpretation is `hero-cropped.png`; below-the-fold component behavior is inferred from HTML text and CSS selectors rather than a full visual crawl.
+- `default_theme: light` is based on the visible homepage screenshot and CSS defaults, even though `prefers-color-scheme: dark` branches exist.
+- Framework identification is intentionally conservative because the stored HTML did not expose a clear `__NEXT_DATA__` marker.
+- Logo colors were treated as proof-content noise and not as PlanetScale UI palette colors.

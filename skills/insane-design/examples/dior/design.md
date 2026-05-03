@@ -1,44 +1,118 @@
 ---
+schema_version: 3.2
 slug: dior
 service_name: Dior
 site_url: https://www.dior.com
-fetched_at: 2026-04-15
-default_theme: light
+fetched_at: 2026-05-03
+default_theme: mixed
 brand_color: "#33383C"
-primary_font: Hellix
-font_weight_normal: 500
-token_prefix: --ot-*
+primary_font: "Atacama VAR"
+font_weight_normal: 352
+token_prefix: "ot"
+
+bold_direction: "Monochrome Luxury"
+aesthetic_category: "other"
+signature_element: "hero_impact"
+code_complexity: "high"
+
+medium: web
+medium_confidence: high
+
+archetype: luxury-brand
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "CSS exposes a compact token layer, variable fonts, MUI-generated components, glass header states, and consistent editorial commerce patterns, but no public formal DS naming beyond runtime tokens."
+
+colors:
+  ink-primary: "#33383C"
+  white: "#FFFFFF"
+  image-black: "#000000"
+  surface-soft: "#F8F8F8"
+  hairline: "#D8D8D8"
+  text-muted: "#7B8487"
+  text-soft: "#ACB2B4"
+  cookie-green: "#468254"
+typography:
+  display: "Atacama VAR"
+  body: "Hellix"
+  icon: "ABCDiorIcons"
+  ladder:
+    - { token: hero-logo, size: "30px svg mark", weight: "logo-outline", line_height: "1", tracking: "N/A" }
+    - { token: headline-m-desktop, size: "2rem", weight: 352, line_height: "42px", tracking: "-0.04rem" }
+    - { token: headline-m-mobile, size: "1.5rem", weight: 352, line_height: "34px", tracking: "-0.03rem" }
+    - { token: body-control, size: "0.875rem", weight: 500, line_height: "17px", tracking: "normal" }
+    - { token: editorial-copy, size: "1rem", weight: 300, line_height: "22px", tracking: "normal" }
+  weights_used: [100, 300, 352, 400, 500, 600, 700]
+  weights_absent: [800, 900]
+components:
+  button-contained-ink: { bg: "{colors.ink-primary}", fg: "{colors.white}", radius: "4px", padding: "6px 16px" }
+  button-outline-ink: { bg: "transparent", fg: "{colors.ink-primary}", border: "rgba(51,56,60,0.5)", radius: "4px" }
+  header-glass: { bg: "transparent to rgba surface", blur: "blur(calc(var(--blur-medium, 3.125rem) / 2))", height: "4rem / 5rem" }
+  category-tile: { bg: "image", overlay: "linear-gradient(180deg, #00000000 50%, #0000007F 100%)", typography: "Atacama VAR 352" }
 ---
 
 # DESIGN.md — Dior (Claude Code Edition)
 
 ---
 
-## 00. Visual Theme & Atmosphere
-<!-- SOURCE: manual -->
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-디올(Dior)은 럭셔리 패션 하우스의 디지털 표현이다. **근엄한 회색 `#33383C`가 브랜드 앵커**로 작동하고, 흰색 배경 위에 무게감 있는 세리프·산세리프 조합이 클래식한 쿠튀르 톤을 만든다. 밝은 파랑이나 강한 원색은 완전히 배제되며, 절제된 팔레트로 프리미엄 포지셔닝을 강화한다.
+### Narrative
 
-색상 전략은 **다크 뉴트럴 모노크롬**이다. 브랜드 앵커 `#33383C`(다크 차콜)와 흰색 `#FFFFFF`·검정 `#000000`이 삼각축을 이루고, `--ot-black-*` 램프(`#ACB2B4`·`#7B8487`·`#5D676C`·`#33383C`)가 그레이 스케일을 4단계로 분리한다. 유일한 포인트는 `#03B2CB`(포커스 링)와 같이 시스템 UI에만 한정된 컬러다.
+Dior's homepage reads like a museum-grade store where two boutique salons open side by side. The first viewport is split between fashion and beauty, each tile filled by photography, with the Dior wordmark floating across the seam as a house plaque. The interface chrome almost disappears; the product world, models, packaging, and light carry the brand. The page does not announce luxury through gold UI or ornamental borders. It lets the image take the risk, then anchors it with severe monochrome restraint.
 
-폰트는 자체 커스텀 서체 `Hellix`를 primary로, `Atacama VAR`를 display headline에 사용한다. font-weight 500(medium)이 기본 body이며, 일반 사이트의 400(regular)보다 한 단계 무겁다. `Century Gothic Std`가 일부 레거시 아이콘·특수 UI에 잔존한다. `ABCDiorIcons` 아이콘 폰트가 별도로 운영된다.
+The operating palette is not a perfume-box pink or a couture metallic. The UI's actual anchor is #33383C (`{colors.ink-primary}`), a cool charcoal used for content, outlines, and contained controls. White #FFFFFF (`{colors.white}`) appears as boutique light on image, not as a generic SaaS canvas. Black #000000 (`{colors.image-black}`) is mostly photographic material and overlay gauze. There is no second brand color waiting in the system: the maison refuses the expected gold clasp, and lets neutral ink behave like the stitching inside a couture garment.
 
-여백은 프리미엄 브랜드 특유의 넉넉함을 갖는다. 컨텐츠는 `max-width: 896px`로 중앙 수렴하고, 상·하 섹션 패딩이 충분하다. 카드 경계는 색상 변화와 미세 border로 표현하며, box-shadow는 없다.
+Typography is the couture layer. Display text uses Atacama VAR with a deliberately unusual `wght` axis around 352, while everyday controls use Hellix at 500. The result is a soft serif-adjacent fashion headline over a modern commerce skeleton. It reads like a runway card pinned beside the garment: small, exact, and never louder than the dress. Headline tracking tightens slightly at larger sizes (`-0.03rem` to `-0.04rem`), enough to feel composed without becoming tech-brand optical compression.
 
-모션은 MUI(Material UI) 기반의 `cubic-bezier(0.4, 0, 0.2, 1)` 250ms 트랜지션을 사용한다. 빠르지도 느리지도 않은 품격 있는 속도감.
+The main craft is the disappearing frame. The split hero works like double doors opening into two salons, with the white Dior SVG suspended as a house plaque across the threshold. The bottom gradient is not a caption box; it is a theater scrim pulled up from the floor so the labels can sit inside the photograph. The glass header behaves like a vitrine edge: present only when light catches it, then gone again when the image needs the room.
+
+Luxury here is a subtraction discipline: no broad accent palette, no heavy elevation, no product-card confetti, no generic "premium" gradient. Shadow belongs to modal or third-party surfaces, not to the category photography. The system remembers the maison by image, wordmark, and air; the page has very little site-self, because the chrome keeps stepping back to let the campaign world occupy the wall.
+
+조금 더 풀면, Dior 홈은 **메종의 매장윈도우 두 짝과 부티크 안쪽 진열대**처럼 작동한다. split hero는 부티크 입구의 양쪽 매장윈도우 — 한쪽은 패션 컬렉션 진열대, 다른 한쪽은 향수와 뷰티의 큐레이션박스다. 흰 Dior SVG는 두 윈도우 사이 유리 위에 새겨진 메종 각인, 헤더의 glass 상태는 부티크 카운터 위 투명 진열장 가장자리 같은 존재감이다. 카테고리 라벨은 진열대 발치에 놓인 이름표, hover/sticky 상태 변화는 공방 안쪽에서 조명이 한 번씩 들어오는 호흡이다 — 두 번째 brand color가 없는 이유는, 메종의 큐레이션박스 안에는 옷감과 빛 외의 색이 들어가지 않기 때문이다.
+
+### Key Characteristics
+
+- Full-viewport editorial commerce split: Fashion & Accessories and Fragrance & Beauty share the first screen as equal image portals.
+- Floating Dior SVG logo in white over photography, positioned as a brand seal rather than a nav label.
+- Cool charcoal UI anchor #33383C (`{colors.ink-primary}`), with white and black behaving as photographic support.
+- Atacama VAR display text with non-standard `wght` 352 and tight negative tracking on headlines.
+- Hellix for controls, cookie UI, buttons, and functional commerce copy.
+- Header state system: transparent overlay, fixed glass mode, sticky solid mode, and forced icon color variants.
+- Category tiles rely on `object-fit: cover`, absolute image placement, and bottom gradient legibility.
+- Radius is mostly modest: 4px/6px for controls, 999px only for pill or circular utility forms.
+- Shadows are intentionally sparse; depth belongs to imagery and modal surfaces, not cards.
+- Motion favors slow, polished state transitions with cubic-bezier `0.31,0,0.13,1`.
+
+---
+
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Monochrome Luxury
+> **Aesthetic Category**: other
+> **Signature Element**: 이 사이트는 **hero_impact**으로 기억된다.
+> **Code Complexity**: high — transparent/glass/sticky header states, variable-font axes, image overlays, and MUI-generated variant controls require more than static token copying.
 
 ---
 
 ## 01. Quick Start
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto+manual -->
 
 > 5분 안에 Dior처럼 만들기 — 3가지만 하면 80%
 
 ```css
 /* 1. 폰트 + weight */
 body {
-  font-family: Hellix, Arial, sans-serif;
-  font-weight: 500;  /* Medium — 400 아님 */
+  font-family: "Hellix", "ABCDiorIcons", arial, sans-serif;
+  font-weight: 400;
+}
+
+.dior-display {
+  font-family: "Atacama VAR", "ABCDiorIcons", arial, sans-serif;
+  font-weight: normal;
+  font-variation-settings: "wght" 352, "wdth" 100, "CNTR" 28, "XHGT" 0;
+  letter-spacing: -0.04rem;
 }
 
 /* 2. 배경 + 텍스트 */
@@ -49,7 +123,7 @@ body { background: var(--bg); color: var(--fg); }
 :root { --brand: #33383C; }
 ```
 
-**절대 하지 말아야 할 것 하나**: 텍스트를 `#000000` 순수 검정으로 설정하는 것. 디올의 기본 텍스트는 `#33383C`(다크 차콜)이며, 이 미묘한 차이가 럭셔리 브랜드의 따뜻한 어두움을 만든다.
+**절대 하지 말아야 할 것 하나**: Dior를 금색 luxury palette로 번역하지 말 것. 실제 UI anchor는 #33383C charcoal이고, chromatic 색은 cookie/third-party/form states를 제외하면 브랜드 코어가 아니다.
 
 ---
 
@@ -58,156 +132,223 @@ body { background: var(--bg); color: var(--fg); }
 
 | | |
 |---|---|
-| Source URL | `https://www.dior.com/en_us` |
-| Fetched | 2026-04-15 |
-| Extractor | Playwright MCP (headless Chromium, bot-bypass) |
-| HTML size | 545,862 bytes (Next.js SSR, couture-catalog-v2) |
-| CSS files | 2개 외부 (`dior.com/couture-catalog-v2-assets`) + 191,381자 인라인, 총 244,454자 |
-| Token prefix | `--ot-*` (Dior 자체 디자인 토큰), `--variant-*` (MUI 기반 컴포넌트 변수) |
-| Method | CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음 |
+| Source URL | `https://www.dior.com` |
+| Fetched | 2026-05-03 |
+| Extractor | reused `insane-design/dior` phase1 artifacts from prior capture |
+| HTML size | 546138 bytes (Next/MUI-style SSR + hydrated commerce shell) |
+| CSS files | 3 files, total 244456 chars |
+| Token prefix | `ot` for OneTrust/cookie token layer; generated MUI classes for main surface |
+| Method | Existing HTML/CSS/phase1 JSON + screenshot interpretation; no new network fetch |
 
 ---
 
 ## 03. Tech Stack
 <!-- SOURCE: auto+manual -->
 
-- **Framework**: Next.js (couture-catalog-v2 빌드)
-- **Design system**: MUI(Material UI) + 커스텀 `--ot-*` 토큰 레이어
-- **CSS architecture**: MUI 컴포넌트 CSS + Dior 오버라이드 토큰
+- **Framework**: Next.js-style SSR with MUI generated classes and React commerce shell.
+- **Design system**: Dior runtime system — prefix `ot` appears for consent layer tokens; core page components use MUI class generation and product-specific CSS modules.
+- **CSS architecture**:
+  ```text
+  OT tokens        (--ot-*)                 cookie/consent semantic tokens
+  Variant tokens   (--variant-*)            MUI button/control state values
+  CSS modules      Header_* / MainNavigation_* page chrome and nav state classes
+  MUI classes      .mui-latin-*             generated layout, hero, typography, media classes
   ```
-  --ot-black-*       Dior 전용 gray 램프 (100~400)
-  --ot-white-*       흰 side 램프 (100~200)
-  --variant-*        MUI 컴포넌트 상태 변수 (containedBg, outlinedBorder 등)
-  ```
-- **Class naming**: MUI 자동 생성 (`mui-*`, `.MuiButton-*`)
-- **Default theme**: light (bg = `#FFFFFF`)
-- **Font loading**: 자체 CDN 서빙 (`Hellix`, `Atacama VAR`, `ABCDiorIcons`)
-- **Canonical anchor**: `#33383C` — 모든 텍스트·CTA·버튼 배경이 이 다크 차콜 기반
+- **Class naming**: Mixed CSS modules (`Header_header__d1Ndh`) + MUI runtime classes (`mui-latin-3xoi18`) + third-party namespaces (`ot-*`, `swiper-*`, `PhoneInput-*`).
+- **Default theme**: mixed. Homepage hero is dark-over-image in the first viewport; commerce and consent surfaces include white and #F8F8F8 floors.
+- **Font loading**: CSS `@import` loads `/static/fashion/fontsv3/AtacamaVAR/AtacamaVAR.css` and `/static/fashion/fontsv3/Hellix/Hellix.css`.
+- **Canonical anchor**: white Dior logo over split photography, with category labels bottom-centered over image gradients.
 
 ---
 
 ## 04. Font Stack
 <!-- SOURCE: auto+manual -->
 
-- **Primary font**: `Hellix` (Dior 전용 커스텀, 유료)
-- **Display headline**: `Atacama VAR` (가변 폰트)
+- **Display font**: `Atacama VAR` (custom Dior fashion font, site-hosted)
+- **Body/control font**: `Hellix` (site-hosted)
 - **Icon font**: `ABCDiorIcons`
-- **Legacy**: `Century Gothic Std`, `DinCondensedBold`
-- **Fallback**: `Arial`, `sans-serif`
-- **Weight normal / bold**: `500` / `700`
+- **Weight normal / bold**: `352 display axis / 400 body` / `500 control emphasis, 600-700 rare utility`
 
 ```css
 :root {
-  --dior-font-family: Hellix, ABCDiorIcons, Arial, sans-serif;
-  --dior-font-family-display: "Atacama VAR", ABCDiorIcons, Arial, sans-serif;
-  --dior-font-weight-normal: 500;
-  --dior-font-weight-bold: 700;
+  --ot-font-primary:   "Atacama VAR", arial, sans-serif;
+  --ot-font-secondary: "Hellix", arial, sans-serif;
 }
+
 body {
-  font-family: var(--dior-font-family);
-  font-weight: var(--dior-font-weight-normal);
+  font-family: "Hellix", "ABCDiorIcons", arial, sans-serif;
+  font-weight: 400;
+}
+
+.headline {
+  font-family: "Atacama VAR", "ABCDiorIcons", arial, sans-serif;
+  font-weight: normal;
+  font-variation-settings: "wght" 352, "wdth" 100, "CNTR" 28, "XHGT" 0;
 }
 ```
+
+### Note on Font Substitutes
+<!-- SOURCE: manual -->
+
+- **Atacama VAR** is the signature display voice. If unavailable, use **Cormorant Garamond** or **Libre Baskerville** only for editorial headings, then tighten tracking by `-0.02em` to `-0.03em` and keep line-height around `1.30`.
+- **Hellix** should fall back to **Inter** or **Arial** for controls, but do not let Inter become the entire brand. Keep display and control families separated.
+- For Dior-like headings, avoid heavy 600+ serif display. The observed headline axis is lighter: `font-variation-settings: "wght" 352`.
+- The Dior wordmark should remain SVG/artwork. Do not replace it with typed text in Atacama.
 
 ---
 
 ## 05. Typography Scale
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
 | Token | Size | Weight | Line-height | Letter-spacing |
 |---|---|---|---|---|
-| xs / caption | 0.75rem (12px) | 500 | 1.5 | 0.02em |
-| base / body | 0.875rem (14px) | 500 | 1.6 | 0 |
-| md | 1rem (16px) | 500–700 | 1.5 | 0 |
-| lg | 1.5rem (24px) | 400–500 | 1.3 | -0.01em |
-| display | 2rem+ | 400 | 1.1 | -0.02em |
+| hero-logo-svg | SVG viewBox 106x30 | artwork | 1 | N/A |
+| headline-m-mobile | 1.5rem | Atacama `wght` 352 | 34px | -0.03rem |
+| headline-m-desktop | 2rem | Atacama `wght` 352 | 42px | -0.04rem |
+| editorial-copy | 1rem | Atacama `wght` 300 | 22px | normal |
+| editorial-copy-desktop | 1.25rem | Atacama `wght` 300 | 28px | normal |
+| control | 0.875rem | Hellix 500 | 17px | normal |
+| small-control | 0.75rem / 0.8125rem | Hellix 400-500 | 1.2-1.4 | normal |
 
-> ⚠️ Dior body font-weight는 500(medium)이 기본. 0.875rem(14px)이 body 표준. 대형 display 타이틀은 Atacama VAR weight 400으로 가볍게.
+> ⚠️ Dior's typography is not "luxury = high contrast serif everywhere." The split is Atacama for editorial presence and Hellix for functional commerce.
+
+### Principles
+<!-- SOURCE: manual -->
+
+1. Display weight is an axis setting, not a standard CSS weight. The signature observed value is `"wght" 352`, which sits between common 300 and 400.
+2. Headline tracking tightens only at display sizes. Mobile headline uses `-0.03rem`; desktop uses `-0.04rem`; controls keep `letter-spacing: normal`.
+3. Body control density is compact: 0.875rem, 17px line-height, Hellix 500. This keeps commerce UI crisp over photographic luxury.
+4. The wordmark is not typography in the layout system. It is SVG brand artwork filled #FFFFFF over image.
+5. Weight 700 appears in utility or third-party contexts, not as the default couture voice.
+6. Atacama and Hellix must remain separated. Collapsing the whole page into one fallback font removes the Dior tension between fashion editorial and retail function.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
+
+### 06-1. Brand Ramp (neutral anchor)
 <!-- SOURCE: auto -->
 
-### 06-1. Brand Ramp (Dark Neutral)
-
 | Token | Hex |
 |---|---|
-| --ot-black-100 | `#ACB2B4` |
-| --ot-black-200 | `#7B8487` |
-| --ot-black-300 | `#5D676C` |
-| --ot-black-400 | `#33383C` |
-| brand / black | `#000000` |
+| `--ot-black-100` | `#ACB2B4` |
+| `--ot-black-200` | `#7B8487` |
+| `--ot-black-300` | `#5D676C` |
+| `--ot-black-400` | `#33383C` |
 
 ### 06-2. Brand Dark Variant
+<!-- SOURCE: auto+manual -->
 
 | Token | Hex |
 |---|---|
-| --ot-white-100 | `#E5E5E5` |
-| --ot-white-200 | `#DADADA` |
+| hero overlay start | `#00000000` |
+| hero overlay end | `#0000007F` |
+| image black | `#000000` |
+| sticky/header icon dark | `#33383C` |
 
 ### 06-3. Neutral Ramp
+<!-- SOURCE: auto -->
 
-| Step | Light |
-|---|---|
-| 100 | `#ACB2B4` (cool light gray) |
-| 200 | `#7B8487` |
-| 300 | `#5D676C` |
-| 400 | `#33383C` (anchor) |
-| max | `#000000` |
+| Step | Light | Dark |
+|---|---|---|
+| white | `#FFFFFF` | `#000000` |
+| surface-soft | `#F8F8F8` | `#33383C` |
+| surface-muted | `#F3F3F3` | `#5D676C` |
+| border-light | `#E5E5E5` | `#7B8487` |
+| hairline | `#D8D8D8` | `#ACB2B4` |
 
 ### 06-4. Accent Families
+<!-- SOURCE: auto+manual -->
 
-> N/A — 디올 UI에 채도 있는 브랜드 액센트 없음.
+| Family | Key step | Hex |
+|---|---|---|
+| Dior UI accent | charcoal | `#33383C` |
+| Cookie/consent accept | green | `#468254` |
+| Cookie/consent pressed | deep green | `#2C6415` |
+| Error/destructive utility | red | `#C53929` |
+| Third-party focus | blue | `#03B2CB` |
+| Browser/mobile focus outline | blue | `#1574C3` |
 
 ### 06-5. Semantic
+<!-- SOURCE: auto+manual -->
 
 | Token | Hex | Usage |
 |---|---|---|
-| --variant-containedBg | `#33383C` | 채워진 버튼 배경 |
-| --variant-containedColor | `#FFFFFF` | 채워진 버튼 텍스트 |
-| --variant-outlinedColor | `#33383C` | 외곽선 버튼 텍스트/border |
-| --variant-textColor | `#33383C` | 텍스트 버튼 |
-| --ot-link-text-color | `#7B8487` | 링크 텍스트 |
-| focus ring | `#03B2CB` | 접근성 포커스 |
+| `{colors.ink-primary}` | `#33383C` | Text, contained buttons, outlines, active states |
+| `{colors.white}` | `#FFFFFF` | Logo fill over image, contained text, light surfaces |
+| `{colors.surface-soft}` | `#F8F8F8` | Loading and neutral commerce surface |
+| `{colors.hairline}` | `#D8D8D8` | Structural dividers and pale UI borders |
+| `{colors.text-muted}` | `#7B8487` | Secondary links, consent copy, muted UI |
+| `{colors.text-soft}` | `#ACB2B4` | Disabled or low-emphasis UI |
 
 ### 06-6. Semantic Alias Layer
+<!-- SOURCE: auto -->
 
 | Alias | Resolves to | Usage |
 |---|---|---|
-| --variant-outlinedBorder | `rgba(51,56,60,0.5)` | 버튼 외곽선 |
-| --variant-textBg | `rgba(51,56,60,0.04)` | 텍스트 버튼 hover bg |
-| --variant-outlinedBg | `rgba(51,56,60,0.04)` | 외곽선 버튼 hover bg |
+| `--ot-color-content-primary` | `--ot-black-400` -> `#33383C` | Primary consent/UI content |
+| `--ot-color-content-primary-alt-1` | `--ot-black-200` -> `#7B8487` | Secondary links |
+| `--ot-color-outline-primary` | `--ot-black-400` -> `#33383C` | Primary outlines |
+| `--ot-color-outline-primary-alt` | `--ot-white-100` -> `#E5E5E5` | Light outline |
+| `--ot-color-state-primary-alt-hover` | `--ot-black-300` -> `#5D676C` | Hover state |
+| `--ot-color-state-disable-content` | `--ot-black-100` -> `#ACB2B4` | Disabled state |
+| `--variant-containedBg` | `#33383C` / `rgba(35,39,42,1)` | MUI contained button background |
+| `--variant-outlinedBorder` | `rgba(51,56,60,0.5)` / `#33383C` | MUI outline border |
 
-### 06-7. Dominant Colors (실제 DOM 빈도 순)
-<!-- SOURCE: auto (CSS frequency count) -->
+### 06-7. Dominant Colors (실제 DOM/CSS 빈도 순)
+<!-- SOURCE: auto -->
 
-| Rank | Hex | Count | Role |
-|---|---|---|---|
-| 1 | `#33383CFF` | 114 | neutral — 브랜드 앵커 다크 차콜 |
-| 2 | `#FFFFFF` | 97 | neutral — 배경 |
-| 3 | `#000000` | 58 | neutral — 강조 텍스트 |
-| 4 | `#D8D8D8` | 40 | neutral — 구분선 |
-| 5 | `#ACB2B4FF` | 38 | neutral — ot-black-100 (연한 회색) |
-| 6 | `#7B8487` | 22 | neutral — ot-black-200 |
-| 7 | `#5D676C` | 14 | neutral — ot-black-300 |
+| Token | Hex | Frequency |
+|---|---|---|
+| ink-primary | `#33383CFF` | 114 |
+| white short | `#FFF` | 84 |
+| black short | `#000` | 44 |
+| hairline | `#D8D8D8` | 40 |
+| text-soft | `#ACB2B4FF` | 38 |
+| text-muted | `#7B8487FF` | 36 |
+| white full alpha | `#FFFFFFFF` | 24 |
+| third-party blue | `#3860BE` | 24 |
+
+### Color Stories
+<!-- SOURCE: manual -->
+
+**`{colors.ink-primary}` (`#33383C`)** — Dior's practical brand color in the captured UI. It is used for content, outlines, variant controls, and state anchors. Treat it as the system's charcoal ink, not as a fallback black.
+
+**`{colors.white}` (`#FFFFFF`)** — White is the over-photography luxury signal: logo fill, label text, and contained-button text. It should appear as light on image or clean commerce surface, not as a generic empty landing-page canvas.
+
+**`{colors.image-black}` (`#000000`)** — Black is mostly photographic and overlay material. The important use is the 50% to 100% bottom-gradient legibility layer on image tiles, not a flat black page background.
+
+**`{colors.hairline}` (`#D8D8D8`)** — Hairline gray supplies structure where Dior refuses decorative color. Use it for dividers and borders only; do not promote it into large backgrounds.
 
 ---
 
 ## 07. Spacing
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
 | Token | Value | Use case |
 |---|---|---|
-| space-xs | 4px | 아이콘 gap |
-| space-sm | 8px | 인라인 패딩 |
-| space-md | 16px | 컴포넌트 패딩 |
-| space-lg | 24px | 섹션 내부 |
-| space-xl | 40px | 섹션 상하 |
-| space-2xl | 80px | 대형 섹션 |
+| `--ot-small-s` | `0.125rem` | Tiny link underline / micro offset |
+| `--ot-small-m` | `0.25rem` | Focus/link padding bottom |
+| `--ot-small-l` | `0.5rem` | Compact consent spacing |
+| `--ot-small-xl` | `0.75rem` | Compact content spacing |
+| `--ot-small-xxl` | `1rem` | Edge inset and mobile padding unit |
+| `--ot-medium-xs` | `1.25rem` | Consent/header offset |
+| `--ot-medium-s` | `1.5rem` | Modal/header spacing |
+| `--ot-medium-m` | `2rem` | Larger block spacing |
+| hero/content gap | `32px` | Desktop margin-top and content grouping |
+| editorial column gap | `48px` | Mobile stacked commerce/editorial gap |
+| category grid gap | `16px` | Desktop 4-column listing gap |
 
 **주요 alias**:
-- 버튼 패딩: `16px 24px` (중형 CTA 기준)
+- `--desktop-min-width` -> `18.3125rem` / `19.75rem` / `22.9375rem` / `28.75rem` by viewport, used to tune desktop minimum columns.
+
+### Whitespace Philosophy
+<!-- SOURCE: manual -->
+
+Dior's whitespace is not a geometric 4-8-16 SaaS ladder. The page alternates between full photographic occupation and very exact UI insets. The first viewport has almost no framed whitespace because photography owns the canvas; the visible "air" comes from the dark overlay and the quiet placement of labels near the bottom.
+
+Inside functional UI, spacing becomes compact and retail-oriented: 16px edge padding, 32px rhythm, 48px stacked gaps, 4rem/5rem header heights. The luxury is created by removing chrome around the image, then using small, measured controls when commerce appears.
 
 ---
 
@@ -216,18 +357,26 @@ body {
 
 | Token | Value | Context |
 |---|---|---|
-| radius-none | `0` | 기본 버튼, 입력창 |
-| radius-xs | `2.5px` | 작은 배지 |
-| radius-sm | `10px` | 일부 카드 |
-| radius-lg | `1.5rem` | 알림 버블 |
-| radius-full | `100%` | 아바타, 원형 아이콘 |
+| zero | `0` | Inputs and some reset surfaces |
+| sharp-small | `1px` / `2px` | Fine utility surfaces |
+| control-small | `4px` | Buttons, consent boxes, compact controls |
+| `--ot-border-radius-m` | `0.375rem` / `6px` | Consent surface and medium controls |
+| image/modal | `10px` / `20px` / `26px` / `30px` | Special surfaced components and modal shapes |
+| pill | `999px` | Pill or circular utility forms only |
+| circle | `50%` | Icon/circular controls |
 
 ---
 
 ## 09. Shadows
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-> N/A — 디올 CSS에 독자적 box-shadow 없음. MUI 기본값만 간헐적으로 존재.
+| Level | Value | Usage |
+|---|---|---|
+| none | `none` | Dominant chrome rule: most UI avoids elevation |
+| subtle modal | `0px 2px 10px -3px #999` | Cookie/overlay-style surfaces |
+| soft glow | `0px 0px 12px 2px #C7C5C7` | Special third-party/modal emphasis |
+| MUI elevation 1 | `0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)` | MUI Paper/control surfaces |
+| modal backdrop | `0 0 18px rgba(0,0,0,.2)` | Overlay containers |
 
 ---
 
@@ -236,9 +385,12 @@ body {
 
 | Token | Value | Usage |
 |---|---|---|
-| duration | `250ms` | 모든 MUI 컴포넌트 전환 |
-| easing-standard | `cubic-bezier(0.4, 0, 0.2, 1)` | 색상/background 전환 |
-| duration-bg | `0.3s` | 배경색 전환 |
+| `--ot-motion-easy-both` | `cubic-bezier(0.31,0,0.13,1)` | Dior/consent link and state transitions |
+| MUI transition | `250ms cubic-bezier(0.4,0,0.2,1)` | Button background, shadow, border-color, color |
+| header glass reveal | `opacity .5s var(--animation-easy-both) 1s` | Header backdrop-filter visibility |
+| input autofill | `background-color 50000s ease-in-out` | Browser autofill suppression |
+| modal fade | `opacity .2s ease` | Third-party modal/backdrop |
+| reduced motion | `@media (prefers-reduced-motion: reduce)` | Motion accessibility hook present |
 
 ---
 
@@ -246,44 +398,49 @@ body {
 <!-- SOURCE: auto+manual -->
 
 ### Grid System
-- **Content max-width**: `896px` (컨텐츠 영역)
-- **Grid type**: CSS Grid + Flexbox
-- **Column count**: 3열 (상품), 2열 (컬렉션)
-- **Gutter**: 16px–24px
+- **Content max-width**: First viewport is full browser width; later grids use responsive min widths and CSS grid.
+- **Grid type**: Flex column on smaller screens; CSS Grid at desktop and wide breakpoints.
+- **Column count**: 2 primary hero/category split; 4-column product/category grid at `min-width:1033px`; 1fr 2fr or 1fr 1fr wide editorial layouts at `1680px` and `1920px`.
+- **Gutter**: 0px in the split hero/grid moments, 16px in category/product grids, 48px in mobile stacked editorial sections.
 
 ### Hero
-- Layout: 전폭 이미지 + 오버레이 텍스트
-- Background: 화보 이미지 (어두운 오버레이 포함)
-- H1: `Atacama VAR`, 2rem+, weight 400, color `#FFFFFF`
-- Max-width: 100%
+- **Pattern Summary**: `100vh impression + split editorial photography + centered SVG wordmark + bottom category labels`
+- Layout: Two equal image portals in the captured viewport, left Fashion & Accessories, right Fragrance & Beauty.
+- Background: Absolute image media with `object-fit: cover`.
+- **Background Treatment**: `image-overlay` with `linear-gradient(180deg, #00000000 50%, #0000007F 100%)` for bottom label legibility.
+- H1: White Dior SVG wordmark, viewBox `106 30`, centered over the split image seam.
+- Max-width: Full viewport for hero; image assets observed at 1080x1350 ratios with `aspect-ratio:1080/1350`.
 
 ### Section Rhythm
 ```css
 section {
-  padding: 40px 0;
-  max-width: 896px;
-  margin: 0 auto;
+  padding: 16px;
+  max-width: 100vw;
+}
+
+@media (min-width: 1033px) {
+  section { margin-top: 32px; }
 }
 ```
 
 ### Card Patterns
-- **Card background**: `#FFFFFF`
-- **Card border**: `none` 또는 `1px solid #D8D8D8`
-- **Card radius**: `0`–`10px`
-- **Card padding**: `16px`
-- **Card shadow**: 없음
+- **Card background**: Photography or white commerce surface. No generic card tinting.
+- **Card border**: Usually absent on image cards; UI controls use `rgba(51,56,60,0.5)` or #D8D8D8-like hairlines.
+- **Card radius**: Image/category hero is effectively square/edge-to-edge; control surfaces use 4px/6px.
+- **Card padding**: Image tiles place text over media; commerce panels use 16px/24px/32px units.
+- **Card shadow**: Mostly none. Modal/consent layers may use subtle shadows, but category cards do not.
 
 ### Navigation Structure
-- **Type**: 수평 카테고리 메뉴
-- **Position**: sticky top
-- **Height**: 약 60px
-- **Background**: `#FFFFFF`
-- **Border**: `1px solid #D8D8D8` 하단
+- **Type**: Header with left menu/back affordance, centered Dior logo, right nav/search/account utilities.
+- **Position**: Absolute transparent over hero, fixed glass state, fixed sticky solid state.
+- **Height**: 4rem mobile/base, 5rem desktop at `64.5625rem+`.
+- **Background**: Transparent over imagery; sticky state uses `var(--color-content-secondary)`; glass state uses backdrop-filter surface.
+- **Border**: Generally none; glass state relies on blur and radius.
 
 ### Content Width
-- **Prose max-width**: `896px`
-- **Container max-width**: `896px`–`100%`
-- **Sidebar width**: N/A
+- **Prose max-width**: Not surfaced in homepage capture; editorial content appears image-led.
+- **Container max-width**: Full viewport for hero, grid breakpoints at 1033px/1280px/1680px/1920px.
+- **Sidebar width**: Not applicable on captured homepage.
 
 ---
 
@@ -294,26 +451,26 @@ section {
 
 | Name | Value | Description |
 |---|---|---|
-| Mobile | 600px | 1열, 햄버거 메뉴 |
-| Tablet | 600px–900px | 2열 그리드 |
-| Desktop | 900px+ | 3열 그리드 |
-| Large | 1200px+ | 최대 레이아웃 |
+| Mobile | `0px` / `max-width:37.5rem` | Compact stacking, 16px padding, bottom/content adjustments |
+| Tablet | `max-width:49.9375rem` / `max-width:64.0625rem` | Input and consent layout adjustments, stacked button groups |
+| Desktop | `min-width:1033px` / `64.5625rem` | Header height 5rem, desktop margins, 4-column grid activation |
+| Large | `min-width:1280px` / `1440px` / `1680px` / `1920px` | Desktop min-width tuning and wide editorial grid changes |
 
 ### Touch Targets
-- **Minimum tap size**: 44px
-- **Button height (mobile)**: 44px
-- **Input height (mobile)**: 44px
+- **Minimum tap size**: Buttons carry 0.875rem text with 6px 16px padding; icon targets require surrounding header area rather than large visible buttons.
+- **Button height (mobile)**: Compact MUI-style controls; modal/consent actions expand in mobile layouts.
+- **Input height (mobile)**: Form controls are reset; exact checkout/search input heights not fully observed in homepage capture.
 
 ### Collapsing Strategy
-- **Navigation**: 햄버거 → 전폭 오버레이
-- **Grid columns**: 3열 → 2열 → 1열
-- **Sidebar**: N/A
-- **Hero**: 전폭 유지
+- **Navigation**: Overlay header compresses to icons/menu; sticky/fixed state preserves brand center.
+- **Grid columns**: Flex column on smaller widths; desktop switches to 4-column or wide split grids.
+- **Sidebar**: No homepage sidebar observed.
+- **Hero layout**: Captured desktop/wide hero uses split image portals; mobile likely stacks or carouselizes category entry, but exact mobile screenshot was not captured in this run.
 
 ### Image Behavior
-- **Strategy**: 반응형 `object-fit: cover`
-- **Max-width**: 100%
-- **Aspect ratio handling**: 2:3 세로 (패션 이미지)
+- **Strategy**: Absolute positioned media, `object-fit: cover`, full tile coverage.
+- **Max-width**: `width:100%; height:100%`.
+- **Aspect ratio handling**: 1080/1350 assets with CSS `aspect-ratio:1080/1350`, object-position top or center depending tile.
 
 ---
 
@@ -323,175 +480,182 @@ section {
 ### Buttons
 
 ```html
-<button class="dior-btn-primary">Shop Now</button>
+<button class="MuiButtonBase-root dior-button dior-button-contained">Continue</button>
 ```
 
-```css
-.dior-btn-primary {
-  background: #33383C;
-  color: #FFFFFF;
-  font-family: Hellix, Arial, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  border: none;
-  border-radius: 0;
-  padding: 16px 24px;
-  min-height: 44px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 250ms cubic-bezier(0.4, 0, 0.2, 1), color 250ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.dior-btn-primary:hover { background: #000000; }
-
-.dior-btn-outline {
-  background: transparent;
-  color: #33383C;
-  border: 1px solid rgba(51, 56, 60, 0.5);
-  border-radius: 0;
-  padding: 16px 24px;
-  font-family: Hellix, Arial, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 250ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.dior-btn-outline:hover { background: rgba(51, 56, 60, 0.04); }
-```
-
-| Spec | Value |
+| Property | Value |
 |---|---|
-| bg | `#33383C` |
-| text | `#FFFFFF` |
-| radius | `0` |
-| height | `44px` |
-| letter-spacing | `0.08em` |
-| transition | `250ms cubic-bezier(0.4, 0, 0.2, 1)` |
+| Font | Hellix, ABCDiorIcons, arial, sans-serif |
+| Size / line-height | 0.875rem / 17px |
+| Weight | 500 |
+| Padding | 6px 16px |
+| Radius | 4px or 6px in consent/control surfaces |
+| Contained bg | `#33383C` or `rgba(35,39,42,1)` |
+| Contained fg | `#FFFFFF` |
+| Transition | background-color, box-shadow, border-color, color over 250ms cubic-bezier(0.4,0,0.2,1) |
+
+**States**:
+- hover: `--variant-textBg: rgba(51,56,60,0.04)` or darkened contained bg.
+- focus: outline/color state tokens present in consent layer.
+- active/pressed: `--ot-color-state-primary-alt-pressed` -> `#33383C`.
+- disabled: `--ot-color-state-disable-content` -> `#ACB2B4`.
+- loading: not directly observed for homepage button.
+- error: destructive red exists in CSS frequency (`#C53929`) but form error state not fully observed.
 
 ### Badges
 
-```css
-.dior-badge {
-  background: #33383C;
-  color: #FFFFFF;
-  font-family: Hellix, Arial, sans-serif;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 0;
-}
-```
+> N/A — no brand-critical badge system was visible in the captured homepage first viewport. Do not invent colored luxury tags.
 
 ### Cards & Containers
 
-```css
-.dior-product-card {
-  background: #FFFFFF;
-  border: none;
-  padding: 0;
-}
-.dior-product-card-info {
-  padding: 16px 0;
-}
-.dior-product-card-title {
-  font-family: Hellix, Arial, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #33383C;
-  letter-spacing: 0.02em;
-}
-.dior-product-card-price {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #7B8487;
-}
+```html
+<a class="dior-category-tile">
+  <img class="dior-category-media" />
+  <h2 class="dior-category-title">Fashion &amp; Accessories</h2>
+</a>
 ```
+
+| Property | Value |
+|---|---|
+| Background | Full image, absolute media |
+| Overlay | `linear-gradient(180deg, #00000000 50%, #0000007F 100%)` |
+| Radius | 0 for hero/category tiles |
+| Title color | `#FFFFFF` |
+| Title font | Atacama VAR, `wght` 352 |
+| Title placement | Bottom-centered over gradient |
+| Shadow | none |
 
 ### Navigation
 
-```css
-.dior-nav {
-  background: #FFFFFF;
-  border-bottom: 1px solid #D8D8D8;
-  height: 60px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.dior-nav-link {
-  font-family: Hellix, Arial, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #33383C;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  text-decoration: none;
-}
-.dior-nav-link:hover { color: #000000; }
+```html
+<header class="Header_header__d1Ndh Header_transparent__aI1lo">
+  <button id="menuburger"></button>
+  <h1 id="dior-logo">DIOR SVG</h1>
+  <nav id="mainrightnav"></nav>
+</header>
 ```
+
+| Property | Value |
+|---|---|
+| Base height | 4rem |
+| Desktop height | 5rem |
+| Transparent state | absolute, left/right 0, background transparent |
+| Sticky state | fixed top 0, width 100%, z-index 300 |
+| Glass state | fixed, 1rem margins, 4rem height, radius medium |
+| Backdrop | `blur(calc(var(--blur-medium, 3.125rem) / 2))` |
 
 ### Inputs & Forms
 
-```css
-.dior-input {
-  border: none;
-  border-bottom: 1px solid #33383C;
-  border-radius: 0;
-  height: 44px;
-  padding: 0;
-  font-family: Hellix, Arial, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #33383C;
-  background: transparent;
-  outline: none;
-}
-.dior-input:focus { border-bottom-color: #000000; outline: 2px solid #03B2CB; }
+```html
+<input type="search" class="dior-input" />
 ```
+
+| Property | Value |
+|---|---|
+| Reset | `appearance: none`, `border-radius: 0` |
+| Placeholder | `#757575`, opacity 100% |
+| Autofill | inset white box-shadow and long background-color transition |
+| Focus | third-party phone input focus uses `#03B2CB`; native focus exact Dior search state not fully observed |
+| Invalid | `box-shadow: none` |
 
 ### Hero Section
 
-```css
-.dior-hero {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3/2;
-  overflow: hidden;
-}
-.dior-hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.dior-hero-caption {
-  position: absolute;
-  bottom: 40px;
-  left: 40px;
-  color: #FFFFFF;
-  font-family: "Atacama VAR", Arial, sans-serif;
-  font-size: 3rem;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
+```html
+<main class="dior-home-hero">
+  <section class="dior-category dior-category-fashion">...</section>
+  <section class="dior-category dior-category-beauty">...</section>
+  <h1 class="dior-wordmark">DIOR</h1>
+</main>
+```
+
+| Property | Value |
+|---|---|
+| Layout | Split image portals |
+| Media | absolute, full cover, top/center object-position |
+| Wordmark | White SVG, centered across split |
+| Category labels | Atacama VAR 1.5rem mobile, 2rem desktop |
+| Overlay | bottom black alpha gradient |
+| Chrome | transparent header overlay |
+
+### 13-2. Named Variants
+<!-- SOURCE: manual -->
+
+#### `button-contained-ink`
+- bg: `#33383C`
+- fg: `#FFFFFF`
+- radius: `4px` or `6px`
+- use: primary control, consent action, dark utility CTA.
+
+#### `button-outline-ink`
+- bg: transparent
+- fg: `#33383C`
+- border: `rgba(51,56,60,0.5)` or `#33383C`
+- hover: `rgba(51,56,60,0.04)` surface.
+
+#### `header-transparent`
+- position: absolute
+- background: transparent
+- icon/logo color: forced white over hero photography.
+
+#### `header-glass`
+- position: fixed
+- margin: `0 1rem`
+- height: `4rem`
+- radius: medium
+- backdrop: blur half of `--blur-medium`.
+
+#### `category-tile-split`
+- media: full cover image
+- overlay: bottom black alpha gradient
+- title: Atacama VAR white headline at bottom.
+
+### 13-3. Signature Micro-Specs
+<!-- SOURCE: manual -->
+
+```yaml
+couture-axis-display:
+  description: "Dior's heading softness comes from a non-standard variable font axis, not a common 300/400 weight."
+  technique: "font-variation-settings: \"wght\" 352, \"wdth\" 100, \"CNTR\" 28, \"XHGT\" 0; letter-spacing -0.03rem to -0.04rem"
+  applied_to: ["{component.category-tile}", "{component.hero-section}", "{typography.display}"]
+  visual_signature: "Fashion lettering feels lighter than 400 but more stable than 300, like a runway card beside the garment."
+
+split-photography-gate:
+  description: "The homepage entry is made from two equal photographic portals instead of a centered hero CTA."
+  technique: "two full-viewport media surfaces; absolute img; width 100%; height 100%; object-fit: cover; category labels in #FFFFFF"
+  applied_to: ["{component.hero-section}", "{component.category-tile-split}"]
+  visual_signature: "A double-door maison entrance where category choice is made by crossing into photography."
+
+bottom-legibility-veil:
+  description: "Category text stays readable without adding a visible caption card."
+  technique: "linear-gradient(180deg, #00000000 50%, #0000007F 100%) over full image tile"
+  applied_to: ["{component.category-tile}", "{component.hero-section}"]
+  visual_signature: "A dark theater scrim rises from the bottom of the image while the label remains inside the photograph."
+
+vanishing-glass-header:
+  description: "Navigation shifts between transparent, glass, and sticky states while preserving the same quiet brand posture."
+  technique: "transparent absolute header; fixed sticky state; glass variant with backdrop-filter: blur(calc(var(--blur-medium, 3.125rem) / 2)); height 4rem / 5rem"
+  applied_to: ["{component.header-glass}", "{component.navigation}"]
+  visual_signature: "The header reads like a vitrine edge: visible only when the page needs utility, otherwise dissolved into photography."
+
+charcoal-only-control-ink:
+  description: "Control UI avoids expected luxury gold and consolidates action, outline, and text into one cool charcoal ink."
+  technique: "contained bg #33383C; outlined border rgba(51,56,60,0.5); hover bg rgba(51,56,60,0.04); radius 4px/6px; padding 6px 16px"
+  applied_to: ["{component.button-contained-ink}", "{component.button-outline-ink}"]
+  visual_signature: "Buttons feel like black atelier labels, not decorative luxury badges."
 ```
 
 ---
 
 ## 14. Content / Copy Voice
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto+manual -->
 
 | Pattern | Rule | Example |
 |---|---|---|
-| Headline | 프랑스어·영어 혼용, 격조 있는 어구 | "Fashion & Accessories", "Fragrance & Beauty" |
-| Primary CTA | 동사 + 짧은 명사, 첫글자 대문자 | "Shop Now", "Discover" |
-| Secondary CTA | 카테고리명 | "See all" |
-| Badge | 없음 (럭셔리 브랜드는 배지 최소화) | |
-| Tone | 격조 있는 영어·프랑스어, 과도한 세일 언어 금지 | |
+| Headline | Category as maison department, title-case with ampersand | "Fashion & Accessories" |
+| Primary CTA | Minimal commerce verb; no playful phrasing | N/A in captured hero |
+| Secondary CTA | Utility labels stay functional | "Search", "Back" |
+| Subheading | Product/editorial detail likely appears below fold; not captured in first viewport |
+| Tone | Formal, sparse, noun-led luxury retail |
 
 ---
 
@@ -502,77 +666,75 @@ section {
 /* Dior — copy into your root stylesheet */
 :root {
   /* Fonts */
-  --dior-font-family: Hellix, ABCDiorIcons, Arial, sans-serif;
-  --dior-font-family-display: "Atacama VAR", Arial, sans-serif;
-  --dior-font-weight-normal: 500;
-  --dior-font-weight-bold: 700;
+  --dior-font-display: "Atacama VAR", "ABCDiorIcons", arial, sans-serif;
+  --dior-font-body: "Hellix", "ABCDiorIcons", arial, sans-serif;
+  --dior-font-weight-display-axis: 352;
+  --dior-font-weight-body: 400;
+  --dior-font-weight-control: 500;
 
-  /* Brand — Dark Neutral */
-  --dior-color-brand: #33383C;
-  --dior-color-brand-100: #ACB2B4;
-  --dior-color-brand-200: #7B8487;
-  --dior-color-brand-300: #5D676C;
-  --dior-color-brand-400: #33383C;
+  /* Brand neutrals */
+  --dior-ink-primary: #33383C;
+  --dior-ink-muted: #7B8487;
+  --dior-ink-soft: #ACB2B4;
+  --dior-white: #FFFFFF;
+  --dior-black: #000000;
+  --dior-surface-soft: #F8F8F8;
+  --dior-hairline: #D8D8D8;
 
-  /* Surfaces */
-  --dior-bg-page: #FFFFFF;
-  --dior-bg-dark: #000000;
-  --dior-text: #33383C;
-  --dior-text-muted: #7B8487;
-
-  /* Key spacing */
-  --dior-space-sm: 8px;
-  --dior-space-md: 16px;
-  --dior-space-lg: 40px;
+  /* Spacing */
+  --dior-space-xs: 0.25rem;
+  --dior-space-sm: 0.5rem;
+  --dior-space-md: 1rem;
+  --dior-space-lg: 2rem;
+  --dior-space-xl: 3rem;
 
   /* Radius */
-  --dior-radius-sm: 0;
-  --dior-radius-md: 10px;
+  --dior-radius-control: 4px;
+  --dior-radius-medium: 6px;
 }
-```
 
----
+.dior-display {
+  font-family: var(--dior-font-display);
+  font-weight: normal;
+  font-variation-settings: "wght" 352, "wdth" 100, "CNTR" 28, "XHGT" 0;
+  letter-spacing: -0.04rem;
+}
 
-## 16. Tailwind Config
-<!-- SOURCE: auto+manual -->
+.dior-category-tile {
+  position: relative;
+  overflow: hidden;
+  color: var(--dior-white);
+  background: var(--dior-black);
+}
 
-```js
-// tailwind.config.js — Dior
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        brand: {
-          100: '#ACB2B4',
-          200: '#7B8487',
-          300: '#5D676C',
-          400: '#33383C',
-          DEFAULT: '#33383C',
-          900: '#000000',
-        },
-        neutral: {
-          100: '#E5E5E5',
-          200: '#DADADA',
-          300: '#D8D8D8',
-        },
-      },
-      fontFamily: {
-        sans: ['Hellix', 'Arial', 'sans-serif'],
-        display: ['"Atacama VAR"', 'Arial', 'sans-serif'],
-      },
-      fontWeight: {
-        normal: '500',
-        bold: '700',
-      },
-      borderRadius: {
-        DEFAULT: '0',
-        sm: '0',
-        md: '10px',
-        full: '100%',
-      },
-    },
-  },
-};
+.dior-category-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #00000000 50%, #0000007F 100%);
+  pointer-events: none;
+}
+
+.dior-category-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dior-button {
+  font-family: var(--dior-font-body);
+  font-size: 0.875rem;
+  line-height: 17px;
+  font-weight: var(--dior-font-weight-control);
+  padding: 6px 16px;
+  border-radius: var(--dior-radius-control);
+  transition:
+    background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
 ```
 
 ---
@@ -584,61 +746,62 @@ module.exports = {
 
 | Role | Token | Hex |
 |---|---|---|
-| Brand primary | --dior-color-brand | `#33383C` |
-| Background | --dior-bg-page | `#FFFFFF` |
-| Text primary | --dior-text | `#33383C` |
-| Text muted | --dior-text-muted | `#7B8487` |
-| Border | N/A | `#D8D8D8` |
-| Success | N/A | `#2E7D32` |
-| Error | N/A | `#D32F2F` |
+| Brand primary | `{colors.ink-primary}` | `#33383C` |
+| Background | `{colors.white}` | `#FFFFFF` |
+| Hero overlay black | `{colors.image-black}` | `#000000` |
+| Text primary | `{colors.ink-primary}` | `#33383C` |
+| Text muted | `{colors.text-muted}` | `#7B8487` |
+| Border | `{colors.hairline}` | `#D8D8D8` |
+| Error | destructive utility | `#C53929` |
 
 ### Example Component Prompts
 
 #### Hero Section
-```
+```text
 Dior 스타일 히어로 섹션을 만들어줘.
-- 전폭 화보 이미지 배경 (aspect-ratio: 3/2)
-- 헤드라인: "Atacama VAR", 3rem, weight 400, color #FFFFFF, letter-spacing -0.02em
-- 서브텍스트: Hellix, 0.875rem, weight 500, color rgba(255,255,255,0.85), uppercase, letter-spacing 0.08em
-- CTA 버튼: bg #FFFFFF, text #33383C, radius 0, padding 16px 24px, uppercase
-- 최대 너비: 100%
+- 구조: 첫 화면을 좌우 2분할한 editorial image portals
+- 배경: 각 portal은 실제 제품/패션 사진, object-fit: cover
+- 오버레이: linear-gradient(180deg, #00000000 50%, #0000007F 100%)
+- 중앙: 흰색 Dior SVG wordmark 또는 이미지 로고
+- 카테고리 제목: Atacama VAR, 2rem desktop / 1.5rem mobile, wght axis 352, color #FFFFFF
+- UI chrome: header는 투명하게 올리고, sticky 상태에서만 #FFFFFF/#33383C surface로 전환
 ```
 
 #### Card Component
-```
-Dior 스타일 상품 카드를 만들어줘.
-- 카드 배경: #FFFFFF, border: none, radius: 0, shadow: 없음
-- 이미지: aspect-ratio 2/3, object-fit cover
-- 제목: Hellix, 0.875rem, weight 500, color #33383C, letter-spacing 0.02em
-- 가격: 0.875rem, weight 500, color #7B8487
-- hover: 이미지 살짝 scale(1.02), transition 250ms
+```text
+Dior 스타일 category tile을 만들어줘.
+- 배경: full-bleed photography, border와 shadow 없음
+- radius: 0
+- 텍스트: bottom centered, #FFFFFF, Atacama VAR, font-variation-settings "wght" 352
+- legibility: caption box 대신 #00000000 -> #0000007F bottom gradient
+- hover: 과한 scale/bounce 없이 250-500ms opacity 또는 media crop 변화만
 ```
 
 #### Badge
-```
-Dior 스타일 배지를 만들어줘.
-- font: Hellix, 0.75rem, weight 500, letter-spacing 0.08em, uppercase
-- padding: 3px 8px, radius: 0
-- 기본: bg #33383C, text #FFFFFF
+```text
+Dior 스타일 배지는 기본적으로 만들지 마라.
+필요하면 색 배지가 아니라 #33383C 텍스트와 #D8D8D8 hairline만 사용하고,
+radius 4px, Hellix 0.75rem/0.875rem로 조용하게 처리한다.
 ```
 
 #### Navigation
-```
+```text
 Dior 스타일 상단 네비게이션을 만들어줘.
-- 높이: 60px, bg: #FFFFFF, border-bottom: 1px solid #D8D8D8
-- 로고: 중앙 정렬 "DIOR"
-- 링크: Hellix, 0.875rem, weight 500, color #33383C, uppercase, letter-spacing 0.05em
-- hover: color #000000
+- 높이: 4rem base, desktop 5rem
+- first viewport: transparent absolute header over photography
+- sticky: fixed top 0, background #FFFFFF, text/icon #33383C
+- glass state: backdrop-filter blur(calc(3.125rem / 2)), radius 6px, 1rem horizontal margin
+- center: Dior wordmark; left menu/back; right search/account utilities
 ```
 
 ### Iteration Guide
 
-- **색상 변경 시**: `#33383C` 기준. 더 밝으면 `#7B8487`, 더 어두우면 `#000000`.
-- **폰트 변경 시**: weight 500이 기본. 디스플레이는 Atacama VAR 400.
-- **여백 조정 시**: 16px·24px·40px·80px 단계로만.
-- **새 컴포넌트 추가 시**: border-radius 0, letter-spacing 0.05em+, uppercase 패턴.
-- **transition**: 항상 `250ms cubic-bezier(0.4, 0, 0.2, 1)`.
-- **반응형**: 600px·900px·1200px MUI 기준.
+- **색상 변경 시**: gold/pink를 brand primary로 만들지 말고 #33383C charcoal을 기준으로 한다.
+- **폰트 변경 시**: Atacama replacement는 heading에만 쓰고 controls는 Hellix-like sans로 분리한다.
+- **여백 조정 시**: hero는 image-full, UI는 compact. 모든 섹션에 동일한 card padding을 강제하지 않는다.
+- **새 컴포넌트 추가 시**: shadow를 먼저 추가하지 말고 photography, hairline, typography 순으로 구조를 만든다.
+- **다크/이미지 모드**: 흰색 텍스트는 반드시 image overlay 위에 두고, pure black overlay는 alpha gradient로만 사용한다.
+- **반응형**: 1033px 전후에서 desktop grid/header behavior가 바뀌는 것을 기준으로 삼는다.
 
 ---
 
@@ -646,17 +809,51 @@ Dior 스타일 상단 네비게이션을 만들어줘.
 <!-- SOURCE: manual -->
 
 ### ✅ DO
-- 텍스트 기본색을 `#33383C` (순검정 아님)으로 설정
-- body font-weight 500으로 고정 (medium)
-- 모든 버튼 radius `0` (각진 럭셔리)
-- letter-spacing `0.05em` 이상 + uppercase 조합
-- transition은 `250ms cubic-bezier(0.4, 0, 0.2, 1)` 유지
-- 이미지 비율 2:3 세로형
+
+- Use #33383C (`{colors.ink-primary}`) as the UI anchor for text, outlines, and contained controls.
+- Let photography carry the first impression; place UI chrome over it rather than framing it in cards.
+- Use Atacama VAR for editorial/category display and Hellix for functional controls.
+- Preserve the heading axis feel: `"wght" 352` with tight tracking on display sizes.
+- Use black alpha gradients for image legibility instead of caption boxes.
+- Keep radius restrained: 4px/6px for controls, 0 for hero image portals.
+- Make header states explicit: transparent, glass, sticky, and forced icon colors.
+- Treat shadows as exceptions for modals/third-party surfaces, not as a general layout language.
 
 ### ❌ DON'T
-- 텍스트를 `#000000` 순검정으로 쓰지 말 것 (앵커는 `#33383C`)
-- font-weight 400 body 사용 금지 (500이 기본)
-- box-shadow 사용 금지
-- 채도 있는 컬러 추가 금지 (포커스 `#03B2CB` 제외)
-- 버튼 radius를 8px 이상으로 올리지 말 것
-- 배지 남발 금지 — 럭셔리 브랜드는 배지 최소화
+
+- 배경을 `#FAF3E6` 또는 cream luxury tint로 두지 말 것 — Dior captured UI는 `#FFFFFF` / `#F8F8F8` / photography 기반이다.
+- 텍스트를 `#000000` 또는 `black`으로 고정하지 말 것 — 기본 UI ink는 `#33383C` 사용.
+- 브랜드 primary를 `#D4AF37` gold로 만들지 말 것 — 실제 UI anchor는 `#33383C`이다.
+- Category label을 `#33383C`로 두지 말 것 — hero/image labels는 `#FFFFFF`가 맞다.
+- Hero overlay를 flat `#000000` layer로 덮지 말 것 — `#00000000` to `#0000007F` gradient를 사용.
+- Hairline을 `#CCCCCC`로 임의 대체하지 말 것 — observed structural gray는 `#D8D8D8` 계열이다.
+- body 전체를 `font-weight: 500`으로 올리지 말 것 — body/control과 display axis를 분리한다.
+- 모든 이미지를 rounded card로 만들지 말 것 — hero/category image portals는 radius 0에 가깝다.
+- 버튼을 pill-only 시스템으로 만들지 말 것 — 기본 control radius는 4px/6px이다.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+<!-- SOURCE: manual -->
+
+- **Gold UI primary: zero** — gold는 product imagery에는 있어도, brand action color로는 absent. 메종 UI 위에 `#D4AF37`은 never 사용.
+- **Decorative card chrome on hero: none** — category choice는 image portal, 진열대 사진 자체가 카드. border/shadow/label 카드 chrome은 absent.
+- **Broad chromatic palette: zero** — 가장 빈도 높은 색은 neutral 다섯(#33383C / #FFFFFF / #000000 / #D8D8D8 / #7B8487). 큐레이션박스 밖 컬러 family는 absent.
+- **Heavy display weights as the couture default: never** — Atacama display axis는 `wght 352` 부근. 700/900 무게는 zero.
+- **Generic gradient-mesh luxury: absent** — gradient는 black alpha 가독성 레이어로만 작동. mesh decoration은 none.
+- **Universal pill buttons: zero** — 999px radius는 utility에 한정, 기본 control은 4px/6px. 부티크 전체가 pill로 둘리는 일은 never.
+- **Card shadows for category tiles: absent** — shadow는 modal/third-party 한정, 매장윈도우 진열대에는 zero.
+- **Typed Dior wordmark replacement: never** — 로고는 SVG artwork, live text replacement는 absent.
+- **12-column SaaS hero structure: none** — 첫 인상은 editorial split photography, hero copy + feature grid는 absent.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Single captured homepage state** — this guide uses the existing `insane-design/dior` HTML/CSS/phase1 artifacts and one desktop/wide hero screenshot. Checkout, product detail, search overlay, account, and regional flows were not navigated live in this turn.
+- **Main CSS includes third-party systems** — OneTrust, PhoneInput, Swiper, and MUI values are present. Colors such as `#468254`, `#03B2CB`, `#3860BE`, and `#C53929` are treated as utility/third-party states, not Dior brand colors.
+- **Token prefix ambiguity** — `--ot-*` is the clearest tokenized layer but belongs largely to consent UI. Main Dior page styling relies on generated MUI/CSS-module classes, so frontmatter `token_prefix: ot` is a practical extraction anchor, not a complete Dior design-token namespace.
+- **Mobile hero behavior not visually verified** — CSS breakpoints were present, but no fresh mobile screenshot was captured during this run. Mobile stacking/carousel behavior is inferred from CSS and should be verified before building a mobile-perfect clone.
+- **Font licensing and exact metrics** — Atacama VAR and Hellix are site-hosted. Open-source substitutes are approximations and will not reproduce the Dior wordmark or variable axis metrics exactly.
+- **Interaction states incomplete** — hover/focus/disabled tokens were observed, but loading/error states for Dior-native commerce forms were not fully surfaced in the homepage capture.
+- **Motion JS not audited** — CSS transitions and keyframes were inspected, but scroll-triggered React/JS interaction code was not deeply analyzed.
+- **Image asset color contamination** — frequency data contains photographic and SVG colors. Brand color selection deliberately prioritizes UI role and token usage over raw chromatic frequency.

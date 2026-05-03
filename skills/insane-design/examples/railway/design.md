@@ -1,537 +1,740 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: railway
 service_name: Railway
 site_url: https://railway.com
-fetched_at: 2026-04-20
+fetched_at: 2026-04-20T20:00:00+09:00
 default_theme: dark
-brand_color: "#9A059A"
-primary_font: Inter
+brand_color: "#6D4BBC"
+primary_font: "Inter"
 font_weight_normal: 400
-token_prefix: --mantine-*, --c1/c2/c3
+token_prefix: "tw"
 
-bold_direction: "Retro-Futuristic"
-aesthetic_category: "Retro-Futuristic"
-signature_element: hero_impact
+bold_direction: "Cosmic Console"
+aesthetic_category: "Refined SaaS"
+signature_element: "hero_impact"
 code_complexity: high
 
 medium: web
 medium_confidence: high
+archetype: saas-marketing
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "Production CSS exposes Tailwind utilities, Mantine primitives, app-canvas shadows, and Railway-specific train/hero tokens."
+
+colors:
+  night-base: "#13111C"
+  night-ink: "#08070C"
+  text-primary: "#FFFFFF"
+  text-muted: "#FFFFFF80"
+  accent-purple: "#6D4BBC"
+  accent-deep: "#13044C"
+  rail-oatmeal: "#F1F0EF"
+  border-ghost: "#FFFFFF1A"
+typography:
+  display: "IBM Plex Serif"
+  body: "Inter"
+  tight: "Inter Tight"
+  code: "JetBrains Mono"
+  ladder:
+    - { token: hero-h1, size: "56px", weight: 700, tracking: "-0.02em" }
+    - { token: nav, size: "14px", weight: 500, tracking: "0" }
+    - { token: body, size: "20px", weight: 400, tracking: "0" }
+    - { token: code-ui, size: "12px", weight: 500, tracking: "0" }
+  weights_used: [400, 500, 600, 700, 800, 900]
+  weights_absent: []
+components:
+  button-primary: { bg: "{colors.accent-purple}", fg: "{colors.text-primary}", radius: "8px", padding: "14px 24px" }
+  button-ghost: { bg: "transparent", fg: "{colors.text-primary}", border: "1px solid {colors.border-ghost}", radius: "8px" }
+  app-canvas-frame: { bg: "{colors.night-ink}", border: "1px solid {colors.border-ghost}", shadow: "var(--nested-canvas-shadow)" }
 ---
 
-# DESIGN.md — Railway (Claude Code Edition)
+# DESIGN.md - Railway
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-Railway 홈페이지는 near-black #13111C 바탕에 보라-남색 구름 일러스트가 깔린 cinematic dark 테마다. 첫 인상은 'peaceful ship software'라는 카피와 함께 중앙에 뜨는 플립보드(flap) 타이머가 retro-futuristic 감성을 만든다. CTA는 Deploy →, Demo 두 개가 병치된다.
+### Narrative
 
-컬러 전략은 딥 퍼플 + 블루 gradient core + Mantine UI 기본 팔레트의 하이브리드다. 커스텀 토큰 --c1 #9A059A (magenta), --c2 #5909A9 (purple), --c3 #100095 (deep blue)가 CTA 그라디언트를 만들고, Mantine의 blue-0 ~ blue-9 ramp (#E7F5FF → #1971C2)가 UI 위젯에 쓰인다. 플립보드 배경은 --flap-bg #F4F1EC paper 톤, flip-bg는 #121118 ink.
+Railway does not sell cloud infrastructure as a dashboard. It stages deployment as a night journey: the page opens on #13111C (`{colors.night-base}`), then places a soft illustrated sky inside a rounded viewport like a train window. The product UI is not a generic SaaS mockup floating in space; it is a console parked at the bottom of the hero, half visible, as if the visitor is already looking into the platform.
 
-타이포그래피는 Inter를 축으로 하되 JetBrains Mono가 flip 타이머/로그에 자주 등장한다. 본문 16px, H1은 ~56-72px weight 700으로 압도적이지 않은 대신 cinematic한 sub-copy가 공간을 지배한다. Mantine font-family monospace fallback을 별도로 정의한다.
+The frame behaves like an overnight observation car: outside is the violet-black weather of #13111C (`{colors.night-base}`), inside is the app surface of #08070C (`{colors.night-ink}`), and the console is cropped as though the train has already pulled into the platform. The page has very little "website" self-consciousness. It removes the brochure wall and gives the deployment scene the stage.
 
-레이아웃은 1200px 컨테이너 + 중앙 정렬 hero + 아래 product mockup dark panel이다. 섹션마다 구름/별 일러스트레이션이 background layer로 깔리고, 카드는 얇은 rgba(255,255,255,0.1) border + flip bg로 깊이를 만든다. 플립 타이머는 top/bottom 반으로 나뉜 --flip-center-border rgba(0,0,0,0.18)로 구현.
+The brand tension is unusual: the headline is calm, almost literary, while the product promise is technical. "Ship software peacefully" uses a serif display face over a dark star field. That one choice prevents the site from becoming another cold developer tool. Railway's voice is infrastructure with bedside manner: a dispatch board written by someone who still believes operations can be quiet.
 
-인터랙션은 플립 애니메이션 + scroll-triggered fade + hover color scale. 코드 복잡도는 high — 3D transform, intersection observer, stagger reveal 다수. Retro TV 감성을 위해 scanline noise / grain을 subtle하게 깔기도 한다.
+Color is restrained. The page is essentially dark ink, white type, translucent hairlines, and one purple action color. #6D4BBC (`{colors.accent-purple}`) is used like a signal lamp, not a decorative wash. The deeper #13044C (`{colors.accent-deep}`) appears in train-specific tokens and keeps the railway metaphor from becoming cartoonish.
+
+There is no second brand color waiting in the wings. Purple does not become confetti, aurora, or corporate gradient wallpaper; it stays closer to a platform signal at night. #FFFFFF1A (`{colors.border-ghost}`) is the real architecture: thin rails, window seams, and console edges that let dark surfaces separate without turning into chrome.
+
+The UI chrome borrows from real app surfaces: tab bars, mono labels, dotted grids, sync/create controls, and nested-canvas shadows. These are not ornamental screenshots. They tell the viewer that the marketing layer and product layer share a visual grammar.
+
+Railway's shadow language is also train-window logic, not card-stack logic. Depth sits on the app canvas and product proof, while navigation stays almost weightless. The nested canvas shadow reads like glass reflection on a dark control room panel: present enough to show the pane, restrained enough that the night outside still feels continuous.
 
 ### Key Characteristics
 
-- Near-black #13111C
-- Purple-blue gradient
-- Flipboard timer
-- Retro-futuristic
-- Cinematic hero
-- Cloud illustration
+- Dark-first marketing surface anchored by #13111C, with white text and translucent borders.
+- Serif hero headline over a technical app-console reveal.
+- Purple CTA is the only strong chromatic action; secondary actions stay transparent.
+- Rounded hero media frame uses a soft border, not a heavy card shell.
+- Product UI mockup sits low in the hero and is cropped by the viewport.
+- Navigation is quiet, horizontal, and text-led; no oversized marketing nav chrome.
+- App details use monospace and tabular microcopy to signal developer tooling.
+- Shadows are mostly nested black/white opacity stacks, not large ambient glows.
+- Railway-specific train tokens exist, but the homepage hero keeps the metaphor atmospheric.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Retro-Futuristic
-> **Aesthetic Category**: Retro-Futuristic
-> **Signature Element**: 이 사이트는 **밤하늘 구름 위의 플립보드 타이머**으로 기억된다.
-> **Code Complexity**: high — Railway 홈페이지의 Mantine + 자체 플립 토큰 기반 다크 cinematic 디자인 시스템.
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Cosmic Console
+> **Aesthetic Category**: Refined SaaS
+> **Signature Element**: 이 사이트는 **night-sky hero with a cropped deployment console**으로 기억된다.
+> **Code Complexity**: high — layered Tailwind utilities, Mantine primitives, custom train tokens, nested app shadows, and responsive hero choreography.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: auto+manual -->
 
 > 5분 안에 Railway처럼 만들기 — 3가지만 하면 80%
 
 ```css
-/* 1. 폰트 */
+/* 1. Font pairing */
 body {
-  font-family: "Inter", ui-sans-serif, sans-serif;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-weight: 400;
-  font-size: 16px;
-}
-.mono {
-  font-family: "JetBrains Mono",
-    ui-monospace, SFMono-Regular;
 }
 
-/* 2. 배경 + 텍스트 (dark) */
+.hero-title {
+  font-family: var(--font-ibm-plex-serif), Georgia, Cambria, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* 2. Night surface */
 :root {
-  --bg: #13111C;
-  --bg-oatmeal: #13111c;
-  --fg: #E5E7EB;
-  --muted: #9CA3AF;
-  --border: rgba(255,255,255,0.1);
-}
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font-feature-settings: "cv11";
+  --railway-bg: #13111C;
+  --railway-ink: #08070C;
+  --railway-fg: #FFFFFF;
+  --railway-muted: #FFFFFF80;
 }
 
-/* 3. 브랜드 gradient */
-:root {
-  --c1: #9A059A; /* magenta */
-  --c2: #5909A9; /* purple */
-  --c3: #100095; /* blue */
-  --brand:
-    linear-gradient(135deg,
-      var(--c1), var(--c2), var(--c3));
-}
-
+/* 3. One action color */
+:root { --railway-accent: #6D4BBC; }
+.button-primary { background: var(--railway-accent); color: #FFFFFF; }
 ```
 
-**절대 하지 말아야 할 것 하나**: Railway의 브랜드는 단일 hex가 아니라 #9A059A → #5909A9 → #100095 3-stop gradient다. CTA를 solid purple로 두지 마라. gradient 방향도 135deg 고정 — 바꾸면 retro 감성이 깨진다.
+**절대 하지 말아야 할 것 하나**: body 전체를 밝은 #FFFFFF SaaS 랜딩으로 바꾸지 말 것. Railway의 인상은 dark stage + calm serif + cropped console에서 나온다.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
-| Source URL | <code>https://railway.com</code> |
-| Fetched | 2026-04-20 |
-| Extractor | curl + Chrome UA (5-tier fallback) |
-| HTML size | 230,275 bytes (Next.js SSR) |
-| CSS files | 11개 외부, 1.3MB minified |
-| Token prefix | <code>--mantine-*</code>, <code>--c1/--c2/--c3</code>, <code>--flap-*</code>, <code>--flip-*</code> |
-| Method | CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음 |
+| Source URL | `https://railway.com` |
+| Fetched | 2026-04-20 20:00 KST |
+| Extractor | phase1 reuse: existing HTML/CSS/JSON/screenshots |
+| HTML size | 230275 bytes |
+| CSS files | 11 external CSS files, about 1368894 chars |
+| Token prefix | `tw` plus `mantine`, `train`, `flip`, `nested-canvas` custom properties |
+| Method | CSS custom property extraction, frequency counts, screenshot observation, targeted HTML metadata parse |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: Next.js + Mantine UI (React)
-- **Design system**: Mantine 기본 + Railway 자체 flip 토큰
-- **CSS architecture**: Mantine CSS variables + scoped modules
-- **Class naming**: Mantine + CSS Modules
-- **Default theme**: <code>dark</code> (bg <code>#13111C</code>)
-- **Font loading**: Inter + JetBrains Mono self-host + Google Fonts fallback
-- **Canonical anchor**: <code>#9A059A</code> magenta (gradient start)
-- **Extra**: Flipboard timer + cloud SVG background layer
+- **Framework**: React/Next-style marketing app inferred from generated CSS bundles and app markup.
+- **Design system**: Tailwind utility layer + Mantine component primitives + Railway-specific custom tokens.
+- **CSS architecture**:
+  ```css
+  --tw-*                 /* Tailwind runtime utility state */
+  --mantine-*            /* component primitives: button/input/badge/tabs */
+  --train-*              /* Railway illustration and motion tokens */
+  --nested-canvas-shadow /* product-console depth token */
+  ```
+- **Class naming**: Tailwind atomic utilities with escaped arbitrary values, plus generated Mantine classes.
+- **Default theme**: dark (`theme-color` = #13111C).
+- **Font loading**: CSS variable families for `Inter`, `Inter Tight`, `IBM Plex Serif`, and `JetBrains Mono`.
+- **Canonical anchor**: homepage hero screenshot, 1280x800 crop, dark nav + star field + cropped app console.
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Body/Display**: <code>Inter</code> (OFL)
-- **Code/Mono**: <code>JetBrains Mono</code> (OFL)
-- **Fallback**: <code>ui-sans-serif, system-ui</code>
-- **Weights**: 400 / 500 / 600 / 700
+- **Display font**: `IBM Plex Serif` via `var(--font-ibm-plex-serif)` for the hero's editorial calm.
+- **Body font**: `Inter` via `var(--font-inter)` for nav, paragraphs, and UI text.
+- **Tight display/support**: `Inter Tight` appears as `var(--font-inter-tight)` for compressed marketing headings.
+- **Code/UI font**: `JetBrains Mono` and `ui-monospace` for developer surfaces.
+- **Weight normal / bold**: `400` / `700`; supporting UI also uses `500`, `600`, `800`, `900`.
+
+```css
+:root {
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: var(--font-ibm-plex-serif), ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --font-tight: var(--font-inter-tight), var(--font-inter), -apple-system, sans-serif;
+  --font-code: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+```
+
+### Note on Font Substitutes
+
+- **IBM Plex Serif** — Use `Source Serif 4` or `Georgia` only for the large hero headline. Keep weight at 700 and tighten tracking to about `-0.02em`; otherwise the headline loses the "peaceful" editorial voice.
+- **Inter** — Use `system-ui` only if Inter is unavailable. Do not switch to geometric display fonts; Railway needs neutral product clarity under the serif hero.
+- **JetBrains Mono** — Use `SF Mono` or `Menlo` for console tabs and micro labels. Keep code text small and steady; do not enlarge mono labels into decoration.
 
 ---
 
 ## 05. Typography Scale
-
-> Inter body 16px + JetBrains Mono for timer/logs. Hero H1 56-72px weight 700.
+<!-- SOURCE: auto+manual -->
 
 | Token | Size | Weight | Line-height | Letter-spacing |
-|---|---|---|---|---|
-| `body` | 16px | 400 | 1.5 | 0 |
-| `caption mono` | 13px | 400 | 1.4 | 0 |
-| `lead` | 18px | 400 | 1.5 | 0 |
-| `H3` | 24px | 600 | 1.3 | -0.01em |
-| `H2` | 36px | 700 | 1.2 | -0.02em |
-| `Hero H1` | 56-72px | 700 | 1.05 | -0.03em |
+|---|---:|---:|---:|---:|
+| `hero-h1` | ~56px desktop | 700 | ~1.05 | -0.02em |
+| `hero-subtitle` | ~20px | 400 | 1.5 | 0 |
+| `nav-link` | ~14px | 500 | 1.4 | 0 |
+| `cta-label` | ~20px | 600 | 1.2 | 0 |
+| `console-tab` | ~12px | 500 | 1.2 | 0 |
+| `body` | 16-18px | 400 | 1.5 | 0 |
+
+> ⚠️ Key insight: Railway's typographic identity is the mismatch between a peaceful serif hero and exact product UI text. Do not make everything Inter.
+
+### Principles
+
+1. Hero display uses a serif because the message is emotional, not just operational.
+2. Product chrome returns immediately to Inter and monospace, so the page never drifts into lifestyle editorial.
+3. Body copy remains normal weight 400; weight 500/600 is saved for navigation, buttons, tabs, and control labels.
+4. Large type is optically tight; small UI text keeps neutral tracking to preserve console legibility.
+5. Monospace is contextual only. It belongs in logs, tabs, paths, and deployment surfaces, not in the main marketing headline.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
 
-> Magenta/Purple/Blue 3-stop gradient brand + Mantine neutral + oatmeal paper accent.
-
-### Brand Gradient
-
-| Token | Hex |
-|---|---|
-| `c1 magenta ★` | `#9A059A` |
-| `c2 purple` | `#5909A9` |
-| `c3 blue` | `#100095` |
-| `purple-alt` | `#8145B5` |
-| `indigo-dark` | `#381DBD` |
-
-### Neutral Dark
+### 06-1. Brand Ramp (observed key colors)
 
 | Token | Hex |
 |---|---|
-| `bg` | `#13111C` |
-| `bg-oatmeal` | `#13111C` |
-| `near-black` | `#08070C` |
-| `flip-bg` | `#121118` |
-| `text-muted` | `#9CA3AF` |
-| `border-gray` | `#374151` |
+| `accent-purple` | #6D4BBC |
+| `accent-deep` / `--train-accent` | #13044C |
+| `violet-support` | #59497A |
+| `purple-glow` | #853BCE |
 
-### Paper / Flipboard
+### 06-2. Brand Dark Variant
 
 | Token | Hex |
 |---|---|
-| `flap-bg` | `#F4F1EC` |
-| `surface-warm` | `#F9F3E9` |
-| `surface-cream` | `#E7E5E3` |
+| `night-base` | #13111C |
+| `night-ink` | #08070C |
+| `flip-bg` | #121118 |
+| `dark-ui` | #141414 |
 
-### Mantine Blue (UI)
+### 06-3. Neutral Ramp
 
-| Token | Hex |
-|---|---|
-| `blue-0` | `#E7F5FF` |
-| `blue-3` | `#74C0FC` |
-| `blue-5` | `#339AF0` |
-| `blue-7` | `#1C7ED6` |
+| Step | Light | Dark |
+|---|---|---|
+| white text | #FFFFFF | #FFFFFF |
+| muted text / border | #FFFFFF80 | #FFFFFF1A |
+| oatmeal illustration | #F1F0EF | #E7E5E3 |
+| gray line | #9CA3AF | #454545 |
+| deep stroke | #262626 | #000000 |
 
-### Accent Extra
+### 06-4. Accent Families
 
-| Token | Hex |
-|---|---|
-| `clay` | `#D97757` |
-| `google blue` | `#4285F4` |
-| `mint` | `#95D0B4` |
-| `ruby` | `#B62D2B` |
+| Family | Key step | Hex |
+|---|---|---|
+| Purple CTA | primary action | #6D4BBC |
+| Deep rail accent | illustration / metaphor | #13044C |
+| Pink utility | glow / ring support | #F9A8D4 |
+| Blue utility | ring / gradient support | #93C5FD80 |
 
-### Semantic Alias Layer
+### 06-5. Semantic
 
-| Alias | Resolves to / Usage |
-|---|---|
-| `--bg-oatmeal` | #13111C — global bg token |
-| `--flap-bg` | #F4F1EC — flipboard paper top |
-| `--flap-border-color` | rgba(0,0,0,0.12) — paper edge |
-| `--flip-bg` | #121118 — flipboard digit bg |
-| `--flip-border-color` | rgba(255,255,255,0.1) — digit edge |
-| `--flip-center-border` | rgba(0,0,0,0.18) — flip split line |
-| `--mantine-color-body` | inherits bg-oatmeal |
+| Token | Hex | Usage |
+|---|---|---|
+| `theme-color` | #13111C | browser/theme surface |
+| `text-primary` | #FFFFFF | hero/nav/button text |
+| `text-muted` | #FFFFFF80 | subdued UI labels |
+| `border-ghost` | #FFFFFF1A | dark hairlines and frame borders |
+| `console-bg` | #08070C | product mockup surface |
 
-### Dominant Colors (CSS frequency)
+### 06-6. Semantic Alias Layer
 
-| Rank | Hex | Count | Role |
-|---|---|---|---|
-| 1 | `#08070C` | 14 | near-black bg |
-| 2 | `#9CA3AF` | 5 | muted text |
-| 3 | `#F9F3E9` | 5 | paper surface |
-| 4 | `#E7E5E3` | 5 | surface cream |
-| 5 | `#59497A` | 5 | purple accent |
-| 6 | `#381DBD` | 4 | indigo |
-| 7 | `#4A3D66` | 4 | purple muted |
-| 8 | `#374151` | 3 | border |
+| Alias | Resolves to | Usage |
+|---|---|---|
+| `--button-color` | `--mantine-color-white` | button foreground |
+| `--button-height-sm` | 36px | small Mantine button base |
+| `--button-padding-x-sm` | 18px | compact horizontal CTA rhythm |
+| `--input-bg` | `--mantine-color-dark-6` / transparent variants | dark app inputs |
+| `--nested-canvas-shadow` | multi-layer black/white alpha shadow | deployment canvas depth |
+
+### 06-7. Dominant Colors (실제 DOM/CSS 빈도 순)
+
+| Token | Hex | Frequency note |
+|---|---|---|
+| transparent reset | #00000000 / #0000 | reset and utility base |
+| white | #FFFFFF / #fff | text, inverted utilities |
+| night ink | #08070C | dark app/hero surface |
+| night base | #13111C | theme and page base |
+| translucent white | #FFFFFF1A | borders, overlays |
+| translucent black | #0000001A | shadows, outlines |
+
+### 06-8. Color Stories
+
+**`{colors.night-base}` (#13111C)** — This is the page's real floor. It is not pure black; the small violet warmth lets the night-sky illustration and app console feel integrated rather than pasted on.
+
+**`{colors.text-primary}` (#FFFFFF)** — White carries brand confidence. Railway does not tint the primary text blue or purple; it keeps the message readable and lets the action color do less work.
+
+**`{colors.accent-purple}` (#6D4BBC)** — The action signal. Use it for the primary Deploy CTA and small active indicators, not for every card, icon, or heading.
+
+**`{colors.border-ghost}` (#FFFFFF1A)** — The structural color. Most frames are held together by translucent hairlines so the dark UI can stay calm without disappearing.
 
 ---
 
 ## 07. Spacing
+<!-- SOURCE: auto+manual -->
 
-> Mantine 기본 spacing (xs/sm/md/lg/xl) + 1200px container.
+| Token | Value | Use case |
+|---|---:|---|
+| `gap-tight` | 6px / 8px | nav chevrons, console controls |
+| `gap-sm` | 1rem | button groups, small stacks |
+| `gap-md` | 1.5rem / 2rem | hero copy and CTA rhythm |
+| `gap-lg` | 4rem | major layout separation |
+| `gap-xl` | 6rem / 8rem | large marketing sections |
+| `container` | 1280px | outer hero/nav width |
 
-container-width: 1200px · py-20 / py-24 · gap-4/gap-6
+**주요 alias**:
+- `--button-padding-x-sm` -> 18px (small primary and secondary action rhythm)
+- `--button-height-sm` -> 36px (Mantine small control baseline)
+- `--input-height-sm` -> 36px (console/form control baseline)
 
-| Token | Value | Use |
-|---|---|---|
-| `mantine-xs` | 10px | tight chip |
-| `mantine-sm` | 12px | button inner |
-| `mantine-md` | 16px | card inner |
-| `mantine-lg` | 20px | card large |
-| `mantine-xl` | 32px | section inner |
-| `py-20` | 80px | section |
-| `py-24` | 96px | hero |
-| `container` | 1200px | page width |
+### Whitespace Philosophy
+
+Railway's whitespace is not bright-page spaciousness. It is dark-stage spacing: the nav is compact, the hero headline gets a centered pocket of air, and the app mockup rises from below to occupy the lower third. The empty space above the console matters because it makes the star field feel like atmosphere instead of a background texture.
+
+The system compresses product UI details inside the console while leaving the marketing claim alone in the center. That contrast is the page's rhythm: quiet claim, dense proof.
 
 ---
 
 ## 08. Radius
-
-> Mantine defaults — xs(2) / sm(4) / md(8) / lg(16) / xl(32). 플립 타이머는 8px.
+<!-- SOURCE: auto+manual -->
 
 | Token | Value | Context |
-|---|---|---|
-| `mantine-xs` | 2px | chip |
-| `mantine-sm` | 4px | input |
-| `mantine-md` | 8px | button / flip |
-| `mantine-lg` | 16px | card |
-| `mantine-xl` | 32px | hero block |
+|---|---:|---|
+| `radius-sm` | 4px / .25rem | small controls, utility boxes |
+| `radius-md` | 6px / .375rem | Mantine defaults, compact surfaces |
+| `radius-lg` | 8px / .5rem | hero buttons, console controls |
+| `radius-xl` | 12px / .75rem | cards and framed UI blocks |
+| `radius-hero` | ~16px | large hero media frame |
+| `radius-pill` | 9999px / 1000px | badges, indicators |
 
 ---
 
 ## 09. Shadows
+<!-- SOURCE: auto+manual -->
 
-> 다크 테마라 shadow 거의 없음. 대신 rgba border glow 사용.
-
-| Level | Usage | Value |
+| Level | Value | Usage |
 |---|---|---|
-| `flip digit` | 센터 스플릿 | `inset 0 -1px 0 rgba(0,0,0,0.18)` |
-| `card glow` | hover | `0 0 0 1px rgba(255,255,255,0.15)` |
-| `gradient shadow` | CTA hover | `0 8px 24px rgba(154,5,154,0.3)` |
+| `nested-canvas-dark` | `0 0 0 1px #FFFFFF1F, 0 2px 8px -2px #00000040, 0 4px 16px -4px #00000040` | dark app canvas frame |
+| `soft-card` | `0 1px 2px 0 #0000000D` | small raised controls |
+| `deep-modal` | `0 25px 50px -12px #00000040` | overlays and deep surfaces |
+| `purple-glow` | `0px 0px 12px #B428B480, 0px 0px 32px #662BDF80` | rare glow moments |
+| `hero-console` | `0 10px 30px #00000059` | dark product mockup depth |
+
+Railway's shadows are mostly structural. The page does not rely on broad blur clouds; it uses thin border plus layered alpha to separate dark surfaces.
 
 ---
 
 ## 10. Motion
+<!-- SOURCE: auto+manual -->
 
-> 플립 애니메이션 + scroll stagger. <code>.3s cubic-bezier(.4,0,.2,1)</code> 기본.
-
-| Pattern | Value | Use |
+| Token | Value | Usage |
 |---|---|---|
-| `flip rotate` | `600ms ease-out` | flipboard digit flip |
-| `scroll reveal` | `400ms` | IntersectionObserver stagger |
-| `cta gradient` | `300ms` | hover brightness shift |
-| `cloud parallax` | `scroll-linked` | background drift |
+| `--transition-easing` | `cubic-bezier(.455, .03, .515, .955)` | custom smooth transition curve |
+| `--train-scroll-distance` | 210px-640px variants | railway illustration choreography |
+| `--train-scroll-distance-mobile` | 76px-440px variants | mobile motion distance tuning |
+| `--flip-width` / `--flip-height` | 60px / 70px | flip/ticker component dimensions |
+| `prefers-reduced-motion` | present | reduced motion branch in CSS |
+
+Motion identity is implied by the train tokens and console state changes. Keep transitions smooth and short; avoid playful bounce unless it is directly tied to a deployment/train metaphor.
 
 ---
 
 ## 11. Layout Patterns
-
-> 1200px + 중앙 정렬 hero + 전체 너비 cloud SVG background layer + dark product mockup.
+<!-- SOURCE: auto+manual -->
 
 ### Grid System
 
-- Container max-width: 1200px
-- Grid type: CSS Grid + Mantine Container
-- Columns: 12 (Mantine default)
-- Gutter: 16-24px
+- **Content max-width**: 1280px is the strongest outer width; supporting widths include 1024px, 1100px, 1200px, 1440px, and 1536px utilities.
+- **Grid type**: Tailwind flex/grid utilities, with app-console internals using tab and pane structures.
+- **Column count**: hero is visually one-column centered; lower product frame behaves as a wide single canvas.
+- **Gutter**: common gaps are 1rem, 1.5rem, 2rem, 4rem, 6rem, and 8rem.
 
 ### Hero
 
-- Layout: 1-column centered + cloud background
-- Background: #13111C + SVG cloud/star overlay
-- H1: 56-72px / weight 700 / tracking -0.03em
-- Max-width: 720px
-- Pattern: ~90vh + flipboard timer center + dual CTA
+- **Pattern Summary**: `dark full-width shell + centered serif H1 + dual CTA + bottom-cropped app console`
+- Layout: centered headline and CTA stack over a large framed background, with product UI mockup anchored low.
+- Background: illustrated night sky with cloud/star texture inside a rounded frame.
+- **Background Treatment**: image/illustration overlay on #13111C, softened by dark tint and translucent frame border.
+- H1: `~56px` / weight `700` / tracking `-0.02em`, serif.
+- Max-width: content visually centered around 760px; outer frame spans near 1280px.
 
 ### Section Rhythm
 
-- Padding: 80-96px vertical
-- Max-width: 1200px
-- cloud SVG layer가 섹션 경계 흐리게
+```css
+section {
+  padding: clamp(64px, 8vw, 128px) clamp(16px, 4vw, 32px);
+  max-width: 1280px;
+}
+```
 
 ### Card Patterns
 
-- Background: #121118 flip-bg 또는 #1E1F2A
-- Border: 1px solid rgba(255,255,255,0.1)
-- Radius: 8-16px
-- Padding: 20-32px
-- Shadow: 없음, glow on hover
+- **Card background**: dark ink #08070C or translucent dark panels.
+- **Card border**: 1px solid #FFFFFF1A / #FFFFFF1F.
+- **Card radius**: 8px for controls, 12-16px for large frames.
+- **Card padding**: compact controls around 8-18px; product frames use denser internal spacing.
+- **Card shadow**: nested canvas shadow, not bright elevation.
 
-### Navigation
+### Navigation Structure
 
-- Type: horizontal + 드롭다운
-- Position: sticky top
-- Height: ~64px
-- Background: rgba(19,17,28,0.8) + blur
+- **Type**: horizontal marketing nav with dropdown chevrons.
+- **Position**: top aligned, visually integrated with the dark page.
+- **Height**: compact; about 72px in the screenshot.
+- **Background**: #13111C / near-transparent dark.
+- **Border**: none visible in the top nav; hero frame provides the first major line.
 
 ### Content Width
 
-- Prose: 720px
-- Container: 1200px
-- Sidebar: Docs용 240px
+- **Prose max-width**: 65ch appears in CSS utilities.
+- **Container max-width**: 1280px primary, with wider 1440/1536 utilities available.
+- **Sidebar width**: not a homepage marketing primitive; product mockup uses internal tab/pane layout instead.
 
 ---
 
 ## 12. Responsive Behavior
-
-> Mantine breakpoints (xs 36em / sm 48em / md 62em / lg 75em / xl 88em). Mobile-first.
+<!-- SOURCE: auto+manual -->
 
 ### Breakpoints
 
 | Name | Value | Description |
-|---|---|---|
-| xs | `< 576px` | mobile |
-| sm | `≥ 576px` |  |
-| md | `≥ 768px` | tablet |
-| lg | `≥ 992px` | desktop nav |
-| xl | `≥ 1200px` | container max |
+|---|---:|---|
+| Mobile | `width<=40em` / `width<=768px` | compact nav/hero and reduced train distances |
+| Tablet | `width>=640px`, `width>=768px` | Tailwind standard utility ramps |
+| Desktop | `width>=1024px`, `width>=1080px` | desktop hero/app-canvas layout |
+| Large | `width>=1280px`, `width>=1536px`, `width>=1900px` | large container expansion |
+
+### Touch Targets
+
+- **Minimum tap size**: Mantine base controls include 30/36/42/50/60px heights; use 42px+ for primary mobile CTAs.
+- **Button height (mobile)**: target 42px or 50px, even though small variants exist.
+- **Input height (mobile)**: 42px recommended; CSS has 30-60px input scale.
 
 ### Collapsing Strategy
 
-- **Touch targets**: button 40-48px
-- **Nav collapse**: lg 이하 햄버거
-- **Grid columns**: 3 → 2 → 1
-- **Flipboard**: mobile 스케일 축소
-- **Cloud BG**: mobile static, desktop parallax
-- **First-class**: mobile-first Mantine
+- **Navigation**: desktop horizontal nav should collapse to compact menu; avoid preserving all links on narrow screens.
+- **Grid columns**: marketing sections should collapse from multi-column utilities into single column below 768px.
+- **Sidebar**: no persistent sidebar in homepage hero; product mockup should crop or simplify.
+- **Hero layout**: keep headline and CTA centered; reduce console height and crop more aggressively on mobile.
+
+### Image Behavior
+
+- **Strategy**: images and videos use `max-width: 100%; height: auto`.
+- **Max-width**: hero frame fills available container width with stable rounded bounds.
+- **Aspect ratio handling**: app canvas should be clipped rather than squeezed; preserve console proportions.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
-> Gradient CTA + flipboard timer + dark product mockup + cloud illustration.
+### Buttons
 
-### .btn-gradient (Deploy)
-
-_3-stop gradient CTA_
-
-```html
-<button style="background:linear-gradient(135deg,#9A059A,#5909A9,#100095);color:#FFF;border:0;border-radius:8px;padding:12px 24px;font-size:15px;font-weight:600;cursor:pointer;">Deploy →</button>
-```
-
-Spec:
-
-- background: linear-gradient(135deg,#9A059A,#5909A9,#100095)
-- color: white
-- radius: 8px
-- padding: 12px 24px
-- weight: 600
-
-### .btn-ghost (Demo)
-
-_Secondary — ghost with border_
+Primary action is a purple rounded rectangle, roughly 8px radius, with white text and a right arrow. It should feel like a product action, not a glossy marketing pill.
 
 ```html
-<button style="background:transparent;color:#E5E7EB;border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:12px 24px;font-size:15px;font-weight:500;cursor:pointer;">Demo</button>
+<a class="button button-primary" href="/new">
+  Deploy <span aria-hidden="true">-></span>
+</a>
 ```
 
-Spec:
+| State | Background | Border | Text | Notes |
+|---|---|---|---|---|
+| default | #6D4BBC | transparent | #FFFFFF | primary Deploy CTA |
+| hover | slightly brighter purple | transparent | #FFFFFF | subtle lift/brightness only |
+| secondary | transparent | #FFFFFF1A | #FFFFFF | Demo button |
+| disabled | #FFFFFF1A | transparent | #FFFFFF80 | keep dark-page contrast |
 
-- background: transparent
-- border: 1px solid rgba(255,255,255,0.2)
-- color: #E5E7EB
+### Badges
 
-### .flipboard-digit
+Badges are secondary primitives. Use 1000px radius when needed, but keep them small and quiet. Railway's homepage hero does not depend on badge clutter.
 
-_retro flip 타이머 digit_
+### Cards & Containers
 
-```html
-<div style="display:inline-block;background:#121118;color:#F4F1EC;font-family:ui-monospace;font-size:40px;font-weight:700;padding:16px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);position:relative;">00<div style="position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,0.3);"></div></div>
+The defining container is the app-canvas frame: black-violet surface, thin translucent border, and nested shadow. Avoid white cards on the dark hero.
+
+```css
+.app-canvas-frame {
+  background: #08070C;
+  border: 1px solid #FFFFFF1A;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #FFFFFF1F, 0 2px 8px -2px #00000040, 0 4px 16px -4px #00000040;
+}
 ```
 
-Spec:
+### Navigation
 
-- bg: #121118
-- color: #F4F1EC
-- font-family: mono
-- center split: rgba(0,0,0,0.18)
+Navigation pairs the Railway mark with text links: Product, Developers, Enterprise, Company, Pricing, Sign in, Book a demo. Dropdown chevrons are small. Do not put nav links into filled pills.
+
+### Inputs & Forms
+
+Inputs inherit Mantine scale: 30px, 36px, 42px, 50px, 60px. Dark variants use #2E2E2E / #3B3B3B style surfaces, transparent borders, and focus color mapped to the primary filled color.
+
+### Hero Section
+
+The hero is the signature component. It combines a framed scenic background, centered serif claim, two CTAs, and cropped product UI. The bottom crop is important: the console is evidence, not the entire composition.
+
+### 13-2. Named Variants
+
+- **button-primary-deploy** — #6D4BBC background, white label, right arrow, 8px radius.
+- **button-secondary-demo** — transparent fill, #FFFFFF1A border, white label, same radius.
+- **app-canvas-frame** — #08070C surface, #FFFFFF1A border, nested dark/white shadow.
+- **console-tab-active** — thin purple underline or accent on dark tab bar.
+- **railway-train-illustration** — oatmeal train body, #13044C accent, dark stroke.
+
+### 13-3. Signature Micro-Specs
+
+```yaml
+night-window-hero-frame:
+  description: "Hero scenery is held inside a rounded viewport instead of becoming a full-bleed wallpaper."
+  technique: "max-width: 1280px; min-height: 720px; border: 1px solid #FFFFFF1A; border-radius: 16px; overflow: hidden; background: linear-gradient(180deg, #13111C66 0%, #13111CCC 100%), #13111C"
+  applied_to: ["{component.Hero Section}", "{component.app-canvas-frame}"]
+  visual_signature: "A nocturnal train-window frame: soft sky above, cropped product console below, no bright SaaS page shell."
+
+cropped-console-proof:
+  description: "The product UI is evidence rising from the bottom edge, not a complete centered dashboard card."
+  technique: "background: #08070C; border: 1px solid #FFFFFF1A; border-radius: 8px 8px 0 0; box-shadow: 0 0 0 1px #FFFFFF1F, 0 2px 8px -2px #00000040, 0 4px 16px -4px #00000040"
+  applied_to: ["{component.app-canvas-frame}", "{component.console-tab-active}"]
+  visual_signature: "A dark deployment console clipped by the hero viewport, like a control panel glimpsed through glass."
+
+serif-peace-deployment-headline:
+  description: "The central promise is literary and calm while surrounding UI returns to technical sans and mono."
+  technique: "font-family: var(--font-ibm-plex-serif), Georgia, Cambria, 'Times New Roman', serif; font-size: clamp(44px, 5vw, 64px); line-height: 1.05; letter-spacing: -0.02em; font-weight: 700"
+  applied_to: ["{component.Hero Section}"]
+  visual_signature: "The phrase 'Ship software peacefully' feels like a quiet station sign instead of a devtool slogan."
+
+purple-signal-lamp-cta:
+  description: "Purple is reserved for action and active product states, never spread across the whole scene."
+  technique: "background: #6D4BBC; color: #FFFFFF; min-height: 58px; padding: 0 24px; border-radius: 8px; secondary action remains transparent with border: 1px solid #FFFFFF1A"
+  applied_to: ["{component.button-primary}", "{component.button-secondary}", "{component.console-tab-active}"]
+  visual_signature: "A single violet platform signal against dark ink, with no secondary brand color or broad purple wash."
+
+railway-train-motion-tokens:
+  description: "Train metaphor is encoded as controlled scroll-distance tokens rather than playful generic animation."
+  technique: "--train-scroll-distance: 210px-640px variants; --train-scroll-distance-mobile: 76px-440px variants; transition easing: cubic-bezier(.455, .03, .515, .955); prefers-reduced-motion branch present"
+  applied_to: ["{component.railway-train-illustration}", "{component.Hero Section}"]
+  visual_signature: "Motion feels like a measured rail glide through the hero, not bounce or confetti."
+```
+
+---
+
+## 14. Content Voice
+<!-- SOURCE: manual -->
+
+Railway's copy is short, plain, and unusually calm for developer infrastructure. "Ship software peacefully" pairs a high-stakes action with a low-anxiety adverb. Supporting copy says "all-in-one intelligent cloud provider" without stacking buzzwords into a paragraph.
+
+Use verbs from deployment and operations: ship, deploy, sync, create, monitor, scale. Keep the sentence length low. The interface labels should feel like a real product, not like a concept deck.
 
 ---
 
 ## 15. Drop-in CSS
+<!-- SOURCE: manual -->
 
 ```css
-/* Railway — copy into your root */
 :root {
-  --font-sans: "Inter", ui-sans-serif, system-ui;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular;
+  --railway-night-base: #13111C;
+  --railway-night-ink: #08070C;
+  --railway-text: #FFFFFF;
+  --railway-muted: #FFFFFF80;
+  --railway-border: #FFFFFF1A;
+  --railway-purple: #6D4BBC;
+  --railway-deep-purple: #13044C;
+  --railway-radius-control: 8px;
+  --railway-radius-frame: 16px;
+  --railway-canvas-shadow:
+    0 0 0 1px #FFFFFF1F,
+    0 2px 8px -2px #00000040,
+    0 4px 16px -4px #00000040;
+}
 
-  /* Brand gradient */
-  --c1: #9A059A;
-  --c2: #5909A9;
-  --c3: #100095;
-  --brand-gradient: linear-gradient(135deg, var(--c1), var(--c2), var(--c3));
+body {
+  margin: 0;
+  background: var(--railway-night-base);
+  color: var(--railway-text);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 400;
+}
 
-  /* Surfaces */
-  --bg: #13111C;
-  --bg-oatmeal: #13111C;
-  --fg: #E5E7EB;
-  --muted: #9CA3AF;
-  --border: rgba(255,255,255,0.1);
+.railway-hero {
+  max-width: 1280px;
+  margin: 0 auto;
+  min-height: 720px;
+  border: 1px solid var(--railway-border);
+  border-radius: var(--railway-radius-frame);
+  background:
+    linear-gradient(180deg, #13111C66 0%, #13111CCC 100%),
+    #13111C;
+  overflow: hidden;
+  position: relative;
+}
 
-  /* Flipboard */
-  --flap-bg: #F4F1EC;
-  --flap-border-color: rgba(0,0,0,0.12);
-  --flip-bg: #121118;
-  --flip-border-color: rgba(255,255,255,0.1);
-  --flip-center-border: rgba(0,0,0,0.18);
+.railway-hero h1 {
+  font-family: var(--font-ibm-plex-serif), Georgia, Cambria, "Times New Roman", serif;
+  font-size: clamp(44px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
 
-  --radius-md: 8px;
-  --radius-lg: 16px;
-  --radius-xl: 32px;
+.railway-button-primary {
+  min-height: 58px;
+  padding: 0 24px;
+  border-radius: 8px;
+  border: 0;
+  background: var(--railway-purple);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.railway-button-secondary {
+  min-height: 58px;
+  padding: 0 24px;
+  border-radius: 8px;
+  border: 1px solid var(--railway-border);
+  background: transparent;
+  color: #FFFFFF;
+}
+
+.railway-console {
+  background: var(--railway-night-ink);
+  border: 1px solid var(--railway-border);
+  border-radius: 8px 8px 0 0;
+  box-shadow: var(--railway-canvas-shadow);
 }
 ```
 
 ---
 
-## 16. Tailwind Config
+## 16. Tailwind
+<!-- SOURCE: auto+manual -->
 
 ```js
-// tailwind.config.js — Railway-like
-module.exports = {
+export default {
   theme: {
     extend: {
       colors: {
-        bg: { DEFAULT: '#13111C', oatmeal: '#13111C' },
-        brand: { c1: '#9A059A', c2: '#5909A9', c3: '#100095' },
-      },
-      backgroundImage: {
-        'brand-gradient': 'linear-gradient(135deg, #9A059A, #5909A9, #100095)',
+        railway: {
+          night: "#13111C",
+          ink: "#08070C",
+          purple: "#6D4BBC",
+          deep: "#13044C",
+          muted: "#FFFFFF80",
+          border: "#FFFFFF1A"
+        }
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace'],
+        sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
+        serif: ["var(--font-ibm-plex-serif)", "Georgia", "serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"]
       },
-    },
-  },
-};
+      boxShadow: {
+        "railway-canvas": "0 0 0 1px #FFFFFF1F, 0 2px 8px -2px #00000040, 0 4px 16px -4px #00000040"
+      },
+      borderRadius: {
+        railway: "8px",
+        "railway-frame": "16px"
+      }
+    }
+  }
+}
 ```
 
 ---
 
 ## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
 
 ### Quick Color Reference
 
-| Role | Token | Hex |
-|---|---|---|
-| Brand gradient start | `--c1` | `#9A059A` |
-| Brand gradient mid | `--c2` | `#5909A9` |
-| Brand gradient end | `--c3` | `#100095` |
-| Background | `--bg` | `#13111C` |
-| Text primary | `--fg` | `#E5E7EB` |
-| Text muted | `--muted` | `#9CA3AF` |
-| Border | `--border` | `rgba(255,255,255,0.1)` |
+- Background: #13111C
+- App surface: #08070C
+- Primary text: #FFFFFF
+- Muted text: #FFFFFF80
+- Hairline border: #FFFFFF1A
+- Primary action: #6D4BBC
+- Deep railway accent: #13044C
 
-### Example Component Prompts
+### Build Prompt
 
-#### Hero
+Build a Railway-inspired SaaS homepage section. Use a dark #13111C page, a rounded hero viewport with a night-sky feeling, a centered serif headline, two CTAs, and a cropped deployment-console mockup rising from the bottom. Use #6D4BBC only for the primary Deploy CTA and active console accents. Use Inter for UI text, IBM Plex Serif or Source Serif for the hero headline, and JetBrains Mono for tiny console labels. Keep borders translucent (#FFFFFF1A), shadows nested and dark, and the navigation compact.
 
-```
-Railway 스타일 히어로:
-- 배경: #13111C + cloud SVG layer
-- H1: Inter 64px weight 700 color #E5E7EB, tracking -0.03em
-- Sub: 18px #9CA3AF
-- CTA primary: background linear-gradient(135deg,#9A059A,#5909A9,#100095) + radius 8px
-- CTA ghost: transparent + border rgba(255,255,255,0.2)
-```
+### Avoid Prompt
 
-#### Flipboard
-
-```
-Railway 플립보드 타이머:
-- container: bg #F4F1EC paper
-- digit: bg #121118 color #F4F1EC
-- font: JetBrains Mono 40px weight 700
-- center split: rgba(0,0,0,0.18) 1px
-```
-
-### Iteration Guide
-
-- **색상 변경 시**: 반드시 §06의 semantic token을 사용. raw hex 직접 사용 금지.
-- **폰트 변경 시**: weight 400이 기본.
-- **여백 조정 시**: §07의 spacing scale 단위로만.
-- **새 컴포넌트 추가 시**: §13의 기존 패턴을 따를 것.
+Do not make a generic white SaaS landing page. Do not use neon gradients as the main background. Do not turn every element purple. Do not replace the serif hero with all-Inter type. Do not show the whole dashboard as a centered card; crop it from below inside the hero frame.
 
 ---
 
 ## 18. DO / DON'T
+<!-- SOURCE: manual -->
 
-### ✅ DO
+### DO
 
-- 배경은 #13111C near-black + 구름 SVG overlay layer.
-- CTA primary는 3-stop gradient linear-gradient(135deg, #9A059A, #5909A9, #100095).
-- Flipboard 타이머는 --flip-bg #121118 + --flap-bg #F4F1EC paper 조합.
-- 카드 border는 rgba(255,255,255,0.1) — 실선 grey 금지.
-- mono 폰트가 필요한 곳은 반드시 JetBrains Mono로.
+- Use #13111C as the page base and #08070C for the app-console surface.
+- Use #FFFFFF for primary text and #FFFFFF80 for muted labels.
+- Use #6D4BBC for the main Deploy CTA and restrained active accents.
+- Pair a serif hero headline with Inter product UI text.
+- Frame the hero image/mockup with a rounded border and translucent #FFFFFF1A hairline.
+- Crop the product console from the bottom of the hero.
+- Use nested alpha shadows instead of broad decorative glow.
+- Keep nav compact and horizontally calm.
 
-### ❌ DON'T
+### DON'T
 
-- CTA 배경을 solid #9A059A 단색으로 두지 말 것 — 반드시 3-stop gradient.
-- gradient 각도를 바꾸지 말 것 — 135deg 고정.
-- 본문 텍스트를 #FFFFFF white로 두지 말 것 — #E5E7EB warm off-white.
-- flipboard digit bg를 #000000로 두지 말 것 — #121118.
-- 다크 theme 카드 border를 solid #374151로 두지 말 것 — rgba(255,255,255,0.1).
-- body weight를 300로 두지 말 것 — 400.
+- 배경을 `#FFFFFF` 또는 `white`로 두지 말 것 — 대신 `#13111C` 사용.
+- 앱 콘솔 표면을 `#FFFFFF`로 만들지 말 것 — 대신 `#08070C` 사용.
+- 기본 텍스트를 `#000000` 또는 `black`으로 두지 말 것 — 대신 `#FFFFFF` 사용.
+- muted 텍스트를 `#666666`으로 두지 말 것 — 대신 `#FFFFFF80` 사용.
+- primary CTA를 `#000000` 또는 `#2563EB`로 두지 말 것 — 대신 `#6D4BBC` 사용.
+- hairline border를 `#E5E7EB`로 두지 말 것 — 대신 dark hero에서는 `#FFFFFF1A` 사용.
+- hero headline을 Inter 800만으로 처리하지 말 것 — serif display weight 700을 사용.
+- 모든 섹션에 purple glow를 깔지 말 것 — #6D4BBC는 action signal이다.
+
+### 🚫 What This Site Doesn't Use
+
+- It does not use a bright white SaaS page shell as the primary identity.
+- It does not use a rainbow palette; the chromatic field is mostly one purple plus rare support accents.
+- It does not use large glassmorphism cards for the core hero.
+- It does not use bubbly pill buttons as the main action shape.
+- It does not use oversized icon grids above the fold.
+- It does not use heavy drop shadows on navigation.
+- It does not use monospace as a brand-wide display voice.
+- It does not use pure black #000000 as the page background.
+- It does not use cheerful illustration colors in the hero; the scene stays nocturnal.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- The analysis reused existing phase1 artifacts from `insane-design/railway/`; no fresh network fetch was performed in this run.
+- The screenshot was a homepage hero crop with a cookie banner visible at the bottom, so below-the-fold section rhythm is inferred mainly from CSS utilities and not full visual inspection.
+- CSS frequency includes framework utilities, Mantine defaults, SVG/illustration colors, and product UI tokens; dominant colors were filtered manually to avoid treating resets and logo/illustration noise as brand colors.
+- Exact runtime font files were not re-fetched; font names are based on CSS family declarations found in the existing bundle.
+- Component behavior such as hover timing, dropdown contents, and mobile menu animation is inferred from CSS tokens and visible hero structure, not from live interaction.
+- Railway may have changed production design after the captured April 2026 phase1 artifacts; this guidebook reflects the local captured snapshot.

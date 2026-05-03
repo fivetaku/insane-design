@@ -63,7 +63,7 @@ components:
 
 ### Narrative
 
-Hashnode now reads less like a generic SaaS landing page and more like a writing desk that has been opened to the street. The page starts inside the product surface: a left rail, a top feed label, real counts, real navigation, and a hero that sits inside the same bordered content shell as the feed. The metaphor is not "blogging platform brochure." It is a developer newspaper front page pinned inside an app window, where the masthead has become navigation and the lead story is an invitation to write.
+Hashnode reads like a developer broadsheet where the editorial workspace has been opened to the street. The page starts inside the product surface: a left rail, a top feed label, real counts, real navigation, and a hero that sits inside the same bordered content shell as the feed. The metaphor is not "blogging platform brochure." It is a developer magazine front page pinned inside an app window, where the masthead has become navigation and the lead story is an invitation to write.
 
 The dominant material is cool slate: #F8FAFC (`{colors.background}`) for the app shell, #FFFFFF (`{colors.card}`) for cards, #CAD5E2 (`{colors.border}`) for edges, and #020618 (`{colors.foreground}`) for serious text. The blue #1D52DE (`{colors.primary}`) is held back for author intent: Start your blog, Write, Sign in, selected metrics, and small live dots. Because the blue is sparse, every blue object feels actionable rather than decorative.
 

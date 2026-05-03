@@ -1,340 +1,772 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: krafton
-service_name: Krafton
+service_name: KRAFTON
 site_url: https://www.krafton.com/
-fetched_at: 2026-04-23
-default_theme: light
-brand_color: "#E84847"
-primary_font: KRAFTON
+fetched_at: 2026-05-03T00:00:00+09:00
+default_theme: mixed
+brand_color: "#FF3B33"
+primary_font: "Zalando Sans Expanded"
 font_weight_normal: 400
-token_prefix: --wp--preset--color--
+token_prefix: wp
 
-bold_direction: "Dark Gaming Corporate"
-aesthetic_category: "Gaming/Entertainment"
-signature_element: fluid_vw_layout
-code_complexity: low
+bold_direction: "Blackout Editorial"
+aesthetic_category: other
+signature_element: hero_impact
+code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: editorial-product
+archetype_confidence: medium
+design_system_level: lv2
+design_system_level_evidence: "WordPress theme CSS exposes repeated layout, motion, card, and typography patterns, but not a formal public token system."
+
+colors:
+  blackout: "#000000"
+  white: "#FFFFFF"
+  hero-red: "#FF3B33"
+  brand-blue: "#0073A8"
+  text-muted: "#767676"
+  hairline: "#DDDDDD"
+typography:
+  display: "Zalando Sans Expanded"
+  brand: "KRAFTON"
+  body: "Noto Sans"
+  latin-body: "Poppins"
+  ladder:
+    - { token: hero-wordmark, size: "7.27vw", weight: 800, tracking: "0" }
+    - { token: page-title-large, size: "140px / 10.769vw", weight: 700, tracking: "0" }
+    - { token: section-title, size: "36px / 2.7692vw", weight: 600, tracking: "0" }
+    - { token: card-title, size: "24px / 1.846vw", weight: 600, tracking: "0" }
+    - { token: nav-link, size: "18px", weight: 500, tracking: "0" }
+  weights_used: [300, 400, 500, 600, 700, 800, 900]
+  weights_absent: []
+components:
+  header-nav-link: { font: "Zalando Sans Expanded", size: "18px", weight: 500, padding: "31px 30px 29px" }
+  hero-visual-box: { height: "30.677vw", inset_x: "4.11458vw", background: "video/image composite" }
+  game-card: { bg: "#000000", overlay: "rgba(0,0,0,0.3)", aspect: "67.2%", title: "#FFFFFF" }
+  skew-tag: { bg: "#000000", skew: "20deg", padding: "6px 22px 6px 11px" }
+  studio-card: { columns: 4, padding: "49px 30px 34px", border_top: "1px solid #000000" }
 ---
 
-# DESIGN.md — Krafton (Claude Code Edition)
+# DESIGN.md — KRAFTON
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-Krafton 웹사이트는 **"게임 회사의 기업 사이트"**다. 화려한 게임 비주얼을 배경으로 기업 정보를 깔끔하게 정리한다. 배경은 기본 흰색(`#fff`)이지만, 히어로 섹션은 풀스크린 비디오/이미지로 덮는다.
+### Narrative
 
-색상 전략은 극도로 절제되어 있다. **레드 `#E84847` 한 점**이 전체 브랜드 포인트 역할을 한다. 나머지는 `#000 → #555555 → #777777 → #ddd → #fff`의 5단계 무채색이 모든 것을 처리한다. 링크에만 `#3D7FD9` 블루가 등장한다.
+Krafton stages each game franchise like a museum exhibit set on a blackout canvas. The first viewport is almost entirely #000000 (`{colors.blackout}`), and the brand does not soften that darkness with gradients, blur, or decorative chrome. It is not a cinema screen pretending to be a store window; it is a museum-grade exhibition space where the void has enough physical weight for one oversized red statement to land without competition.
 
-타이포그래피는 **독점 서체 `KRAFTON` + 글로벌 다국어 폰트 시스템**이다. 영문 헤딩에는 KRAFTON 폰트, 본문과 한국어에는 Noto Sans / Noto Sans KR, 영문 대체로 Poppins를 사용한다.
+The homepage reads like a title sequence pressed onto parchment-black paper. "PIONEER THE UNDISCOVERED" arrives in #FF3B33 (`{colors.hero-red}`) not as button color or accent system, but as the single ink-flare in the room. There is no second expressive hero color; the WordPress-preset blue (`{colors.brand-blue}`) belongs to the corporate machinery below the surface, while the public memory of the page is the parchment of blackout plus the red discovery statement.
 
-레이아웃은 **vw 기반 유동형**이다. 고정 px 대신 `0 2.607vw`, `0 6.25vw` 등 뷰포트 비율로 여백을 제어한다. 화면 크기에 따라 선형으로 스케일된다.
+The top navigation is almost a gallery directory laid over the film frame. It is clean and corporate, but the hero underneath is cinematic: a `100vh` container, a centered `.KeyVisualBox`, a video composite behind clipped text rows, and a small animated scroll cue. The page strips away ordinary landing-page furniture so the publisher identity can sit on a museum stage — an opening logo before gameplay footage, an exhibit placard before the artifact.
+
+Typography carries most of the force. "Zalando Sans Expanded" makes the nav labels feel like franchise-menu interface text, while the custom "KRAFTON" face takes over large titles like a studio masthead. The rhythm of reveal is deliberate: cards slide in, thumbnails rise, tags skew, images scale on hover through `.a-Opacity` and `.MainGameSlide`. Depth does not come from card shadows; the canvas returns to `{colors.blackout}` whenever the brand needs impact, then opens for the next exhibit on the museum floor.
 
 ### Key Characteristics
 
-- 레드 `#E84847` — 브랜드 accent 단일 포인트
-- 흰색 배경 위 다크 콘텐츠, 히어로는 풀스크린 비디오
-- 독점 KRAFTON 폰트 — 헤딩 전용
-- vw 기반 유동 레이아웃 — 고정 그리드 없음
-- WordPress 기반 — WP preset color 토큰 사용
+- Blackout first viewport: #000000 stage, white nav, red hero statement.
+- Oversized expanded typography: hero and nav rely on width-heavy display shapes.
+- Brand-red hero is visual content, not a normal button color system.
+- Corporate WordPress structure underneath: menus, news posts, careers, studios, games.
+- Motion vocabulary: opacity fades, translateY reveal, translateX slide, image scale hover.
+- Skewed category tags: black parallelogram labels over game thumbnails.
+- Media cards use dark overlays and white type instead of bordered card chrome.
+- Responsive CSS is breakpoint-heavy: 1300px / 1024px / 767px tiers repeat throughout.
+- Token system is shallow; repeated component rules matter more than named design tokens.
+
+---
+
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Blackout Editorial
+> **Aesthetic Category**: other
+> **Signature Element**: 이 사이트는 **blackout stage plus oversized red discovery typography**으로 기억된다.
+> **Code Complexity**: high — 100vh hero, clipped video/image layers, ScrollMagic/TweenMax scripts, Swiper carousels, and multiple transform reveal states.
 
 ---
 
 ## 01. Quick Start
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-> 5분 안에 Krafton처럼 만들기 — 3가지만 하면 80%
+> 5분 안에 KRAFTON처럼 만들기 — 3가지만 하면 80%
 
 ```css
-/* 1. 기본 타이포그래피 */
+/* 1. Wide display nav + sober body */
 body {
-  font-family: "Noto Sans", "Noto Sans KR", Dotum, Helvetica, sans-serif;
-  font-size: 14px;
-  line-height: 1.7;
-  color: #555555;
-  background: #fff;
-}
-
-/* 2. KRAFTON 브랜드 폰트 헤딩 */
-h1, h2, h3 {
-  font-family: "KRAFTON", "Noto Sans", sans-serif;
+  font-family: "Noto Sans", "Noto Sans KR", "Poppins", sans-serif;
   font-weight: 400;
-  color: #000;
+}
+.nav-link,
+.hero-word {
+  font-family: "Zalando Sans Expanded", "Poppins", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0;
 }
 
-/* 3. 레드 accent */
-.brand-red { color: #E84847; }
-.btn-primary {
-  background: #E84847;
-  color: #fff;
-  border-radius: 10px;
-  padding: 12px 32px;
+/* 2. Blackout stage */
+:root { --bg: #000000; --fg: #FFFFFF; --hero-red: #FF3B33; }
+.hero { min-height: 100vh; background: var(--bg); color: var(--fg); }
+
+/* 3. Huge red title sequence */
+.hero-word {
+  color: var(--hero-red);
+  font-size: clamp(64px, 7.27vw, 140px);
+  line-height: .92;
+  text-transform: uppercase;
 }
 ```
+
+**절대 하지 말아야 할 것 하나**: 히어로를 흰 배경의 일반 중앙정렬 랜딩 페이지로 바꾸지 말 것. KRAFTON의 첫인상은 #000000 무대와 거대한 red discovery statement다.
 
 ---
 
 ## 02. Provenance
 <!-- SOURCE: auto -->
 
-| 항목 | 값 |
-|------|-----|
+| | |
+|---|---|
 | Source URL | `https://www.krafton.com/` |
-| CSS 파일 | `krafton/style.css`, `krafton/assets/css/fonts.css`, `krafton/assets/css/lang-ko.css` |
-| CSS 바이트 | ~22,004 chars total |
-| 수집일 | 2026-04-23 |
-| 수집 방법 | curl_cffi (chrome impersonation) |
+| Fetched | 2026-05-03 |
+| Extractor | Existing phase1 reused + targeted live CSS URL fetch with Chrome UA |
+| HTML size | 91,996 bytes (WordPress theme page) |
+| CSS files | 12 linked CSS files observed, live CSS total approx. 626,548 chars |
+| Token prefix | `wp` |
+| Method | Existing `phase1` JSON + homepage screenshot + theme CSS pattern inspection |
 
 ---
 
 ## 03. Tech Stack
-<!-- SOURCE: html -->
+<!-- SOURCE: auto+manual -->
 
-| 항목 | 감지 값 |
-|------|---------|
-| CMS | WordPress |
-| CSS 방식 | WordPress preset CSS variables + hardcoded values |
-| 토큰 네임스페이스 | `--wp--preset--color--*`, `--wp--preset--gradient--*` |
-| 레이아웃 | vw 기반 유동형 |
+- **Framework**: WordPress theme (`/wp-content/themes/krafton/`) with AIOSEO and cookie-law plugin CSS.
+- **Design system**: Theme-level CSS, not a public DS namespace. WordPress preset token `--wp--preset--color--primary: #0073A8` exists, but the homepage hero is driven by custom theme assets and images.
+- **CSS architecture**:
+  ```css
+  wp preset vars        (--wp--preset--*)       WordPress global presets
+  theme CSS modules     header/page/component   layout, cards, nav, motion
+  page-specific classes  KeyVisual/Main*        homepage visual system
+  ```
+- **Class naming**: PascalCase/BEM-ish theme classes: `.SiteHeaderMenu1Depth`, `.KeyVisualBoxText`, `.MainGameSlidePostThumbnail`.
+- **Default theme**: mixed. Homepage hero is black; internal page components and lists return to white surfaces.
+- **Font loading**: Local `@font-face` for Noto Sans KR/SC/JP, plus Google CSS for "Zalando Sans Expanded".
+- **Canonical anchor**: homepage hero screenshot, especially the red "PIONEER THE UNDISCOVERED" block on black.
 
 ---
 
 ## 04. Font Stack
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-| 역할 | 폰트 | 폴백 |
-|------|------|------|
-| Brand Heading | `KRAFTON` | `Noto Sans`, sans-serif |
-| Body / Korean | `Noto Sans`, `Noto Sans KR` | Dotum, 돋움, Helvetica, `Apple SD Gothic Neo`, sans-serif |
-| English Alt | `Poppins` | sans-serif |
-| Chinese | `Noto Sans SC` | sans-serif |
-| Japanese | `Noto Sans JP` | sans-serif |
+- **Display font**: `Zalando Sans Expanded` (loaded via Google Fonts CSS)
+- **Brand/page display**: `KRAFTON` custom face (used for `.PageHeaderTitle-text.Text-lage`)
+- **Body font**: `Noto Sans`, `Noto Sans KR`, `Poppins`, system fallbacks
+- **Code font**: N/A — no code UI surface observed
+- **Weight normal / bold**: `400` / `700`, with frequent `500`, `600`, and heavy display weights up to `800/900`
 
 ```css
-h1, h2, h3 {
-  font-family: "KRAFTON", "Noto Sans", sans-serif;
+:root {
+  --wp-font-display: "Zalando Sans Expanded", "Poppins", sans-serif;
+  --wp-font-brand: "KRAFTON";
+  --wp-font-body: "Noto Sans", "Noto Sans KR", "Poppins", sans-serif;
+  --wp-font-weight-normal: 400;
+  --wp-font-weight-bold: 700;
 }
 body {
-  font-family: "Noto Sans", "Noto Sans KR", Dotum, 돋움, Helvetica, "Apple SD Gothic Neo", sans-serif;
+  font-family: var(--wp-font-body);
+  font-weight: var(--wp-font-weight-normal);
 }
 ```
+
+### Note on Font Substitutes
+
+- **Zalando Sans Expanded** — If unavailable, use **Archivo Expanded** or **Roboto Flex Expanded** at weight 800 for the hero/nav layer. Keep tracking at `0`; do not add artificial negative tracking because KRAFTON's width comes from the expanded face itself.
+- **KRAFTON custom face** — If unavailable, use **Archivo Black** only for large title blocks, then slightly reduce line-height from `1em` to `.95em` to preserve the compressed block feeling.
+- **Noto Sans KR** — Keep Noto Sans for Korean body text. Do not swap the whole site to Inter; the Korean metrics and multilingual fallback are part of the corporate layer.
 
 ---
 
 ## 05. Typography Scale
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-| 레벨 | Size | Line Height | 용도 |
-|------|------|-------------|------|
-| Base | 14px | 1.7 | 본문 |
-| Small | 0.75em | — | sup / sub |
-| Default | 1em | — | 인풋, 버튼 |
+| Token | Size | Weight | Line-height | Letter-spacing |
+|---|---:|---:|---:|---:|
+| `hero-wordmark` | `7.27vw` desktop visual text | 800-900 visual mass | `.9-1.0` visual | `0` |
+| `page-title-large` | `140px` / `10.769vw` | `bold` | `1em` | `0` |
+| `page-title` | `70px` / `5.384vw` | `bold` | `1.3em` | `0` |
+| `section-title` | `36px` / `2.7692vw` | `600` | `1.2em` | `0` |
+| `game-card-title` | `29px` / `2.2307vw` | `500` | `1.2em` | `0` |
+| `studio-card-title` | `24px` / `1.846vw` | `600` | `1.2em` | `0` |
+| `nav-link` | `18px` | `500` | `1.3em` | `0` |
+| `body` | `16px` | `400` | `1.4-1.7em` | `0` |
+| `caption/tag` | `14px` / `1.0769vw` | `500` | `1.2em` | `0` |
 
-타이포그래피 스케일은 minimal하다. 대부분의 크기는 vw 또는 em으로 유동 처리된다.
+> ⚠️ KRAFTON's type identity is not a refined editorial ladder. It is an impact split: very wide, very large display blocks over ordinary corporate body typography.
+
+### Principles
+
+1. Display type gets width before ornament. Use expanded fonts and massive scale before adding gradients, outlines, or shadows.
+2. Body copy stays conventional. Noto Sans/Poppins at 400-500 anchors the site after the dramatic hero.
+3. Weight 500 is a navigation/card workhorse, not an absent middle. Do not force a minimalist 400/700-only model.
+4. Letter-spacing is mostly neutral. The site does not rely on tight Apple-like tracking compensation.
+5. Korean/multilingual fallback matters. Keep Noto Sans KR/SC/JP available rather than designing only for English metrics.
 
 ---
 
 ## 06. Colors
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-### Brand (Theme CSS)
+### 06-1. Brand Ramp (observed)
 
-| 이름 | 값 | 용도 |
-|------|-----|------|
-| brand-red | `#E84847` | 브랜드 레드 — 강조 텍스트, CTA |
-| brand-blue | `#3D7FD9` | 링크 색상 |
+| Token | Hex |
+|---|---|
+| `wp--preset--color--primary` | `#0073A8` |
+| `observed-hero-red` | `#FF3B33` |
+| `observed-blackout` | `#000000` |
+| `observed-white` | `#FFFFFF` |
 
-### Neutral
+### 06-2. Brand Dark Variant
 
-| 이름 | 값 | 용도 |
-|------|-----|------|
-| black | `#000000` | 다크 섹션 배경, 헤딩 |
-| text-body | `#555555` | 본문 텍스트 |
-| text-muted | `#777777` | 보조 텍스트 |
-| border | `#dddddd` | 구분선, 테두리 |
-| white | `#ffffff` | 기본 배경 |
+> N/A — no formal dark variant ramp was exposed. The homepage uses a black stage, not a documented dark-mode palette.
 
-### WordPress Preset Colors
+### 06-3. Neutral Ramp
 
-| 토큰 | 값 |
-|------|-----|
-| `--wp--preset--color--black` | `#000000` |
-| `--wp--preset--color--white` | `#FFF` |
-| `--wp--preset--color--cyan-bluish-gray` | `#abb8c3` |
-| `--wp--preset--color--dark-gray` | `#111` |
-| `--wp--preset--color--light-gray` | `#767676` |
-| `--wp--preset--color--primary` | `#0073a8` |
-| `--wp--preset--color--secondary` | `#005075` |
-| `--wp--preset--color--vivid-red` | `#cf2e2e` |
-| `--wp--preset--color--luminous-vivid-orange` | `#ff6900` |
-| `--wp--preset--color--luminous-vivid-amber` | `#fcb900` |
-| `--wp--preset--color--vivid-green-cyan` | `#00d084` |
-| `--wp--preset--color--pale-cyan-blue` | `#8ed1fc` |
-| `--wp--preset--color--vivid-cyan-blue` | `#0693e3` |
-| `--wp--preset--color--vivid-purple` | `#9b51e0` |
+| Step | Light | Dark |
+|---|---|---|
+| `white` | `#FFFFFF` | N/A |
+| `paper-light` | `#F7F7F7` | N/A |
+| `hairline` | `#DDDDDD` | N/A |
+| `muted` | `#767676` | N/A |
+| `ink-soft` | `#222222` | N/A |
+| `black` | N/A | `#000000` |
+
+### 06-4. Accent Families
+
+| Family | Key step | Hex |
+|---|---|---|
+| Hero red | primary hero statement | `#FF3B33` (screenshot-observed) |
+| WordPress primary | preset primary | `#0073A8` |
+| Corporate teal | theme frequency | `#00ACAD` |
+| Highlight yellow | theme frequency | `#F2A900` |
+
+### 06-5. Semantic
+
+| Token | Hex | Usage |
+|---|---|---|
+| `{colors.blackout}` | `#000000` | hero stage, dark thumbnail bases, selected bars |
+| `{colors.white}` | `#FFFFFF` | nav on black, hero support copy, card text over media |
+| `{colors.hero-red}` | `#FF3B33` | homepage discovery statement |
+| `{colors.text-muted}` | `#767676` | secondary UI/copy in light sections |
+| `{colors.hairline}` | `#DDDDDD` | tables and structural borders |
+
+### 06-6. Semantic Alias Layer
+
+| Alias | Resolves to | Usage |
+|---|---|---|
+| `--wp--preset--color--primary` | `#0073A8` | WordPress preset primary, not the hero identity |
+| `--krafton-bg-stage` | `#000000` | inferred homepage stage token |
+| `--krafton-fg-stage` | `#FFFFFF` | inferred text on black |
+| `--krafton-hero-red` | `#FF3B33` | inferred from screenshot because hero wording is image/visual asset |
+
+### 06-7. Dominant Colors (실제 CSS 빈도 순)
+
+| Token | Hex | Frequency |
+|---|---:|---:|
+| CSS black | `#000` | 401 |
+| CSS white | `#FFF` | 239 |
+| hairline gray | `#DDD` | 55 |
+| soft ink | `#222` | 37 |
+| full black | `#000000` | 14 |
+| light panel | `#F7F7F7` | 14 |
+| KRAFTON preset primary | `#0073A8` | 6 |
+| teal accent | `#00ACAD` | 6 |
+
+### 06-8. Color Stories
+
+**`{colors.blackout}` (`#000000`)** — The main stage color. KRAFTON uses black not as dark mode but as theatrical control: it removes UI ambience so the red message and media assets feel like a title sequence.
+
+**`{colors.white}` (`#FFFFFF`)** — Utility contrast. It appears in nav, hero support text, thumbnail titles, and tags over dark imagery; it should stay crisp and undecorated.
+
+**`{colors.hero-red}` (`#FF3B33`)** — The homepage memory color. It is not a complete token ramp; it is a single visual shout used for the "PIONEER THE UNDISCOVERED" statement.
+
+**`{colors.hairline}` (`#DDDDDD`)** — The corporate section divider. Once the page leaves the hero, light content uses restrained gray lines rather than colorful panels.
 
 ---
 
 ## 07. Spacing
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-Krafton은 고정 spacing 토큰이 없다. vw 기반 유동형 패딩을 사용한다.
+| Token | Value | Use case |
+|---|---:|---|
+| `container-x-desktop` | `40px` / `3.4769vw` | `.site-container` horizontal padding |
+| `container-x-mobile` | `6.25vw` | mobile `.site-container` padding |
+| `hero-x` | `4.11458vw` | `.KeyVisual-container` and `.KeyVisualBox` left/right inset |
+| `hero-min-height` | `43.6893vw` | desktop min-height under 100vh hero |
+| `section-bottom-news` | `88px` / `6.7692vw` | `.MainNews` section rhythm |
+| `section-bottom-careers` | `94px` / `7.23076vw` | `.MainCareesrs` section rhythm |
+| `studio-card-padding` | `49px 30px 34px` | studio card interior |
+| `tag-padding` | `6px 22px 6px 11px` | skew thumbnail label |
 
-| 패턴 | 값 | 용도 |
-|------|-----|------|
-| 컨텐츠 사이드 여백 (소) | `0 2.607vw` | 모바일 근접 |
-| 컨텐츠 사이드 여백 (중) | `0 4.11458vw` | 태블릿 |
-| 컨텐츠 사이드 여백 (대) | `0 6.25vw` | 데스크탑 |
-| 히어로 패딩 탑 | `220px` | 데스크탑 header 오프셋 |
-| 히어로 패딩 탑 (반응형) | `16.923vw` | 태블릿 이하 |
-| 공통 여백 | `40px` | 섹션 내부 |
+**주요 alias**:
+- `container` → `max-width: 1280px; padding: 0 40px` on desktop.
+- `hero-inset` → `4.11458vw`, repeated for hero container and scroll control alignment.
+
+### Whitespace Philosophy
+
+KRAFTON uses space like stage blocking. The hero does not center a small marketing stack; it places a massive internal visual box inside a full viewport and leaves enough black around it for the red type to feel monumental. The empty space is not gentle whitespace; it is pressure.
+
+Below the hero, spacing becomes modular and operational. News, careers, games, and studios sections use repeated viewport-based margins (`6.7vw`, `7.2vw`, `10.7vw`, `15.7vw`) to keep the page responsive without changing the underlying corporate grid.
 
 ---
 
-## 08. Border Radius
-<!-- SOURCE: css -->
+## 08. Radius
+<!-- SOURCE: auto+manual -->
 
-| 값 | 용도 |
-|-----|------|
-| `0` | 카드, 이미지, 기본 요소 |
-| `10px` | 버튼, 강조 요소 |
+| Token | Value | Context |
+|---|---:|---|
+| `none` | `0` | dominant KRAFTON chrome and hero surfaces |
+| `circle` | `50%` / `100%` | icon/round utility shapes |
+| `small` | `3px-6px` | plugin/modal and minor UI pieces |
+| `pill` | `9999px` | WordPress block default, not KRAFTON homepage signature |
+| `cookie-button` | `0` | cookie buttons in screenshot are rectangular |
 
 ---
 
 ## 09. Shadows
-<!-- SOURCE: css -->
+<!-- SOURCE: auto+manual -->
 
-Krafton theme CSS에는 box-shadow 토큰이 없다. 풀스크린 비디오 위 텍스트 가독성은 gradient overlay로 처리한다.
+| Level | Value | Usage |
+|---|---|---|
+| `none` | `box-shadow: none` | primary site chrome and cards |
+| `cookie-bar` | `0 -1px 10px 0 rgba(172,171,171,0.3)` | cookie notice overlay |
+| `plugin-again` | `#161616 2px 2px 5px 2px` | cookie-law plugin control |
 
----
-
-## 10. Animation
-<!-- SOURCE: css -->
-
-CSS 테마에 명시적 transition 토큰 없음. 기본 브라우저 전환 사용.
-
----
-
-## 11. Grid / Layout
-<!-- SOURCE: css -->
-
-- Full-viewport hero (100vw × 100vh) — 비디오/이미지 배경
-- vw 기반 유동 레이아웃 — 고정 컬럼 그리드 없음
-- 반응형 breakpoints: 1300px, 1024px, 767px
+KRAFTON does not build its homepage depth through card elevation. Depth is generated by black overlays, thumbnail crops, reveal motion, and full-bleed media.
 
 ---
 
-## 12. Components
-<!-- SOURCE: css -->
+## 10. Motion
+<!-- SOURCE: auto+manual -->
 
-**버튼**
-- 기본 radius: `10px`
-- 레드 배경 CTA: `background: #E84847`
-
-**@font-face 목록**
-- KRAFTON — woff (weight 400, 헤딩 전용)
-- Noto Sans KR — woff2 + woff + otf (300/400/500/700)
-- Noto Sans SC — woff2 + otf (300/400/500/700)
-- Noto Sans JP — woff2 + otf (400/500/700)
-- Poppins — woff2 + woff (multiple weights)
-
----
-
-## 13. Dark/Light Mode
-<!-- SOURCE: manual -->
-
-Krafton은 **라이트 모드** 기본 사이트다. 히어로와 일부 섹션은 풀스크린 이미지/비디오로 다크하게 처리되지만, CSS 레벨 다크 모드 토글은 없다.
+| Token | Value | Usage |
+|---|---|---|
+| `opacity-reveal` | `opacity 1.6s ease-out` | `.a-Opacity` fade-in |
+| `vertical-reveal` | `transform/opacity 0.8s ease-out` | `.a-OpacityTop` |
+| `title-rise` | `transform 0.6s ease-out` | `.MainInteractionTitle-text` |
+| `slide-in` | `transform/opacity 1.2s` | `.MainGameSlide` |
+| `thumb-scale` | `transform 0.4s ease-out` | game thumbnails |
+| `image-rise` | `transform 0.6s ease-out` | `.ArrowPostThumnail-img` |
+| `hero-bg` | `2.37s cubic-bezier(.92,.03,.39,.67)` | `.KeyVisualBoxBG` |
+| `scroll-arrow` | `1.8s linear infinite` | hero scroll affordance |
 
 ---
 
-## 14. Drop-in CSS
-<!-- SOURCE: css -->
+## 11. Layout Patterns
+<!-- SOURCE: auto+manual -->
+
+### Grid System
+
+- **Content max-width**: `1280px`, then `98.461vw`, then full width with responsive padding.
+- **Grid type**: mixed. Header uses floated menu items; studio cards use 4-column float; carousels use Swiper; cards use absolute-positioned media overlays.
+- **Column count**: 4 for studios, 2-ish for careers/news cards, sliding partial widths for game carousel.
+- **Gutter**: `40px` desktop card gutters, viewport-scaled to `3.0769vw` and larger mobile values.
+
+### Hero
+
+- **🆕 Pattern Summary**: `100vh + black stage + centered clipped video/image visual box + oversized red title sequence + small scroll cue`
+- Layout: full viewport, internal absolute `.KeyVisualBox` centered with `top: 50%; transform: translateY(-50%)`.
+- Background: black stage with layered `.KeyVisualBoxBG` media and red visual text.
+- **🆕 Background Treatment**: image/video composite with clipped internal regions; not a CSS gradient mesh.
+- H1: visual asset / display-word block, approx. `7.27vw` rows, very heavy expanded shape.
+- Max-width: visual box spans from `left: 4.11458vw` to `right: 4.11458vw`.
+
+### Section Rhythm
 
 ```css
-/* Krafton Design System — insane-design */
+.site-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.KeyVisual-container {
+  height: 100vh;
+  padding: 0 4.11458vw;
+  min-height: 43.6893vw;
+}
+```
+
+### Card Patterns
+
+- **Card background**: usually image/media, with black or white supporting areas.
+- **Card border**: `1px solid #000000` for studio content top line; tables use `#DDDDDD`.
+- **Card radius**: mostly `0`; image cards are rectangular.
+- **Card padding**: `49px 30px 34px` for studio cards; thumbnails place text absolutely.
+- **Card shadow**: none.
+
+### Navigation Structure
+
+- **Type**: horizontal mega-nav style, with language utility on the right.
+- **Position**: absolute/relative header over hero; subdepth backgrounds available.
+- **Height**: link padding `31px 30px 29px`, roughly 80px top nav.
+- **Background**: transparent/black in hero screenshot; subdepth bars invert between black and white.
+- **Border**: animated `.SiteHeaderBar` 5px/0.3846vw underline bar on active/hover states.
+
+### Content Width
+
+- **Prose max-width**: N/A, homepage is component/card driven.
+- **Container max-width**: `1280px`.
+- **Sidebar width**: N/A for homepage.
+
+---
+
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
+
+### Breakpoints
+
+| Name | Value | Description |
+|---|---:|---|
+| Mobile | `1px-767px` | Repeated mobile rules, larger vw-based type and padding, mobile visual text variant |
+| Tablet | `768px-1024px` | Intermediate typography and card sizing |
+| Desktop | `1025px-1300px` | Desktop layout scaled with vw units |
+| Large | `1301px+` / `1441px+` / `1920px` | Large desktop refinements appear in selected page rules |
+
+### Touch Targets
+
+- **Minimum tap size**: not fully documented; header links are large on desktop, cookie buttons are visibly >44px high.
+- **Button height (mobile)**: not reliably extracted from homepage state.
+- **Input height (mobile)**: not observed in homepage capture.
+
+### Collapsing Strategy
+
+- **Navigation**: desktop horizontal menu; mobile classes (`Mobile-view`, `.mo`) indicate a separate mobile presentation.
+- **Grid columns**: studio/game/news cards shift from fixed/floated desktop widths to larger vw/near-full-width items.
+- **Sidebar**: N/A.
+- **Hero layout**: `.KeyImgBox.pc` hidden and `.KeyImgBox.mo` displayed on mobile, preserving the title-sequence identity with different assets.
+
+### Image Behavior
+
+- **Strategy**: absolute-positioned images inside ratio boxes.
+- **Max-width**: images use width `100%`; containers define aspect via pseudo-element padding.
+- **Aspect ratio handling**: game thumbnails use `padding-bottom: 67.2%`; ArrowPost thumbnails use `37.7%`.
+
+---
+
+## 13. Components
+<!-- SOURCE: auto+manual -->
+
+### Buttons
+
+KRAFTON homepage does not foreground a classic CTA button system. The visible cookie controls are rectangular, high-contrast plugin buttons: one white filled settings button and one black/transparent accept button with white border. If recreating the site, keep primary brand actions rectangular and severe unless a subpage shows a different CTA pattern.
+
+### Badges
+
+The signature badge is the skewed black thumbnail tag:
+
+```css
+.MainGameSlidePostThumbnail-tag:before {
+  background-color: #000000;
+  transform: skewX(20deg);
+}
+.MainGameSlidePostThumbnail-tagbar {
+  color: #FFFFFF;
+  font-family: "Poppins";
+  font-weight: 500;
+  padding: 6px 22px 6px 11px;
+}
+```
+
+### Cards & Containers
+
+Game cards are media-first. The image fills the card, a `rgba(0,0,0,0.3)` overlay protects white titles, and the card uses animation rather than border or shadow for polish. Studio cards are more corporate: four columns, rectangular blocks, `padding: 49px 30px 34px`, and a top border line.
+
+### Navigation
+
+Header links use `Zalando Sans Expanded`, `18px`, `500`, with `31px 30px 29px` padding. The navigation feels like a game launcher shell: wide labels, high confidence, no rounded pills, no icon clutter.
+
+### Inputs & Forms
+
+No main homepage input system was observed. Cookie preference modal/plugin CSS exists, but it should not be treated as KRAFTON's native form system.
+
+### Hero Section
+
+The hero is the primary component. It combines `height: 100vh`, black stage, `.KeyVisualBox` absolute centering, clipped video/image layers, red visual text rows, small support copy, and a scroll arrow animation.
+
+### 13-2. Named Variants
+
+- **header-nav-link** — expanded-font top-level menu link; `18px`, `500`, wide padding, no pill background.
+- **hero-visual-box** — 100vh internal title-sequence module with `30.677vw` height and clipped media layers.
+- **skew-thumbnail-tag** — black skewed label with white Poppins text, used over game thumbnails.
+- **media-overlay-card** — image card with `rgba(0,0,0,0.3)` overlay and white title.
+- **studio-grid-card** — four-column corporate card with top rule and arrow reveal.
+
+### 13-3. Signature Micro-Specs
+
+```yaml
+blackout-title-sequence:
+  description: "Homepage identity system: red discovery typography over a black entertainment-stage void."
+  technique: "height: 100vh; min-height: 43.6893vw; padding-inline: 4.11458vw; .KeyVisualBox centered with top:50% + translateY(-50%); hero text approx. 7.27vw in #FF3B33"
+  applied_to: ["{component.hero-visual-box}", "KeyVisual first viewport"]
+  visual_signature: "A brand film title card rather than a normal web hero."
+
+clipped-media-wordmark-box:
+  description: "The hero is built as a contained visual box where media and typography are composited instead of stacked as separate content blocks."
+  technique: ".KeyVisualBox height: 30.677vw; left/right inset: 4.11458vw; .KeyVisualBoxBG transition: 2.37s cubic-bezier(.92,.03,.39,.67); video/image composite behind clipped text rows"
+  applied_to: ["{component.hero-visual-box}", "KeyVisualBoxBG"]
+  visual_signature: "A game trailer frame trapped inside oversized red wordmark choreography."
+
+skewed-game-taxonomy-tag:
+  description: "Game/category tags are not rounded badges; they are angled black strips."
+  technique: "pseudo-element background #000000 with transform: skewX(20deg); label color #FFFFFF; font-family: Poppins; font-weight: 500; padding: 6px 22px 6px 11px"
+  applied_to: ["{component.skew-tag}", "MainGameSlidePostThumbnail"]
+  visual_signature: "Sharper and more tactical than a SaaS badge."
+
+media-overlay-card-motion:
+  description: "Cards behave as animated media panels, with darkness and movement doing the work normally assigned to borders or elevation."
+  technique: "thumbnail base #000000; overlay rgba(0,0,0,0.3); aspect padding-bottom: 67.2%; hover transform 0.4s ease-out; reveal translateY(100%) to translateY(0%) over 0.6s ease-out"
+  applied_to: ["{component.game-card}", "{component.media-overlay-card}", "ArrowPostThumnail-img"]
+  visual_signature: "Images feel loaded into view like game UI panels rather than placed as static cards."
+
+inverted-mechanical-nav-bar:
+  description: "Header state is marked by a thin bar that changes polarity against dark or light surfaces, never by a rounded active pill."
+  technique: "header link padding: 31px 30px 29px; nav font: Zalando Sans Expanded 18px/500; .SiteHeaderBar height approx. 5px / 0.3846vw; bar background flips #000000 on light and #FFFFFF on .Bg-black"
+  applied_to: ["{component.header-nav-link}", "SiteHeaderBar"]
+  visual_signature: "A mechanical underline that reads like interface hardware over the cinematic stage."
+```
+
+---
+
+## 14. Content / Copy Voice
+<!-- SOURCE: manual -->
+
+| Pattern | Rule | Example |
+|---|---|---|
+| Headline | Short, uppercase, declarative, mythic | "PIONEER THE UNDISCOVERED" |
+| Primary CTA | Low emphasis on homepage hero; navigation carries action | "Careers", "IR", "News" |
+| Subheading | Corporate mission phrasing with imaginative language | "Create the original. Connect the world." |
+| Section labels | Plain business taxonomy | "News", "Careers", "KRAFTON GAMES", "Studios" |
+| Tone | Entertainment-company confidence, not startup cheerfulness | "We pioneer the path to players' dreams." |
+
+---
+
+## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
+
+```css
+/* KRAFTON — copy into your root stylesheet */
 :root {
-  /* Brand */
-  --krafton-red: #E84847;
-  --krafton-blue: #3D7FD9;
+  /* Fonts */
+  --wp-font-display: "Zalando Sans Expanded", "Poppins", sans-serif;
+  --wp-font-brand: "KRAFTON";
+  --wp-font-body: "Noto Sans", "Noto Sans KR", "Poppins", sans-serif;
+  --wp-font-weight-normal: 400;
+  --wp-font-weight-bold: 700;
 
-  /* Neutral */
-  --krafton-black: #000000;
-  --krafton-text: #555555;
-  --krafton-muted: #777777;
-  --krafton-border: #dddddd;
-  --krafton-white: #ffffff;
+  /* Brand / stage */
+  --wp-color-brand-25:  #FFF4F3;
+  --wp-color-brand-300: #FF7A72;
+  --wp-color-brand-500: #FF3B33;
+  --wp-color-brand-600: #F9423A;
+  --wp-color-brand-900: #7A0F0A;
 
-  /* WordPress Preset */
-  --wp--preset--color--black: #000000;
-  --wp--preset--color--white: #FFF;
-  --wp--preset--color--cyan-bluish-gray: #abb8c3;
-  --wp--preset--color--dark-gray: #111;
-  --wp--preset--color--light-gray: #767676;
-  --wp--preset--color--primary: #0073a8;
-  --wp--preset--color--secondary: #005075;
-  --wp--preset--color--vivid-red: #cf2e2e;
-  --wp--preset--color--luminous-vivid-orange: #ff6900;
-  --wp--preset--color--luminous-vivid-amber: #fcb900;
-  --wp--preset--color--vivid-cyan-blue: #0693e3;
-  --wp--preset--color--vivid-purple: #9b51e0;
+  /* Surfaces */
+  --wp-bg-page:   #FFFFFF;
+  --wp-bg-dark:   #000000;
+  --wp-text:      #000000;
+  --wp-text-muted:#767676;
+  --wp-hairline:  #DDDDDD;
 
-  /* Typography */
-  --krafton-font-brand: "KRAFTON", "Noto Sans", sans-serif;
-  --krafton-font-body: "Noto Sans", "Noto Sans KR", Dotum, 돋움, Helvetica, "Apple SD Gothic Neo", sans-serif;
-  --krafton-font-size-base: 14px;
-  --krafton-line-height: 1.7;
+  /* Key spacing */
+  --wp-space-sm:  14px;
+  --wp-space-md:  40px;
+  --wp-space-lg:  6.25vw;
 
   /* Radius */
-  --krafton-radius-sm: 0;
-  --krafton-radius-md: 10px;
+  --wp-radius-sm: 0;
+  --wp-radius-md: 0;
+}
+
+.krafton-hero {
+  min-height: 100vh;
+  background: var(--wp-bg-dark);
+  color: #FFFFFF;
+  padding: 0 4.11458vw;
+  position: relative;
+  overflow: hidden;
+}
+.krafton-hero__word {
+  font-family: var(--wp-font-display);
+  font-size: clamp(64px, 7.27vw, 140px);
+  line-height: .92;
+  font-weight: 900;
+  color: var(--wp-color-brand-500);
+  text-transform: uppercase;
+}
+.krafton-skew-tag {
+  position: relative;
+  display: inline-block;
+  color: #FFFFFF;
+  font: 500 14px/1.2 "Poppins", sans-serif;
+  padding: 6px 22px 6px 11px;
+}
+.krafton-skew-tag::before {
+  content: "";
+  position: absolute;
+  inset: 0 -20px 0 -30px;
+  z-index: -1;
+  background: #000000;
+  transform: skewX(20deg);
 }
 ```
 
 ---
 
-## 15. Tailwind Config
-<!-- SOURCE: css -->
+## 16. Tailwind Config
+<!-- SOURCE: manual -->
 
 ```js
-// tailwind.config.js
+// tailwind.config.js — KRAFTON-inspired tokens
 module.exports = {
   theme: {
     extend: {
       colors: {
         krafton: {
-          red: '#E84847',
-          blue: '#3D7FD9',
           black: '#000000',
-          text: '#555555',
-          muted: '#777777',
-          border: '#dddddd',
-          white: '#ffffff',
+          white: '#FFFFFF',
+          red: '#FF3B33',
+          blue: '#0073A8',
+          hairline: '#DDDDDD',
+          muted: '#767676',
         },
       },
       fontFamily: {
-        krafton: ['"KRAFTON"', '"Noto Sans"', 'sans-serif'],
-        body: ['"Noto Sans"', '"Noto Sans KR"', 'Dotum', '돋움', 'Helvetica', '"Apple SD Gothic Neo"', 'sans-serif'],
+        display: ['Zalando Sans Expanded', 'Poppins', 'sans-serif'],
+        brand: ['KRAFTON', 'Arial Black', 'sans-serif'],
+        sans: ['Noto Sans', 'Noto Sans KR', 'Poppins', 'system-ui'],
       },
       borderRadius: {
-        brand: '10px',
+        krafton: '0px',
+      },
+      transitionTimingFunction: {
+        krafton: 'ease-out',
+        'krafton-hero': 'cubic-bezier(.92,.03,.39,.67)',
       },
     },
   },
-}
+};
 ```
 
 ---
 
-## 16. DO / DON'T
+## 17. Agent Prompt Guide
 <!-- SOURCE: manual -->
 
-**이 사이트에서 가장 흔한 실수 하나:**
+### Quick Color Reference
 
-> **DON'T**: KRAFTON 폰트를 본문에 사용하는 것.
->
-> KRAFTON 폰트는 weight 400 단 하나만 있고 한국어를 포함하지 않는다. 본문에 쓰면 한글이 깨진다.
->
-> **DO**: KRAFTON 폰트는 헤딩과 영문 로고타입에만. 본문 전체는 Noto Sans / Noto Sans KR 스택. 빨간 포인트는 `#E84847` 하나만 — 배경색으로 쓰지 않는다.
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary | `{colors.hero-red}` | `#FF3B33` |
+| Background | `{colors.blackout}` | `#000000` |
+| Text primary | `{colors.white}` on hero / `{colors.blackout}` on light | `#FFFFFF` / `#000000` |
+| Text muted | `{colors.text-muted}` | `#767676` |
+| Border | `{colors.hairline}` | `#DDDDDD` |
+| Success | N/A | N/A |
+| Error | N/A | N/A |
+
+### Example Component Prompts
+
+#### Hero Section
+```text
+KRAFTON 스타일 히어로 섹션을 만들어줘.
+- 배경: #000000 full-viewport stage
+- H1: Zalando Sans Expanded, clamp(64px, 7.27vw, 140px), weight 900, tracking 0
+- H1 색: #FF3B33, uppercase, line-height .92
+- 서브텍스트: #FFFFFF, small corporate mission copy
+- 레이아웃: 좌우 4.11458vw inset, 100vh, visual box centered vertically
+- 모션: opacity 1.6s ease-out + title/media translate reveal
+```
+
+#### Game Card
+```text
+KRAFTON 스타일 게임 카드 컴포넌트를 만들어줘.
+- 배경: image thumbnail with #000000 base
+- overlay: rgba(0,0,0,0.3)
+- aspect ratio: 67.2% padding-bottom
+- title: #FFFFFF, Poppins/Noto Sans, 29px desktop, weight 500
+- tag: black skewed strip, transform skewX(20deg), white 14px Poppins 500
+- hover: image scale via transform .4s ease-out
+```
+
+#### Navigation
+```text
+KRAFTON 스타일 상단 네비게이션을 만들어줘.
+- 배경: hero에서는 투명/검정, light section에서는 white
+- 로고: 좌측 KRAFTON wordmark
+- 링크: Zalando Sans Expanded, 18px, weight 500, padding 31px 30px 29px
+- active: filled pill 금지, 5px underline/bar만 사용
+- 언어 선택: 우측 compact uppercase labels
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: hero identity는 `#000000 + #FF3B33 + #FFFFFF` 삼각형을 유지한다.
+- **폰트 변경 시**: nav/hero에는 expanded face를 유지하고, body는 Noto Sans 계열을 유지한다.
+- **여백 조정 시**: hero inset `4.11458vw`, container `1280px + 40px` 패턴에서 벗어나지 않는다.
+- **새 컴포넌트 추가 시**: radius/shadow를 늘리기보다 media crop, black overlay, transform reveal을 사용한다.
+- **반응형**: 1300 / 1024 / 767 breakpoint 체계를 우선 사용한다.
+
+---
+
+## 18. DO / DON'T
+<!-- SOURCE: manual -->
+
+### ✅ DO
+
+- Use `#000000` as the first-viewport stage and let the hero breathe inside it.
+- Keep the hero statement red and massive; it should read as a title sequence, not CTA copy.
+- Use expanded display typography for nav and hero, with neutral tracking.
+- Treat cards as media panels: dark overlay, white title, reveal/scale motion.
+- Use rectangular UI chrome and thin active bars rather than rounded SaaS pills.
+- Preserve the multilingual font stack, especially Noto Sans KR/SC/JP.
+- Use viewport-based responsive values where the original CSS does: `4.11458vw`, `6.25vw`, `7.27vw`.
+
+### ❌ DON'T
+
+- 배경을 `#FFFFFF` 또는 `white`로 두고 히어로를 시작하지 말 것 — 대신 첫 viewport는 `#000000` stage 사용.
+- 히어로 텍스트를 `#000000` 또는 `black`으로 두지 말 것 — 대신 red statement `#FF3B33` 계열 사용.
+- 히어로 primary color를 WordPress preset `#0073A8`로 대체하지 말 것 — KRAFTON homepage memory color는 `#FF3B33`이다.
+- 카드 배경을 `#FFFFFF` bordered card로 만들지 말 것 — 대신 media thumbnail + `rgba(0,0,0,0.3)` overlay 사용.
+- 구조선을 `#CCCCCC` 위주로 두껍게 깔지 말 것 — 필요한 hairline은 `#DDDDDD` 또는 `#000000` top rule로 제한.
+- nav active를 rounded pill로 만들지 말 것 — 대신 `#FFFFFF`/`#000000` 5px bar inversion 사용.
+- body 전체를 `font-weight: 300`으로 만들지 말 것 — 본문은 400, nav/card는 500-600, display는 heavy.
+- 모든 transition을 `all 0.2s`로 통일하지 말 것 — reveal은 0.6s/0.8s/1.6s 등 목적별 duration을 분리한다.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- No pastel ambience: the homepage does not soften itself with cream, beige, lavender, or pale gradients.
+- No SaaS hero card: there is no centered headline plus two rounded CTA buttons as the primary identity.
+- No soft shadow card system: homepage depth comes from media, black overlays, and motion.
+- No rounded product tiles: dominant cards are rectangular image panels.
+- No second expressive brand color in the hero: red carries the statement alone.
+- No decorative icon grid in the first viewport: nav and logo are restrained; the hero text owns attention.
+- No Apple-like micro tracking system: letter-spacing is almost entirely neutral.
+- No visible form/input design language on the homepage: plugin cookie UI is not the native brand system.
+- No generic Inter-only stack: expanded display type and Noto multilingual body matter.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Hero red is screenshot-derived** — the red statement appears as a visual/image layer, so `#FF3B33` is an observed approximation rather than a named CSS token.
+- **Existing phase1 CSS cache was incomplete** — local cached CSS contained WordPress defaults; live linked theme CSS was fetched by exact href for stronger evidence.
+- **Homepage only** — subpages such as Games detail, Careers application flows, IR reports, and CSR pages may introduce different UI states.
+- **Form states not surfaced** — native input, validation, loading, and error states were not visible in the homepage capture.
+- **Cookie UI is plugin UI** — cookie buttons and preference controls were observed but should not be over-weighted as KRAFTON-native components.
+- **Motion runtime not fully replayed** — CSS and script references (`ScrollMagic`, `TweenMax`, `Swiper`) were observed, but every scroll-trigger sequence was not interactively audited.
+- **Mobile screenshot not captured in this pass** — responsive behavior is based on CSS breakpoints and class rules, not a separate mobile visual inspection.
+- **Formal token system absent** — several aliases in this file are guidebook aliases for implementation, not proof of first-party named tokens.

@@ -68,15 +68,15 @@ components:
 
 ### Narrative
 
-ZARA's homepage behaves less like a conventional ecommerce storefront and more like a fashion editorial laid directly on top of a transaction engine. The first screen is dominated by photography and oversized brand typography; navigation, search, login, and cart controls are present but visually thin, almost like annotations in the margin of a magazine spread.
+ZARA stages its collection like a museum-grade vitrine after closing time — a monochrome canvas where photography is the exhibit, and the UI chrome clings to the edges like frame annotations on a silent gallery wall.
 
 The palette is deliberately anti-palette. The working identity is black, white, gray, and photography. `#000000` (`{colors.brand-black}`) and `#FFFFFF` (`{colors.brand-white}`) are not merely neutral defaults here; they are the brand system. Chromatic colors exist, but they are operational states: focus `#348DED`, sale/status `#23F444`, error `#FF3E33`, and cookie/privacy UI. None of those colors should be promoted into brand mood.
 
-The typography is where the system becomes recognizably Zara. Most UI copy sits small, light, and narrow: 10-13px equivalents, weight 300, almost no ornament. Then the menu universe and campaign layer can snap into large compressed editorial words with negative tracking, including `--letter-spacing-menu-universe: -0.1875rem` at the widest tier. This jump from quiet commerce chrome to billboard-scale fashion type is the signature tension.
+The typography is where the system becomes recognizably Zara. Most UI copy sits small, light, and narrow: 10-13px equivalents, weight 300, almost no ornament. Then the menu universe and campaign layer can snap into large compressed editorial words with negative tracking, including `--letter-spacing-menu-universe: -0.1875rem` at the widest tier. This jump from quiet commerce parchment to billboard-scale fashion type is the signature tension.
 
 Spacing is also editorial, not dashboard-like. The homepage lets photography occupy nearly the whole viewport while side utilities cling to the edge. Product and category structures become dense only after the campaign surface; the brand gives air to images, then compresses buying choices into disciplined lists, carousels, and square-edged controls.
 
-The correct metaphor is a storefront window after closing time: the glass is reflective, the mannequins are lit, and the price tags are tiny. Implementation should preserve that restraint. If the UI starts looking colorful, rounded, shadowed, or friendly, it stops being Zara.
+The correct metaphor is a storefront vitrine: the canvas is reflective, the mannequins are lit, and the price tags are tiny. Implementation should preserve that restraint. If the UI starts looking colorful, rounded, shadowed, or friendly, it stops being Zara — the museum does not add signage where the artifact speaks for itself.
 
 To stretch the picture: the menu universe drawer behaves like the brass-handled doors of a couture atelier swinging open onto a marble corridor, the campaign type lands like the runway show title projected onto the back wall in 4K silence, and the product carousel scrolls like a sample rack on wheels rolled past a stylist's station. The login and bag controls are dressmaker's pins along the margin — present, never decorative. The hairline border between thumbnails is the chalk line a tailor leaves on dark fabric. There is no second brand color because a luxury showroom's lighting plan is reserved for the garments, not the signage.
 

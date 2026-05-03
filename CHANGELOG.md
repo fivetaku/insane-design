@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.3.2] - 2026-05-03 — Validator + examples sync + verification
+
+### Added
+- 🆕 `scripts/validate.py` — v3.2 design.md 8-check validator
+  - schema_version, frontmatter_required, mandatory_sections (15)
+  - craft_floor (>=5), negative_space_floor (>=5), known_gaps_floor (>=3)
+  - file_size (>=12KB), direction_summary_format (4-line block)
+  - Usage: `python3 validate.py <file_or_dir>` / `--summary-only` / `--json`
+
+### Fixed
+- `skills/insane-design/examples/` 100 site 동기화
+  - 51 site schema 3.1 + 49 site unmarked → 100 site schema 3.2
+
+### Verified
+- 100/100 site validator PASS (모든 8 checks)
+- Best-of-merge (preboost vs current): 0 substitution 필요 (current 모두 우월)
+- Aesthetic Anchoring 위반: 0/100
+- §13-3 craft 평균 5.0, §00 narrative metaphor 평균 9.70
+
 ## [0.3.1] - 2026-05-03 — v3.3 Narrative Vocabulary Catalog
 
 > **목표**: §00 narrative metaphor 빈도 끌어올리기 — 100 site batch에서 metaphor 평균 8.89인데 21 site는 < 3 (archetype-vocabulary mismatch).
