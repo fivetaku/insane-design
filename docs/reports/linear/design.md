@@ -61,19 +61,15 @@ components:
 
 ### Narrative
 
-Linear's marketing surface behaves like the public face of an app that already has an internal operating system. It is not a cheerful SaaS homepage with floating illustrations. It is a dark control room that occasionally opens into a clean documentation-like surface. The first impression is made by near-black #08090A (`{colors.surface-dark}`), precise hairlines, soft violet action color, and app UI fragments that look measured rather than decorated.
+Linear's marketing surface is near-black canvas holding product dashboard precision in a hairline grid. The page is not a cheerful SaaS homepage with floating illustrations; it is the public face of an internal operating system, where #08090A (`{colors.surface-dark}`) functions as the canvas floor and thin violet signals mark the only actionable instruments.
 
-Linear's dark hero is closer to an operations bridge at 2 a.m. than a software billboard: the room is almost black, the panels are awake, and only the actionable instruments glow. #08090A (`{colors.surface-dark}`) is not theatrical pure black; it behaves like a powered-down monitor surface that still has depth. #0F1011 (`{colors.surface-panel}`) is the lit equipment layer sitting just above it.
+The dashboard logic governs every decision. Issue rows, command surfaces, label pills, and status dots are not decoration — they are product evidence arranged on the canvas with the same discipline the app applies inside the product. The page reads like a live dashboard with the house lights dimmed: precise, awake, and structured around the work rather than around the selling of work.
 
-The signature color is not "purple everywhere." Linear uses #7070FF (`{colors.primary}`) as a functional signal: CTA, link, status pulse, selected affordance. There is no second brand color competing for mood. Violet is the runway light on the product floor, not the paint on the walls; the page lets dark neutrals do most of the work, then lets violet appear only where a product team should act. That restraint is why the chromatic color feels confident instead of loud.
+The rhythm of the layout is split-personality but controlled. Large cinematic hero zones open the canvas, then snap into 40px issue rows like a project board closing ranks. Strategy is projected in calm display type; execution lives below in compact rows, pills, and hairline surfaces. That rhythm is why Linear feels less like a marketing site and more like a mission-control dashboard you accidentally found publicly accessible.
 
-The typography is a product system, not a brand poster. `Inter Variable` carries the primary surface; `Berkeley Mono` appears where Linear wants the page to smell like tooling. The weights are nonstandard: 510 for medium, 590 for semibold, 680 for bold. That is a small but important craft choice. A replica using 500/600/700 will look slightly inflated.
+The signature color is #7070FF (`{colors.primary}`) — a functional signal for CTA, link, status pulse, and selected affordance. There is no second brand color competing for mood. Violet is the runway light on the product floor, not the paint on the walls. The canvas lets dark neutrals carry the weight, then lets violet appear precisely where a product team should act. `Berkeley Mono` appears at developer-credibility touchpoints, reinforcing the dashboard-instrument register rather than the brand-poster register.
 
-Spatially, Linear is built on a split personality: large cinematic hero zones above dense product panels. The page gives the headline a full breath, then snaps into 40px issue rows like a project board closing ranks. It reads like a clean mission-control wall: strategy is projected in large calm type, execution lives below in compact rows, pills, hairlines, and command surfaces.
-
-Motion is understated but not absent. Text enters with blur and vertical offset, as if the interface is focusing a lens rather than performing an animation. Buttons transition on border/background/color/shadow/opacity/filter/transform, and the hero pulse dot uses #5E6AD2 (`{colors.primary-dark}`) as a recurring telemetry signal. The result is a system that feels alive without ever becoming playful.
-
-Depth is almost anti-shadow. Linear does not stack glossy SaaS cards into a staircase; it uses hairline borders and inset rings like precision-machined seams. Shadow appears only as a rare product-panel atmosphere, while the everyday structure is drawn by 1px lines, small radii, and surface deltas.
+Depth is anti-shadow. Linear draws structure with 1px hairline borders and inset rings — precision-machined seams, not stacked glossy cards. Motion enters as blur-and-vertical-offset, as if the interface is focusing a lens rather than performing an animation. The dashboard canvas stays alive without becoming playful.
 
 ### Key Characteristics
 

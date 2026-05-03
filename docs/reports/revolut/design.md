@@ -58,17 +58,17 @@ components:
 
 ### Narrative
 
-Revolut presents finance as a lifestyle utility, not as a bank branch translated to the web. The first screen is built like a fashion-fintech billboard: a large human portrait, a blue-sky photographic field, and an oversized headline that sits over the image instead of being boxed away from it. The product is not explained through dashboards first; it is staged as a personal freedom object.
+Revolut reads like a lifestyle editorial with a passport-control dashboard hidden underneath — an open canvas where human photography carries the weather, and product-grade pill controls appear on top without interrupting the composition.
 
-The system underneath is more disciplined than the hero image suggests. It works like a passport-control desk hidden inside a lifestyle poster: the surface says travel, freedom, and speed, while every button height, radius, and color alias has already been measured by RUI. `--rui-color-accent` at #4F55F1 (`{colors.primary}`), neutral surfaces from #FFFFFF (`{colors.surface-base}`) to #F7F7F7 (`{colors.surface-grouped}`), pill radii, compact spacing, and a full typography ladder keep the emotional hero from becoming loose advertising.
+The system is more disciplined than the hero image suggests. Every button height, radius, and color alias has already been measured by RUI. `--rui-color-accent` at #4F55F1 (`{colors.primary}`), neutral surfaces from #FFFFFF (`{colors.surface-base}`) to #F7F7F7 (`{colors.surface-grouped}`), pill radii, compact spacing, and a full typography ladder keep the emotional canvas from becoming loose advertising.
 
 The visual signature is the collision of two shapes: enormous confident type and soft rounded controls. The headline behaves like airport-terminal signage scaled up for a phone-native bank: short, loud, and built to be read while moving. Around it, the interface pieces become boarding-pass fragments: dark pill CTA, white signup capsule, pale account chip, and a rounded account outline that sits over the human image like a transparent card wallet.
 
-This is not a bank lobby and not a spreadsheet cockpit. There is no mahogany, no compliance-grey fortress, and no decorative fintech gradient trying to do the work of brand. Photography is the sky; #191C1F (`{colors.text-primary}`) is the ink; #FFFFFF (`{colors.surface-base}`) is the app shell; #4F55F1 (`{colors.primary}`) is the product-system signal, not a paint bucket for the whole page.
+This is not a bank lobby and not a spreadsheet cockpit. There is no mahogany, no compliance-grey fortress, and no decorative fintech gradient trying to do the work of brand. Photography is the sky; #191C1F (`{colors.text-primary}`) is the ink; #FFFFFF (`{colors.surface-base}`) is the app shell; #4F55F1 (`{colors.primary}`) is the product-system accent signal, not a paint bucket for the whole page.
 
-Do not flatten Revolut into generic blue SaaS. Blue exists, but it is often a tokenized action color or photographic atmosphere. The brand system is multi-accent: #4F55F1, #0666EB, #00B88B, #EA035D, and #EE4A59 appear as structured RUI colors. Think of it less as "one brand color everywhere" and more as a travel wallet with several stamped currencies: each accent has a role, but the first viewport still spends only one action at a time.
+Do not flatten Revolut into generic blue SaaS. The brand system is multi-accent: #4F55F1, #0666EB, #00B88B, #EA035D, and #EE4A59 appear as structured RUI colors — a travel wallet with several stamped currencies, each accent with a role, but the first viewport spending only one action at a time.
 
-The page has very little site self-consciousness. It does not stop to show a grid of features before the emotional contract is made; it lets the photograph carry the weather, then drops product-grade controls on top. Revolut's craft is exactly that join: a billboard that has app hardware underneath it.
+Revolut's craft is exactly that join: an editorial canvas that has app dashboard hardware underneath it. The page does not stop to show a grid of features before the emotional contract is made; it lets the photograph carry the weather, then drops product-grade controls on top.
 
 ### Key Characteristics
 

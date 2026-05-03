@@ -62,17 +62,15 @@ components:
 
 ### Narrative
 
-Daangn is not built like a glossy marketplace. It behaves like a neighborhood noticeboard that learned product discipline: a white city map with one carrot-orange coordinate. The page gives the user a single job first, "find something near me", then lets category cards and district chips become the real navigation surface.
+Daangn is the canonical example of a commerce-marketplace reduced to its civic minimum. The browser becomes a marketplace canvas: white city surface, one carrot-orange coordinate, and a search pill that functions as the neighborhood's single storefront window. The page gives the user one job — "find something near me" — then lets category cards and district chips become the real navigation surface.
 
-The strongest choice is the refusal to decorate the hero. The top 800px are mostly #FFFFFF (`{colors.surface-base}`), a compact logo, one orange download button, a centered search question, and a pill search control. There is no second brand color and no campaign wash. #FF6600 (`{colors.primary}`) is used like a map pin: it marks action, icon, or identity, then immediately gets out of the way.
+The strongest choice is the refusal to decorate the hero. The top 800px are mostly #FFFFFF (`{colors.surface-base}`), a compact logo, one orange download button, a centered search question, and a pill search control. There is no second brand color and no campaign wash. #FF6600 (`{colors.primary}`) is used like a marketplace pin: it marks action, icon, or identity, then immediately gets out of the way.
 
-The search pill is the visual equivalent of a neighborhood front desk window. It is white on white, so the site has to earn its edge through the #DCDEE3 (`{colors.border-muted}`) hairline, 48px height, and 9999px radius instead of shadow. That makes the hero feel less like a store shelf and more like a clean municipal search kiosk.
+The search pill is the visual equivalent of a neighborhood boutique front desk — white on white, earning its edge through the #DCDEE3 (`{colors.border-muted}`) hairline, 48px height, and 9999px radius rather than shadow. Below it, the category cards read like a well-organized store directory: identical soft compartments, each holding one everyday errand. #F7F8F9 (`{colors.surface-raised}`) replaces elevation; shadow is absent because the surface is not trying to become furniture.
 
-Below it, the category cards read like apartment mailbox labels: identical soft compartments, each holding one everyday errand. #F7F8F9 (`{colors.surface-raised}`) replaces elevation; shadow is absent because the surface is not trying to become furniture. The card grid is calm enough for "중고거래", "알바/과외", and "부동산" to sit beside each other without turning into a promotional collage.
+The district chips are closer to a transit index than to marketing badges. Tight padding, pill radius, and neutral fill let many neighborhoods scan quickly, while carrot remains reserved for the places where the user can actually act. Daangn's editorial restraint is this local compression: it makes density feel browsable, not busy.
 
-The district chips are closer to subway station names on a route map than to marketing badges. Tight padding, pill radius, and neutral fill let many neighborhoods scan quickly, while carrot remains reserved for the places where the user can actually act. Daangn's craft is this local compression: it makes density feel browsable, not busy.
-
-Typography is Korean-first product typography. Pretendard Variable carries almost every surface, with 400 as the plain-reading default, 600 for compact labels, and 700 only when the page needs a larger local-search headline. The absence of display drama is part of the brand: Daangn sounds close, searchable, and everyday, like public signage designed by someone who still cares about touch targets.
+Typography is Korean-first product typography. Pretendard Variable carries almost every surface, with 400 as the plain-reading default, 600 for compact labels, and 700 only when the page needs a local-search headline. The absence of display drama is part of the brand: Daangn sounds close, searchable, and everyday, like public signage designed by someone who still cares about touch targets.
 
 ### Key Characteristics
 

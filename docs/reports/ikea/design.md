@@ -58,15 +58,15 @@ components:
 
 ### Narrative
 
-IKEA Global does not behave like a conventional ecommerce homepage. It opens like a flat-pack catalog spread that has been unfolded into a room: a fixed white navigation bar, a large moving product story, and one blunt yellow action slab. The page lets product photography carry the domestic weather, then brings in #FFDB00 (`{colors.brand-yellow}`) only when the user needs a commercial command big enough to read from across the aisle.
+IKEA is the canonical example of democratic store design in browser form — a flat-pack editorial spread that unfolds into a showroom canvas, where one #FFDB00 (`{colors.brand-yellow}`) panel becomes the only action surface on an otherwise domestic backdrop.
 
-The strongest visual decision is asymmetry. This is not a centered headline with two polite buttons; it is a showroom bay on the left and a warehouse sign on the right. The media tile behaves like a furnished room seen through a clean catalog cutout, while the yellow panel says "Go shopping" with the confidence of in-store wayfinding. No second brand color competes for that job: `{colors.brand-blue}` supports the system, but `{colors.brand-yellow}` owns the moment of action.
+The strongest visual decision is asymmetry. This is not a centered headline with two polite buttons; it is a showroom bay on the left and a warehouse sign on the right. The media tile behaves like a furnished room seen through a clean catalog canvas, while the yellow panel says "Go shopping" with the confidence of in-store wayfinding. No second brand color competes for that job: `{colors.brand-blue}` supports the system, but `{colors.brand-yellow}` owns the moment of action.
 
-The neutral system is warmer than a generic white UI. The page base is #FFFEFB (`{colors.surface-off-white}`), bordered with #F0EDE8 (`{colors.border-soft}`), and text drops to #111111 (`{colors.text-primary}`). It is the color of paper under product photography, not the cold white of a checkout app; wood, textile, and kitchen light need a slightly domestic floor. In that sense, the chrome tries to become the catalog paper, leaving the furniture to supply texture.
+The neutral system is warmer than a generic white UI. The page base is #FFFEFB (`{colors.surface-off-white}`), bordered with #F0EDE8 (`{colors.border-soft}`), and text drops to #111111 (`{colors.text-primary}`). It is the color of parchment under product photography, not the cold white of a checkout app; wood, textile, and kitchen light need a slightly domestic floor. In that sense, the chrome tries to become catalog paper, leaving the furniture to supply texture.
 
 Typography is direct and heavy, closer to shelf labels and assembly-guide headings than luxury editorial type. `Noto IKEA` carries both body and display, with weight 700 doing much of the brand work. The system deliberately avoids the 500/600 middle; navigation jumps from regular to bold like a physical sign becoming active, while headlines stay practical instead of delicate.
 
-Micro-interaction is functional rather than ornamental. Navigation hides on scroll with a sharp `.15s cubic-bezier(1,.26,.51,.72)` transition, focus states use a black/white/black inset stack, and media/video controls stay simple. Shadow mostly belongs to dialogs and focus mechanics, not the main product chrome; the catalog does not float, it lies flat, and the room inside the photograph creates the depth.
+Micro-interaction is functional rather than ornamental. Navigation hides on scroll with a sharp `.15s cubic-bezier(1,.26,.51,.72)` transition, focus states use a black/white/black inset stack, and media/video controls stay simple. Shadow mostly belongs to dialogs and focus mechanics, not the main product chrome; the store catalog does not float — it lies flat, and the room inside the photograph creates the depth.
 
 ### Key Characteristics
 

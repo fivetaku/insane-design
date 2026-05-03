@@ -63,17 +63,17 @@ components:
 
 ### Narrative
 
-배달의민족 홈페이지는 "앱 소개 페이지"라기보다 야식 골목 입구에 세워진 거대한 전광 간판에 가깝다. 화면 첫 장에서 음식 사진은 배경이 아니라 매대이고, #0CEFD3 (`{colors.primary}`) 문장은 그 위에 갓 켠 네온처럼 박힌다. 텍스트는 기능을 설명하려고 얹히지 않는다. 닭강정의 윤기, 어두운 조리대, 배달 직전의 속도를 한 번 더 크게 들리게 하는 확성기 역할을 한다.
+배달의민족은 editorial-product gallery의 canonical 사례다 — food canvas 전체를 열고, BAEMINWORK 카피를 그 canvas 위에 올라선 exhibition label로 쓴다. 화면 첫 장에서 음식 사진은 배경이 아니라 gallery의 주인공 작품이고, #0CEFD3 (`{colors.primary}`) 문장은 그 위에 갓 켠 조명처럼 박힌다. 텍스트는 기능을 설명하려고 얹히지 않는다 — 닭강정의 윤기, 어두운 조리대, 배달 직전의 속도를 한 번 더 크게 들리게 하는 역할이다.
 
-핵심 색은 하나다. #0CEFD3 (`{colors.primary}`)가 히어로 카피, 다음 섹션의 바닥, 강조 문구를 거의 혼자 맡는다. no second brand color. 팔레트를 풍부하게 만들기 위해 다른 accent를 끌어오지 않고, 사진의 갈색 튀김옷과 #000000 (`{colors.surface-dark}`) 무대, #FFFFFF (`{colors.surface-white}`) 다운로드 버튼이 브랜드 색 주변의 식재료처럼 놓인다. 배민의 컬러 시스템은 여러 잉크를 섞은 포스터가 아니라, 민트 잉크 한 통을 음식 사진 위에 크게 찍는 인쇄물이다.
+핵심 accent는 하나다. #0CEFD3 (`{colors.primary}`)가 히어로 카피, 다음 섹션의 바닥, 강조 문구를 거의 혼자 맡는다. no second brand color. 팔레트를 풍부하게 만들기 위해 다른 accent를 끌어오지 않고, 사진의 갈색 튀김옷과 #000000 (`{colors.surface-dark}`) 무대, #FFFFFF (`{colors.surface-white}`) 다운로드 버튼이 brand accent 주변에 식재료처럼 놓인다.
 
-타이포그래피는 정돈된 SaaS식 계단보다 더 물성 있는 간판 글자다. `BAEMINWORK`는 display에 쓰이고, 큰 문장은 `letter-spacing: -0.04em`으로 꽉 조여 한 덩어리의 스티커처럼 붙는다. 72px까지 올라가는 섹션 display는 읽는 문장이라기보다 가게 셔터에 붙은 대형 시트지에 가깝다. 본문은 system stack으로 조용히 내려가지만, 핵심 문장만큼은 배민 전용 서체가 화면의 목소리를 독점한다.
+타이포그래피는 정돈된 SaaS식 계단보다 더 물성 있는 parchment 간판 글자다. `BAEMINWORK`는 display에 쓰이고, 큰 문장은 `letter-spacing: -0.04em`으로 꽉 조여 한 덩어리의 스티커처럼 붙는다. 72px까지 올라가는 섹션 display는 읽는 문장이 아니라 가게 셔터에 붙은 대형 parchment 시트지에 가깝다. 본문은 system stack으로 조용히 내려가지만, 핵심 문장만큼은 배민 전용 서체가 화면의 목소리를 독점한다.
 
-레이아웃은 스크롤 문서보다 full-screen 음식 광고 릴이다. `body`가 fixed/hidden 계열로 잠기고, 섹션은 `height: 0px`에서 열리며 한 장면씩 무대에 올라온다. 고정 헤더는 흰 종이 메뉴판처럼 사진 위에 얹히되, 별도 바탕을 만들지 않는다. shadow only on photography; UI chrome은 그림자를 거의 쓰지 않고, 깊이는 음식 사진의 조명과 dark overlay가 담당한다.
+레이아웃은 스크롤 문서보다 full-screen food showcase 릴이다. `body`가 fixed/hidden 계열로 잠기고, 섹션은 `height: 0px`에서 열리며 한 장면씩 stage에 올라온다. 고정 헤더는 사진 위에 얹히되, 별도 바탕을 만들지 않는다. shadow only on photography; UI chrome은 그림자를 거의 쓰지 않고, 깊이는 음식 사진의 조명과 dark overlay가 담당한다.
 
-앱스토어 버튼과 QR 버튼은 CTA 카드가 아니라 사진 위에 붙은 흰 가격표 같은 물건이다. #FFFFFF (`{colors.surface-white}`), 12px radius, 54px height로 실물 라벨처럼 읽히지만, border나 elevation으로 떠오르지는 않는다. 배민답게 세련됨은 "조용한 미니멀"이 아니라 "명확한 과장"에서 나온다. 큰 글자, 한 가지 강한 색, 직접적인 음식 사진, 손에 잡히는 다운로드 라벨. 이 조합이 조금만 흐려져도 배민이 아니라 흔한 배달 앱 랜딩이 된다.
+앱스토어 버튼과 QR 버튼은 gallery의 catalog 조각 같은 물건이다. #FFFFFF (`{colors.surface-white}`), 12px radius, 54px height로 실물 라벨처럼 읽히지만, border나 elevation으로 떠오르지는 않는다. 배민답게 세련됨은 "조용한 미니멀"이 아니라 "명확한 과장"에서 나온다. 큰 글자, 한 가지 강한 색, 직접적인 음식 사진, 손에 잡히는 다운로드 라벨. 이 조합이 조금만 흐려져도 배민이 아니라 흔한 배달 앱 랜딩이 된다.
 
-이 사이트는 결국 **푸드 갤러리의 진열장**과 **셔터에 붙은 대형 시트지**가 한 무대 위에 겹쳐진 형태다. full-bleed photography는 쇼룸의 진열장 유리, BAEMINWORK 카피는 그 유리 위에 붙은 전시 라벨이다. white 다운로드 버튼은 갤러리 큐레이터가 옆에 놓아둔 카탈로그 조각, scroll-arrow는 다음 진열실로 안내하는 무대 입구다. 카드 그리드는 카탈로그 책자가 아니라 한 컷씩 넘기는 전시실 패널 — 각 음식 사진이 한 진열장의 주인이 되고, 민트 카피는 그 진열장 안의 조명이다. 박물관 가이드가 외치지 않듯, 텍스트는 작품 옆에 라벨로만 붙는다 — 전시는 페이지가 아니라 장면으로 분절된다.
+이 사이트는 결국 **food gallery의 canvas**와 **셔터에 붙은 parchment 전시지**가 한 무대 위에 겹쳐진 형태다. full-bleed photography는 gallery의 진열장 유리, BAEMINWORK 카피는 그 유리 위에 붙은 exhibition label이다. white 다운로드 버튼은 큐레이터가 옆에 놓아둔 catalog 조각, scroll-arrow는 다음 gallery room으로 안내하는 입구다. 카드 그리드는 catalog 책자가 아니라 한 컷씩 넘기는 전시실 패널 — 각 음식 사진이 한 gallery 진열장의 주인이 되고, mint 카피는 그 진열장 안의 조명이다.
 
 ### Key Characteristics
 

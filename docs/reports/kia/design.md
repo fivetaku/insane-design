@@ -64,19 +64,11 @@ components:
 
 ### Narrative
 
-Kia Korea is not built like a colorful car configurator. It behaves like an automotive editorial stage: the vehicle photograph owns the first viewport, the interface stays in white and near-black, and every control is pulled back until it becomes almost architectural. The hero does the brand work through scale, not decoration.
+Kia Korea stages each vehicle like a **showroom** hero with the walls removed. The first viewport is a 100vh photography bay: the car occupies every pixel of depth while the navigation and copy reduce themselves to white labels etched on glass — caption plates in a **gallery** room rather than an application shell. `#05141F` (`{colors.ink-primary}`) functions less like a brand swatch than a panel of blackened metal riveted over the photograph.
 
-The first screen feels like a midnight showroom with the walls removed. The car is not framed by a decorative page; the page becomes a darkened display bay where photography supplies the architecture. White navigation and copy sit on the glass like etched markings, and #05141F (`{colors.ink-primary}`) works less like a color swatch than a piece of blackened metal.
+The **showroom** logic extends to every interaction. Buttons are squared with zero radius, hover states wipe in horizontally over 0.4 seconds like a mechanical shutter passing across a **cockpit** instrument placard. Quick-link cards below the fold operate as the service counter after the **gallery** room: `#F8F8F8` (`{colors.surface-soft}`) slabs that invert to `#05141F` (`{colors.ink-primary}`) only on touch. Carousel dots are small rings rather than loud indicators, behaving like the fine-pitch alignment marks on a precision instrument.
 
-The core visual move is the contrast between precise chrome and open photography. The page uses #05141F (`{colors.ink-primary}`) as both text ink and primary action surface, so the UI feels like a technical label riveted over a product image. Secondary color is mostly absent: no second brand color, no rainbow mobility palette, no blue EV optimism spilling across the shell. Even the "brand" color is not a bright logo color; it is Kia's midnight ink.
-
-Typography is custom but restrained. `Kia Signature Bold`, `Regular`, and `Light` are separate font-family declarations, all mapped mostly to CSS `font-weight: 400`. This means the system expresses hierarchy through family choice and size, not through numeric weight ladders. The hero title sits at 52px with normal tracking, while the pre-title is 18px in the light family.
-
-The spatial logic is automotive showroom logic. The nav floats over the image, the hero content is pinned low-left, and the 100vh media area makes the car the page. It has almost no "website" self-consciousness in the first viewport: the chrome withdraws so the photographed vehicle can act like the exhibit, while the UI becomes the small caption plate beside it.
-
-Controls are squared, not pill-shaped; hover states wipe in horizontally over 0.4s; carousel dots are small rings rather than loud indicators. The button wipe feels like a mechanical shutter passing across a metal label, not a soft app-state fade. The quick-link cards below the fold are the service counter after the gallery room: #F8F8F8 (`{colors.surface-soft}`) slabs that invert to #05141F (`{colors.ink-primary}`) only when touched.
-
-The negative identity matters: Kia Korea avoids rainbow EV gradients, luxury serif drama, rounded consumer-app softness, and dashboard density. It is a product-photography system with hard-edged UI chrome.
+The negative identity is the architecture. Kia Korea carries no rainbow EV palette, no luxury serif drama, no rounded consumer-app softness. `Kia Signature Bold/Regular/Light` are mapped to CSS `font-weight: 400`, so hierarchy moves through family choice and size rather than numeric weight ladders — a custom type system that acts as a **cockpit** labeling standard rather than a consumer display typeface. There is no second brand color. Utility-blue `#005CB2` and utility-red `#EA0029` stay in service roles only. The **showroom** floor stays dark and clear so the vehicle can be the exhibit, and the UI chrome withdraws to become the small caption plate beside it.
 
 ### Key Characteristics
 
