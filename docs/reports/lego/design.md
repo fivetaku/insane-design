@@ -1,89 +1,120 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: lego
-service_name: LEGO
+service_name: LEGO.com
 site_url: https://www.lego.com/en-us
-fetched_at: 2026-04-23
+fetched_at: 2026-05-03T00:00:00+09:00
 default_theme: light
-brand_color: "#E3000B"
-primary_font: Cera Pro
+brand_color: "#005AD2"
+primary_font: "LEGO Typewell"
 font_weight_normal: 400
-token_prefix: --ds-*
+token_prefix: ds
 
-bold_direction: Structured Play
-aesthetic_category: Friendly Fintech
-signature_element: action_color_split
+bold_direction: Playful Commerce
+aesthetic_category: other
+signature_element: hero_impact
 code_complexity: high
 
 medium: web
 medium_confidence: high
+archetype: commerce-marketplace
+archetype_confidence: high
+design_system_level: lv3
+design_system_level_evidence: "CSS exposes a deep --ds token system: breakpoints, core colors, semantic layers, action states, radius, spacing, shadows, badges, buttons, and localized font modes."
+
+colors:
+  action-primary: "#005AD2"
+  action-primary-hovered: "#0045B7"
+  action-accent: "#FFD502"
+  logo-red: "#E3000B"
+  text-default: "#141414"
+  surface-page: "#fff"
+  surface-muted: "#F7F7F7"
+  border-default: "#B0B0B0"
+typography:
+  display: "LEGO Typewell"
+  body: "LEGO Typewell"
+  fallback: "Cera Pro"
+  ladder:
+    - { token: body, size: "16px", weight: 400, line_height: "1.5" }
+    - { token: badge-small, size: "14px", weight: 500, line_height: "1.5" }
+    - { token: badge-x-small, size: "12px", weight: 500, line_height: "1.62", tracking: "0.01em" }
+    - { token: display, size: "32px-40px inferred", weight: 700 }
+  weights_used: [400, 500, 700, 900]
+  weights_absent: [600]
+components:
+  button-primary: { bg: "{colors.action-primary}", hover: "{colors.action-primary-hovered}", radius: "999px", border: "2px transparent solid" }
+  button-secondary: { bg: "transparent", border: "{colors.action-primary}", radius: "999px" }
+  button-accent: { bg: "{colors.action-accent}", text: "#000000", radius: "999px" }
+  product-leaf: { bg: "{colors.surface-page}", frame: "#0000000F", radius: "8px" }
 ---
 
-# DESIGN.md — LEGO (Claude Code Edition)
+# DESIGN.md - LEGO.com
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
 <!-- SOURCE: auto+manual -->
 
-2026-04-23 기준 `lego.com/en-us`의 CSS는 "로고 레드가 모든 인터랙션을 지배한다"는 인상을 주지 않는다. 실제 UI는 `#FFFFFF` / `#F7F7F7` / `#F2F2F2`의 밝은 레이어를 기본 바닥으로 깔고, 본문 텍스트를 `#141414`, 보조 텍스트를 `#636363`으로 고정한 뒤, 클릭 가능한 기본 액션을 **파란색 `#005AD2` 계열**로 처리한다. LEGO의 유명한 로고 레드 `#E3000B`는 분명 CSS 안에 존재하지만, 현재 글로벌 액션 토큰의 기본값은 아니다.
+### Narrative
 
-색상 구조는 세 층으로 나뉜다. 첫 번째는 로고/브랜드 층으로, `--ds-color-brand-logo-corporate-red: #e3000b`, `--ds-color-brand-logo-yellow: #ffed00`, `--ds-color-brand-bright-blue: #006cb7`가 있다. 두 번째는 실제 제품 UI 층으로, 기본 버튼과 링크가 `--ds-color-interactive-primary-enabled: #005ad2`, hover `#0045b7`, pressed `#011c58`를 사용한다. 세 번째는 브랜드성 액센트 층으로, 노랑이 `--ds-color-interactive-brand-enabled: #ffd502`에서 시작하는 4단 액션 램프로 재정의된다. 즉 LEGO는 "로고 팔레트"와 "UI 액션 팔레트"를 분리해서 운영한다.
+LEGO.com is not a quiet retail surface wearing a playful logo. It is a toy-store operating system: a white commerce chassis, a yellow/red brand memory, and a blue action layer that quietly does the conversion work. The page lets product photography and franchise art shout, while the UI itself stays surprisingly disciplined.
 
-타이포그래피도 이중 구조다. 기본 UI는 `html:not([lang=ko],[lang=zh],[lang=ja])>body { font-family: Cera Pro, sans-serif; }`로 `Cera Pro`를 쓴다. 반면 브랜드 모드에서는 `--ds-font-font-family: LEGO Typewell`이 적용된다. `LEGO Typewell`은 캠페인성 브랜드 헤드라인용이고, 일반 전자상거래 UI는 `Cera Pro`가 맡는다. 현재 CSS의 display/heading 계층은 대부분 `font-weight: 700`, 본문은 `400/500/700` 3단으로 관리되며, 기존 문서에 있던 "LEGO는 기본적으로 900 uppercase headline" 해석은 현재 글로벌 UI CSS와 맞지 않는다.
+The system has two identities that never fully merge. The brand identity is classic LEGO: logo red `#E3000B`, brick yellow `#FFD502`, black outline, product imagery, kids' play-zone energy. The shopping identity is more utilitarian: primary actions use `#005AD2` (`{colors.action-primary}`), text sits at `#141414` (`{colors.text-default}`), and catalog frames rely on white surfaces plus pale gray dividers. It feels like a flagship toy aisle where the shelves are engineered by a serious retail team: the boxes can be riotous, but the shelf rail, price tag, and checkout button all obey one quiet grid.
 
-레이아웃과 간격 역시 일반적인 8pt grid보다 더 특이하다. spacing scale은 `11 / 18 / 22 / 25 / 29 / 43 / 50 / 58 / 66 / 86 / 100px`처럼 비등간격 토큰으로 정의되고, 최대 콘텐츠 폭은 `--ds-breakpoint-xl: 100em` 즉 `1600px`에서 멈춘다. 버튼은 기본적으로 `999px` pill radius를 쓰지만, 카드/레이어는 `4 / 8 / 12 / 16px` 단위로 차분하게 관리된다. 그래서 LEGO의 현재 웹 미학은 "장난감 브랜드답게 무조건 둥글고 알록달록"이 아니라, **정리된 commerce shell 위에 제한된 브랜드 컬러를 꽂는 구조적 플레이**에 가깝다.
+The most important detail is that LEGO does not turn every control yellow. Yellow is an accent and brand atmosphere; blue is the action grammar. This separation keeps a massive toy catalog usable. A childlike palette is allowed in image tiles, badges, and promotional modules, while search, menus, buttons, filters, and product cards follow the `--ds-*` system. No second conversion color exists: `{colors.action-accent}` can make a promo feel like a LEGO brick, but `{colors.action-primary}` is the route marker to the register.
+
+The page behaves like a white LEGO baseplate under a pile of licensed worlds. Star Wars, Botanicals, DUPLO, offers, membership points, and play content can snap on and off, because the baseplate is mostly `{colors.surface-page}`, `{colors.surface-muted}`, alpha black frames, and pill controls. Product cards are not glass cases; they are small build plates with a faint `#0000000F` outline so the set art supplies the color.
+
+The site is built from chunky, accessible primitives. Pills are genuinely round (`999px`), focus rings are thick, badges use high-contrast color states, and responsive breakpoints are explicit rather than improvised. The craft is not minimalism; it is controlled noisiness: a marketplace that can host many toy universes without losing the checkout path. The UI chrome steps back like the instruction booklet border around a model photo: visible enough to guide, never decorative enough to compete.
 
 ### Key Characteristics
 
-- 로고 레드 `#E3000B`는 존재하지만 기본 CTA 색이 아니다
-- 기본 인터랙션은 블루 `#005AD2 → #0045B7 → #011C58`
-- 브랜드성 액센트는 노랑 `#FFD502 → #FAC400 → #EF9F00`
-- 기본 UI 폰트는 `Cera Pro`, 브랜드 모드는 `LEGO Typewell`
-- surface는 `#FFFFFF / #F7F7F7 / #F2F2F2` 3층 구조
-- spacing은 8pt가 아니라 `11 / 18 / 22 / 25 / 29 / 43...` 비정형 scale
-- 버튼 radius는 pill `999px`, 레이어/카드는 `4~16px`
-- global container max-width는 `1600px`
+- Commerce-first white chassis with loud promotional imagery above and inside it.
+- Primary conversion color is blue `#005AD2`, not LEGO yellow or logo red.
+- Brand yellow `#FFD502` is reserved for accent, promo, logo memory, and playful emphasis.
+- `--ds-*` token namespace is broad and mature: colors, layer, action, layout, spacing, shadow, breakpoints, and component states.
+- Round controls dominate: button, search, carousel dots, and icon surfaces lean pill/circle.
+- Type system uses LEGO Typewell in brand mode, with Cera Pro as legacy/fallback mode.
+- Product cards are modular, frame-based, and image-led; chrome stays neutral so licensed art can vary wildly.
+- Navigation is dense but friendly: top categories, mega-menu hierarchy, search, account, wishlist, and cart all live in a compact header.
+- Shadows are multi-layer but restrained; product/card elevation is lower than the imagery itself.
+- Accessibility states are visible: focus outlines, disabled opacity, large hit areas, and explicit aria patterns.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Structured Play
-> **Aesthetic Category**: Friendly Fintech
-> **Signature Element**: 이 사이트는 **로고 레드와 실제 액션 블루를 분리한 palette split**으로 기억된다.
-> **Code Complexity**: high — `--ds-*` 토큰 986개, locale/brand mode 폰트 분기, semantic alias layer가 동시에 존재한다.
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Playful Commerce
+> **Aesthetic Category**: other
+> **Signature Element**: 이 사이트는 **disciplined toy-store marketplace, where blue actions steer a red/yellow brand world**으로 기억된다.
+> **Code Complexity**: high — deep token system, responsive marketplace components, multi-state buttons/forms, carousel/product modules, and image-heavy campaign slots.
 
 ---
 
 ## 01. Quick Start
 <!-- SOURCE: auto+manual -->
 
-> 5분 안에 LEGO처럼 만들기 — 3가지만 하면 80%
+> 5분 안에 LEGO.com처럼 만들기 - 3가지만 하면 80%
 
 ```css
-/* 1. 기본 폰트 */
-html:not([lang="ko"], [lang="zh"], [lang="ja"]) > body {
-  font-family: "Cera Pro", sans-serif;
+/* 1. 폰트 + weight */
+body {
+  font-family: "LEGO Typewell", "Cera Pro", system-ui, sans-serif;
   font-weight: 400;
+  line-height: 1.5;
 }
 
-/* 2. surface + text */
-:root {
-  --bg: #FFFFFF;
-  --bg-subdued: #F7F7F7;
-  --fg: #141414;
-  --fg-subtle: #636363;
-}
+/* 2. 배경 + 텍스트 */
+:root { --bg: #fff; --fg: #141414; }
+body { background: var(--bg); color: var(--fg); }
 
-/* 3. 로고와 액션을 분리 */
-:root {
-  --logo-red: #E3000B;
-  --action-primary: #005AD2;
-  --action-primary-hover: #0045B7;
-  --action-brand: #FFD502;
-}
+/* 3. 액션 컬러 */
+:root { --action-primary: #005AD2; --accent-yellow: #FFD502; --logo-red: #E3000B; }
+.cta { background: var(--action-primary); color: #fff; border-radius: 999px; }
 ```
 
-**절대 하지 말아야 할 것 하나**: LEGO 사이트를 본다고 해서 모든 CTA를 `#E3000B`로 칠하지 마라. 2026-04-23에 수집한 실제 CSS에서 기본 버튼 `.sk-button`은 블루 액션 토큰(`--ds-color-action-primary-*`)을 쓴다. 로고 레드는 브랜드/로고 레이어에 남겨 둬야 LEGO답다.
+**절대 하지 말아야 할 것 하나**: 모든 CTA를 `#FFD502` yellow로 만들지 말 것. LEGO.com의 실제 primary action은 `#005AD2`; yellow는 brand/accent layer다.
 
 ---
 
@@ -93,347 +124,486 @@ html:not([lang="ko"], [lang="zh"], [lang="ja"]) > body {
 | | |
 |---|---|
 | Source URL | `https://www.lego.com/en-us` |
-| Fetched | `2026-04-23` |
-| Extractor | `curl_cffi.requests.Session(impersonate="chrome")` + Chrome Referer |
-| HTML size | `948369` bytes |
-| CSS files | `12`개 · 총 `309769` bytes |
-| Unique custom properties | `1128`개 (`--ds-*`만 `986`개) |
-| Main DS bundle | `/_next/static/css/1bc34d511a435e5f.css` · `216321` bytes |
-| Token prefix | `--ds-*` |
-| Method | CSS 직접 파싱 · 수집 실패 값은 `N/A` 처리 |
-
-### CSS Collection URLs
-
-- `https://www.lego.com/_next/static/css/1bc34d511a435e5f.css` — `216321` bytes
-- `https://www.lego.com/_next/static/css/d80a510ada61d8f7.css` — `21959` bytes
-- `https://www.lego.com/_next/static/css/476653c009098383.css` — `20678` bytes
-- `https://www.lego.com/_next/static/css/aa6fcd107f606ec8.css` — `12649` bytes
-- `https://www.lego.com/_next/static/css/c1bc796e3fb4a2d5.css` — `12430` bytes
-- `https://www.lego.com/_next/static/css/43341d25485cc380.css` — `12107` bytes
-- `https://www.lego.com/_next/static/css/c614d264da0c42e3.css` — `8629` bytes
-- `https://www.lego.com/_next/static/css/98c752df3e9c3ab6.css` — `2247` bytes
-- `https://www.lego.com/_next/static/css/1331829dd8dc9072.css` — `1065` bytes
-- `https://www.lego.com/_next/static/css/7e5af1acad2f2c5e.css` — `970` bytes
-- `https://www.lego.com/_next/static/css/ef07c4b2488ac61d.css` — `584` bytes
-- `https://www.lego.com/_next/static/css/b9fbca678ed9d6f1.css` — `130` bytes
+| Fetched | 2026-05-03T00:00:00+09:00 |
+| Extractor | reused phase1 artifacts: local HTML + CSS + screenshot |
+| HTML size | 1,100,878 bytes (Next.js / React commerce app) |
+| CSS files | 13 CSS files, total 310,966 chars |
+| Token prefix | `--ds-*` plus legacy `--st-*` |
+| Method | CSS custom properties, local phase1 JSON, HTML snippets, screenshot observation |
 
 ---
 
 ## 03. Tech Stack
 <!-- SOURCE: auto+manual -->
 
-- **Framework**: Next.js pages router 기반 SSR/SSG hybrid
-  - 스크립트에서 `/_next/static/chunks/pages/_app-*.js`, `/_next/static/chunks/pages/[locale]-*.js`, build id `61J2ChArm3qW-yBdCy2Nz` 확인
-- **Design system**: LEGO in-house shared design system (`--ds-*`)
-- **CSS architecture**: 글로벌 DS bundle 1개 + 페이지/모듈별 CSS Modules
-  - raw ramps: `--ds-color-core-*`
-  - brand palette: `--ds-color-brand-*`
-  - semantic alias: `--ds-color-content-*`, `--ds-color-layer-*`, `--ds-color-action-*`
-  - layout/type: `--ds-layout-*`, `--ds-spacing-*`, `--ds-screen-text-*`, `--ds-misc-*`
-- **Class naming**: 두 계층 혼합
-  - DS utilities — `.sk-button`, `.heading-*`, `.display-*`
-  - component modules — `.ContentCard_*__hash`, `.QuickLinksWrapper_*__hash`, `.Layout_*__hash`
-- **Default theme**: light
-- **Font loading**: `assets.lego.com/fonts/...` self-hosted `woff2`
-- **Canonical anchor**: 로고 팔레트와 UI 액션 팔레트를 분리하는 구조
+- **Framework**: Next.js / React storefront with server-rendered page data and `__NEXT_DATA__`.
+- **Design system**: LEGO shopper design system using prefix `--ds-*`; older shop/theme tokens remain under `--st-*`.
+- **CSS architecture**:
+  ```css
+  --ds-color-core-*       raw ramps: gray, slate, red, orange, yellow, green, blue, purple, pink
+  --ds-color-brand-*      LEGO brick/logo/extended brand colors
+  --ds-color-action-*     interactive states: enabled, hovered, pressed, selected
+  --ds-color-layer-*      surface and semantic layer tokens
+  --ds-layout-*           size, radius, spacing, stroke width, blur
+  --ds-border-*           aliases for radius and stroke
+  --ds-shadow-*           multi-layer elevation tokens
+  ```
+- **Class naming**: CSS Modules plus shopper components: `MainBar_*`, `StaticHero_*`, `ProductLeaf_*`, `AdvancedQuickLink_*`, and shared `sk-button`, `sk-badge`.
+- **Default theme**: light (`--ds-color-page-background: #fff`, `--ds-color-layer-default: #fff`).
+- **Font loading**: custom brand font declarations (`LEGO Typewell`, `Cera Pro`) with localized Noto Sans modes for KR/JP/SC.
+- **Canonical anchor**: homepage commerce shell: global banner, dense navigation, static hero, quick links, product carousel/listing modules.
 
 ---
 
 ## 04. Font Stack
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-- **Default UI font**: `Cera Pro`
-- **Brand/display mode**: `LEGO Typewell`
-- **Locale overrides**: `Noto Sans KR`, `Noto Sans JP`, `Noto Sans SC`
-- **Weight normal / medium / bold / black**: `400 / 500 / 700 / 900`
+- **Display font**: `LEGO Typewell` (brand font, licensed/proprietary)
+- **Body font**: `LEGO Typewell` in brand mode; `Cera Pro` in legacy mode
+- **Localized fallback**: `Noto Sans KR`, `Noto Sans JP`, `Noto Sans SC`
+- **System fallback**: `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial`
+- **Weight normal / bold**: `400` / `700`
 
 ```css
-:root {
+:root,
+[data-mode="brand"] {
+  --ds-font-font-family: "LEGO Typewell";
+}
+
+[data-mode="legacy"] {
   --ds-font-font-family: "Cera Pro";
 }
 
-[data-mode="brand"] {
-  --ds-font-font-family: LEGO Typewell;
-}
-
-html[lang="ko"] {
-  --ds-font-font-family: "Noto Sans KR";
-}
-
-html:not([lang="ko"], [lang="zh"], [lang="ja"]) > body {
-  font-family: Cera Pro, sans-serif;
+body {
+  font-family: var(--ds-font-font-family), system-ui, sans-serif;
+  font-weight: 400;
 }
 ```
 
-### Loaded Font Files
+### Note on Font Substitutes
+<!-- SOURCE: manual -->
 
-- `Cera Pro` — `100 / 400 / 500 / 700 / 900` + italic variants
-- `LEGO Typewell` — `300 / 400 / 500 / 700 / 900` + italic variants
-- `Noto Sans KR` — `400 / 500 / 700`
-
-> **라이선스 주의**: `Cera Pro`와 `LEGO Typewell`은 self-hosted 상용 폰트다. 외부 프로젝트에서 재배포 가능한 오픈 라이선스로 간주하면 안 된다.
+- **LEGO Typewell** is the true voice. If unavailable, use **Nunito Sans** or **Atkinson Hyperlegible** at weight `400/700` for friendliness, but keep the UI spacing and pill geometry intact. The font substitute should not become the design.
+- **Cera Pro fallback** can be approximated with **Inter** only for operational UI, not for hero/brand moments. Use Inter at `400/500/700`, avoid overly tight tracking, and preserve line-height around `1.5`.
+- **Localized surfaces** should follow the existing Noto path. Korean/Japanese/Chinese text should not be forced into the Latin brand font; the CSS already exposes `Noto Sans KR/JP/SC`.
 
 ---
 
 ## 05. Typography Scale
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-| Token | Size | Weight | Line-height | Letter-spacing | Usage |
-|---|---|---|---|---|---|
-| `display-lg` | `clamp(3.875rem, 1.08163rem + 11.9184vi, 13rem)` | `700` | `1.15` | `-0.02em` | 대형 캠페인 hero |
-| `display-md` | `clamp(3.625rem, 1.17602rem + 10.449vi, 11.625rem)` | `700` | `1.15` | `-0.015em` | 대형 campaign display |
-| `display-sm` | `clamp(3.1875rem, 1.3125rem + 8vi, 9.3125rem)` | `700` | `1.15` | `-0.02em` | 큰 브랜드 headline |
-| `heading-6xl` | `clamp(2.5rem, 1.4477rem + 4.4898vi, 5.9375rem)` | `700` | `1.15` | `-0.01em` | 섹션 hero |
-| `heading-3xl` | `clamp(1.75rem, 1.34821rem + 1.71429vi, 3.0625rem)` | `700` | `1.35` | `0` | 대형 section title |
-| `heading-xl` | `clamp(1.375rem, 1.20281rem + 0.734694vi, 1.9375rem)` | `700` | `1.35` | `0` | 카드/섹션 헤더 |
-| `heading-md` | `clamp(1.125rem, 1.08674rem + 0.163265vi, 1.25rem)` | `700` | `1.5` | `0` | 작은 heading |
-| `body-lg` | `1.125rem` | `400 / 500 / 700` | `1.5` | `0` | 긴 본문 / promo text |
-| `body-md` | `1rem` | `400 / 500 / 700` | `1.5` | `0` | 기본 body |
-| `body-sm` | `0.875rem` | `400 / 500 / 700` | `1.62` | `0.01em` | 메타 / 카드 보조 |
-| `label-xs` | `0.75rem` | `400 / 500 / 700` | `1.75` | `0.01em` | 태그 / micro label |
+| Token | Size | Weight | Line-height | Letter-spacing |
+|---|---|---|---|---|
+| Body default | `16px` inferred / browser base | `400` | `1.5` | `0` |
+| Navigation item | `14px-16px` inferred | `400/500` | compact | `0` |
+| Badge small | `.875rem` | `500` | `1.5` | `0` |
+| Badge x-small | `.75rem` | `500` | `1.62` | `.01em` |
+| Discount badge x-small | `.75rem` | `700` | `1.62` | `.01em` |
+| Hero/display | campaign-dependent | `700` common | image-composition dependent | `0` or tight by asset |
+| Heavy promotional emphasis | campaign-dependent | `900` available | N/A | N/A |
 
-> 핵심은 "모든 큰 텍스트를 900 uppercase로 밀어붙이는 것"이 아니다. 현재 global UI CSS는 **700 weight 중심의 display/heading scale**을 쓰고, 매우 큰 크기 변화는 `clamp()`로 해결한다.
+> Insight: the local extractor did not recover a full type ladder from computed DOM, but CSS confirms a pragmatic retail ladder: 400 body, 500 navigation/badges, 700 CTA/promo emphasis, 900 rare heavy emphasis.
+
+### Principles
+
+1. Body remains readable and operational at `400`; playfulness comes from imagery, color, and round components, not from eccentric paragraph typography.
+2. Weight `500` is a utility weight for badges/nav/micro-labels, while `700` is the durable emphasis weight.
+3. `600` is intentionally not central in the captured CSS. Do not invent a semibold middle layer just because many SaaS sites use one.
+4. Badge typography is more engineered than decorative: `.75rem`, `1.62` line-height, and `.01em` tracking keep tiny commerce labels legible.
+5. Display scale is campaign-led. Static hero text should align to the image composition rather than forcing a universal H1 scale onto every LEGO franchise.
 
 ---
 
 ## 06. Colors
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-### 06-1. Requested Brand Color Verification
+### 06-1. Brand Ramp (selected)
 
-| Requested Hex | CSS status | Verified token / observed value | Note |
-|---|---|---|---|
-| `#E3000B` | confirmed | `--ds-color-brand-logo-corporate-red: #e3000b` | exact match |
-| `#FFCF00` | `N/A` | `N/A` | exact token not found in fetched CSS |
-| `#006DB7` | `N/A` | `N/A` | exact token not found in fetched CSS |
+| Token | Hex |
+|---|---|
+| `--ds-color-brand-logo-corporate-red` | `#E3000B` |
+| `--ds-color-brand-logo-yellow` | `#FFED00` |
+| `--ds-color-brand-bright-yellow` | `#FFD400` |
+| `--ds-color-brand-bright-red` | `#DD1A22` |
+| `--ds-color-brand-bright-blue` | `#006CB7` |
+| `--ds-color-brand-earth-blue` | `#00395D` |
+| `--ds-color-brand-bright-orange` | `#F47D20` |
+| `--ds-color-brand-bright-green` | `#00AF4D` |
 
-### 06-2. Closest Verified Tokens For Missing Requests
+### 06-2. Brand Dark Variant
 
-| Purpose | Token | Hex |
+| Token | Hex |
+|---|---|
+| `--ds-color-core-blue-1300` | `#011C58` |
+| `--ds-color-core-red-1300` | `#450302` |
+| `--ds-color-core-yellow-1300` | `#3E1700` |
+| `--ds-color-core-slate-1300` | `#22242D` |
+| `--ds-color-layer-inverse` | `#141414` |
+
+### 06-3. Neutral Ramp
+
+| Step | Gray | Slate |
 |---|---|---|
-| logo yellow | `--ds-color-brand-logo-yellow` | `#FFED00` |
-| bright yellow | `--ds-color-brand-bright-yellow` | `#FFD400` |
-| UI brand accent | `--ds-color-interactive-brand-enabled` | `#FFD502` |
-| bright blue | `--ds-color-brand-bright-blue` | `#006CB7` |
-| primary action blue | `--ds-color-interactive-primary-enabled` | `#005AD2` |
+| 10 | `#FAFAFA` | `#F9F9FB` |
+| 25 | `#F7F7F7` | `#F6F6F8` |
+| 50 | `#F2F2F2` | `#F1F1F4` |
+| 100 | `#E5E5E5` | `#E4E5EC` |
+| 300 | `#CBCBCB` | `#CACBD5` |
+| 700 | `#939393` | `#9192A1` |
+| 1000 | `#636363` | `#606274` |
+| 1300 | `#242424` | `#22242D` |
 
-### 06-3. Logo / Brand Palette
+### 06-4. Accent Families
+
+| Family | Key step | Hex |
+|---|---|---|
+| Blue primary action | `--ds-color-action-primary-enabled` | `#005AD2` |
+| Yellow accent action | `--ds-color-action-accent-enabled` | `#FFD502` |
+| Orange emphasis action | `--ds-color-action-emphasis-enabled` | `#E96F14` |
+| Red negative/action | `--ds-color-action-negative-enabled` | `#BD0000` |
+| Green positive | `--ds-color-layer-positive-default` | `#008439` |
+| Pink wishlist | `--ds-color-wishlist-default` | `#D72054` inferred from highlight family |
+
+### 06-5. Semantic
 
 | Token | Hex | Usage |
 |---|---|---|
-| `--ds-color-brand-logo-corporate-red` | `#E3000B` | logo red |
-| `--ds-color-brand-logo-yellow` | `#FFED00` | logo yellow |
-| `--ds-color-brand-bright-blue` | `#006CB7` | brand palette blue |
-| `--ds-color-brand-bright-yellow` | `#FFD400` | brand palette yellow |
-| `--ds-color-brand-bright-red` | `#DD1A22` | secondary brand red |
+| `--ds-color-text-default` | `#141414` | Body/UI text |
+| `--ds-color-text-strong` | `#3D3D3D` | Strong secondary text |
+| `--ds-color-text-subdued` | `#636363` | Muted labels |
+| `--ds-color-text-primary` | `#005AD2` | Links/action text |
+| `--ds-color-text-accent` | `#FAC400` | Yellow accent text |
+| `--ds-color-text-negative` | `#BD0000` | Error/negative |
+| `--ds-color-border-default` | `#B0B0B0` | Standard border |
+| `--ds-color-layer-default` | `#fff` | Default card/page layer |
+| `--ds-color-layer-muted` | `#F7F7F7` | Muted sections |
+| `--ds-color-layer-subdued` | `#F2F2F2` | Subdued panels |
 
-### 06-4. Primary Action Palette
+### 06-6. Semantic Alias Layer
 
-| Token | Hex | Usage |
+| Alias | Resolves to | Usage |
 |---|---|---|
-| `--ds-color-interactive-primary-enabled` | `#005AD2` | default button / primary link |
-| `--ds-color-interactive-primary-hovered` | `#0045B7` | hover |
-| `--ds-color-interactive-primary-pressed` | `#011C58` | pressed |
-| `--ds-color-interactive-primary-selected` | `#003290` | selected / visited emphasis |
-| `--ds-color-support-focused-default` | `#4695F0` | focus outline |
+| `--ds-color-action-primary-enabled` | `#005AD2` | Primary CTA/button |
+| `--ds-color-action-primary-hovered` | `#0045B7` | Primary hover |
+| `--ds-color-action-primary-pressed` | `#011C58` | Primary pressed |
+| `--ds-color-action-accent-enabled` | `#FFD502` | Yellow accent CTA |
+| `--ds-color-action-secondary-enabled` | `#F2F2F2` | Neutral secondary |
+| `--ds-color-layer-primary-enabled` | `#E5F2FF` | Subtle blue layer |
+| `--ds-color-focused-default` | `#0DADE4` | Focus ring in newer semantic layer |
+| `--ds-color-wishlist-default` | highlight pink family | Wishlist/save affordance |
 
-### 06-5. Brand Accent (Yellow) Action Palette
+### 06-7. Dominant Colors (실제 CSS 빈도 순)
 
-| Token | Hex | Usage |
+| Token | Hex | Frequency signal |
 |---|---|---|
-| `--ds-color-interactive-brand-enabled` | `#FFD502` | yellow action / promotional emphasis |
-| `--ds-color-interactive-brand-hovered` | `#FAC400` | hover |
-| `--ds-color-interactive-brand-pressed` | `#EF9F00` | pressed |
-| `--ds-color-interactive-brand-selected` | `#F5B200` | selected |
+| transparent black layers | `#0000000F` / `#0000001A` / `#00000026` | high |
+| white and off-white surfaces | `#fff` / `#FCFCFC` / `#FAFAFA` | high |
+| text / inverse layer | `#141414` | high |
+| primary blue | `#005AD2` | high chromatic action |
+| yellow accent | `#FFD502` / `#FAC400` | repeated brand/accent |
+| negative red | `#BD0000` / `#E3000B` | repeated brand/error/logo |
 
-### 06-6. Neutrals and Semantic Content
+### 06-8. Color Stories
 
-| Token | Hex | Usage |
-|---|---|---|
-| `--ds-color-surface-background-base-default` | `#FFFFFF` | page bg |
-| `--ds-color-surface-background-base-layer-1` | `#F7F7F7` | subdued layer |
-| `--ds-color-surface-background-base-layer-2` | `#F2F2F2` | muted layer |
-| `--ds-color-content-default` | `#141414` | body text |
-| `--ds-color-content-subtle` | `#636363` | secondary text |
-| `--ds-color-stroke-default` | `#B0B0B0` | border default |
-| `--ds-color-stroke-subtle` | `#CBCBCB` | light border |
-| `--ds-color-content-positive` | `#007133` | positive text |
-| `--ds-color-content-negative` | `#BD0000` | negative text |
-| `--ds-color-support-warning-default` | `#F68226` | warning layer |
+**`{colors.action-primary}` (`#005AD2`)** — The conversion blue. It powers primary buttons, text links, active controls, and informative states. Use it when the user must act; do not replace it with logo red.
+
+**`{colors.action-accent}` (`#FFD502`)** — The brick-yellow memory. It belongs in accent CTAs, promos, brand panels, play-zone energy, and selected campaign surfaces. It should feel like LEGO, but it should not carry every control.
+
+**`{colors.text-default}` (`#141414`)** — The commerce ink. It is softer than pure black in practical UI and keeps product pages from feeling like a toy poster. Use it for normal text, nav, and product titles.
+
+**`{colors.border-default}` (`#B0B0B0`)** — The utility hairline. LEGO.com uses border and frame tokens to organize dense shopping content while leaving color free for products, themes, and campaign images.
 
 ---
 
 ## 07. Spacing
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-LEGO DS의 spacing은 전형적인 8pt scale이 아니다. 실제 토큰은 `11px`부터 시작하는 비등간격 체계다.
-
-| Token | Value | Usage |
+| Token | Value | Use case |
 |---|---|---|
-| `--ds-layout-spacing-100` | `11px` | 3xs |
-| `--ds-layout-spacing-150` | `18px` | 2xs |
-| `--ds-layout-spacing-200` | `22px` | xs |
-| `--ds-layout-spacing-250` | `25px` | sm |
-| `--ds-layout-spacing-300` | `29px` | md |
-| `--ds-layout-spacing-400` | `43px` | lg |
-| `--ds-layout-spacing-500` | `50px` | xl |
-| `--ds-layout-spacing-600` | `58px` | 2xl |
-| `--ds-layout-spacing-700` | `66px` | 3xl |
-| `--ds-layout-spacing-800` | `86px` | 4xl |
-| `--ds-layout-spacing-1000` | `100px` | 5xl |
+| `--ds-layout-spacing-25` | `2px` | micro offsets |
+| `--ds-layout-spacing-50` | `4px` | tight icon/text gaps |
+| `--ds-layout-spacing-100` | `8px` | small gaps |
+| `--ds-layout-spacing-150` | `12px` | badge/button inner rhythm |
+| `--ds-layout-spacing-200` | `16px` | card/content baseline |
+| `--ds-layout-spacing-300` | `24px` | module padding |
+| `--ds-layout-spacing-400` | `32px` | section/card gaps |
+| `--ds-layout-spacing-600` | `48px` | large blocks |
+| `--ds-layout-spacing-800` | `64px` | hero/section air |
+| `--ds-layout-spacing-1600` | `128px` | large campaign rhythm |
+| `--ds-layout-spacing-2800` | `224px` | oversized responsive/hero spacing |
 
-### Fluid Spacing Tokens
+**주요 alias**:
+- `--ds-spacing-xs` -> `--ds-layout-spacing-200` / `16px`
+- `--ds-spacing-sm` -> `--ds-layout-spacing-250` / `20px`
+- `--ds-spacing-md` -> `--ds-layout-spacing-300` / `24px`
+- `--ds-spacing-lg` -> `--ds-layout-spacing-400` / `32px`
 
-| Token | Value |
-|---|---|
-| `--ds-screen-spacing-fluid-100-150` | `clamp(.5rem, .423469rem + .326531vi, .75rem)` |
-| `--ds-screen-spacing-fluid-250-400` | `clamp(1.25rem, 1.02041rem + .979592vi, 2rem)` |
-| `--ds-screen-spacing-fluid-500-1000` | `clamp(2.5rem, 1.73469rem + 3.26531vi, 5rem)` |
+### Whitespace Philosophy
 
-> layout spacing을 임의로 `8 / 16 / 24 / 32`로 정규화하면 LEGO의 리듬이 무너진다.
+LEGO.com uses space like aisle management. Navigation and product grids are dense because shoppers need scanning speed, but hero/campaign modules get larger image-first blocks where franchise art can breathe. The contrast is intentional: compact retail controls around expansive toy imagery.
+
+The spacing ladder is not a minimalist 4/8/16-only system. It reaches from `1px` strokes to `224px` hero-scale intervals, which matches a marketplace that must handle tiny badges, carousel controls, product leaves, full-bleed campaigns, and modal overlays without leaving the token system.
 
 ---
 
 ## 08. Radius
 <!-- SOURCE: auto -->
 
-| Token | Value | Usage |
+| Token | Value | Context |
 |---|---|---|
-| `--ds-layout-radius-25` | `2px` | hairline rounding |
+| `--ds-layout-radius-25` | `2px` | tiny structural corners |
 | `--ds-layout-radius-50` | `4px` | small controls |
-| `--ds-layout-radius-75` | `6px` | intermediate chips |
-| `--ds-layout-radius-100` | `8px` | default UI corner |
-| `--ds-layout-radius-150` | `12px` | card rounding |
-| `--ds-layout-radius-200` | `16px` | large surfaces |
-| `--ds-layout-radius-400` | `32px` | oversized panel |
-| `--ds-layout-radius-600` | `48px` | extra rounded shell |
-| `--ds-layout-radius-pill` | `999px` | buttons / pills |
+| `--ds-layout-radius-75` | `6px` | compact module corners |
+| `--ds-layout-radius-100` | `8px` | default card/container radius |
+| `--ds-layout-radius-150` | `12px` | larger panels |
+| `--ds-layout-radius-200` | `16px` | soft cards |
+| `--ds-layout-radius-400` | `32px` | big promotional surfaces |
+| `--ds-layout-radius-600` | `48px` | large rounded modules |
+| `--ds-layout-radius-pill` | `999px` | pills |
+| `--ds-layout-radius-round` | `999px` | buttons, circular controls |
 
 ---
 
 ## 09. Shadows
 <!-- SOURCE: auto -->
 
-| Token level | Shadow |
-|---|---|
-| `xs` | `0 1px 3px 0 #0003, 0 1px 2px -1px #00000052` |
-| `sm` | `0 3px 6px 0 #0003, 0 2px 4px -2px #00000052` |
-| `md` | `0 6px 12px 1px #0003, 0 4px 8px -3px #00000052` |
-| `lg` | `0 12px 24px 0 #0003, 0 8px 16px 0 #00000052` |
-| `xl` | `0 16px 40px 4px #0003, 0 12px 24px 0 #00000052` |
-
-색상 자체는 거의 늘 `#0003` / `#00000052` 조합이다. LEGO는 섀도우보다 레이어 색과 pill shape로 컴포넌트를 구분한다.
+| Level | Value | Usage |
+|---|---|---|
+| `--ds-shadow-100` | `0px 1px 1px #0000000F`, `0px 2px 2px -1px #00000017`, `0px 4px 2px -2px #00000026` | small elevation |
+| `--ds-shadow-300` | multi-layer up to `16px 16px -8px #00000026` | cards/modals |
+| `--ds-shadow-500` | up to `64px 64px -32px #0000004D` | strong overlays |
+| `--ds-shadow-down-300` | seven-layer slate shadow using `#22242D` alpha | dropdown/deep panels |
+| `--ds-shadow-inset-100` | inset black alpha stack | input/pressed surfaces |
 
 ---
 
 ## 10. Motion
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-| Pattern | Value | Where observed |
+| Token / pattern | Value | Usage |
 |---|---|---|
-| accordion | `height .25s linear` | expandable blocks |
-| transform | `transform .25s linear` | simple slide/drag states |
-| tray | `transform var(--sk-tray-animation-speed) ease-out` | tray / drawer |
-| tray speed token | `--sk-tray-animation-speed: .5s` | global tray timing |
-| toggle token | `--_toggle-animation-duration: .4s` | toggle / switch controls |
-| overlay fade | `opacity .2s ~ .35s` | overlays / modals |
-| menu | `.3s` | menu show/hide |
-| promo cycle | `--_display-duration: 5s`, `--_slide-in-duration: .5s`, `--_slide-out-duration: .3s` | rotating banners |
-
-모션은 있는 편이지만, 전역적인 "브랜드 모션 시스템"보다 컴포넌트 로컬 타이밍 토큰에 가깝다.
+| reduced motion query | `@media (prefers-reduced-motion)` | accessibility guard |
+| pointer/hover query | `@media (hover:hover) and (pointer:fine)` | desktop hover affordances |
+| button state switch | hover/active CSS variable replacement | avoids one-off colors |
+| carousel/navigation controls | stateful dots/bars | promo and product scrollers |
 
 ---
 
 ## 11. Layout Patterns
 <!-- SOURCE: auto+manual -->
 
-- **Global container**: `.Layout_layout__7aSvA { max-width: var(--ds-breakpoint-xl); width: 100%; margin: 0 auto; }` → 최대 `1600px`
-- **Quick links wrapper**: `.QuickLinksWrapper_wrapper__zhc3F`는 중앙 정렬 + fluid padding, `75em` 이상에서 `14% / 86%` grid variant 사용
-- **Content cards**: `.ContentCard_standard__WGdOH`는 `display:flex`, `flex-direction:column`, `gap: var(--ds-spacing-xs)` 구조
-- **Card content padding**: editorial card content는 모바일 `var(--ds-spacing-xs) var(--ds-spacing-2xs)`, `75em` 이상 `var(--ds-spacing-lg) var(--ds-spacing-md)`
-- **Buttons**: `.sk-button`는 고정 height token + pill radius + min-width `max-content`
+### Grid System
+- **Content max-width**: campaign-dependent; product and carousel sections use constrained list wrappers rather than a single universal max-width.
+- **Grid type**: Flexbox/CSS modules for header and carousel, responsive list/grid patterns for product leaves.
+- **Column count**: responsive marketplace rows; desktop product carousels show multiple product leaves, mobile collapses toward horizontal scroll.
+- **Gutter**: tokenized gaps such as `--column-gap-sm`, `--row-gap-sm`, and `--ds-spacing-sm`.
+
+### Hero
+- **Pattern Summary**: campaign static hero + image background + right/left content alignment + CTA over artwork.
+- Layout: `StaticHero` wrapper with `StaticHero_right` variant observed; media wrapper plus linked background image.
+- Background: inline `background-color: var(--ds-color-core-off-black)` for captured hero, with remote campaign image.
+- **Background Treatment**: image-led campaign treatment; not a generated gradient mesh. The CSS layer provides fallback solid color.
+- H1: campaign-specific, usually bold display, image composition controls placement.
+- Max-width: hero media uses full campaign asset dimensions; HTML captured `1600x700` image source for desktop.
+
+### Section Rhythm
+
+```css
+section {
+  padding: var(--ds-spacing-lg) var(--ds-spacing-sm);
+  max-width: campaign-or-carousel-specific;
+}
+```
+
+### Card Patterns
+- **Card background**: `var(--ds-color-layer-default)` / `#fff`
+- **Card border/frame**: `var(--ds-color-transparent-black-50)` and neutral border tokens
+- **Card radius**: `--ds-border-radius-md` / `8px` commonly
+- **Card padding**: `16px-24px` token range
+- **Card shadow**: mostly low or none; stronger shadows are reserved for overlays/dropdowns
+
+### Navigation Structure
+- **Type**: horizontal main navigation with mega-menu submenus; mobile header/search variants exist.
+- **Position**: header shell at top, with global banner above.
+- **Height**: main bar min-height `--ds-size-xl` / `48px`.
+- **Background**: `var(--ds-color-neutral-white)` / `#fff`.
+- **Border**: subtle neutral borders and focus/active indicators.
+
+### Content Width
+- **Prose max-width**: not a prose site; copy is embedded in modules.
+- **Container max-width**: module-specific, not single blog-width.
+- **Sidebar width**: mega-menu/flyout dependent; no permanent dashboard sidebar.
 
 ---
 
-## 12. Responsive
-<!-- SOURCE: auto -->
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
 
-| Breakpoint token | Value | Approx px |
+### Breakpoints
+
+| Name | Value | Description |
 |---|---|---|
-| `--ds-breakpoint-xs` | `23.4375em` | `375px` |
-| `--ds-breakpoint-sm` | `36.25em` | `580px` |
-| `--ds-breakpoint-md` | `56.25em` | `900px` |
-| `--ds-breakpoint-lg` | `75em` | `1200px` |
-| `--ds-breakpoint-xl` | `100em` | `1600px` |
+| XS | `23.4375em` | minimum phone baseline |
+| SM | `36.25em` | larger phones / small tablets |
+| MD | `56.25em` | tablet / desktop nav transition |
+| LG | `75em` | wide desktop |
+| XL | `100em` | large display / campaign asset scaling |
 
-실제 모듈 CSS는 `580px`, `900px`, `1200px`에서 레이아웃 전환이 자주 나타난다. spacing은 media query보다 `clamp()` 기반 fluid token을 먼저 쓰고, 큰 구조 전환만 breakpoint에서 처리한다.
+### Touch Targets
+- **Minimum tap size**: buttons/search/header icons align around `40px-48px` token sizes.
+- **Button height (mobile)**: driven by `--_button-height`; header/search uses `--ds-spacing-2xl` / `48px`.
+- **Input height (mobile)**: mobile search bar uses `height: var(--ds-spacing-2xl)`.
+
+### Collapsing Strategy
+- **Navigation**: desktop menu categories collapse to mobile header/search and drawer-like menu states.
+- **Grid columns**: product carousels and quick links reduce columns or become horizontal scroll.
+- **Sidebar**: no persistent sidebar; mega menu is transient.
+- **Hero layout**: hero media swaps responsive image sources and adjusts alignment around `56.25em` / `900px`.
+
+### Image Behavior
+- **Strategy**: responsive `<picture>` sources with width/DPR variants.
+- **Max-width**: product/media wrappers constrain image layout; asset URLs include crop/quality/width params.
+- **Aspect ratio handling**: campaign images encode fixed dimensions; product leaves maintain image frame consistency.
 
 ---
 
 ## 13. Components
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-### Primary Pill Button
+### Buttons
 
-```css
-.sk-button {
-  background-color: var(--ds-color-action-primary-enabled);
-  border-radius: var(--ds-border-radius-round);
-  color: var(--ds-color-text-on-primary);
-  height: var(--_button-height);
-  padding: 0 var(--_button-padding);
-}
-
-.sk-button--medium {
-  --_button-height: var(--ds-layout-size-500);
-  --_button-padding: var(--ds-layout-spacing-200);
-  font-size: 1rem;
-  font-weight: 500;
-}
+```html
+<button class="sk-button">Learn more</button>
+<button class="sk-button sk-button--secondary">Shop all</button>
 ```
 
-### Heading Utility
+| Property | Primary |
+|---|---|
+| Background | `var(--ds-color-action-primary-enabled)` / `#005AD2` |
+| Hover | `var(--ds-color-action-primary-hovered)` / `#0045B7` |
+| Pressed | `var(--ds-color-action-primary-pressed)` / `#011C58` |
+| Text | `var(--ds-color-text-on-primary)` / `#fff` |
+| Radius | `var(--ds-border-radius-round)` / `999px` |
+| Border | `var(--ds-layout-stroke-width-25)` transparent solid |
+| Focus | outline `var(--ds-color-focused-default)` with `2px` stroke |
+| Disabled | `opacity: var(--ds-misc-opacity-50)` |
 
-```css
-.display-sm,
-.display-md,
-.display-lg,
-.heading-sm,
-.heading-md,
-.heading-lg,
-.heading-xl,
-.heading-2xl,
-.heading-3xl,
-.heading-4xl,
-.heading-5xl,
-.heading-6xl {
-  font-family: var(--ds-font-font-family);
-  font-weight: 700;
-}
-```
+### Badges
 
-### Content Card Shell
+Badges carry commerce labels, points multipliers, discount states, and category markers. Small badges use `.875rem`, `500`, `1.5`; x-small badges use `.75rem`, `.01em` tracking, and `1.62` line-height. Discount x-small flips to `700`.
 
-```css
-.ContentCard_contentCard__RaobR.ContentCard_standard__WGdOH {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-spacing-xs);
-  max-width: 756px;
-}
+| Variant | Background | Text | Note |
+|---|---|---|---|
+| default small | tokenized layer | default text | compact product metadata |
+| discount | negative/red family | inverse or high-contrast | sale state |
+| points 5x | `--ds-color-brand-bright-red` | inverse | loyalty promotion |
+| accent | yellow/action accent | black | promotional emphasis |
+
+### Cards & Containers
+
+Product leaves use a white layer, neutral text, and an alpha frame (`#0000000F`). The card should not look like a SaaS analytics card. It is a product plinth: image first, title/price/status second, CTA last.
+
+| Property | Product leaf |
+|---|---|
+| Surface | `--ds-color-layer-default` / `#fff` |
+| Text | `--ds-color-text-default` / `#141414` |
+| Frame | `--ds-color-transparent-black-50` / `#0000000F` |
+| Radius | `8px` default container radius |
+| Shadow | usually none or shallow |
+| Hover | image/card control changes, not dramatic transform |
+
+### Navigation
+
+Main navigation combines logo, top categories (`Shop`, `Discover`, `Help`, `New`), mega-menu panels, account actions, wishlist, and cart. Menu buttons use `aria-haspopup`, `aria-expanded`, and data analytics labels. Logo is an image asset sized `55x55`.
+
+### Inputs & Forms
+
+Mobile search is a pill container: white background, neutral gray border, `48px` height, horizontal padding, and icon/text alignment. Form states use border and inset shadow tokens rather than large color fills.
+
+### Hero Section
+
+Static hero uses linked responsive images, a fallback background color, and directional variants such as `StaticHero_right`. Campaign assets drive the emotional palette; the UI token layer supplies readable CTA and text treatment.
+
+### 13-2. Named Variants
+
+#### `button-primary`
+- `background: #005AD2`
+- `hover: #0045B7`
+- `pressed: #011C58`
+- `color: #fff`
+- `border-radius: 999px`
+
+#### `button-secondary`
+- `background: transparent`
+- `border-color: #005AD2`
+- `text: #141414`
+- Use for lower-priority actions near primary CTA.
+
+#### `button-accent-yellow`
+- `background: #FFD502`
+- `hover: #FAC400`
+- `pressed: #EF9F00`
+- `text: #000000`
+- Use sparingly for LEGO-branded promotional moments.
+
+#### `product-leaf`
+- `background: #fff`
+- `text: #141414`
+- `frame: #0000000F`
+- Image-led; avoid heavy shadows and decorative borders.
+
+#### `mobile-search-pill`
+- `height: 48px`
+- `border: 1px solid #BFBFBF`
+- `border-radius: 999px`
+- `padding: 4px 20px`
+
+### 13-3. Signature Micro-Specs
+
+```yaml
+blue-action-yellow-brand-split:
+  description: "LEGO brand memory and conversion UI are held as separate layers."
+  technique: "#005AD2 {colors.action-primary} for primary action; #0045B7 hover; #011C58 pressed; #FFD502 {colors.action-accent} reserved for accent/promotional action."
+  applied_to: ["{component.button-primary}", "{component.button-accent}", "links", "promotional modules"]
+  visual_signature: "a red/yellow toy-brand world where the actual route to purchase is always blue."
+
+round-control-chassis:
+  description: "Core controls are built as touchable pill/circle primitives instead of squared retail buttons."
+  technique: "--ds-layout-radius-pill: 999px; --ds-layout-radius-round: 999px; mobile search height 48px; button border 2px transparent solid."
+  applied_to: ["{component.button-primary}", "{component.button-secondary}", "mobile-search-pill", "carousel/icon controls"]
+  visual_signature: "soft, graspable controls that echo LEGO tactility without becoming literal brick skeuomorphism."
+
+alpha-frame-product-plinth:
+  description: "Product leaves use a quiet alpha frame so franchise artwork carries the color load."
+  technique: "background #fff {colors.surface-page}; frame #0000000F; default radius 8px; shadow usually none or shallow."
+  applied_to: ["{component.product-leaf}", "carousel list items", "product grid cards"]
+  visual_signature: "each product sits on a small white build plate, with the set image doing the shouting."
+
+badge-legibility-microtype:
+  description: "Dense marketplace labels stay readable through explicit tiny-type engineering."
+  technique: ".875rem small badges at font-weight 500 and line-height 1.5; .75rem x-small badges at font-weight 500/700, letter-spacing .01em, line-height 1.62."
+  applied_to: ["discount badges", "loyalty badges", "status badges", "product metadata"]
+  visual_signature: "promo and status chips remain legible even when product grids become visually busy."
+
+ds-tokenized-layer-cabinet:
+  description: "Loud campaign and franchise surfaces sit inside a neutral tokenized commerce cabinet."
+  technique: "--ds-color-layer-default #fff; --ds-color-layer-muted #F7F7F7; --ds-color-border-default #B0B0B0; --ds-shadow-100 low alpha stack for small elevation."
+  applied_to: ["navigation", "mega-menu panels", "cards", "section containers"]
+  visual_signature: "the shelves, rails, and dividers stay neutral while LEGO worlds change inside them."
 ```
 
 ---
 
-## 14. Content Voice
-<!-- SOURCE: auto+manual -->
+## 14. Content / Copy Voice
+<!-- SOURCE: manual -->
 
-- **명령형 navigation**: `Shop`, `Discover`, `Help`, `Gift finder`
-- **taxonomy-first**: `Sets by theme`, `Age`, `Price ranges`, `Interests`
-- **명시적 qualifier**: `1.5+`, `18+`, `Under $25`, `Over $100`
-- **브랜드/라이선스 표기 유지**: `LEGO® Animal Crossing™`, `Nike x LEGO® Collection`
-
-카피 톤은 감성적인 슬로건보다 **분류와 탐색**에 더 무게가 있다. LEGO 브랜드의 즐거움은 언어보다 palette와 이미지에서 오고, 텍스트는 전자상거래 구조를 우선한다.
+| Pattern | Rule | Example |
+|---|---|---|
+| Headline | Direct retail/play language; campaign-specific | `Star Wars Day offers` |
+| Primary CTA | Short action phrase | `Learn more`, `Shop now` |
+| Secondary CTA | Utility explanation | `Explore all current special offers and promotions now.` |
+| Navigation | Category taxonomy, not brand poetry | `Sets by theme`, `Age`, `Price ranges` |
+| Tone | Friendly, retail-clear, family-safe | Product/theme labels over abstract copy |
 
 ---
 
@@ -441,34 +611,39 @@ LEGO DS의 spacing은 전형적인 8pt scale이 아니다. 실제 토큰은 `11p
 <!-- SOURCE: auto+manual -->
 
 ```css
+/* LEGO.com-inspired design tokens */
 :root {
+  /* Fonts */
+  --lego-font-family: "LEGO Typewell", "Cera Pro", system-ui, sans-serif;
+  --lego-font-family-fallback: "Cera Pro", system-ui, sans-serif;
+  --lego-font-weight-normal: 400;
+  --lego-font-weight-medium: 500;
+  --lego-font-weight-bold: 700;
+
+  /* Brand and action */
+  --lego-action-primary: #005AD2;
+  --lego-action-primary-hovered: #0045B7;
+  --lego-action-primary-pressed: #011C58;
+  --lego-action-accent: #FFD502;
   --lego-logo-red: #E3000B;
   --lego-logo-yellow: #FFED00;
-  --lego-brand-blue: #006CB7;
 
-  --lego-ui-primary: #005AD2;
-  --lego-ui-primary-hover: #0045B7;
-  --lego-ui-primary-pressed: #011C58;
+  /* Surfaces */
+  --lego-bg-page: #fff;
+  --lego-bg-muted: #F7F7F7;
+  --lego-bg-subdued: #F2F2F2;
+  --lego-text: #141414;
+  --lego-text-muted: #636363;
+  --lego-border: #B0B0B0;
 
-  --lego-ui-brand: #FFD502;
-  --lego-ui-brand-hover: #FAC400;
-  --lego-ui-brand-pressed: #EF9F00;
+  /* Key spacing */
+  --lego-space-xs: 16px;
+  --lego-space-sm: 20px;
+  --lego-space-md: 24px;
+  --lego-space-lg: 32px;
+  --lego-space-xl: 40px;
 
-  --lego-surface-base: #FFFFFF;
-  --lego-surface-subdued: #F7F7F7;
-  --lego-surface-muted: #F2F2F2;
-  --lego-text-default: #141414;
-  --lego-text-subtle: #636363;
-  --lego-stroke-default: #B0B0B0;
-  --lego-stroke-subtle: #CBCBCB;
-
-  --lego-space-3xs: 11px;
-  --lego-space-2xs: 18px;
-  --lego-space-xs: 22px;
-  --lego-space-sm: 25px;
-  --lego-space-md: 29px;
-  --lego-space-lg: 43px;
-
+  /* Radius */
   --lego-radius-sm: 4px;
   --lego-radius-md: 8px;
   --lego-radius-lg: 16px;
@@ -476,71 +651,67 @@ LEGO DS의 spacing은 전형적인 8pt scale이 아니다. 실제 토큰은 `11p
 }
 
 body {
-  font-family: "Cera Pro", sans-serif;
-  font-weight: 400;
-  color: var(--lego-text-default);
-  background: var(--lego-surface-base);
+  background: var(--lego-bg-page);
+  color: var(--lego-text);
+  font-family: var(--lego-font-family);
+  font-weight: var(--lego-font-weight-normal);
 }
 
 .lego-button {
   align-items: center;
-  background: var(--lego-ui-primary);
-  border: 0;
+  background: var(--lego-action-primary);
+  border: 2px solid transparent;
   border-radius: var(--lego-radius-pill);
-  color: #FFFFFF;
+  color: #fff;
   display: inline-flex;
-  font-size: 1rem;
-  font-weight: 500;
-  height: 60px;
-  padding: 0 var(--lego-space-xs);
+  font-weight: 700;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 24px;
+}
+
+.lego-button:hover { background: var(--lego-action-primary-hovered); }
+.lego-button:active { background: var(--lego-action-primary-pressed); }
+
+.lego-product-card {
+  background: #fff;
+  border: 1px solid #0000000F;
+  border-radius: var(--lego-radius-md);
+  color: var(--lego-text);
+  padding: var(--lego-space-xs);
 }
 ```
 
 ---
 
 ## 16. Tailwind Config
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto+manual -->
 
 ```js
-export default {
+module.exports = {
   theme: {
     extend: {
       colors: {
         lego: {
-          logoRed: "#E3000B",
-          logoYellow: "#FFED00",
-          brandBlue: "#006CB7",
-          primary: "#005AD2",
-          primaryHover: "#0045B7",
-          primaryPressed: "#011C58",
-          accent: "#FFD502",
-          accentHover: "#FAC400",
-          accentPressed: "#EF9F00",
-          surface: "#FFFFFF",
-          subdued: "#F7F7F7",
-          muted: "#F2F2F2",
-          text: "#141414",
-          subtle: "#636363",
-          stroke: "#B0B0B0",
-          strokeSubtle: "#CBCBCB",
+          blue: '#005AD2',
+          blueHover: '#0045B7',
+          yellow: '#FFD502',
+          red: '#E3000B',
+          ink: '#141414',
+          muted: '#636363',
+          surfaceMuted: '#F7F7F7',
+          border: '#B0B0B0',
         },
       },
       fontFamily: {
-        sans: ['"Cera Pro"', "sans-serif"],
-        display: ['"LEGO Typewell"', '"Cera Pro"', "sans-serif"],
-      },
-      spacing: {
-        "lego-3xs": "11px",
-        "lego-2xs": "18px",
-        "lego-xs": "22px",
-        "lego-sm": "25px",
-        "lego-md": "29px",
-        "lego-lg": "43px",
+        sans: ['LEGO Typewell', 'Cera Pro', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
-        lego: "8px",
-        "lego-lg": "16px",
-        "lego-pill": "999px",
+        lego: '8px',
+        'lego-pill': '999px',
+      },
+      boxShadow: {
+        lego: '0px 1px 1px 0px #0000000F, 0px 2px 2px -1px #00000017, 0px 4px 2px -2px #00000026',
       },
     },
   },
@@ -549,28 +720,124 @@ export default {
 
 ---
 
-## 17. Agent Prompt
+## 17. Agent Prompt Guide
 <!-- SOURCE: manual -->
 
-`lego.com/en-us`의 2026-04-23 CSS를 기준으로 재현한다. 배경은 `#FFFFFF / #F7F7F7 / #F2F2F2` light layer 체계, 본문 텍스트는 `#141414`, 보조 텍스트는 `#636363`을 사용한다. 기본 UI 폰트는 `Cera Pro`, 브랜드용 대형 display에만 `LEGO Typewell`을 쓴다. 기본 CTA는 로고 레드가 아니라 블루 `#005AD2`이고 hover는 `#0045B7`, pressed는 `#011C58`이다. 노랑 액센트는 `#FFD502` 계열을 쓰고, 로고 레드 `#E3000B`는 브랜드 식별 요소에만 제한한다. spacing은 8pt로 재정규화하지 말고 `11 / 18 / 22 / 25 / 29 / 43 / 50 / 58 / 66 / 86 / 100px` 리듬을 유지한다. 버튼은 pill radius, cards는 `8~16px` radius, 최대 콘텐츠 폭은 `1600px`.
+### Quick Color Reference
+
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary action | `{colors.action-primary}` | `#005AD2` |
+| Brand accent | `{colors.action-accent}` | `#FFD502` |
+| Logo red | `{colors.logo-red}` | `#E3000B` |
+| Background | `{colors.surface-page}` | `#fff` |
+| Text primary | `{colors.text-default}` | `#141414` |
+| Text muted | `--ds-color-text-subdued` | `#636363` |
+| Border | `{colors.border-default}` | `#B0B0B0` |
+| Error | `--ds-color-action-negative-enabled` | `#BD0000` |
+
+### Example Component Prompts
+
+#### Hero Section
+```text
+LEGO.com style hero section을 만들어줘.
+- 구조: image-led campaign hero, linked responsive media, CTA overlay
+- 배경: campaign image + fallback #141414 or #fff
+- H1: LEGO Typewell, bold 700, campaign asset에 맞춰 좌/우 정렬
+- CTA: #005AD2 primary pill, white text, 999px radius, 48px min-height
+- yellow #FFD502는 accent/promo로만 사용
+- product/franchise artwork가 주인공이고 UI chrome은 절제
+```
+
+#### Card Component
+```text
+LEGO.com product leaf card를 만들어줘.
+- background: #fff
+- border/frame: 1px solid #0000000F
+- text: #141414
+- radius: 8px
+- image-first layout, title/price/status below
+- badges: .75rem or .875rem, weight 500/700, letter-spacing .01em for tiny labels
+- hover는 shadow/transform 과장 금지, product image/control state만 살짝
+```
+
+#### Badge
+```text
+LEGO.com badge를 만들어줘.
+- small: .875rem, weight 500, line-height 1.5
+- x-small: .75rem, weight 500, line-height 1.62, tracking .01em
+- discount/urgent: red family #BD0000 or #E3000B
+- loyalty/promo: yellow #FFD502 or brand red only when campaign context exists
+```
+
+#### Navigation
+```text
+LEGO.com style navigation을 만들어줘.
+- white header, 48px+ height, LEGO logo left
+- categories: Shop, Discover, Help, New
+- mega menu with aria-expanded/aria-haspopup states
+- mobile search pill: #fff bg, #B0B0B0 border, 999px radius, 48px height
+- primary action/link color: #005AD2
+```
+
+### Iteration Guide
+
+- **Primary CTA**: use `#005AD2`; yellow is not the universal button color.
+- **Brand moments**: use yellow/red through hero art, promo tiles, and logo memory, not through every UI surface.
+- **Product cards**: keep chrome neutral; let product imagery supply color.
+- **Radius**: pills and circles are correct for controls; default cards can stay `8px`.
+- **Typography**: use `400/500/700`; avoid inventing a `600` layer unless a specific component demands it.
+- **Responsive**: respect `36.25em`, `56.25em`, `75em`, `100em` breakpoint logic.
 
 ---
 
 ## 18. DO / DON'T
-<!-- SOURCE: auto+manual -->
+<!-- SOURCE: manual -->
 
-### DO
+### ✅ DO
 
-- 로고 팔레트(`#E3000B`, `#FFED00`)와 UI 액션 팔레트(`#005AD2`, `#FFD502`)를 분리한다
-- 기본 UI는 `Cera Pro`, 브랜드성 display만 `LEGO Typewell`로 나눈다
-- 버튼은 pill radius를 유지하고, cards는 `8~16px` 반경에서 멈춘다
-- spacing은 `11 / 18 / 22 / 25 / 29 / 43...` 실제 토큰을 사용한다
-- light surface 3층(`white / subdued / muted`)을 유지한다
+- Use `#005AD2` for primary interactive actions and link/action emphasis.
+- Use `#FFD502` as brand/accent energy, especially in promo or LEGO-memory surfaces.
+- Keep the page and product card chassis white or near-white so product photography carries color.
+- Use `LEGO Typewell` where available, with `Cera Pro` or localized Noto fallbacks.
+- Build buttons as true pills with `border-radius: 999px` and visible focus outlines.
+- Keep product cards image-led with subtle alpha frames.
+- Preserve the `--ds-*` semantic layer; do not flatten everything into generic `--color-brand`.
+- Let campaign modules vary by franchise while keeping commerce controls consistent.
 
-### DON'T
+### ❌ DON'T
 
-- 모든 CTA를 `#E3000B`로 칠하지 않는다
-- 요청값이라고 해서 CSS에 없는 `#FFCF00`, `#006DB7`를 사실처럼 쓰지 않는다
-- spacing을 임의의 8pt grid로 정규화하지 않는다
-- body까지 `LEGO Typewell`로 밀어붙이지 않는다
-- dark background를 기본 페이지 톤으로 바꾸지 않는다
+- 배경을 `#000000` 또는 `black`으로 두지 말 것 — 기본 commerce surface는 `#fff` 또는 `#F7F7F7` 사용.
+- 본문 텍스트를 `#000000` 또는 `black`으로 고정하지 말 것 — 대신 `#141414` 사용.
+- Primary CTA를 `#FFD502`로 통일하지 말 것 — 대신 `#005AD2` 사용.
+- LEGO logo red `#E3000B`를 모든 링크/버튼에 쓰지 말 것 — primary action은 `#005AD2`다.
+- Product card frame을 `#B0B0B0` heavy border로 만들지 말 것 — 대신 `#0000000F` alpha frame 또는 subtle neutral 사용.
+- Button radius를 `8px`로 낮추지 말 것 — primary controls는 `999px` pill/round다.
+- Badge tiny text를 `font-weight: 400`으로 두지 말 것 — captured badges use `500` or `700`.
+- Purple/blue AI gradient `#667EEA` 같은 임의 배경을 넣지 말 것 — LEGO.com은 campaign imagery + token colors를 쓴다.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- No single-color brand wash: the whole UI is not red, yellow, or blue.
+- No universal yellow CTA: yellow appears as accent/brand memory, not as the default conversion rule.
+- No generic SaaS card shadow language: product cards are framed and image-led, not glassy analytics panels.
+- No invented token names: use `--ds-color-action-primary-enabled`, `--ds-color-layer-default`, `--ds-layout-radius-round`, not `--lego-blue-button` unless making a local adapter.
+- No delicate square buttons for primary actions: round/pill controls are part of the tactile identity.
+- No typography eccentricity in body copy: play lives in imagery and brand assets, not in unreadable paragraph fonts.
+- No permanent dashboard sidebar: this is a marketplace shell with header/mega-menu/carousel patterns.
+- No monochrome luxury restraint: LEGO.com accepts bright campaign color, but controls it through neutral commerce structure.
+- No decorative gradient mesh as a substitute for real product/franchise imagery.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Screenshot obstruction**: the available `hero-cropped.png` is covered by a regional/cookie selection modal in Korean. Hero judgments therefore rely more heavily on captured HTML/CSS than on a clean visual screenshot.
+- **Homepage only**: analysis uses the captured `https://www.lego.com/en-us` homepage. Checkout, product detail, account, wishlist, cart, configurator, and support flows were not visited.
+- **Computed typography gap**: phase1 `typography.json` did not extract a full scale. Typography values are based on CSS declarations and component snippets, not browser-computed measurements.
+- **Alias resolver gap**: phase1 `resolved_tokens.json` reports zero resolved variables, but direct CSS inspection shows extensive `--ds-*` variables. This guide treats direct CSS variables as source of truth.
+- **Campaign volatility**: homepage hero campaigns and quick links change frequently. The token system is stable enough for design guidance; specific Star Wars/offers/Mother's Day modules may be stale.
+- **Logo and partner color contamination**: CSS includes LEGO logo colors, partner/franchise colors, social colors, and campaign colors. Brand/action decisions intentionally prioritize UI action tokens over raw chromatic frequency.
+- **Motion not fully instrumented**: CSS media queries and state transitions were observed, but JS carousel timing, scroll behavior, and animation curves were not fully replayed.
+- **Dark mode incomplete**: CSS includes inverse/static dark layers, but the captured homepage is light commerce. Full dark mapping is not proven.

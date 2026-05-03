@@ -1,478 +1,710 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: cal
 service_name: Cal.com
 site_url: https://cal.com
-fetched_at: 2026-04-20
+fetched_at: 2026-05-03T06:19:20Z
 default_theme: light
 brand_color: "#242424"
-primary_font: Inter
-font_weight_normal: 400
-token_prefix: --token-*, --color-*
+primary_font: "Cal Sans UI Variable Light"
+font_weight_normal: 300
+token_prefix: "--token"
 
-bold_direction: "Refined Minimalism"
-aesthetic_category: "Refined Minimalism"
-signature_element: typo_contrast
-code_complexity: low
-color_system: monochrome
+bold_direction: "Scheduling Slate"
+aesthetic_category: "industrial minimalism"
+signature_element: "dark booking-card chassis on a soft gray scheduling floor"
+code_complexity: medium
 
 medium: web
 medium_confidence: high
+
+archetype: saas-marketing
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "Framer-exported production page with real CSS tokens, repeated scheduling components, and Cal-owned font assets, but UUID token names instead of a public semantic token API."
+
+colors:
+  surface-dark: "#242424"
+  surface-page: "#F4F4F4"
+  text-primary: "#000000"
+  text-on-dark: "#FFFFFF"
+  text-muted: "#898989"
+  border-light: "#E1E2E3"
+  accent-blue: "#0099FF"
+  accent-violet: "#6349EA"
+  success: "#19A874"
+  error: "#EF4444"
+
+typography:
+  display: "Cal Sans UI Variable Light"
+  body: "Inter"
+  supporting_display: "Inter Display"
+  code: "Roboto Mono"
+  ladder:
+    - { token: hero, size: "64px", weight: 300, line_height: "1.1em", tracking: "0em" }
+    - { token: h1, size: "56px", weight: 300, line_height: "1.1em", tracking: "0em" }
+    - { token: h2, size: "40px", weight: 400, line_height: "1.1em", tracking: "0em" }
+    - { token: h3, size: "32px", weight: 400, line_height: "1.3em", tracking: "0em" }
+    - { token: body, size: "16px", weight: 400, line_height: "1.5em", tracking: "0em" }
+    - { token: caption, size: "14px", weight: 400, line_height: "1.5em", tracking: "-.2px" }
+  weights_used: [100, 200, 300, 400, 500, 600, 700, 800, 900]
+  weights_absent: []
+
+components:
+  button-dark-primary: { bg: "{colors.surface-dark}", fg: "{colors.text-on-dark}", radius: "9999px", padding: "8px 12px" }
+  button-light-secondary: { bg: "{colors.text-on-dark}", fg: "{colors.surface-dark}", radius: "9999px", padding: "8px 12px" }
+  booking-card: { bg: "{colors.text-on-dark}", border: "1px solid {colors.border-light}", radius: "16px", shadow: "0 1px 5px -4px #242424b3, 0 4px 8px #2424240d" }
+  dark-feature-panel: { bg: "{colors.surface-dark}", fg: "{colors.text-on-dark}", radius: "16px" }
 ---
 
-# DESIGN.md — Cal.com (Claude Code Edition)
+# DESIGN.md - Cal.com
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-soft-gray canvas + 거대 near-black H1을(를) 축으로 하는 디자인 시스템. 스케줄링 오픈소스 — Framer 호스팅 마케팅 사이트. 검정 CTA + 한 점 보라 accent.
+### Narrative
 
-Cal.com의 마케팅 홈은 refined minimalism 성격을 유지한다. 브랜드 컬러 `#242424`는 CTA, 링크, focus ring 등 의미가 필요한 지점에만 등장하며, 넓은 면적은 light 캔버스(`#FFFFFF` 계열)가 담당한다. 이 구조는 사용자가 "콘텐츠에 집중하게 하고, 색이 개입하는 순간은 결정이 필요한 순간"이라는 일관된 규율로 설계되었다.
+Cal.com feels less like a glossy SaaS landing page and more like a scheduling object laid on a quiet workbench. The page floor is not pure white; it sits on a pale utility gray, #F4F4F4 (`{colors.surface-page}`), while the most memorable UI moments are compact dark surfaces in #242424 (`{colors.surface-dark}`). It is the visual language of a dispatch desk after the paperwork has been cleared: only the clock, the route, the slot, and the confirmation remain. That contrast makes the product feel infrastructural: calendar, availability, booking, and routing are presented as dependable machinery rather than celebratory software.
 
-색상 전략은 한 점 accent + neutral surface의 고전 SaaS 문법을 따른다. 체감상 가장 넓은 면적은 배경과 텍스트이고, `#242424`는 전체 픽셀의 5% 미만이다. 이런 절제가 "Cal.com다움"을 만든다.
+The signature move is a black scheduling chassis. Instead of making the brand color a saturated blue, Cal lets deep neutral surfaces carry the identity. There is no second brand color trying to become the logo; #0099FF (`{colors.accent-blue}`) and #6349EA (`{colors.accent-violet}`) behave like small LED states on equipment, not like paint on the room. The dark blocks, booking previews, and nav/button chrome create a repeated object language: rounded but not playful, dense but not enterprise-heavy, functional but still handsome.
 
-타이포그래피는 **Inter**를 기본 축으로 한다. body는 `400` weight에 `16px` 전후, H1은 `48~64px` 사이, 섹션 타이틀은 `24~32px` — 전통적인 8단 scale 안에서 움직인다. 글자 간격(letter-spacing)은 큰 사이즈에 음수 tracking을 적용해 시각 보정을 준다.
+Typography reinforces that same stance. Cal Sans UI Variable Light appears as the brand voice, while Inter and Inter Display do the bulk of interface reading. The hero-size type is large and airy, but not editorially flamboyant. It has the directness of a command line prompt translated into a consumer scheduling product.
 
-레이아웃은 1200-1440px content max-width + 8px baseline spacing 시스템 위에 놓인다. 섹션 간 리듬은 80-120px vertical padding으로 정돈되어 있고, 카드/컴포넌트는 12-16px radius를 공유한다. 모션은 `150-200ms` transition에 `ease-out`/`ease-in-out` 기본값을 사용 — 과하게 오래 끌거나 bouncy하지 않다.
+The page uses color sparingly. #0099FF and #6349EA exist, but they are accents and product illustrations, not the main brand engine. Shadow is not a dramatic stage effect; it is the shallow contact shadow of a device sitting on a desk, expressed through `0 1px 5px -4px #242424b3, 0 4px 8px #2424240d`. The site becomes recognizable through controlled neutrals, pill CTAs, 16px rounded panels, and small pieces of simulated calendar UI.
+
+The strongest metaphor is a booking terminal in a quiet operations room. White cards are not decorative cards; they are appointment slips. Dark panels are not hero drama; they are the chassis around the scheduling engine. Cal.com does not ask the page to perform "SaaS excitement"; it lets the page erase itself enough that the meeting object looks already usable.
+
+To extend the picture: the rounded 16px panels behave like timecards punched into a steel rack, the pill CTAs read as the green and grey buttons of a desk-mounted intercom, and the dark `#242424` blocks look like the matte housing of a server appliance bolted under the desk. Even the typography acts like clock-face numerals on a flight-information board — calm, monospaced in feel, never ornamental. The page performs less like a brochure and more like a piece of office equipment that already has the next meeting loaded.
 
 ### Key Characteristics
 
-- soft-gray canvas
-- near-black CTA pill (#242424)
-- huge sans-serif H1
-- Framer-hosted
-- Inter
-- #6349EA violet secondary accent
+- Dark neutral brand chassis: #242424 is the identity anchor, not a vivid chromatic brand swatch.
+- Soft gray page floor: #F4F4F4 prevents the marketing page from becoming sterile white.
+- Product-first mock UI: booking cards, availability panels, meeting details, reminders, and integrations are used as visual proof.
+- Pill actions: CTAs tend toward compact capsule geometry with 9999px radius.
+- Rounded panel system: 16px is the dominant card radius for feature and booking surfaces.
+- Shallow elevation: one dual shadow appears as a light touch, never as dramatic floating chrome.
+- Type pairing: Cal Sans for brand/display moments, Inter and Inter Display for scalable marketing/interface text.
+- Dense utility rhythm: content panels and examples are closer to app UI than broad editorial storytelling.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Refined Minimalism
-> **Aesthetic Category**: Refined Minimalism
-> **Signature Element**: `typo_contrast`
-> **Code Complexity**: low
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Scheduling Slate
+> **Aesthetic Category**: industrial minimalism
+> **Signature Element**: 이 사이트는 **dark booking-card chassis on a soft gray scheduling floor**으로 기억된다.
+> **Code Complexity**: medium — Framer export with many UUID tokens and repeated component states, but the visual system is built from a small neutral/radius/shadow grammar.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: auto+manual -->
 
 > 5분 안에 Cal.com처럼 만들기 — 3가지만 하면 80%
 
 ```css
 /* 1. 폰트 + weight */
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Inter", "Inter Display", -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
+}
+.brand-display {
+  font-family: "Cal Sans UI Variable Light", "Cal Sans", "Inter Display", sans-serif;
+  font-weight: 300;
 }
 
-/* 2. 배경 + 텍스트 (light default) */
-:root {
-  --bg: #FFFFFF;
-  --fg: #171717;
-  --border: #E5E5E5;
-}
+/* 2. 배경 + 텍스트 */
+:root { --bg: #F4F4F4; --fg: #000000; --panel: #FFFFFF; --slate: #242424; }
 body { background: var(--bg); color: var(--fg); }
 
-/* 3. 브랜드 악센트 */
-:root {
-  --brand: #242424;
-}
-.cta {
-  background: var(--brand); color: #FFFFFF;
-  border-radius: 8px; padding: 0 16px; height: 40px;
-  font-weight: 500;
+/* 3. Cal surface grammar */
+.cal-panel {
+  border-radius: 16px;
+  border: 1px solid #E1E2E3;
+  box-shadow: 0 1px 5px -4px #242424b3, 0 4px 8px #2424240d;
 }
 ```
 
-**절대 하지 말아야 할 것 하나**: #242424를 본문 텍스트 색이나 긴 문단 배경으로 쓰지 말 것. Cal.com의 정체성은 brand accent를 **한 점**에만 올리는 절제다. 넓은 면적으로 가져가면 즉시 다른 제품이 된다.
+**절대 하지 말아야 할 것 하나**: Cal을 파란 SaaS로 만들지 말 것. #0099FF는 보조 accent이고, 실제 기억점은 #242424 dark scheduling chassis다.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
 | Source URL | `https://cal.com` |
-| Fetched | 2026-04-20 |
-| Extractor | curl + Chrome UA (5-tier fallback) |
-| Method | CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음 |
-| Token prefix | `--token-*, --color-*` |
-| Screenshot | Jina Reader + PIL crop 1280×800 |
+| Fetched | 2026-05-03T06:19:20Z |
+| Extractor | reused existing phase1 artifacts from `insane-design/cal/` |
+| HTML size | 2,297,795 bytes (Framer-exported marketing page) |
+| CSS files | 1 inline CSS capture, 441,907 chars |
+| Token prefix | `--token` plus `--framer-*` runtime variables |
+| Method | CSS custom property parsing, frequency candidates, typography extraction, manual interpretation |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: Framer (static export)
-- **Design system**: Framer tokens + 자체 Inter stack
-- **CSS architecture**: inline `<style>` 4블록 (Framer output)
-- **Class naming**: Framer scoped hash (framer-XXXXXX)
-- **Default theme**: light (#F4F5F6 canvas + #FFFFFF card)
-- **Font loading**: Google Fonts Inter
-- **Canonical anchor**: #000000 (primary CTA) + #0099FF (link accent)
-- **Hero**: 2-column split: big H1 왼쪽 + 캘린더 카드 demo 오른쪽
+- **Framework**: Framer export / hosted marketing page.
+- **Design system**: Cal-owned visual layer expressed through Framer UUID tokens and Cal Sans font assets.
+- **CSS architecture**:
+  ```text
+  --token-*        UUID-like raw color tokens, mostly core values
+  --framer-*      runtime typography/link/layout variables
+  selectors       Framer component hashes and rich-text presets
+  ```
+- **Class naming**: Framer-generated classes, not human semantic BEM.
+- **Default theme**: light marketing page with #F4F4F4 page background and #242424 dark product panels.
+- **Font loading**: Framer-declared families including Cal Sans UI Variable Light, Cal Sans, Inter, Inter Display, Roboto Mono, and several placeholder/fallback names.
+- **Canonical anchor**: the homepage scheduling/product story: "The better way to schedule your meetings", booking cards, team-size navigation, and feature modules.
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Primary**: `Inter` — body + display 공용
-- **Code**: system mono fallback 또는 `Geist Mono` / `JetBrains Mono`
-- **Weight normal / bold**: `400` / `700`
-- **자주 쓰는 weight**: 400 / 500 / 600 / 700 4단
+- **Display font**: `Cal Sans UI Variable Light` for brand/display moments.
+- **Body font**: `Inter` dominates declarations, followed closely by `Inter Display`.
+- **Code font**: `Roboto Mono` appears in extracted font-family data.
+- **Weight normal / bold**: body commonly 400; Cal display/light moments use 300; heavier weights exist across Framer presets and should be used only where the page already implies UI hierarchy.
 
 ```css
 :root {
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
-               Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco,
-               "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", monospace;
+  --cal-font-display: "Cal Sans UI Variable Light", "Cal Sans", "Inter Display", sans-serif;
+  --cal-font-body: "Inter", "Inter Display", -apple-system, BlinkMacSystemFont, sans-serif;
+  --cal-font-code: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --cal-font-weight-light: 300;
+  --cal-font-weight-normal: 400;
+  --cal-font-weight-semibold: 600;
 }
 body {
-  font-family: var(--font-sans);
-  font-weight: 400;
+  font-family: var(--cal-font-body);
+  font-weight: var(--cal-font-weight-normal);
 }
 ```
+
+### Note on Font Substitutes
+
+- **Cal Sans UI Variable Light** — if the Cal-owned font is unavailable, use open-source **Inter Display** at weight 300, `line-height: 1.1em`, and keep `letter-spacing: 0em`. Do not compensate with negative tracking; extracted Cal text is notably uncompressed.
+- **Inter body** — keep Inter as the body fallback. A generic `system-ui` replacement loses the Cal/Framer product texture because the page depends on Inter's neutral interface tone.
+- **Roboto Mono** — use only for code/API/developer surfaces. Do not let mono styling leak into scheduling cards unless the content is explicitly technical.
 
 ---
 
 ## 05. Typography Scale
+<!-- SOURCE: auto+manual -->
 
 | Token | Size | Weight | Line-height | Letter-spacing |
-|---|---|---|---|---|
-| small | `14px` | 400 | 1.5 | normal |
-| base | `16px` | 400 | 1.5 | normal |
-| body-l | `18px` | 400 | 1.5 | normal |
-| h5 | `20px` | 600 | 1.3 | normal |
-| h4 | `24px` | 600 | 1.25 | `-0.01em` |
-| h3 | `32px` | 600 | 1.2 | `-0.02em` |
-| h2 | `40px` | 700 | 1.15 | `-0.02em` |
-| h1 | `48/56/64px` | 700 | 1.1 | `-0.03em` |
+|---|---:|---:|---:|---:|
+| hero-display | 64px | 300 | 1.1em | 0em |
+| page-h1 | 56px | 300 | 1.1em | 0em |
+| section-h2 | 40px | 400/600 | 1.1em | 0em |
+| module-title | 32px | 400/600 | 1.3em | 0em |
+| body | 16px | 400 | 1.5em | 0em |
+| nav / label | 14px | 400/500 | 1.5em | -0.2px where present |
+| micro | 12px | 500/600 | 1.2em | 0em |
 
-> ⚠️ 큰 사이즈(H1~H2)에 음수 tracking 필수 — optical compensation이 없으면 "덜 다듬어진" 느낌이 난다.
+> ⚠️ Cal's typographic identity is not "huge SaaS gradient type"; it is light, balanced display type plus sober Inter interface copy.
+
+### Principles
+
+1. Display lightness matters — hero and brand moments should start from weight 300, not 700.
+2. Body copy stays interface-neutral — 16px / 1.5em is the core reading texture.
+3. Tracking is mostly zero — do not add fashionable negative letter-spacing to every headline.
+4. 14px labels are real interface material — booking previews and settings-like modules rely on small text being legible.
+5. Heavy weights exist in the export, but use them as hierarchy accents, not as the default brand voice.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
 
-### 06-1. Brand
+### 06-1. Brand Ramp (neutral-led)
 
-| Token | Hex | Role |
+| Token | Hex |
+|---|---|
+| `--token-fe0d69fb-0445-4f97-b1b4-d5035d890a7a` | `#242424` |
+| `--token-04285ea8-7979-4c0d-9108-9b979d0dc201` | `#292929` |
+| extracted neutral | `#141414` |
+| extracted neutral | `#111111` |
+| text/link default fallback | `#000000` |
+
+### 06-2. Brand Dark Variant
+
+| Token | Hex |
+|---|---|
+| `--token-ff1e49ba-8f64-4300-83d8-8ab67dfa21d0` | `#0D0C27` |
+| `--token-7329240e-3f60-4c53-bf0a-cd65019272a8` | `#15142E` |
+| `--token-e8e4663b-49e0-475e-922f-dfe89bd13fdc` | `#352F4B` |
+
+### 06-3. Neutral Ramp
+
+| Step | Light | Dark / Text |
 |---|---|---|
-| brand.primary | `#242424` | CTA, link, focus ring |
-| brand.hover | 약 8% 어두움 | hover state |
-| brand.tint | 약 95% light mix | soft bg, badge |
+| page | `#F4F4F4` | `#242424` |
+| panel | `#FFFFFF` | `#141414` |
+| raised / subtle | `#FCFCFC` | `#292929` |
+| border | `#E1E2E3` | `#242424B3` |
+| muted | `#898989` | `#FFFFFFB3` |
 
-### 06-2. Neutral Ramp (light 기본)
+### 06-4. Accent Families
 
-| Step | Hex | Use |
+| Family | Key step | Hex |
 |---|---|---|
-| 0 | `#FFFFFF` | page bg |
-| 50 | `#FAFAFA` | panel muted |
-| 100 | `#F5F5F5` | subtle bg |
-| 200 | `#E5E5E5` | border subtle |
-| 300 | `#D4D4D4` | border |
-| 500 | `#737373` | muted text |
-| 700 | `#404040` | secondary text |
-| 900 | `#171717` | primary text |
+| Blue | action / illustration accent | `#0099FF` |
+| Violet | AI / feature accent | `#6349EA` |
+| Violet-light | supporting accent | `#875FE0`, `#C292FF` |
+| Green | success / calendar-positive | `#19A874`, `#E4F7F3` |
+| Red | error / destructive | `#EF4444`, `#FEE2E2` |
 
-> Cal.com 회색 램프는 Tailwind neutral 계열과 유사 — 채도 0% 기준.
+### 06-5. Semantic
+
+| Token | Hex | Usage |
+|---|---|---|
+| `{colors.surface-page}` | `#F4F4F4` | body background / page floor |
+| `{colors.surface-dark}` | `#242424` | brand chassis, dark feature panels, dark CTAs |
+| `{colors.text-primary}` | `#000000` | high-contrast text and default rich-text fallbacks |
+| `{colors.text-muted}` | `#898989` | secondary descriptions and low-priority metadata |
+| `{colors.border-light}` | `#E1E2E3` | card borders, panel separators |
+| `{colors.accent-blue}` | `#0099FF` | limited accent, not brand wash |
+| `{colors.success}` | `#19A874` | positive states |
+| `{colors.error}` | `#EF4444` | error/destructive states |
+
+### 06-6. Semantic Alias Layer
+
+> N/A — extracted Framer artifacts expose UUID-like core tokens and `--framer-*` runtime variables, but no stable human semantic alias layer such as `--cal-color-primary`.
+
+### 06-7. Dominant Colors (실제 DOM 빈도 순)
+
+| Token | Hex | Frequency |
+|---|---:|---:|
+| fallback black | `#000000` | 77 |
+| dark surface | `#242424` | 57 |
+| near-black | `#141414` | 32 |
+| white | `#FFFFFF` | 29 |
+| muted gray | `#898989` | 26 |
+| border gray | `#E1E2E3` | 18 |
+| accent blue | `#0099FF` | 12 |
+| dark alpha | `#242424B3` | 10 |
+| shadow alpha | `#2424240D` | 10 |
+| violet | `#6349EA` | 8 |
+
+### 06-8. Color Stories
+
+**`{colors.surface-dark}` (`#242424`)** — Cal's real brand color. It appears as the dark scheduling chassis: panels, CTAs, booking UI, and product-like blocks. Use it when the interface needs to feel like the scheduling engine itself.
+
+**`{colors.surface-page}` (`#F4F4F4`)** — the quiet floor. It keeps the page from looking like plain SaaS white and gives white booking cards a reason to exist.
+
+**`{colors.text-primary}` (`#000000`)** — the direct voice. Cal does not soften primary copy into blue-gray; the typography is plain and high contrast.
+
+**`{colors.border-light}` (`#E1E2E3`)** — structural hairline. This border does more work than decorative color, separating booking modules without making them visually heavy.
 
 ---
 
 ## 07. Spacing
+<!-- SOURCE: auto+manual -->
 
-8px baseline 시스템.
+| Token | Value | Use case |
+|---|---:|---|
+| `gap-2xs` | 2px | dense icon/text internals |
+| `gap-xs` | 4px | tiny stacked UI labels |
+| `gap-sm` | 8px | inline controls, button internals |
+| `gap-md` | 10px / 12px | repeated Framer stack rhythm |
+| `gap-lg` | 16px | card internal grouping |
+| `gap-xl` | 24px | module separation |
+| `gap-2xl` | 32px | section subgroups |
+| `gap-3xl` | 48px | major vertical groups |
+| `section-top` | 96px | hero/section breathing room observed in CSS |
 
-| Token | Value | Use |
-|---|---|---|
-| `--space-1` | 4px | hairline, icon gap |
-| `--space-2` | 8px | 작은 gap |
-| `--space-3` | 12px | inline group |
-| `--space-4` | 16px | 기본 card padding |
-| `--space-6` | 24px | section inner |
-| `--space-8` | 32px | block 간격 |
-| `--space-12` | 48px | 섹션 수직 padding (small) |
-| `--space-16` | 64px | 섹션 수직 padding (large) |
-| `--space-24` | 96px | hero padding |
+**주요 alias**:
+- `--cal-space-card` -> 24px (feature and card padding)
+- `--cal-space-inline` -> 8px / 12px (button and compact row rhythm)
+- `--cal-space-section` -> 48px / 96px (marketing section rhythm)
+
+### Whitespace Philosophy
+
+Cal's whitespace is operational rather than luxurious. The site leaves enough room for the hero and major section headings to read, then compresses inside product cards so the viewer feels scheduling density: times, reminders, participants, availability, and app integrations.
+
+The most important spacing contrast is "open page, dense object." The #F4F4F4 page floor gives sections air, while white and dark rounded modules pull content into compact, app-like surfaces.
 
 ---
 
 ## 08. Radius
+<!-- SOURCE: auto+manual -->
 
-| Token | Value | Use |
-|---|---|---|
-| `--radius-sm` | 4px | chip, badge |
-| `--radius-md` | 8px | button 기본 |
-| `--radius-lg` | 12px | card |
-| `--radius-xl` | 16px | card large |
-| `--radius-2xl` | 24px | hero block |
-| `--radius-pill` | 9999px | pill CTA |
+| Token | Value | Context |
+|---|---:|---|
+| `--cal-radius-xs` | 2px | tiny UI fragments and progress/slot marks |
+| `--cal-radius-sm` | 8px | compact badges and small containers |
+| `--cal-radius-md` | 12px | medium controls |
+| `--cal-radius-card` | 16px | dominant card/panel radius |
+| `--cal-radius-pill` | 9999px | CTA buttons and capsule controls |
 
----
-
-## 09. Shadows
-
-다층 stack 방식. 단층 shadow는 피한다.
-
-| Token | Value | Use |
-|---|---|---|
-| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | button resting |
-| `--shadow-md` | `0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.07)` | card |
-| `--shadow-lg` | `0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05)` | dropdown, modal |
-
----
-
-## 10. Motion
-
-| Pattern | Value | Use |
-|---|---|---|
-| `--duration-fast` | `150ms` | hover state |
-| `--duration-base` | `200ms` | 기본 transition |
-| `--ease-out` | `cubic-bezier(0, 0, 0.2, 1)` | 기본 ease-out |
-| `--ease-in-out` | `cubic-bezier(0.4, 0, 0.2, 1)` | 양방향 |
+Cal rounds panels enough to feel modern, but never into bubbly consumer softness. The 16px card radius is the default; pills are reserved for actions.
 
 ---
 
 ## 11. Layout Patterns
+<!-- SOURCE: auto+manual -->
 
-**Grid System**
-- Content max-width: 1200-1440px
-- Gutter: 24px (desktop) / 16px (mobile)
-- Grid type: CSS Grid + Flexbox 하이브리드
+### Grid System
+- **Content max-width**: 1200px / 1224px / 1280px appear as primary outer widths.
+- **Grid type**: centered marketing container with Framer stack/grid internals.
+- **Column count**: mixed; product cards and feature modules use repeated responsive groupings rather than a visible editorial grid.
+- **Gutter**: 16px to 32px for card groups; 48px for major bands.
 
-**Hero**
-- Layout: 2-column split
-- H1: 48-64px / weight 700 / tracking -0.03em
-- CTA: 브랜드 primary + 보조 outline
+### Hero
+- **Pattern Summary**: soft gray page floor + large centered scheduling proposition + dark/white booking preview object + dual signup CTA.
+- Layout: marketing headline with product proof modules, not a split illustration-only composition.
+- Background: solid #F4F4F4 with dark/white UI objects.
+- **Background Treatment**: solid surface with object contrast; no full-bleed image, no gradient mesh.
+- H1: `56px-64px` / weight `300` / tracking `0em`.
+- Max-width: 1200px family.
 
-**Section Rhythm**
-- Vertical padding: 64-120px
-- 섹션 구분은 배경 톤 차이 또는 얇은 border
+### Section Rhythm
 
-**Cards**
-- Background: #FFFFFF
-- Border: 1px solid #E5E5E5
-- Radius: 12-16px
-- Padding: 24-32px
+```css
+section {
+  padding: 96px 12px 0;
+  max-width: 1200px;
+}
+.cal-module {
+  gap: 16px;
+  padding: 24px;
+}
+```
 
-**Navigation**
-- Type: horizontal desktop / hamburger mobile
-- Position: sticky top 0 / height 64-72px
-- Background: 반투명 + backdrop-filter blur
+### Card Patterns
+- **Card background**: #FFFFFF on #F4F4F4, or #242424 for dark product panels.
+- **Card border**: 1px solid #E1E2E3.
+- **Card radius**: 16px.
+- **Card padding**: 20px / 24px.
+- **Card shadow**: `0 1px 5px -4px #242424b3, 0 4px 8px #2424240d`.
 
----
+### Navigation Structure
+- **Type**: product marketing nav with grouped dropdown/product taxonomy.
+- **Position**: top navigation.
+- **Height**: compact app-like bar; infer 48px-64px zone from spacing rhythm.
+- **Background**: light/transparent over #F4F4F4 or white panel zones.
+- **Border**: light gray separators when framed.
 
-## 12. Responsive Behavior
-
-| Name | Value | Note |
-|---|---|---|
-| Mobile | `< 640px` | 1-column, hamburger nav |
-| Tablet | `≥ 768px` | 2-col hero |
-| Desktop | `≥ 1024px` | full nav |
-| Large | `≥ 1280px` | content max |
-| XL | `≥ 1536px` | 더 큰 여백 |
-
-Mobile-first. 터치 타겟 최소 44px. 네비게이션은 1024px 이하에서 drawer 전환.
+### Content Width
+- **Prose max-width**: 640px for readable copy.
+- **Container max-width**: 1200px / 1280px.
+- **Sidebar width**: N/A on homepage; dropdown/product menus are transient.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
-### 13-1. Button (primary)
+### Buttons
+
+**Primary dark pill**
+
+| Property | Value |
+|---|---|
+| Background | `#242424` |
+| Text | `#FFFFFF` |
+| Radius | `9999px` |
+| Padding | `8px 12px` or `12px 16px` depending context |
+| Font | Inter / Cal Sans UI, 14px-16px |
 
 ```html
-<button class="btn btn--primary">Get started</button>
+<button class="cal-button cal-button-dark">Sign up with email</button>
 ```
 
-```css
-.btn--primary {
-  background: #242424;
-  color: #FFFFFF;
-  border: 0;
-  border-radius: 8px;
-  padding: 0 16px;
-  height: 40px;
-  font-weight: 500;
-  transition: transform 150ms ease-out, filter 150ms ease-out;
-}
-.btn--primary:hover {
-  filter: brightness(1.08);
-}
+**Secondary light pill**
+
+| Property | Value |
+|---|---|
+| Background | `#FFFFFF` |
+| Text | `#242424` |
+| Border | `1px solid #E1E2E3` |
+| Radius | `9999px` |
+
+### Badges
+
+Small labels should stay neutral: #FFFFFF or #F4F4F4 surface, #242424 text, 8px to 9999px radius depending whether it is a tag or CTA-adjacent capsule. Do not invent colorful badge systems unless the product state requires success/error.
+
+### Cards & Containers
+
+**Booking card**
+
+| Property | Value |
+|---|---|
+| Background | `#FFFFFF` |
+| Border | `1px solid #E1E2E3` |
+| Radius | `16px` |
+| Padding | `20px` / `24px` |
+| Shadow | `0 1px 5px -4px #242424b3, 0 4px 8px #2424240d` |
+
+**Dark feature panel**
+
+| Property | Value |
+|---|---|
+| Background | `#242424` |
+| Text | `#FFFFFF`, secondary `#FFFFFFB3` |
+| Radius | `16px` |
+| Border | none or transparent |
+
+### Navigation
+
+Navigation is compact and product-taxonomy heavy: "By team size", "For Individuals", "For Organizations", "Developer Documentation", "API", and app integrations. Use neutral link text, subtle separators, and avoid oversized marketing nav typography.
+
+### Inputs & Forms
+
+Forms should inherit the scheduling-card grammar: white or near-white inputs, #E1E2E3 border, 12px-16px radius, 14px-16px Inter text, and focus states that are visible but not neon. Error states may use #EF4444 and #FEE2E2.
+
+### Hero Section
+
+The hero is a scheduling proof surface. Combine a light page floor, a large Cal Sans/Inter Display headline, compact CTAs, and at least one realistic booking card. The booking object must look operational: participant name, meeting type, timezone, time slot, or app integration.
+
+### 13-2. Named Variants
+
+**button-dark-primary** — #242424 pill, white text, primary signup/action. This is the most Cal-like CTA.
+
+**button-oauth-light** — white panel button for "Sign up with Google"; use border #E1E2E3 and restrained icon spacing.
+
+**booking-card-white** — white surface on #F4F4F4, 16px radius, thin border, shallow dual shadow.
+
+**dark-scheduling-panel** — #242424 surface used for high-signal product demos, with white and #FFFFFFB3 text.
+
+**integration-tile** — compact app tile; use neutral surfaces and only let app logos carry color.
+
+### 13-3. Signature Micro-Specs
+
+```yaml
+dark-scheduling-chassis:
+  description: "Cal's recurring dark product object turns booking UI into a compact instrument panel."
+  technique: "background #242424 /* {colors.surface-dark} */; color #FFFFFF /* {colors.text-on-dark} */; secondary text #FFFFFFB3; border-radius 16px"
+  applied_to: ["{component.dark-feature-panel}", "{component.dark-scheduling-panel}", "{component.button-dark-primary}"]
+  visual_signature: "The scheduling surface reads like a black hardware chassis around availability, routes, and booking state."
+
+soft-gray-scheduling-floor:
+  description: "A pale utility floor keeps the page operational instead of gallery-white or SaaS-blue."
+  technique: "body background #F4F4F4 /* {colors.surface-page} */; panels #FFFFFF or #242424; borders 1px solid #E1E2E3"
+  applied_to: ["{component.booking-card}", "{component.booking-card-white}", "{component.integration-tile}"]
+  visual_signature: "White and dark UI objects sit on the page like appointment slips and scheduling devices on a workbench."
+
+shallow-contact-card-shadow:
+  description: "Elevation is a restrained contact mark, not a floating-card spectacle."
+  technique: "box-shadow 0 1px 5px -4px #242424b3, 0 4px 8px #2424240d; border 1px solid #E1E2E3; border-radius 16px"
+  applied_to: ["{component.booking-card}", "{component.booking-card-white}"]
+  visual_signature: "Cards feel physically placed on the gray floor while staying flat enough to read as product UI."
+
+compact-pill-action-system:
+  description: "Actions are small capsule controls that behave like app chrome rather than marketing banners."
+  technique: "border-radius 9999px; padding 8px 12px or 12px 16px; dark variant #242424 on #FFFFFF text; light variant #FFFFFF with #E1E2E3 border"
+  applied_to: ["{component.button-dark-primary}", "{component.button-light-secondary}", "{component.button-oauth-light}"]
+  visual_signature: "CTAs look like precise scheduling controls, with no oversized gradient buttons or chromatic brand flood."
+
+cal-light-display-command:
+  description: "Large display type keeps the dry confidence of a scheduling command, not a hype headline."
+  technique: "font-family Cal Sans UI Variable Light or Inter Display; font-size 56px-64px; font-weight 300; line-height 1.1em; letter-spacing 0em"
+  applied_to: ["{component.hero-section}", "{component.section-display-copy}"]
+  visual_signature: "Headlines feel open and directive, like a clear prompt above an already-working booking object."
 ```
-
-### 13-2. Card
-
-```css
-.card {
-  background: #FFFFFF;
-  border: 1px solid #E5E5E5;
-  border-radius: 12px;
-  padding: 24px;
-  transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
-}
-.card:hover {
-  border-color: #24242440;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-```
-
-### 13-3. Input
-
-```css
-.input {
-  background: #FFFFFF;
-  border: 1px solid #E5E5E5;
-  border-radius: 8px;
-  height: 40px;
-  padding: 0 12px;
-  transition: border-color 150ms, box-shadow 150ms;
-}
-.input:focus {
-  outline: 0;
-  border-color: #242424;
-  box-shadow: 0 0 0 3px #24242433;
-}
-```
-
-### 13-4. Nav
-
-```css
-.nav {
-  position: sticky; top: 0;
-  height: 64px;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid #E5E5E5;
-}
-```
-
----
-
-## 14. Content / Copy Voice
-
-- 짧고 단호한 헤드라인 (5-8 단어)
-- 서브헤드는 이점 중심, 기능명 나열 지양
-- CTA 동사 (Get started, Start building, Book a demo)
-- 기술적 정확함 + 친근함 중간 톤
 
 ---
 
 ## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
+/* Cal.com — copy into your root stylesheet */
 :root {
-  --brand: #242424;
-  --bg: #FFFFFF;
-  --fg: #171717;
-  --muted: #737373;
-  --border: #E5E5E5;
-  --card: #FFFFFF;
-  --radius: 8px;
-  --radius-lg: 12px;
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Fonts */
+  --cal-font-display: "Cal Sans UI Variable Light", "Cal Sans", "Inter Display", sans-serif;
+  --cal-font-body: "Inter", "Inter Display", -apple-system, BlinkMacSystemFont, sans-serif;
+  --cal-font-code: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --cal-font-weight-light: 300;
+  --cal-font-weight-normal: 400;
+  --cal-font-weight-semibold: 600;
+
+  /* Core colors */
+  --cal-surface-page: #F4F4F4;
+  --cal-surface-panel: #FFFFFF;
+  --cal-surface-dark: #242424;
+  --cal-text-primary: #000000;
+  --cal-text-muted: #898989;
+  --cal-text-on-dark: #FFFFFF;
+  --cal-text-on-dark-muted: #FFFFFFB3;
+  --cal-border-light: #E1E2E3;
+
+  /* Accents */
+  --cal-accent-blue: #0099FF;
+  --cal-accent-violet: #6349EA;
+  --cal-success: #19A874;
+  --cal-success-bg: #E4F7F3;
+  --cal-error: #EF4444;
+  --cal-error-bg: #FEE2E2;
+
+  /* Spacing */
+  --cal-space-xs: 4px;
+  --cal-space-sm: 8px;
+  --cal-space-md: 12px;
+  --cal-space-lg: 16px;
+  --cal-space-xl: 24px;
+  --cal-space-2xl: 32px;
+  --cal-space-section: 96px;
+
+  /* Shape + elevation */
+  --cal-radius-sm: 8px;
+  --cal-radius-md: 12px;
+  --cal-radius-card: 16px;
+  --cal-radius-pill: 9999px;
+  --cal-shadow-card: 0 1px 5px -4px #242424b3, 0 4px 8px #2424240d;
 }
 
-* { box-sizing: border-box; }
 body {
   margin: 0;
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  background: var(--bg);
-  color: var(--fg);
+  background: var(--cal-surface-page);
+  color: var(--cal-text-primary);
+  font-family: var(--cal-font-body);
+  font-weight: var(--cal-font-weight-normal);
 }
 
-h1 { font-size: 48px; font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 16px; }
-h2 { font-size: 32px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 12px; }
-h3 { font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; margin: 0 0 8px; }
-
-.btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  height: 40px; padding: 0 16px;
-  border-radius: var(--radius); border: 0;
-  font-weight: 500; font-size: 14px;
-  cursor: pointer; transition: all 150ms ease-out;
-}
-.btn--primary { background: var(--brand); color: #FFFFFF; }
-.btn--primary:hover { filter: brightness(1.08); }
-.btn--outline {
-  background: transparent; color: var(--fg);
-  border: 1px solid var(--border);
+.cal-display {
+  font-family: var(--cal-font-display);
+  font-weight: var(--cal-font-weight-light);
+  line-height: 1.1em;
+  letter-spacing: 0;
 }
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
+.cal-card {
+  background: var(--cal-surface-panel);
+  border: 1px solid var(--cal-border-light);
+  border-radius: var(--cal-radius-card);
+  box-shadow: var(--cal-shadow-card);
+  padding: var(--cal-space-xl);
 }
-```
 
----
-
-## 16. Tailwind Config
-
-```js
-// tailwind.config.js — Cal.com
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        brand: { DEFAULT: '#242424' },
-      },
-      fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-      },
-      borderRadius: { DEFAULT: '8px', lg: '12px', xl: '16px' },
-      transitionDuration: { DEFAULT: '150ms', base: '200ms' },
-    },
-  },
-};
+.cal-button-primary {
+  background: var(--cal-surface-dark);
+  color: var(--cal-text-on-dark);
+  border: 0;
+  border-radius: var(--cal-radius-pill);
+  padding: 8px 12px;
+  font: 500 14px/1.5 var(--cal-font-body);
+}
 ```
 
 ---
 
 ## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
 
 ### Quick Color Reference
 
 | Role | Token | Hex |
 |---|---|---|
-| Brand primary | `--brand` | `#242424` |
-| Background | `--bg` | `#FFFFFF` |
-| Text primary | `--fg` | `#171717` |
-| Text muted | `--muted` | `#737373` |
-| Border | `--border` | `#E5E5E5` |
+| Brand primary | `{colors.surface-dark}` | `#242424` |
+| Background | `{colors.surface-page}` | `#F4F4F4` |
+| Panel | `{colors.text-on-dark}` / white panel | `#FFFFFF` |
+| Text primary | `{colors.text-primary}` | `#000000` |
+| Text muted | `{colors.text-muted}` | `#898989` |
+| Border | `{colors.border-light}` | `#E1E2E3` |
+| Accent | `{colors.accent-blue}` | `#0099FF` |
 
-### Example Prompts
+### Example Component Prompts
 
-**Hero Section**
-> Cal.com 스타일 히어로. 배경 `#FFFFFF`, H1 `Inter` 56px weight 700 tracking -0.03em color `#171717`. primary CTA `#242424` radius 8px padding 0 20px height 44px, secondary outline border `#E5E5E5`.
+#### Hero Section
 
-**Card**
-> Cal.com 스타일 카드. bg `#FFFFFF` border 1px solid `#E5E5E5` radius 12px padding 24px. hover border `#24242440` shadow `0 4px 6px rgba(0,0,0,0.05)`.
+```text
+Cal.com 스타일 히어로 섹션을 만들어줘.
+- 배경: #F4F4F4
+- H1: Cal Sans UI Variable Light 또는 Inter Display, 56px-64px, weight 300, line-height 1.1em, tracking 0
+- 서브텍스트: #242424 또는 #898989, 16px, line-height 1.5
+- CTA: #242424 배경, #FFFFFF 텍스트, 9999px radius, padding 8px 12px
+- 제품 증거: 실제 예약 카드처럼 이름, 미팅 타입, 시간대, 시간 슬롯을 포함한 white card
+- 카드: #FFFFFF, border #E1E2E3, radius 16px, shallow dual shadow
+```
+
+#### Card Component
+
+```text
+Cal.com 스타일 booking card를 만들어줘.
+- 배경: #FFFFFF on page #F4F4F4
+- border: 1px solid #E1E2E3
+- radius: 16px
+- padding: 24px
+- shadow: 0 1px 5px -4px #242424b3, 0 4px 8px #2424240d
+- 제목: Inter, 16px, weight 500/600
+- 메타: 14px, #898989
+- 상태 색은 최소화하고, 성공은 #19A874, 오류는 #EF4444만 사용
+```
+
+#### Navigation
+
+```text
+Cal.com 스타일 네비게이션을 만들어줘.
+- compact SaaS product nav
+- 배경은 #F4F4F4 또는 #FFFFFF
+- 링크는 Inter 14px, #242424 / #898989
+- dropdown은 white card, #E1E2E3 border, 16px radius
+- CTA는 #242424 pill로 처리
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: blue를 primary brand로 승격하지 말 것. Cal의 primary는 dark neutral이다.
+- **폰트 변경 시**: display는 light weight를 유지한다. 굵은 700 headline은 Cal 느낌을 빠르게 잃는다.
+- **여백 조정 시**: section은 넓게, card 내부는 촘촘하게 유지한다.
+- **새 컴포넌트 추가 시**: 16px card radius, #E1E2E3 hairline, shallow shadow grammar를 먼저 적용한다.
+- **다크 표면**: #242424 위에서는 white와 #FFFFFFB3 계층만으로 충분하다.
 
 ---
 
 ## 18. DO / DON'T
+<!-- SOURCE: manual -->
 
 ### ✅ DO
-- 브랜드 색 `#242424`는 CTA·링크·focus ring에만 사용
-- 배경은 `#FFFFFF` 또는 `#FAFAFA` (panel)
-- 본문 텍스트는 `#171717`, muted는 `#737373`
-- H1~H3에 음수 letter-spacing 적용 (`-0.01em ~ -0.03em`)
-- Radius 4/8/12/16/24/9999px 6단 체계 유지
+
+- Use #242424 as the brand chassis for primary action and high-signal product panels.
+- Put white booking cards on #F4F4F4, not on a sterile blank white page.
+- Keep panels rounded at 16px and actions as pills.
+- Use Cal Sans UI / Cal Sans for brand display, with Inter for interface copy.
+- Let product UI carry the visual story: booking slots, calendar overlays, reminders, integrations.
+- Use #0099FF, #6349EA, #19A874, and #EF4444 only as state/accent colors.
 
 ### ❌ DON'T
-- 배경을 `#EEEEEE` 또는 중간 회색으로 두지 말 것 — 대신 `#FAFAFA` 사용
-- 텍스트를 `#000000`/`black`으로 두지 말 것 — 대신 `#171717` 사용
-- body에 `font-weight: 300` 사용 금지 — Cal.com은 `400`이 기본
-- 브랜드 색 `#242424`를 긴 문단 배경에 쓰지 말 것
-- Radius `20px`, `30px` 등 외부 값 금지 — 토큰 scale만 사용
-- 단층 shadow `0 4px 12px rgba(0,0,0,0.1)` 금지 — 2-layer stack 사용
-- transition duration `400ms+` 금지 — 150-200ms 유지
+
+- 배경을 `#FFFFFF` 또는 `white`로만 두지 말 것 — 대신 page floor는 `#F4F4F4` 사용.
+- primary brand color를 `#0099FF`로 두지 말 것 — 대신 primary chassis는 `#242424` 사용.
+- 텍스트를 전부 `#898989` 같은 muted gray로 두지 말 것 — primary copy는 `#000000` 사용.
+- card border를 `#CCCCCC` 또는 generic gray로 두지 말 것 — 대신 `#E1E2E3` 사용.
+- dark panel 위 secondary text를 `#898989`로 두지 말 것 — 대신 `#FFFFFFB3` 사용.
+- error state에 임의 red `#FF0000` 사용 금지 — Cal 계열 error는 `#EF4444` / `#FEE2E2`.
+- hero headline에 `font-weight: 700`을 기본값으로 쓰지 말 것 — Cal display는 `font-weight: 300`에서 시작.
+- 모든 카드에 큰 shadow를 넣지 말 것 — 검출된 shadow는 `0 1px 5px -4px #242424b3, 0 4px 8px #2424240d`.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- Brand gradient: absent. Cal does not need a gradient hero to be recognizable.
+- Second primary brand color: none. #0099FF and #6349EA are accents, not co-primary colors.
+- Decorative illustration language: minimal. Product UI screenshots and scheduling objects do the work.
+- Heavy editorial typography: absent. No magazine-like serif display, no oversized expressive contrast.
+- Deep elevation system: absent. Shadow is shallow and scoped, not a multi-level material stack.
+- Neon focus aesthetic: absent. Accents are useful state signals, not atmospheric glow.
+- Pure white page identity: avoided. #F4F4F4 is the page base that keeps the surface system visible.
+- Over-rounded consumer cards: avoided. Cards sit at 16px; only buttons become full pills.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Homepage-only evidence** — this guidebook reuses existing `insane-design/cal` homepage phase1 artifacts. Authenticated app surfaces, settings, booking checkout, and team admin flows were not visited.
+- **Framer token opacity** — the export exposes UUID-like `--token-*` variables rather than semantic Cal token names. Human-readable names in frontmatter are interpretive aliases mapped to real hex values, not confirmed source token names.
+- **Responsive behavior not visually remeasured** — desktop CSS breakpoints and max-widths were observed, but this run did not recapture mobile/tablet screenshots.
+- **Motion is under-specified** — CSS contained Framer runtime variables, but scroll-triggered animation timing and JS interaction behavior were not analyzed.
+- **Logo/app color contamination possible** — extracted chromatic candidates include app/integration/logo colors. This guide treats #0099FF, #6349EA, #19A874, and #EF4444 as accents/states, not broad palette requirements.
+- **Exact component state coverage incomplete** — hover, focus, disabled, loading, and validation states were inferred from available CSS/state colors, not exhaustively exercised in the browser.
+- **Font licensing and availability** — Cal Sans UI assets appear in the page, but external implementers may need Cal Sans or Inter Display substitutes depending on licensing and deployment context.
+- **Current-site drift** — phase1 artifacts are reused from the existing local capture. If Cal.com has changed after that capture, this file reflects the local evidence, not a fresh network crawl.

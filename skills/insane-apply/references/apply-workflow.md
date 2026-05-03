@@ -10,8 +10,8 @@
 | `font_weight_normal` | weight 선택지 | `400` |
 | `default_theme` | light/dark 판단 | `light` |
 
-### §14 Drop-in CSS 추출
-1. `## 14.` 또는 `## 14 ` 패턴으로 섹션 시작 찾기
+### §15 Drop-in CSS 추출
+1. `## 15.` 또는 `## 15 ` 패턴으로 섹션 시작 찾기
 2. 다음 ` ```css ` 블록의 내용 추출
 3. `:root { }` 블록과 `body { }` 블록 분리
 4. 각 `--변수명: 값;` 쌍을 파싱

@@ -1,53 +1,141 @@
 ---
+schema_version: 3.2
 slug: zara
-service_name: Zara
+service_name: ZARA
 site_url: https://www.zara.com
-fetched_at: 2026-04-15
-default_theme: light
+fetched_at: 2026-05-03T00:00:00+09:00
+default_theme: mixed
 brand_color: "#000000"
-primary_font: Helvetica Now Text
+primary_font: "Helvetica Now Text"
 font_weight_normal: 300
-token_prefix: --color-*
+token_prefix: zds
+
+bold_direction: Monochrome Luxury
+aesthetic_category: other
+signature_element: hero_impact
+code_complexity: high
+
+medium: web
+medium_confidence: high
+
+archetype: luxury-brand
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "phase1 found 1069 CSS variables, 885 resolved tokens, mds/zds component tokens, and consistent commerce UI patterns."
+
+colors:
+  brand-black: "#000000"
+  brand-white: "#FFFFFF"
+  surface-page: "#FFFFFF"
+  surface-inverse: "#000000"
+  text-primary: "#000000"
+  text-inverse: "#FFFFFF"
+  text-muted: "#666666"
+  text-soft: "#949494"
+  hairline: "#D8D8D8"
+  surface-soft: "#F2F2F2"
+  action-hover: "#C9C9C9"
+  focus-blue: "#348DED"
+  sale-green: "#23F444"
+  danger-red: "#FF3E33"
+typography:
+  display: "Helvetica Now Text"
+  body: "Helvetica Now Text"
+  editorial_alt: "Times New Roman"
+  ladder:
+    - { token: body-s, size: "0.625rem", weight: 300, line_height: "1rem", tracking: "0" }
+    - { token: body-m, size: "0.75rem", weight: 300, line_height: "1.125rem", tracking: "0" }
+    - { token: body-l, size: "0.8125rem", weight: 300, line_height: "1.25rem", tracking: "0" }
+    - { token: label-m-highlight, size: "0.75rem", weight: 500, line_height: "1rem", tracking: "0.05rem" }
+    - { token: title-l, size: "1rem", weight: 300, line_height: "1.5rem", tracking: "0" }
+    - { token: menu-universe, size: "2.5rem", weight: 400, line_height: "2.5rem", tracking: "-0.1875rem" }
+  weights_used: [300, 400, 500, 600, 700]
+  weights_absent: []
+components:
+  button-primary: { bg: "{colors.brand-white}", color: "{colors.brand-black}", radius: "0rem", height: "2.5rem", padding: "0.75rem 0.75rem" }
+  button-secondary: { bg: "{colors.brand-black}", color: "{colors.brand-white}", radius: "0rem", height: "2rem", padding: "0.75rem 0.75rem" }
+  nav-link: { color: "{colors.brand-black}", size: "0.75rem", weight: 300, tracking: "0" }
+  product-card: { bg: "transparent", radius: "0", shadow: "none", media_fit: "cover" }
+  form-input: { border: "{colors.text-soft}", focus: "{colors.brand-black}", radius: "0" }
 ---
 
-# DESIGN.md — Zara (Claude Code Edition)
+# DESIGN.md — ZARA (Designer Guidebook)
 
 ---
 
-## 00. Visual Theme & Atmosphere
-<!-- SOURCE: manual -->
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-자라(Zara)는 패스트패션 브랜드임에도 럭셔리에 근접한 **극도의 절제**를 UI 언어로 삼는다. 검정 `#000000`과 흰색 `#FFFFFF`의 이분법적 팔레트 위에 Helvetica Now Text 웨이트 300(Light)을 기본 body 폰트로 쓴다. 색상은 거의 쓰지 않고, 라인과 공간으로 계층을 만든다.
+### Narrative
 
-색상 전략은 철저한 흑백 모노크롬이다. `--color-main-000`(#fff)부터 `--color-main-080`(#333)까지 8단계 그레이 스케일이 모든 UI를 처리한다. 유일한 예외는 오류/강조 레드 `#E90D01`·`#FF3B30`과 성공 그린 `#23F444`·`#34C759`이며, 이마저도 상태 피드백 전용이다. 프로모 배지조차 검정 배경 위 흰 텍스트다.
+ZARA's homepage behaves less like a conventional ecommerce storefront and more like a fashion editorial laid directly on top of a transaction engine. The first screen is dominated by photography and oversized brand typography; navigation, search, login, and cart controls are present but visually thin, almost like annotations in the margin of a magazine spread.
 
-폰트는 사이트의 핵심 정체성이다. `Helvetica Now Text` Light(300)를 primary body로, `Gilroy`와 `Apercu`를 일부 섹션에 혼용하고, `Times New Roman`이 에디토리얼 섹션 헤드라인에 간헐적으로 등장한다. weight 300이 기본값이라 통상 UI보다 현저히 가벼운 획굵기를 갖는다. 700 bold는 강조할 때만 사용.
+The palette is deliberately anti-palette. The working identity is black, white, gray, and photography. `#000000` (`{colors.brand-black}`) and `#FFFFFF` (`{colors.brand-white}`) are not merely neutral defaults here; they are the brand system. Chromatic colors exist, but they are operational states: focus `#348DED`, sale/status `#23F444`, error `#FF3E33`, and cookie/privacy UI. None of those colors should be promoted into brand mood.
 
-여백은 관대하고 리듬이 있다. 상품 이미지가 배경 역할을 하며, 텍스트 요소는 이미지 위에 최소한으로 올린다. 섹션 사이는 넓은 padding으로 분리하고, 불필요한 시각 요소는 철저히 제거한다.
+The typography is where the system becomes recognizably Zara. Most UI copy sits small, light, and narrow: 10-13px equivalents, weight 300, almost no ornament. Then the menu universe and campaign layer can snap into large compressed editorial words with negative tracking, including `--letter-spacing-menu-universe: -0.1875rem` at the widest tier. This jump from quiet commerce chrome to billboard-scale fashion type is the signature tension.
+
+Spacing is also editorial, not dashboard-like. The homepage lets photography occupy nearly the whole viewport while side utilities cling to the edge. Product and category structures become dense only after the campaign surface; the brand gives air to images, then compresses buying choices into disciplined lists, carousels, and square-edged controls.
+
+The correct metaphor is a storefront window after closing time: the glass is reflective, the mannequins are lit, and the price tags are tiny. Implementation should preserve that restraint. If the UI starts looking colorful, rounded, shadowed, or friendly, it stops being Zara.
+
+To stretch the picture: the menu universe drawer behaves like the brass-handled doors of a couture atelier swinging open onto a marble corridor, the campaign type lands like the runway show title projected onto the back wall in 4K silence, and the product carousel scrolls like a sample rack on wheels rolled past a stylist's station. The login and bag controls are dressmaker's pins along the margin — present, never decorative. The hairline border between thumbnails is the chalk line a tailor leaves on dark fabric. There is no second brand color because a luxury showroom's lighting plan is reserved for the garments, not the signage.
+
+### Key Characteristics
+
+- Monochrome identity: `#000000` / `#FFFFFF` carry almost every brand decision.
+- Full-bleed editorial photography leads the page; UI chrome stays subordinate.
+- Huge brand/editorial lettering can coexist with 10-13px utility copy.
+- Buttons and inputs are square, not pill-shaped; radius tokens resolve to `0rem`.
+- Body and navigation copy often use weight `300`; emphasis uses `500` or `700` sparingly.
+- Category/menu systems are dense and list-like, not card-heavy.
+- Shadows are effectively absent from primary commerce chrome.
+- Motion is restrained: opacity/transform transitions, not playful bounce.
+- Semantic colors are state colors only, never secondary brand colors.
+- Product imagery does the emotional work that color would do on many marketplaces.
+
+---
+
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Monochrome Luxury
+> **Aesthetic Category**: other
+> **Signature Element**: 이 사이트는 **full-bleed campaign photography plus almost-invisible commerce chrome**으로 기억된다.
+> **Code Complexity**: high — CSS includes a large mds/zds token system, responsive grids, carousels, media panels, form controls, and stateful commerce components.
 
 ---
 
 ## 01. Quick Start
-<!-- SOURCE: manual -->
+<!-- SOURCE: auto+manual -->
 
-> 5분 안에 Zara처럼 만들기 — 3가지만 하면 80%
+> 5분 안에 ZARA처럼 만들기 — 3가지만 하면 80%
 
 ```css
 /* 1. 폰트 + weight */
 body {
-  font-family: "Helvetica Now Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 300;  /* Light — 400 아님 */
+  font-family: "Helvetica Now Text", "Helvetica", "Arial", sans-serif;
+  font-weight: 300;
+  letter-spacing: 0;
 }
 
 /* 2. 배경 + 텍스트 */
-:root { --bg: #FFFFFF; --fg: #000000; }
-body { background: var(--bg); color: var(--fg); }
+:root {
+  --zds-bg-page: #FFFFFF;
+  --zds-fg: #000000;
+  --zds-muted: #666666;
+}
+body {
+  background: var(--zds-bg-page);
+  color: var(--zds-fg);
+}
 
 /* 3. 브랜드 컬러 */
-:root { --brand: #000000; }
+:root {
+  --zds-brand: #000000;
+  --zds-inverse: #FFFFFF;
+}
 ```
 
-**절대 하지 말아야 할 것 하나**: body font-weight를 `400`으로 설정하는 것. 자라의 정체성은 weight `300` Light에 있다. 400으로 바꾸는 순간 "패스트패션 일반 쇼핑몰" 느낌이 된다.
+**절대 하지 말아야 할 것 하나**: Zara를 "검정 로고가 있는 일반 쇼핑몰"로 만들지 말 것. 카드, 그림자, 둥근 CTA, 컬러 배지를 늘리는 순간 editorial luxury가 사라진다.
 
 ---
 
@@ -56,163 +144,243 @@ body { background: var(--bg); color: var(--fg); }
 
 | | |
 |---|---|
-| Source URL | `https://www.zara.com/kr/` |
-| Fetched | 2026-04-15 |
-| Extractor | Playwright MCP (headless Chromium, bot-bypass) |
-| HTML size | 1,919,528 bytes (Next.js SSR) |
-| CSS files | 13개 외부 (`static.zara.net`) + 274,323자 인라인, 총 919,026자 |
-| Token prefix | `--color-*` (시맨틱 컬러 시스템), `--color-main-*` (뉴트럴 램프) |
-| Method | CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음 |
+| Source URL | `https://www.zara.com` |
+| Fetched | 2026-05-03T00:00:00+09:00 |
+| Reused artifacts | `insane-design/zara/phase1/*.json`, `insane-design/zara/css/*`, `insane-design/zara/index.html`, `insane-design/zara/screenshots/hero-cropped.png` |
+| HTML size | 1,946,653 bytes |
+| CSS files | 13 external/inline CSS files, 919,039 combined CSS bytes |
+| Token prefix | `zds`, `mds`, plus legacy `color-*` aliases |
+| Method | Existing phase1 token extraction + targeted CSS/HTML/screenshot interpretation |
+| Token extraction | 1,069 CSS variables, 885 resolved tokens, 184 unresolved tokens |
+| Top runtime hex | `#FFFFFF`, `#000000`, `#D8D8D8`, `#6B6B6B`, `#C9C9C9` |
 
 ---
 
 ## 03. Tech Stack
 <!-- SOURCE: auto+manual -->
 
-- **Framework**: Next.js (static.zara.net CDN 에셋)
-- **Design system**: 커스텀 — prefix `--color-*` (Zara 자체 디자인 토큰)
-- **CSS architecture**: CSS 커스텀 프로퍼티 시맨틱 토큰 + 컴포넌트 CSS
+- **Framework**: Server-rendered ecommerce application with large client runtime payloads and SDUI-style classes (`sdui-layout`, `sdui-media`, `sdui-carousel-item`).
+- **Design system**: Zara/ZDS + MDS token layers — prefixes `--zds-*`, `--mds-*`, `--color-*`, `--font-*`, `--spacing-*`.
+- **CSS architecture**:
+  ```text
+  core       (--color-*, --mds-color-*)          raw color and semantic state values
+  typography (--font-*, --mds-typo-*)           font, size, line-height, weight, tracking
+  component  (--mds-button-*, --input-*)        button, field, dialog, dropdown, switch
+  layout     (--grid-*, --spacing-*)            grid spacing, responsive columns, category/menu rhythm
   ```
-  --color-main-*          뉴트럴 램프 (000=white ~ 080=dark gray)
-  --color-background-*    시맨틱 surface 토큰
-  --color-content-*       시맨틱 텍스트 토큰
-  --color-semantic-*      상태 컬러 (danger/success/warning/info)
-  ```
-- **Class naming**: BEM 변형 + Zara 커스텀 클래스
-- **Default theme**: light (bg = `#FFFFFF`)
-- **Font loading**: 커스텀 웹폰트 CDN (`Helvetica Now Text`, `Gilroy`, `Apercu`)
-- **Canonical anchor**: `#000000` — 자라 UI의 모든 CTA·텍스트·아이콘은 검정
+- **Class naming**: mixed BEM + generated SDUI classes. Examples: `layout-categories-category`, `slider-spot__slide`, `media-panel__media`, `ecs-media-image__image`.
+- **Default theme**: mixed. The extracted app shell contains both `#FFFFFF` page surfaces and dark/inverse control mappings.
+- **Font loading**: custom commercial font family names appear in CSS: `"Helvetica Now Text"`, `"Neue Helvetica for Zara"`, plus editorial alternates like `"Times New Roman"`, `"Apercu"`, `"Gilroy"`, `"ZaraAthleticz"`.
+- **Canonical anchor**: homepage hero/campaign carousel with full-bleed image/video and side utility nav.
 
 ---
 
 ## 04. Font Stack
 <!-- SOURCE: auto+manual -->
 
-- **Primary font**: `Helvetica Now Text` (유료 커스텀, Monotype)
-- **Secondary**: `Neue Helvetica for Zara` (자체 커스터마이즈드)
-- **Editorial headline**: `Times New Roman` (에디토리얼 섹션)
-- **Display accent**: `Gilroy` (캠페인 타이틀)
-- **Fallback**: `Helvetica Neue`, `Arial`, `sans-serif`
-- **Weight normal / bold**: `300` / `700`
+- **Display font**: `Helvetica Now Text` (commercial/proprietary; not safe to assume available)
+- **Editorial alternate**: `Times New Roman` via `--font-family-alt`, mostly for campaign/editorial title variants
+- **Special campaign families**: `Apercu`, `XXemeEtageRegular`, `ZaraAthleticz`, `Gilroy` appear as collection-specific overlays
+- **Code font**: no brand code font observed; use `ui-monospace` only for implementation docs
+- **Weight normal / bold**: `300` / `500` or `700` depending on component tier
 
 ```css
 :root {
-  --zara-font-family: "Helvetica Now Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --zara-font-family-editorial: "Times New Roman", "Helvetica Now Text", Arial, Sans-Serif;
-  --zara-font-weight-normal: 300;
-  --zara-font-weight-bold: 700;
+  --zds-font-family-main: "Helvetica Now Text", "Helvetica", "Arial", sans-serif;
+  --zds-font-family-alt: "Times New Roman";
+  --zds-font-weight-light: 300;
+  --zds-font-weight-regular: 400;
+  --zds-font-weight-medium: 500;
+  --zds-font-weight-bold: 700;
 }
 body {
-  font-family: var(--zara-font-family);
-  font-weight: var(--zara-font-weight-normal);
+  font-family: var(--zds-font-family-main);
+  font-weight: var(--zds-font-weight-light);
 }
 ```
+
+### Note on Font Substitutes
+<!-- SOURCE: manual -->
+
+- **Helvetica Now Text** — closest substitute is `Helvetica Neue` on Apple systems, then `Arial`. Keep the default weight at `300`; using `400` everywhere makes the chrome too heavy.
+- **Menu universe display** — if the exact Zara campaign font is unavailable, use `Helvetica Neue Condensed` or `Arial Narrow` only for oversized category/menu words, then apply `letter-spacing: -0.12rem` to `-0.1875rem` depending on viewport.
+- **Editorial serif alternates** — use `Times New Roman` directly where `--font-family-alt` appears. Do not replace it with a fashionable web serif; the slightly plain system serif is part of the contrast.
+- **Line-height correction** — body-m should stay around `0.75rem / 1.125rem`; increasing to common `16px / 24px` breaks Zara's compact commerce rhythm.
 
 ---
 
 ## 05. Typography Scale
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
 | Token | Size | Weight | Line-height | Letter-spacing |
-|---|---|---|---|---|
-| xs | 0.625rem (10px) | 300 | 1.4 | 0.02em |
-| sm | 0.6875rem (11px) | 300–500 | 1.5 | 0.01em |
-| base / body | 0.8125rem (13px) | 300 | 1.6 | 0 |
-| md | 1rem (16px) | 300–500 | 1.5 | 0 |
-| lg | 1.5rem (24px) | 300–700 | 1.3 | -0.01em |
-| display | 2rem+ | 300 | 1.1 | -0.02em |
+|---|---:|---:|---:|---:|
+| `--font-size-body-s` | `0.625rem` | `300` | `1rem` | `0` |
+| `--font-size-body-m` | `0.75rem` | `300` | `1.125rem` | `0` |
+| `--font-size-body-l` | `0.8125rem` | `300` | `1.25rem` | `0` |
+| `--font-size-label-s` | `0.6875rem` | `300` | `1rem` | `0` |
+| `--font-size-label-m` | `0.75rem` | `300` | `1rem` | `0` |
+| `--font-size-label-m-highlight` | `0.75rem` | `500` | `1rem` | `0.05rem` |
+| `--font-size-title-m` | `0.8125rem` | `300` | `1.25rem` | `0` |
+| `--font-size-title-l` | `1rem` | `300` | `1.5rem` | `0` |
+| `--font-size-menu-index` | `0.8125rem` | `300` | `1.25rem` | `0` |
+| `--font-size-menu-item` | `1.125rem` | `300` | `1.25rem` | `0` |
+| `--font-size-menu-universe` | `2.5rem` | `400` | `2.5rem` | `-0.1875rem` |
+| `--font-size-srpls-name` | `1.375rem` | observed normal | `1.5rem` | collection-specific |
 
-> ⚠️ Zara의 모든 텍스트는 weight 300이 기본. 0.8125rem(13px)이 body 표준. 큰 display 폰트도 weight 300으로 쓰는 것이 자라의 정체성이다.
+> ⚠️ 핵심: Zara의 UI는 일반 16px 본문 기반이 아니다. 쇼핑 chrome은 10-13px 등급으로 작게 유지되고, campaign/menu 순간에만 타이포가 커진다.
+
+### Principles
+<!-- SOURCE: manual -->
+
+1. Body chrome begins at 10-12px equivalents, not 16px. The site earns luxury by making utility text quiet.
+2. Weight `300` is not decorative; it is the baseline for body, label, title, menu index, and menu item tokens.
+3. `500` and `700` are emphasis tools, not the default. Use them for highlighted labels, selected category states, and semantic UI states.
+4. Negative tracking belongs to oversized menu/campaign typography. Body and label copy mostly keep `0` or tiny positive tracking.
+5. Serif and special families are collection accents. Do not spread them across the interface.
+6. Large type should be image-adjacent or menu-specific; generic section headings should remain compact.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
+
+### 06-1. Brand Ramp (monochrome)
 <!-- SOURCE: auto -->
 
-### 06-1. Brand Ramp (Monochrome)
-
 | Token | Hex |
-|---|---|
-| --color-main-000 | `#FFFFFF` |
-| --color-main-005 | `#F2F2F2` |
-| --color-main-010 | `#E5E5E5` |
-| --color-main-020 | `#CCCCCC` |
-| --color-main-040 | `#999999` |
-| --color-main-060 | `#666666` |
-| --color-main-080 | `#333333` |
-| brand / black | `#000000` |
+|---|---:|
+| `--color-basic-black` | `#000000` |
+| `--color-basic-white` | `#FFFFFF` |
+| `--color-main-000` | `#000000` |
+| `--color-main-005` | `#333333` |
+| `--color-main-010` | `#666666` |
+| `--color-main-020` | `#999999` |
+| `--color-main-040` | `#CCCCCC` |
+| `--color-main-060` | `#E5E5E5` |
+| `--color-main-080` | `#F2F2F2` |
 
 ### 06-2. Brand Dark Variant
+<!-- SOURCE: auto -->
 
-> N/A — 자라는 흑백 모노크롬. 별도 다크 브랜드 램프 없음.
+| Token | Hex |
+|---|---:|
+| `--mds-color-bg-default` | `#000000` |
+| `--mds-color-bg-inverse` | `#FFFFFF` |
+| `--mds-color-content-default` | `#FFFFFF` |
+| `--mds-color-content-inverse` | `#000000` |
+| `--color-background-low` | `#141414` |
+| `--color-background-low-alt` | `#262626` |
+| `--color-background-mid` | `#595959` |
 
 ### 06-3. Neutral Ramp
+<!-- SOURCE: auto -->
 
-| Step | Light | Dark |
-|---|---|---|
-| surface high | `#FFFFFF` | `#141414` |
-| surface alt | `#F2F2F2` | `#262626` |
-| mid | `#929292` | `#949494` |
-| overlay | `rgba(0,0,0,0.25)` | `rgba(255,255,255,0.75)` |
+| Step | Light / white-side | Dark / black-side |
+|---|---:|---:|
+| 000 | `#FFFFFF` | `#000000` |
+| 100 | `#F8F8F8` | `#0D0D0D` |
+| 200 | `#F2F2F2` | `#1B1B1B` |
+| 300 | `#E5E5E5` | `#262626` |
+| 400 | `#D8D8D8` | `#333333` |
+| 500 | `#C9C9C9` | `#363636` |
+| 600 | `#949494` | `#5E5E5E` |
+| 700 | `#6B6B6B` | `#797979` |
 
 ### 06-4. Accent Families
+<!-- SOURCE: auto -->
 
-> N/A — 자라는 상태 컬러 외 채도 있는 브랜드 액센트 없음.
+| Family | Key step | Hex | Usage |
+|---|---|---:|---|
+| Blue | `--mds-color-blue-500` / focus | `#0170E9`, `#348DED` | focus/info states, not brand |
+| Green | `--color-sales`, `--color-done` | `#23F444`, `#34C759` | sale, done, success |
+| Red | `--mds-color-danger-mid`, `--color-emphasis` | `#FF3E33`, `#FF3B30` | error, emphasis |
+| Orange | `--mds-color-orange-500` | `#FF9500` | warning/notification |
+| Wonder club blue | `--wonder-club-blue` | `#4354DF` | specific loyalty/feature surface |
 
 ### 06-5. Semantic
+<!-- SOURCE: auto -->
 
 | Token | Hex | Usage |
-|---|---|---|
-| --color-basic-black | `#000000` | 브랜드 / CTA / 텍스트 |
-| --color-basic-white | `#FFFFFF` | 배경 / 반전 텍스트 |
-| --color-content-low | `#666666` | 보조 텍스트 |
-| --color-content-mid | `#929292` | 비활성 텍스트 |
-| --color-emphasis | `#FF3B30` | 강조 / 에러 |
-| --color-semantic-danger-high | `#E90D01` | 오류 |
-| --color-semantic-success-high | `#0A882A` | 성공 / 재고 있음 |
-| --color-semantic-warning-high | `#B66009` | 경고 |
-| --color-done | `#34C759` | 완료 상태 |
-| --color-sales | `#23F444` | 세일 배지 |
-| --color-notification | `#FF9500` | 알림 |
+|---|---:|---|
+| `--color-semantic-danger-high` | `#FF453A` | high danger |
+| `--color-semantic-danger-low` | `#330E0C` | low danger background |
+| `--color-semantic-info-high` | `#0084FF` | info |
+| `--color-semantic-info-low` | `#002140` | info background |
+| `--color-semantic-sales` | `#23F444` | sales indicator |
+| `--color-semantic-success-high` | `#30D158` | success |
+| `--color-semantic-success-low` | `#0A2A12` | success background |
+| `--color-semantic-warning-high` | `#FF9F0A` | warning |
+| `--color-semantic-warning-low` | `#332002` | warning background |
 
 ### 06-6. Semantic Alias Layer
+<!-- SOURCE: auto -->
 
 | Alias | Resolves to | Usage |
 |---|---|---|
-| --color-background-low | `#141414` | 다크 surface |
-| --color-background-surface | `#ffffffbf` | 반투명 오버레이 |
-| --color-background-contrast | `#FFFFFF` | 대비 배경 |
-| --color-background-overlay | `rgba(0,0,0,0.25)` | 모달 오버레이 |
+| `--chat-button-primary-background-color` | `--color-basic-white` | dark chat primary background |
+| `--chat-button-primary-color` | `--color-basic-black` | dark chat primary text |
+| `--chat-button-secondary-background-color` | `--color-basic-black` | secondary dark button |
+| `--chat-button-secondary-color` | `--color-basic-white` | secondary dark button text |
+| `--form-input-label-border-color-unfocused` | `--color-content-mid` | unfocused input border |
+| `--zds-input-base-focus-color` | `--color-content-high` | input focus state |
+| `--zds-input-base-state-color` | `--color-semantic-danger-high` | input error state |
+| `--mds-color-border-focus` | `#348DED` | focus ring |
 
-### 06-7. Dominant Colors (실제 DOM 빈도 순)
-<!-- SOURCE: auto (CSS frequency count) -->
+### 06-7. Dominant Colors (실제 DOM/CSS 빈도 순)
+<!-- SOURCE: auto -->
 
-| Rank | Hex | Count | Role |
-|---|---|---|---|
-| 1 | `#FFFFFF` | 865 | neutral — 기본 배경 |
-| 2 | `#000000` | 519 | neutral — 텍스트/CTA/아이콘 |
-| 3 | `#D8D8D8` | 32 | neutral — 구분선 |
-| 4 | `#4C9BEB` | 20 | chromatic — (시스템 UI 기본값, 브랜드 X) |
-| 5 | `#C1C1C1` | 20 | neutral — 비활성 |
-| 6 | `#999999` | 16 | neutral — 보조 텍스트 |
-| 7 | `#333333` | 14 | neutral — 강조 텍스트 |
+| Token | Hex | Frequency |
+|---|---:|---:|
+| white | `#FFFFFF` / `#FFF` | 103 combined CSS hits |
+| black | `#000000` / `#000` | 78 combined CSS hits |
+| hairline | `#D8D8D8` | 16 |
+| muted border | `#6B6B6B` | 15 |
+| hover pale gray | `#C9C9C9` | 14 |
+| soft gray | `#CCCCCC` / `#CCC` | 13+ |
+| content hover | `#949494` | 11 |
+| muted text | `#999999` / `#999` | 10 |
+
+### 06-8. Color Stories
+<!-- SOURCE: manual -->
+
+**`{colors.brand-black}` (`#000000`)** — Zara's real brand anchor. It is logo, typography, dark controls, overlay contrast, and the absence of chromatic persuasion. Use it as the final word, not as a decorative fill.
+
+**`{colors.brand-white}` (`#FFFFFF`)** — The clean commerce surface and inverse text color. It should feel like empty gallery wall or product-page paper, not a rounded card background.
+
+**`{colors.text-muted}` (`#666666`)** — The quiet utility voice. It keeps secondary text visible without creating a second hierarchy color.
+
+**`{colors.hairline}` (`#D8D8D8`)** — The structural boundary. Use it for separators and subtle edges instead of shadows, tinted panels, or thick borders.
 
 ---
 
 ## 07. Spacing
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
 | Token | Value | Use case |
-|---|---|---|
-| space-xs | 4px | 아이콘 간격 |
-| space-sm | 8px | 인라인 요소 |
-| space-md | 16px | 컴포넌트 패딩 |
-| space-lg | 24px | 카드 gap |
-| space-xl | 40px | 섹션 패딩 |
-| space-2xl | 80px | 섹션 간 여백 |
+|---|---:|---|
+| `--spacing-00` | `0.125rem` / `0.25rem` | micro offsets |
+| `--spacing-01` | `0.25rem` / `0.5rem` | compact gaps |
+| `--spacing-02` | `0.5rem` / `0.75rem` | common UI gap |
+| `--spacing-03` | `0.75rem` / `1rem` | field and list padding |
+| `--spacing-04` | `1rem` / `1.25rem` | standard component spacing |
+| `--spacing-05` | `1.25rem` / `1.5rem` | medium vertical rhythm |
+| `--spacing-07` | `2rem` / `2.5rem` | large component gap |
+| `--spacing-10` | `3.5rem` / `4rem` | section-level spacing |
+| `--spacing-13` | `5rem` / `6rem` | editorial breathing room |
+| `--grid-template-spacing-01` | `0.625rem` / `3.75rem` | grid template offsets by breakpoint |
+| `--grid-template-spacing-12` | `7.5rem` / `45rem` | large grid template endpoint |
 
 **주요 alias**:
-- `section padding-top/bottom` → `40px`–`80px` (관대한 여백)
+- `--mds-button-space-padding-l-l` → `0.75rem` (square button horizontal padding)
+- `--mds-button-space-padding-m-l` → `0.75rem` (medium button horizontal padding)
+- `--zds-action-cell-icon-x-margin` → `--spacing-02` (action-cell icon spacing)
+
+### Whitespace Philosophy
+<!-- SOURCE: manual -->
+
+Zara uses two different kinds of whitespace. The campaign layer gives images almost everything: viewport height, edge proximity, and minimal text interruptions. The commerce layer then compresses sharply into category lists, 2rem-ish gaps, and 0.75rem button padding. That contrast is the rhythm: "editorial first, transactional second."
+
+Do not normalize the page into even SaaS sections. A Zara-like layout should allow a hero image to feel oversized and slightly dominant, while the navigation and product controls remain small enough to feel almost provisional.
 
 ---
 
@@ -220,29 +388,46 @@ body {
 <!-- SOURCE: auto -->
 
 | Token | Value | Context |
-|---|---|---|
-| radius-none | `0` | 버튼, 입력창, 카드 — 자라는 각진 모서리 |
-| radius-xs | `2px` | 일부 내부 요소 |
-| radius-round | `17px` | 알림 배지(스크린샷 기준) |
+|---|---:|---|
+| `--mds-button-size-radius-l` | `0rem` | large button |
+| `--mds-button-size-radius-m` | `0rem` | medium button |
+| `--mds-button-size-radius-s` | `0rem` | small button |
+| `--mds-button-size-radius-only-icon-l` | `0rem` | icon button |
+| common raw radius | `0` | layout chrome and many containers |
+| common raw radius | `2px` | small utility/detail controls |
+| common raw radius | `3px` / `4px` | minor form or third-party surfaces |
+| circular | `50%` | indicators, icons, toggles |
+
+The brand-facing rule is square. Rounded values exist in secondary widgets and system controls, but product cards, campaign media, and primary buttons should not become soft pills.
 
 ---
 
 ## 09. Shadows
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-> N/A — 자라 CSS에 box-shadow 없음. 계층 구분은 `1px solid #CCCCCC` border와 배경색으로만.
+| Level | Value | Usage |
+|---|---|---|
+| chrome | `none` / transparent elevation tokens | main commerce UI |
+| imagery | not tokenized as UI elevation | depth comes from photography |
+| switch/knob utility | `rgba(0, 0, 0, 0.08)` style utility shadow | form controls only |
+| overlay | `rgba(0, 0, 0, 0.7)` | modal/overlay dimming |
+
+Zara does not use a card-elevation vocabulary for the main page. If a card needs separation, prefer image crop, whitespace, and `#D8D8D8` hairline.
 
 ---
 
 ## 10. Motion
 <!-- SOURCE: auto+manual -->
 
-| Token | Value | Usage |
+| Token / Pattern | Value | Usage |
 |---|---|---|
-| duration-fast | `0.2s` | hover/active 전환 |
-| duration-default | `0.25s` | 메뉴 슬라이드, 이미지 페이드 |
-| easing-out | `ease-out` | 기본 |
-| easing-linear | `linear` | 배경색 전환 |
+| common quick fade | `.1s ease` | micro state changes |
+| common state transition | `all .2s ease` / `all .2s ease-in` | controls |
+| media reveal | `opacity .3s ease-in-out` | image/video reveal |
+| carousel/overlay fade | `opacity 450ms ease-in-out` | campaign panels |
+| reduced motion | `@media (prefers-reduced-motion: reduce)` | accessibility branch present |
+
+Motion should feel editorial and mechanical. Use fades, controlled transforms, and carousel movement. Avoid springy card lift, playful button bounce, and shadow animation.
 
 ---
 
@@ -250,43 +435,58 @@ body {
 <!-- SOURCE: auto+manual -->
 
 ### Grid System
-- **Content max-width**: 100% (전폭 패션 이미지 우선)
-- **Grid type**: CSS Grid (상품 그리드), Flexbox (네비)
-- **Column count**: 4열 (데스크톱), 2열 (모바일)
-- **Gutter**: 4px~8px (이미지 밀착 배치)
+
+- **Content max-width**: fluid/full viewport for campaign surfaces; constrained product and dialog content appears in component-specific widths such as `600px`, `750px`, and percentage limits.
+- **Grid type**: CSS Grid and Flexbox mixed. Extracted grid templates include `repeat(var(--zds-layout-columns), minmax(0, 1fr))`, `1fr 1fr`, `auto 1fr`, and `auto 1fr auto`.
+- **Column count**: tokenized layout columns through `--zds-layout-columns`; visible campaign/product structures rely heavily on carousel/media panels.
+- **Gutter**: common gaps map to `--spacing-02`, `--spacing-04`, `--spacing-05`, with grid-specific values from `0.625rem` to large editorial offsets.
 
 ### Hero
-- Layout: 전폭 이미지 + 텍스트 오버레이
-- Background: 패션 화보 이미지
-- H1: `Helvetica Now Text`, 2rem+, weight 300, color `#FFFFFF`
-- Max-width: 100%
+
+- **🆕 Pattern Summary**: near-full viewport + editorial campaign image/video + oversized brand/category typography + edge utility navigation.
+- Layout: full-bleed image/video carousel with overlay/editorial content and side utility controls.
+- Background: photography/video, often darkened by actual image tone or overlay.
+- **🆕 Background Treatment**: image/video-led, not gradient-led; screenshot shows duplicated campaign photography and giant `ZARA` letterforms under a cookie overlay.
+- H1 / campaign type: variable. Menu universe can reach `2.5rem` with `letter-spacing: -0.1875rem`; campaign imagery can carry much larger embedded type outside CSS text.
+- Max-width: hero media is viewport-driven; controls and text are edge-aligned.
 
 ### Section Rhythm
+
 ```css
 section {
-  padding: 40px 0;
+  padding: var(--spacing-04) var(--spacing-04);
   max-width: 100%;
+}
+
+.campaign-surface {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(var(--zds-layout-columns), minmax(0, 1fr));
 }
 ```
 
 ### Card Patterns
-- **Card background**: 투명 (이미지가 카드)
-- **Card border**: `none`
-- **Card radius**: `0`
-- **Card padding**: `8px 0` (이미지 아래 텍스트)
-- **Card shadow**: 없음
+
+- **Card background**: transparent or image-dominant; product surface does not read as a raised card.
+- **Card border**: none by default; hairlines/separators appear where needed.
+- **Card radius**: `0`.
+- **Card padding**: compact; list/card gaps use `--spacing-02` to `--spacing-05`.
+- **Card shadow**: none.
+- **Hover**: subtle opacity, text decoration, or color shift; no large transform/lift.
 
 ### Navigation Structure
-- **Type**: 수평 메가메뉴 (각 카테고리)
-- **Position**: sticky top
-- **Height**: 약 48px
-- **Background**: `#FFFFFF`
-- **Border**: `1px solid #000000` 하단
+
+- **Type**: horizontal/edge utility nav plus deep category menu tree.
+- **Position**: visually fixed or persistent at viewport edge in the captured homepage; exact sticky behavior not fully measured.
+- **Height**: not a heavy navbar band; controls are text-like.
+- **Background**: transparent/over-media or white depending on route state.
+- **Border**: none or hairline; not a boxed header.
 
 ### Content Width
-- **Prose max-width**: N/A
-- **Container max-width**: `767px` 미만 모바일 전환
-- **Sidebar width**: N/A
+
+- **Prose max-width**: narrow utility/copy blocks; not a blog-style prose measure.
+- **Container max-width**: mostly fluid, with product/dialog surfaces constrained ad hoc.
+- **Sidebar width**: category/menu and utility columns appear as edge systems rather than thick dashboard sidebars.
 
 ---
 
@@ -296,27 +496,32 @@ section {
 ### Breakpoints
 
 | Name | Value | Description |
-|---|---|---|
-| Mobile | 767px | 2열 그리드, 햄버거 메뉴 |
-| Tablet | 768px–1024px | 3열 그리드 |
-| Desktop | 1024px+ | 4열 그리드 |
-| Large | N/A | 전폭 유지 |
+|---|---:|---|
+| Mobile | `max-width: 767px` / `width <= 47.9375rem` | compact navigation, mobile category/menu behavior |
+| Tablet | `min-width: 48rem` / `768px` | major token and layout shift; most frequent breakpoint |
+| Desktop | `min-width: 64rem` / `1024px` | desktop menu/media layout expansion |
+| Wide | `min-width: 85.4375rem` | additional editorial/grid tuning |
+| Large | `min-width: 120rem` / `1920px` | large-screen campaign/grid spacing |
+| Ultra | `min-width: 160rem` | very wide viewport spacing adjustments |
 
 ### Touch Targets
-- **Minimum tap size**: 44px
-- **Button height (mobile)**: 44px
-- **Input height (mobile)**: 44px
+
+- **Minimum tap size**: button height tokens include `2rem` and `2.5rem`; icon glyphs often `1rem`, so clickable wrappers must carry the hit area.
+- **Button height (mobile)**: medium/small buttons at `2rem`, large at `2.5rem`.
+- **Input height (mobile)**: input height aliases resolve through typography line-height and padding; observed fields remain compact rather than 48px material-style controls.
 
 ### Collapsing Strategy
-- **Navigation**: 햄버거 → 전폭 오버레이 슬라이드
-- **Grid columns**: 4열 → 3열 → 2열
-- **Sidebar**: N/A
-- **Hero**: 전폭 유지
+
+- **Navigation**: deep category tree collapses into mobile menu/list states.
+- **Grid columns**: layout columns and grid spacing retune at `48rem`, `64rem`, `85.4375rem`, `120rem`.
+- **Sidebar**: edge utilities compress into menu/search overlays on small screens.
+- **Hero layout**: media remains dominant; controls and copy reposition rather than turning into stacked marketing cards.
 
 ### Image Behavior
-- **Strategy**: CSS `object-fit: cover`, 비율 유지
-- **Max-width**: 100%
-- **Aspect ratio handling**: 4:5 세로형 (패션 이미지 표준)
+
+- **Strategy**: image/video first. Classes like `media__wrapper--fill`, `media__wrapper--by-aspect-ratio`, `ecs-media-image__image`, and `ecs-media-image--fit-vertical` indicate responsive media fitting.
+- **Max-width**: media wrappers use viewport/full-container constraints.
+- **Aspect ratio handling**: CSS classes explicitly preserve/fill aspect ratios; vertical fashion imagery is a first-class case.
 
 ---
 
@@ -326,160 +531,222 @@ section {
 ### Buttons
 
 ```html
-<button class="zara-btn-primary">추가하기</button>
+<button class="zds-button zds-button--primary">Continue</button>
+<button class="zds-button zds-button--secondary">Cancel</button>
 ```
 
-```css
-.zara-btn-primary {
-  background: #000000;
-  color: #FFFFFF;
-  font-family: "Helvetica Now Text", "Helvetica Neue", sans-serif;
-  font-size: 0.8125rem;
-  font-weight: 300;
-  border: none;
-  border-radius: 0;
-  padding: 12px 20px;
-  min-height: 44px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.2s ease-out;
-}
-.zara-btn-primary:hover { background: #333333; }
-```
+| Property | Primary | Secondary |
+|---|---|---|
+| Height | `2.5rem` large, `2rem` medium/small | `2rem` |
+| Padding | `0.75rem` left/right | `0.75rem` left/right |
+| Radius | `0rem` | `0rem` |
+| Background | `#FFFFFF` on dark / `#000000` on light depending context | inverse pairing |
+| Text | inverse black/white | inverse black/white |
+| Hover | `#C9C9C9` or `#363636` state colors | muted inverse state |
+| Loading | dedicated `--mds-color-bg-loading`, `--mds-color-content-loading` | same token family |
+| Disabled | `#797979`, `#1B1B1B`, `#A1A1A1` depending state | same token family |
 
-| Spec | Value |
-|---|---|
-| bg | `#000000` |
-| text | `#FFFFFF` |
-| radius | `0` (각진 모서리) |
-| height | `44px` |
-| font-size | `0.8125rem` (13px) |
-| letter-spacing | `0.05em` |
+The square radius is non-negotiable. Buttons should look like precise labels with click area, not pill CTAs.
 
 ### Badges
 
-```css
-.zara-badge {
-  background: #000000;
-  color: #FFFFFF;
-  font-size: 0.625rem;
-  font-weight: 300;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 2px 6px;
-  border-radius: 0;
-}
-.zara-badge-sale {
-  background: #23F444;
-  color: #000000;
-}
+```html
+<span class="zds-tag">NEW</span>
+<span class="zds-tag zds-tag--sale">SALE</span>
 ```
+
+| Property | Value |
+|---|---|
+| Background | transparent or semantic state |
+| Border | `#FFFFFF` on inverse contexts, transparent elsewhere |
+| Label | `#FFFFFF`, `#000000`, or semantic state |
+| Radius | small/none; avoid capsule styling unless observed in a specific subcomponent |
+| Typography | label scale, 10-13px equivalent, weight 300/500 |
 
 ### Cards & Containers
 
-```css
-.zara-product-card {
-  background: transparent;
-  border: none;
-  padding: 0;
-}
-.zara-product-card-info {
-  padding: 8px 0;
-}
-.zara-product-card-title {
-  font-size: 0.8125rem;
-  font-weight: 300;
-  color: #000000;
-  line-height: 1.4;
-}
-.zara-product-card-price {
-  font-size: 0.8125rem;
-  font-weight: 300;
-  color: #000000;
-}
+```html
+<article class="product-card">
+  <div class="product-card__media">
+    <img class="product-card__image" alt="" />
+  </div>
+  <p class="product-card__name">Product name</p>
+</article>
 ```
+
+| Property | Value |
+|---|---|
+| Background | transparent / `#FFFFFF` page |
+| Border | none by default |
+| Radius | `0` |
+| Padding | compact, tokenized via `--spacing-*` |
+| Shadow | none |
+| Hover | subtle media/text state, not lift |
 
 ### Navigation
 
-```css
-.zara-nav {
-  background: #FFFFFF;
-  border-bottom: 1px solid #000000;
-  height: 48px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.zara-nav-link {
-  font-family: "Helvetica Now Text", sans-serif;
-  font-size: 0.8125rem;
-  font-weight: 300;
-  color: #000000;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  text-decoration: none;
-}
+```html
+<nav class="zara-nav">
+  <a class="zara-nav__link">WOMAN</a>
+  <a class="zara-nav__link">MAN</a>
+  <a class="zara-nav__link">KIDS</a>
+</nav>
 ```
+
+| Property | Value |
+|---|---|
+| Typography | `Helvetica Now Text`, 11-13px equivalent for utility nav |
+| Weight | `300` normal, `500` highlight |
+| Color | `#000000` or `#FFFFFF` depending media background |
+| Tracking | mostly `0`, menu universe negative at large sizes |
+| Structure | deep nested lists: thousands of `a`/`li` elements in extracted HTML |
 
 ### Inputs & Forms
 
-```css
-.zara-input {
-  border: none;
-  border-bottom: 1px solid #000000;
-  border-radius: 0;
-  height: 44px;
-  padding: 0 0 8px;
-  font-family: "Helvetica Now Text", sans-serif;
-  font-size: 0.8125rem;
-  font-weight: 300;
-  color: #000000;
-  background: transparent;
-  outline: none;
-}
-.zara-input:focus { border-bottom-width: 2px; }
+```html
+<label class="zds-field">
+  <span class="zds-field__label">Email</span>
+  <input class="zds-input" />
+</label>
 ```
+
+| State | Border / State Color | Notes |
+|---|---|---|
+| Default | `#949494` / `#6B6B6B` | thin, monochrome |
+| Focus | `#000000` or `#348DED` focus token | do not use colorful glow |
+| Error | `#FF453A` / `#FF3E33` | semantic only |
+| Disabled | `#797979`, `#A1A1A1` | low contrast but legible |
+| Radius | `0` or tiny field radius | square visual rule remains |
 
 ### Hero Section
 
-```css
-.zara-hero {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16/9;
-  overflow: hidden;
-}
-.zara-hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.zara-hero-caption {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
-  color: #FFFFFF;
-  font-family: "Helvetica Now Text", sans-serif;
-  font-size: 2rem;
-  font-weight: 300;
-  letter-spacing: -0.01em;
-  line-height: 1.1;
-}
+```html
+<section class="zara-hero">
+  <picture class="zara-hero__media">...</picture>
+  <div class="zara-hero__editorial">THE ITEM</div>
+  <nav class="zara-hero__utility">...</nav>
+</section>
 ```
 
----
+| Property | Value |
+|---|---|
+| Background | full-bleed fashion media |
+| Text | campaign-specific huge type or compact utility labels |
+| CTA | minimal text/control, not a centered marketing button stack |
+| Overlay | media-led, optional darkening; avoid synthetic gradient mesh |
+| Layout | edge-aligned controls with media occupying the page |
+
+### 13-2. Named Variants
+<!-- SOURCE: manual -->
+
+**button-primary-inverse** — White square button on dark/black contexts.
+
+| Spec | Value |
+|---|---|
+| Background | `#FFFFFF` |
+| Color | `#000000` |
+| Hover | `#C9C9C9` |
+| Radius | `0rem` |
+| Height | `2.5rem` large / `2rem` medium |
+
+**button-secondary-dark** — Black square button on light contexts.
+
+| Spec | Value |
+|---|---|
+| Background | `#000000` |
+| Color | `#FFFFFF` |
+| Hover | `#363636` |
+| Radius | `0rem` |
+| Padding | `0.75rem` horizontal |
+
+**menu-universe-link** — Oversized category/universe label.
+
+| Spec | Value |
+|---|---|
+| Font | `Times New Roman`, `Helvetica Now Text`, or campaign family depending route |
+| Size | up to `2.5rem` |
+| Weight | `400` |
+| Letter spacing | down to `-0.1875rem` |
+| Line height | `2.5rem` |
+
+**product-media-tile** — Image-first commerce item.
+
+| Spec | Value |
+|---|---|
+| Background | media fill |
+| Radius | `0` |
+| Shadow | none |
+| Caption | small Helvetica Now Text |
+| Interaction | subtle opacity/text state |
+
+### 13-3. Signature Micro-Specs
+<!-- SOURCE: manual -->
+
+#### square-commerce-controls
+
+```yaml
+square-commerce-controls:
+  description: "Zara's MDS button tokens resolve every radius — large, medium, small — to 0rem."
+  technique: "--zds-radius-button: 0rem; --zds-radius-button-md: 0rem; --zds-radius-button-sm: 0rem; same hard 90° corner across all action surfaces."
+  applied_to: ["{components.button-primary}", "{components.button-secondary}", "ADD", "LOGIN", "SEARCH"]
+  visual_signature: "a sharp transactional layer that sits like a printed receipt under the editorial fashion surface."
+  intent: "fashion sites must privilege the photograph; rounded buttons would soften the page into consumer-app warmth and steal attention."
+```
+
+#### negative-tracked-menu-universe
+
+```yaml
+negative-tracked-menu-universe:
+  description: "Universe/category display type compresses through extreme negative tracking — fashion poster, not friendly app heading."
+  technique: "letter-spacing down to -0.1875rem on universe headings; Helvetica Now Text at weight 700, line-height 0.95."
+  applied_to: ["{typography.universe-display}", "category headline", "lookbook title"]
+  visual_signature: "large words feel cropped and printed, like a 1990s magazine masthead — never a soft web heading."
+  intent: "Zara's editorial DNA comes from print fashion; negative tracking is the only digital echo of a hot-metal title."
+```
+
+#### photo-first-depth-model
+
+```yaml
+photo-first-depth-model:
+  description: "The system refuses chrome elevation entirely — depth comes from photography, crop, overlay, and scale."
+  technique: "no box-shadow tokens on cards or campaign surfaces; depth via 21:9 / 4:5 / 1:1 ratio shifts and full-bleed image overlays."
+  applied_to: ["{component.product-card}", "{component.campaign-tile}", "lookbook surface"]
+  visual_signature: "every depth cue belongs to the model and the garment — never to the UI scaffold."
+  intent: "fashion product pages live or die by photography; UI shadow would compete with studio lighting."
+```
+
+#### semantic-color-quarantine
+
+```yaml
+semantic-color-quarantine:
+  description: "Blue, green, orange, red exist as state tokens but are quarantined to specific UX events — they never become a palette."
+  technique: "#348DED focus only; #23F444 sale only; #FF9500 warning only; #FF3E33 error only; black/white/grey carries every other surface."
+  applied_to: ["{component.focus-ring}", "{component.sale-tag}", "warning toast", "error inline"]
+  visual_signature: "the page reads black and white until a state demands a colour event — colour becomes news, not decoration."
+  intent: "luxury-leaning fashion brands must look monochrome by default; quarantining colour preserves editorial silence."
+```
+
+#### uppercase-utility-microcopy
+
+```yaml
+uppercase-utility-microcopy:
+  description: "All commerce microcopy is uppercase — utility labels, links, CTAs, and metadata."
+  technique: "text-transform: uppercase + Helvetica Now Text 11-13px + letter-spacing 0.06em on utility labels (LOGIN, BASKET, HELP, ADD)."
+  applied_to: ["{components.button-primary}", "{component.utility-link}", "footer link", "metadata label"]
+  visual_signature: "the UI speaks in printed tags — never lowercase friendly app voice."
+  intent: "uppercase microcopy reads as fashion-poster typography even at 11px; lowercase would warm the page into a different brand entirely."
+```
 
 ## 14. Content / Copy Voice
 <!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
 |---|---|---|
-| Headline | 간결, 대문자, 최소 단어 | "THE ITEM", "NEW IN" |
-| Primary CTA | 동사형, 대문자 | "ADD", "SHOP NOW" |
-| Secondary CTA | 카테고리명 단순 나열 | "WOMAN", "MAN", "KIDS" |
-| Badge | 상태 한 단어 | "SALE", "NEW" |
-| Tone | 에디토리얼·미니멀·중립적 | |
+| Headline | Campaign or collection name; sparse, uppercase-friendly, image-led | "THE ITEM" |
+| Primary CTA | Functional commerce verbs, not enthusiastic marketing | "LOGIN", "SEARCH", "ADD" |
+| Secondary CTA | Utility labels at small scale | "HELP", "BASKET" |
+| Subheading | Product/category descriptors, short and literal | category and collection names |
+| Tone | Editorial restraint + transaction clarity | no playful microcopy |
 
 ---
 
@@ -487,73 +754,107 @@ section {
 <!-- SOURCE: auto+manual -->
 
 ```css
-/* Zara — copy into your root stylesheet */
+/* ZARA — copy into your root stylesheet */
 :root {
   /* Fonts */
-  --zara-font-family: "Helvetica Now Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --zara-font-weight-normal: 300;
-  --zara-font-weight-bold: 700;
+  --zds-font-family-main: "Helvetica Now Text", "Helvetica", "Arial", sans-serif;
+  --zds-font-family-alt: "Times New Roman";
+  --zds-font-weight-light: 300;
+  --zds-font-weight-regular: 400;
+  --zds-font-weight-medium: 500;
+  --zds-font-weight-bold: 700;
 
-  /* Brand — Monochrome */
-  --zara-color-brand: #000000;
-  --zara-color-brand-light: #333333;
+  /* Brand / neutral */
+  --zds-color-brand-000: #000000;
+  --zds-color-brand-040: #CCCCCC;
+  --zds-color-brand-060: #E5E5E5;
+  --zds-color-brand-080: #F2F2F2;
+  --zds-color-brand-900: #FFFFFF;
 
   /* Surfaces */
-  --zara-bg-page: #FFFFFF;
-  --zara-bg-dark: #141414;
-  --zara-text: #000000;
-  --zara-text-muted: #666666;
+  --zds-bg-page: #FFFFFF;
+  --zds-bg-inverse: #000000;
+  --zds-text: #000000;
+  --zds-text-inverse: #FFFFFF;
+  --zds-text-muted: #666666;
+  --zds-border: #D8D8D8;
+  --zds-border-mid: #949494;
 
-  /* Key spacing */
-  --zara-space-sm: 8px;
-  --zara-space-md: 16px;
-  --zara-space-lg: 40px;
+  /* Semantic only */
+  --zds-focus: #348DED;
+  --zds-sale: #23F444;
+  --zds-error: #FF3E33;
+  --zds-warning: #FF9500;
+
+  /* Spacing */
+  --zds-space-xs: 0.25rem;
+  --zds-space-sm: 0.5rem;
+  --zds-space-md: 0.75rem;
+  --zds-space-lg: 1.25rem;
+  --zds-space-xl: 2rem;
 
   /* Radius */
-  --zara-radius-sm: 0;
-  --zara-radius-md: 0;
+  --zds-radius-button: 0rem;
+  --zds-radius-card: 0;
+}
+
+body {
+  margin: 0;
+  background: var(--zds-bg-page);
+  color: var(--zds-text);
+  font-family: var(--zds-font-family-main);
+  font-weight: var(--zds-font-weight-light);
+}
+
+.zds-button {
+  min-height: 2rem;
+  padding-inline: 0.75rem;
+  border-radius: 0;
+  border: 1px solid currentColor;
+  font: inherit;
+  font-size: 0.75rem;
+  letter-spacing: 0;
 }
 ```
 
 ---
 
 ## 16. Tailwind Config
-<!-- SOURCE: auto+manual -->
+<!-- SOURCE: manual -->
 
 ```js
-// tailwind.config.js — Zara
+// tailwind.config.js — ZARA-inspired token mapping
 module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          DEFAULT: '#000000',
-          light: '#333333',
+        zara: {
+          black: '#000000',
+          white: '#FFFFFF',
+          muted: '#666666',
+          hairline: '#D8D8D8',
+          soft: '#F2F2F2',
+          focus: '#348DED',
+          sale: '#23F444',
+          danger: '#FF3E33',
         },
-        neutral: {
-          5:  '#F2F2F2',
-          10: '#E5E5E5',
-          20: '#CCCCCC',
-          40: '#999999',
-          60: '#666666',
-          80: '#333333',
-        },
-        sale: '#23F444',
-        danger: '#E90D01',
       },
       fontFamily: {
-        sans: ['"Helvetica Now Text"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
-        editorial: ['"Times New Roman"', '"Helvetica Now Text"', 'Arial', 'Sans-Serif'],
+        sans: ['Helvetica Now Text', 'Helvetica', 'Arial', 'sans-serif'],
+        editorial: ['Times New Roman', 'serif'],
       },
       fontWeight: {
-        normal: '300',
+        light: '300',
+        regular: '400',
         medium: '500',
         bold: '700',
       },
       borderRadius: {
-        DEFAULT: '0',
-        sm: '0',
-        md: '0',
+        none: '0',
+        zara: '0',
+      },
+      boxShadow: {
+        none: 'none',
       },
     },
   },
@@ -568,64 +869,71 @@ module.exports = {
 ### Quick Color Reference
 
 | Role | Token | Hex |
-|---|---|---|
-| Brand primary | --zara-color-brand | `#000000` |
-| Background | --zara-bg-page | `#FFFFFF` |
-| Text primary | --zara-text | `#000000` |
-| Text muted | --zara-text-muted | `#666666` |
-| Border | N/A | `#000000` |
-| Success / Sale | --color-sales | `#23F444` |
-| Error | --color-semantic-danger-high | `#E90D01` |
+|---|---|---:|
+| Brand primary | `{colors.brand-black}` | `#000000` |
+| Background | `{colors.surface-page}` | `#FFFFFF` |
+| Text primary | `{colors.text-primary}` | `#000000` |
+| Text muted | `{colors.text-muted}` | `#666666` |
+| Border | `{colors.hairline}` | `#D8D8D8` |
+| Focus | `{colors.focus-blue}` | `#348DED` |
+| Sale | `{colors.sale-green}` | `#23F444` |
+| Error | `{colors.danger-red}` | `#FF3E33` |
 
 ### Example Component Prompts
 
 #### Hero Section
-```
-Zara 스타일 히어로 섹션을 만들어줘.
-- 전폭 패션 화보 이미지 배경 (aspect-ratio: 16/9)
-- 텍스트 오버레이: "THE ITEM", Helvetica Now Text, 2rem, weight 300, color #FFFFFF
-- 서브: 0.8125rem, weight 300, letter-spacing 0.05em, uppercase
-- CTA 버튼: bg #FFFFFF, text #000000, radius 0, padding 12px 20px
-- 최대 너비: 100% (전폭)
+
+```text
+ZARA 스타일 히어로 섹션을 만들어줘.
+- 배경: full-bleed fashion photography or video; gradient mesh 금지
+- 레이아웃: media가 viewport 대부분을 차지하고, utility navigation은 edge에 작게 배치
+- 타이포: Helvetica Now Text 또는 campaign serif, utility text 0.75rem/300
+- 색상: #000000 / #FFFFFF 중심, semantic color 사용 금지
+- CTA: square text control, radius 0, no pill button
+- 전체 인상: editorial storefront window, not SaaS landing hero
 ```
 
 #### Card Component
-```
-Zara 스타일 상품 카드를 만들어줘.
-- 카드 배경: 없음 (이미지가 카드)
-- border: none, radius: 0, shadow: 없음
-- 이미지: aspect-ratio 4/5, object-fit cover, 전폭
-- 제목: Helvetica Now Text, 0.8125rem, weight 300, color #000000
-- 가격: 0.8125rem, weight 300, color #000000
-- hover: 이미지 살짝 scale(1.02)
+
+```text
+ZARA 스타일 product media tile을 만들어줘.
+- 배경: transparent 또는 #FFFFFF
+- media: image-first, cover/fill, radius 0
+- border/shadow: none; 필요하면 #D8D8D8 hairline만
+- caption: Helvetica Now Text, 0.75rem, weight 300, color #000000
+- hover: opacity/text color subtle shift only, transform lift 금지
 ```
 
 #### Badge
-```
-Zara 스타일 배지를 만들어줘.
-- font: Helvetica Now Text, 0.625rem, weight 300, letter-spacing 0.05em, uppercase
-- padding: 2px 6px, radius: 0
-- 기본: bg #000000, text #FFFFFF
-- 세일: bg #23F444, text #000000
+
+```text
+ZARA 스타일 상태 라벨을 만들어줘.
+- font: Helvetica Now Text, 0.625rem~0.75rem, weight 300 or 500
+- radius: 0 또는 최소값
+- default: transparent bg, #000000 text
+- sale/error/focus에서만 #23F444 / #FF3E33 / #348DED 사용
+- decorative colorful badge 금지
 ```
 
 #### Navigation
-```
-Zara 스타일 상단 네비게이션을 만들어줘.
-- 높이: 48px, bg: #FFFFFF, border-bottom: 1px solid #000000
-- 로고: 중앙 정렬 "ZARA"
-- 링크: Helvetica Now Text, 0.8125rem, weight 300, color #000000, uppercase
-- hover: underline
+
+```text
+ZARA 스타일 navigation을 만들어줘.
+- 링크: Helvetica Now Text, 0.75rem 전후, weight 300
+- 배치: page edge에 얇게 붙는 utility nav
+- 색상: media 위에서는 #FFFFFF 또는 #000000 중 contrast가 맞는 하나
+- active/highlight: weight 500 또는 underline/text state, background chip 금지
+- category universe: 큰 경우 negative tracking을 적용
 ```
 
 ### Iteration Guide
 
-- **색상 변경 시**: 흑백 기준. 색을 추가할 때는 상태 컬러(`#E90D01`, `#23F444`)만.
-- **폰트 변경 시**: weight 300이 기본. 임의로 400 이상 올리지 말 것.
-- **여백 조정 시**: 각 섹션의 padding은 40px~80px 수준. 빠듯하게 주지 말 것.
-- **새 컴포넌트 추가 시**: border-radius 0, border 없음 패턴. 그림자 절대 금지.
-- **이미지**: 4:5 세로 비율 유지. object-fit: cover.
-- **반응형**: 767px 기준으로 2열↔4열 전환.
+- **색상 변경 시**: 새 brand color를 만들지 말고 `#000000`, `#FFFFFF`, neutral ramp 안에서 해결한다.
+- **폰트 변경 시**: body/navigation은 weight `300`을 먼저 유지한다.
+- **여백 조정 시**: hero는 크게, commerce controls는 compact하게 유지한다.
+- **새 컴포넌트 추가 시**: radius `0`, shadow `none`, hairline `#D8D8D8` 우선.
+- **상태 색상**: `#348DED`, `#23F444`, `#FF3E33`, `#FF9500`은 semantic state 전용이다.
+- **반응형**: `48rem`, `64rem`, `85.4375rem`, `120rem` breakpoints를 먼저 따른다.
 
 ---
 
@@ -633,17 +941,56 @@ Zara 스타일 상단 네비게이션을 만들어줘.
 <!-- SOURCE: manual -->
 
 ### ✅ DO
-- body font-weight를 `300`으로 고정 (자라의 정체성)
-- 버튼·카드 radius를 `0`으로 (각진 모서리)
-- 그림자 대신 `1px solid #000000` border 또는 border 없음
-- 상품 이미지에 `aspect-ratio: 4/5` 세로형
-- 텍스트는 `uppercase + letter-spacing: 0.05em` 조합
-- 색상은 흑백만. 세일만 `#23F444`
+
+- Use `#000000` and `#FFFFFF` as the brand system, not just defaults.
+- Keep body/navigation text small and light: 10-13px equivalents, weight `300`.
+- Let photography/video carry emotion, depth, and color.
+- Use square controls: button radius `0rem`, card radius `0`.
+- Use `#D8D8D8`, `#949494`, and `#666666` for structure and secondary hierarchy.
+- Reserve `#348DED`, `#23F444`, `#FF3E33`, and `#FF9500` for semantic states only.
+- Use negative tracking on oversized menu/campaign typography when recreating the category universe.
+- Prefer opacity/text-decoration/color transitions over transform-heavy motion.
 
 ### ❌ DON'T
-- font-weight `400` 이상 body에 사용 금지
-- 버튼에 둥근 radius(8px 이상) 추가 금지
-- box-shadow 사용 금지 (자라 CSS에 없음)
-- 채도 있는 브랜드 컬러 추가 금지 (자라는 monochrome)
-- 배경에 `#F5F5F5` 같은 온화한 회색 금지 (순백 `#FFFFFF`만)
-- `Times New Roman`을 body 폰트로 쓰지 말 것 (에디토리얼 헤드라인 전용)
+
+- 배경을 `#F7F7F5` 또는 cream 계열로 두지 말 것 — 대신 `#FFFFFF` 사용.
+- 텍스트를 `#111827` 또는 Tailwind slate로 두지 말 것 — 대신 `#000000` 사용.
+- muted text를 `#6B7280`로 두지 말 것 — 대신 `#666666` 또는 `#949494` 사용.
+- border를 `#E5E7EB`로 두지 말 것 — 대신 `#D8D8D8` 사용.
+- primary CTA를 `#2563EB`, `#533AFD`, `#FF385C` 같은 chromatic brand color로 두지 말 것 — 대신 `#000000` / `#FFFFFF` inverse pairing 사용.
+- sale/status를 임의 green `#22C55E`로 두지 말 것 — 실제 sale token `#23F444` 사용.
+- error를 generic red `#EF4444`로 두지 말 것 — 실제 danger token `#FF3E33` 또는 semantic `#FF453A` 사용.
+- focus를 generic blue `#3B82F6`로 두지 말 것 — 실제 focus token `#348DED` 사용.
+- body 기본을 `font-weight: 400`으로 평준화하지 말 것 — Zara chrome은 weight `300`이 핵심이다.
+- 버튼을 `border-radius: 999px` pill로 만들지 말 것 — `0rem` square control을 사용.
+- product card에 `box-shadow`를 넣지 말 것 — photography와 whitespace로 분리한다.
+- hero를 centered headline + two CTA 구조로 만들지 말 것 — media-dominant editorial layout을 유지한다.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+<!-- SOURCE: manual -->
+
+- Second brand color: none. Chromatic colors are state colors, not brand identity.
+- Gradient brand surfaces: absent. The captured system is image/video-led, not gradient-led.
+- Pill CTA language: absent from primary brand chrome; button radii resolve to `0rem`.
+- Card elevation: none in the main commerce/product surface.
+- Friendly SaaS section rhythm: absent. No "hero + feature cards + CTA band" cadence.
+- Heavy body typography: mostly absent; weight `300` is a defining baseline.
+- Decorative icon palette: absent. Icons and utility marks stay monochrome.
+- Rounded product tiles: absent; image geometry remains square/rectangular.
+- Colorful navigation states: absent; active states should use weight, underline, or monochrome contrast.
+- Copy exuberance: absent. The voice is editorial/functional, not playful.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Phase1 reuse date** — the reused artifacts were present locally from an earlier capture. This guidebook is generated on 2026-05-03, but the underlying CSS/HTML artifacts may not reflect every live Zara change made after capture.
+- **Cookie overlay in screenshot** — `hero-cropped.png` includes a cookie consent bar, which occludes the bottom of the hero. Top-level campaign/media reading is still usable, but lower hero controls may be under-observed.
+- **Single route bias** — the analysis uses homepage HTML/CSS and extracted shared tokens. Checkout, account, search result filters, product detail pages, and payment flows were not separately visited.
+- **Exact sticky behavior unmeasured** — navigation appears edge/persistent in the screenshot and HTML structure, but scroll-state transitions were not replayed in browser for this output.
+- **Token aliases can be route-specific** — Zara ships many collection and campaign font families. This document treats `Helvetica Now Text` as the stable UI base and special families as campaign accents.
+- **No full visual diff** — Step 6 report rendering was intentionally skipped per request. This file validates structure/content, not an HTML report preview.
+- **Semantic colors are real but not brand** — blue/green/red/orange tokens exist in CSS; their interpretation as non-brand state colors is a design judgment based on token names and usage roles.
+- **Motion JS not inspected** — CSS transition values and reduced-motion media queries were observed, but carousel runtime timing and JS-driven animation curves were not deeply traced.
+- **Mobile screenshots not captured in this pass** — responsive behavior comes from CSS media queries and existing HTML classes, not a fresh mobile visual inspection.

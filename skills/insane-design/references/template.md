@@ -1,5 +1,5 @@
 ---
-schema_version: 3.1                           # 🆕 v3.1 — medium 분기 + apply/build 계약 필드
+schema_version: 3.2                           # 🆕 v3.2 — Designer Guidebook 전환 (ADDITIVE only)
 slug: {SLUG}
 service_name: {SERVICE_NAME}
 site_url: {SITE_URL}
@@ -10,15 +10,47 @@ primary_font: {PRIMARY_FONT}
 font_weight_normal: {WEIGHT_NORMAL}
 token_prefix: {TOKEN_PREFIX}
 
-# apply Lv3 BOLD 리디자인 지원 필드 (v3.0에서 추가, v3.1에서 유지)
+# apply Lv3 BOLD 리디자인 지원 필드 (v3.0~)
 bold_direction: {BOLD_DIRECTION}              # 1~2 단어 (예: "Industrial Minimalism")
-aesthetic_category: {AESTHETIC_CATEGORY}      # redesign-aesthetics.md §3 12가지 중 1개
+aesthetic_category: {AESTHETIC_CATEGORY}      # redesign-aesthetics.md §3 12가지 + "other"
 signature_element: {SIGNATURE_ELEMENT}        # hero_impact / typo_contrast / section_transition / minimal_extreme
 code_complexity: {CODE_COMPLEXITY}            # low / medium / high / very_high
 
-# 🆕 v3.1 — 매체 분기 (build 스킬이 starter-components 로드 시 사용)
+# v3.1 — 매체 분기 (build 스킬이 starter-components 로드 시 사용)
 medium: {MEDIUM}                              # web | slide | design-system | card-news | motion | print
 medium_confidence: {MEDIUM_CONFIDENCE}        # high | medium | low
+
+# 🆕 v3.2 — Archetype + Design System Level (Gemini council 권고)
+archetype: {ARCHETYPE}                        # commerce-marketplace / editorial-product / editorial-magazine /
+                                              # app-dashboard / saas-marketing / landing-utility /
+                                              # documentation-site / portfolio-personal / automotive /
+                                              # luxury-brand / other
+archetype_confidence: {ARCHETYPE_CONFIDENCE}  # high | medium | low
+design_system_level: {DS_LEVEL}               # lv1 (engineer spec) / lv2 (system in use) / lv3 (designer guidebook)
+design_system_level_evidence: "{DS_LEVEL_EVIDENCE}"  # 한 줄 근거
+
+# 🆕 v3.2 — 데이터 객체화 (Gemini "데이터는 YAML, 영혼은 Prose" 권고)
+# 본문 hex 직접 박힘 → Cross-reference Dual Notation 가능
+# 예: color: #0071e3 /* {colors.primary} */
+# apply 정규식은 hex를 그대로 grep — 객체는 ADDITIVE 사용
+
+colors:                                       # named color tokens (모두 CSS에 실재해야 함)
+  # primary: "{HEX}"
+  # surface-light: "{HEX}"
+  # text-primary: "{HEX}"
+  # ... 발견된 named token만 — 가상 alias 생성 금지
+
+typography:                                   # 폰트 + ladder + 부재 weight
+  # display: "{FONT_FAMILY}"
+  # body: "{FONT_FAMILY}"
+  # ladder:
+  #   - { token: h1, size: "56px", weight: 700, tracking: "-0.022em" }
+  # weights_used: [400, 600]
+  # weights_absent: [500]                     # Negative identity 단서
+
+components:                                   # named variant map (§13-2와 동기화)
+  # button-primary: { bg: "{colors.primary}", radius: "980px", padding: "12px 22px" }
+  # 발견된 변주만 — 강제 floor 없음
 ---
 
 <!--
@@ -67,26 +99,56 @@ medium_confidence: {MEDIUM_CONFIDENCE}        # high | medium | low
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
 <!-- SOURCE: manual -->
 <!--
-  스크린샷 + 추출된 토큰(색상, 폰트, 여백)을 종합해 AI가 서술형으로 작성.
-  3~5문단으로 브랜드의 시각적 정체성·핵심 특징·분위기를 설명.
-  구현자가 코드를 작성하기 전에 "이 서비스는 이런 느낌이다"를 잡게 해주는 섹션.
+  🆕 v3.2 샌드위치 구조 (Gemini council 권고):
+    위 = 디자이너의 영혼 (자유 narrative + 비유 + 메타포)
+    아래 = 기계의 계약 (apply Lv3 정규식 입력점 — 절대 변형 금지)
+  
+  apply Phase 3는 "**BOLD Direction**:" 패턴을 정규식으로 grep함.
+  Narrative는 그 위에 자유롭게 추가해도 정규식 영향 없음.
 -->
 
-{VISUAL_THEME_DESCRIPTION}
+### Narrative
+
+{VISUAL_THEME_NARRATIVE}
 
 <!--
-  작성 가이드:
-  - 1문단: 전반적 분위기와 디자인 철학 (예: "차갑고 기술적이면서도 친근한 fintech 톤")
-  - 2문단: 색상 사용 전략 (브랜드 컬러 역할, 배경/전경 대비, 뉴트럴 활용)
-  - 3문단: 타이포그래피 성격 (폰트 선택 이유, weight 활용, 계층 표현)
-  - 4문단: 여백/공간 활용과 레이아웃 철학 (밀도 vs 여유, 리듬감)
-  - 5문단 (선택): 인터랙션/모션 성격 (정적 vs 다이내믹, 전환 속도)
+  자유 서술 — 형식 강제 없음. 3-6 문단 권장.
+  
+  사이트 정체성에 맞는 항목을 우선 (순서·문단수 자유):
+  - 분위기 / 색 사용 / 타이포 / 공간 / 모션
+  - 사진처리 / 마이크로카피 / 대비 / 리듬 / 시그니처 디테일
+  
+  비유와 시그니처 메타포 환영:
+    "이 사이트는 박물관 갤러리처럼 벽이 사라진다"
+    "잡지 편집자의 손이 닿은 듯한 카탈로그"
+    "산업 데모룸의 정밀함"
+  
+  Cross-reference 토큰 사용 권장 (Dual Notation):
+    "텍스트는 #1D1D1F (`{colors.text-primary}`)로 떨어진다"
+  
+  부정형 정체성 명시 환영:
+    "두 번째 brand color는 존재하지 않는다"
+    "shadow는 product photography에만 — chrome에는 일절 없다"
+  
+  ❌ 금지:
+  - 5문단 강제 순서 (분위기/색/타이포/여백/모션 lock-in)
+  - generic phrase ("절제된 갤러리 톤" 같이 사이트 단서 없는 비유)
+  - 모든 사이트가 같은 단어로 시작하는 형식
 -->
 
-### 🆕 BOLD Direction Summary (apply Lv3 입력점)
+### Key Characteristics
+
+- {KEY_CHAR_1}
+- {KEY_CHAR_2}
+- {KEY_CHAR_3}
+- ... ({KEY_CHAR_N} — 5-10 항목, 핵심 시각 특징)
+
+---
+
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
 
 > **BOLD Direction**: {BOLD_DIRECTION}
 > **Aesthetic Category**: {AESTHETIC_CATEGORY}
@@ -94,13 +156,17 @@ medium_confidence: {MEDIUM_CONFIDENCE}        # high | medium | low
 > **Code Complexity**: {CODE_COMPLEXITY} — {COMPLEXITY_REASON}
 
 <!--
-  이 4줄 블록은 apply 스킬이 정규식으로 파싱하여 Lv3 BOLD 리디자인 시 사용함.
-  반드시 위 형식 그대로 작성. frontmatter 필드와 정확히 일치해야 함.
-
+  이 4줄 블록은 apply 스킬이 정규식으로 파싱한다. 형식 변경 금지.
+  
   - BOLD_DIRECTION: 1~2 단어 레이블 (Step 4 판정 #13)
-  - AESTHETIC_CATEGORY: redesign-aesthetics.md §3의 12가지 중 1개
-  - SIGNATURE_DESCRIPTION: hero 임팩트 / 타이포 대비 / 섹션 전환 / 미니멀 극단 등
+  - AESTHETIC_CATEGORY: redesign-aesthetics.md §3의 12가지 + "other"
+  - SIGNATURE_DESCRIPTION: hero_impact / typo_contrast / section_transition / minimal_extreme + freeform 보조
   - CODE_COMPLEXITY: low / medium / high / very_high + 근거 한줄
+  
+  frontmatter 필드(bold_direction / aesthetic_category / signature_element / code_complexity)와 정확히 일치해야 함.
+  
+  하위 호환: v3.1의 "### 🆕 BOLD Direction Summary" 헤더는 deprecated. apply 정규식은
+  "**BOLD Direction**:" 라인을 찾으므로 헤더명 변경에 영향 없음.
 -->
 
 ---
@@ -189,6 +255,26 @@ body {
 }
 ```
 
+### Note on Font Substitutes
+<!-- 🆕 v3.2 — SOURCE: manual / OPTIONAL -->
+<!--
+  라이선스 폰트가 사용자 환경에 없을 때 디자이너가 직접 적용 가능한
+  open-source fallback + 보정값.
+  
+  generic이 아니라 사이트 특이 ("Inter at 600 + ss03 + line-height 1.47→1.44"처럼).
+  사이트가 generic system font만 쓰면 이 sub-section 통째 생략 OK.
+-->
+
+{FONT_SUBSTITUTE_GUIDE}
+
+<!--
+  작성 형식 (자유):
+  - **{PRIMARY_FONT}** ({라이선스 / 환경 제약})
+    - Open-source 대안: **{FALLBACK_FONT}** at weight {N} + `font-feature-settings: {FEATURES}`
+    - 보정: line-height {ORIGINAL} → {ADJUSTED} ({이유})
+    - 보정: letter-spacing {ORIGINAL} → {ADJUSTED} ({이유})
+-->
+
 ---
 
 ## 05. Typography Scale
@@ -199,6 +285,23 @@ body {
 {TYPOGRAPHY_ROWS}
 
 > ⚠️ {TYPOGRAPHY_KEY_INSIGHT}
+
+### Principles
+<!-- 🆕 v3.2 — SOURCE: manual / OPTIONAL -->
+<!--
+  표가 말하지 못하는 것을 말한다 (의도 / 부재 / 비대칭).
+  4-6개 numbered statements 권장. craft 사이트는 더 많을 수도.
+  사이트가 generic이면 0개 (sub-section 생략).
+  
+  ref 예시 (Apple):
+    1. Body size is 17px, not 16px — Apple's signature density.
+    2. Negative letter-spacing on display only. Body keeps 0.
+    3. Weight 400 for body, weight 600 for display. Weight 500 deliberately absent.
+    4. Two optical sizes (Display + Text) — not one font with axes.
+    5. line-height 1.47 on body — looser than typical to balance dense letter-spacing.
+-->
+
+{TYPOGRAPHY_PRINCIPLES}
 
 ---
 
@@ -263,9 +366,36 @@ body {
   자동 추출 전용: CSS 전체 hex 빈도 카운트로 생성, 수동 작성 불가.
 -->
 
-| Rank | Hex | Count | Role |
-|---|---|---|---|
+| Token | Hex | Frequency |
+|---|---|---|
 {DOMINANT_ROWS}
+
+### 06-8. Color Stories
+<!-- 🆕 v3.2 — SOURCE: manual / OPTIONAL — 상위 4 색만 -->
+<!--
+  Gemini council 권고: "verbosity tax 회피"
+  
+  brand / surface / text / hairline 상위 4 색에만 1-3 문장 prose.
+  각 색에 "왜 / 언제 / 무엇 대신 / 어디에만" 답변.
+  
+  ❌ 강제 금지:
+  - 모든 색에 prose (5번째 색부터 generic이 됨)
+  - monochrome 사이트에 prose 강제 (sub-section 통째 생략 OK)
+  
+  ref 예시 (Airbnb):
+    **`{colors.primary}` (#FF385C)** — Rausch, the single brand color.
+    Used for primary CTA backgrounds (Reserve, Continue), the search orb,
+    the heart save state on property cards, and inline brand links. The
+    most recognizable color in consumer travel. There is no second brand
+    color — neutrals carry secondary actions.
+    
+    **`{colors.surface-base}` (#FFFFFF)** — Pure white floor. Airbnb's
+    listings demand neutrality so photography can carry the visual weight.
+    Hairlines and shadows do the structural work that color would in
+    other marketplaces.
+-->
+
+{COLOR_STORIES}
 
 ---
 
@@ -282,6 +412,34 @@ body {
 
 **주요 alias**:
 - `{SPACE_ALIAS_1}` → {SPACE_ALIAS_1_VALUE} ({SPACE_ALIAS_1_USE})
+
+### Whitespace Philosophy
+<!-- 🆕 v3.2 — SOURCE: manual / OPTIONAL -->
+<!--
+  Spacing 표가 말하지 못하는 것: 사이트의 공간 운용 의도.
+  1-2 paragraph 자유 서술. 사이트가 generic이면 생략 OK.
+  
+  "이 사이트는 빽빽한가 여유로운가" "리듬은 어떤가"가 아니라,
+  사이트의 의도가 드러나는 구체 단서를 짚어야 한다.
+  
+  ref 예시 (Apple):
+    Every tile begins with at least 64px of air above the headline.
+    This isn't decoration — it's a rhythm. The eye gets to the headline
+    only after a full breath. By the time it reaches the product image,
+    the breath has settled into focus.
+    
+    Apple's spacing system is not 4-8-16-32 ladder. It's 64-80-128 —
+    three scales for vertical air, with content at 1068px max-width.
+    The air owns the page.
+  
+  ref 예시 (Airbnb):
+    The system gives editorial bands 64px of vertical breathing room
+    but compresses card grids — property and city-link cards sit just
+    16px apart. The contrast is intentional: "open hero, dense
+    marketplace below."
+-->
+
+{WHITESPACE_PHILOSOPHY}
 
 ---
 
@@ -442,6 +600,75 @@ section {
   히어로 영역: 배경, 텍스트 크기/weight, CTA 배치, 이미지/일러스트
 -->
 {HERO_SECTION_BLOCK}
+
+### 13-2. Named Variants
+<!-- 🆕 v3.2 — SOURCE: manual / OPTIONAL — 사이트별 0~N개 -->
+<!--
+  기본 6 카테고리(Buttons/Badges/Cards/Navigation/Inputs/Hero) 안에 변주가 많을 때
+  named token으로 분리한다. ref(apple/airbnb/bmw)는 button만 5-8개 named variant.
+  
+  ❌ 강제 floor 없음. 사이트가 단순하면 0개 OK (sub-section 통째 생략).
+  ❌ "12 컴포넌트 floor" 강제 금지 (Gemini "Grep-Death" 경고 — 빈 표를 generic으로 채우는 환각).
+  
+  ✅ 발견된 변주만 — 가상 variant 생성 금지.
+  ✅ frontmatter `components:` map과 동기화.
+  
+  ref 예시 (Apple, 8개):
+    button-primary           # blue pill CTA
+    button-primary-active    # 같은 hex의 active 상태
+    button-primary-focus     # focus ring (accessibility)
+    button-secondary-pill    # white outline pill
+    button-dark-utility      # dark surface 위 small button
+    button-pearl-capsule     # store hero capsule
+    button-store-hero        # 큰 buy button
+    button-icon-circular     # circular icon button
+  
+  각 variant: spec 표 + HTML markup + state notes.
+  상태 6종 권장(있는 것만): hover / focus / active / disabled / loading / error.
+-->
+
+{NAMED_VARIANTS_BLOCK}
+
+### 13-3. Signature Micro-Specs
+<!-- 🆕 v3.2 — SOURCE: manual / OPTIONAL — 사이트의 craft -->
+<!--
+  Apple 격차 해소의 핵심 (Gemini council 권고):
+  "Apple은 색상이 아니라 공법으로 만들어진다.
+   미세 그라데이션, backdrop-filter, 0.5px border가 핵심.
+   우리는 '면'은 보지만 '결'은 못 본다."
+  
+  사이트가 가진 기술적 특이점을 공법(craft) 결합 명칭으로 추출:
+  - backdrop-filter / blur / 그라디언트 stops / 노이즈 / blend mode
+  - 0.5px / 1.5px 같은 비표준 두께
+  - letter-spacing 보정 패턴
+  - single drop-shadow의 위치/스코프 같은 메타 규칙
+  - hover/transition의 사이트 시그니처 동작
+  
+  ❌ 강제 floor 없음 (사이트가 generic CSS만 쓰면 0개).
+  ❌ "모든 사이트에 micro-spec 5개" 강제 금지.
+  ✅ craft 사이트 (Apple/Stripe/Linear)는 3-5개.
+  
+  ref 예시 (Apple):
+    glassmorphism-hero-tile:
+      description: "프리미엄 제품 카드의 시그니처 효과"
+      technique: "backdrop-filter: blur(20px) saturate(180%); rgba background 0.7 alpha"
+      applied_to: ["{component.product-tile}", "{component.utility-card}"]
+      visual_signature: "투명 유리 위에 떠 있는 듯한 깊이감"
+    
+    photography-drop-shadow:
+      description: "제품 사진에만 적용되는 단일 그림자"
+      technique: "rgba(0, 0, 0, 0.22) 3px 5px 30px"
+      applied_to: ["product-imagery only — never chrome"]
+      visual_signature: "제품이 표면 위에 놓인 듯한 무게감"
+    
+    apple-tight-tracking:
+      description: "디스플레이 사이즈 letter-spacing 보정"
+      technique: "letter-spacing: -0.022em on h1-h3"
+      applied_to: ["display sizes only — body keeps 0"]
+      visual_signature: "응집된 헤드라인 표정"
+-->
+
+{SIGNATURE_MICRO_SPECS}
 
 ---
 
@@ -637,4 +864,83 @@ module.exports = {
 {DO_ITEMS}
 
 ### ❌ DON'T
+<!--
+  apply 자동 검증 호환 (apply Step 3 grep 6쿼터 보존):
+  색상 DON'T는 반드시 hex inline-code (`#FFFFFF`) 또는 표 형식 — prose로 풀면 grep 불가.
+  
+  쓰기 패턴: "X를 [금지 hex/값]으로 두지 말 것 — 대신 [올바른 hex/값] 사용"
+  예: "배경을 `#FFFFFF` 또는 `white`로 두지 말 것 — 대신 `#F5F5F7` 사용"
+  예: "body에 `font-weight: 400` 사용 금지 — Apple은 default 400이지만 헤드라인은 600 강제"
+-->
+
 {DONT_ITEMS}
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+<!-- 🆕 v3.2 — SOURCE: manual / OPTIONAL -->
+<!--
+  Gemini council 권고: "디자인 시스템의 정체성은 '허용'보다 '금지'에서 더 명확해진다.
+  'Apple은 폰트 웨이트 500을 쓰지 않는다'는 정보는 디자이너가 불필요한 시도를 하지 않게 만든다."
+  
+  단순 금지가 아니라 "사이트가 의도적으로 결정한 부재"를 명시.
+  5-10 항목, 자유 서술. craft 사이트는 더 많을 수도.
+  
+  "absent / none / zero / never" 같은 단호한 표현 권장.
+  
+  ref 예시 (Apple):
+    - Brand Gradient: zero gradient-based design tokens
+    - Weight 500: deliberately absent — only 400 (body) and 600 (display) used
+    - Hover documentation: never. Default and Active/Pressed states only.
+    - Second brand color: none — `{colors.primary}` carries every interactive element
+    - Chrome shadow: none — exactly one drop-shadow, applied to product imagery
+    - Border on cards: rarely — surface contrast does the structural work
+    - Animated transitions: minimal — color fade < 0.1s, no transform/shadow animations
+  
+  ref 예시 (Airbnb):
+    - Second brand color: none — Rausch alone carries every CTA
+    - Decorative borders: none on listing cards — just shadow + radius
+    - Bold display weights: 700+ rare — most display sits at 600
+-->
+
+{NEGATIVE_SPACE_IDENTITY}
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- 🆕 v3.2 — SOURCE: manual / REQUIRED -->
+<!--
+  Codex council 권고: "evidence-or-gap 계약"
+  데이터가 없으면 추정하지 말고 "이건 모른다"를 명시한다.
+  환각 방어의 마지막 안전판.
+  
+  최소 3 항목 (Step 7 validator는 ≥3 강제). 보통 5-10 항목.
+  자유 서술 (불릿 권장).
+  
+  카테고리 예시:
+  - 측정 한계 (single page / desktop only / sub-flow 미방문)
+  - 추출 정확도 (logo wall 자동 분리 80% 등)
+  - 미관측 토큰 (form validation states / loading states / error states)
+  - 다크모드 매핑 부재
+  - 모션/애니메이션 미수집 (CSS는 봤지만 IntersectionObserver/scroll-trigger 로직 미분석)
+  - Sub-flow 미방문 (configurator / checkout / settings 페이지)
+  
+  ref 예시 (Apple):
+    - **Form validation states not surfaced** — homepage 단일 page 분석.
+      로그인/결제 흐름 미방문.
+    - **Dark-mode counterpart palette** — 일부 토큰만 dark에서 확인됨.
+      전체 mapping 미수집.
+    - **Exact blur radius** — backdrop-filter는 platform-dependent.
+      CSS에 `blur(20px)` 명시지만 실측 다를 수 있음.
+    - **Animation curves** — CSS의 cubic-bezier 값은 추출됐지만,
+      IntersectionObserver/scroll-trigger 로직 미분석.
+    - **Sub-flow surfaces** — Configurator(`/buy/iphone-17-pro`),
+      accessories grid는 hero/store와 다른 chassis. 본 분석 미포함.
+    - **Logo wall colors** — 일부 chromatic hex가 customer logo SVG에서 옴.
+      brand_color 후보에서 의도적으로 제외했지만 자동 분리 정확도 80%.
+  
+  ❌ 절대 추정 금지:
+  - 추정 hex 작성 — CSS에 없으면 "측정 불가" 표기
+  - 가상 토큰명 — 실제 CSS 변수에 없는 alias 생성 금지
+  - 모바일 실측 미수집 — desktop CSS만 분석한 경우 명시
+-->
+
+{KNOWN_GAPS}

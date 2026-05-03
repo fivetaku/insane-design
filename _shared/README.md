@@ -40,14 +40,14 @@ the manager explicitly overrides.
 세 스킬이 공유하는 **쓰기/읽기 계약**. 이 계약을 깨면 analysis가 만든 design.md를
 apply/build가 읽지 못한다.
 
-### 2.1 frontmatter 스키마 v3.1
+### 2.1 frontmatter 스키마 v3.2 (🆕 2026-05-02 — Designer Guidebook 전환)
 
 `analysis`는 반드시 다음 필드를 모두 채워 `design.md` 맨 위에 쓴다.
 `apply`/`build`는 이 필드를 정규식으로 파싱한다.
 
 ```yaml
 ---
-schema_version: 3.1                  # 필수 — v3.0에서 medium/confidence 필드 추가
+schema_version: 3.2                  # 필수 — v3.2 ADDITIVE 변경 (Designer Guidebook)
 slug: {SLUG}
 service_name: {SERVICE_NAME}
 site_url: {SITE_URL}
@@ -58,20 +58,57 @@ primary_font: {PRIMARY_FONT}
 font_weight_normal: {WEIGHT_NORMAL}
 token_prefix: {TOKEN_PREFIX}
 
-# Lv3 BOLD 리디자인 지원 (v3.1 신규는 아니지만 같은 frontmatter 블록)
+# Lv3 BOLD 리디자인 지원 (v3.0~)
 bold_direction: {BOLD_DIRECTION}
-aesthetic_category: {AESTHETIC_CATEGORY}
+aesthetic_category: {AESTHETIC_CATEGORY}     # 12 enum + "other"
 signature_element: {SIGNATURE_ELEMENT}
 code_complexity: {CODE_COMPLEXITY}
 
-# v3.1 신규 — 매체 분기
+# v3.1 — 매체 분기
 medium: web                          # web | slide | design-system | card-news | motion | print
 medium_confidence: high              # high | medium | low
+
+# 🆕 v3.2 — Archetype + Design System Level (판정 #21, #22)
+archetype: {ARCHETYPE}               # commerce-marketplace / editorial-product / editorial-magazine /
+                                     # app-dashboard / saas-marketing / landing-utility /
+                                     # documentation-site / portfolio-personal / automotive /
+                                     # luxury-brand / other
+archetype_confidence: high           # high | medium | low
+design_system_level: lv2             # lv1 (engineer spec) / lv2 (system in use) / lv3 (designer guidebook)
+design_system_level_evidence: "{한 줄 근거}"
+
+# 🆕 v3.2 — 데이터 객체화 (OPTIONAL, Cross-reference 토큰 그래프)
+# Gemini council 권고: "데이터는 YAML, 영혼은 Prose"
+# 본문 hex 직접 박힘은 그대로 유지 — apply 정규식은 hex grep
+# 객체는 ADDITIVE 사용 (apply가 무시하면 영향 없음)
+
+colors:                              # named token만 — CSS에 실재해야 함
+  # primary: "{HEX}"
+  # ...
+
+typography:
+  # display: "{FONT}"
+  # ladder: [...]
+  # weights_used: [...]
+  # weights_absent: [...]            # Negative identity 단서
+
+components:                          # §13-2 Named Variants와 동기화
+  # button-primary: { ... }
 ---
 ```
 
-**하위 호환**: v3.0 파일이 들어오면 apply/build는 `medium: web`, `medium_confidence: medium`으로
-간주하고 경고만 출력한다. 재생성 강요 금지.
+**하위 호환**:
+- v3.1 파일은 archetype/design_system_level/객체 없음 → apply/build가 default 처리, 경고만
+- v3.0 파일은 medium 없음 → `medium: web`, `medium_confidence: medium` 간주
+- 재생성 강요 금지
+
+**v3.2 변경 요약 (ADDITIVE only — BREAKING 0)**:
+- 신규 frontmatter 필드: archetype / archetype_confidence / design_system_level / design_system_level_evidence
+- 신규 frontmatter 객체 (OPTIONAL): colors / typography / components
+- 신규 섹션: §19 Known Gaps & Assumptions (필수)
+- 신규 sub-section: §00 Narrative + Direction Summary 분리, §04 Note on Font Substitutes, §05 Principles, §06-8 Color Stories, §07 Whitespace Philosophy, §13-2 Named Variants, §13-3 Signature Micro-Specs, §18 What This Site Doesn't Use
+- 자유도 회복: §00 4문단 강제 → 자유 narrative
+- apply Phase 3 정규식 모두 보존 (BOLD Direction Summary 4-line / §13 6 카테고리 / §15 :root / §18 hex grep 6쿼터)
 
 ### 2.2 §18 DON'T hex-grep 계약 (analysis 쓰기 · apply/build 읽기)
 

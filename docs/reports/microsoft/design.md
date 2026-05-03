@@ -1,785 +1,803 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: microsoft
 service_name: Microsoft
 site_url: https://www.microsoft.com/en-us
-fetched_at: 2026-04-23
+fetched_at: 2026-04-23T11:46:00+09:00
 default_theme: light
-brand_color: "#0067B8"
-primary_font: Segoe UI
+brand_color: "#0078D4"
+primary_font: "Segoe UI Variable Text"
 font_weight_normal: 400
-token_prefix: --ds-*
+token_prefix: "ds"
 
-bold_direction: "Modular Fluent"
-aesthetic_category: "Refined SaaS"
-signature_element: section_transition
+bold_direction: "Institutional Clarity"
+aesthetic_category: "enterprise editorial"
+signature_element: "blue-action-on-white-grid"
 code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: saas-marketing
+archetype_confidence: medium
+design_system_level: lv2
+design_system_level_evidence: "Public Microsoft homepage exposes real --ds-* typography/color/elevation tokens plus --uhf-* global header/footer tokens, but not a complete public designer guide."
+
+colors:
+  brilliant-blue-500: "#0078D4"
+  uhf-link-blue: "#0067B8"
+  surface-white: "#FFFFFF"
+  sky-blue-50: "#F4FAFD"
+  dark-blue-900: "#0E1726"
+  sea-salt-100: "#F8F7F5"
+  neutral-footer: "#F2F2F2"
+  text-header: "#262626"
+typography:
+  display: "Segoe UI Variable Display"
+  body: "Segoe UI Variable Text"
+  small: "Segoe UI Variable Small"
+  fallback: "Segoe UI, SegoeUI, Helvetica Neue, Helvetica, Arial, sans-serif"
+  ladder:
+    - { token: heading-3xl, size: "4.75rem", weight: 400, tracking: "-0.025em" }
+    - { token: heading-2xl, size: "3.5rem", weight: 400, tracking: "-0.025em" }
+    - { token: heading-xl, size: "3rem", weight: 500, tracking: "-0.025em" }
+    - { token: heading-l, size: "2.5rem", weight: 500, tracking: "-0.025em" }
+    - { token: heading-m, size: "2rem", weight: 500, tracking: "-0.025em" }
+    - { token: body-m, size: "1rem", weight: 400, tracking: "-0.03em" }
+    - { token: label-m, size: ".875rem", weight: 600, tracking: "normal" }
+  weights_used: [400, 500, 600, 700]
+  weights_absent: [800, 900]
+components:
+  global-header-link: { fg: "#262626", hover: "#D9D9D9", bg: "#FFFFFF", radius: "0" }
+  primary-action: { bg: "#0067B8", fg: "#FFFFFF", weight: 600, radius: "2px to 4px" }
+  ds-card: { bg: "#FEFEFE", border: "#E0E0E0", radius: "8px", shadow: "level-1 to level-2" }
+  ai-assistant-panel: { bg: "#F4FAFD", accent: "#0078D4", radius: "16px", card_radius: "8px" }
 ---
 
-# DESIGN.md — Microsoft (Claude Code Edition)
+# DESIGN.md - Microsoft
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-Microsoft의 현재 `https://www.microsoft.com/en-us` 홈은 하나의 단일 디자인 시스템이 아니라, **Reimagine `--ds-*` 토큰 레이어와 UHF(Universal Header Framework) 레거시 크롬이 공존하는 하이브리드 페이지**다. 페이지 본문 모듈은 `reimagine-*` 웹 컴포넌트로 재구성되어 있고, 상단/하단 크롬은 여전히 `uhf-*`와 literal color 중심의 오래된 레이어를 유지한다. 그래서 이 사이트를 Microsoft답게 만드는 핵심은 "깔끔한 Fluent 카드" 자체보다, **두 시스템이 충돌하지 않고 나란히 돌아가는 안정감**이다.
+### Narrative
 
-컬러 전략도 이 이중 구조를 그대로 드러낸다. 글로벌 링크와 UHF 크롬은 base/UHF CSS에 박혀 있는 `#0067B8`를 계속 사용한다. 실제로 `base...min.css`의 `a { color: #0067b8 }`와 `uhf...style-*.css`의 `--uhf-header-cart-bg-color ... #0067b8`가 이를 증명한다. 반면 Reimagine 토큰은 `store...min.css`에서 `--ds-color-brilliant-blue-500: #0078d4`를 anchor로 삼고, hover/pressed를 `#006DC1`, `#002948`까지 내려간다. 결과적으로 Microsoft 홈은 "브랜드 블루 하나"가 아니라 **legacy blue `#0067B8` + Fluent accent blue `#0078D4`**의 두 축으로 읽혀야 맞다.
+Microsoft.com behaves less like a single campaign page and more like the arrivals hall of a large civic institution. Windows buyers, Microsoft 365 teams, Azure builders, Xbox customers, Surface shoppers, and support seekers all enter through the same concourse, but no single product is allowed to repaint the building. The page is a switchboard with daylight on it: white planes, compact labels, rectangular destinations, and blue contacts where the hand should press.
 
-타이포그래피는 여전히 Segoe 중심이다. Reimagine bundle은 `--ds-font-family-segoe-variable-display`, `--ds-font-family-segoe-variable-text`, `--ds-font-family-segoe-variable-small`로 Segoe UI Variable 3축을 선언하고, base bundle은 `@font-face`로 `local("Segoe UI")`와 Microsoft CDN(`c.s-microsoft.com`) 폰트를 함께 로드한다. 헤딩은 `500/600`과 큰 size scale을, body는 `400`과 `-0.03em` letter-spacing을 사용해 **깔끔하지만 지나치게 차갑지 않은 기업형 readable UI**를 만든다.
+The dominant metaphor is not "blue technology brand"; it is a bright enterprise concourse with a strict wayfinding system. There is no second brand color roaming the UI, and even Microsoft logo colors stay out of the taxonomy. `#0078D4` (`{colors.brilliant-blue-500}`) and `#0067B8` (`{colors.uhf-link-blue}`) behave like airport gate numbers or Windows focus rings: highly visible at decision points, almost absent everywhere else. The brand is not a blue page. The brand is a white grid that knows where every door leads.
 
-레이아웃은 카드 중심이지만 단순 카드 나열은 아니다. hero는 `<reimagine-hero-featured-slider>` 안에서 `<reimagine-carousel autoplay-interval="7000">`로 움직이고, 카드 영역은 `<reimagine-card-feature clickable>`와 `<reimagine-carousel-card-grid>`가 반복된다. 여기에 `theme="night"`와 `background="special-color"` 같은 속성이 끼어들어, 라이트 베이스 위에 필요한 순간만 어두운 패널과 그래디언트를 얹는다. 즉 Microsoft의 공간 전략은 미니멀이라기보다 **모듈형 편집 시스템**에 가깝다.
+Typography is the operating system speaking in public. `Segoe UI Variable Display`, `Segoe UI Variable Text`, and `Segoe UI Variable Small` make the homepage feel like it belongs near Windows settings, Office ribbons, and admin portals rather than beside a boutique SaaS launch. The negative tracking is part of that institutional voice: text sits like tightly set UI chrome, not like loose magazine display type. If Apple removes the wall for the object, Microsoft keeps the wall and labels every room.
 
-인터랙션도 과장 대신 제어가 핵심이다. UHF와 chat bundle에는 `background-color .2s ease`, `fill .2s ease`, `all .2s` 같은 짧은 transition이 깔려 있고, media player는 `opacity .3s ease-in-out`으로 나타난다. hero의 긴 움직임은 flashy animation이 아니라 7초 autoplay carousel에서 온다. 즉 Microsoft는 motion으로 놀라게 하기보다 **상태 변화가 명확한 제품 문법**을 유지한다.
+The card system feels like a product directory printed on rigid office signage: 8px corners, low system elevation, subtle borders, and enough image variety to separate destinations without turning the shell decorative. Shadow is infrastructure, not atmosphere. It is the faint edge of a tile on a white desk, not a cinematic spotlight.
+
+AI expression is deliberately quarantined. `#F4FAFD` (`{colors.sky-blue-50}`), `#0E1726` (`{colors.dark-blue-900}`), and the blue-to-aqua accent belong inside assistant/product panels, like a lit demo bay inside the larger concourse. The glow never takes over the station. Microsoft lets Copilot have a room, not the whole building.
+
+조금 더 풀면, Microsoft 홈은 **거대한 시연 실험실 옆에 펼쳐 놓은 공구함과 blueprint 도면**처럼 작동한다. 흰 페이지 바닥은 작업대 위 펼쳐진 blueprint 종이, 가로로 정렬된 product 카드들은 공구함의 뚜껑을 열었을 때 한 칸씩 제자리에 박혀 있는 도구 세트다. `#0067B8` 액션 블루는 공구함 위에 인쇄된 작업 라벨 — 어느 도구를 다음에 집어야 하는지 손가락이 먼저 알게 만드는 색이다. Copilot 패널은 실험실 한쪽에 따로 둔 시연 부스, blueprint 위에서 진행되는 라이브 demo이고, footer는 공구함 뒤편의 부속 부품 서랍이다. 두 번째 brand color가 없는 이유는, blueprint 위에는 단 한 가지 잉크 색만 살아 있어야 도면이 흔들리지 않기 때문이다.
 
 ### Key Characteristics
 
-- Reimagine 본문 `--ds-*` 842개 + UHF 크롬 `--uhf-*` 20개가 공존하는 hybrid stack
-- legacy Microsoft blue `#0067B8`와 Reimagine accent blue `#0078D4`의 이중 구조
-- `Segoe UI Variable` / `Segoe UI` 기반 3축 폰트 패밀리
-- `reimagine-*` custom element + `uhf-*` chrome + `aem-Grid*` layout 혼합
-- `--ds-spacing-*` 20개, `--ds-elevation-level-*` 6단 shadow 시스템
-- hero slider 7초 autoplay, 일반 hover/focus는 `0.2s` 중심
-- 밝은 카드 표면 + 선택적 night theme 패널의 section-by-section 전환
+- White and very pale blue surfaces dominate; saturated blue is reserved for actions and selected accents.
+- `Segoe UI Variable` is the identity carrier; do not swap it for a trendy geometric sans.
+- Global header/footer use `--uhf-*` tokens while marketing/product modules expose `--ds-*` tokens.
+- Headings use medium-light enterprise weight: 400 for largest display, 500/600 for section labels and controls.
+- Cards are restrained: 8px radius, subtle borders, low two-layer elevation, no heavy glassmorphism.
+- Navigation is dense but quiet, with many links kept in a strict horizontal product taxonomy.
+- Product imagery and tiles create variety; the chrome itself stays plain.
+- AI assistant surfaces introduce sky blue `#F4FAFD`, dark-blue ink `#0E1726`, and a blue-to-aqua gradient only inside that subsystem.
+- Footer is utilitarian `#F2F2F2` with muted `#616161` text, not a brand finale.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Modular Fluent
-> **Aesthetic Category**: Refined SaaS
-> **Signature Element**: 이 사이트는 **Reimagine Fluent 카드와 UHF 레거시 블루 크롬이 한 화면에서 이어지는 모듈 전환감**으로 기억된다.
-> **Code Complexity**: high — `--ds-*` 토큰 레이어, custom element, AEM markup, UHF legacy CSS가 동시에 존재한다.
+### 🤖 Direction Summary (Machine Interface - DO NOT EDIT)
+
+> **BOLD Direction**: Institutional Clarity
+> **Aesthetic Category**: enterprise editorial
+> **Signature Element**: 이 사이트는 **blue-action-on-white-grid**으로 기억된다.
+> **Code Complexity**: high - multiple Microsoft systems coexist: global UHF header/footer, DS tokenized marketing modules, store modules, and assistant-specific components.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: auto+manual -->
 
-> 5분 안에 Microsoft처럼 만들기 — 3가지만 하면 80%
+> 5분 안에 Microsoft처럼 만들기 - 3가지만 하면 80%
 
 ```css
-/* 1. 폰트 */
+/* 1. Font + optical weight */
 body {
-  font-family:
-    "Segoe UI Variable Text",
-    "Segoe UI",
-    SegoeUI,
-    "Helvetica Neue",
-    Helvetica,
-    Arial,
-    sans-serif;
+  font-family: "Segoe UI Variable Text", "Segoe UI", SegoeUI, "Helvetica Neue", Arial, sans-serif;
   font-weight: 400;
+  letter-spacing: -0.03em;
 }
 
-/* 2. 표면 + 본문 */
+/* 2. Surface + ink */
 :root {
-  --bg: #ffffff;
-  --surface: #f8f7f8;
-  --border: #e7e7e7;
-  --fg: #0e1726;
-  --fg-subtle: #17253d;
+  --ms-bg: #FFFFFF;
+  --ms-fg: #1A1A1A;
+  --ms-muted: #616161;
 }
+body { background: var(--ms-bg); color: var(--ms-fg); }
 
-/* 3. 블루는 두 축으로 분리 */
-:root {
-  --brand: #0067b8;         /* legacy header / link blue */
-  --brand-accent: #0078d4;  /* Reimagine accent fill */
-  --brand-accent-hover: #006dc1;
+/* 3. Action blue, not page blue */
+:root { --ms-action: #0067B8; --ms-brand: #0078D4; }
+.primary-action {
+  background: var(--ms-action);
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 2px;
 }
 ```
 
-**절대 하지 말아야 할 것 하나**: `#0067B8`와 `#0078D4`를 같은 역할로 합쳐 쓰지 마라. live Microsoft 홈은 header/footer/link chrome에는 `#0067B8`, tokenized accent fill에는 `#0078D4` 계열을 쓴다. 둘을 구분하지 않으면 바로 "Fluent를 닮은 아무 사이트"처럼 보인다.
+**절대 하지 말아야 할 것 하나**: 전체 페이지를 `#0078D4` 그라디언트 브랜드 배경으로 덮지 말 것. Microsoft의 홈 chrome은 흰 표면과 정돈된 선택 구조가 먼저이고, blue는 행동 지점에만 강하게 들어간다.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
 | Source URL | `https://www.microsoft.com/en-us` |
-| Fetched | 2026-04-23 |
-| Extractor | `curl_cffi.requests.Session(impersonate="chrome")` + CSS 직접 파싱 |
-| HTML size | `214258` bytes |
-| CSS files | `11`개 외부 + `1`개 inline, 총 `576134` chars |
-| Primary token bundle | `store.ACSHASH94d661eddae45b14c9f57e0b79a7fe67.min.css` (`58773` chars, `--ds-*` 832개) |
-| Chrome bundle | `uhf.microsoft.com/.../style-BpAANDpw.css` (`452610` chars, `--uhf-*` 20개 + icon vars 다수) |
-| Token prefix | `--ds-*` (본문), `--uhf-*` (header/footer chrome) |
-| Method | CSS 커스텀 프로퍼티와 실제 markup 직접 확인 · AI 추측 없음 |
+| Fetched | 2026-04-23T11:46:00+09:00 |
+| Extractor | phase1 reuse: existing HTML/CSS/screenshots |
+| HTML size | 362364 bytes |
+| CSS files | 14 external files, total 676369 bytes |
+| Screenshot | `insane-design/microsoft/screenshots/hero-cropped.png` |
+| Token prefix | `ds`, with `uhf` and `sa` secondary systems |
+| Method | Existing phase1 JSON + CSS token/frequency inspection; no new network fetch |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: Adobe Experience Manager + Cascade Reimagine web components + UHF chrome
-- **Design system**: Reimagine theme tokens — prefix `--ds-*`
-- **CSS architecture**: palette → semantic theme → component slot의 3층 구조
+- **Framework**: Microsoft public web stack with server-rendered HTML and multiple product bundles.
+- **Design system**: Microsoft DS in use - prefix `--ds-*`; global shell uses `--uhf-*`; assistant/store modules add `--sa-*` and store-specific CSS.
+- **CSS architecture**:
+  ```css
+  --ds-color-*                 palette ramps and semantic surfaces
+  --ds-heading-* / --ds-body-* typography ladder
+  --ds-spacing-*               spacing ladder
+  --ds-elevation-*             low-elevation shadow system
+  --uhf-*                      universal header/footer chrome
+  --sa-*                       store assistant panel subsystem
   ```
-  palette   (--ds-color-*)     raw ramps and neutrals
-  semantic  (--ds-theme-*)     background / foreground / border aliases
-  chrome    (--uhf-* + literals)  header, footer, cart, search chrome
-  ```
-- **Markup layer**: `reimagine-*` custom element, `uhf-*` shell, `aem-Grid*` layout classes
-- **Default theme**: light base, 일부 hero/featured 모듈만 `theme="night"`
-- **Font loading**: `local("Segoe UI")` + `c.s-microsoft.com` hosted Segoe files + Segoe UI Variable family tokens
-- **Canonical anchor**: `#0067B8` for global chrome, `#0078D4` for tokenized accent fill
-- **Animation primitives**: hero carousel `autoplay-interval="7000"`, hover/fill transition `.2s`, media fade `.3s ease-in-out`
-- **Fluent audit**: live CSS에는 Fluent Web 공개 토큰명(`--colorBrandBackground`)이 직접 노출되지 않고, 의미상 동등한 내부 alias `--ds-theme-background-accent-strong-normal`이 쓰인다
+- **Class naming**: mixed compiled product classes plus tokenized custom properties.
+- **Default theme**: light (`#FFFFFF` primary document surface, `#F2F2F2` footer surface).
+- **Font loading**: Segoe UI Variable family first, then Segoe UI and system/web fallbacks.
+- **Canonical anchor**: Microsoft.com homepage global commerce/product navigation with cards for key consumer and business destinations.
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Display**: `--ds-font-family-segoe-variable-display`
-- **Body**: `--ds-font-family-segoe-variable-text`
-- **Small / label**: `--ds-font-family-segoe-variable-small`
-- **Legacy chrome**: `--uhf-font-family`
-- **Code**: `SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace`
-- **Weight normal / bold**: `400` / `600`
+- **Display font**: `Segoe UI Variable Display`
+- **Body font**: `Segoe UI Variable Text`
+- **Small text font**: `Segoe UI Variable Small`
+- **Global header fallback**: `"Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif`
+- **Weight normal / action / label**: `400` / `600` / `600`
 
 ```css
 :root {
-  --ms-font-display:
-    "Segoe UI Variable Display",
-    "Segoe UI",
-    SegoeUI,
-    "Helvetica Neue",
-    Helvetica,
-    Arial,
-    sans-serif;
-  --ms-font-body:
-    "Segoe UI Variable Text",
-    "Segoe UI",
-    SegoeUI,
-    "Helvetica Neue",
-    Helvetica,
-    Arial,
-    sans-serif;
-  --ms-font-small:
-    "Segoe UI Variable Small",
-    "Segoe UI",
-    SegoeUI,
-    "Helvetica Neue",
-    Helvetica,
-    Arial,
-    sans-serif;
-  --ms-font-uhf:
-    "Segoe UI",
-    SegoeUI,
-    "Helvetica Neue",
-    Helvetica,
-    Arial,
-    sans-serif;
+  --ds-font-family-segoe-variable-display: "Segoe UI Variable Display","Segoe UI",segoeui,"Helvetica Neue",helvetica,arial,sans-serif;
+  --ds-font-family-segoe-variable-text: "Segoe UI Variable Text","Segoe UI",segoeui,"Helvetica Neue",helvetica,arial,sans-serif;
+  --ds-font-family-segoe-variable-small: "Segoe UI Variable Small","Segoe UI",segoeui,"Helvetica Neue",helvetica,arial,sans-serif;
+  --uhf-font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 ```
 
-> **라이브 근거**: base bundle의 `@font-face`는 `local("Segoe UI")`를 우선 사용하고, store bundle은 Segoe UI Variable 3패밀리를 토큰으로 선언한다.
+### Note on Font Substitutes
+
+If Segoe UI Variable is unavailable, use `"Segoe UI"` first, then `system-ui`, then `Arial`. Do not replace it with Inter as the default substitute unless the whole interface is being intentionally de-Microsofted. Inter's rhythm is cleaner but less Windows-native; it loses the familiar operating-system quality that makes the site feel official.
+
+For Figma or web prototypes on macOS, the best substitute stack is:
+
+```css
+font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+```
+
+Avoid high-personality display faces, condensed sans faces, and overly rounded fonts. They push the page toward startup marketing rather than Microsoft institutional product navigation.
 
 ---
 
 ## 05. Typography Scale
+<!-- SOURCE: auto+manual -->
 
-| Token | Size | Weight | Line-height | Letter-spacing |
-|---|---|---|---|---|
-| `--ds-label-eyebrow-*` | `0.75rem` | `600` | `1rem` | `0.08em` |
-| `--ds-body-xs-*` | `0.75rem` | `400` | `1rem` | `-0.03em` |
-| `--ds-body-s-*` | `0.875rem` | `400` | `1.25rem` | `-0.03em` |
-| `--ds-body-m-*` | `1rem` | `400` | `1.5rem` | `-0.03em` |
-| `--ds-body-l-*` | `1.125rem` | `400` | `1.75rem` | `-0.03em` |
-| `--ds-heading-3xs-*` | `1rem` | `600` | `1.5rem` | `normal` |
-| `--ds-heading-2xs-*` | `1.125rem` | `600` | `1.5rem` | `normal` |
-| `--ds-heading-xs-*` | `1.25rem` | `500` | `1.75rem` | `-0.01em` |
-| `--ds-heading-s-*` | `1.5rem` | `500` | `2rem` | `-0.015em` |
-| `--ds-heading-m-*` | `2rem` | `500` | `2.5rem` | `-0.025em` |
-| `--ds-heading-l-*` | `2.5rem` | `500` | `3rem` | `-0.025em` |
-| `--ds-heading-xl-*` | `3rem` | `500` | `3.5rem` | `-0.025em` |
-| `--ds-heading-2xl-*` | `3.5rem` | `400` | `3.875rem` | `-0.025em` |
-| `--ds-heading-3xl-*` | `4.75rem` | `400` | `5.125rem` | `-0.025em` |
+### Principles
 
-> **핵심 인사이트**: mid heading(`xs~xl`)은 `500`, giant display(`2xl/3xl`)는 오히려 `400`으로 내려간다. Microsoft는 거대한 헤드를 굵게 누르기보다, **Segoe UI Variable의 넓은 면적과 긴 line-height**로 기업형 임팩트를 만든다.
+1. Let Segoe carry brand memory before color does.
+2. Use large display type at 400 weight, then step into 500/600 for hierarchy and controls.
+3. Keep optical tracking tight: headings around `-0.025em`, body around `-0.03em`.
+4. Use labels as navigation instruments, not decorative eyebrow copy.
+5. Maintain dense readability: line-height should feel practical, not editorially airy.
+
+### Extracted Ladder
+
+```css
+:root {
+  --ds-heading-3xl-font-size: 4.75rem;
+  --ds-heading-3xl-font-weight: 400;
+  --ds-heading-3xl-letter-spacing: -0.025em;
+
+  --ds-heading-2xl-font-size: 3.5rem;
+  --ds-heading-2xl-font-weight: 400;
+  --ds-heading-2xl-letter-spacing: -0.025em;
+
+  --ds-heading-xl-font-size: 3rem;
+  --ds-heading-xl-font-weight: 500;
+  --ds-heading-xl-letter-spacing: -0.025em;
+
+  --ds-heading-l-font-size: 2.5rem;
+  --ds-heading-l-font-weight: 500;
+  --ds-heading-l-letter-spacing: -0.025em;
+
+  --ds-heading-m-font-size: 2rem;
+  --ds-heading-m-font-weight: 500;
+  --ds-heading-m-letter-spacing: -0.025em;
+
+  --ds-body-m-font-size: 1rem;
+  --ds-body-m-font-weight: 400;
+  --ds-body-m-letter-spacing: -0.03em;
+
+  --ds-label-m-font-size: .875rem;
+  --ds-label-m-font-weight: 600;
+  --ds-label-m-letter-spacing: normal;
+}
+```
+
+### Usage Notes
+
+- `4.75rem` display size is appropriate for hero modules and major campaign bands only.
+- Product-card headings should sit closer to `1.25rem` to `2rem`, with 500/600 weight.
+- Header nav should remain compact, often 13-15px visual size, not enlarged for drama.
+- CTA text should use 600, but not all-caps shouting.
+- Body copy can be tighter than generic web defaults because the font was designed for UI density.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
 
-### 06-1. Brand Split: Legacy Blue + Reimagine Accent
+### Core Palette
 
-| Source | Token / literal | Hex | Usage |
-|---|---|---|---|
-| Base / UHF | literal `#0067B8` ★ | `#0067B8` | global links, cart badge, chrome accent |
-| Reimagine | `--ds-color-brilliant-blue-500` | `#0078D4` | semantic accent fill |
-| Reimagine | `--ds-color-brilliant-blue-600` | `#006DC1` | accent hover |
-| Reimagine | `--ds-color-brilliant-blue-700` | `#005597` | accent selected |
-| Reimagine | `--ds-color-brilliant-blue-900` | `#002948` | accent pressed / deepest blue |
+```css
+:root {
+  --ds-color-brilliant-blue-500: #0078D4;
+  --uhf-action-blue: #0067B8;
+  --ms-surface-white: #FFFFFF;
+  --ds-color-sky-blue-50: #F4FAFD;
+  --ds-color-dark-blue-900: #0E1726;
+  --ds-color-sea-salt-100: #F8F7F5;
+  --uhf-footer-background-color: #F2F2F2;
+  --uhf-header-link-color: #262626;
+}
+```
 
-### 06-2. Reimagine Brand Ramp
+### Frequency Signals
 
-| Token | Hex |
-|---|---|
-| `--ds-color-brilliant-blue-50` | `#E6F2FB` |
-| `--ds-color-brilliant-blue-100` | `#B0D5F2` |
-| `--ds-color-brilliant-blue-300` | `#54A5E2` |
-| `--ds-color-brilliant-blue-500` | `#0078D4` |
-| `--ds-color-brilliant-blue-600` | `#006DC1` |
-| `--ds-color-brilliant-blue-700` | `#005597` |
-| `--ds-color-brilliant-blue-800` | `#004275` |
-| `--ds-color-brilliant-blue-900` | `#002948` |
+- `#FFF` / `#FFFFFF` - highest-frequency surface color; the homepage reads as a white system.
+- `#0078D4` - primary Microsoft brilliant blue, heavily present in DS/assistant tokens.
+- `#F4FAFD` - pale sky surface used for soft AI/assistant or blue-tinted modules.
+- `#2A446F`, `#17253D`, `#0E1726` - dark blue ink family for AI/product panels.
+- `#0067B8` - global UHF action/link blue, especially for header/cart/link behavior.
+- `#F2F2F2`, `#E6E6E6`, `#D9D9D9` - footer/header neutral infrastructure.
 
-### 06-3. Neutral Ramp
+### 06-8 Color Stories
 
-| Role | Token | Hex |
-|---|---|---|
-| page white | `--ds-color-neutral-white` | `#FFFFFF` |
-| card hover white | `--ds-color-off-white-300` | `#F8F7F8` |
-| surface alt | `--ds-color-off-white-500` | `#F4F3F5` |
-| border fade | `--ds-color-vapor-gray-100` | `#E7E7E7` |
-| border / icon neutral | `--ds-color-vapor-gray-500` | `#B1B3B3` |
-| tertiary text | `--ds-color-vapor-gray-800` | `#616262` |
-| deep neutral | `--ds-color-vapor-gray-900` | `#3C3D3D` |
-| dark ink | `--ds-color-dark-blue-900` | `#0E1726` |
-| dark text secondary | `--ds-color-dark-blue-800` | `#17253D` |
-| dark panel accent | `--ds-color-dark-blue-500` | `#2A446F` |
+1. **Action Blue: `#0078D4` / `#0067B8`** - This is the Microsoft interaction spine. Use it for buttons, selected links, and service emphasis. Keep it focused; widespread blue background makes the page feel like a support portal instead of Microsoft.com.
+2. **White Surface: `#FFFFFF`** - The primary brand environment. White is not absence here; it is the institutional clearing where many product families can coexist.
+3. **Sky Assistant Tint: `#F4FAFD`** - A soft blue-white used when the page needs AI/product warmth without turning saturated. Pair with `#0E1726` for readable dark-blue copy.
+4. **Utility Neutral: `#F2F2F2` / `#262626`** - Header/footer and link chrome depend on practical neutrals. They keep the page from becoming a campaign-only layout.
 
-### 06-4. Accent Families
+### Color Behavior
 
-| Family | Key token | Hex |
-|---|---|---|
-| sky blue highlight | `--ds-color-sky-blue-100` | `#DCEEF8` |
-| sky blue strong | `--ds-color-sky-blue-300` | `#B3DAF0` |
-| sky blue tint | `--ds-color-sky-blue-500` | `#8DC8E8` |
-| lavender supportive | `--ds-color-lavender-500` | `#C5B4E3` |
-| lavender tint | `--ds-color-lavender-300` | `#D8CDEC` |
-| lavender fade | `--ds-color-lavender-100` | `#EDE8F6` |
-| twilight purple | `--ds-color-twilight-purple-500` | `#463668` |
-| twilight purple dark | `--ds-color-twilight-purple-900` | `#181223` |
-| yellow alert | `--ds-color-golden-yellow-500` | `#FFB900` |
-| magenta accent | `--ds-color-red-violet-500` | `#C03BC4` |
-
-### 06-5. Semantic
-
-| Alias | Resolves to | Usage |
-|---|---|---|
-| `--ds-theme-background-accent-strong-normal` | `#0078D4` | primary accent background |
-| `--ds-theme-background-accent-strong-hover` | `#006DC1` | accent hover |
-| `--ds-theme-background-accent-strong-pressed` | `#002948` | accent pressed |
-| `--ds-theme-border-accent-strong-normal` | `#0078D4` | accent stroke |
-| `--ds-theme-foreground-accent-strong-normal` | `#FFFFFF` | text/icon on accent fill |
-| `--ds-theme-background-card-normal` | `#FFFFFF` | card default surface |
-| `--ds-theme-background-card-hover` | `#F8F7F8` | card hover surface |
-| `--ds-theme-background-highlight-normal` | `#DCEEF8` | soft highlight block |
-| `--ds-theme-foreground-base-strong` | `#0E1726` | primary text |
-| `--ds-theme-foreground-base-subtle` | `#17253D` | secondary text |
-| `--ds-theme-border-neutral-fade` | `#E7E7E7` | light divider |
-| `--ds-theme-border-neutral-pure` | `#B1B3B3` | harder neutral border |
-| `--ds-theme-background-supportive-color` | `#C5B4E3` | supportive / secondary panel |
-| `--ds-theme-foreground-supportive-icon-dark` | `#181223` | supportive icon on lavender |
-
-### 06-6. Fluent Token Audit
-
-| Status | Token |
-|---|---|
-| live CSS에서 직접 발견 안 됨 | `--colorBrandBackground` |
-| live CSS에서 직접 발견 안 됨 | `--colorBrandForeground1` |
-| live CSS에서 직접 발견 안 됨 | `--colorNeutralForeground1` |
-| closest live background alias | `--ds-theme-background-accent-strong-normal` |
-| closest live border alias | `--ds-theme-border-accent-strong-normal` |
-| closest live foreground alias | `--ds-theme-foreground-accent-strong-normal` |
-
-> **중요**: Microsoft 홈은 Fluent Web 공개 변수명을 그대로 노출하지 않는다. 실제 페이지는 같은 의미층을 내부 `--ds-theme-*` alias로 운용한다.
-
-### 06-7. Dominant Colors (실제 CSS 빈도, normalized)
-
-| Rank | Hex | Count | Role |
-|---|---|---|---|
-| 1 | `#FFFFFF` | 38 | base surface / card |
-| 2 | `#0078D4` | 19 | Reimagine accent |
-| 3 | `#F4FAFD` | 11 | highlight surface |
-| 4 | `#000000` | 10 | icons / base text |
-| 5 | `#E6F2FB` | 9 | brilliant blue 50 |
-| 6 | `#2A446F` | 8 | dark blue panel |
-| 7 | `#0067B8` | 7 | legacy Microsoft blue |
-| 8 | `#B3DAF0` | 7 | sky blue strong |
-| 9 | `#005A9E` | 7 | legacy dark blue |
-| 10 | `#106EBE` | 7 | legacy hover blue |
+Microsoft color usage is modular. The Microsoft four-color logo is not the UI palette. Do not extract red/green/yellow logo colors and spread them through cards. In this homepage surface, the working UI palette is white, neutral gray, Microsoft blue, and occasional product-media color.
 
 ---
 
 ## 07. Spacing
+<!-- SOURCE: auto+manual -->
 
-| Token / observation | Value | Use case |
-|---|---|---|
-| `--ds-spacing-1` | `0.125rem` (`2px`) | micro nudge |
-| `--ds-spacing-2` | `0.25rem` (`4px`) | icon / eyebrow gaps |
-| `--ds-spacing-3` | `0.5rem` (`8px`) | chip / small stack |
-| `--ds-spacing-4` | `0.75rem` (`12px`) | compact padding |
-| `--ds-spacing-6` | `1rem` (`16px`) | standard inner padding |
-| `--ds-spacing-7` | `1.5rem` (`24px`) | card / row gap |
-| `--ds-spacing-8` | `2rem` (`32px`) | section block spacing |
-| `--ds-spacing-9` | `3rem` (`48px`) | generous section spacing |
-| `--ds-spacing-10` | `3.5rem` (`56px`) | hero / large offset |
-| `--ds-card-padding-default` | `1rem` | default card padding |
-| `--ds-card-padding-comfortable` | `1.5rem` | comfortable card padding |
-| `--ds-card-padding-relaxed` | `2rem` | relaxed / featured card padding |
-| UHF desktop shell | `padding-left/right: 5%` | wide header/footer chrome |
-| UHF tablet shell | `padding-left/right: 24px` | mid viewport chrome |
+### Extracted Spacing Tokens
+
+```css
+:root {
+  --ds-spacing-1: .125rem;  /* 2px */
+  --ds-spacing-2: .25rem;   /* 4px */
+  --ds-spacing-3: .5rem;    /* 8px */
+  --ds-spacing-4: .75rem;   /* 12px */
+  --ds-spacing-6: 1rem;     /* 16px */
+  --ds-spacing-7: 1.5rem;   /* 24px */
+  --ds-spacing-8: 2rem;     /* 32px */
+  --ds-spacing-9: 3rem;     /* 48px */
+  --ds-spacing-10: 3.5rem;  /* 56px */
+}
+```
+
+### Whitespace Philosophy
+
+Whitespace is functional rather than luxurious. Microsoft.com needs enough air for product scanning, but it cannot become sparse because the homepage is a switchboard for many journeys. Use whitespace to separate product families, not to perform elegance.
+
+The site prefers clean gutters, predictable module rhythm, and restrained internal padding. Cards and product tiles should feel easy to compare side by side. Large blank editorial pauses are off-brand unless a specific hero campaign supplies strong product imagery.
+
+### Layout Rhythm
+
+- **Micro**: 2px/4px for icon alignment, focus correction, compact controls.
+- **Component**: 8px/12px/16px for card padding, nav gaps, button padding.
+- **Module**: 24px/32px/48px for tile groups and section separation.
+- **Hero**: can expand beyond the token ladder, but should remain anchored to a product/content grid.
 
 ---
 
 ## 08. Radius
+<!-- SOURCE: auto+manual -->
 
-> live Microsoft CSS에는 통일된 `--ds-radius-*` 토큰군이 없고, radius가 컴포넌트별 literal 값으로 흩어져 있다.
+### Radius Tokens and Observed Values
 
-| Literal | Context |
-|---|---|
-| `0` | media edges, reset, square shells |
-| `4px` | chat input shell |
-| `8px` | compact prompt/input state |
-| `10px` | UHF cart count badge |
-| `16px` | prompt pill / rounded chip |
-| `24px` | desktop chat container |
-| `25px` | contained chat hero capsule |
-| `50% / 100px` | spinners and circular affordances |
+```css
+:root {
+  --border-radius-medium: 4px;
+  --sa-border-radius: 16px;
+  --sa-card-border-radius: 8px;
+}
+
+.ms-card { border-radius: 8px; }
+.ms-control { border-radius: 2px; }
+.ms-assistant-panel { border-radius: 16px; }
+```
+
+### Radius Rules
+
+- Global navigation and classic Microsoft buttons should be squared or lightly rounded: 0-4px.
+- Cards should usually use 8px, matching the dominant observed card radius.
+- AI assistant or contained chat panels may use 16px outer radius and 8px internal cards.
+- Avoid 24px-plus pill cards for core Microsoft homepage modules; they read too consumer-app playful.
+- Circular radius is reserved for icons, avatars, and small controls, not product-card architecture.
 
 ---
 
 ## 09. Shadows
+<!-- SOURCE: auto+manual -->
 
-| Token | Value | Usage |
-|---|---|---|
-| `--ds-elevation-level-1` | `0 0 .125rem rgba(0,0,0,.12), 0 .063rem .125rem rgba(0,0,0,.14)` | subtle surface lift |
-| `--ds-elevation-level-2` | `0 0 .125rem rgba(0,0,0,.12), 0 .125rem .25rem rgba(0,0,0,.14)` | light card |
-| `--ds-elevation-level-3` | `0 0 .125rem rgba(0,0,0,.12), 0 .25rem .5rem rgba(0,0,0,.14)` | floating card |
-| `--ds-elevation-level-4` | `0 0 .125rem rgba(0,0,0,.12), 0 .5rem 1rem rgba(0,0,0,.14)` | popover / deeper tray |
-| `--ds-elevation-level-5` | `0 0 .5rem rgba(0,0,0,.12), 0 .875rem 1.75rem rgba(0,0,0,.14)` | modal-like shell |
-| `--ds-elevation-level-6` | `0 0 .5rem rgba(0,0,0,.12), 0 2rem 4rem rgba(0,0,0,.14)` | hero / high emphasis |
-| chat input observed | `0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.14)` | actual chat input container |
+Microsoft's elevation is quiet and systematic. Many declarations are `none`, but the DS includes a six-level elevation ladder built from two rgba layers: a small ambient outline and a vertical depth layer.
+
+```css
+:root {
+  --ds-elevation-color-1: rgba(0,0,0,0.12);
+  --ds-elevation-color-2: rgba(0,0,0,0.14);
+  --ds-elevation-level-1:
+    0 0 .125rem var(--ds-elevation-color-1),
+    0 .063rem .125rem var(--ds-elevation-color-2);
+  --ds-elevation-level-2:
+    0 0 .125rem var(--ds-elevation-color-1),
+    0 .125rem .25rem var(--ds-elevation-color-2);
+  --ds-elevation-level-3:
+    0 0 .125rem var(--ds-elevation-color-1),
+    0 .25rem .5rem var(--ds-elevation-color-2);
+}
+```
+
+Use shadows to clarify hover/stacking, not to create dramatic floating cards. A Microsoft card should feel physically present but administratively calm.
 
 ---
 
 ## 10. Motion
+<!-- SOURCE: auto+manual -->
 
-| Pattern | Value | Source |
-|---|---|---|
-| hero carousel autoplay | `7000ms` | `<reimagine-carousel autoplay-interval="7000">` |
-| primary hover transitions | `.2s` | UHF / chat / icon fill transitions |
-| background-color transition | `.2s ease` | UHF / chat interactive shells |
-| media reveal | `opacity .3s ease-in-out` | `reimagine-media universal-media-player.ump-visible` |
-| chat pill hover | `transition: all .2s` | `.msstore-chatonpage__prompt-pill` |
+Motion is present but not identity-defining in the captured CSS. It supports loading skeletons, hover states, dropdown reveal, and assistant panels. The most concrete motion token in the phase1 data is the skeleton duration:
 
-> Microsoft의 motion은 "기능적 이동"에 가깝다. 긴 인상을 만드는 건 hero carousel의 7초 리듬이고, 나머지는 거의 전부 `.2s` 안쪽의 상태 변화다.
+```css
+:root {
+  --skeleton-animation-duration: 2s;
+}
+```
+
+### Motion Rules
+
+- Keep transitions short and utilitarian: hover, focus, dropdown, carousel, and skeleton states.
+- Do not use scroll-jacking, large parallax, or cinematic section transitions as default Microsoft language.
+- Product media may animate, but the navigation shell should remain dependable.
+- Use motion to reduce uncertainty in dense product surfaces, not to entertain.
 
 ---
 
 ## 11. Layout Patterns
+<!-- SOURCE: auto+manual -->
 
-### Grid System
+### Global Header / UHF Shell
 
-- **Shell**: `aem-Grid`, `aem-GridColumn`, `reimagine-layout`, `reimagine-layout-column`
-- **Chrome**: `uhf-header`, `uhf-footer-nav-group`
-- **Section mode**: card grid + featured slider + editorial text block의 반복
+The Universal Header/Footer layer is a major part of the identity. It uses `--uhf-*` tokens, white header background, dense link groups, and practical hover states. Header links are `#262626`; footer surface is `#F2F2F2`; footer text is `#616161`.
 
-### Hero
-
-```html
-<reimagine-hero-featured-slider>
-  <reimagine-carousel autoplay="true" autoplay-interval="7000">
-    <reimagine-hero-featured-slider-item
-      theme="night"
-      header-layout-configuration="2-col-even"
-      background="special-color">
-      <reimagine-media aspect-ratio="16-9" slot="ui-shell-media"></reimagine-media>
-    </reimagine-hero-featured-slider-item>
-  </reimagine-carousel>
-</reimagine-hero-featured-slider>
+```css
+:root {
+  --uhf-header-bg-color: #FFFFFF;
+  --uhf-header-link-color: #262626;
+  --uhf-footer-background-color: #F2F2F2;
+  --uhf-footer-text-color: #616161;
+}
 ```
 
-- Hero는 **2-column even split + 16:9 media + optional night theme**가 기본
-- 첫 화면이 곧 브랜드가 아니라, 여러 corporate/editorial 메시지를 캐러셀로 순환
+### Product Tile Grid
 
-### Card Patterns
+The homepage uses modular product cards to route users into Microsoft 365, Copilot, Windows, Surface, Xbox, and business destinations. Cards should be scan-first: image or icon, short heading, short copy, clear action. Avoid card interiors that require reading long paragraphs.
 
-- `<reimagine-card-feature clickable>` + `<reimagine-media aspect-ratio="16-9" slot="card-feature__media">`
-- 이미지 비율은 16:9를 강하게 유지
-- CTA는 카드 내부 button group으로 붙는다
+### Editorial Hero
 
-### Navigation Structure
+Hero sections can carry product photography or campaign imagery, but the surrounding system remains conservative. A Microsoft hero should feel like a product entry point, not a portfolio poster. Keep CTA grouping explicit and use blue action color.
 
-- UHF 데스크톱은 `min-width: 1084px`에서 `padding-left/right: 5%`
-- `860px` 기준으로 desktop/mobile chrome가 갈린다
-- 링크 구조는 제품 허브 + support + deals를 수평으로 유지
+### Footer Taxonomy
+
+The footer is a dense support and legal taxonomy, not a decorative sign-off. Use muted gray, compact text, and multiple columns. This matters because Microsoft.com must service global corporate navigation.
 
 ---
 
-## 12. Responsive Behavior
+## 12. Responsive
+<!-- SOURCE: auto+manual -->
 
-### Breakpoints
+The system should collapse by preserving navigation priority and product-tile scan order. On desktop, keep a horizontal global nav plus wide module grids. On tablet, reduce columns and preserve CTA visibility. On mobile, the header becomes a menu/search surface and product modules stack into single-column cards.
 
-| Layer | Breakpoint | Purpose |
-|---|---|---|
-| Reimagine content | `480px` | content scale start |
-| Reimagine content | `640px` | tablet-ish spacing/type growth |
-| Reimagine content | `1024px` | desktop content layout |
-| Reimagine content | `1366px` | wide content |
-| Reimagine content | `1920px` | ultra-wide scale |
-| Chat module | `479px / 767px` | pill/input layout switch |
-| UHF chrome | `860px` | mobile vs desktop header |
-| UHF chrome | `1084px` | wide desktop header padding |
+```css
+.ms-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@media (max-width: 1080px) {
+  .ms-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .ms-grid { grid-template-columns: 1fr; gap: 16px; }
+}
+```
 
-### Collapsing Strategy
-
-- hero media는 `<picture><source media="..."></picture>`로 자산 자체를 갈아낀다
-- chrome은 `860px` 아래에서 모바일 header 패턴으로 전환
-- chat/prompt pills는 `479px` 이하에서 더 조밀한 chip 레이아웃으로 압축
-- card 영역은 carousel/card-grid 중심이라 column collapse보다 **component-level swap**이 많다
-
-### Touch Targets
-
-- prompt pill observed height: `32px`
-- chat input shell observed height: `66px`
-- UHF cart/count badge는 compact하지만 text/icon gap을 `4px`로 유지
+Keep action buttons visible above the fold when possible. Do not let product imagery consume the only interactive area on mobile.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
-### Primary CTA (Reimagine)
+### 13-1 Core Component Families
 
-```html
-<reimagine-button
-  shape="rounded"
-  appearance="button--primary"
-  button-label="Learn more">
-  <a href="https://unlocked.microsoft.com/sustainability?icid=mscom_marcom_H1a_Sustainability2026">
-    Learn more
-  </a>
-</reimagine-button>
+**Global Header Link** - Compact text link in the UHF shell. Uses Segoe UI, `#262626`, white background, subtle hover state. It should not be styled as a large pill.
+
+**Primary Action Button** - Blue, practical, 600 weight. Use `#0067B8` for classic UHF/action blue or `#0078D4` when aligned with DS brilliant blue. Radius should be small.
+
+**Product Card** - White or near-white surface, 8px radius, subtle border/elevation, image or icon lead, concise heading, link/action.
+
+**AI Assistant Panel** - Pale sky surface `#F4FAFD`, dark-blue copy `#0E1726`, blue accent `#0078D4`, 16px outer radius, 8px internal cards, optional blue-to-aqua gradient only for AI-specific marks.
+
+**Footer Column** - `#F2F2F2` background, muted text, dense grouped links. The footer is information architecture, not brand decoration.
+
+**Store/Product Module** - Uses retail/product imagery, price/action slots, and more commerce-like density, but should still inherit Microsoft typography and neutral surfaces.
+
+### 13-2 Named Variants
+
+```yaml
+global-header-link:
+  font: var(--uhf-font-family)
+  color: "#262626"
+  background: "#FFFFFF"
+  hover: "#D9D9D9"
+  radius: "0"
+
+primary-action:
+  background: "#0067B8"
+  color: "#FFFFFF"
+  font-weight: 600
+  radius: "2px"
+  padding: "10px 12px"
+
+ds-card:
+  background: "#FEFEFE"
+  border: "#E0E0E0"
+  radius: "8px"
+  shadow: "var(--ds-elevation-level-1)"
+
+assistant-card:
+  background: "#F4FAFD"
+  ink: "#0E1726"
+  accent: "#0078D4"
+  radius: "8px"
+
+footer-column:
+  background: "#F2F2F2"
+  color: "#616161"
+  link-color: "#616161"
 ```
 
-| Spec | Value |
-|---|---|
-| accent fill | `--ds-theme-background-accent-strong-normal` → `#0078D4` |
-| hover | `--ds-theme-background-accent-strong-hover` → `#006DC1` |
-| pressed | `--ds-theme-background-accent-strong-pressed` → `#002948` |
-| foreground | `--ds-theme-foreground-accent-strong-normal` → `#FFFFFF` |
-| shape signal | `shape="rounded"` |
+### 13-3. Signature Micro-Specs
 
-> **근거 범위**: 실제 component module styling은 custom element 내부에서 처리되지만, live CSS가 accent semantic token chain을 명확히 제공한다.
+```yaml
+uhf-blue-action-clamp:
+  description: "Keep Microsoft blue as a decision-point affordance, not a page atmosphere."
+  technique: "background #0067B8 or #0078D4, color #FFFFFF, font-weight 600, border-radius 2px to 4px, compact 10px-14px control padding"
+  applied_to: ["{component.primary-action}", "{component.global-header-link}"]
+  visual_signature: "Small rectangular blue actions punctuate an otherwise white enterprise grid."
 
-### Feature Card
+segoe-optical-tightening-global:
+  description: "Make the page feel Windows-native by combining Segoe Variable with dense optical tracking."
+  technique: "font-family Segoe UI Variable Text/Display/Small; headings letter-spacing -0.025em; body letter-spacing -0.03em; display weights 400-500"
+  applied_to: ["{typography.display}", "{typography.body}", "{component.ds-card}"]
+  visual_signature: "Text sits compact and UI-like, as if it belongs beside OS controls rather than startup marketing."
 
-```html
-<reimagine-card-feature clickable>
-  <reimagine-media aspect-ratio="16-9" slot="card-feature__media"></reimagine-media>
-</reimagine-card-feature>
+assistant-sky-containment:
+  description: "Constrain AI expression to a pale-blue subsystem instead of flooding the homepage chrome."
+  technique: "panel background #F4FAFD, ink #0E1726, accent #0078D4, outer radius 16px, internal card radius 8px"
+  applied_to: ["{component.ai-assistant-panel}", "{component.assistant-card}"]
+  visual_signature: "Copilot-style energy appears as a contained demo bay inside the larger white Microsoft concourse."
+
+low-elevation-card-edge:
+  description: "Use card edges as quiet product taxonomy, not dramatic depth."
+  technique: "background #FEFEFE, border #E0E0E0, radius 8px, shadow var(--ds-elevation-level-1) or 0 0 2px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.14)"
+  applied_to: ["{component.ds-card}", "{component.Product Card}"]
+  visual_signature: "Tiles read like rigid office signage on a white desk: visible, orderly, and low-drama."
+
+uhf-zero-radius-link-row:
+  description: "The Universal Header Footer keeps every navigation hit area perfectly square — no rounded corners, no pill, no badge geometry."
+  technique: ".c-uhfh-actions a / .c-uhfh-link uses border-radius: 0; background #FFFFFF, fg #262626, hover bg #D9D9D9; underline appears only on focus-visible, not on hover; height matches a 48px global rail."
+  applied_to: ["{component.global-header-link}", "{component.uhf-rail}"]
+  visual_signature: "The top of the page reads like a Windows menu bar imported into the browser: rectangular, dense, and OS-native rather than marketing-soft."
 ```
-
-- media ratio: `16:9`
-- default surface: `--ds-theme-background-card-normal` → `#FFFFFF`
-- hover surface: `--ds-theme-background-card-hover` → `#F8F7F8`
-
-### Header / Chrome
-
-```html
-<uhf-header></uhf-header>
-```
-
-- font: `--uhf-font-family`
-- cart badge bg: `#0067B8`
-- cart badge radius: `10px`
-- shell padding: desktop `5%`, tablet `24px`
-
-### Copilot Chat Prompt Pill
-
-```css
-.msstore-chatonpage__prompt-pill {
-  background: linear-gradient(92deg, #0a6bba .48%, #003966 48.85%, #1f5188 99.78%);
-  border: 1px solid #b3daf0;
-  border-radius: 16px;
-  transition: all .2s;
-}
-```
-
-- 이 모듈은 Microsoft 홈에서 가장 "marketing-plus-product"하게 보이는 실제 CSS 컴포넌트다
-- blue gradient, Segoe UI Variable, 16px pill radius가 동시에 드러난다
 
 ---
 
-## 14. Content / Copy Voice
+## 14. Content Voice
+<!-- SOURCE: manual -->
 
-| Pattern | Rule | Example |
-|---|---|---|
-| Hero headline | 짧은 2절 병치 문장 | `Less plastic, more planet` |
-| Offer headline | 숫자/혜택을 앞에 둠 | `10% off Microsoft Surface Certified Refurbished` |
-| CTA | 설명보다 행동을 먼저 | `Learn more` |
-| Product copy | 한 문장에 benefit 하나 | `Save on refurbished devices—more sustainable than new.` |
-| Editorial / mission copy | 기술보다 결과를 앞세움 | `Protecting biodiversity with AI` |
-| Tone | 차갑지 않은 기업 톤, 제품/사회 메시지 병치 | — |
+Microsoft copy should be direct, benefit-led, and product-specific. It can be aspirational around AI and productivity, but the voice should quickly name the product, audience, or task. Avoid poetic abstractions that could belong to any SaaS brand.
+
+### Voice Rules
+
+- Name concrete destinations: Microsoft 365, Copilot, Windows, Xbox, Surface, Azure.
+- Use verbs around productivity and capability: create, protect, organize, build, play, learn.
+- Keep CTA labels plain: "Shop now", "Learn more", "Compare plans", "Get started".
+- Avoid founder-led personality copy, ironic humor, or boutique editorial fragments.
 
 ---
 
 ## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
-/* Microsoft — derived from live microsoft.com CSS */
 :root {
-  --ms-font-display:
-    "Segoe UI Variable Display","Segoe UI",SegoeUI,
-    "Helvetica Neue",Helvetica,Arial,sans-serif;
-  --ms-font-body:
-    "Segoe UI Variable Text","Segoe UI",SegoeUI,
-    "Helvetica Neue",Helvetica,Arial,sans-serif;
-  --ms-font-small:
-    "Segoe UI Variable Small","Segoe UI",SegoeUI,
-    "Helvetica Neue",Helvetica,Arial,sans-serif;
-
-  --ms-brand-legacy: #0067B8;
-  --ms-brand-accent: #0078D4;
-  --ms-brand-accent-hover: #006DC1;
-  --ms-brand-accent-pressed: #002948;
-
+  --ms-blue: #0078D4;
+  --ms-action-blue: #0067B8;
   --ms-bg: #FFFFFF;
-  --ms-surface: #F8F7F8;
-  --ms-surface-alt: #F4F3F5;
-  --ms-border: #E7E7E7;
-  --ms-border-strong: #B1B3B3;
-  --ms-fg: #0E1726;
-  --ms-fg-subtle: #17253D;
-
-  --ms-highlight: #DCEEF8;
-  --ms-supportive: #C5B4E3;
-  --ms-supportive-ink: #181223;
-
-  --ms-space-1: 2px;
-  --ms-space-2: 4px;
-  --ms-space-3: 8px;
-  --ms-space-4: 12px;
-  --ms-space-6: 16px;
-  --ms-space-7: 24px;
-  --ms-space-8: 32px;
-  --ms-space-9: 48px;
-  --ms-space-10: 56px;
-
-  --ms-radius-sm: 4px;
-  --ms-radius-md: 8px;
-  --ms-radius-lg: 16px;
-  --ms-radius-xl: 24px;
-  --ms-radius-pill: 999px;
-
-  --ms-shadow-1:
-    0 0 2px rgba(0,0,0,0.12),
-    0 1px 2px rgba(0,0,0,0.14);
-  --ms-shadow-3:
-    0 0 2px rgba(0,0,0,0.12),
-    0 4px 8px rgba(0,0,0,0.14);
+  --ms-footer-bg: #F2F2F2;
+  --ms-text: #1A1A1A;
+  --ms-header-text: #262626;
+  --ms-muted: #616161;
+  --ms-sky-50: #F4FAFD;
+  --ms-dark-blue: #0E1726;
+  --ms-border: #E0E0E0;
+  --ms-radius-card: 8px;
+  --ms-radius-control: 2px;
+  --ms-shadow-1: 0 0 2px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.14);
+  --ms-font: "Segoe UI Variable Text", "Segoe UI", SegoeUI, "Helvetica Neue", Arial, sans-serif;
+  --ms-font-display: "Segoe UI Variable Display", "Segoe UI", SegoeUI, "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
-  font-family: var(--ms-font-body);
-  color: var(--ms-fg);
+  margin: 0;
+  background: var(--ms-bg);
+  color: var(--ms-text);
+  font-family: var(--ms-font);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.ms-shell {
+  min-height: 100vh;
   background: var(--ms-bg);
 }
 
-.ms-cta {
+.ms-header {
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 5vw;
+  background: #FFFFFF;
+  color: var(--ms-header-text);
+  font-size: 13px;
+}
+
+.ms-hero {
+  display: grid;
+  grid-template-columns: minmax(280px, 520px) minmax(320px, 1fr);
+  gap: 48px;
+  align-items: center;
+  padding: 56px 5vw;
+}
+
+.ms-hero h1 {
+  margin: 0 0 20px;
+  font-family: var(--ms-font-display);
+  font-size: clamp(2.5rem, 6vw, 4.75rem);
+  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+.ms-hero p {
+  max-width: 58ch;
+  margin: 0 0 24px;
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.ms-button {
   display: inline-flex;
   align-items: center;
-  gap: var(--ms-space-2);
-  min-height: 44px;
-  padding: var(--ms-space-3) var(--ms-space-7);
-  border-radius: var(--ms-radius-pill);
-  background: var(--ms-brand-accent);
-  color: #fff;
-  box-shadow: var(--ms-shadow-1);
+  justify-content: center;
+  min-height: 40px;
+  padding: 10px 14px;
+  border-radius: var(--ms-radius-control);
+  background: var(--ms-action-blue);
+  color: #FFFFFF;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ms-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  padding: 32px 5vw 56px;
 }
 
 .ms-card {
-  background: var(--ms-bg);
+  background: #FEFEFE;
   border: 1px solid var(--ms-border);
-  border-radius: var(--ms-radius-lg);
-  padding: var(--ms-space-8);
-  box-shadow: var(--ms-shadow-3);
+  border-radius: var(--ms-radius-card);
+  box-shadow: var(--ms-shadow-1);
+  padding: 24px;
+}
+
+.ms-card h2 {
+  margin: 0 0 12px;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.ms-assistant-panel {
+  background: var(--ms-sky-50);
+  color: var(--ms-dark-blue);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.ms-footer {
+  background: var(--ms-footer-bg);
+  color: var(--ms-muted);
+  padding: 36px 5vw;
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .ms-hero { grid-template-columns: 1fr; padding-block: 40px; }
+  .ms-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .ms-header { padding-inline: 16px; gap: 16px; }
+  .ms-card-grid { grid-template-columns: 1fr; padding-inline: 16px; }
 }
 ```
 
 ---
 
-## 16. Tailwind Config
+## 16. Tailwind Mapping
+<!-- SOURCE: manual -->
 
 ```js
-// tailwind.config.js — Microsoft
-module.exports = {
+export default {
   theme: {
     extend: {
-      colors: {
-        ms: {
-          legacy: '#0067B8',
-          accent: '#0078D4',
-          accentHover: '#006DC1',
-          accentPressed: '#002948',
-          surface: '#F8F7F8',
-          surfaceAlt: '#F4F3F5',
-          border: '#E7E7E7',
-          borderStrong: '#B1B3B3',
-          ink: '#0E1726',
-          inkSubtle: '#17253D',
-          highlight: '#DCEEF8',
-          supportive: '#C5B4E3',
-          supportiveInk: '#181223',
-        },
-        fluentBlue: {
-          50: '#E6F2FB',
-          100: '#B0D5F2',
-          300: '#54A5E2',
-          500: '#0078D4',
-          600: '#006DC1',
-          700: '#005597',
-          800: '#004275',
-          900: '#002948',
-        },
-      },
       fontFamily: {
-        sans: [
-          'Segoe UI Variable Text',
-          'Segoe UI',
-          'SegoeUI',
-          'Helvetica Neue',
-          'Helvetica',
-          'Arial',
-          'sans-serif',
-        ],
-        display: [
-          'Segoe UI Variable Display',
-          'Segoe UI',
-          'SegoeUI',
-          'Helvetica Neue',
-          'Helvetica',
-          'Arial',
-          'sans-serif',
-        ],
+        sans: ['"Segoe UI Variable Text"', '"Segoe UI"', 'system-ui', 'sans-serif'],
+        display: ['"Segoe UI Variable Display"', '"Segoe UI"', 'system-ui', 'sans-serif'],
       },
-      spacing: {
-        1: '2px',
-        2: '4px',
-        3: '8px',
-        4: '12px',
-        6: '16px',
-        7: '24px',
-        8: '32px',
-        9: '48px',
-        10: '56px',
+      colors: {
+        microsoft: {
+          blue: '#0078D4',
+          action: '#0067B8',
+          sky: '#F4FAFD',
+          ink: '#0E1726',
+          footer: '#F2F2F2',
+          headerText: '#262626',
+          muted: '#616161',
+        },
       },
       borderRadius: {
-        sm: '4px',
-        md: '8px',
-        lg: '16px',
-        xl: '24px',
-        pill: '999px',
+        ms: '2px',
+        'ms-card': '8px',
+        'ms-panel': '16px',
       },
       boxShadow: {
-        ms1: '0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14)',
-        ms3: '0 0 2px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.14)',
-        ms6: '0 0 8px rgba(0,0,0,0.12), 0 32px 64px rgba(0,0,0,0.14)',
+        'ms-1': '0 0 2px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.14)',
       },
-      screens: {
-        chrome: '860px',
-        desktop: '1084px',
-        contentSm: '480px',
-        contentMd: '640px',
-        contentLg: '1024px',
-        contentXl: '1366px',
-        content2xl: '1920px',
+      letterSpacing: {
+        msbody: '-0.03em',
+        msheading: '-0.025em',
       },
     },
   },
-};
+}
 ```
 
 ---
 
-## 17. Agent Prompt Guide
+## 17. Agent Prompt
+<!-- SOURCE: manual -->
 
-### Quick Color Reference
+Build a Microsoft.com-inspired homepage surface, not a generic blue SaaS landing page. Use a white institutional shell, Segoe UI Variable typography, compact global navigation, product-card grids, and blue only for actions or contained product accents. Use `#0067B8` and `#0078D4` as focused interaction colors, not full-page atmosphere. Cards should use 8px radius, subtle borders, and low two-layer elevation. The footer should be a dense `#F2F2F2` taxonomy with muted text. Keep copy direct and product-specific. Avoid logo-color confetti, oversized rounded pills, glass blobs, and decorative gradients.
 
-| Role | Token | Hex |
-|---|---|---|
-| Legacy brand blue | `--ms-brand-legacy` | `#0067B8` |
-| Reimagine accent fill | `--ms-brand-accent` | `#0078D4` |
-| Accent hover | `--ms-brand-accent-hover` | `#006DC1` |
-| Background | `--ms-bg` | `#FFFFFF` |
-| Card surface | `--ms-surface` | `#F8F7F8` |
-| Border | `--ms-border` | `#E7E7E7` |
-| Ink | `--ms-fg` | `#0E1726` |
-| Ink subtle | `--ms-fg-subtle` | `#17253D` |
-| Highlight | `--ms-highlight` | `#DCEEF8` |
-| Supportive | `--ms-supportive` | `#C5B4E3` |
+Must include:
 
-### Example Component Prompts
-
-#### Hero
-
-```
-Microsoft 홈 스타일 hero.
-- 구조: featured slider 느낌의 2-column even split
-- 배경: white base + 필요한 경우 night panel
-- 타이포: Segoe UI Variable Display 48~76px, weight 400~500
-- CTA: rounded, accent fill #0078D4, text #FFFFFF
-- 보조 chrome: link / shell accent는 #0067B8
-- media ratio는 16:9
-- 과장된 motion 대신 7초 autoplay 느낌의 조용한 이동
-```
-
-#### Feature Card
-
-```
-Microsoft Reimagine 카드.
-- surface #FFFFFF
-- hover surface #F8F7F8
-- border 1px solid #E7E7E7
-- radius 16px
-- padding 24~32px
-- media 16:9
-- body font Segoe UI Variable Text 16px weight 400
-```
-
-#### Chrome / Header
-
-```
-Microsoft UHF 스타일 header.
-- font "Segoe UI"
-- background white
-- desktop shell padding 5%
-- tablet shell padding 24px
-- link accent #0067B8
-- cart/count badge radius 10px
-```
-
-### Iteration Guide
-
-- `#0067B8`는 chrome / link blue, `#0078D4`는 accent fill로 분리해서 쓸 것
-- body는 `Segoe UI Variable Text` 또는 `Segoe UI`, heading은 display family를 우선
-- spacing은 `2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 56` 그리드만 사용할 것
-- radius는 token이 아니라 literal이므로 `4 / 8 / 16 / 24 / pill` 범위에 묶을 것
-- hero, card, nav를 각각 다른 subsystem으로 보고 조합할 것
+- Segoe UI Variable or Segoe UI fallback stack.
+- White primary surface `#FFFFFF`.
+- Microsoft blue action `#0067B8` or brilliant blue `#0078D4`.
+- Compact header with product navigation.
+- Product cards with 8px radius.
+- Optional assistant panel using `#F4FAFD`, `#0E1726`, and `#0078D4`.
+- Footer taxonomy using `#F2F2F2` and `#616161`.
 
 ---
 
 ## 18. DO / DON'T
+<!-- SOURCE: auto+manual -->
 
-### ✅ DO
+### DO
 
-- 링크 / header chrome에는 `#0067B8`를 사용한다.
-- primary accent fill에는 `#0078D4`와 hover `#006DC1`를 사용한다.
-- 본문은 Segoe UI 계열 `400`, heading은 `500` 또는 giant display에서 `400`을 유지한다.
-- 표면은 `#FFFFFF`와 `#F8F7F8`로 깔고 border는 `#E7E7E7`를 쓴다.
-- hero는 2-column media + text split, card는 16:9 media 중심으로 설계한다.
-- shadow는 단층보다 `ds-elevation`식 2-layer 조합을 따른다.
-- night variant는 전체 사이트가 아니라 특정 featured module에만 제한한다.
+- Use `Segoe UI Variable Text` / `Segoe UI Variable Display` before generic system fonts.
+- Keep the page background primarily `#FFFFFF`.
+- Use `#0067B8` and `#0078D4` for clear actions, links, and selected product accents.
+- Use 8px card radius and 2px-4px button/control radius.
+- Keep body weight at 400 and action/label weight at 600.
+- Use negative optical tracking: around `-0.025em` for headings and `-0.03em` for body tokens.
+- Treat footer and utility navigation as real information architecture.
+- Let product imagery and modular cards provide variety instead of decorative page chrome.
 
-### ❌ DON'T
+### DON'T
 
-- `#0067B8`와 `#0078D4`를 아무 구분 없이 하나의 primary color처럼 섞지 말 것.
-- Inter, Roboto 같은 generic SaaS 폰트로 바꾸지 말 것.
-- card를 모두 같은 흰 박스로만 반복하지 말 것 — hero/feature/supportive block의 톤 차이를 유지할 것.
-- radius를 12px 단일값으로 고정하지 말 것 — live site는 4/8/10/16/24/25 계층을 가진다.
-- hover를 400ms 이상 길게 끌지 말 것 — 실제 사이트는 `.2s` 중심이다.
-- `--colorBrandBackground` 같은 공개 Fluent 토큰명이 live page에 있다고 가정하지 말 것.
-- purple-heavy gradient나 glass morphism으로 Microsoft 톤을 덮어쓰지 말 것.
+- 배경을 `#0078D4` 또는 `#0067B8` 풀페이지 브랜드 블루로 두지 말 것 - 대신 기본 표면은 `#FFFFFF` 사용.
+- 텍스트를 `#000000` 순흑으로 고정하지 말 것 - 대신 header/link에는 `#262626`, dark-blue panel에는 `#0E1726` 사용.
+- Footer를 `#FFFFFF`로 방치하지 말 것 - Microsoft utility footer는 `#F2F2F2`와 `#616161` 조합이 맞다.
+- Assistant/AI 패널 배경을 `#FFFFFF`만으로 만들지 말 것 - 포함된 AI 표면은 `#F4FAFD`가 핵심 단서다.
+- CTA를 보라색 `#7C3AED`나 startup gradient로 바꾸지 말 것 - Microsoft action은 `#0067B8` 또는 `#0078D4` 계열이다.
+- Card radius를 `24px` 이상으로 키우지 말 것 - 기본 product card는 `8px`, control은 `2px`-`4px`다.
+- body에 `font-weight: 500` 이상을 기본값으로 쓰지 말 것 - 본문 기본은 `400`, action/label만 `600`이다.
+- Inter를 기본 brand font로 선언하지 말 것 - Segoe UI 계열이 Microsoft 표면의 핵심이다.
+- Microsoft logo의 red/green/yellow를 UI 카드 accent로 흩뿌리지 말 것 - 실제 homepage UI는 white/neutral/blue 중심이다.
+- Heavy shadow `0 20px 60px rgba(0,0,0,.25)`를 card 기본값으로 쓰지 말 것 - low elevation `rgba(0,0,0,.12/.14)` 두 레이어를 사용.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- **Full-bleed saturated blue background: zero** — page는 blueprint 흰 종이 위에 시연. brand wash는 absent.
+- **Purple/indigo SaaS gradients: none** — 보라/인디고 wrapper는 공구함 어디에도 zero. mesh gradient는 absent.
+- **Large rounded pill cards everywhere: never** — module 기본 radius는 8px, pill은 utility에 한정되고 일반 카드에는 absent.
+- **Boutique editorial serif headlines: absent** — Segoe UI Variable 한 가족이 시연실 전체를 담당. serif 헤드라인은 zero.
+- **Logo-color confetti as UI taxonomy: none** — Microsoft logo의 red/green/yellow를 chrome에 흩뿌리는 일은 absent. blueprint 잉크는 단색.
+- **Aggressive glassmorphism / floating translucent orbs: zero** — 작업대 위 떠 있는 유리 카드는 absent. surface는 종이처럼 평면.
+- **Dark-mode-first marketing chrome: never** — 공개 홈페이지는 흰 시연실 기본, dark-mode landing은 absent.
+- **Heavy cinematic parallax: zero** — section transition은 정적 도구함 열림에 가깝다. parallax 시연은 none.
+- **Founder/personality microcopy: absent** — 페이지는 인물이 아니라 시연 결과를 말한다. founder voice는 never.
+- **Decorative shadows as depth language: zero** — elevation은 두 레이어 low-shadow 인프라일 뿐, 장식 그림자는 absent.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- Phase1 JSON token extraction reported zero resolved variables, but CSS inspection found substantial `--ds-*`, `--uhf-*`, and `--sa-*` custom properties. This guide treats the CSS as the stronger evidence source.
+- The existing capture is from 2026-04-23, while this report is authored on 2026-05-03. Microsoft.com is campaign-driven, so hero content and product ordering may have changed.
+- The homepage mixes several Microsoft systems. This report describes the public Microsoft.com homepage surface, not Fluent 2 documentation, Azure portal UI, Windows app UI, or Microsoft Learn.
+- The screenshot evidence is limited to `hero-cropped.png`; component behavior such as dropdown motion, carousel states, and hover menus was inferred from CSS and HTML structure rather than fresh browser interaction.
+- Exact hero imagery and copy are intentionally treated as variable campaign content. The stable system is typography, white/blue/neutral color behavior, header/footer shell, cards, and low-elevation restraint.
+- Some CSS belongs to store assistant or retail modules and should not be generalized to the whole site. `--sa-*` tokens are only used for assistant-like contained panels in this guide.

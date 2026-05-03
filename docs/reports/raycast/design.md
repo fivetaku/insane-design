@@ -1,467 +1,677 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: raycast
 service_name: Raycast
 site_url: https://www.raycast.com
-fetched_at: 2026-04-20
+fetched_at: 2026-04-20T20:00:00+09:00
 default_theme: dark
 brand_color: "#FF6363"
 primary_font: Inter
 font_weight_normal: 400
-token_prefix: --color-*, --Base-*
+token_prefix: ray
 
-bold_direction: "Playful Gradient"
-aesthetic_category: "Playful Gradient"
+bold_direction: Command Noir
+aesthetic_category: other
 signature_element: hero_impact
 code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: saas-marketing
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "Next.js marketing surface with real CSS tokens, component-scoped modules, and a reusable dark token ladder, but not a public designer-facing system."
+
+colors:
+  brand-red: "#FF6363"
+  surface-black: "#07080A"
+  surface-panel: "#111214"
+  text-primary: "#FFFFFF"
+  text-muted: "#9C9C9D"
+  hairline: "#2F3031"
+  accent-blue: "#56C2FF"
+  success: "#59D499"
+  error: "#FF6363"
+typography:
+  display: "Inter"
+  body: "Inter"
+  mono: "JetBrains Mono"
+  ladder:
+    - { token: hero, size: "64px", weight: 600, tracking: "-0.02em" }
+    - { token: h2, size: "48px", weight: 600, tracking: "-0.018em" }
+    - { token: section-title, size: "32px", weight: 600, tracking: "-0.01em" }
+    - { token: body, size: "16px", weight: 400, tracking: "0" }
+    - { token: keyboard-label, size: "12px", weight: 600, tracking: "0" }
+  weights_used: [100, 300, 400, 500, 550, 600, 650, 700, 900]
+  weights_absent: [200, 800]
+components:
+  button-download: { bg: "#FFFFFF", fg: "#0D0D0D", radius: "12px", padding: "10px 16px" }
+  button-primary-red: { bg: "#FF6363", fg: "#FFFFFF", radius: "12px", padding: "12px 40px" }
+  keyboard-key: { bg: "#111214", fg: "#FFFFFF", radius: "6px", border: "1px solid #2F3031" }
+  dark-card: { bg: "#111214", fg: "#FFFFFF", radius: "12px", border: "1px solid #2F3031" }
 ---
 
-# DESIGN.md — Raycast (Claude Code Edition)
+# DESIGN.md — Raycast
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-Raycast 홈페이지는 near-black #0C0D0F 바탕에 vivid red #FF6363 diagonal stripe 그라디언트가 히어로를 압도하는 bold dark 테마다. 'Your shortcut to everything.' 카피와 함께 45도 대각선 red 스트라이프 패턴이 주목도를 최대치로 끌어올린다. 실제로 CSS에서 #FF6363 hex가 26회 등장하는데, 이는 분석한 다른 모든 사이트의 brand accent 빈도를 압도한다.
+### Narrative
 
-컬러는 red 브랜드 + #FFFFFF ink + near-black 3단 surface + HSL color space이 특징이다. 일반 사이트와 달리 hsl(202,100%,67%) 같은 HSL 선언이 광범위하게 쓰이고, hsla(0,0%,100%,0.815)처럼 투명도 조절도 HSL 기반. near-black ramp는 #07080A → #0C0D0F → #111214 → #18191A → #313133 → #494B4D의 6단계 깊이.
+Raycast presents itself like a command center photographed in near darkness. The page does not use "dark mode" as a generic developer aesthetic; it uses darkness as the stage for speed. The base is almost black, with `#07080A` (`{colors.surface-black}`) and `#111214` (`{colors.surface-panel}`) doing most of the structural work. White text lands sharply, but the screen never becomes pure monochrome because the hero injects red, cyan, and pale glow into diagonal beams.
 
-타이포그래피는 Inter + Geist Mono가 핵심이다. var(--font-geist-mono)가 19회 / var(--monospace-font)가 14회 / var(--font-inter)가 9회 등장하는 걸 보면 기술 product 사이트답게 monospace가 주연급이다. Geist Mono는 terminal hero card에 쓰이고, JetBrains Mono 참조도 6회 있다.
+The memorable object is the shortcut beam: a set of diagonal, blurred, high-energy strokes behind the headline. This gives the page motion before any animation is considered. The product promise is "shortcut", and the visual language makes that literal: fast diagonal traversal, command-key density, and compressed utility surfaces. The page feels less like a normal SaaS landing page and more like a launcher appearing above the operating system, the kind of overlay that appears for one decisive keystroke and then gets out of the way.
 
-레이아웃은 Raycast extension hero + command palette 모방 UI + alternating dark sections의 패턴이다. command palette를 시뮬레이션한 카드(border hsl(195,5%,15%), bg #111214)가 중앙을 차지한다. 히어로 diagonal stripe는 transform rotate(-45deg) + 복수 red 그라디언트 레이어로 구현.
+Color is controlled, not democratic. `#FF6363` (`{colors.brand-red}`) is the brand anchor and error/action family, while `#56C2FF` (`{colors.accent-blue}`) appears as a supporting electric edge. These accents do not become a broad palette. They are flashes against black, like terminal heat caught on the edge of glass. There is no second brand color competing for ownership; blue, purple, and green are state or glow actors, never co-leads. The majority of the UI is neutral, with muted type around `#9C9C9D` (`{colors.text-muted}`) and low-contrast borders around `#2F3031` (`{colors.hairline}`).
 
-인터랙션은 high-complexity — stripe의 subtle animation, command palette hover highlight, 탭 전환, 호버 시 색상 lift. transition은 .15s-.3s ease 범위.
+Typography is pragmatic and Mac-native in posture. Inter carries most UI text, SF Pro appears in product-adjacent areas, and JetBrains Mono / Geist Mono support command and developer surfaces. Weight `500` is the workhorse in the CSS, more common than 400 or 600, which gives controls and labels a dense, confident feel. This is not airy editorial typography; it is compact, keyboard-first product typography. The keys and command rows behave like engraved labels on a black instrument panel: small, exact, and designed to be read at speed rather than admired slowly.
+
+Raycast's negative identity matters: no beige productivity warmth, no friendly pastel SaaS softness, no large white marketing canvas, no rounded-card confetti. Shadow is not the main separator for chrome; surfaces step from `#07080A` (`{colors.surface-black}`) to `#111214` (`{colors.surface-panel}`), then borders draw the circuit lines. The page is a midnight command palette scaled up to marketing size: the background is the OS void, the CTA is a single white Mac-native affordance, and the diagonal beam is the shortcut path burning across it.
+
+조금 더 풀면, Raycast 홈은 **밤에 불 꺼진 실험실 안에 펼쳐 놓은 한 장의 blueprint와 작업대 위 공구함**처럼 작동한다. 검정 페이지 floor는 실험실 작업대 표면이고, 대각선 hero beam은 blueprint 위에 그어진 단축경로 — 단 하나의 단축키가 회로처럼 도면을 가로지른다. keyboard UI 행은 공구함 안에 가지런히 박힌 도구들 — 각 키캡은 라벨링된 부속 도구다. 빨간 `#FF6363`은 시연용 작업 라벨, 흰 download CTA는 실험실 입구의 단 하나의 스위치 손잡이, ExtensionCard 그리드는 blueprint 모서리에 부착된 부속 모듈 카탈로그다. 두 번째 brand color가 없는 이유는, 실험실 도구함 위에 잉크가 둘이면 단축경로가 흐려지기 때문이다.
 
 ### Key Characteristics
 
-- Red diagonal hero
-- Near-black 6-layer
-- HSL color space
-- Geist Mono display
-- Command palette UI
-- Bold dark
+- Dark-first marketing surface: page floor is `#07080A`, not white with dark cards.
+- Red command accent: `#FF6363` is the dominant branded chroma, used for action/error energy.
+- Diagonal hero beam: blurred red/cyan/white streaks behind centered hero copy.
+- Keyboard UI vocabulary: command keys, action rows, shortcut labels, and mono type carry product semantics.
+- Dense utility rhythm: frequent `8px`, `12px`, `16px`, and `24px` gaps over large decorative spacing.
+- Rounded but not bubbly: common radii are `6px`, `8px`, and `12px`; only pills/icons go extreme.
+- Component-scoped CSS Modules: many patterns are per-section, not a single universal component library.
+- White download CTA: the top nav primary action inverts the page with white-on-black contrast.
+- Multiple mono stacks: JetBrains Mono and Geist Mono reinforce developer/command contexts.
+- Accent color is a flare, not a theme wash: blue/purple/cyan appear sparingly around glow and technical surfaces.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Playful Gradient
-> **Aesthetic Category**: Playful Gradient
-> **Signature Element**: 이 사이트는 **강렬한 red 그라디언트와 near-black의 대비**으로 기억된다.
-> **Code Complexity**: high — Raycast 홈페이지의 Inter + Geist Mono, red diagonal + near-black 6-step ramp 디자인 시스템.
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Command Noir
+> **Aesthetic Category**: other
+> **Signature Element**: 이 사이트는 **diagonal command-beam hero and keyboard-native product chrome**으로 기억된다.
+> **Code Complexity**: high — component CSS modules, dense responsive rules, conic/radial glow treatments, and keyboard/product UI states require more than static token replacement.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: auto+manual -->
 
 > 5분 안에 Raycast처럼 만들기 — 3가지만 하면 80%
 
 ```css
-/* 1. 폰트 */
+/* 1. 폰트 + weight */
 body {
-  font-family: var(--font-inter),
-    "Inter", -apple-system, sans-serif;
+  font-family: "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
-  font-size: 15px;
-}
-.mono {
-  font-family: var(--font-geist-mono),
-    "Geist Mono", "JetBrains Mono",
-    ui-monospace;
 }
 
-/* 2. 배경 + 텍스트 (dark) */
-:root {
-  --bg: #0C0D0F;
-  --bg-layer-2: #111214;
-  --bg-layer-3: #18191A;
-  --fg: #FFFFFF;
-  --border: hsl(195, 5%, 15%);
-}
-body {
-  background: var(--bg);
-  color: var(--fg);
-}
+/* 2. 배경 + 텍스트 */
+:root { --bg: #07080A; --fg: #FFFFFF; }
+body { background: var(--bg); color: var(--fg); }
 
-/* 3. 브랜드 red + gradient */
-:root {
-  --brand: #FF6363;
-  --brand-deep: #FF2136;
-  --brand-dark: #452324;
-  --hero-stripe: linear-gradient(
-    -45deg,
-    transparent 40%,
-    #FF6363 40%,
-    #FF6363 60%,
-    transparent 60%
-  );
-}
-
+/* 3. 브랜드 컬러 */
+:root { --brand: #FF6363; }
 ```
 
-**절대 하지 말아야 할 것 하나**: Raycast의 red #FF6363는 diagonal stripe 패턴이 signature다. solid 단색 red 배경으로 쓰지 마라. 반드시 -45deg 대각선 반복 스트라이프 + near-black overlay로 구성해야 Raycast 톤이 나온다.
+**절대 하지 말아야 할 것 하나**: Raycast를 밝은 흰색 SaaS 페이지로 만들지 말 것. 기본 바닥은 `#07080A`이고 CTA/텍스트/키보드 UI가 어둠 위에서 떠야 한다.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
-| Source URL | <code>https://www.raycast.com</code> |
-| Fetched | 2026-04-20 |
-| Extractor | curl + Chrome UA (5-tier fallback) |
-| HTML size | 368,051 bytes (Next.js SSR) |
-| CSS files | 12개 외부, 428KB |
-| Token prefix | <code>--color-*</code>, <code>--Base-*</code>, <code>--font-*</code> |
-| Method | CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음 |
+| Source URL | `https://www.raycast.com` |
+| Fetched | 2026-04-20T20:00:00+09:00 |
+| Extractor | cached phase1 reuse: HTML + CSS + screenshot |
+| HTML size | 368051 bytes (Next.js static/SSR marketing surface) |
+| CSS files | 12 external files, total 426909 chars |
+| Token prefix | `ray` (derived; actual CSS uses mixed tokens such as `--grey-*`, `--spacing-*`, `--rounding-*`) |
+| Method | CSS custom properties, frequency extraction, screenshot observation, and HTML structure review |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: Next.js (React) + Radix UI 일부
-- **Design system**: 자체 토큰 + HSL 채도 제어
-- **CSS architecture**: CSS Modules + CSS Variables with HSL
-- **Class naming**: CSS Modules (<code>_hero__xxx</code>)
-- **Default theme**: <code>dark</code> (bg <code>#0C0D0F</code>)
-- **Font loading**: Inter + Geist Mono + JetBrains Mono (self-host)
-- **Canonical anchor**: <code>#FF6363</code> red
-- **Unique**: HSL color space 광범위 사용, diagonal stripe hero
+- **Framework**: Next.js marketing build (`/_next/static` assets detected)
+- **Design system**: Raycast web tokens — mixed global primitives plus CSS-module component contracts
+- **CSS architecture**:
+  ```css
+  core      (--grey-*, --Base-*, --spacing-*, --rounding-*) raw primitives
+  semantic  (--color-bg-*, --color-fg-*, --color-border)   page semantics
+  action    (--button-background, --color-button-bg)        control semantics
+  component (.Hero*, .Keyboard*, .ExtensionCard*)           section-scoped modules
+  ```
+- **Class naming**: CSS Modules with hashed suffixes, e.g. `Keyboard_key__QsvDd`, `ExtensionCard_card__g21uG`
+- **Default theme**: dark (`#07080A` / `--grey-900`)
+- **Font loading**: bundled web fonts and fallbacks: Inter, Inter Fallback, JetBrains Mono, JetBrains Mono Fallback, Geist Mono, SF Pro stacks
+- **Canonical anchor**: hero screenshot shows a dark nav shell, centered headline, diagonal red/cyan command beam, and white Mac download CTA.
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Body**: <code>Inter</code> (OFL, <code>--font-inter</code>)
-- **Display mono**: <code>Geist Mono</code> (OFL)
-- **Fallback mono**: <code>JetBrains Mono</code>
-- **Fallback body**: <code>-apple-system, system-ui</code>
-- **Weights**: 400 / 500 / 600 / 700
+- **Display font**: `Inter` (open source; loaded with `Inter Fallback`)
+- **Body font**: `Inter`, with SF Pro stacks in product-like UI areas
+- **Code font**: `JetBrains Mono`, `Geist Mono`, and SF Mono fallbacks
+- **Weight normal / bold**: `400` / `600`
+
+```css
+:root {
+  --ray-font-family:       "Inter", "Inter Fallback", sans-serif;
+  --ray-font-family-code:  "JetBrains Mono", "JetBrains Mono Fallback", Menlo, Monaco, Courier, monospace;
+  --ray-font-weight-normal: 400;
+  --ray-font-weight-bold:   600;
+}
+body {
+  font-family: var(--ray-font-family);
+  font-weight: var(--ray-font-weight-normal);
+}
+```
+
+### Note on Font Substitutes
+<!-- SOURCE: manual -->
+
+- **Inter** — direct open-source substitute is already the real primary. Keep `font-weight: 500` available because Raycast uses it heavily for controls, labels, and buttons.
+- **SF Pro Text / SF Pro** — on non-Apple platforms, substitute Inter at the same optical size, but reduce display letter-spacing by roughly `-0.01em` to preserve the compact Apple-like headline feel.
+- **JetBrains Mono / Geist Mono** — if Geist Mono is unavailable, use JetBrains Mono for all keyboard and command snippets; avoid generic `monospace` alone because the command UI loses Raycast's dense terminal polish.
 
 ---
 
 ## 05. Typography Scale
-
-> Body 15px Inter + 디스플레이 mono Geist. Hero H1은 48-64px weight 700.
+<!-- SOURCE: auto+manual -->
 
 | Token | Size | Weight | Line-height | Letter-spacing |
 |---|---|---|---|---|
-| `caption` | 12px | 400 | 1.4 | 0 |
-| `body` | 15px | 400 | 1.5 | 0 |
-| `lead` | 17px | 400 | 1.5 | 0 |
-| `H3 mono` | 20px | 500 | 1.3 | 0 |
-| `H2` | 32px | 600 | 1.2 | -0.02em |
-| `Hero H1` | 48-64px | 700 | 1.1 | -0.03em |
+| `hero-title` | `64px` desktop observed/estimated | `600` | `1.05` | `-0.02em` |
+| `section-title` | `48px` | `600` | `1.08` | `-0.018em` |
+| `feature-title` | `32px` | `600` | `1.15` | `-0.01em` |
+| `body` | `16px` | `400` | `1.5` | `0` |
+| `nav-link` | `14px` | `400` | `1` | `0` |
+| `keyboard-label` | `12px` | `600` | `16px` | `0` |
+
+> ⚠️ Raycast's CSS uses `500` more than any other weight. Do not reduce the system to 400/700; the middle weight is part of the product chrome.
+
+### Principles
+<!-- SOURCE: manual -->
+
+1. Display type is centered and compact; large copy should feel like a command appearing over an active surface, not like editorial prose.
+2. Weight `500` is a first-class UI weight for buttons, labels, and product panels.
+3. Body text stays readable but secondary; muted supporting copy should sit around `#9C9C9D` or equivalent, not near-black or over-bright gray.
+4. Mono fonts are semantic, not decorative: use them for commands, shortcuts, code, or terminal-like values only.
+5. Large headings should use slight negative tracking; small labels keep tracking at `0` for keyboard-legibility.
+6. Avoid ultra-light marketing type. Although weight `100` appears in CSS, the Raycast identity is built on firm 500/600 UI text.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
 
-> Red diagonal + near-black 6-layer + HSL accent. 가장 bold한 tech dark 팔레트.
-
-### Brand Red (stripe)
-
-| Token | Hex |
-|---|---|
-| `brand ★` | `#FF6363` |
-| `brand-deep` | `#FF2136` |
-| `brand-dark` | `#452324` |
-| `stripe-dark` | `#833637` |
-| `stripe-light` | `#ECA5A7` |
-
-### Near-Black 6-layer
+### 06-1. Brand Ramp (observed anchor steps)
 
 | Token | Hex |
 |---|---|
-| `Base-Black` | `#000000` |
-| `bg-0` | `#07080A` |
-| `bg-100` | `#0C0D0F` |
-| `bg-200` | `#111214` |
-| `bg-300` | `#18191A` |
-| `bg-400` | `#313133` |
-| `bg-500` | `#494B4D` |
+| `--ray-brand-red` | `#FF6363` |
+| `--ray-brand-red-deep` | `#452324` |
+| `--ray-brand-red-dark` | `#2C1617` |
+| `--ray-brand-red-soft` | `#ECA5A7` |
 
-### Accent HSL
+### 06-2. Brand Dark Variant
 
 | Token | Hex |
 |---|---|
-| `blue` | `#0294FE` |
-| `blue-dark` | `#56C2FF` |
-| `green` | `#59D499` |
-| `purple` | `#D8ACFF` |
-| `blue-electric` | `#052DFF` |
+| `--ray-bg-900` | `#07080A` |
+| `--ray-bg-800` | `#0C0D0F` |
+| `--ray-bg-700` | `#111214` |
+| `--ray-bg-600` | `#1B1C1E` |
 
-### Neutral White
+### 06-3. Neutral Ramp
 
-| Token | Hex |
-|---|---|
-| `Base-White` | `#FFFFFF` |
-| `muted-white` | `#D9D9D9` |
-| `button-bg` | `rgba(255,255,255,0.815)` |
-| `border` | `hsl(195,5%,15%)` |
+| Step | Dark token | Hex |
+|---|---|---|
+| 50 | `--grey-50` | `#E6E6E6` |
+| 100 | `--grey-100` | `#CDCECE` |
+| 200 | `--grey-200` | `#9C9C9D` |
+| 300 | `--grey-300` | `#6A6B6C` |
+| 400 | `--grey-400` | `#434345` |
+| 500 | `--grey-500` | `#2F3031` |
+| 600 | `--grey-600` | `#1B1C1E` |
+| 700 | `--grey-700` | `#111214` |
+| 800 | `--grey-800` | `#0C0D0F` |
+| 900 | `--grey-900` | `#07080A` |
 
-### Semantic Alias Layer
+### 06-4. Accent Families
 
-| Alias | Resolves to / Usage |
-|---|---|
-| `--Base-Black` | #000000 — absolute black |
-| `--Base-White` | #FFFFFF — absolute white |
-| `--color-bg-100` | rgb(16,17,17) → #101111 |
-| `--color-bg-200` | rgb(24,25,26) → #18191A |
-| `--color-border` | hsl(195,5%,15%) — subtle dark border |
-| `--color-button-bg` | hsla(0,0%,100%,0.815) — CTA white transparent |
-| `--color-blue` | hsl(202,100%,67%) → #56C2FF |
+| Family | Key step | Hex |
+|---|---|---|
+| Red / action | action/error | `#FF6363` |
+| Blue / electric edge | supporting accent | `#56C2FF` |
+| Green / success | success state | `#59D499` |
+| Purple / AI command | decorative/AI accent | `#D8ACFF` |
+| Yellow / warning | sparse state | `#FFCDCD` / yellow HSL token observed |
 
-### Dominant Colors (CSS frequency)
+### 06-5. Semantic
 
-| Rank | Hex | Count | Role |
-|---|---|---|---|
-| 1 | `#FF6363` | 26 | brand red stripe |
-| 2 | `#FFFFFF` | 24 | ink on dark |
-| 3 | `#D9D9D9` | 22 | muted white |
-| 4 | `#111214` | 13 | bg layer 2 |
-| 5 | `#0C0D0F` | 13 | bg primary |
-| 6 | `#452324` | 10 | brand dark |
-| 7 | `#59D499` | 6 | green accent |
-| 8 | `#000000` | 5 | absolute black |
+| Token | Hex | Usage |
+|---|---|---|
+| `--color-bg` | `#07080A` | page background |
+| `--color-bg-100` | `rgb(16,17,17)` | subtle raised panel |
+| `--color-bg-200` | `rgb(24,25,26)` | card/control surface |
+| `--color-fg` | `hsl(240,11%,96%)` | main foreground |
+| `--color-fg-200` | `rgb(194,199,202)` | secondary foreground |
+| `--color-fg-300` | `#78787C` | tertiary text |
+| `--color-border` | `hsl(195,5%,15%)` | low-contrast borders |
+
+### 06-6. Semantic Alias Layer
+
+| Alias | Resolves to | Usage |
+|---|---|---|
+| `--button-background` | component-defined | call-to-action background |
+| `--button-hover-background` | `rgba(255,255,255,0.1)` | dark hover lift |
+| `--color-button-bg` | `hsla(0,0%,100%,0.815)` | inverted light CTA surface |
+| `--color-button-bg-hover` | `hsl(0,0%,100%)` | CTA hover surface |
+| `--color-button-fg` | `rgb(24,25,26)` | text on light CTA |
+
+### 06-7. Dominant Colors (실제 CSS 빈도 순)
+
+| Token | Hex | Frequency |
+|---|---|---|
+| white shorthand | `#FFF` | 122 |
+| brand/error | `#FF6363` | 26 |
+| white full | `#FFFFFF` | 24 |
+| light neutral | `#D9D9D9` | 22 |
+| panel | `#111214` | 13 |
+| deep panel | `#0C0D0F` | 13 |
+| dark red surface | `#452324` | 10 |
+| success | `#59D499` | 6 |
+
+### 06-8. Color Stories
+<!-- SOURCE: manual — top 4 only -->
+
+**`{colors.surface-black}` (`#07080A`)** — The floor. This is Raycast's actual page atmosphere, closer to a launcher overlay than a webpage canvas. Use it for full-page background and never replace it with generic black unless the surrounding panel ladder is also preserved.
+
+**`{colors.brand-red}` (`#FF6363`)** — The command accent. It carries logo energy, action/error states, and the red side of the hero beam. It should feel sharp and hot, not pastel.
+
+**`{colors.text-primary}` (`#FFFFFF`)** — The high-contrast foreground. Raycast accepts strong white text because the background is deep enough and the hero uses bright light as part of the brand.
+
+**`{colors.text-muted}` (`#9C9C9D`)** — The control-room secondary voice. Navigation, captions, metadata, and supporting text should use muted gray so primary commands remain loud.
 
 ---
 
 ## 07. Spacing
+<!-- SOURCE: auto+manual -->
 
-> 8px baseline + 1200px container + alternating dark sections.
-
-container: 1200px · section py 96-128px · card padding 24-32px
-
-| Token | Value | Use |
+| Token | Value | Use case |
 |---|---|---|
-| `space-1` | 4px | icon gap |
-| `space-2` | 8px | compact |
-| `space-3` | 12px | button inner |
-| `space-4` | 16px | card inner |
-| `space-6` | 24px | card |
-| `space-8` | 32px | card large |
-| `section-y` | 96px | section vertical |
-| `container` | 1200px | page width |
+| `--spacing-0-5` | `4px` | tight icon/key internal offset |
+| `--spacing-1` | `8px` | inline gaps, nav/control gap |
+| `--spacing-1-5` | `12px` | compact card/control padding |
+| `--spacing-2` | `16px` | button padding, small block rhythm |
+| `--spacing-3` | `24px` | card/grid gaps |
+| `--spacing-4` | `32px` | section substructure |
+| `--spacing-6` | `48px` | larger feature block spacing |
+| `--spacing-8` | `64px` | section breathing room |
+| `--spacing-10` | `96px` | major vertical rhythm |
+| `--spacing-12` | `168px` | large hero/editorial band |
+
+**주요 alias**:
+- `--grid-width` → `min(calc(100vw - 30px * 2),1065px)` (focused grid)
+- `--container-width` → `1204px` (marketing container)
+- `--grid-gap` → `32px` default, with `24px` at narrower breakpoints
+
+### Whitespace Philosophy
+<!-- SOURCE: manual -->
+
+Raycast does not spend whitespace evenly. It gives the hero a cinematic center with huge open darkness, then compresses product proof into command-like cards and keyboard clusters. The contrast is the point: a broad black stage above, dense utility below.
+
+The spacing ladder is still systematic: 4/8/12/16/24/32 form the everyday UI grid, while 64/96/168 are reserved for page rhythm. Avoid random in-between values. Raycast should feel engineered, not manually nudged.
 
 ---
 
 ## 08. Radius
-
-> 8-12px card + 8px button + 4px input. pill 9999px.
+<!-- SOURCE: auto -->
 
 | Token | Value | Context |
 |---|---|---|
-| `radius-sm` | 4px | input / chip |
-| `radius-md` | 8px | button |
-| `radius-lg` | 12px | card |
-| `radius-xl` | 16px | hero block |
-| `radius-full` | 9999px | download button |
+| `--rounding-none` | `0px` | flush internal pieces |
+| `--rounding-xs` | `4px` | small keys and detail chips |
+| `--rounding-sm` | `6px` | common controls, keyboard keys |
+| `--rounding-normal` | `8px` | compact cards and panels |
+| `--rounding-md` | `12px` | primary cards, buttons, nav shell |
+| `--rounding-lg` | `16px` | large feature blocks |
+| `--rounding-xl` | `20px` | larger decorative/product surfaces |
+| `--rounding-xxl` | `24px` | hero/product showcase surfaces |
+| `--rounding-full` | `100%` | avatars and circular icon controls |
 
 ---
 
 ## 09. Shadows
+<!-- SOURCE: auto+manual -->
 
-> 다크 배경이라 shadow 대신 border + glow 사용.
-
-| Level | Usage | Value |
+| Level | Value | Usage |
 |---|---|---|
-| `card inner` | 기본 | `inset 0 0 0 1px hsl(195,5%,15%)` |
-| `cta glow` | primary hover | `0 0 20px rgba(255,99,99,0.4)` |
-| `dropdown` | menu | `0 10px 24px rgba(0,0,0,0.6)` |
+| nav glow | soft dark outer shadow | top navigation shell separation |
+| light CTA | `0 0 0 1px` style border + subtle shadow | Download button on dark nav |
+| hero glow | blurred red/cyan image/gradient light | background energy, not card elevation |
+| cards | mostly border/surface contrast | panels use `#111214` over `#07080A` rather than heavy elevation |
+
+Raycast shadow philosophy is "glow for atmosphere, borders for UI." Do not add generic SaaS card shadows to every panel.
 
 ---
 
 ## 10. Motion
+<!-- SOURCE: auto+manual -->
 
-> <code>.15s-.3s ease</code>. hover highlight + command palette 인터랙션.
-
-| Pattern | Value | Use |
+| Token | Value | Usage |
 |---|---|---|
-| `transition-fast` | `150ms ease-out` | hover bg/color |
-| `transition-base` | `200ms ease-out` | 기본 |
-| `command palette reveal` | `300ms ease-out` | 스포트라이트 풀업 |
-| `stripe drift` | `scroll-linked` | 배경 대각선 이동 |
+| hover transition | short color/transform transitions | nav links, external links, cards |
+| link icon offset | `translate(2px,-2px)` observed | external link hover direction |
+| glow | conic/radial visual treatment | CTA glow and hero beam energy |
+| carousel/embla | slider surfaces detected | testimonials and video carousel sections |
+
+Motion should be crisp and command-like. Use quick fades or tiny directional movement; avoid slow floating blobs or springy consumer-app bounce.
 
 ---
 
 ## 11. Layout Patterns
-
-> 1200px + hero stripe + command palette 카드 + alternating section.
+<!-- SOURCE: auto+manual -->
 
 ### Grid System
-
-- Container max-width: 1200px
-- Grid type: CSS Grid + Flex
-- Columns: 12 / 6 / 3
-- Gutter: 16-24px
+- **Content max-width**: `1204px` primary container; `1065px` focused grid; several product modules around `500px` widths.
+- **Grid type**: CSS Grid and Flexbox mixed; product cards and extension lists use modular CSS classes.
+- **Column count**: common `1`, `2`, and `3` variable column modes.
+- **Gutter**: `32px` desktop default, `24px` at narrower widths, with dense internal `8px`/`16px` gaps.
 
 ### Hero
-
-- Layout: 1-column centered + red diagonal background
-- Background: near-black + -45deg red stripes
-- H1: 48-64px weight 700 color #FFFFFF
-- Max-width: 720px
-- Pattern: ~90vh + sub + download CTA pill
+- **Pattern Summary**: `~80vh + diagonal red/cyan glow image + centered H1 + compact subcopy + nav download CTA`
+- Layout: centered single-column text over full-width atmospheric background.
+- Background: near-black base with diagonal blurred command beams.
+- **Background Treatment**: image/gradient glow treatment; red, white, cyan, and blue smears over `#07080A`.
+- H1: `~64px` / weight `600` / tracking `-0.02em`.
+- Max-width: hero copy sits around `650px`; background image spans viewport.
 
 ### Section Rhythm
 
-- Padding: 96-128px vertical
-- Max-width: 1200px
-- 섹션 간 bg #0C0D0F ↔ #111214 alternating
+```css
+section {
+  padding: 64px 30px;
+  max-width: var(--container-width); /* often 1204px */
+}
+```
 
 ### Card Patterns
+- **Card background**: `#111214` or `rgb(16,17,17)` over `#07080A`.
+- **Card border**: low-contrast `#2F3031` / `hsl(195,5%,15%)`.
+- **Card radius**: `8px` to `12px`; larger showcases use `16px`/`24px`.
+- **Card padding**: `16px`, `24px`, or component-specific.
+- **Card shadow**: minimal; most separation is surface and border.
 
-- Background: #111214
-- Border: 1px solid hsl(195,5%,15%)
-- Radius: 12px
-- Padding: 24px
-- Shadow: inner highlight + outer glow hover
-
-### Navigation
-
-- Type: horizontal
-- Position: sticky + blur
-- Height: ~64px
-- Background: rgba(12,13,15,0.8) + backdrop-blur
+### Navigation Structure
+- **Type**: horizontal desktop nav with centered links and right-side account/download actions.
+- **Position**: top shell in hero, visually floating.
+- **Height**: about `74px` shell with pill-like rounded rectangle.
+- **Background**: dark translucent/panel black around `#111214`.
+- **Border**: subtle hairline around `#2F3031` family.
 
 ### Content Width
-
-- Prose: 680px
-- Container: 1200px
-- Sidebar: N/A (marketing)
+- **Prose max-width**: `500px` to `700px` depending section.
+- **Container max-width**: `1204px`.
+- **Sidebar width**: not a primary homepage pattern; extension/detail pages use navigation panels.
 
 ---
 
 ## 12. Responsive Behavior
-
-> Mobile-first. 640/768/1024/1280 breakpoints.
+<!-- SOURCE: auto+manual -->
 
 ### Breakpoints
 
 | Name | Value | Description |
 |---|---|---|
-| Mobile | `< 640px` | stack |
-| Tablet | `≥ 768px` | 2-col |
-| Desktop | `≥ 1024px` | full |
-| Large | `≥ 1280px` | XL hero |
+| Mobile | `375px` / `400px` / `480px` | small control and text adjustments |
+| Tablet | `640px` / `720px` / `768px` | grid and section shifts |
+| Desktop | `980px` / `1024px` / `1064px` | desktop nav and product grid layouts |
+| Large | `1200px` / `1204px` | full marketing container widths |
+
+### Touch Targets
+- **Minimum tap size**: assume `44px` target for major buttons; keyboard-key visuals can be smaller because they are illustrative.
+- **Button height (mobile)**: approximately `34px` to `44px` depending component.
+- **Input height (mobile)**: not fully observed on homepage cache.
 
 ### Collapsing Strategy
+- **Navigation**: desktop horizontal nav collapses or simplifies below tablet/desktop breakpoints.
+- **Grid columns**: variable `--column-count` moves from `3` to `2` to `1`.
+- **Sidebar**: not homepage-primary; extension/detail pages likely collapse page navigation.
+- **Hero layout**: remains centered; background crop and type scale carry responsive adaptation.
 
-- **Touch targets**: button 40-48px
-- **Nav collapse**: 1024px 이하 햄버거
-- **Grid columns**: 3 → 2 → 1
-- **Hero stripe**: mobile 단순화 (0.5 rotate)
-- **Command palette**: mobile 축소 버전
-- **First-class**: mobile-first
+### Image Behavior
+- **Strategy**: full-width responsive images and product media; hero background is cropped as atmospheric image.
+- **Max-width**: frequent `100%`, plus container-bound media.
+- **Aspect ratio handling**: product cards and thumbnails use fixed wrappers; exact ratios vary by component.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
-> Red stripe hero + Download CTA pill + command palette card + feature grid.
+### Buttons
 
-### .btn-primary (white transparent)
+Raycast buttons are compact, high-contrast, and command-like.
 
-_Primary CTA — transparent white pill on dark_
+| Variant | Background | Text | Radius | Notes |
+|---|---|---|---|---|
+| Download nav button | `#FFFFFF` | `#0D0D0D` | `12px` | includes Apple icon; primary top-nav conversion point |
+| Red CTA | `#FF6363` | `#FFFFFF` | `12px` | brand/action path |
+| Dark utility button | `#111214` | `#FFFFFF` | `6px`/`8px` | product surfaces and small actions |
+| Outline purple AI button | transparent | `#D8ACFF` | component-specific | AI/command feature accent |
+
+States: hover brightens light CTA to full white, dark utilities use subtle white-alpha background, external link icons move diagonally by `translate(2px,-2px)`.
+
+### Badges
+
+Badges should be small and typographic, not pill-confetti. Use `12px`, weight `500` or `600`, `4px` to `8px` horizontal padding, and either a dark panel background or a single accent stroke.
+
+### Cards & Containers
+
+Raycast cards are dark panels, not white feature cards.
+
+| Variant | Background | Border | Radius | Padding | Use |
+|---|---|---|---|---|---|
+| Product card | `#111214` | `#2F3031` | `12px` | `16px`/`24px` | app/extension/product proof |
+| Keyboard key | `#111214` to `#18191A` | low-contrast hairline | `6px` | tight | shortcut and command visuals |
+| Showcase frame | `#0C0D0F` | subtle | `16px`/`24px` | section-specific | large feature demos |
+
+### Navigation
+
+Navigation is a floating dark shell with small gray links, left logo, and a right-side inverted CTA. Link text sits muted until hover/active. The shell radius should be visibly larger than internal buttons, around `16px` to `20px` visually even if component internals use `12px`.
+
+### Inputs & Forms
+
+Homepage cache did not expose a full form system. Derive inputs from panel language: dark `#111214` or `rgb(24,25,26)` background, `1px` low-contrast border, `8px` to `12px` radius, white primary input text, muted placeholder around `#78787C`, focus with `#FF6363` or white-alpha ring.
+
+### Hero Section
+
+Hero component contract:
 
 ```html
-<button style="background:rgba(255,255,255,0.815);color:#18191A;border:0;border-radius:9999px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;">Download</button>
+<section class="ray-hero">
+  <nav class="ray-nav">...</nav>
+  <div class="ray-hero__beam"></div>
+  <h1>Your shortcut to everything.</h1>
+  <p>A collection of powerful productivity tools all within an extendable launcher.</p>
+</section>
 ```
 
-Spec:
-
-- background: hsla(0,0%,100%,0.815)
-- color: #18191A
-- radius: 9999px pill
-- padding: 10px 20px
-- weight: 600
-
-### .command-palette
-
-_Raycast UI 모방 카드_
-
-```html
-<div style="background:#111214;border:1px solid hsl(195,5%,15%);border-radius:12px;padding:16px;max-width:320px;font-family:ui-monospace;font-size:13px;color:#D9D9D9;"><div style="opacity:0.5;margin-bottom:8px;">🔍 Search Raycast...</div><div style="padding:8px;background:rgba(255,99,99,0.1);border-radius:6px;color:#FF6363;">→ Open AI Chat</div></div>
+```css
+.ray-hero {
+  min-height: 800px;
+  background: #07080A;
+  color: #FFFFFF;
+  text-align: center;
+  overflow: hidden;
+}
+.ray-hero__beam {
+  background:
+    linear-gradient(135deg, transparent 20%, rgba(255,99,99,.95), rgba(86,194,255,.45), transparent 78%);
+  filter: blur(18px);
+  transform: rotate(-18deg);
+}
 ```
 
-Spec:
+### 13-2. Named Variants
+<!-- SOURCE: manual -->
 
-- bg: #111214
-- border: 1px solid hsl(195,5%,15%)
-- radius: 12px
-- highlight: rgba(255,99,99,0.1)
+**button-download** — top navigation conversion button. Use white background, near-black text, Apple icon, `12px` radius, and compact horizontal padding. It must read as a Mac-native download affordance, not a generic "Get started" pill.
 
-### .stripe-hero
+**keyboard-key** — the product-language primitive. Use dark raised surface, low-contrast border, `6px` radius, `12px` label size, and mono or firm UI weight. This component carries Raycast's shortcut identity.
 
-_red diagonal stripe background_
+**extension-card** — app ecosystem card. Use dark panel background, icon area, compact title, muted metadata, and a clean border. Hover can shift border/foreground subtly but should not add large elevation.
 
-```html
-<div style="background:#0C0D0F;padding:40px 20px;border-radius:12px;position:relative;overflow:hidden;color:#FFF;text-align:center;"><div style="position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent 0 20px,#FF6363 20px 40px,transparent 40px 60px);opacity:0.7;"></div><div style="position:relative;font-size:20px;font-weight:700;">Your shortcut to everything.</div></div>
+**command-action-row** — launcher-style row. Use icon + label + shortcut hint in a dense horizontal layout. Background stays dark; selected/hover state may use white-alpha or red accent.
+
+### 13-3. Signature Micro-Specs
+<!-- SOURCE: manual -->
+
+```yaml
+diagonal-command-beam:
+  description: "Hero's shortcut metaphor made physical: speed appears as a luminous diagonal path."
+  technique: "large diagonal red/white/cyan beam over #07080A, softened with blur/noise-like texture, cropped behind centered type; reproduction baseline: linear-gradient(135deg, transparent 20%, rgba(255,99,99,.95), rgba(86,194,255,.45), transparent 78%) + filter: blur(18px) + transform: rotate(-18deg)"
+  applied_to: ["{component.hero-section}"]
+  visual_signature: "the headline looks suspended above a command streak, as if the launcher has just been invoked"
+
+keyboard-token-chrome:
+  description: "Shortcut keys become the reusable product alphabet rather than decorative badges."
+  technique: "dark key surfaces #111214 to #18191A, 1px low-contrast #2F3031 border, 6px radius, 12px label, firm 500/600 weight, 4px-8px internal rhythm"
+  applied_to: ["{component.keyboard-key}", "{component.command-action-row}"]
+  visual_signature: "the page reads as keyboard-operated chrome, not click-first marketing UI"
+
+white-download-inversion:
+  description: "The primary Mac download action cuts through the dark shell with one bright OS-native affordance."
+  technique: "#FFFFFF surface, #0D0D0D text, 12px radius, 10px 16px padding, compact Apple icon; keep inversion limited to the nav conversion button"
+  applied_to: ["{component.button-download}", "{component.navigation}"]
+  visual_signature: "one white key inside the black command palette"
+
+conic-action-glow:
+  description: "CTA energy is chromatic heat behind the action, not a site-wide gradient theme."
+  technique: "conic-gradient using #0294FE, #FF2136, and #9B4DFF behind action surfaces; keep glow on CTA variants and away from ordinary cards"
+  applied_to: ["{component.button-primary-red}", "{component.hero-section}"]
+  visual_signature: "red command energy gains blue/purple voltage without becoming rainbow SaaS"
+
+dark-panel-circuit-lines:
+  description: "Interface depth is drawn with surface steps and hairlines instead of heavy card elevation."
+  technique: "#07080A page floor, #111214 panel fill, #18191A raised key fill, 1px #2F3031 border, 8px-12px standard radius, minimal or no box-shadow on UI chrome"
+  applied_to: ["{component.dark-card}", "{component.extension-card}", "{component.command-action-row}"]
+  visual_signature: "panels look etched into a dark operating-system layer, with borders acting like circuit traces"
 ```
 
-Spec:
+---
 
-- bg: #0C0D0F
-- stripe: repeating-linear-gradient(-45deg, transparent 0, #FF6363 20-40px)
-- opacity: 0.7
+## 14. Content / Copy Voice
+<!-- SOURCE: manual -->
+
+| Pattern | Rule | Example |
+|---|---|---|
+| Headline | short, direct, productivity promise | "Your shortcut to everything." |
+| Primary CTA | concrete platform action | "Download" |
+| Secondary CTA | product/category exploration | Store, Pro, AI, Developers |
+| Subheading | one-sentence utility expansion | "A collection of powerful productivity tools..." |
+| Tone | fast, ergonomic, professional, Mac-native | "Take the short way." |
 
 ---
 
 ## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
-/* Raycast — copy into your root */
+/* Raycast — copy into your root stylesheet */
 :root {
-  --font-inter: "Inter", -apple-system, sans-serif;
-  --font-geist-mono: "Geist Mono", "JetBrains Mono", ui-monospace;
+  /* Fonts */
+  --ray-font-family:       "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, sans-serif;
+  --ray-font-family-code:  "JetBrains Mono", "JetBrains Mono Fallback", Menlo, Monaco, Courier, monospace;
+  --ray-font-weight-normal: 400;
+  --ray-font-weight-medium: 500;
+  --ray-font-weight-bold:   600;
 
   /* Brand */
-  --brand:      #FF6363;
-  --brand-deep: #FF2136;
-  --brand-dark: #452324;
+  --ray-color-brand-300: #ECA5A7;
+  --ray-color-brand-500: #FF6363;
+  --ray-color-brand-600: #FF6363;
+  --ray-color-brand-900: #452324;
 
-  /* Near-black ramp */
-  --bg-0:   #07080A;
-  --bg-100: #0C0D0F;
-  --bg-200: #111214;
-  --bg-300: #18191A;
-  --bg-400: #313133;
+  /* Surfaces */
+  --ray-bg-page:    #07080A;
+  --ray-bg-panel:   #111214;
+  --ray-bg-raised:  #18191A;
+  --ray-text:       #FFFFFF;
+  --ray-text-muted: #9C9C9D;
+  --ray-border:     #2F3031;
 
-  /* Accent HSL */
-  --color-blue:  hsl(202, 100%, 67%);
-  --color-green: #59D499;
-  --color-border: hsl(195, 5%, 15%);
+  /* Accents */
+  --ray-blue:    #56C2FF;
+  --ray-green:   #59D499;
+  --ray-purple:  #D8ACFF;
 
-  /* Button */
-  --color-button-bg:       hsla(0, 0%, 100%, 0.815);
-  --color-button-bg-hover: hsl(0, 0%, 100%);
-  --color-button-fg:       rgb(24, 25, 26);
+  /* Spacing */
+  --ray-space-xs:  4px;
+  --ray-space-sm:  8px;
+  --ray-space-md:  16px;
+  --ray-space-lg:  24px;
+  --ray-space-xl:  32px;
+  --ray-space-2xl: 64px;
 
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-pill: 9999px;
+  /* Radius */
+  --ray-radius-xs: 4px;
+  --ray-radius-sm: 6px;
+  --ray-radius-md: 8px;
+  --ray-radius-lg: 12px;
+  --ray-radius-xl: 16px;
 }
 ```
 
 ---
 
 ## 16. Tailwind Config
+<!-- SOURCE: auto+manual -->
 
 ```js
-// tailwind.config.js — Raycast-like
+// tailwind.config.js — Raycast-inspired tokens
 module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: { DEFAULT: '#FF6363', deep: '#FF2136', dark: '#452324' },
-        bg: { 0: '#07080A', 100: '#0C0D0F', 200: '#111214', 300: '#18191A', 400: '#313133' },
+        ray: {
+          bg: '#07080A',
+          panel: '#111214',
+          raised: '#18191A',
+          border: '#2F3031',
+          text: '#FFFFFF',
+          muted: '#9C9C9D',
+          red: '#FF6363',
+          blue: '#56C2FF',
+          green: '#59D499',
+          purple: '#D8ACFF',
+        },
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif'],
-        mono: ['"Geist Mono"', '"JetBrains Mono"', 'ui-monospace'],
+        sans: ['Inter', 'Inter Fallback', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'JetBrains Mono Fallback', 'Menlo', 'monospace'],
+      },
+      fontWeight: {
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+      },
+      borderRadius: {
+        raySm: '6px',
+        rayMd: '8px',
+        rayLg: '12px',
+        rayXl: '16px',
       },
     },
   },
@@ -471,67 +681,127 @@ module.exports = {
 ---
 
 ## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
 
 ### Quick Color Reference
 
 | Role | Token | Hex |
 |---|---|---|
-| Brand red | `--brand` | `#FF6363` |
-| Background | `--bg-100` | `#0C0D0F` |
-| Surface | `--bg-200` | `#111214` |
-| Text primary | `--Base-White` | `#FFFFFF` |
-| Text muted | `—` | `#D9D9D9` |
-| Border | `--color-border` | `hsl(195,5%,15%)` |
-| Button bg (CTA) | `--color-button-bg` | `rgba(255,255,255,0.815)` |
+| Brand primary | `{colors.brand-red}` | `#FF6363` |
+| Background | `{colors.surface-black}` | `#07080A` |
+| Panel | `{colors.surface-panel}` | `#111214` |
+| Text primary | `{colors.text-primary}` | `#FFFFFF` |
+| Text muted | `{colors.text-muted}` | `#9C9C9D` |
+| Border | `{colors.hairline}` | `#2F3031` |
+| Success | `{colors.success}` | `#59D499` |
+| Error | `{colors.error}` | `#FF6363` |
 
 ### Example Component Prompts
 
-#### Stripe hero
-
+#### Hero Section
+```text
+Raycast 스타일 히어로 섹션을 만들어줘.
+- 배경: #07080A
+- 배경 처리: diagonal red/cyan/white command beam, blurred and cropped behind text
+- H1: Inter, 64px desktop, weight 600, tracking -0.02em, color #FFFFFF
+- 서브텍스트: #FFFFFF with slight opacity or #C2C7CA, 18px
+- CTA: top nav Download button uses #FFFFFF background, #0D0D0D text, Apple icon
+- 최대 너비: text around 650px, container around 1204px
 ```
-Raycast 스타일 히어로:
-- bg #0C0D0F
-- overlay: repeating-linear-gradient(-45deg, transparent 0 20px, #FF6363 20px 40px, transparent 40px 60px) opacity 0.7
-- H1: Inter 56px weight 700 color #FFFFFF
-- Sub: 17px color #D9D9D9
-- CTA pill: bg rgba(255,255,255,0.815) color #18191A radius 9999px
+
+#### Card Component
+```text
+Raycast 스타일 카드 컴포넌트를 만들어줘.
+- 배경: #111214 over page #07080A
+- border: 1px solid #2F3031
+- radius: 12px
+- padding: 16px or 24px
+- shadow: heavy card shadow 금지, surface contrast로 분리
+- 제목: Inter, 16px, weight 600, #FFFFFF
+- 본문: 14px, color #9C9C9D, line-height 1.5
+- hover: border/foreground만 미세하게 밝히고 큰 transform은 쓰지 않음
 ```
 
-#### Command palette
-
+#### Keyboard Key
+```text
+Raycast 스타일 keyboard key를 만들어줘.
+- surface: #111214 or #18191A
+- border: 1px solid #2F3031
+- radius: 6px
+- label: 12px, weight 600, #FFFFFF
+- gap: 4px to 8px
+- mono는 command/code 값에만 사용
 ```
-Raycast command palette 카드:
-- bg #111214
-- border 1px solid hsl(195,5%,15%)
-- radius 12px padding 16px
-- font Geist Mono 13px color #D9D9D9
-- highlight row: bg rgba(255,99,99,0.1) color #FF6363
+
+#### Navigation
+```text
+Raycast 스타일 상단 네비게이션을 만들어줘.
+- dark floating shell, background #111214, border #2F3031
+- logo left, muted links center, login + Download right
+- links: 14px, #9C9C9D default, #FFFFFF hover
+- Download: #FFFFFF bg, #0D0D0D text, 12px radius, Apple icon
 ```
 
 ### Iteration Guide
 
-- **색상 변경 시**: 반드시 §06의 semantic token을 사용. raw hex 직접 사용 금지.
-- **폰트 변경 시**: weight 400이 기본.
-- **여백 조정 시**: §07의 spacing scale 단위로만.
-- **새 컴포넌트 추가 시**: §13의 기존 패턴을 따를 것.
+- **색상 변경 시**: page background는 반드시 `#07080A` 계열에서 시작. `#FFFFFF`를 page background로 쓰지 말 것.
+- **폰트 변경 시**: Inter 대체는 가능하지만 weight `500`을 반드시 유지.
+- **여백 조정 시**: 4/8/12/16/24/32/64 ladder를 사용. 임의 `13px`, `27px` 금지.
+- **새 컴포넌트 추가 시**: dark panel + subtle border + compact typography 조합을 먼저 사용.
+- **히어로 재현 시**: red만 쓰면 부족하다. cyan/white light edge가 함께 있어야 Raycast beam이 된다.
+- **모션 추가 시**: quick command feedback만 허용. floaty parallax나 slow blob animation은 Raycast가 아니다.
 
 ---
 
 ## 18. DO / DON'T
+<!-- SOURCE: manual -->
 
 ### ✅ DO
 
-- 배경은 #0C0D0F bg-100 + alternating section #111214 bg-200.
-- Red #FF6363는 -45deg diagonal stripe로만 큰 면적에 등장.
-- Primary CTA는 흰색 transparent pill rgba(255,255,255,0.815) + radius 9999px.
-- border는 반드시 hsl(195,5%,15%) HSL — 일반 hex grey 금지.
-- monospace 텍스트는 Geist Mono → JetBrains Mono fallback.
+- Use `#07080A` as the page-level floor and build panels upward with `#0C0D0F`, `#111214`, and `#18191A`.
+- Use `#FF6363` as the red command/action anchor, especially for brand heat and error/action energy.
+- Keep navigation and product UI compact: 14px links, 12px labels, 8px/16px gaps.
+- Preserve keyboard UI as a real component language, not as decorative tags.
+- Use white CTA inversion sparingly for the Mac download action.
+- Use `500` and `600` weights for UI chrome and controls.
+- Use glow/gradient craft only in hero or CTA glow contexts, not as every-section wallpaper.
 
 ### ❌ DON'T
 
-- Red #FF6363를 solid 배경으로 넓은 면적에 쓰지 말 것 — 반드시 stripe 패턴.
-- CTA primary를 solid #FF6363로 두지 말 것 — white transparent pill이 표준.
-- 본문 텍스트를 순수 #FFFFFF로 body에 고정하지 말 것 — #D9D9D9 muted 변주.
-- border를 solid #333, #444로 두지 말 것 — hsl(195,5%,15%).
-- diagonal stripe 각도를 변경하지 말 것 — -45deg 고정.
-- body weight를 300로 두지 말 것 — 400.
+- 배경을 `#FFFFFF` 또는 `white`로 두지 말 것 — 대신 `#07080A` 사용.
+- 텍스트를 `#000000` 또는 `black`으로 두지 말 것 — 대신 `#FFFFFF` on dark 또는 `#0D0D0D` on light CTA만 사용.
+- 브랜드 레드를 `#FF0000`로 단순화하지 말 것 — 대신 `#FF6363` 사용.
+- 패널 배경을 `#1E293B` 같은 generic slate로 두지 말 것 — 대신 `#111214` 또는 `#18191A` 사용.
+- muted text를 `#6B7280` Tailwind gray로 대체하지 말 것 — 대신 `#9C9C9D` 또는 `#78787C` 사용.
+- border를 `#E5E7EB` light hairline으로 두지 말 것 — 대신 `#2F3031` 계열 사용.
+- body 기본을 `font-weight: 300`으로 만들지 말 것 — Raycast UI의 기본은 `400`, control chrome은 `500`.
+- 모든 카드를 `border-radius: 24px`로 둥글게 만들지 말 것 — 일반 UI는 `6px`, `8px`, `12px`가 중심.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+<!-- SOURCE: manual -->
+
+- Light SaaS canvas: absent. The homepage identity is not a white document with dark cards.
+- Beige/warm productivity palette: none. Raycast is cool black, white, gray, red, and electric accent.
+- Broad rainbow palette: absent. Multi-color appears as glow or state accents, not equal brand families.
+- Heavy card elevation: never as a default. Borders and dark surface steps separate UI.
+- Friendly blob illustration: absent. The hero uses sharp diagonal energy, not soft organic shapes.
+- Serif editorial branding: not part of the core system. Serif may appear as isolated content flavor, not primary UI.
+- Oversized rounded pills everywhere: absent. Pills are limited; normal components keep tighter radii.
+- Generic purple-blue AI gradient background: not the page system. Purple appears in specific AI/CTA contexts only.
+- Slow whimsical motion: none in the identity. Motion should read as shortcut feedback.
+- Decorative icon confetti: absent. Icons serve product, platform, extension, or command meaning.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Cached capture date** — This guidebook reuses the available phase1 cache from April 20, 2026. The live Raycast homepage may have changed after that date.
+- **Homepage-focused evidence** — The analysis centers on `https://www.raycast.com` homepage assets. Store, Pro, Teams, Developers, pricing, and extension detail pages may introduce additional component variants.
+- **Screenshot scope** — Visual interpretation is based on a desktop hero screenshot at roughly 1280x800. Mobile screenshot behavior was inferred from CSS breakpoints rather than directly inspected.
+- **Typography scale extraction gap** — The automated `typography.json` had no normalized `scale` entries, so the type ladder combines CSS weight/family evidence with screenshot-based manual estimation.
+- **Form states incomplete** — Full input, validation, loading, and payment states were not all surfaced on the homepage cache. Input specs are derived from adjacent dark control patterns.
+- **Motion runtime not fully traced** — CSS transitions and carousel markers were observed, but JavaScript timing, scroll-triggered behavior, and animation curves were not executed in this pass.
+- **Token prefix is normalized** — `ray` is a guidebook prefix for reuse. The source CSS itself uses mixed tokens such as `--grey-*`, `--spacing-*`, `--rounding-*`, and component-local aliases.
+- **Color frequency contamination possible** — Some chromatic colors may come from illustrations, extension icons, product media, or logo assets. Brand decisions prioritize recurring UI and hero identity over raw frequency alone.
+- **Dark-mode counterpart not separate** — The marketing site is dark-first. A complete light-mode application palette was not extracted.

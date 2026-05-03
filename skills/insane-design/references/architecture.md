@@ -1,8 +1,40 @@
 # DesignMD Writer — System Architecture
 
-> URL 하나 → 실제 CSS 기반 DESIGN.md + HTML 리포트 생성.
-> 이 문서는 전체 시스템의 단일 진실 소스(Single Source of Truth)다.
-> 다른 문서(`METHODOLOGY.md`, `WORKFLOW.md`, `DATA_COLLECTION.md`)는 이 문서의 특정 섹션을 상세화한 것.
+> ⚠️ **DEPRECATED v2.0 ARCHITECTURE NOTE** (2026-05-02)
+>
+> 이 문서는 v2.0 (16섹션 §01~§16) 시점의 아키텍처 기록이다.
+> 현행은 v3.2 (19섹션 §00~§18 + §19 Known Gaps + frontmatter 객체화).
+> **단일 진실 소스는 `SKILL.md` + `template.md` + `_shared/README.md` 3종이다.**
+> 본 문서는 시스템 진화 기록 + Phase 1~6 데이터 수집 전략 참조용.
+>
+> 섹션 번호 매핑이 SKILL.md와 다른 부분(§01 Quick Start로 시작 / §00 부재 / §16 DO/DON'T)은 무시할 것.
+
+---
+
+## 0. 현행 19섹션 매핑 (v3.2 — 2026-05-02 업데이트)
+
+| v2.0 (이 문서) | v3.2 (SKILL.md, template.md) |
+|----------------|------------------------------|
+| (없음) | §00 Direction & Metaphor (샌드위치) |
+| §01 Quick Start | §01 Quick Start |
+| §02 Provenance | §02 Provenance |
+| §03~§13 | §03~§13 (대체로 일치) |
+| §14 Drop-in CSS | §15 Drop-in CSS (1단계 시프트) |
+| §15 Tailwind | §16 Tailwind Config |
+| §16 DO/DON'T | §17 Agent Prompt + §18 DO/DON'T (분리) |
+| (없음) | §19 Known Gaps & Assumptions |
+
+→ 본 문서 4-9절의 Phase 1-6 흐름은 여전히 유효. 섹션 번호 매핑만 위 표 따라 보정해서 읽을 것.
+
+---
+
+## 1. 전체 흐름 — 한 눈에
+
+```
+         ┌──────────┐
+         │  URL 입력  │
+         └─────┬────┘
+               ▼
 
 ---
 

@@ -1,512 +1,759 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: sony
-service_name: Sony
+service_name: Sony Group Portal
 site_url: https://www.sony.com/en/
-fetched_at: 2026-04-23
+fetched_at: 2026-05-03T00:00:00+09:00
 default_theme: mixed
 brand_color: "#000000"
-primary_font: SST W20 Roman
+primary_font: "SST W20 Roman"
 font_weight_normal: 400
-token_prefix: N/A
+token_prefix: sony
 
-bold_direction: "Industrial Minimalism"
-aesthetic_category: "Industrial Minimalism"
+bold_direction: Monochrome Entertainment
+aesthetic_category: other
 signature_element: hero_impact
-code_complexity: medium
+code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: editorial-product
+archetype_confidence: medium
+design_system_level: lv1
+design_system_level_evidence: "Public homepage exposes a production visual language, but reusable semantic design tokens are sparse; CSS evidence is mostly page/template CSS plus SST font declarations."
+
+colors:
+  black: "#000000"
+  ink: "#111111"
+  white: "#FFFFFF"
+  hairline: "#D8D8D8"
+  muted: "#656565"
+  panel: "#F6F6F4"
+  link-blue: "#3860BE"
+typography:
+  display: "SST W20 Bold"
+  body: "SST W20 Roman"
+  fallback: "SST W55 Regular"
+  ladder:
+    - { token: hero-title, size: "visual 20-24px in captured desktop overlay", weight: 700, tracking: "0" }
+    - { token: nav-link, size: "14px visual", weight: 400, tracking: "0" }
+    - { token: news-body, size: "14px visual", weight: 400, tracking: "0" }
+  weights_used: [400, 500, 600, 700]
+  weights_absent: [300, 800, 900]
+components:
+  header-black-bar: { bg: "{colors.black}", fg: "{colors.white}", height: "72px visual", radius: "0" }
+  hero-carousel-filmstrip: { bg: "{colors.black}", image_gap: "30px inline", overlay: "blurred active-image backdrop" }
+  play-button-disc: { bg: "rgba(0,0,0,0.75)", fg: "{colors.white}", size: "45px" }
+  headline-news-strip: { bg: "#F6F6F4", border: "1px vertical divider #D8D8D8", radius: "0" }
 ---
 
-# DESIGN.md — Sony (Claude Code Edition)
+# DESIGN.md - Sony Group Portal
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-Sony의 `https://www.sony.com/en/` 홈은 "올블랙 전자상거래"가 아니라, **검은 프레임으로 페이지를 감싸고 흰 컨텐츠 섹션을 끼워 넣는 기업 포털형 레이아웃**이다. 상단 글로벌 헤더(`.tmpl-header_head`)와 메인 히어로(`.hero`), 스크롤 가이드(`.scroll-guide`), 풀스크린 플라이아웃 내비게이션(`.tmpl-flickNav`), 푸터(`.tmpl-footer-wrap`)는 모두 `#000000` 또는 `#1F2024` 계열의 검은 축 위에 놓인다. 반대로 뉴스, 패널, 링크 모음은 `#FFFFFF`와 `#EFEFEF`를 기반으로 돌아간다. 그래서 페이지 인상은 dark이지만 실제 기본 운영 모드는 **mixed**다.
+### Narrative
 
-색상 전략도 이 구조를 그대로 따른다. 홈 런타임에서 반복적으로 보이는 핵심값은 `#000000`, `#FFFFFF`, `#656565`, `#BFBFBF`, `#EFEFEF`, `#262626`, `#1F2024`다. Sony-owned CSS만 놓고 보면 **브랜드의 주 언어는 사실상 모노크롬**이며, 뉴스/패널 카테고리 태그에서만 `#BC5B00`, `#B83744`, `#186FA4`, `#5B2C6E` 같은 분류용 포인트 컬러가 등장한다. 추가로 공식 브랜드 페이지 CSS(`includeStyleCMS.css`)에는 `fCoRed { color: #CC0000; }`가 남아 있어 Sony의 레거시 레드 유틸리티를 확인할 수 있었지만, 홈 런타임 CSS에는 `#FF0000`이나 `#CC0000`가 핵심 surface/token으로 쓰이지 않았다.
+Sony's portal is not a bright consumer landing page. It behaves like a black screening room attached to a corporate information desk. The first viewport is dominated by a fixed black header, a broad entertainment carousel, and white type laid over moving visual media. The brand system is almost anti-palette: #000000 (`{colors.black}`), #FFFFFF (`{colors.white}`), #111111 (`{colors.ink}`), and #D8D8D8 (`{colors.hairline}`) do nearly all of the interface work while the actual color comes from movies, games, music, devices, and creator imagery.
 
-타이포그래피는 전형적인 Sony SST 계열이다. 기본 본문은 `.main { font-family: "SST W20 Roman", "SST W55 Regular", "Yu Gothic Medium", YuGothic, sans-serif; font-size: .875rem; }`로 시작하고, 강조 텍스트는 `.b { font-family: "SST W20 Bold"; font-weight: 700; }`로 분리된다. 즉 굵기를 weight만으로 조절하기보다, **family 교체와 weight를 함께 쓰는 패턴**이 명확하다. 헤더/푸터는 `Arial`, `"Helvetica Neue"` fallback을 사용하고, 브랜드 v2 CSS에서는 `"SST W20 Light"`도 검증된다.
+The hero is a filmstrip, not a card grid. The active slide sits large in the center, adjacent slides peek at both edges, and a blurred enlargement of the active media becomes the dark atmospheric floor behind the title. It is closer to walking into a Sony screening room where the trailer is projected twice: once as the crisp frame, once as the soft spill of light on the back wall. The site lets content franchises supply saturation, but the interface stays matte, square, and controlled.
 
-레이아웃은 1190px 고정 프레임이 핵심이다. `@media screen and (min-width:641px)`에서 `.inner { width: 1190px; }`가 선언되고, 헤더/푸터도 `max-width: 1190px`에 맞춰 정렬된다. 여백은 20px, 40px, 64px, 80px처럼 몇 개의 값으로 반복되고, 카드는 `border-radius: 4px`를 넘지 않는다. 즉 Sony의 인상은 화려한 토큰 시스템이 아니라 **엄격한 프레임, 얇은 보더, compact SST 타입, 절제된 모션**에서 나온다.
+The page has almost no site-as-object ego. It does not build a shiny UI showcase around Sony; it lowers the house lights and gives the frame to Spider-Man red, concert light, product green, game footage, and studio stills. In that sense, `{colors.black}` is not merely a background. It is the unlit theater architecture that disappears when the content starts.
 
-인터랙션 역시 절제되어 있다. 히어로 배경 이미지 fade(`opacity .3s ease-out`), 히어로 카피 reveal(`z-index .38s ease-out, opacity .38s ease-out`), 헤더 배경 fade(`0.48s cubic-bezier(0.165, 0.84, 0.44, 1)`), 플라이아웃 메뉴 slide(`.3s ease-out`) 정도가 전부다. 과장된 parallax나 glass 효과는 없고, 애니메이션은 콘텐츠 진입을 정돈하는 수준에 머문다.
+The typography is corporate Sony: SST W20/W55 families with no decorative display face. The logo carries the only expressive serif shape; everything else is a quiet sans system. Headings are not oversized in the Apple/Tesla sense. They are compact labels over image, often 20-24px visually in the captured desktop hero, with bold weight doing the work instead of scale. Like the small white placard beside a cinema screen, the type identifies the work without competing with the projection.
+
+The most important negative identity is that there is no friendly second brand color. Blue appears in search/cookie/link contexts, but the homepage brand itself is monochrome. Buttons are icons, arrows, and media controls; the page avoids rounded marketing CTAs, gradient panels, and SaaS-style feature cards.
+
+The light news strip below the hero is the corporate information desk attached to the theater lobby: #F6F6F4 (`{colors.panel}`), #111111 (`{colors.ink}`), and #D8D8D8 (`{colors.hairline}`) bring the visitor back from entertainment atmosphere into formal institutional rhythm. No shadow tries to make the strip float. The border is a ruler line, not a card edge.
+
+This is why the site should be copied as monochrome choreography, not as generic dark mode. Shadow belongs to media blur, radius belongs to playback controls, and color belongs to content. There is no second brand color, no blue conversion button, no soft rounded card stack; the visual signature is a black Sony proscenium with content-owned light.
 
 ### Key Characteristics
 
-- 검은 프레임 + 흰 컨텐츠 섹션의 mixed theme 구조
-- `SST W20 Roman` 14px 본문 + `SST W20 Bold` 강조 패턴
-- 데스크톱 `1190px` 고정 컨테이너 + `20px` 외곽 gutter
-- `#656565` body text, `#BFBFBF` border, `#EFEFEF` sitemap background
-- `4px` 카드 radius, 실질적으로 거의 없는 drop shadow
-- hero는 `#000000` shell + `#262626` base + `rgba(0,0,0,.4)` overlay
-- taxonomy color는 존재하지만 브랜드 primary가 아니라 섹션 분류용
-- 공식 브랜드 CSS에서만 검증되는 레거시 red utility `#CC0000`
+- Black fixed global header with white Sony logotype and slim horizontal navigation.
+- Full-width editorial entertainment carousel with center-weighted active slide and visible neighboring slides.
+- Blurred active-media backdrop behind hero copy, producing a screening-room atmosphere.
+- Compact white overlay text, with category label above headline/description.
+- Circular play control at 45px with translucent black disc and white triangle.
+- News strip immediately below hero, flat #F6F6F4/#FFFFFF surfaces and thin dividers.
+- SST W20/W55 font family stack, including Roman, Bold, Medium, Heavy, Condensed, and localized W55 fallbacks.
+- Minimal radius and no card chrome in the first viewport; structure comes from image edges and hairlines.
+- Swiper carousel mechanics expose pagination dots, pause/play control, and lateral arrows.
+- Color is content-owned: Spider-Man red, stage lighting, hardware green, etc. are imagery, not UI tokens.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Industrial Minimalism
-> **Aesthetic Category**: Industrial Minimalism
-> **Signature Element**: 이 사이트는 **검은 글로벌 프레임 위에 compact SST 카피를 얹은 full-bleed hero carousel**로 기억된다.
-> **Code Complexity**: medium — 공개 토큰 시스템은 없지만 `tmpl-*` 글로벌 템플릿, `hero-*`/`panel-*` 홈 전용 CSS, Swiper hero, fixed flyout nav가 함께 움직인다.
+### 🤖 Direction Summary (Machine Interface - DO NOT EDIT)
+
+> **BOLD Direction**: Monochrome Entertainment
+> **Aesthetic Category**: other
+> **Signature Element**: 이 사이트는 **black screening-room carousel with content-owned color**으로 기억된다.
+> **Code Complexity**: high — Swiper carousel, video/media controls, blurred media backdrop, responsive header/search, and external template CSS make the interaction layer heavier than the visible UI chrome.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: manual -->
 
-> 5분 안에 Sony처럼 만들기 — 3가지만 하면 80%
+> 5분 안에 Sony Group Portal처럼 만들기 - 3가지만 하면 80%
 
 ```css
-/* 1. 폰트 */
+/* 1. 폰트 + weight */
 body {
-  font-family: "SST W20 Roman", "SST W55 Regular",
-    "Yu Gothic Medium", YuGothic, Arial, sans-serif;
-  font-size: 0.875rem;
-  color: #656565;
-}
-.strong {
-  font-family: "SST W20 Bold", "SST W55 Bold", Arial, sans-serif;
-  font-weight: 700;
+  font-family: "SST W20 Roman", "SST W55 Regular", "Yu Gothic Medium", YuGothic, sans-serif;
+  font-weight: 400;
 }
 
-/* 2. 프레임 컬러 */
-:root {
-  --frame: #000000;
-  --surface: #ffffff;
-  --surface-subtle: #efefef;
-  --surface-dark: #1f2024;
-  --text: #656565;
-  --text-strong: #000000;
-  --border: #bfbfbf;
-  --accent-red: #cc0000; /* 공식 브랜드 CSS의 legacy utility */
-}
+/* 2. 배경 + 텍스트 */
+:root { --bg: #FFFFFF; --fg: #111111; --chrome: #000000; }
+body { background: var(--bg); color: var(--fg); }
+.global-header { background: var(--chrome); color: #FFFFFF; }
 
-/* 3. 레이아웃 */
-.page-shell {
-  max-width: 1190px;
-  margin: 0 auto;
-  padding-inline: 20px;
+/* 3. 히어로 */
+.hero {
+  background: #000000;
+  color: #FFFFFF;
+  overflow: hidden;
 }
 ```
 
-**절대 하지 말아야 할 것 하나**: Sony를 "올블랙 대형 카드 UI"로 구현하지 마라. 실제 홈은 헤더/히어로/푸터만 검은 프레임이고, 뉴스/패널/사이트맵은 `#FFFFFF`와 `#EFEFEF`로 환기된다. 즉 Sony의 핵심은 dark 일변도가 아니라 **검은 frame과 흰 content의 대비**다.
+**절대 하지 말아야 할 것 하나**: Sony를 파란 CTA 중심의 SaaS 랜딩처럼 만들지 말 것. #3860BE는 링크/search/cookie 계열에 섞인 보조색이지 homepage brand color가 아니다.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
 | Source URL | `https://www.sony.com/en/` |
-| Fetched | `2026-04-23` |
-| Extractor | `curl_cffi.requests.Session(impersonate="chrome")` + `Referer: https://www.sony.com/` |
-| CSS files | `gnavi.css` (37.5KB), `footer.css` (3.0KB), `sitemap.css` (3.8KB), `top/2021/css/sitemap.css` (2.6KB), `flick-nav.css` (7.3KB), `styles.css` (31.7KB), `template/2023/css/search_resp.css` (5.7KB), `search/css/search_resp.css` (5.6KB) |
-| Supporting verification | `brand/shared/v2/css/common.css` (1.6KB) for `SST W20 Light`, `brand/shared/css/includeStyleCMS.css` (67.9KB) for `fCoRed { color: #CC0000; }` |
-| Token prefix | `N/A` — Sony-owned layer는 literal value 중심. public namespace는 사실상 `--ot-footer-space`, `--swiper-*` 정도만 확인됨 |
-| Method | Sony-owned CSS literal value + HTML selector 매칭. Swiper / Marsflag / OneTrust는 존재하더라도 core palette 판정에서는 분리 |
+| Fetched | 2026-05-03T00:00:00+09:00 |
+| Extractor | reused existing `insane-design/sony` phase1, CSS, HTML, screenshot artifacts |
+| HTML size | 330470 bytes |
+| CSS files | existing cache: inline font/cookie CSS + search CSS + Swiper CSS; several Sony template CSS files cached as Access Denied HTML |
+| Token prefix | `sony` |
+| Method | phase1 JSON + captured screenshot + homepage HTML structure + valid CSS fragments; missing main-template CSS noted in §19 |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: 서버 렌더링 corporate portal + 정적 CSS 경로(`/template/2023`, `/template/2024`, `/top/2021`)
-- **Design system**: 공개 토큰형 DS 없음. `tmpl-*` 글로벌 템플릿 + `hero-*` / `panel-*` / `news-*` / `panels-new-*` 페이지 전용 모듈
-- **CSS architecture**: semantic class naming + fixed-width layout + third-party CSS 조합
-- **Class naming**: `.tmpl-header_*`, `.tmpl-footer_*`, `.hero-item-*`, `.panel-*`, `.panels-new-*`, `.news-*`
-- **Default theme**: `mixed` — header/hero/footer는 black, content/news/panels는 white, sitemap은 light gray
-- **Font loading**: SST W20/W55 계열을 직접 참조. home bundle은 Roman/Bold, brand bundle은 Light까지 검증
-- **Canonical anchor**: `#000000` — `.tmpl-header_head`, `.hero`, `.scroll-guide`, flyout nav의 프레임 컬러
-- **Animation primitives**: `.3s ease-out`, `.38s ease-out`, `.48s cubic-bezier(0.165, 0.84, 0.44, 1)`, `.8s cubic-bezier(.215,.61,.355,1)`
+- **Framework**: server-rendered corporate homepage with Swiper 5.4.5 carousel and Marsflag search integration.
+- **Design system**: Sony template CSS, not a public semantic token system. Detected custom properties are mostly Swiper and OneTrust.
+- **CSS architecture**:
+  ```text
+  font-face layer       SST W20/W55 declarations from Monotype/Fast Fonts
+  template layer        /en/template/2023 and /en/top/2021 CSS references
+  interaction layer     Swiper carousel + custom scripts + search box CSS
+  consent/search layer  OneTrust and Marsflag styles, visually separate from homepage brand
+  ```
+- **Class naming**: BEM-like template names (`tmpl-header`, `tmpl-headerNavItem`, `hero-item`, `headline-news`, `news-table`) with modifier classes (`is-init`, `is-current`, `is-active`, `is-desktop-hide`).
+- **Default theme**: mixed. Header and hero are dark; news and content bands are light.
+- **Font loading**: Fast Fonts / Monotype stylesheet exposes `SST W20 Roman`, `SST W20 Bold`, `SST W20 Medium`, `SST W20 Heavy`, `SST W20 Condensed`, and localized `SST W55` variants.
+- **Canonical anchor**: first viewport is anchored by `main.main > .hero` and the global `header#tmpl-header`.
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Body/UI**: `"SST W20 Roman", "SST W55 Regular", "Yu Gothic Medium", YuGothic, sans-serif`
-- **Strong/Bold**: `"SST W20 Bold", "SST W55 Bold", Arial, sans-serif`
-- **Light variant**: `"SST W20 Light", sans-serif` (brand v2 common.css)
-- **Locale helper**: `"SST Japanese"`
-- **Fallbacks**: `Arial`, `"Helvetica Neue"`, `sans-serif`
+- **Display font**: `SST W20 Bold` (Sony corporate/proprietary family surfaced through fetched font-face CSS)
+- **Body font**: `SST W20 Roman`, with `SST W55 Regular` and Japanese fallbacks
+- **Code font**: N/A - no code surface
 - **Weight normal / bold**: `400` / `700`
 
 ```css
 :root {
-  --font-body: "SST W20 Roman", "SST W55 Regular",
-    "Yu Gothic Medium", YuGothic, Arial, sans-serif;
-  --font-strong: "SST W20 Bold", "SST W55 Bold", Arial, sans-serif;
-  --font-light: "SST W20 Light", sans-serif;
+  --sony-font-family:       "SST W20 Roman", "SST W55 Regular", "Yu Gothic Medium", YuGothic, sans-serif;
+  --sony-font-family-bold:  "SST W20 Bold", "SST W55 Bold", sans-serif;
+  --sony-font-weight-normal: 400;
+  --sony-font-weight-bold:   700;
 }
-
 body {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
+  font-family: var(--sony-font-family);
+  font-weight: var(--sony-font-weight-normal);
 }
-
 .b,
-.hero-item-title,
-.hero-item-category {
-  font-family: var(--font-strong);
-  font-weight: 700;
+strong,
+.hero-item-title {
+  font-family: var(--sony-font-family-bold);
+  font-weight: var(--sony-font-weight-bold);
 }
 ```
 
-> **라이선스 주의**: `SST`는 Sony 고유 폰트다. 대체가 필요하면 `Helvetica Neue` / `Arial` 계열로 좁고 compact한 sans를 맞추는 편이 가장 안전하다.
+### Note on Font Substitutes
+
+- **SST W20/W55** is the signature. If unavailable, use **Noto Sans** or **Inter** only as a mechanical substitute, not as a new personality.
+- Open-source substitute: `Noto Sans` at 400/700 with `letter-spacing: 0` and slightly tighter line-height on overlay text (`1.35` instead of generic `1.5`).
+- Avoid geometric display substitutes. Sony's homepage is corporate and media-led; the logo and imagery provide character.
+- Keep Japanese fallback in the stack (`Yu Gothic Medium`, `YuGothic`) when reproducing the bilingual language switcher and Japan-facing content.
 
 ---
 
 ## 05. Typography Scale
+<!-- SOURCE: auto+manual -->
 
-| Token | Size | Weight | Line-height | Selector / Context |
-|---|---|---|---|---|
-| `ui-xs` | `.75rem (12px)` | not overridden | `1` | `.language-select a, .language-select span` |
-| `body` | `.875rem (14px)` | browser default (`400`) | not overridden | `.main` |
-| `hero-kicker` | `.875rem (14px)` | `700` | `1` | `.hero-item-category` |
-| `hero-title` | `1rem (16px)` | `700` via `.b` | `1.625rem` | `html[lang=en] .hero-item-title` |
-| `hero-body` | `.875rem (14px)` | browser default | `1.3125rem` | `.hero-item-description` |
-| `news-time` | `.6875rem (11px)` | browser default | `1.5rem` | `.news-table a > time` |
-| `news-title` | `1.5rem → 1.875rem (24px → 30px)` | `700` | `1` | `.news h2` |
-| `section-lead` | `1.125rem (18px)` | not overridden | not overridden | `.panels-new-lead` |
-| `campaign-display` | `2.5rem (40px)` | element default | not overridden | `.panels-new-heading` |
+| Token | Size | Weight | Line-height | Letter-spacing |
+|---|---:|---:|---:|---:|
+| `nav-link` | 14px visual | 400 | ~1 | 0 |
+| `hero-category` | 14-16px visual | 700 | ~1.3 | 0 |
+| `hero-title` | 20-24px visual in captured desktop overlay | 700 | ~1.25 | 0 |
+| `hero-description` | 14-16px visual | 400 | ~1.35 | 0 |
+| `news-label` | 16px visual | 700 | ~1.2 | 0 |
+| `news-body` | 14px visual | 400 | ~1.4 | 0 |
+| `site-map-heading` | 14-16px visual | 700 | ~1.35 | 0 |
 
-> Sony 홈의 타입 스케일은 과장된 display 시스템이 아니라 **14px body + 16px hero card title + 30px news heading + 40px campaign heading**의 compact ladder다.
+> ⚠️ Typography extraction did not produce a full CSS scale because the valid cached CSS is mostly font-face, search, Swiper, and consent CSS. Sizes above are measured from the captured homepage composition and HTML roles.
+
+### Principles
+
+1. Hero text is compact for an entertainment site. The image carries drama; typography labels and clarifies.
+2. Bold weight is used for labels, dates, headings, and the `.b` utility. It is a structural marker, not decoration.
+3. Body copy keeps neutral 400 weight and zero tracking. No editorial serif, no playful display face, no exaggerated negative tracking.
+4. SST is the brand voice. Replacing it with generic Inter makes the page feel like a SaaS dashboard unless the media carousel remains dominant.
+5. The Sony logo is the only serif-like typographic object in the first viewport. Do not echo it with serif headlines.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
 
-### 06-1. Core Frame & Surface
+### 06-1. Brand Ramp (monochrome anchor)
+
+| Token | Hex |
+|---|---|
+| `sony.black` | `#000000` |
+| `sony.ink` | `#111111` |
+| `sony.white` | `#FFFFFF` |
+| `sony.hairline` | `#D8D8D8` |
+| `sony.muted` | `#656565` |
+
+### 06-2. Brand Dark Variant
+
+| Token | Hex |
+|---|---|
+| `sony.chrome` | `#000000` |
+| `sony.chrome-text` | `#FFFFFF` |
+| `sony.hero-scrim` | `rgba(0,0,0,.55-.75)` |
+
+### 06-3. Neutral Ramp
+
+| Step | Light | Dark |
+|---|---|---|
+| 0 | `#FFFFFF` | `#000000` |
+| 10 | `#F8F8F8` | `#111111` |
+| 20 | `#F6F6F4` | `#333333` |
+| 30 | `#E9E9E9` | `#4D4D4D` |
+| 40 | `#D8D8D8` | `#656565` |
+| 50 | `#C1C1C1` | `#696969` |
+
+### 06-4. Accent Families
+
+| Family | Key step | Hex |
+|---|---|---|
+| Search/link blue | link/search accent | `#3860BE` |
+| Secondary link blue | cookie/search link | `#01498E` |
+| Consent green | OneTrust, not brand | `#468254` |
+| Swiper default blue | library default token, not brand | `#007AFF` |
+
+### 06-5. Semantic
 
 | Token | Hex | Usage |
 |---|---|---|
-| `--sony-frame` ★ | `#000000` | `.tmpl-header_head`, `.hero`, `.scroll-guide`, flyout nav |
-| `--sony-surface-white` | `#FFFFFF` | news/panel/card surfaces |
-| `--sony-text-body` | `#656565` | `.main`, body links, metadata |
-| `--sony-border` | `#BFBFBF` | section dividers, CTA border, news-more border |
-| `--sony-surface-subtle` | `#EFEFEF` | sitemap / link menu background |
-| `--sony-hero-floor` | `#262626` | `.hero-bg` |
-| `--sony-footer-surface` | `#1F2024` | `.tmpl-footer-wrap` |
-| `--sony-header-divider` | `#363636` | header bottom border |
+| `sony.surface.page` | `#FFFFFF` | page body after hero |
+| `sony.surface.news` | `#F6F6F4` | headline news strip / light utility band |
+| `sony.text.primary` | `#111111` | light-surface text |
+| `sony.text.inverse` | `#FFFFFF` | header and hero overlay |
+| `sony.border.soft` | `#D8D8D8` | dividers and light separators |
+| `sony.text.muted` | `#656565` | footer icons, secondary text, arrows |
 
-### 06-2. Taxonomy Accents (home page panel categories)
+### 06-6. Semantic Alias Layer
 
-| Category class | Hex | Meaning |
+| Alias | Resolves to | Usage |
 |---|---|---|
-| `.panel-category-gaming`, `.panel-category-network-services` | `#BC5B00` | Games / Network Services |
-| `.panel-category-music` | `#B83744` | Music |
-| `.panel-category-movies-and-tv` | `#916A20` | Movies & TV |
-| `.panel-category-audio`, `.panel-category-cameras`, `.panel-category-electronics`, `.panel-category-mobile`, `.panel-category-professional`, `.panel-category-tv` | `#186FA4` | Electronics family |
-| `.panel-category-brand`, `.panel-category-corporate`, `.panel-category-design`, `.panel-category-sustainability` | `#036` | Brand / Corporate / Design |
-| `.panel-category-financial-services` | `#5B2C6E` | Financial Services |
-| `.panel-category-technology` | `#614C63` | Technology |
+| `--sony-chrome-bg` | `#000000` | global header, hero stage |
+| `--sony-chrome-fg` | `#FFFFFF` | inverse text/icons |
+| `--sony-page-bg` | `#FFFFFF` | body and content surfaces |
+| `--sony-strip-bg` | `#F6F6F4` | news strip |
+| `--sony-divider` | `#D8D8D8` | vertical/horizontal hairlines |
 
-### 06-3. Legacy Brand Utility
+### 06-7. Dominant Colors (actual CSS frequency order, contaminated by consent/search CSS)
 
-| Token | Hex | Usage |
-|---|---|---|
-| `fCoRed` | `#CC0000` | 공식 브랜드 CSS(`includeStyleCMS.css`)에 남아 있는 red text utility |
+| Token | Hex | Frequency |
+|---|---|---:|
+| neutral-white | `#FFFFFF` | 100 |
+| hairline-gray | `#D8D8D8` | 42 |
+| neutral-black | `#000000` | 40 |
+| search-blue | `#3860BE` | 22 |
+| light-gray | `#E2E2E2` | 18 |
+| light-gray-2 | `#E9E9E9` | 14 |
+| line-gray | `#DDDDDD` | 13 |
+| consent-green | `#68B631` | 12 |
 
-> **주의**: user requirement에 있던 `#FF0000`는 2026-04-23 기준 Sony-owned CSS에서 확인되지 않았다. 확인 가능한 red는 `#CC0000` 하나뿐이었다.
+### 06-8. Color Stories
 
-### 06-4. Dominant Colors by Sony-owned CSS Frequency
+**`{colors.black}` (`#000000`)** - The brand chrome. It owns the header and hero stage, making the Sony logotype and entertainment media feel like they are projected in a dark room. Use it for structural chrome, not random cards.
 
-| Rank | Hex | Notes |
-|---|---|---|
-| `1` | `#FFF / #FFFFFF` | white surface / reverse text |
-| `2` | `#000 / #000000` | frame, hero, scroll guide |
-| `3` | `#656565` | default body text |
-| `4` | `#BFBFBF` | border / divider |
-| `5` | `#EFEFEF` | sitemap background |
+**`{colors.white}` (`#FFFFFF`)** - Inverse text and the post-hero floor. White is both foreground on black and the quiet body background below; the contrast is binary, not soft pastel.
+
+**`{colors.hairline}` (`#D8D8D8`)** - The corporate divider. It separates the news label from the news item and appears as a low-drama interface boundary.
+
+**`{colors.link-blue}` (`#3860BE`)** - Utility blue. It appears in search/link-like contexts but should not be promoted to brand primary for the homepage.
 
 ---
 
 ## 07. Spacing
+<!-- SOURCE: manual -->
 
 | Token | Value | Use case |
-|---|---|---|
-| `space-1` | `10px` | sitemap item padding, compact module spacing |
-| `space-2` | `20px` | `.inner` side gutters, desktop gap base |
-| `space-3` | `40px` | `calc(100% - 40px)` containers, larger horizontal gutter |
-| `space-4` | `64px` | `.panels-new-contents` top padding |
-| `space-5` | `80px` | `.panels-new-contents` bottom padding |
-| `space-6` | `88px` | `.container` bottom padding |
+|---|---:|---|
+| `sony-space-xs` | 8px | nav/icon alignment, small gaps |
+| `sony-space-sm` | 16px | news strip inner text gap |
+| `sony-space-md` | 30px | captured Swiper slide `margin-right` |
+| `sony-space-lg` | 44px | Swiper navigation size token |
+| `sony-space-xl` | 72px | visual header height band |
+| `sony-space-xxl` | 80-96px | hero text/content offset zones |
 
-**주요 alias**
+**주요 alias**:
+- `--swiper-navigation-size` -> `44px` (carousel navigation)
+- `--ot-footer-space` -> `160px` (OneTrust footer spacing, not homepage layout)
 
-- `desktop-container` → `1190px` fixed width + `20px` external gutter
-- `news-cta-padding` → `0 38px`
-- `panel-gap` → `20px` desktop / `24px` mobile
+### Whitespace Philosophy
+
+Sony uses compressed chrome and expansive media. The header is dense: logo, seven nav links, contact link, and search icon all fit on one black bar. The hero then releases that compression into a wide carousel where the gaps between slides are visible and deliberate.
+
+Whitespace is not airy luxury here. It is operational framing. The page reserves breathing room around media and news strips, but it does not create large blank editorial blocks in the first viewport. Content remains close to the top because the portal has corporate navigation duties as well as entertainment promotion duties.
 
 ---
 
 ## 08. Radius
+<!-- SOURCE: auto+manual -->
 
 | Token | Value | Context |
-|---|---|---|
-| `radius-none` | `0` | default blocks, buttons, most frame elements |
-| `radius-sm` | `4px` | `.panels-new-block`, small interactive elements |
-| `radius-full` | `50%` | hero dots, circular close controls |
+|---|---:|---|
+| `sony-radius-none` | 0 | header, hero image edges, news strip, footer |
+| `sony-radius-control` | 3px | search/go-top utility controls from Marsflag CSS |
+| `sony-radius-pill` | 999px visual | circular play/pause controls only |
 
-> Sony-owned CSS는 8px 이상 soft radius를 거의 사용하지 않는다. 둥근 느낌보다 **flat edge + thin border**가 기본이다.
+Sony's first viewport is almost square. Rounded rectangles are not the main language. The circular play button is a media affordance, not a general button style.
 
 ---
 
 ## 09. Shadows
+<!-- SOURCE: manual -->
 
-| Token | Value | Usage |
+| Level | Value | Usage |
 |---|---|---|
-| `focus-halo` | `0 0 8px #dddddd` | search / focus state halo |
+| `none` | `none` | header chrome, news strip, card-like bands |
+| `media-depth` | image blur / dark scrim, not box-shadow | hero backdrop depth |
+| `control-overlay` | translucent fill, no cast shadow | play/pause media controls |
 
-> drop shadow는 사실상 비주얼 언어가 아니다. Sony 홈의 depth는 그림자보다 **black frame, border, blur overlay**로 만든다.
+The homepage avoids SaaS elevation. Depth is created through imagery, blur, crop, and overlay, not through component shadows.
 
 ---
 
 ## 10. Motion
+<!-- SOURCE: auto+manual -->
 
 | Token | Value | Usage |
 |---|---|---|
-| `hero-image-fade` | `opacity .3s ease-out` | `.hero-bg-image img` |
-| `hero-copy-reveal` | `z-index .38s ease-out, opacity .38s ease-out` | `.hero-item-detail` |
-| `header-bg-fade` | `opacity 0.48s cubic-bezier(0.165, 0.84, 0.44, 1)` | `.tmpl-header_bg` |
-| `flyout-slide` | `.3s ease-out` | `.tmpl-flickNav` transform |
-| `scroll-guide-bounce` | `.8s cubic-bezier(.215,.61,.355,1) 0s 7 alternate` | `.scroll-guide svg` |
+| `swiper-transition` | `transform`-based carousel movement | hero slides |
+| `media-playback` | video modal / embedded YouTube hooks | hero play action |
+| `pause-control` | visible pause button in lower-right of captured viewport | background/video motion control |
+| `reduced-motion` | Swiper CSS includes `prefers-reduced-motion` media handling | accessibility fallback |
+
+Motion is content-serving. The carousel and background media move; buttons and cards do not perform playful bounces.
 
 ---
 
 ## 11. Layout Patterns
+<!-- SOURCE: auto+manual -->
 
 ### Grid System
 
-- **Content max-width**: `1190px`
-- **Grid type**: fixed desktop frame + full-bleed hero wrapper
-- **Column count**: 1-column article flow + 2-column `panels-new-wrap` + 3-column sitemap
-- **Gutter**: `20px` desktop, `24px` in stacked mobile panels
+- **Content max-width**: hero spans viewport; news strip appears constrained inside a broad container with side gutters.
+- **Grid type**: header uses horizontal flex-like navigation; hero uses Swiper track; sitemap uses four-column desktop menu.
+- **Column count**: header single row; hero center slide with adjacent preview columns; footer sitemap four columns.
+- **Gutter**: 30px between Swiper slides from inline captured slide style.
 
 ### Hero
 
-- **Pattern Summary**: black shell + blurred background image + 40% black cover + bottom-left copy
-- **Layout**: full-width carousel, slide width `74.66667vw`, copy block sits at lower area of each item
-- **Background**: `#000000` shell / `#262626` hero floor
-- **Background Treatment**: `filter: blur(10px)` hero image + `rgba(0,0,0,.4)` overlay
-- **H1**: `1rem` / weight `700` / tracking `N/A`
-- **Max-width**: full bleed; desktop content frame aligns to `1190px`
+- **Pattern Summary**: 65-70vh first-viewport media carousel + black header + blurred active-image backdrop + compact lower-left overlay copy + centered play control.
+- Layout: center-weighted carousel with previous/next slide previews visible.
+- Background: dark, image-derived blurred backdrop behind copy and controls.
+- **Background Treatment**: image-overlay / blurred active media, with dark scrim and black stage.
+- H1: `20-24px visual` / weight `700` / tracking `0`.
+- Max-width: viewport-width carousel; active slide roughly 55% of desktop width in capture.
 
 ### Section Rhythm
 
 ```css
 section {
-  padding: 64px 0 80px;
-  max-width: 1190px;
+  padding: 0 44px;        /* visual approximation for first light strip */
+  max-width: none;        /* hero and top bands are viewport-led */
+}
+.headline-news {
+  min-height: 72px;
+  background: #F6F6F4;
 }
 ```
 
 ### Card Patterns
 
-- **Card background**: `#FFFFFF`
-- **Card border**: `1px solid #BFBFBF` or no border + clipped image
-- **Card radius**: `4px`
-- **Card padding**: `0` outer shell, inner CTA paddings `20px`/`38px`
-- **Card shadow**: none in the normal state
+- **Card background**: N/A for first viewport; media slides are images, not UI cards.
+- **Card border**: none on hero media.
+- **Card radius**: 0.
+- **Card padding**: text overlay sits below active image inside hero detail area.
+- **Card shadow**: none; depth comes from media blur and dark overlay.
 
 ### Navigation Structure
 
-- **Type**: global black masthead + full-screen flyout
-- **Position**: top frame (`70px`) + fixed overlay nav
-- **Height**: `70px` header, `60px` footer, `30px` flyout close button
-- **Background**: `#000000`
-- **Border**: `1px solid #363636` on header bottom
+- **Type**: horizontal desktop global nav with hamburger/search surfaces present in DOM.
+- **Position**: fixed/sticky visual header at top in capture.
+- **Height**: about 72px visual.
+- **Background**: `#000000`.
+- **Border**: no visible border; separation by black/hero boundary.
 
 ### Content Width
 
-- **Prose max-width**: `N/A` — content is module-based, not article prose-based
-- **Container max-width**: `1190px`
-- **Sidebar width**: `N/A` on the home page; only `info-box` left rail appears at `min-width:1540px`
+- **Prose max-width**: N/A on homepage first viewport.
+- **Container max-width**: broad viewport container; news strip has left/right gutters around 44px in capture.
+- **Sidebar width**: N/A for homepage; sitemap footer uses column menu instead of sidebar.
 
 ---
 
 ## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
 
 ### Breakpoints
 
 | Name | Value | Description |
-|---|---|---|
-| Mobile | `max-width: 640px` | panels stack, scroll guide hides, footer/layout become vertical |
-| Tablet Fluid | `min-width: 641px and max-width: 1190px` | fixed desktop logic 유지하되 width만 fluid |
-| Desktop | `min-width: 641px` | `.inner { width: 1190px; }`, desktop-only utilities visible |
-| Large Rail | `min-width: 1540px` | `info-box`가 175px left rail로 확장 |
+|---|---:|---|
+| Mobile | 425px / 481px / 550px | search and utility CSS mobile thresholds; hero likely switches to mobile image sources below 641px |
+| Tablet | 640px / 641px | hero `<source media="(min-width: 641px)">`; Swiper and layout break around this point |
+| Desktop | 769px / 897px / 1024px | navigation and desktop presentation thresholds in cached CSS/media list |
+| Large | 1280px | wide desktop adjustment observed in media query list |
 
 ### Touch Targets
 
-- **Minimum tap size**: `30px` (`.tmpl-flickNav_closeBtn`)
-- **Button height (mobile)**: `48px` (`.panels-new-btn`)
-- **Input height (mobile)**: `N/A` — search input height는 external Marsflag CSS가 담당
+- **Minimum tap size**: carousel navigation token `44px`; play button `45px`.
+- **Button height (mobile)**: not fully measured; use 44px minimum for media/search controls.
+- **Input height (mobile)**: search CSS present but main template CSS missing; assume Marsflag default control sizing and verify before implementation.
 
 ### Collapsing Strategy
 
-- **Navigation**: black masthead + hamburger/flyout overlay
-- **Grid columns**: `panels-new-wrap` 2-column → 1-column, gap `20px` → `24px`
-- **Sidebar**: none by default; `info-box`는 desktop rail ↔ mobile bottom bar로 전환
-- **Hero layout**: scroll guide 숨김, copy spacing 축소, icon size `20px`
+- **Navigation**: desktop horizontal nav coexists with hamburger DOM; mobile likely collapses to hamburger menu.
+- **Grid columns**: sitemap desktop four-column menu collapses in mobile variant.
+- **Sidebar**: no sidebar in first viewport.
+- **Hero layout**: image sources switch at 641px; carousel should reduce neighboring slide exposure on small screens.
 
 ### Image Behavior
 
-- **Strategy**: `object-fit: cover` + blur background duplication
-- **Max-width**: `100%`
-- **Aspect ratio handling**: hero는 cover / content cards는 width-driven image blocks
+- **Strategy**: `<picture>` with desktop and small image sources, lazyload images, video modal URL per slide.
+- **Max-width**: hero images fill slide containers.
+- **Aspect ratio handling**: content images are cropped to consistent carousel tiles; active image becomes both tile and backdrop source.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
 ### Buttons
 
-- **`news-more`** — `height: 57px`, `font-size: 1rem`, `border: 1px solid #BFBFBF`, `padding: 0 38px`, white background
-- **`panels-new-btn`** — media trigger / play button, mobile `48px` square
+**Media play button**
+
+| Property | Value |
+|---|---|
+| Selector | `.hero-controls-play-button` |
+| Shape | circular SVG control |
+| Size | 45px |
+| Fill | translucent black disc, approx `rgba(0,0,0,.75)` |
+| Icon | white triangle |
+| State | `.is-active` marks active playable slide |
+
+**Pause control**
+
+| Property | Value |
+|---|---|
+| Selector | `.panels-new-btn` / captured lower-right pause control |
+| Shape | circular |
+| Size | visually 58px asset in HTML |
+| Purpose | stop background video / media movement |
 
 ### Badges
 
-- **`panel-category`** — `font-size: .875rem`, `font-weight: 700`, `line-height: 1`, white background, color comes from taxonomy class
+| Pattern | Value |
+|---|---|
+| Hero category | `.hero-item-category`, bold white text |
+| Language state | `.language-select .is-current`, current language as text not pill |
+| News date | `time.b`, bold date at start of each news row |
+
+Badges are typographic labels, not filled chips.
 
 ### Cards & Containers
 
-- **`.panels-new-block`** — `display: flex`, `flex-direction: column`, `border-radius: 4px`, `overflow: hidden`
-- **`.panel`** — block card with `padding-bottom: 6.66667vw`, relative positioning
+| Pattern | Value |
+|---|---|
+| Hero slide | image tile with square edges, no border, no radius |
+| News strip | flat light container with vertical divider |
+| News list | row-based table/list, text-first, no cards |
+| Sitemap | dense column menu, no card surfaces |
 
 ### Navigation
 
-- **`#tmpl-header`** — black 70px masthead, border-bottom `#363636`
-- **`.tmpl-flickNav`** — full-screen overlay, `transform: translate(100%)` → `translate(0)`
+| Property | Value |
+|---|---|
+| Header selector | `header#tmpl-header.tmpl-header` |
+| Logo | SVG image `logo.svg`, white on black |
+| Link style | white text, compact spacing |
+| Utility | Contact Us text + search icon |
+| Mobile affordance | hamburger DOM present with three lines and `menu` label |
+| Dropdown | `tmpl-headerNavDropDown` structure present for product/about categories |
 
 ### Inputs & Forms
 
-- Sony-owned layer only defines the **search container frame**: `margin-left/right: 20px`, `width: calc(100% - 40px)`.
-- Actual search form skin, results list, and input controls are delegated to external Marsflag CSS.
+| Property | Value |
+|---|---|
+| Search provider | Marsflag search (`mf_finder_searchBox`) |
+| Search form | hidden selects + query input + submit button |
+| Placeholder | "Enter the word you want to search" |
+| Visual note | cached search CSS is valid, but header template CSS for final open/closed visual state was not fully available |
 
 ### Hero Section
 
-- `.hero` — `background: #000`
-- `.hero-item-detail` — white text, flex column-reverse, reveal animation
-- `.hero-bg` — `#262626`
-- `.hero-bg-cover` — `rgba(0,0,0,.4)`
-- `.hero-bg-image img` — blurred, cover, opacity transition
+| Property | Value |
+|---|---|
+| Root | `.hero.is-init` |
+| Carousel | `.swiper-container.hero-items` |
+| Slide | `.swiper-slide.hero-item` |
+| Text | `.hero-item-detail` with category, title, description |
+| Media | `.hero-item-image picture`, desktop source at 641px+ |
+| Controls | arrows, dots, play/pause, video modal data attributes |
+| Atmosphere | blurred current media used as backdrop in captured screenshot |
+
+### 13-2. Named Variants
+
+**header-black-bar**
+
+| Property | Value |
+|---|---|
+| Background | `#000000` |
+| Foreground | `#FFFFFF` |
+| Height | about 72px visual |
+| Radius | 0 |
+| States | dropdown/open state present in DOM; visual CSS not fully cached |
+
+**hero-carousel-filmstrip**
+
+| Property | Value |
+|---|---|
+| Active slide | large center media |
+| Neighbor slides | visible left and right previews |
+| Gap | 30px inline slide margin |
+| Backdrop | blurred active media + dark scrim |
+| States | active, duplicate, next, hidden, video playable |
+
+**headline-news-strip**
+
+| Property | Value |
+|---|---|
+| Background | `#F6F6F4` / light gray-white |
+| Structure | label block + vertical divider + headline link |
+| Text | black primary with bold label |
+| Radius | 0 |
+
+**footer-sitemap-columns**
+
+| Property | Value |
+|---|---|
+| Layout | desktop four-column sitemap |
+| Content | businesses, technology, sustainability, design, IR categories |
+| Treatment | dense text links, no cards |
+
+### 13-3. Signature Micro-Specs
+
+```yaml
+screening-room-hero-backdrop:
+  description: "The active entertainment asset becomes both the main tile and the atmospheric background."
+  technique: "image/video-derived backdrop behind `.hero`; blur treatment approximated at filter: blur(18px), transform: scale(1.08), opacity: .55, over #000000 chrome"
+  applied_to: [".hero", ".hero-item", ".hero-item-detail", "{component.hero-carousel-filmstrip}"]
+  visual_signature: "Sony reads as a dark screening room where the slide projects a soft spill of light behind itself."
+
+filmstrip-neighbor-reveal:
+  description: "The carousel shows a dominant center slide while neighboring entertainment assets remain visible at both sides."
+  technique: "Swiper horizontal track with centered active slide, adjacent slide previews, captured inline gap around margin-right: 30px, square image edges, no card border"
+  applied_to: [".swiper-container.hero-items", ".hero-wrapper", ".hero-item", "{component.hero-carousel-filmstrip}"]
+  visual_signature: "A row of studio frames moves like a filmstrip instead of resolving into a marketing card grid."
+
+monochrome-content-owned-color:
+  description: "Interface chrome stays black and white while saturated color is owned by photography, video, and franchise imagery."
+  technique: "global/header/hero chrome uses #000000 /* {colors.black} */ and #FFFFFF /* {colors.white} */; utility blue #3860BE remains search/link context only"
+  applied_to: ["header#tmpl-header.tmpl-header", ".hero", ".hero-item-image", "{component.header-black-bar}"]
+  visual_signature: "No second brand color competes with the media; the UI disappears like unlit theater architecture."
+
+typographic-badge-not-chip:
+  description: "Category, language, and news-date markers are text labels, not filled chip components."
+  technique: "SST bold/plain text labels, weight 700 for `.b` and `.hero-item-category`; no background fill, no pill radius, no badge shadow"
+  applied_to: [".hero-item-category", ".language-select .is-current", ".news time", "{component.headline-news-strip}"]
+  visual_signature: "The labels feel like corporate placards beside the image, not decorative marketing stickers."
+
+media-control-circles-only:
+  description: "Rounded geometry is reserved for playback controls rather than generalized CTA styling."
+  technique: "45px circular `.hero-controls-play-button` with rgba(0,0,0,.75) disc and white triangle; captured pause control visually around 58px; top-experience CTA rectangles remain absent"
+  applied_to: [".hero-controls-play-button", ".panels-new-btn", "{component.play-button-disc}"]
+  visual_signature: "Round shapes read as media hardware controls, while the rest of the page stays square and matte."
+```
 
 ---
 
 ## 14. Content / Copy Voice
+<!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
 |---|---|---|
-| Headline | 비전형 동사 + 미래 지향 명사 | `"Create the Future of Entertainment"` |
-| Primary CTA | 설명형 탐색 문장도 허용 | `"Explore the Initiatives Shaping the Future and the Passion That Fuels the Creators Behind Them"` |
-| Secondary CTA | 짧은 utility label | `"view index"` |
-| Subheading | 1문장으로 가치 제안 정리 | `"With our technology, we empower creators to express themselves in new ways wherever they are in the world"` |
-| Tone | 기업적, 조용한 자신감, creator-facing | `Brand / Technology / Sustainability` 카테고리 구조 자체가 tone을 만든다 |
+| Headline | Content-title first, often entertainment property or initiative | "A Brand New Day Starts Now" |
+| Category | Business domain label before/near headline | "Movies & TV", "Audio", "Gaming" |
+| CTA | Mostly implicit through linked media and play action | "play ... in player" |
+| News | Formal corporate headline with exact date | "Sony and TCL Sign Definitive Agreements..." |
+| Tone | Corporate portal meets entertainment publisher | concise, informational, brand-neutral |
 
 ---
 
 ## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
-/* Sony — copy into your root stylesheet */
+/* Sony Group Portal - copy into your root stylesheet */
 :root {
   /* Fonts */
-  --sony-font-family: "SST W20 Roman", "SST W55 Regular",
-    "Yu Gothic Medium", YuGothic, Arial, sans-serif;
-  --sony-font-family-strong: "SST W20 Bold", "SST W55 Bold", Arial, sans-serif;
-  --sony-font-family-light: "SST W20 Light", sans-serif;
+  --sony-font-family: "SST W20 Roman", "SST W55 Regular", "Yu Gothic Medium", YuGothic, sans-serif;
+  --sony-font-family-bold: "SST W20 Bold", "SST W55 Bold", sans-serif;
   --sony-font-weight-normal: 400;
   --sony-font-weight-bold: 700;
 
-  /* Core frame */
-  --sony-color-brand-25: #ffffff;
-  --sony-color-brand-300: #bfbfbf;
-  --sony-color-brand-500: #656565;
-  --sony-color-brand-600: #000000; /* canonical */
-  --sony-color-brand-900: #1f2024;
-  --sony-color-accent-red: #cc0000; /* verified in official brand CSS only */
+  /* Brand / chrome */
+  --sony-color-brand-25:  #FFFFFF;
+  --sony-color-brand-300: #D8D8D8;
+  --sony-color-brand-500: #111111;
+  --sony-color-brand-600: #000000;   /* canonical */
+  --sony-color-brand-900: #000000;
 
   /* Surfaces */
-  --sony-bg-page: #ffffff;
-  --sony-bg-frame: #000000;
-  --sony-bg-subtle: #efefef;
-  --sony-bg-footer: #1f2024;
-  --sony-bg-hero-floor: #262626;
-  --sony-text: #656565;
-  --sony-text-strong: #000000;
-  --sony-border: #bfbfbf;
+  --sony-bg-page:   #FFFFFF;
+  --sony-bg-dark:   #000000;
+  --sony-bg-strip:  #F6F6F4;
+  --sony-text:      #111111;
+  --sony-text-muted:#656565;
+  --sony-text-inv:  #FFFFFF;
+  --sony-border:    #D8D8D8;
+  --sony-link-blue: #3860BE;
 
-  /* Spacing */
-  --sony-space-sm: 10px;
-  --sony-space-md: 20px;
-  --sony-space-lg: 40px;
-  --sony-space-xl: 64px;
+  /* Key spacing */
+  --sony-space-sm:  16px;
+  --sony-space-md:  30px;
+  --sony-space-lg:  44px;
 
   /* Radius */
-  --sony-radius-none: 0;
-  --sony-radius-sm: 4px;
-  --sony-radius-full: 9999px;
+  --sony-radius-sm: 0;
+  --sony-radius-md: 0;
+  --sony-radius-control: 999px;
 }
 
 body {
-  font-family: var(--sony-font-family);
-  font-size: 0.875rem;
-  color: var(--sony-text);
+  margin: 0;
   background: var(--sony-bg-page);
+  color: var(--sony-text);
+  font-family: var(--sony-font-family);
+  font-weight: var(--sony-font-weight-normal);
+  letter-spacing: 0;
+}
+
+.sony-header {
+  height: 72px;
+  background: var(--sony-bg-dark);
+  color: var(--sony-text-inv);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 0 44px;
+}
+
+.sony-hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--sony-bg-dark);
+  color: var(--sony-text-inv);
+}
+
+.sony-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  background: center / cover no-repeat;
+  filter: blur(18px);
+  transform: scale(1.08);
+  opacity: .55;
+}
+
+.sony-hero__slide {
+  position: relative;
+  z-index: 1;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.sony-play {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.75);
+  color: #FFFFFF;
+}
+
+.sony-news-strip {
+  min-height: 72px;
+  background: var(--sony-bg-strip);
+  border: 0;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  align-items: center;
 }
 ```
 
 ---
 
 ## 16. Tailwind Config
+<!-- SOURCE: manual -->
 
 ```js
-// tailwind.config.js — Sony
+// tailwind.config.js - Sony Group Portal approximation
 module.exports = {
   theme: {
     extend: {
       colors: {
         sony: {
-          25: "#ffffff",
-          300: "#bfbfbf",
-          500: "#656565",
-          600: "#000000",
-          900: "#1f2024",
-        },
-        accent: {
-          red: "#cc0000",
-        },
-        taxonomy: {
-          gaming: "#bc5b00",
-          music: "#b83744",
-          electronics: "#186fa4",
-          finance: "#5b2c6e",
-          brand: "#003366",
-          technology: "#614c63",
+          black: '#000000',
+          ink: '#111111',
+          white: '#FFFFFF',
+          strip: '#F6F6F4',
+          hairline: '#D8D8D8',
+          muted: '#656565',
+          link: '#3860BE',
         },
       },
       fontFamily: {
-        sans: ['"SST W20 Roman"', '"SST W55 Regular"', '"Yu Gothic Medium"', "Arial", "sans-serif"],
-        strong: ['"SST W20 Bold"', '"SST W55 Bold"', "Arial", "sans-serif"],
-        light: ['"SST W20 Light"', "sans-serif"],
-      },
-      fontSize: {
-        body: "0.875rem",
-        hero: "1rem",
-        news: "1.875rem",
-        display: "2.5rem",
+        sony: ['SST W20 Roman', 'SST W55 Regular', 'Yu Gothic Medium', 'YuGothic', 'sans-serif'],
+        sonyBold: ['SST W20 Bold', 'SST W55 Bold', 'sans-serif'],
       },
       borderRadius: {
-        none: "0",
-        sm: "4px",
-        full: "9999px",
+        sony: '0',
+        media: '999px',
       },
       boxShadow: {
-        focus: "0 0 8px #dddddd",
-      },
-      maxWidth: {
-        shell: "1190px",
+        sony: 'none',
       },
     },
   },
@@ -516,90 +763,119 @@ module.exports = {
 ---
 
 ## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
 
 ### Quick Color Reference
 
 | Role | Token | Hex |
 |---|---|---|
-| Frame | `sony-600` | `#000000` |
-| Surface | `sony-25` | `#FFFFFF` |
-| Text body | `sony-500` | `#656565` |
-| Text strong | `text-strong` | `#000000` |
-| Border | `sony-300` | `#BFBFBF` |
-| Hero floor | `hero-floor` | `#262626` |
-| Legacy accent | `accent-red` | `#CC0000` |
+| Brand primary | `sony.black` | `#000000` |
+| Background | `sony.white` | `#FFFFFF` |
+| Hero text | `sony.white` | `#FFFFFF` |
+| Text primary | `sony.ink` | `#111111` |
+| Text muted | `sony.muted` | `#656565` |
+| Border | `sony.hairline` | `#D8D8D8` |
+| Utility link | `sony.link-blue` | `#3860BE` |
 
 ### Example Component Prompts
 
 #### Hero Section
 
-```
-Sony 홈 스타일 hero carousel을 만들어줘.
-- 프레임 배경: #000000
-- 이미지 처리: blur(10px)된 cover 배경 + rgba(0,0,0,0.4) overlay
-- 카피: "SST W20 Bold", 16px, line-height 1.625rem, color #FFFFFF
-- category label: 14px, bold, white 배경이 아니라 텍스트형 kicker
-- outer shell은 full width, inner frame은 1190px 기준으로 정렬
-```
-
-#### News CTA
-
-```
-Sony 스타일 'view more' CTA를 만들어줘.
-- 배경: #FFFFFF
-- border: 1px solid #BFBFBF
-- height: 57px
-- padding: 0 38px
-- font: "SST W20 Roman", 16px
-- hover는 색을 바꾸기보다 underline이나 subtle color shift로 처리
+```text
+Sony Group Portal 스타일 히어로 섹션을 만들어줘.
+- 배경: #000000 with blurred active-media backdrop, not a gradient
+- Layout: Swiper-like filmstrip; center slide dominant, neighboring slides visible
+- H1: SST W20 Bold, compact 20-24px visual, weight 700, tracking 0
+- Category: bold white text above or near title
+- Description: white, 14-16px, line-height around 1.35
+- Play control: 45px circular rgba(0,0,0,.75) disc with white triangle
+- No rounded CTA cards, no blue primary button
 ```
 
-#### Category Badge
+#### News Strip
 
-```
-Sony 홈의 panel-category 스타일 배지를 만들어줘.
-- font: "SST W20 Bold", 14px, line-height 1
-- background: transparent or white shell
-- gaming은 #BC5B00, music은 #B83744, electronics는 #186FA4
-- radius는 크게 주지 말고 flat하게 유지
+```text
+Sony homepage news strip을 만들어줘.
+- Background: #F6F6F4 or #FFFFFF
+- Left label: "Latest News", bold, separated by #D8D8D8 vertical divider
+- Right content: single corporate headline, #111111, 14px
+- Radius: 0, shadow: none
+- Keep it flat and informational
 ```
 
-#### Global Navigation
+#### Navigation
 
-```
-Sony 글로벌 헤더처럼 상단 내비게이션을 만들어줘.
-- 높이: 70px
-- 배경: #000000
-- 하단 border: 1px solid #363636
-- 로고는 좌측, 오른쪽은 hamburger
-- 모바일 메뉴는 full-screen overlay로 우측에서 slide-in
+```text
+Sony global header를 만들어줘.
+- Height: about 72px
+- Background: #000000
+- Logo: white Sony wordmark on left
+- Links: compact white text, 14px, no pills
+- Right utilities: Contact Us + search icon
+- Mobile: collapse to hamburger; keep black chrome
 ```
 
 ### Iteration Guide
 
-- **색상 변경 시**: black/white/gray frame을 먼저 유지하고, taxonomy accent는 분류 라벨에만 제한한다.
-- **red 요청이 들어오면**: 홈 런타임 primary로 쓰지 말고 `#CC0000` legacy utility 수준에서만 검토한다.
-- **폰트 변경 시**: bold는 weight만 올리지 말고 `SST W20 Bold` family로 분리한다.
-- **여백 조정 시**: `20 / 40 / 64 / 80px` 축 안에서 움직인다.
-- **새 카드 추가 시**: radius는 `4px`를 넘기지 말고 shadow보다 border로 구조를 만든다.
-- **반응형 수정 시**: `640 / 641 / 1190 / 1540` breakpoint를 그대로 따른다.
+- **색상 변경 시**: UI chrome is monochrome. Do not make #3860BE the homepage CTA system.
+- **폰트 변경 시**: keep SST-like neutral sans proportions. Do not introduce serif headlines except the Sony logo asset.
+- **여백 조정 시**: maintain compressed header and wider hero media field; avoid airy SaaS hero spacing.
+- **새 컴포넌트 추가 시**: radius 0, shadow none, hairline dividers, typography-first labels.
+- **다크 모드**: the first viewport already mixes dark hero with light content below. Do not invert the entire page into a black dashboard.
+- **반응형**: preserve 641px image-source switch and 44px minimum media controls.
 
 ---
 
 ## 18. DO / DON'T
+<!-- SOURCE: manual -->
 
 ### ✅ DO
 
-- `70px` black masthead + `1px solid #363636` divider를 유지한다.
-- 본문은 `14px` `SST W20 Roman` + `#656565`를 기본으로 둔다.
-- hero는 black shell + blurred image + dark overlay 구조로 만든다.
-- desktop에서는 `1190px` 고정 프레임과 `20px` gutter를 유지한다.
-- 카드와 모듈의 roundness는 `4px` 이하로 억제한다.
+- Use `#000000` as the canonical brand chrome for header and hero stage.
+- Keep the post-hero body light with `#FFFFFF` and `#F6F6F4` utility strips.
+- Let photography/video supply saturated color; keep UI controls monochrome.
+- Use SST W20/W55 or close neutral sans substitutes at 400/700.
+- Reserve circular shapes for media controls, especially play/pause.
+- Use thin dividers such as `#D8D8D8` rather than card borders and shadows.
+- Build the hero as a carousel/filmstrip with neighboring media visible.
+- Keep copy formal and content-specific: category, title, description, date.
 
 ### ❌ DON'T
 
-- Sony를 full-dark 하나의 surface로 단순화하지 마라. 실제 홈은 mixed theme다.
-- `.b` 계열 없이 weight만 700으로 올려 Sony의 bold를 흉내 내지 마라.
-- `16px+` soft radius, glass shadow, neon gradient를 넣지 마라.
-- taxonomy 색을 primary brand color처럼 넓게 퍼뜨리지 마라.
-- `#FF0000`를 검증 없이 primary token으로 쓰지 마라. 2026-04-23 기준 Sony-owned CSS에서 확인되지 않았다.
+- 배경 chrome을 `#FFFFFF` 또는 `white`로 두지 말 것 — header/hero chrome은 `#000000` 사용.
+- hero overlay 텍스트를 `#111111` 또는 `#000000`으로 두지 말 것 — dark media 위에서는 `#FFFFFF` 사용.
+- homepage primary CTA를 `#3860BE`로 만들지 말 것 — Sony homepage primary identity는 `#000000`/`#FFFFFF` monochrome.
+- news strip divider를 `#000000`으로 두껍게 긋지 말 것 — `#D8D8D8` hairline 사용.
+- page body를 `#F4F4F4` 같은 generic Apple gray로 덮지 말 것 — Sony captured body/news surfaces are `#FFFFFF` and `#F6F6F4`.
+- body에 `font-weight: 300` 사용 금지 — captured SST body behavior is normal 400, with bold labels at 700.
+- large rounded cards에 `border-radius: 16px` 사용 금지 — first-viewport media and strips use radius 0.
+- component depth에 `box-shadow: 0 20px 40px rgba(0,0,0,.15)` 사용 금지 — Sony depth is media/backdrop, not card elevation.
+- CTA pills에 `border-radius: 999px` 남발 금지 — 999px is for circular media controls, not every button.
+- purple AI gradient `#667EEA` to `#764BA2` 사용 금지 — no gradient-token UI in the captured Sony homepage.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- Second brand color: none. Blue appears in search/link/consent contexts but does not define the homepage.
+- Gradient-based brand surfaces: absent. The hero atmosphere is image-derived blur, not a synthetic mesh.
+- Rounded marketing cards: absent in the first viewport. Media tiles are square-edged.
+- SaaS CTA hierarchy: absent. No primary blue pill plus secondary outline pair in the hero.
+- Decorative icon rows: absent. Icons are functional: search, arrows, play, pause, sitemap toggles.
+- Heavy drop shadows: absent. No elevation stack for news, hero, header, or sitemap.
+- Oversized display typography: absent. The hero uses compact overlay copy rather than 64px+ headlines.
+- Pastel neutrals: absent. The neutral system is black/white/gray, not cream-beige editorial warmth.
+- Friendly illustration style: absent. Real entertainment/product imagery carries the page.
+- Playful hover motion: absent from the observed first viewport. Movement belongs to carousel/video systems.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Main Sony template CSS partially unavailable** — cached `styles.css`, `gnavi.css`, `footer.css`, `sitemap.css`, and related template CSS files contain Access Denied HTML. Layout values for those components are therefore visual/HTML-derived, not fully CSS-derived.
+- **Homepage single-state capture** — screenshot shows one desktop viewport and one active hero slide. Dropdown, hamburger-open, search-open, and modal video states were not visually measured.
+- **Color frequency contamination** — `brand_candidates.json` includes OneTrust consent and Marsflag search CSS. Consent greens (`#468254`, `#68B631`) and Swiper default blue (`#007AFF`) are not treated as Sony brand colors.
+- **Typography scale incomplete** — phase1 `typography.json` detected families and weights but no full scale entries. Font sizes are visual approximations from the screenshot and semantic HTML roles.
+- **Responsive behavior inferred** — breakpoints are from cached CSS/media attributes, especially 641px image source switching and search CSS media queries. Mobile screenshots were not captured in this run.
+- **Motion curves not fully extracted** — Swiper and video controls are identified, but exact carousel duration/easing and custom script behavior were not analyzed.
+- **Dark/light token mapping absent** — Sony exposes a mixed dark hero/light content composition, not a formal theme token map.
+- **Sub-flow surfaces not visited** — Businesses & Products, Technology, Sustainability, Design, Careers, IR, search results, and cookie preference panels may use additional component rules outside the homepage.

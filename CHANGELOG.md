@@ -1,5 +1,74 @@
 # Changelog
 
+## [0.3.1] - 2026-05-03 — v3.3 Narrative Vocabulary Catalog
+
+> **목표**: §00 narrative metaphor 빈도 끌어올리기 — 100 site batch에서 metaphor 평균 8.89인데 21 site는 < 3 (archetype-vocabulary mismatch).
+> 71 getdesign.md ref 분석으로 archetype별 어휘 카탈로그 확보.
+
+### Added
+- 🆕 `references/narrative-vocabulary.md` — 10 archetype × top metaphor + first-sentence 패턴 5종 + Aesthetic Anchoring 적용 예시
+- SKILL.md §00 Narrative 가이드에 archetype quick-ref 표 + first-sentence 패턴 + v3.3 negative constraint 추가
+
+### Notes
+- ADDITIVE-only — schema_version 3.2 그대로 유지
+- 기존 100 site 산출물 재실행 불필요 (선택적 보강만)
+- 21 약점 site 선별 재실행 시 어휘 floor 충족 기대
+
+## [0.3.0] - 2026-05-03 — Designer Guidebook Transition (schema 3.2)
+
+> **목표**: design.md 산출물을 awesome-design-md (getdesign.md) 수준의 디자이너 가이드북으로 전환.
+> Engineer spec → Designer guidebook. 위는 영혼 (자유 narrative + 비유), 아래는 기계 계약 (apply 정규식 호환).
+> **검증**: Apple/Airbnb/Ferrari/BMW 4 사이트 fresh run — ref 도달률 평균 **150%**.
+
+### Added (ADDITIVE only — BREAKING 0)
+
+#### Schema 3.2 frontmatter
+- `archetype` + `archetype_confidence` (11 enum + freeform)
+- `design_system_level` + `_evidence` (lv1 / lv2 / lv3)
+- `colors:` / `typography:` / `components:` 객체 그래프 (OPTIONAL Cross-reference)
+
+#### template.md 신규 sub-sections
+- §00 샌드위치: `### Narrative` (자유) + `### Key Characteristics` + `### 🤖 Direction Summary`
+- §04 `### Note on Font Substitutes`
+- §05 `### Principles` (4-6 numbered)
+- §06-8 `### Color Stories` (상위 4 색만)
+- §07 `### Whitespace Philosophy`
+- §13-2 `### Named Variants` (사이트별 0-N)
+- §13-3 `### Signature Micro-Specs` (craft 결합 명칭)
+- §18 `### 🚫 What This Site Doesn't Use` (Negative-Space)
+- §19 신규 필수: **Known Gaps & Assumptions**
+
+#### SKILL.md 판정 6건 (16 → 22)
+- #17 Negative-Space / #18 Signature Micro-Specs / #19 Typography Principles / #20 Known Gaps / #21 Archetype / #22 design_system_level
+
+### Changed
+- §00 자유화: 4문단 강제 → 자유 narrative 3-6 문단
+- §13 Components 3-tier (Core / Named Variants / Signature Micro-Specs)
+- Step 3 EXTRACT 순서: `var_resolver` 먼저 → `brand_candidates` (resolved_tokens.json 활용)
+
+### Fixed
+- `apply-workflow.md` §14 → §15 자체 모순 해결
+- `brand_candidates.py`: var() 체인으로만 정의된 토큰 추출 가능 (Ferrari `--f-` miss 회귀 해결)
+
+### Documented
+- `architecture.md` v2.0 deprecation + v3.2 매핑
+- `_shared/README.md` schema 3.2 + 하위 호환 정책
+
+### Verified
+
+| 사이트 | v3.1 | v3.2 | ref | 도달률 |
+|--------|----:|----:|----:|:---:|
+| Apple (Claude) | 20.4 KB | 37.4 KB | 36.2 KB | **101%** |
+| Apple (Codex)  | — | 32.9 KB | 36.2 KB | 91% |
+| Airbnb         | 29.7 KB | 44.7 KB | 30.5 KB | **147%** |
+| Ferrari        | 10.9 KB | 48.3 KB | 24.3 KB | **199%** |
+| BMW            | 5.0 KB  | 42.1 KB | 27.9 KB | **151%** |
+
+### Migration
+- v3.1 산출물 호환 (apply/build default 처리)
+- v3.0 산출물 = stale corpus, 재생성 권장
+- BREAKING 0 — apply Phase 3 정규식 모두 보존
+
 ## [0.2.2] - 2026-04-22
 
 ### Fixed

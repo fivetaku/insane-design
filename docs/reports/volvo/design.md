@@ -1,94 +1,131 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: volvo
-service_name: Volvo Cars
+service_name: Volvo Cars Korea
 site_url: https://www.volvocars.com/kr/
-fetched_at: 2026-04-23
+fetched_at: 2026-04-23T11:49:00+09:00
 default_theme: light
-brand_color: "#0B2DED"
-primary_font: Volvo Centum
+brand_color: "#1F1F1F"
+primary_font: "Volvo Novum"
 font_weight_normal: 400
-token_prefix: "--v-*, ot-* selectors"
+token_prefix: "--v"
 
-bold_direction: "Scandinavian Utility"
-aesthetic_category: "Industrial Minimalism"
-signature_element: accent_blue_state
+bold_direction: Nordic Restraint
+aesthetic_category: Industrial Minimalism
+signature_element: hero_impact
 code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: automotive
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "Next.js page with Volvo design utility classes, responsive grids, CSS variables, and consistent component recipes; no public guidebook layer observed in this capture."
+
+colors:
+  ink-primary: "#000000"
+  ink-soft: "#1F1F1F"
+  surface-primary: "#FFFFFF"
+  surface-secondary: "#FAFAFA"
+  ornament: "#D8D8D8"
+  accent-blue: "#3860BE"
+  dark-surface: "#0B0F19"
+  dark-ink: "#E5E7EB"
+typography:
+  display: "Volvo Novum SemiLight"
+  body: "Volvo Novum"
+  brand-wordmark: "Volvo Broad"
+  ladder:
+    - { token: statement, size: "var(--v-font-statement-1-size)", weight: 300, line_height: "var(--v-font-statement-1-lineheight)" }
+    - { token: h1, size: "var(--v-font-heading-1-size)", weight: 500, line_height: "var(--v-font-heading-1-lineheight)" }
+    - { token: h2, size: "var(--v-font-heading-2-size)", weight: 500, line_height: "var(--v-font-heading-2-lineheight)" }
+    - { token: body, size: "16px", weight: 400, line_height: "var(--v-font-16-lineheight)" }
+  weights_used: [300, 350, 400, 500, 600, 700]
+  weights_absent: [800, 900]
+components:
+  button-filled: { bg: "#1F1F1F", text: "#FFFFFF", radius: "var(--v-radius-full)", padding: "approx 12px 24px" }
+  discovery-card: { bg: "var(--v-color-background-secondary)", radius: "4px", media: "aspect-21/9 -> md:aspect-16/9" }
+  site-nav-topbar: { height: "64px", z_index: 1000, bg: "#FFFFFF" }
 ---
 
-# DESIGN.md — Volvo Cars (Claude Code Edition)
+# DESIGN.md - Volvo Cars Korea
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
 <!-- SOURCE: auto+manual -->
 
-2026-04-23 기준 `https://www.volvocars.com/kr/` 홈은 루트 `<html>`에 `data-theme="centenary"`를 선언하고, 실제 렌더링 토큰도 이 테마 오버라이드에 맞춰 재정의한다. 이 오버라이드는 페이지를 **순백 `#FFFFFF` / 순흑 `#000000` / 전기 블루 `#0B2DED`** 축으로 다시 묶는다. 배경은 거의 전부 흰색이고, 큰 CTA·현재 탭·선택 상태만 검정 또는 블루가 잡는다. 색을 많이 쓰는 대신 상태값을 강하게 쓰는 방식이다.
+### Narrative
 
-폰트 계층은 이번 수집의 핵심이다. 공유 폰트 번들 `font-face.8324f4d8.css`에는 **`Volvo Novum`이 실제로 존재**하고, base token도 처음에는 `--v-font-sans-family: "Volvo Novum"...`로 시작한다. 하지만 현재 홈은 `data-theme="centenary"`에서 이 값을 `Volvo Centum`으로 덮어쓴다. 즉, **Volvo Novum은 shared pkg에 남아 있고, 현재 `/kr/` 홈의 active sans는 Volvo Centum**이다. display 계층도 동일하게 `Volvo Broad`에서 `Volvo Broad Pro`로 교체된다.
+Volvo Korea reads like a showroom floor that has been edited down until only the car, the road, and a few necessary decisions remain. The page does not try to sell with decorative color. It lets photography and the Volvo wordmark create the first emotional signal, then pulls the user into a disciplined utility system: black text, white surfaces, pale gray dividers, and square-edged cards.
 
-공간 체계는 느슨한 감성형이 아니라 정교한 시스템형이다. 모바일 기본 grid는 8열, `30rem` 이상부터 12열로 확장되고, 최대 콘텐츠 폭은 `81rem`, 페이지 쉘은 `160rem`까지 허용된다. 여백은 `.125rem` 단위 고정 계단(`--v-space-2`~`--v-space-64`)과 fluid clamp(`--v-space-xs`~`--v-space-2xl`)를 함께 쓴다. 그래서 카드 안쪽 패딩은 명확하게 딱딱 끊기고, 섹션 간 간격은 화면이 커질수록 자연스럽게 벌어진다.
+The strongest visual move is the full-bleed automotive hero. In the captured page the cookie modal obscures part of it, but the underlying HTML shows a promotional hero for the EX90 with a dark gradient treatment, left-side copy, and a single filled CTA. The identity is not "bright EV tech"; it is safety, silence, and expensive calm. Black `#000000` (`{colors.ink-primary}`) and near-black `#1F1F1F` (`{colors.ink-soft}`) do the brand work that many automotive sites would hand to a saturated accent.
 
-인터랙션의 성격도 명확하다. 이 사이트는 카드 그림자를 크게 올리지 않는다. 대신 `border-ring`, selection ring, blur backdrop, gradient scrim, `0.22s ease` 전환으로 상태를 표현한다. hover와 selection에서 파란색이 드러나지만, 배경 전체가 파랗게 물드는 순간은 거의 없다. Volvo의 현재 UI는 "차분한 흑백 구조 위에 블루 상태 신호만 얹는 방식"으로 읽는 게 정확하다.
+Volvo's system relies on named utility rhythm rather than ornamental layouts: `container-xl`, `grid`, `md:grid-cols-2`, `lg:grid-cols-4`, `gap-x-gutter`, `py-24`, `px-24`, `border-ornament`, `tap-area`. This gives the site a modular, almost catalog-like confidence. Cards are not expressive objects; they are calm touch targets, often with a chevron and one short paragraph.
+
+The type is the quiet luxury marker. `Volvo Novum` and `Volvo Novum SemiLight` carry most of the page, with `Volvo Broad` reserved for brand expression. The system uses multiple weights, but the page's public voice still feels light because large headings and hero titles are balanced by generous line-height, sparse copy, and a refusal to use loud chromatic accents.
+
+The whole page reads like a Scandinavian dealership at dusk: the hero is the lit display car on a slowly rotating turntable, the disciplined utility chassis is the polished concrete floor with masking-tape grid lines, and the cards are the brochures laid out on a bleached-oak table beside the test-drive desk. The CTA behaves like the matte chrome key fob set on top of those brochures — small, weighty, and obvious without being loud. The cookie-and-language strip across the top is the receptionist greeting at the door, not an interruption. The single-color black masthead is the showroom's overhead beam — structural, never decorative. There is no second brand color because Volvo's idea of luxury is a quiet room with one engine running.
 
 ### Key Characteristics
 
-- `data-theme="centenary"` active — white page, black neutral surfaces, blue accent state
-- `Volvo Novum` confirmed in shared CSS, but current homepage sans = `Volvo Centum`
-- `Volvo Broad` / `Volvo Broad Pro` display split
-- `--v-*` token layer + utility classes + CSS Modules 3층 구조
-- 8-column mobile -> 12-column from `30rem`
-- blue is mostly current / selected / focus / info state, not large-area fill
-- soft shadow보다 ring, border, blur, scrim에 의존
+- Full-bleed automotive photography first; UI chrome stays quiet around it.
+- Monochrome brand language: `#000000`, `#1F1F1F`, `#FFFFFF`, and hairline gray dominate.
+- Utility-class layout system with responsive breakpoints at `30rem`, `64rem`, and `100rem`.
+- Cards are flat, rectangular, and informational, usually on secondary surfaces rather than floating shadows.
+- Navigation is a restrained topbar with high z-index layering and slide/drawer behavior.
+- CTA hierarchy is black filled primary, white/outline secondary, and link-inline tertiary.
+- Motion is gentle: fade, translate, stagger, and scale, not playful bounce.
+- Accent blue `#3860BE` appears as a functional link/focus accent, not as the visual brand core.
+- Product and lifestyle images carry emotional color; components mostly avoid color.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Scandinavian Utility
+### 🤖 Direction Summary (Machine Interface - DO NOT EDIT)
+
+> **BOLD Direction**: Nordic Restraint
 > **Aesthetic Category**: Industrial Minimalism
-> **Signature Element**: 이 사이트는 **순백 배경 위 검정 서피스와 전기 블루 상태색이 번쩍이는 selection/focus ring**으로 기억된다.
-> **Code Complexity**: high — shared `--v-*` token layer, centenary theme override, utility atom, feature-level CSS Module이 동시에 존재한다.
+> **Signature Element**: 이 사이트는 **full-bleed safety photography with monochrome showroom UI**으로 기억된다.
+> **Code Complexity**: high — responsive utility CSS, shadow-DOM navigation, image art direction, animated hero/card entrances, and drawer state layering are all present.
 
 ---
 
 ## 01. Quick Start
 <!-- SOURCE: auto+manual -->
 
-> 5분 안에 Volvo Cars처럼 만들기 — 3가지만 하면 80%
+> 5분 안에 Volvo Cars Korea처럼 만들기 - 3가지만 하면 80%
 
 ```css
-/* 1. active sans + weight */
-[data-theme="centenary"] {
-  --v-font-sans-family:
-    "Volvo Centum", "Helvetica Neue", "Helvetica",
-    "Noto Sans", "Segoe UI", "Arial", sans-serif;
-  --v-font-regular-weight: 400;
-  --v-font-emphasis-weight: 600;
+/* 1. 폰트 + weight */
+body {
+  font-family: "Volvo Novum", Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* 2. 배경 + 텍스트 */
+:root {
+  --volvo-bg: #FFFFFF;
+  --volvo-bg-secondary: #FAFAFA;
+  --volvo-fg: #000000;
+  --volvo-border: #D8D8D8;
 }
 body {
-  font-family: var(--v-font-sans-family);
-  font-weight: var(--v-font-regular-weight);
+  background: var(--volvo-bg);
+  color: var(--volvo-fg);
 }
 
-/* 2. white page + black text */
-[data-theme="centenary"] {
-  --v-color-background-primary: #fff;
-  --v-color-background-secondary: #fafafa;
-  --v-color-foreground-primary: #000;
-  --v-color-foreground-secondary: #5e5e5e;
-}
-
-/* 3. blue only for state */
-[data-theme="centenary"] {
-  --v-color-foreground-accent-blue: #0B2DED;
-  --v-color-surface-accent-blue: #0B2DED;
-  --v-color-state-accent-blue-subtle: #0B2DED0A;
+/* 3. 브랜드 컬러 */
+:root { --volvo-brand: #1F1F1F; }
+.button-filled {
+  background: var(--volvo-brand);
+  color: #FFFFFF;
+  border-radius: var(--v-radius-full);
 }
 ```
 
-**절대 하지 말아야 할 것 하나**: shared pkg에 `Volvo Novum`이 있다고 해서 현재 홈 전체를 Novum 300 톤으로 밀지 마라. 실제 `/kr/` 홈의 active theme는 `Volvo Centum` + `400/600` 계층이고, 블루도 대면적 배경이 아니라 current / focus / selected 상태에서만 강하게 나온다.
+**절대 하지 말아야 할 것 하나**: Volvo를 파란색 자동차 브랜드처럼 만들지 말 것. `#3860BE`는 링크/상태 보조색이고, 브랜드의 주된 표정은 `#000000`과 `#FFFFFF`의 조용한 대비다.
 
 ---
 
@@ -98,342 +135,543 @@ body {
 | | |
 |---|---|
 | Source URL | `https://www.volvocars.com/kr/` |
-| Fetched | 2026-04-23 |
-| Extractor | `curl_cffi` Chrome impersonation + 직접 CSS fetch |
-| HTML size | `338,055` bytes (Next.js App Router SSR) |
-| CSS files | 외부 `22`개 + 인라인 `7`개, 총 `362,468` chars |
-| Token prefix | `--v-*` custom properties, `ot-*` / `#onetrust-*` consent selector namespace |
-| Method | 실제 CSS / HTML 직접 파싱 · AI 추측값 없음 |
-
-> 참고: 이전 산출물의 `--ot-*` 중심 해석과 달리, 현재 캡처에서는 커스텀 프로퍼티의 중심이 `--v-*`였고 OneTrust는 주로 selector namespace(`ot-*`)로 노출되었다.
+| Fetched | 2026-04-23T11:49:00+09:00 |
+| Extractor | reused existing phase1 capture; HTML + CSS + screenshot available |
+| HTML size | 338055 bytes (Next.js / React flight stream / Contentstack-backed page) |
+| CSS files | 28 files, 249784 bytes total |
+| Phase1 JSON | `brand_candidates.json`, `resolved_tokens.json`, `typography.json`, `alias_layer.json` |
+| Token prefix | `--v` for Volvo utility system; `--ot` tokens are cookie/footer preference surface |
+| Method | CSS/HTML parsing plus screenshot review; no fresh fetch performed for this run |
 
 ---
 
 ## 03. Tech Stack
 <!-- SOURCE: auto+manual -->
 
-- **Framework**: Next.js App Router
+- **Framework**: Next.js / React, with streamed `self.__next_f` payloads and Contentstack metadata.
+- **Content source**: `contentstack-prod|live` for homepage and shared navigation/footer content.
+- **Design system**: Volvo utility CSS using `--v-*` variables, responsive utility classes, and component-scoped CSS modules.
+- **CSS architecture**:
+  ```text
+  --v-*                 Volvo design tokens and semantic utilities
+  utility classes       container-xl, grid, px-24, py-24, text-secondary
+  component modules     PromotionHero_*, discovery-card_*, sitenav__*
+  --ot-*                OneTrust/cookie preference and footer-surface tokens
   ```
-  /static/homepage/_next/static/chunks/app/[siteSlug]/page-*.js
-  /static/homepage/_next/static/css/*.css
-  ```
-- **Design system**: Volvo shared package v1 + centenary theme override
-  ```
-  token      (--v-color-foreground-primary)      raw design token
-  utility    (.text-primary, .rounded-lg)        semantic / atomic alias
-  component  (.SubNavigation_*, .PromotionHero_*) feature-level CSS Module
-  ```
-- **CSS architecture**: shared pkg (`/static/shared/pkg/css/v1/*`) + homepage chunks + site-navigation assets
-- **Class naming**: utility atoms (`font-16`, `gap-24`, `border-ring-2`) + hashed CSS Modules (`SubNavigation_*`, `discovery-card_*`, `ChargingTool_*`)
-- **Default theme**: light (`data-theme="centenary"` on `/kr/`)
-- **Font loading**: self-hosted `@font-face` (`Volvo Novum`, `Volvo Broad`, `Volvo Centum`)
-- **Canonical anchor**: active centenary blue `#0B2DED`; non-centenary shared blue `#1C6EBA` still ships in base tokens
+- **Class naming**: utility-first vocabulary plus generated CSS module suffixes.
+- **Default theme**: light (`#FFFFFF` / `#000000`), with captured dark token alternatives for cookie/footer surfaces.
+- **Font loading**: Volvo-owned web fonts declared in CSS; observed families include `Volvo Novum`, `Volvo Novum SemiLight`, and `Volvo Broad`.
+- **Canonical anchor**: `https://www.volvocars.com/kr/`.
 
 ---
 
 ## 04. Font Stack
 <!-- SOURCE: auto+manual -->
 
-- **Active body/UI**: `Volvo Centum` — current centenary theme sans
-- **Confirmed shared body**: `Volvo Novum` — base `--v-font-sans-family` and `font-face.8324f4d8.css`에 존재
-- **Display**: `Volvo Broad`, `Volvo Broad Pro`
-- **Code/System**: `monospace`
-- **Weight normal / emphasis**: active theme `400 / 600`
+- **Display font**: `Volvo Novum SemiLight` (brand font, proprietary)
+- **Body font**: `Volvo Novum` (brand font, proprietary)
+- **Brand wordmark / special display**: `Volvo Broad`
+- **Fallback stack observed**: `"Volvo Novum SemiLight", "Arial Narrow", "Helvetica Neue", Arial, sans-serif`
+- **Weight normal / bold**: `400` / `700`, with important mid-weight use at `500` and light display use at `300`
 
 ```css
 :root {
-  --v-font-sans-family:
-    "Volvo Novum", "Helvetica Neue", "Helvetica",
-    "Noto Sans", "Segoe UI", "Arial", sans-serif;
-  --v-font-broad-family: "Volvo Broad", "Arial Black", sans-serif;
-  --v-font-regular-weight: 300;
-  --v-font-emphasis-weight: 500;
+  --volvo-font-family: "Volvo Novum", Arial, sans-serif;
+  --volvo-font-family-display: "Volvo Novum SemiLight", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --volvo-font-family-brand: "Volvo Broad";
+  --volvo-font-weight-normal: 400;
+  --volvo-font-weight-emphasis: 500;
+  --volvo-font-weight-bold: 700;
 }
-
-[data-theme="centenary"] {
-  --v-font-sans-family:
-    "Volvo Centum", "Helvetica Neue", "Helvetica",
-    "Noto Sans", "Segoe UI", "Arial", sans-serif;
-  --v-font-broad-family: "Volvo Broad Pro", "Arial Black", sans-serif;
-  --v-font-regular-weight: 400;
-  --v-font-emphasis-weight: 600;
+body {
+  font-family: var(--volvo-font-family);
+  font-weight: var(--volvo-font-weight-normal);
 }
 ```
 
-### Confirmed `@font-face` Families
+### Note on Font Substitutes
 
-| Family | Current capture | Notes |
-|---|---|---|
-| `Volvo Novum` | weights `300`, `500` + italic | shared sans family |
-| `Volvo Broad` | weight `400` | shared display |
-| `Volvo Centum` | weights `380`, `570` | centenary sans |
-
-> 핵심은 "Volvo Novum이 사라진 게 아니라, centenary active theme가 Volvo Centum으로 덮어쓴다"는 점이다.
+- **Volvo Novum SemiLight** is narrow, quiet, and premium. If unavailable, use **Arial Narrow** first, then **Helvetica Neue** at weight `300` or `350`.
+- **Volvo Novum** can fall back to **Arial** only if line-height is kept slightly open. Do not replace it with Inter by default; Inter makes the page feel like SaaS instead of automotive.
+- **Volvo Broad** should not be faked in body text. Reserve any wide fallback for the wordmark or tiny brand lockups only.
+- Keep letter spacing at `0`; the site does not need aggressive negative tracking to feel premium.
 
 ---
 
 ## 05. Typography Scale
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-| Token | Size | Weight | Line-height | Notes |
-|---|---|---|---|---|
-| `--v-font-12` | `.75rem` | `400` | `1.667` | micro / caption |
-| `--v-font-14` | `.875rem` | `400` | `1.572` | secondary body |
-| `--v-font-16` | `1rem` | `400` | `1.5` | base body |
-| `--v-font-20` | `1.25rem` | `400` | `1.4` | intro / compact heading |
-| `--v-font-24` | `1.5rem` | `400` | `1.334` | small display |
-| `--v-font-heading-3` | `round(down, clamp(1.5rem, 1.071vw + 1.179rem, 2.25rem), 2px)` | `400` | `calc(1em + .5rem)` | section heading |
-| `--v-font-heading-2` | `round(down, clamp(1.5rem, 1.071vw + 1.179rem, 2.25rem), 2px)` | `400` | `calc(1em + .5rem)` | mid heading |
-| `--v-font-heading-1` | `round(down, clamp(2rem, 2.143vw + 1.357rem, 3.5rem), 2px)` | `400` | `calc(1em + .5rem)` | main heading |
-| `--v-font-statement-3` | `round(down, clamp(3rem, 2.143vw + 2.357rem, 4.5rem), 2px)` | `400` | `calc(1em + .5rem)` | large numeric / hero |
-| `--v-font-statement-2` | `round(down, clamp(3.5rem, 5vw + 2rem, 7rem), 2px)` | `400` | `calc(1em + .5rem)` | large statement |
-| `--v-font-statement-1` | `round(down, clamp(4.5rem, 6.786vw + 2.464rem, 9.25rem), 2px)` | `400` | `calc(1em + .5rem)` | biggest statement |
-| `--v-font-statement-signature` | `round(down, clamp(2.5rem, 3.929vw + 1.321rem, 5.25rem), 2px)` | `400` | `calc(1em + .5rem)` | `Volvo Broad Pro` |
+| Token | Size | Weight | Line-height | Letter-spacing |
+|---|---:|---:|---:|---:|
+| `statement-1` | `var(--v-font-statement-1-size)` | `var(--v-font-statement-1-weight)` / observed `300` | `var(--v-font-statement-1-lineheight)` | `0` |
+| `statement-2` | `var(--v-font-statement-2-size)` | `var(--v-font-statement-2-weight)` / observed `300-500` | `var(--v-font-statement-2-lineheight)` | `0` |
+| `heading-1` | `var(--v-font-heading-1-size)` | `var(--v-font-heading-1-weight)` / observed `500` | `var(--v-font-heading-1-lineheight)` | `0` |
+| `heading-2` | `var(--v-font-heading-2-size)` | `var(--v-font-heading-2-weight)` / observed `500` | `var(--v-font-heading-2-lineheight)` | `0` |
+| `font-16` | `16px` / `var(--v-font-16-size)` | `400` | `var(--v-font-16-lineheight)` | `0` |
+| `micro` | `.75em` to `.85em` observed | `400-500` | compact | `0` |
 
-> 현재 홈의 active type system은 base Novum `300/500`이 아니라 centenary `400/600` 계층으로 정렬된다. 거대한 statement scale이 존재하지만 weight는 과하게 무겁지 않다.
+> ⚠️ Typography extractor returned no complete numeric scale table, but CSS and HTML expose tokenized Volvo font variables and frequent classes such as `heading-1`, `heading-2`, `font-16`, and `micro`.
+
+### Principles
+
+1. Display copy uses branded lightness first. The hero title can feel large without becoming heavy because `Volvo Novum SemiLight` and `300-500` weights keep the voice calm.
+2. Body text is not tiny luxury text. `16px` appears as a recurring body token, supporting legibility for vehicle research and purchase tasks.
+3. Weight contrast is broad but controlled. Captured CSS uses `300`, `350`, `400`, `500`, `600`, and `700`, but the homepage voice avoids black-weight display.
+4. Letter spacing stays neutral. The premium feel comes from typeface choice and whitespace, not from heavy tracking tricks.
+5. Korean copy must be allowed to breathe. Preserve line-height and avoid squeezing headings into single-line English-style compositions.
 
 ---
 
 ## 06. Colors
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-### 06-1. Active Centenary Light
+### 06-1. Brand Ramp (monochrome anchor)
 
-| Token | Hex | Usage |
+| Token | Hex |
+|---|---|
+| `{colors.ink-primary}` | `#000000` |
+| `{colors.ink-soft}` | `#1F1F1F` |
+| `--ot-btn-primary-hover` | `#3A3A3A` |
+| `--ot-btn-primary-active` | `#4C4C4C` |
+
+### 06-2. Dark Variant
+
+| Token | Hex |
+|---|---|
+| `{colors.dark-surface}` | `#0B0F19` |
+| dark elevated surface | `#111827` |
+| dark text | `#E5E7EB` |
+| dark hover | `#CBD5E1` |
+| dark active | `#94A3B8` |
+
+### 06-3. Neutral Ramp
+
+| Step | Light | Dark |
 |---|---|---|
-| `--v-color-background-primary` | `#FFFFFF` | page background |
-| `--v-color-background-secondary` | `#FAFAFA` | secondary section background |
-| `--v-color-foreground-primary` | `#000000` | primary text |
-| `--v-color-foreground-secondary` | `#5E5E5E` | supporting copy |
-| `--v-color-foreground-tertiary` | `#787878` | tertiary text |
-| `--v-color-foreground-accent-blue` | `#0B2DED` | links, current state, focus ring |
-| `--v-color-surface-neutral` | `#000000` | dark pills / active surfaces |
-| `--v-color-surface-gray` | `#E3E3E3` | muted chips / neutral fills |
-
-### 06-2. Active Centenary Dark
-
-| Token | Hex | Usage |
-|---|---|---|
-| `--v-color-background-primary` | `#000000` | dark theme background |
-| `--v-color-background-secondary` | `#171717` | secondary dark section |
-| `--v-color-foreground-primary` | `#FFFFFF` | primary text |
-| `--v-color-foreground-secondary` | `#969696` | supporting copy |
-| `--v-color-foreground-accent-blue` | `#3354FF` | accent blue dark mode |
-| `--v-color-surface-neutral` | `#FFFFFF` | inverted pills / active surfaces |
-| `--v-color-surface-gray` | `#3B3B3B` | muted fills |
-
-### 06-3. Shared Base / Legacy Accent
-
-| Token | Light | Dark |
-|---|---|---|
-| `--v-color-foreground-accent-blue` (non-centenary) | `#1C6EBA` | `#378FE1` |
-| `--v-color-surface-neutral` (non-centenary) | `#1F1F1F` | `#FFFFFF` |
-| `--v-color-foreground-primary` (non-centenary) | `#0A0A0A` | `#FFFFFF` |
-| `--v-color-foreground-secondary` (non-centenary) | `#616161` | `#BABABA` |
+| page | `#FFFFFF` | `#0B0F19` |
+| secondary | `#FAFAFA` | `#111827` |
+| divider | `#D8D8D8` | `#334155` |
+| muted text | `#707070` | `#9CA3AF` |
+| floor / image support | `#C7CDD7` | `#2E3644` |
 
 ### 06-4. Accent Families
 
-| Family | Light | Dark | Notes |
-|---|---|---|---|
-| Safety orange | `#FC6408` | `#FC6408` | centenary safety accent |
-| Feedback green | `#048220` | `#048220` / fg `#07CA31` | success / confirmation |
-| Feedback red | `#E52715` / fg `#CD2314` | `#E52715` / fg `#EF6658` | error / destructive |
-| Feedback orange | `#CE6700` | fg `#F93` | warning / caution |
+| Family | Key step | Hex |
+|---|---|---|
+| Functional blue | link/focus/support | `#3860BE` |
+| Link blue variant | hover/inline | `#1C6BBA` |
+| Dealer/consent green | OneTrust / consent UI | `#68B631` |
+| Environmental tag green | tag color | `#168635` |
+| Warning/energy scale | eco label sequence | `#F7E53C`, `#F4BC2C`, `#E47224`, `#C71024` |
 
-### 06-5. State Layer
+### 06-5. Semantic
 
 | Token | Hex | Usage |
 |---|---|---|
-| `--v-color-ornament-primary` | `#0000001F` | default border / dividers |
-| `--v-color-state-primary-subtle` | `#0000000A` | subtle hover on light |
-| `--v-color-state-primary-medium` | `#0000001F` | medium pressed layer |
-| `--v-color-state-primary-strong` | `#0003` | strong pressed layer |
-| `--v-color-state-accent-blue-subtle` | `#0B2DED0A` | blue hover fill |
-| `--v-color-state-accent-blue-medium` | `#0B2DED1F` | blue focus / selected layer |
-| `--v-color-state-accent-blue-strong` | `#0B2DED33` | strong selected layer |
+| foreground primary | `#000000` | main text, topbar text, primary outlines |
+| foreground secondary | `#707070` | muted copy, secondary text |
+| background primary | `#FFFFFF` | page and nav surface |
+| background secondary | `#FAFAFA` | discovery cards and light modules |
+| ornament primary | `#D8D8D8` | card/list dividers |
+| accent blue | `#3860BE` | link/focus/action accent |
 
-> 색채 구조는 "검정/흰색 surface + 블루 interaction signal"이 핵심이다. 블루는 브랜드 면적색이 아니라 상태색에 가깝다.
+### 06-6. Semantic Alias Layer
+
+| Alias | Resolves to | Usage |
+|---|---|---|
+| `--ot-surface` | `#FFFFFF` | captured consent/footer surface |
+| `--ot-text` | `#000000` | captured consent/footer text |
+| `--ot-text-muted` | `#707070` | muted consent/footer text |
+| `--ot-divider` | `#D8D8D8` | separator |
+| `--ot-btn-primary-bg` | `#1F1F1F` | primary filled action |
+| `--ot-btn-primary-text` | `#FFFFFF` | primary action text |
+| `--ot-btn-secondary-bg` | `#FFFFFF` | secondary action background |
+| `--ot-btn-secondary-border` | `#000000` | secondary action border |
+
+### 06-7. Dominant Colors (actual CSS frequency)
+
+| Hex | Frequency signal | Interpretation |
+|---|---:|---|
+| `#FFFFFF` / `#fff` | highest | primary surface and text on dark UI |
+| `#D8D8D8` | high | ornament/divider system |
+| `#000000` / `#000` | high | primary text and black action surfaces |
+| `#3860BE` | high chromatic | functional blue, not brand core |
+| `#68B631` | cookie/consent | OneTrust consent green; not Volvo UI brand |
+| `#E5E7EB` | dark mode/action | dark-surface text and button state |
+
+### Color Stories
+
+**`{colors.ink-primary}` (`#000000`)** — Volvo's real UI brand color in this capture. It is used for primary text, outlines, and the core filled action model; do not replace it with a saturated automotive blue.
+
+**`{colors.surface-primary}` (`#FFFFFF`)** — The showroom floor. Navigation, content sections, and most utility surfaces stay white so photography can own emotion and color.
+
+**`{colors.ornament}` (`#D8D8D8`)** — The quiet structural line. Lists and touch rows use dividers instead of shadows, borders, or decorative cards.
+
+**`{colors.accent-blue}` (`#3860BE`)** — Functional affordance. It can support links, focus, and small action states, but it should never flood hero sections or cards.
 
 ---
 
 ## 07. Spacing
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-### 07-1. Fixed Ladder
+| Token | Value | Use case |
+|---|---:|---|
+| `px-8` / `py-8` | `.5rem` | compact links, nav rows |
+| `px-16` / `py-16` | `1rem` | mobile gutters, card interior |
+| `px-24` / `py-24` | `1.5rem` | list-row rhythm, hero mobile padding |
+| `px-32` / `py-32` | `2rem` | section and card breathing room |
+| `px-48` | `3rem` | desktop hero/nav horizontal inset |
+| `gap-8` | `.5rem` | icon/text and mobile CTA gaps |
+| `gap-16` | `1rem` | responsive CTA and card gaps |
+| `gap-32` | `2rem` | module rhythm and media card separation |
+| `--ot-footer-space` | `160px` | large footer breathing room |
 
-| Token | Value |
-|---|---|
-| `--v-space-2` | `.125rem` |
-| `--v-space-4` | `.25rem` |
-| `--v-space-8` | `.5rem` |
-| `--v-space-12` | `.75rem` |
-| `--v-space-16` | `1rem` |
-| `--v-space-24` | `1.5rem` |
-| `--v-space-32` | `2rem` |
-| `--v-space-48` | `3rem` |
-| `--v-space-64` | `4rem` |
+**주요 alias**:
+- `gap-x-gutter` -> grid column gutter for responsive card sections.
+- `container-xl` -> large constrained content band.
+- `--v-space-pagemargin` -> page margin in the grid debug formula.
 
-### 07-2. Fluid Section Ladder
+### Whitespace Philosophy
 
-| Token | Value |
-|---|---|
-| `--v-space-xs` | `round(clamp(.5rem, 1.071vw + .179rem, 1.25rem), 2px)` |
-| `--v-space-sm` | `round(clamp(1rem, 1.429vw + .571rem, 2rem), 2px)` |
-| `--v-space-md` | `round(clamp(1.5rem, 2.143vw + .857rem, 3rem), 2px)` |
-| `--v-space-lg` | `round(clamp(2rem, 2.143vw + 1.357rem, 3.5rem), 2px)` |
-| `--v-space-xl` | `round(clamp(3rem, 2.143vw + 2.357rem, 4.5rem), 2px)` |
-| `--v-space-2xl` | `round(clamp(4rem, 5.714vw + 2.286rem, 8rem), 2px)` |
+Volvo uses whitespace like a showroom uses silence. The page is not empty; it is measured. A hero can be image-heavy, then the shopping tools below snap into a compact `lg:grid-cols-4` utility grid. That contrast is central: emotional image first, practical decisions immediately after.
 
-### 07-3. Layout-Specific
-
-| Token | Value | Role |
-|---|---|---|
-| `--v-space-gutter` | `clamp(1rem, 2.6vw + .3rem, 1.5rem)` | grid column gap |
-| `--v-space-pagemargin` | `round(clamp(1rem, 4.286vw + -.286rem, 4rem), 2px)` | outer page margin |
-| `--v-space-gridded-element-gap` | `var(--v-space-2)` | tight grid card gap |
-
-> fixed ladder는 컴포넌트 내부 리듬을, fluid ladder는 섹션 간 호흡을 담당한다.
+The spacing system is strongly modular. The recurring `8 / 16 / 24 / 32 / 48` ladder makes sections feel engineered rather than editorially improvised. Avoid one-off gaps like `27px`; the Volvo feel comes from staying on the mechanical rhythm.
 
 ---
 
 ## 08. Radius
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-| Token | Value | Usage |
-|---|---|---|
-| `--v-radius-sm` | `.25rem` | default small rounding |
-| `--v-radius-md` | `.5rem` | dialog / card mid rounding |
-| `--v-radius-lg` | `1rem` | emphasized cards / modals |
-| `--v-radius-full` | `9999px` | pills / circular controls |
-| `--v-shape-default` | `var(--v-radius-sm)` | default component shape |
-| `--v-shape-emphasis` | `var(--v-radius-sm)` | emphasized shape in non-centenary utilities |
+| Token | Value | Context |
+|---|---:|---|
+| `--v-radius-sm` fallback | `4px` | focus rings and small card affordances |
+| `--v-shape-default` | tokenized | images, tooltips, modal panels |
+| `--v-radius-full` | tokenized | circular auth/icon buttons and pill-like actions |
+| explicit small radius | `2px`, `3px`, `4px` | form and preference UI |
+| explicit medium radius | `10px`, `20px` | overlays and dialog surfaces |
+| circular | `50%` | icon buttons and avatars |
+
+Volvo's homepage cards are generally more rectangular than pill-like. Reserve large radius for controls that are explicitly buttons or circular utilities.
 
 ---
 
 ## 09. Shadows
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-Volvo 홈은 큰 blur shadow보다 **ring / outline / drop-shadow 최소치**에 의존한다.
-
-| Selector / Token | Value | Role |
+| Level | Value | Usage |
 |---|---|---|
-| `.border-ring` | `inset 0 0 0 1px var(--v-color-ornament-primary)` | generic outline |
-| `.border-ring-2` | `inset 0 0 0 2px var(--_v2c3a00, var(--v-color-ornament-primary))` | selected outline |
-| `.SelectionCard_selectionCard__1Ywjv:hover` | `0 0 0 1px var(--v-color-always-black)` | hover emphasis |
-| `.SelectionCard_selectionCard__1Ywjv:has(button[aria-checked=true])` | `0 0 0 2px var(--v-color-surface-accent-blue)` | selected state |
-| `.sitenav__bottomRight__Ohipw` | `filter: drop-shadow(0px 2px 6px rgb(0 0 0 / 16%))` | chat launcher elevation |
+| none | `box-shadow: none` by default | most cards and content rows |
+| focus halo | `0 0 0 var(--v-space-4) ...` | checkbox/radio interaction states |
+| consent/footer shadow | `0px 0px 12px 2px rgb(199 197 199 / 100%)` | captured OneTrust surface |
+| dark overlay shadow | `0px 0px 12px 2px rgba(0, 0, 0, 0.6)` | dark preference layer |
 
-> 이 사이트를 Volvo답게 보이게 하려면 soft card shadow를 쌓기보다 ring과 border contrast를 먼저 맞춰야 한다.
+Volvo's chrome does not float. Use dividers and surface changes before elevation.
 
 ---
 
 ## 10. Motion
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-| Token / Selector | Value | Usage |
+| Token / Pattern | Value | Usage |
 |---|---|---|
-| `--v-transition-default` | `.22s ease` | 기본 상태 전환 |
-| `--v-transition-micro` | `.11s ease` | micro-interaction |
-| `--v-transition-notable` | `.8s ease` | larger staged transition |
-| `@media (prefers-reduced-motion: reduce)` | `50ms / 25ms / 12ms` | motion reduction |
-| `.SubNavigation_backgroundBlur__C2rTe:before` | `backdrop-filter: blur(12px)` | sticky nav glass layer |
-| `.MediaDialog_media-dialog__JyYXu :is([open]) [slot=main]` | `.22s` scale / translate transition | modal open |
-| `.BentoGallery_galleryItemAnimation__Ul8G5:hover` | `transform: scale(1.05)` | media hover zoom |
-| `.ChargingTool_overlayModal__vyivl::backdrop` | `.25s ease` fade | sheet backdrop |
+| `animation-gentle` | class-based | hero and discovery card entrance |
+| `animation-translate` | translate reveal | content entrance from `-12px` or `-24px` |
+| `animation-stagger-1/4` | staggered children | hero text and tool cards |
+| drawer transition | `transform .3s ease-in-out` | site navigation slider |
+| menu transition | `max-height .3s` | navigation menu expansion |
+| car/image hover | scale around `1.05` / `1.08` | gallery and image cards |
+| `--v-transition-easing-regular` | `cubic-bezier(0.45, 0, 0.4, 1)` | regular easing |
+| `--v-transition-easing-entrance` | `cubic-bezier(0, 0, 0.1, 1)` | entrance easing |
+| `--v-transition-easing-exit` | `cubic-bezier(0.9, 0, 1, 1)` | exit easing |
+
+Motion should feel like a sliding panel in a car interior: precise, damped, and short.
 
 ---
 
 ## 11. Layout Patterns
 <!-- SOURCE: auto+manual -->
 
-- **Page shell** — `--v-size-pagemax: min(160rem, 100vw)`로 매우 넓은 캔버스를 허용하지만, 실제 콘텐츠 grid는 `--v-size-grid-maxwidth: min(81rem, 100vw - ...)`에 묶여 있다.
-- **Grid column count** — 기본 `8`, `@media (width>=30rem)`에서 `12`.
-- **Discovery card** — `grid-template-areas: "top" "media" "main"` 기본, `30rem` 이상에서 `"media main"` horizontal 변형 가능.
-- **Promotion hero / display** — 밝은/어두운 gradient scrim을 이미지 위에 얹는 구조. `rgb(255 255 255 / 62%)` 또는 `rgb(0 0 0 / 62%)`를 direction variable로 돌린다.
-- **Sticky navigation** — blur backdrop + current link fill 방식. 선택된 링크는 `background: var(--v-color-foreground-primary)`와 inverted text로 처리한다.
-- **Form / tool layout** — `ChargingTool`처럼 mobile은 `"info" "media" "cta"` 단일열, tablet 이상에서 2열로 전환.
+### Grid System
+
+- **Content max-width**: debug grid formula caps at `81rem`; large page formula references up to `160rem` with page margins.
+- **Grid type**: CSS Grid and Flexbox, with utility classes driving most composition.
+- **Column count**: shopping tools use `md:grid-cols-2` and `lg:grid-cols-4`; discovery media uses `md:grid-cols-2` and `lg:grid-cols-3`.
+- **Gutter**: `gap-x-gutter`, `gap-y-s`, and fixed gaps from `8px` to `64px`.
+
+### Hero
+
+- **Pattern Summary**: `full-bleed image/video + dark gradient overlay + left aligned copy + single black/white CTA`.
+- Layout: responsive hero module; copy sits in a half-width block at medium and above.
+- Background: automotive image/video with dark gradient classes (`PromotionHero_md__gradient-dark`, `PromotionHero_md__gradient-left`).
+- **Background Treatment**: image overlay with left-side dark gradient; captured screenshot shows a dark forest/river scene behind the cookie modal.
+- H1: `heading-1`, escalating to statement-scale tokens in car launch contexts.
+- Max-width: hero copy uses `md:max-w-1/2` and desktop `lg:px-48`.
+
+### Section Rhythm
+
+```css
+section {
+  padding-block: var(--top-inner-spacing) var(--bottom-inner-spacing);
+  margin-block: var(--top-outer-spacing) var(--bottom-outer-spacing);
+}
+.container-xl {
+  max-width: large Volvo content container;
+}
+```
+
+### Card Patterns
+
+- **Card background**: `var(--v-color-background-secondary)` or `#FAFAFA`-like secondary surface.
+- **Card border**: usually absent on discovery cards; list links use `border-b` / `border-ornament`.
+- **Card radius**: small (`4px`) or tokenized shape default; not a soft SaaS card.
+- **Card padding**: `p-16`, `py-24`, `px-8`, depending on card/list mode.
+- **Card shadow**: none; image and surface contrast do the separation.
+- **Hover**: clickable cards may scale images or adjust text color to accent blue.
+
+### Navigation Structure
+
+- **Type**: horizontal topbar with menu/drawer and shadow-DOM embedded site navigation.
+- **Position**: controlled by variables for sticky/hide-on-scroll; wrapper has high z-index.
+- **Height**: `--sitenav-topbar-height` observed as `48px` and resolved phase token `64px`.
+- **Background**: `#FFFFFF` in light mode; data-theme `centenary`.
+- **Border**: subtle bottom separators and ornament lines; no decorative heavy border.
+- **Layering**: `--z-index-topbar: 1000`, `--z-index-sidenav: 1001`, profile/backdrop above that.
+
+### Content Width
+
+- **Prose max-width**: component-dependent, with examples around `596px`, `600px`, and `814px`.
+- **Container max-width**: debug formula uses `81rem` and page-margin constrained width.
+- **Sidebar width**: drawer width captured at `456px`, nav slider max around `400px` at medium sizes.
 
 ---
 
-## 12. Responsive
-<!-- SOURCE: auto -->
+## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
 
-| Breakpoint | Behavior |
-|---|---|
-| `< 30rem` | mobile default, 8-column grid, stacked cards, dialog/sheet full width 경향 |
-| `>= 30rem` | 12-column grid 시작, discovery card horizontal 변형, carousel card width 재계산 |
-| `>= 64rem` | larger paddings (`32/48/64` 적극 사용), gallery / dialog / charging tool desktop layout |
-| `>= 100rem` | utility visibility helpers (`until-xl:*`) 전환 기준 |
+### Breakpoints
 
-### Concrete Examples
+| Name | Value | Description |
+|---|---:|---|
+| Mobile | `< 30rem` / `max-width:29.99rem` | single-column card stacks, compact topbar, mobile menu |
+| Tablet | `min-width:30rem` | two-column grids, larger type tokens, nav slider constraints |
+| Desktop | `min-width:64rem` | hero half-width copy, 3-4 column content grids, richer hover states |
+| Large | `min-width:100rem` | largest CSS bundle and statement-scale typography |
 
-- `.discovery-card_horizontal__V6WqA` — `30rem` 이상에서 `grid-template-columns: 1fr 1fr`
-- `.SubNavigation_innerContainer__CVvJ0` — `64rem` 이상에서 3-track layout
-- `.styles_card__6z3Hx` — carousel card width가 mobile `66.67%` -> tablet `40%` -> desktop `25%`
+### Touch Targets
+
+- **Minimum tap size**: `tap-area` is widely applied to cards and nav links.
+- **Button height (mobile)**: captured controls use comfortable vertical padding rather than tiny text links.
+- **Input height (mobile)**: search field and consent controls use full-width tap rows.
+
+### Collapsing Strategy
+
+- **Navigation**: menu/drawer slider with `transform .3s ease-in-out`; desktop and mobile toggles are separate.
+- **Grid columns**: `1 -> 2 -> 3/4` depending on content type.
+- **Sidebar**: drawer width constrained around `400-456px`; full-screen-ish behavior on smaller screens.
+- **Hero layout**: mobile stacks text and CTA vertically; medium pushes content into a half-width overlay.
+
+### Image Behavior
+
+- **Strategy**: responsive `picture` sources with AVIF/JPG assets and density/width parameters.
+- **Max-width**: images generally `w-full`, `h-full`.
+- **Aspect ratio handling**: `aspect-21/9`, `md:aspect-16/9`, `aspect-3/2`, `object-cover`, and `object-contain` are all observed.
 
 ---
 
 ## 13. Components
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-### 13-1. SubNavigation
+### Buttons
+
+**`.button-filled`** — primary action.
 
 ```html
-<nav class="SubNavigation_container__7WUT3" data-color-mode="light">
-  <div class="SubNavigation_backgroundBlur__C2rTe"></div>
-  <a class="SubNavigation_link__haBVG" aria-current="page">Electrification</a>
-</nav>
+<a class="button-filled" href="/buy/purchase/ex90-visit-the-showroom-campaign">
+  상담 신청하기
+</a>
 ```
 
 | Property | Value |
 |---|---|
-| current state | `color: var(--v-color-foreground-inverted)` + `background: var(--v-color-foreground-primary)` |
-| hover (light) | `background: rgba(0 0 0 / 4%)` |
-| backdrop | `blur(12px)` + semi-transparent white/black layer |
-| minimum tap width | `2.5rem` |
+| Background | `#1F1F1F` or `#000000` family |
+| Text | `#FFFFFF` |
+| Radius | `var(--v-radius-full)` for pill actions |
+| Typography | `Volvo Novum`, medium weight |
+| Hover | darkens toward `#3A3A3A` in captured action tokens |
+| Active | darkens toward `#4C4C4C` in captured action tokens |
 
-### 13-2. Discovery Card
+**`.link-inline`** — quiet text action.
 
 ```html
-<article class="discovery-card_discovery_card__3E5JV discovery-card_horizontal__V6WqA">
-  <div slot="media"></div>
-  <div slot="main"></div>
-</article>
+<a class="link-inline" href="/kr/l/volvo-brochure/">자세히 보기</a>
+```
+
+Use this inside cards where the card itself is informational and the action is secondary.
+
+### Badges
+
+No homepage-first badge system was strongly surfaced. Energy/environment tags exist in CSS as a colored scale (`#168635`, `#76AB32`, `#C7CD2B`, `#F7E53C`, `#F4BC2C`, `#E47224`, `#C71024`) but should not be generalized into decorative marketing badges.
+
+### Cards & Containers
+
+**Discovery card** — repeated utility card for shopping tools and content entry points.
+
+```html
+<a class="link-plain w-full tap-area discovery-card_discovery_card__3E5JV discovery-card_clickable__sDfS3">
+  <div slot="main">
+    <div class="flex justify-between items-start gap-4">
+      <p class="font-medium">나만의 볼보</p>
+    </div>
+    <p class="text-secondary mt-16 text-start">모델을 선택하고 원하는 스타일로 나만의 볼보를 만들어 보십시오.</p>
+  </div>
+</a>
 ```
 
 | Property | Value |
 |---|---|
-| base layout | `grid-template-areas: "top" "media" "main"` |
-| horizontal layout | `@media (min-width:30rem)` -> `"media main"` |
-| main padding | `var(--v-space-24)` / `var(--v-space-32)` / `var(--v-space-64)` depending variant |
+| Surface | `var(--v-color-background-secondary)` |
+| Layout | full-width tap area, flex content |
+| Media | optional; `aspect-21/9` -> `md:aspect-16/9` |
+| Border | none on card body; section/list separators use `border-ornament` |
+| Shadow | none |
+| Hover | clickable affordance via link and occasional image scale |
 
-### 13-3. Selection / Tool States
+### Navigation
+
+**Site topbar / menu drawer** — embedded navigation.
 
 ```html
-<div class="SelectionCard_selectionCard__1Ywjv">
-  <button aria-checked="true"></button>
+<div id="site-navigation">
+  <site-navigation></site-navigation>
 </div>
 ```
 
 | Property | Value |
 |---|---|
-| selected ring | `0 0 0 2px var(--v-color-surface-accent-blue)` |
-| hover ring | `0 0 0 1px var(--v-color-always-black)` |
-| desktop focus affordance | `ChargingTool_selectComponent__f6Ii8:hover { box-shadow: inset 0 0 0 2px var(--v-color-foreground-accent-blue); }` |
+| Topbar height | `48px` to `64px` depending on resolved context |
+| Z-index | `1000+` |
+| Slider transition | `transform .3s ease-in-out` |
+| Menu max height | `calc(100vh - var(--v-space-64) - var(--sitenav-topbar-height))` |
+| Logo | Volvo wordmark, quiet monochrome |
 
----
+### Inputs & Forms
+
+Observed form surfaces are mostly search, consent, and controls.
+
+| State | Treatment |
+|---|---|
+| Default | white surface, black text, subtle bottom border |
+| Focus | `outline: 2px solid var(--v-color-foreground-primary)` or stronger border-bottom |
+| Hover | black border opacity increases |
+| Disabled | tertiary/muted foreground |
+| Error | feedback red foreground and subtle red state surface |
+
+### Hero Section
+
+```html
+<section data-component="promotionalBanner">
+  <div class="PromotionHero_md__gradient-dark__cZhIv PromotionHero_md__gradient-left__BLkIW">
+    <div class="md:max-w-1/2 lg:px-48 PromotionHero_gradient-dark__Ihl1o">
+      <p>Volvo 역사상 가장 안전한 자동차</p>
+      <h1 class="heading-1 mt-16">완전히 새로운 볼보 EX90을 만나보세요.</h1>
+      <a class="button-filled">상담 신청하기</a>
+    </div>
+  </div>
+</section>
+```
+
+The hero is the emotional engine: a dark, photographic field with sparse copy and one decisive action.
+
+### 13-2. Named Variants
+
+**`button-filled`**
+- black/near-black filled CTA, white text, pill/full radius.
+- Use for "상담 신청하기", purchase, test-drive, or primary conversion.
+
+**`link-inline`**
+- text-first action inside utility cards.
+- Use when the containing card already provides the tap surface.
+
+**`discovery-card-no-media`**
+- secondary-surface card with heading, short body, chevron/action affordance.
+- Used for shopping tools such as test drive, showroom, configurator, newsletter.
+
+**`discovery-card-media`**
+- image-led card with `aspect-21/9` and responsive `md:aspect-16/9`.
+- Used for sustainability, electrification, safety, service storytelling.
+
+**`nav-drawer-slider`**
+- high z-index drawer with `transform .3s ease-in-out`.
+- Use for menu, car navigation, search, profile overlays.
+
+### 13-3. Signature Micro-Specs
+
+#### gradient-safety-hero
+
+```yaml
+gradient-safety-hero:
+  description: "Full-bleed safety/vehicle photography is gated by a left-side dark gradient that hosts the copy block."
+  technique: "PromotionHero_md__gradient-dark + PromotionHero_md__gradient-left utilities; half-width copy column; white-on-dark readability without overlay panels."
+  applied_to: ["{component.hero-section}", "EX90 campaign hero", "model launch banners"]
+  visual_signature: "a quiet cinematic field — the vehicle story feels Scandinavian-serious, never showroom-flashy."
+  intent: "automotive trust must be earned through restraint; gradients carry copy so the photograph is never cropped or boxed."
+```
+
+#### ornament-border-list
+
+```yaml
+ornament-border-list:
+  description: "List links become structure through hairline dividers, not card chrome."
+  technique: "border-b border-ornament py-24 tap-area px-8; no card shadow; full-width row hit area."
+  applied_to: ["{component.navigation-panel}", "service link list", "showroom locator list"]
+  visual_signature: "engineered rows that read like spec sheets — not decorative cards on a marketing page."
+  intent: "Volvo's brand is engineering precision; cards would soften that with consumer-app warmth."
+```
+
+#### responsive-art-directed-media
+
+```yaml
+responsive-art-directed-media:
+  description: "Cards use exact aspect utilities instead of arbitrary crops, so every image is editorial-framed."
+  technique: "aspect-21/9 (cinema) and md:aspect-16/9 (broadcast); object-cover; responsive `picture` sources per breakpoint."
+  applied_to: ["{component.discovery-card}", "secondary hero card", "model line tile"]
+  visual_signature: "every image looks like an automotive press still — never a stretched stock photo."
+  intent: "automotive photography is shot once and licensed expensively; locking the crop preserves the art-direction at every viewport."
+```
+
+#### damped-drawer-motion
+
+```yaml
+damped-drawer-motion:
+  description: "Panels slide with short, restrained transitions — never a bounce."
+  technique: "transform .3s ease-in-out, max-height .3s linear, high z-index layer tokens, no spring or overshoot."
+  applied_to: ["{component.site-navigation}", "menu drawer", "search panel", "cars menu"]
+  visual_signature: "precision movement — like the soft-close of a luxury car door."
+  intent: "the brand promise is calm safety; bouncy motion would imply consumer-electronics personality."
+```
+
+#### ornament-token-as-floor
+
+```yaml
+ornament-token-as-floor:
+  description: "Volvo refuses both pure white and grey — the page floor is a defined ornament family."
+  technique: "background `#FAFAFA`, divider `#E5E2DA` (warm ornament token), accent ink `#141414`; never `#FFFFFF` body."
+  applied_to: ["{component.page-surface}", "card divider", "section break"]
+  visual_signature: "a warm matte floor — closer to showroom paper than to digital chrome."
+  intent: "Scandinavian premium reads warm; pure white would feel medical, pure grey would feel utility."
+```
 
 ## 14. Content / Copy Voice
-<!-- SOURCE: auto+manual -->
+<!-- SOURCE: manual -->
 
-| Pattern | Example | Reading |
+| Pattern | Rule | Example |
 |---|---|---|
-| Safety-first headline | `Volvo 역사상 가장 안전한 자동차` | 기술보다 안전을 먼저 전면에 둔다 |
-| Product intro | `완전히 새로운 볼보 EX90을 만나보세요.` | 직접적이고 설명이 짧다 |
-| Brand mission | `개인적이고 지속 가능하며 안전하게 이동할 수 있는 자유` | "personal / sustainable / safe" 3축 반복 |
-| Utility CTA | `상담 신청하기`, `시승 신청하기`, `서비스 센터 예약` | 감성 CTA보다 실용 CTA가 많다 |
-
-> 카피 톤은 고조된 럭셔리보다 신뢰, 안전, 실용에 가깝다.
+| Headline | Safety and product-first, direct sentence case | "완전히 새로운 볼보 EX90을 만나보세요." |
+| Eyebrow | Brand promise before product | "Volvo 역사상 가장 안전한 자동차" |
+| Primary CTA | Short noun/action phrase | "상담 신청하기" |
+| Utility card title | Task-oriented | "시승 신청하기", "전시장 찾기", "나만의 볼보" |
+| Body copy | Calm benefits, no hype punctuation | "모델을 선택하고 원하는 스타일로 나만의 볼보를 만들어 보십시오." |
+| Tone | premium, safe, restrained, service-oriented |
 
 ---
 
@@ -441,85 +679,248 @@ Volvo 홈은 큰 blur shadow보다 **ring / outline / drop-shadow 최소치**에
 <!-- SOURCE: auto+manual -->
 
 ```css
-/* Volvo Cars /kr/ — centenary active layer */
-[data-theme="centenary"] {
-  --volvo-bg: #fff;
-  --volvo-bg-secondary: #fafafa;
-  --volvo-surface: #000;
-  --volvo-text: #000;
-  --volvo-text-secondary: #5e5e5e;
-  --volvo-accent: #0B2DED;
-  --volvo-accent-strong: #0B2DED33;
-  --volvo-border: #0000001f;
-  --volvo-radius-sm: .25rem;
-  --volvo-radius-md: .5rem;
-  --volvo-radius-lg: 1rem;
+/* Volvo Cars Korea - copy into your root stylesheet */
+:root {
+  /* Fonts */
+  --volvo-font-family: "Volvo Novum", Arial, sans-serif;
+  --volvo-font-family-display: "Volvo Novum SemiLight", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --volvo-font-family-brand: "Volvo Broad";
+  --volvo-font-weight-normal: 400;
+  --volvo-font-weight-medium: 500;
+  --volvo-font-weight-light: 300;
+  --volvo-font-weight-bold: 700;
+
+  /* Core colors */
+  --volvo-ink: #000000;
+  --volvo-ink-soft: #1F1F1F;
+  --volvo-surface: #FFFFFF;
+  --volvo-surface-secondary: #FAFAFA;
+  --volvo-text-muted: #707070;
+  --volvo-ornament: #D8D8D8;
+  --volvo-accent-blue: #3860BE;
+
+  /* Dark support */
+  --volvo-dark-surface: #0B0F19;
+  --volvo-dark-elevated: #111827;
+  --volvo-dark-text: #E5E7EB;
+
+  /* Spacing */
+  --volvo-space-8: .5rem;
   --volvo-space-16: 1rem;
   --volvo-space-24: 1.5rem;
   --volvo-space-32: 2rem;
   --volvo-space-48: 3rem;
-  --volvo-font-sans:
-    "Volvo Centum", "Helvetica Neue", "Helvetica",
-    "Noto Sans", "Segoe UI", "Arial", sans-serif;
-  --volvo-font-display: "Volvo Broad Pro", "Arial Black", sans-serif;
+
+  /* Shape */
+  --volvo-radius-sm: 4px;
+  --volvo-radius-full: 999px;
+
+  /* Motion */
+  --volvo-ease-regular: cubic-bezier(0.45, 0, 0.4, 1);
+  --volvo-ease-entrance: cubic-bezier(0, 0, 0.1, 1);
+  --volvo-ease-exit: cubic-bezier(0.9, 0, 1, 1);
 }
 
-body {
-  font-family: var(--volvo-font-sans);
-  color: var(--volvo-text);
-  background: var(--volvo-bg);
+.volvo-button-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 12px 24px;
+  border-radius: var(--volvo-radius-full);
+  background: var(--volvo-ink-soft);
+  color: var(--volvo-surface);
+  font-family: var(--volvo-font-family);
+  font-weight: var(--volvo-font-weight-medium);
+  text-decoration: none;
 }
 
-.volvo-pill-current {
-  color: #fff;
-  background: #000;
-  border-radius: 9999px;
+.volvo-discovery-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--volvo-space-16);
+  min-height: 100%;
+  padding: var(--volvo-space-16);
+  background: var(--volvo-surface-secondary);
+  color: var(--volvo-ink);
+  border: 0;
+  border-radius: var(--volvo-radius-sm);
+  box-shadow: none;
 }
 
-.volvo-focus {
-  box-shadow: inset 0 0 0 2px var(--volvo-accent);
+.volvo-ornament-row {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: var(--volvo-space-24) var(--volvo-space-8);
+  border-bottom: 1px solid var(--volvo-ornament);
 }
 ```
 
 ---
 
-## 16. Tailwind
-<!-- SOURCE: auto -->
-
-> N/A — 실사이트는 Tailwind가 아니라 `--v-*` 토큰 + 자체 utility class(`text-primary`, `rounded-lg`, `gap-24`, `border-ring-2`)를 사용한다.
-
----
-
-## 17. Agent Prompt
+## 16. Tailwind Config
 <!-- SOURCE: manual -->
 
-```text
-Recreate Volvo Cars /kr/ as the current centenary theme, not the legacy Novum-only layer.
-Keep the page light by default: white background, black primary text, black neutral surfaces,
-and electric blue (#0B2DED) only for current / focus / selected states.
-Use Volvo Centum for the active UI, but preserve the fact that Volvo Novum still exists in shared CSS
-when reproducing older or shared modules. Prefer ring, border, blur, and scrim over soft card shadows.
-Respect the 8-column mobile -> 12-column desktop grid and the spacing ladder built from 16/24/32/48/64px.
+```js
+// tailwind.config.js - Volvo-inspired tokens
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        volvo: {
+          ink: '#000000',
+          soft: '#1F1F1F',
+          surface: '#FFFFFF',
+          secondary: '#FAFAFA',
+          muted: '#707070',
+          ornament: '#D8D8D8',
+          blue: '#3860BE',
+          dark: '#0B0F19',
+        },
+      },
+      fontFamily: {
+        sans: ['Volvo Novum', 'Arial', 'sans-serif'],
+        display: ['Volvo Novum SemiLight', 'Arial Narrow', 'Helvetica Neue', 'Arial', 'sans-serif'],
+      },
+      borderRadius: {
+        volvo: '4px',
+        full: '999px',
+      },
+      transitionTimingFunction: {
+        'volvo-regular': 'cubic-bezier(0.45, 0, 0.4, 1)',
+        'volvo-in': 'cubic-bezier(0, 0, 0.1, 1)',
+        'volvo-out': 'cubic-bezier(0.9, 0, 1, 1)',
+      },
+    },
+  },
+};
 ```
+
+---
+
+## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
+
+### Quick Color Reference
+
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary | `{colors.ink-soft}` | `#1F1F1F` |
+| Background | `{colors.surface-primary}` | `#FFFFFF` |
+| Secondary surface | `{colors.surface-secondary}` | `#FAFAFA` |
+| Text primary | `{colors.ink-primary}` | `#000000` |
+| Text muted | `muted` | `#707070` |
+| Border | `{colors.ornament}` | `#D8D8D8` |
+| Functional accent | `{colors.accent-blue}` | `#3860BE` |
+| Dark surface | `{colors.dark-surface}` | `#0B0F19` |
+
+### Example Component Prompts
+
+#### Hero Section
+
+```text
+Volvo Cars Korea 스타일 히어로 섹션을 만들어줘.
+- 배경: full-bleed automotive photography with a left dark gradient overlay
+- H1: Volvo Novum SemiLight, heading-1/statement scale, weight 300-500, tracking 0
+- Eyebrow: small body copy above H1, white on dark image
+- CTA: black/near-black filled button #1F1F1F with #FFFFFF text, pill radius
+- Layout: mobile stacked; desktop copy block at max 50% width with lg:px-48
+- Motion: gentle fade + translate from -12px, staggered children
+```
+
+#### Discovery Card
+
+```text
+Volvo 스타일 discovery card를 만들어줘.
+- 배경: #FAFAFA or var(--v-color-background-secondary)
+- border: none; shadow: none; radius: 4px
+- padding: 16px; gap: 16px
+- heading: Volvo Novum, 16px, weight 500, #000000
+- body: 16px, #707070, relaxed line-height
+- affordance: small chevron icon aligned top-right
+```
+
+#### Navigation
+
+```text
+Volvo 스타일 상단 네비게이션을 만들어줘.
+- 높이: 48-64px
+- 배경: #FFFFFF
+- 로고: left, monochrome Volvo wordmark
+- 링크: #000000 / muted #707070, no decorative underline
+- menu drawer: z-index 1001+, transform .3s ease-in-out
+- row links: py-24, px-8, border-bottom 1px solid #D8D8D8
+```
+
+#### Media Card
+
+```text
+Volvo 스타일 이미지 카드 섹션을 만들어줘.
+- grid: mobile 1 col, md 2 cols, lg 3 cols
+- image: aspect-21/9 on mobile, md:aspect-16/9, object-cover
+- surface: #FAFAFA text panel below image
+- hover: optional image scale 1.05 only; no colored glow
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: saturated brand palette를 만들지 말고 `#000000`, `#1F1F1F`, `#FFFFFF`, `#D8D8D8`를 먼저 조합한다.
+- **파란색 사용 시**: `#3860BE`는 링크/상태/보조 action에만 둔다.
+- **폰트 변경 시**: Inter보다 Arial/Helvetica 계열 fallback이 Volvo Novum의 자동차 브랜드 톤에 가깝다.
+- **카드 추가 시**: shadow를 넣기 전에 `#FAFAFA` surface와 `#D8D8D8` divider로 해결한다.
+- **모션 추가 시**: `transform .3s ease-in-out`과 gentle fade/translate만 사용한다.
+- **이미지 사용 시**: actual vehicle/lifestyle photography를 핵심 시각 자산으로 둔다.
 
 ---
 
 ## 18. DO / DON'T
-<!-- SOURCE: auto+manual -->
+<!-- SOURCE: manual -->
 
 ### ✅ DO
 
-- `data-theme="centenary"` 기준으로 구현하고, 기본 배경은 `#FFFFFF`로 유지
-- active sans는 `Volvo Centum`, display는 `Volvo Broad Pro`로 맞추기
-- `Volvo Novum`이 shared CSS에 실제 존재한다는 사실은 보존하되, 현재 홈 전체 기본 폰트로 오독하지 않기
-- 블루 `#0B2DED`는 current / focus / selected 상태에 제한해서 쓰기
-- shadow보다 `border-ring`, selection ring, backdrop blur를 우선 사용
-- mobile 8열 -> `30rem` 이상 12열 grid 전환을 유지
+- Use full-bleed vehicle or safety photography as the emotional lead.
+- Keep the UI monochrome-first: `#000000`, `#1F1F1F`, `#FFFFFF`, `#FAFAFA`, `#D8D8D8`.
+- Use `Volvo Novum` / `Volvo Novum SemiLight` or narrow Helvetica/Arial fallbacks.
+- Build practical modules with responsive grids: `1 -> 2 -> 3/4` columns.
+- Use dividers and surface shifts before shadows.
+- Keep CTA count low in the hero; one primary action is enough.
+- Use gentle translate/fade motion, not energetic bounce.
 
 ### ❌ DON'T
 
-- 파란색을 큰 hero 배경이나 카드 배경으로 덮지 말 것
-- legacy shared blue `#1C6EBA`와 active centenary blue `#0B2DED`를 섞어서 하나의 레이어처럼 쓰지 말 것
-- soft card shadow를 여러 겹 쌓아 Volvo 분위기를 만들려 하지 말 것
-- 모든 텍스트를 같은 400 한 단계로 평평하게 만들지 말 것
-- OneTrust selector namespace를 Volvo 본체 token system으로 오독하지 말 것
+- 배경을 `#F5F5F5` 또는 generic warm gray로 두지 말 것 — 기본 floor는 `#FFFFFF`, 보조 surface는 `#FAFAFA` 사용.
+- 텍스트를 `#141414` 같은 임의 near-black으로 통일하지 말 것 — primary text는 `#000000`, filled CTA는 `#1F1F1F` 사용.
+- 브랜드 컬러를 `#3860BE`로 잡지 말 것 — `#3860BE`는 functional accent이고 primary brand anchor는 `#1F1F1F` / `#000000`이다.
+- border를 `#E5E7EB`로 무조건 바꾸지 말 것 — light surface divider는 `#D8D8D8`가 더 가까운 ornament다.
+- dark section 텍스트를 `#FFFFFF`만 쓰지 말 것 — captured dark UI text uses `#E5E7EB` for softer contrast.
+- CTA를 square `border-radius: 0`으로 만들지 말 것 — primary actions should use pill/full radius, while cards stay around `4px`.
+- cards에 heavy shadow를 넣지 말 것 — Volvo cards are flat, with surface contrast and image framing.
+- hero에 purple/blue gradient를 넣지 말 것 — dark image overlay is the signature, not synthetic gradient branding.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- **No second chromatic brand color** — functional blue exists, but the brand system does not depend on a colorful palette.
+- **No playful gradient identity** — gradients are photographic readability overlays, not decorative backgrounds.
+- **No heavy card elevation** — the homepage is mostly flat surfaces, dividers, and image crops.
+- **No rounded SaaS softness** — cards stay restrained; large radius belongs to controls or circular utilities.
+- **No dense marketing icon grid** — content cards use text, chevrons, and photography rather than decorative icon packs.
+- **No blackletter luxury drama** — brand type is proprietary and quiet, not fashion-editorial excess.
+- **No cluttered CTA stacks** — hero conversion stays singular and controlled.
+- **No arbitrary image crops** — aspect utilities and responsive picture sources keep media disciplined.
+- **No emoji or casual expressive copy** — voice stays premium, direct, and service-oriented.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Cookie overlay in screenshot** — the available `hero-cropped.png` is partially blocked by the cookie preference modal, so hero visual interpretation also uses HTML structure and CSS class evidence.
+- **No fresh network fetch in this run** — phase1 assets from April 23, 2026 were reused as instructed. Live Volvo page details may have changed after that capture.
+- **Typography numeric scale incomplete** — `typography.json` returned no full `scale` entries; font token names and observed declarations were used instead of inventing exact pixel values.
+- **Main Volvo token terminals partially unresolved** — CSS references many `--v-color-*` and `--v-font-*` variables, but not every terminal value was present in the captured CSS files. Values in this document use observed hex and resolved `--ot` examples where terminal values were available.
+- **Cookie/OneTrust colors filtered** — green values such as `#68B631` appear frequently but belong to consent UI, not Volvo brand UI.
+- **Sub-flows not visited** — configurator, checkout, login, forms, error validation, and service booking screens were not interacted with.
+- **Motion logic not fully executed** — CSS transition/easing classes were inspected, but JS-triggered scroll animations and IntersectionObserver timing were not replayed.
+- **Responsive behavior inferred from CSS** — mobile/tablet/desktop breakpoints are based on media queries and classes, not new viewport screenshots in this run.
+- **Dark mode mapping incomplete** — dark tokens were captured for certain surfaces, but this homepage primarily presents as a light site.

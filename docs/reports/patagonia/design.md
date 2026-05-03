@@ -1,97 +1,146 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: patagonia
 service_name: Patagonia
 site_url: https://www.patagonia.com/home/
-fetched_at: 2026-04-23
-default_theme: light
-brand_color: "#FA4616"
-primary_font: Ridgeway Sans
+fetched_at: 2026-04-23T11:49:00+09:00
+default_theme: mixed
+brand_color: "#000000"
+primary_font: "Ridgeway Sans"
 font_weight_normal: 300
-token_prefix: --pata-*, --bs-*
+token_prefix: "pata"
 
-bold_direction: "Outdoor Utility Minimalism"
-aesthetic_category: "Utility Brutalism"
-signature_element: section_transition
-code_complexity: medium
+bold_direction: "Outdoor Editorial"
+aesthetic_category: "other"
+signature_element: "hero_impact"
+code_complexity: "high"
 
 medium: web
 medium_confidence: high
+
+archetype: commerce-marketplace
+archetype_confidence: medium
+design_system_level: lv2
+design_system_level_evidence: "Large Bootstrap-derived component layer plus pata font tokens and repeated hero/product/nav patterns; no extracted color token tier."
+
+colors:
+  bs-btn-primary-bg: "#000000"
+  bs-btn-primary-color: "#FFFFFF"
+  bs-focus-ring: "#91ABE9"
+  pata-sale-red: "#E10000"
+  pata-badge-orange: "#FA4616"
+  pata-neutral-soft: "#F5F5F5"
+  pata-text-muted: "#4A4A4A"
+  pata-border-soft: "#CCC"
+
+typography:
+  display: "Ridgeway Sans"
+  serif: "Copernicus"
+  body: "Ridgeway Sans"
+  ladder:
+    - { token: body-sm, size: "1.2rem", weight: 300, line_height: "1.5", tracking: "0" }
+    - { token: body, size: "1.4rem", weight: 300, line_height: "1.5", tracking: "0" }
+    - { token: body-lg, size: "1.6rem", weight: 300, line_height: "1.5", tracking: "0" }
+    - { token: heading, size: "2rem", weight: 500, line_height: "1.2", tracking: "0" }
+    - { token: display, size: "calc(1.625rem + 2.8125vw)", weight: 300, line_height: "1.2", tracking: "0" }
+    - { token: serif-special, size: "contextual", weight: 500, line_height: "1.1", tracking: "-.03em" }
+  weights_used: [300, 500, 700, 850]
+  weights_absent: [200, 800]
+
+components:
+  button-primary: { bg: "#000000", color: "#FFFFFF", radius: "3rem", padding: ".9rem 2.8rem" }
+  button-light: { bg: "#FFFFFF", color: "#000000", radius: "3rem", padding: ".9rem 2.8rem" }
+  checkout-button: { bg: "#E10000", color: "#FFFFFF", radius: "3rem", focus: "#91ABE9" }
+  product-tag: { bg: "#F5F5F5", color: "#000000", radius: "2px", padding: ".8rem" }
+  marketing-tile: { bg: "image", radius: ".8rem", overlay: "photo-led" }
 ---
 
-# DESIGN.md — Patagonia (Claude Code Edition)
+# DESIGN.md - Patagonia
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
 <!-- SOURCE: auto+manual -->
 
-2026-04-23 기준 Patagonia 홈은 "환경 브랜드 = 초록 UI" 공식을 따르지 않는다. 현재 Demandware/Salesforce Commerce Cloud 프런트는 오히려 **`#000` / `#fff` / `#f5f5f5` / `#121212`** 로 짜인 강한 흑백 베이스 위에, 필요한 순간에만 색을 꽂는 **outdoor utility system** 에 가깝다. 상단 네비게이션, 기본 CTA, dark wrapper, 카드 배경이 모두 검정과 흰색의 반전으로 운영되고, 브랜드 개성은 사진과 섹션 테마, 그리고 소량의 accent 팔레트에서 뒤늦게 드러난다.
+### Narrative
 
-색상 전략의 핵심은 **"모노크롬 UI + 자연계 팔레트의 spot usage"** 다. CSS 전역의 가장 큰 축은 `#000`(primary/dark) 과 `#fff`(page/light), `#f5f5f5`(card surface), `#121212`(dark surface)다. 하지만 같은 CSS 안에는 `red-brand #FA4616`, `campfire-orange #F47B29`, `yellow-utility #FEB904`, `green-utility #32B67A`, `steppe-green #61845B`, `industrial-green #485643` 같은 named color family가 살아 있다. 즉 Patagonia의 색은 "초록 메인 브랜드"가 아니라, **기본 UI는 흑백으로 정리하고 자연색은 상태/캠페인/테마에만 쓰는 방식**으로 작동한다.
+Patagonia does not behave like a color-first ecommerce site. The homepage system is built around documentary outdoor photography, black-and-white utility chrome, and a deliberately plain retail chassis. The brand color is effectively black: `#000000` (`{colors.bs-btn-primary-bg}`) for primary buttons, nav weight, badge inversions, overlay text, and the loading mountain stroke. When chromatic colors appear, they are operational rather than decorative: sale red `#E10000` (`{colors.pata-sale-red}`), pickup orange `#FA4616` (`{colors.pata-badge-orange}`), focus blue `#91ABE9` (`{colors.bs-focus-ring}`).
 
-타이포그래피도 기존 예시의 Avenir 가설과 다르다. 현재 live HTML/CSS는 **`Ridgeway Sans`를 body/UI 기본체로, `Copernicus`를 serif accent로 로드**한다. 본문은 `font-weight: 300`, `line-height: 1.5`의 가벼운 산세리프이고, serif 계층은 `font-weight: 500`, `letter-spacing: -0.03em ~ -0.05em`, `line-height: 1.1`로 확실히 끊는다. hero headline은 size variant에 따라 `4rem → 6.4rem`, `6.4rem → 9.6rem`, `8rem → 12.8rem`까지 확장되지만, 여전히 weight는 500 하나로 유지된다. Patagonia가 힘을 주는 방식은 굵기 난사가 아니라 **큰 크기 + tight tracking + 흑백 대비**다.
+The visual metaphor is a trailhead notice board that learned commerce. The page is not trying to become a glossy outdoor boutique; it behaves more like a gear wall beside a field station, where the landscape is outside the window and the labels are black tape, white paper, and clipped inventory tags. Product surfaces are not polished into luxury. They are organized into durable, simple modules, as if the catalog has been packed into weatherproof bins: photo first, tag second, action last.
 
-여백과 인터랙션은 Bootstrap 5 유틸리티를 그대로 흡수한 리듬을 따른다. 기본 gutter는 `1.6rem`, 스케일은 `.8rem` 단위로 `8rem`까지 확장되고, hero·slider·navigation·card content가 모두 이 8px rhythm 위에 놓인다. 카드 radius는 `8px`, 버튼 radius는 `3rem`, overlay card는 `1.6rem`, feature pill은 `2rem`으로 분화되어 있다. 즉 Patagonia는 "hard square"가 아니라 **soft card + pill CTA** 조합이다.
+Photography is the weather system here. UI chrome does not create atmosphere; it straps itself over the image like a map case on top of a pack. A full-bleed hero can carry snow, rock, trees, or cloud, but the controls remain blunt: black pill CTAs, white reverse buttons, compact tags, and restrained hover scale. Shadow mostly stays out of the chrome. Depth comes from the photograph, not from a SaaS elevation stack.
 
-모션도 절제돼 있지만 정적이지는 않다. 버튼 hover는 `transform .2s cubic-bezier(.235,0,.05,.95)` 와 `scale(1.044)`, 카드와 hero는 `.3s ~ .6s cubic-bezier(.38,.41,.27,1)`, 제품 이미지 교차 전환은 `.75s`, slider arrow는 `scale(1.05)`까지 사용한다. 전반적으로 **기술적이거나 화려한 motion이 아니라, 물리적인 반응감만 남긴 tactile motion** 이다.
+Typography is the second signature. `Ridgeway Sans` carries the commercial UI with a light 300 body and a 500 heading rhythm. `Copernicus` appears as the editorial voice: weight 500, line-height 1.1, and `letter-spacing: -.03em`. It is the caption style of an activist field report dropped into a retail page: not decorative heritage, not newspaper nostalgia, but dense editorial pressure where the brand needs a point of view. Do not rebuild this with Inter and a mountain photo; the personality will collapse.
+
+The observed screenshot is a waiting/maintenance state rather than the full live homepage: white header, black Patagonia wordmark, full-bleed outdoor image, and a translucent white information panel. I treat that as an important brand surface, but not as the only homepage state. The CSS and HTML show the broader commerce system: `hero-main`, `marketing-tile`, `product-tile`, `primary-navigation`, Bootstrap-style button variables, and a heavy responsive layer. Even in the waiting state, the site acts like a temporary ranger-station sign placed over the landscape: service message in a pale panel, brand mark overhead, nature carrying the emotional load.
+
+Negative identity matters here. There is no second brand color trying to become Patagonia green. There is no glossy gradient pretending to be a sunset. There is no card-shadow ladder turning the outdoors into a dashboard. The craft is quieter and more stubborn: image-first surfaces, `#000000`/`#FFFFFF` controls, `#91ABE9` focus affordances, small hover scale on buttons, and serif editorial accents placed sparingly.
 
 ### Key Characteristics
 
-- 기본 UI 축은 `#000` / `#fff` / `#f5f5f5` / `#121212`
-- `Ridgeway Sans` 300 body + `Copernicus` 500 serif accent
-- named outdoor palette: `#FA4616`, `#F47B29`, `#FEB904`, `#32B67A`, `#61845B`, `#485643`
-- button radius `3rem`, card radius `8px`, overlay card radius `1.6rem`
-- hero split layout: `50/50`, desktop 확장 시 `40/60` 또는 `60/40`
-- `.8rem` spacing rhythm과 Bootstrap gutter scale 기반
-- hover scale은 작게, easing은 cubic-bezier로 묵직하게
+- Monochrome core: `#000000` and `#FFFFFF` carry most brand interaction.
+- Photography does the emotional work; UI chrome stays plain and durable.
+- `Ridgeway Sans` for retail structure, `Copernicus` for editorial emphasis.
+- Body text often sits at weight 300; headings and links move to 500.
+- Primary CTAs are black pill buttons with `3rem` radius and `.2rem` border.
+- Button hover uses scale `1.044`, not color fireworks.
+- Product and marketing tiles use image crops with compact overlays.
+- Focus visibility is explicit: `#91ABE9` appears as a repeat focus border.
+- Breakpoints are Bootstrap-like but expanded through 1600px and 1800px.
+- There is no rich brand color ramp; color accents are functional states.
 
-### 🆕 BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Outdoor Utility Minimalism
-> **Aesthetic Category**: Utility Brutalism
-> **Signature Element**: 이 사이트는 **흑백 UI wrapper 위에 Patagonia named palette를 섹션 단위로만 꽂는 light/dark theme 전환**으로 기억된다.
-> **Code Complexity**: medium — Bootstrap 5 토큰층과 Demandware 모듈층이 공존하지만, 핵심 디자인 문법은 비교적 명확하다.
+### 🤖 Direction Summary (Machine Interface - DO NOT EDIT)
+
+> **BOLD Direction**: Outdoor Editorial
+> **Aesthetic Category**: other
+> **Signature Element**: 이 사이트는 **full-bleed outdoor photography restrained by black-and-white commerce controls**으로 기억된다.
+> **Code Complexity**: high — large responsive commerce CSS with hero, product, nav, tile, focus, and motion variants.
 
 ---
 
 ## 01. Quick Start
 <!-- SOURCE: auto+manual -->
 
-> 5분 안에 Patagonia처럼 만들기 — 3가지만 하면 80%
+> 5분 안에 Patagonia처럼 만들기 - 3가지만 하면 80%
 
 ```css
-/* 1. 폰트 + weight */
+/* 1. Font + weight */
+:root {
+  --pata-font-sans: "Ridgeway Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --pata-font-serif: "Copernicus", Georgia, serif;
+}
 body {
-  font-family: "Ridgeway Sans", system-ui, -apple-system, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans",
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: var(--pata-font-sans);
   font-weight: 300;
 }
 
-/* 2. 배경 + 텍스트 */
+/* 2. Monochrome commerce floor */
 :root {
-  --bg: #fff;
-  --fg: #000;
-  --surface: #f5f5f5;
-  --surface-dark: #121212;
-}
-body {
-  background: var(--bg);
-  color: var(--fg);
+  --pata-bg-page: #FFFFFF;
+  --pata-text: #000000;
+  --pata-muted: #4A4A4A;
+  --pata-focus: #91ABE9;
 }
 
-/* 3. accent palette */
-:root {
-  --brand: #FA4616;
-  --warning: #FEB904;
-  --success: #32B67A;
-  --earth-dark: #485643;
+/* 3. Pill CTA */
+.btn {
+  border-radius: 3rem;
+  border: .2rem solid transparent;
+  padding: .9rem 2.8rem;
+  font-weight: 500;
+}
+.btn-primary {
+  background: #000000;
+  color: #FFFFFF;
+}
+.btn:not(.btn-text-only):hover {
+  transform: perspective(1px) scale(1.044) translate(0, 0);
 }
 ```
 
-**절대 하지 말아야 할 것 하나**: 페이지 전체를 `#32B67A`나 `#61845B` 톤으로 칠하지 말 것. 현재 live Patagonia UI는 **`#000` / `#fff`가 기본이고**, `#FA4616`, `#F47B29`, `#FEB904`, `#32B67A`, `#61845B`, `#485643`는 상태색·테마색·캠페인 accent다.
+**절대 하지 말아야 할 것 하나**: Patagonia를 green/earth-tone palette 사이트로 만들지 말 것. 실제 UI의 canonical interaction color는 `#000000`이고, green/brown은 사진 안에 머문다.
 
 ---
 
@@ -101,58 +150,49 @@ body {
 | | |
 |---|---|
 | Source URL | `https://www.patagonia.com/home/` |
-| Fetched | 2026-04-23 |
-| Extractor | `curl_cffi.requests.Session(impersonate="safari")` + Demandware CSS regex |
-| HTML size | `384855` bytes (Demandware SSR) |
-| CSS files | 외부 `8`개 + 인라인 `<style>` `3`개, 총 `1757209`자 |
-| Token prefix | `--pata-*`, `--bs-*` |
-| Method | live HTML/CSS 직접 파싱 · hex/selector 실측 · Avenir 존재 여부 재검증 |
-
-> 확인 메모: 현재 live HTML/CSS에서는 `Avenir Next W02 Light` 문자열이 나오지 않았다. 예시 폴더의 기존 `_inline.css`는 site failover용 legacy 조각으로 보인다.
+| Fetched | 2026-04-23T11:49:00+09:00 |
+| Extractor | reused phase1 assets from `insane-design/patagonia/` |
+| HTML size | 384942 bytes |
+| CSS files | 9 CSS files, roughly 1.75 MB combined |
+| Token prefix | `pata` |
+| Method | existing CSS/HTML/screenshot reuse, phase1 JSON, manual interpretation |
+| Screenshot | `insane-design/patagonia/screenshots/hero-cropped.png` |
+| Caveat | Screenshot captured a waiting state, not a fully interactive retail homepage |
 
 ---
 
 ## 03. Tech Stack
 <!-- SOURCE: auto+manual -->
 
-- **Framework**: Salesforce Commerce Cloud / Demandware SSR (`/on/demandware.static/Sites-patagonia-us-Site/-/en_US/v1776882045978/`)
-- **Design system**: Patagonia theme vars (`--pata-*`) 위에 Bootstrap 5 vars (`--bs-*`) 를 얹은 구조
-- **CSS architecture**: Bootstrap foundation + Demandware component modules + inline theme wrapper
-  ```text
-  foundation  (--bs-*)              color / spacing / radius / breakpoints
-  brand       (--pata-*)            font family / theme aliases
-  modules     (.hero-main__*, .card-tile__*, .primary-navigation__*)
+- **Framework**: server-rendered commerce page with large compiled CSS bundle.
+- **Design system**: Patagonia local layer over Bootstrap-style variables.
+- **CSS architecture**:
+  ```css
+  :root                       --pata-font-* and --bs-breakpoint-*
+  .btn / .btn-primary          Bootstrap-like component variables
+  .hero-main / .marketing-tile Patagonia-specific experience components
+  .product-tile / .card        commerce listing components
   ```
-- **Class naming**: BEM-유사 semantic naming (`hero-main__headline`, `card__inner`, `primary-navigation__container`) + theme wrapper (`page-wrapper.is-light`, `.is-dark`)
-- **Default theme**: light (`bg = #fff`)
-- **Font loading**: HTML head의 `@font-face` + Demandware static font files (`RidgewaySans`, `GalaxieCopernicus`)
-- **Canonical anchor**: `#000` / `#fff` 모노크롬이 앵커, `#FA4616`·`#FEB904`·`#32B67A`·`#91ABE9`는 semantic accent
-- **Animation primitives**: `.2s` tactile hover, `.3s ~ .6s` content reveal, `.75s` image swap, reduced-motion 대응 포함
+- **Class naming**: BEM-like retail classes: `hero-main__overlay-info`, `product-tile__meta`, `primary-navigation-overflow`.
+- **Default theme**: mixed. Most UI surfaces are light, but hero/media components support dark and on-image modes.
+- **Font loading**: custom brand families exposed through CSS custom properties, with system fallbacks.
+- **Canonical anchor**: photography-first commerce, not abstract brand illustration.
 
 ---
 
 ## 04. Font Stack
 <!-- SOURCE: auto+manual -->
 
-- **Body/UI font**: `Ridgeway Sans` (HTML inline `@font-face`, Patagonia self-hosted woff/woff2)
-- **Serif accent**: `Copernicus` (`GalaxieCopernicus-Book.woff2`, italic variant 포함)
-- **Special variable**: `BT Belwe W01`가 `--pata-font-special`로 정의되지만 2026-04-23 홈 CSS 사용처는 확인되지 않음
-- **Code/System monospace**: `SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`
-- **Weight normal / bold**: `300` / `500` (UI emphasis), `strong`는 `700`
+- **Display font**: `Ridgeway Sans` for core UI, `Copernicus` for editorial/serif emphasis.
+- **Code font**: `SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`.
+- **Weight normal / bold**: `300` / `700`, with `500` as the dominant heading/link weight and `850` for heavy display cases.
 
 ```css
 :root {
-  --pata-font-sans: "Ridgeway Sans", system-ui, -apple-system, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans",
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
-  --pata-font-serif: "Copernicus", "Palatino Linotype", Palatino, Palladio,
-    "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style",
-    "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond",
-    "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook",
-    "Century Schoolbook L", Georgia, serif;
-  --pata-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  --pata-font-sans: "Ridgeway Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --pata-font-serif: "Copernicus", "Palatino Linotype", Palatino, Georgia, serif;
+  --pata-font-special: "BT Belwe W01", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --pata-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 body {
@@ -160,335 +200,491 @@ body {
   font-weight: 300;
 }
 
-.font__serif {
+.font__serif,
+.font__secondary {
   font-family: var(--pata-font-serif) !important;
   font-weight: 500 !important;
+  letter-spacing: -.03em !important;
+  line-height: 1.1 !important;
 }
 ```
 
-> `Avenir Next W02 Light`는 현재 live Patagonia 홈의 기준 폰트가 아니다. legacy failover CSS에만 남아 있으며, 실제 홈 UI를 재현하려면 `Ridgeway Sans`를 써야 한다.
+### Note on Font Substitutes
+
+- **Ridgeway Sans** is brand-specific. If unavailable, use `Avenir Next` first, then `Helvetica Neue`, then system UI. Keep body at 300 and links/headings at 500; do not compensate by making everything 400.
+- **Copernicus** can be approximated with `Georgia` or `Palatino`, but only with Patagonia's correction: `font-weight: 500`, `line-height: 1.1`, and `letter-spacing: -.03em`.
+- **BT Belwe W01** appears as a special voice token. If missing, avoid inventing a decorative replacement; fall back to the sans stack unless the exact editorial surface calls for it.
 
 ---
 
 ## 05. Typography Scale
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
 | Token | Size | Weight | Line-height | Letter-spacing |
 |---|---|---|---|---|
-| `hero-headline-xl` | `8rem -> 12.8rem` | `500` | `1.1` | `-0.02em` |
-| `hero-headline-l` | `6.4rem -> 9.6rem` | `500` | `1.1` | `-0.02em` |
-| `hero-headline-m` | `4rem -> 6.4rem` | `500` | `1.1` | `-0.02em` |
-| `hero-headline-s` | `3.2rem -> 4.8rem` | `500` | `1.1` | `-0.02em` |
-| `bootstrap-h1` | `calc(1.375rem + .9375vw) -> 2.5rem` | `500` | `1.2` | `0` |
-| `bootstrap-h2` | `calc(1.325rem + .5625vw) -> 2rem` | `500` | `1.2` | `0` |
-| `bootstrap-h3` | `calc(1.3rem + .375vw) -> 1.75rem` | `500` | `1.2` | `0` |
-| `serif-snippet` | `1.5rem` | `500` | `1.1` | `-0.03em` |
-| `body / p-md` | `1.4rem -> 1.6rem` | `300` | `1.5` | `0` |
-| `small / p-sm` | `1.2rem -> 1.4rem` | `300` | `1.5` | `0` |
-| `button-label` | `calc(1.285rem + .2625vw) -> 1.6rem` | `500` | `1.2` | `0` |
+| `body-sm` | `1.2rem` | `300` | `1.5` | `0` |
+| `body` | `1.4rem` | `300` | `1.5` | `0` |
+| `body-lg` | `1.6rem` | `300` | `1.5` | `0` |
+| `text-link` | `1.6rem` | `500` | inherited | underline on hover |
+| `heading` | `2rem` common | `500` | `1.2` | `0` |
+| `display-1` | `calc(1.625rem + 2.8125vw)` | `300` | `1.2` | `0` |
+| `serif-special` | contextual | `500` | `1.1` | `-.03em` |
 
-> ⚠️ Patagonia의 현재 টাই포 핵심은 `Avenir`가 아니라 `Ridgeway Sans 300` + `Copernicus 500` 조합이다. serif를 켜는 순간 tracking이 `-0.03em ~ -0.05em`으로 더 조여지고, 본문은 끝까지 300을 유지한다.
+> ⚠️ Key insight: Patagonia's typography is not heavy outdoor shouting. The commercial UI is light and functional, while editorial personality enters through `Copernicus` and tight negative tracking.
+
+### Principles
+
+1. Body is intentionally light at `300`; defaulting to `400` makes the commerce layer feel heavier than Patagonia's CSS.
+2. `500` is the structural weight: headings, links, serif accents, and button labels use it to create firmness without going corporate-bold.
+3. `Copernicus` is not a generic serif flourish. It uses `letter-spacing: -.03em` and `line-height: 1.1`, giving editorial density.
+4. Heavy `850` exists, but as a special case, not as the default hero voice.
+5. Text links are simple: no permanent decorative underline, but clear underline on hover where pointer devices exist.
+6. Japanese font stacks are explicitly specified, showing that localization is part of the system rather than an afterthought.
 
 ---
 
 ## 06. Colors
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-### 06-1. Core UI Ramp
+### 06-1. Brand Ramp (monochrome anchor)
 
-| Token | Hex | Usage |
+| Token | Hex |
+|---|---|
+| `--bs-btn-bg` in `.btn-primary` | `#000000` |
+| `--bs-btn-color` in `.btn-primary` | `#FFFFFF` |
+| `--bs-btn-hover-bg` | `black` / `#000000` |
+| `--bs-btn-active-bg` | `black` / `#000000` |
+
+### 06-2. Brand Dark Variant
+
+| Token | Hex |
+|---|---|
+| `.btn-light --bs-btn-bg` | `#FFFFFF` |
+| `.btn-light --bs-btn-color` | `#000000` |
+| `.btn-dark --bs-btn-hover-bg` | `#262626` |
+| `.btn-dark --bs-btn-active-bg` | `#333333` |
+
+### 06-3. Neutral Ramp
+
+| Step | Light | Dark |
 |---|---|---|
-| `--bs-black` | `#000` | primary text, dark CTA, nav, dark theme background |
-| `dark-surface` | `#121212` | dark card tiles, popover surfaces |
-| `meta-copy` | `#4A4A4A` | secondary text, quiet metadata |
-| `--bs-gray-100` | `#F5F5F5` | card tile surface, light neutral panels |
-| `--bs-white` | `#FFF` | page background, light CTA, light theme foreground pair |
+| page | `#FFFFFF` | `#000000` |
+| soft surface | `#F5F5F5` | `#121212` |
+| border | `#CCC` | `#4A4A4A` |
+| muted text | `#4A4A4A` | `#999999` |
+| transparent overlay | `#0000004D` | `#FFFFFF26` |
 
-### 06-2. Patagonia Named Accent Palette
-
-| Token | Hex | Usage |
-|---|---|---|
-| `red-brand` | `#FA4616` | `.text-red-brand`, `.btn-orange`, sale price accent |
-| `campfire-orange` | `#F47B29` | themed page wrapper accent |
-| `yellow-utility` | `#FEB904` | warning/low inventory, volunteer card theme |
-| `green-utility` | `#32B67A` | success/in-stock, validation, petition card theme |
-| `blue-utility` | `#91ABE9` | focus border, info, button focus ring |
-| `blue-brand` | `#003DA5` | secondary branded wrapper |
-| `purple-brand` | `#500778` | secondary branded wrapper |
-
-### 06-3. Earth-Tone Supporting Palette
+### 06-4. Accent Families
 
 | Family | Key step | Hex |
 |---|---|---|
-| `salvia-green` | pale sage | `#A8B197` |
-| `bloom-green` | fresh green | `#76B583` |
-| `steppe-green` | mid dark green | `#61845B` |
-| `hemlock-green` | dark sage | `#536657` |
-| `industrial-green` | deepest green | `#485643` |
-| `dried-mango` | muted amber | `#CA9456` |
-| `surfboard-yellow` | dusty amber | `#DAB965` |
-| `shrub-green` | olive accent | `#A19436` |
+| Focus | visible border | `#91ABE9` |
+| Checkout / sale | primary danger commerce | `#E10000` |
+| Pickup / backorder | operational badge | `#FA4616` |
+| Success | Bootstrap success action | `#32B67A` |
+| Warning | Bootstrap warning | `#FEB904` |
+| Link/bootstrap blue | third-party/system residue | `#003DA5` |
 
-### 06-4. Semantic System Colors
+### 06-5. Semantic
 
 | Token | Hex | Usage |
 |---|---|---|
-| `--bs-primary` | `#000` | primary button, dark theme anchor |
-| `--bs-secondary` | `#6C757D` | muted system text |
-| `--bs-success` | `#32B67A` | in-stock, pristine-valid, success fill |
-| `--bs-warning` | `#FEB904` | low stock dot, warning fill |
-| `--bs-danger` | `#E10000` | checkout, out-of-stock, destructive state |
-| `--bs-info` | `#91ABE9` | focus ring, info emphasis |
+| `bs-btn-primary-bg` | `#000000` | primary CTA, dark button, brand utility |
+| `bs-btn-primary-color` | `#FFFFFF` | primary CTA text, reverse surfaces |
+| `bs-focus-ring` | `#91ABE9` | focus-visible border across buttons and CTA circles |
+| `pata-sale-red` | `#E10000` | checkout and sale-related urgency |
+| `pata-badge-orange` | `#FA4616` | pickup/backorder badges |
+| `pata-neutral-soft` | `#F5F5F5` | product tags and pale utility surfaces |
+| `pata-text-muted` | `#4A4A4A` | disabled and muted text |
 
-### 06-5. Theme Alias Layer
+### 06-6. Semantic Alias Layer
 
 | Alias | Resolves to | Usage |
 |---|---|---|
-| `--pat-theme-back` | `#FFF` or `#000` | section background theme |
-| `--pat-theme-fore` | `#000` or `#FFF` | section foreground text |
-| `--pat-theme-cta-back` | `#FFF` or `#000` | overlay blurb text color / CTA contrast source |
-| `--pat-theme-cta-fore` | `#000` or `#FFF` | overlay card background / CTA inverse |
+| `.btn-primary --bs-btn-bg` | `#000000` | canonical CTA background |
+| `.btn-light --bs-btn-bg` | `#FFFFFF` | reverse CTA on dark/image surfaces |
+| `.btn-checkout --bs-btn-bg` | `#E10000` | commerce conversion state |
+| `.badge-pickup, .badge-backorder` | `#FA4616` | stock/shipping notices |
+| `.product-tag` | `#F5F5F5` | compact attribute chips |
+| focus-visible border | `#91ABE9` | keyboard accessibility |
 
-### 06-6. Dominant Colors (raw CSS frequency)
+### 06-7. Dominant Colors (actual CSS frequency)
 
-| Rank | Hex | Count | Role |
-|---|---|---|---|
-| `1` | `#FFF` | `746` | page bg, light button, inverse foreground |
-| `2` | `#000` | `721` | text, nav, dark CTA, dark theme |
-| `3` | `#91ABE9` | `284` | focus/info/outline accent |
-| `4` | `#CCC` | `106` | light hover border, outlined light states |
-| `5` | `#E10000` | `88` | checkout/danger/out-of-stock |
-| `6` | `#F5F5F5` | `68` | card tiles and neutral surfaces |
-| `7` | `#32B67A` | `56` | success/in-stock |
-| `8` | `#FA4616` | `52` | red-brand, orange CTA, sale value |
-| `9` | `#4A4A4A` | `44` | secondary copy |
-| `10` | `#FEB904` | `42` | warning/low inventory |
+| Token | Hex | Frequency signal |
+|---|---|---|
+| black shorthand | `#000` | highest CSS count |
+| white shorthand | `#FFF` | second major CSS count |
+| transparent black | `#0000` | frequent transparent/reset state |
+| focus blue | `#91ABE9` | repeated focus-visible color |
+| full black | `#000000` | repeated canonical CTA/text color |
+| border gray | `#CCC` | common chrome/hairline color |
+| checkout red | `#E10000` | repeated commerce urgency color |
+| soft neutral | `#F5F5F5` | utility surface and tags |
 
-> Patagonia의 현재 홈은 색이 없는 것이 아니라, **색을 늦게 보여주는** 구조다. 흑백이 1차 레이어, 자연 팔레트는 2차 레이어다.
+### 06-8. Color Stories
+
+**`{colors.bs-btn-primary-bg}` (`#000000`)** - Patagonia's real UI brand anchor. It is used for primary CTA backgrounds, button hover/active states, logo-like weight, overlay controls, loading mountain strokes, and dark badges. The site does not need a second chromatic brand color.
+
+**`{colors.bs-btn-primary-color}` (`#FFFFFF`)** - The reverse surface. It carries text on black controls and keeps on-image commerce readable without inventing translucent color systems.
+
+**`{colors.bs-focus-ring}` (`#91ABE9`)** - The accessibility accent. It appears repeatedly on `focus-visible` button and CTA states, acting as a functional blue rather than a decorative brand blue.
+
+**`{colors.pata-neutral-soft}` (`#F5F5F5`)** - The quiet utility floor. It appears in product tags and pale support surfaces, separating metadata from photography without turning the page into gray SaaS.
 
 ---
 
 ## 07. Spacing
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
 | Token | Value | Use case |
 |---|---|---|
-| `g-1` | `0.8rem (8px)` | micro gap, nav grid gap, CTA margin unit |
-| `g-2` | `1.6rem (16px)` | default gutter, base layout padding, overlay inset |
-| `g-3` | `2.4rem (24px)` | nav desktop vertical padding, hero inner mobile padding |
-| `g-4` | `3.2rem (32px)` | card content horizontal padding, slider nav figure mobile size |
-| `g-5` | `4rem (40px)` | slider container side padding multiplier |
-| `g-8` | `6.4rem (64px)` | hero desktop vertical padding, slider container tablet padding |
-| `g-10` | `8rem (80px)` | off-image hero side padding, on-image hero desktop, slider container desktop |
+| `.4rem` | 4px if root is 10px | heading margin, card title spacer |
+| `.8rem` | 8px | card padding, tag padding, mobile nav gaps |
+| `1.6rem` | 16px | row gutter, badge margin, tag gap, section micro rhythm |
+| `2.4rem` | 24px | overlay spacing, mobile top action padding |
+| `2.8rem` | 28px | button horizontal padding |
+| `3.2rem` | 32px | offcanvas nav padding |
+| `4rem` | 40px | hero caption padding, desktop content rhythm |
+| `5.6rem` | 56px | primary nav overflow gap |
+| `8rem` | 80px | desktop off-image hero side padding |
+| `13vw` | viewport-relative | hero caption side breathing room |
 
 **주요 alias**:
+- `--bs-gutter-x` -> `1.6rem` for grid rows.
+- `--primary-nav-offcanvas-padding-x` -> `3.2rem` for mobile menu.
+- `--bs-btn-padding-x` -> `2.8rem` for pill CTAs.
 
-- `--bs-gutter-x` — `1.6rem`; Patagonia 레이아웃 대부분이 여기서 출발한다.
-- spacing scale — `.8rem` 증분으로 증가하며, hero·slider·navigation·card 모두 같은 리듬을 공유한다.
+### Whitespace Philosophy
+
+Patagonia's spacing is field-practical, not gallery-luxury. Compact retail modules use `8px` and `16px` rhythms so product cards, badges, and tags remain scannable. Hero and image surfaces get larger viewport-relative breathing room because photography needs to carry narrative.
+
+The important contrast is "open image, compact commerce." A hero can sit full-bleed with wide air around captions, but a product tag is only `.8rem` padded and a nav offcanvas is measured in exact `3.2rem` rails. That tension keeps the brand rugged rather than precious.
 
 ---
 
 ## 08. Radius
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
 | Token | Value | Context |
 |---|---|---|
-| `--bs-border-radius-sm` | `4px` | small system control |
-| `--bs-border-radius` | `8px` | 기본 카드, card tile |
-| `--bs-border-radius-lg` | `12px` | larger panel shell |
-| `hero-overlay-info` | `1.6rem` | floating info card |
-| `feature-pill` | `2rem` | feature/filter pill |
-| `--bs-border-radius-xl` | `22px` | large system panel |
-| `--bs-btn-border-radius` | `3rem` | 모든 주요 CTA / pill button |
-| `circle` | `50%` | slider arrow figure, availability dot |
-
-> Patagonia는 button은 pill, card는 soft-rect, overlay는 medium-round로 분리한다. 하나의 radius 값으로 전부 통일하지 않는다.
+| `0` | `0` | resets, raw media edges, non-card primitives |
+| `2px` | `2px` | product tags and tiny utility chips |
+| `4px` | `4px` | small form/chrome elements |
+| `8px` / `.8rem` | `8px` | cards, marketing tile containers |
+| `1rem` | `10px` | medium component rounding |
+| `3rem` | `30px` | primary pill buttons |
+| `4rem` | `40px` | larger rounded CTA variants |
+| `50%` / `100%` | circular | icon buttons, media masks, CTA circles |
 
 ---
 
 ## 09. Shadows
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
 | Level | Value | Usage |
 |---|---|---|
-| `--bs-box-shadow-sm` | `0 .125rem .25rem #00000013` | 시스템 미세 elevation |
-| `--bs-box-shadow` | `0 .5rem 1rem #00000026` | bootstrap 기본 elevation |
-| `nav / slider figure` | `0 4px 5px #00000024, 0 1px 10px #0000001f, 0 2px 4px -1px #0003` | sticky nav, slider arrow, active press state |
-| `popover` | `0 3rem 6rem #0000004d` | large floating helper surface |
-| `dark slider figure` | `0 4px 5px #99999924, 0 1px 10px #9999991f, 0 2px 4px -1px #9993` | dark themed slider arrow |
+| none | `box-shadow: none` | default buttons and most chrome |
+| active-button | `0 4px 5px #00000024, 0 1px 10px #0000001F, 0 2px 4px -1px #0003` | button active press state |
+| focus | border-color `#91ABE9`, focus box shadow often zeroed | accessible focus state without glow-heavy styling |
+| image depth | photography itself | depth is from image content, not card shadow |
+
+Patagonia avoids the soft multi-layer card shadow language common in SaaS. Shadow is stateful and limited: active press feedback, occasional overlays, and image composition.
 
 ---
 
 ## 10. Motion
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-| Pattern | Value | Use |
+| Token | Value | Usage |
 |---|---|---|
-| `button hover` | `transform .2s cubic-bezier(.235,0,.05,.95)` | hover scale `1.044` |
-| `button active shadow` | `0 4px 5px #00000024, 0 1px 10px #0000001f, 0 2px 4px -1px #0003` | press feedback |
-| `hero content reveal` | `opacity .6s cubic-bezier(.38,.41,.27,1) .4s`, `transform .6s ... .4s` | hero load-in |
-| `hero overlay` | `opacity .4s cubic-bezier(.38,.41,.27,1)` | on-image dimming / overlay info |
-| `card tile` | `transform .3s cubic-bezier(.38,.41,.27,1)` | tile hover movement |
-| `product image swap` | `transform .75s cubic-bezier(.38,.41,.27,1), opacity .75s ...` | product hover swap |
-| `slider nav hover` | `transform .2s cubic-bezier(.235,0,.05,.95)` | hover scale `1.05` |
-
-> `prefers-reduced-motion` 분기가 넓게 들어가 있어서, motion이 있어도 강제로 몰아붙이지 않는다.
+| `button-hover-scale` | `scale(1.044)` | non-text buttons hover |
+| `button-transition` | `color/background/border/box-shadow .15s ease-in-out` | Bootstrap-like button state changes |
+| `overlay-info-enter` | `.6s cubic-bezier(.38,.41,.27,1)` | hero overlay content reveal |
+| `overlay-fade` | `.1s` to `.2s cubic-bezier(.38,.41,.27,1)` | information overlays |
+| `nav-overflow` | `.25s cubic-bezier(.22,.61,.36,1)` | dropdown/overflow visibility |
+| `product-hover-image` | `scale(1.0362)` | product tile image hover |
+| `reduced-motion` | transitions removed | `prefers-reduced-motion` respected |
 
 ---
 
 ## 11. Layout Patterns
 <!-- SOURCE: auto+manual -->
 
-### Primary Navigation
+### Grid System
 
-- `primary-navigation` background는 `var(--pat-theme-back)` (`#FFF` 또는 `#000`)
-- padding: mobile `0.8rem 0`, desktop `2.4rem 0`, sticky pinned `1.2rem 0`
-- `primary-navigation__container`: `grid-template-columns: 1fr 2fr 1fr`, gap `0.8rem`
-- logo width: `12rem` (min `10.8rem`, max `12rem`)
+- **Content max-width**: `.container` starts at `672px`; nav overflow content uses `86.4rem`; large screens add 1200/1400/1600/1800 breakpoints.
+- **Grid type**: Bootstrap flex rows plus component-specific CSS grid.
+- **Column count**: hero off-image variants use 50/50, 40/60, or 60/40 splits at desktop.
+- **Gutter**: `--bs-gutter-x: 1.6rem`.
 
-### Hero Main v2
+### Hero
 
-- base hero: CSS grid + positioned overlay
-- split hero: `50% / 50%` at `992px+`, `40% / 60%` or `60% / 40%` at `1200px+`
-- content max width: `40em` at `768px+`
-- on-image vertical padding: mobile `5.6rem`, tablet+ `8rem`
-- default overlay dim: `opacity: .4` for `hero-main--on-image`
-- overlay info card max-width: `34.3rem`, border-radius `1.6rem`
+- **Pattern Summary**: full-width media or 2-column hero + image/photo treatment + overlay/foreground content + pill CTA.
+- Layout: `.v2.hero-main` is a grid container; off-image left/right variants become two-column at `992px`.
+- Background: image/video capable, with `.hero-main__bg`, `.hero-main__overlay`, and `.hero-main__video-overlay`.
+- **Background Treatment**: image-led, not gradient-led. Overlay layers exist for readability and information reveals.
+- H1: variable by content; base headings use weight `500`, line-height `1.2`; display can use `calc(1.625rem + 2.8125vw)` at weight `300`.
+- Max-width: hero foreground uses grid columns and side padding up to `8rem`.
 
-### Card Tile
+### Section Rhythm
 
 ```css
-.card-tile .card__inner {
-  border-radius: 8px;
-  padding-top: 120.482%;
-  background-color: #F5F5F5;
-  transition: transform .3s cubic-bezier(.38,.41,.27,1);
+section {
+  padding: 2.4rem 1.6rem;
+  max-width: context-dependent;
 }
 
-.card-tile .card__content {
-  padding: 3rem 3.2rem 2rem;
+@media only screen and (min-width: 992px) {
+  .hero-main--off-image-left .hero-main__foreground-container {
+    padding-left: 8rem;
+    padding-right: 4rem;
+  }
 }
 ```
 
-- content wrapper height: `67%`
-- image wrap padding-top: `58.2524%`
-- dark theme tile surface: `#121212`
+### Card Patterns
 
-### Slider / Page Designer
+- **Card background**: `var(--bs-body-bg)` / usually `#FFFFFF`.
+- **Card border**: Bootstrap default exists, but local `.card{border:none}` appears in global layer.
+- **Card radius**: `var(--bs-border-radius)` and `.8rem` marketing tile radius.
+- **Card padding**: `.8rem` default card spacer.
+- **Card shadow**: generally none; image/product content carries depth.
 
-- container padding: `4rem var(--bs-gutter-x)` base
-- `768px+`: left/right `calc(var(--bs-gutter-x) * 4)` = `6.4rem`
-- `992px+`: left/right `calc(var(--bs-gutter-x) * 5)` = `8rem`
-- nav figure size: mobile `3.2rem`, tablet+ `6rem`
+### Navigation Structure
+
+- **Type**: horizontal primary navigation with overflow dropdown and offcanvas mobile variant.
+- **Position**: sticky behavior appears inside offcanvas top actions; primary overflow is absolute under nav.
+- **Height**: content-driven; offcanvas top action padding is `2.4rem 0 .8rem`.
+- **Background**: `#FFFFFF` for offcanvas top actions and light nav surfaces.
+- **Border**: minimal; focus and state borders matter more than persistent nav dividers.
+
+### Content Width
+
+- **Prose max-width**: not globally fixed; retail modules use component-level constraints.
+- **Container max-width**: `672px` base, with breakpoint variants from Bootstrap-style system.
+- **Sidebar width**: mobile offcanvas `33.6rem`, max `100%`.
 
 ---
 
 ## 12. Responsive Behavior
-<!-- SOURCE: auto -->
+<!-- SOURCE: auto+manual -->
 
-| Breakpoint | Value | Behavior |
+### Breakpoints
+
+| Name | Value | Description |
 |---|---|---|
-| `sm` | `576px` | bootstrap grid entry |
-| `md` | `768px` | nav padding increase, hero content max-width 활성화, slider nav `6rem` |
-| `lg` | `992px` | split hero, larger body copy, slider container `8rem`, vertical product tile ratio |
-| `xl` | `1200px` | bootstrap type scale cap, hero split `40/60` or `60/40` |
-| `xxl` | `1400px` | wide grid continuation |
-| `xxxl` | `1600px` | extra-wide spacing utility tier |
-| `xxxxl` | `1800px` | max utility expansion tier |
+| Mobile | `0-575px` | base styles, offcanvas nav, compact card/tag behavior |
+| Small | `576px` | Bootstrap small breakpoint |
+| Tablet | `768px` | product tags become visible; many grid shifts begin |
+| Desktop | `992px` | hero split layouts, primary nav overflow, desktop hover rules |
+| XL | `1200px` | hero columns shift to 40/60 or 60/40 |
+| XXL | `1400px` | large layout expansion |
+| XXXL | `1600px` | high-width responsive tuning |
+| XXXXL | `1800px` | extra-large viewport adjustments |
 
-**패턴 요약**:
+### Touch Targets
 
-- typography는 `992px` 또는 `1200px`에서 확정값으로 올라간다.
-- layout은 `768px`에서 breathing room, `992px`에서 구조 분할, `1200px`에서 hero ratio fine-tune이라는 3단계다.
+- **Minimum tap size**: buttons are roughly `calc(1.285rem + .2625vw)` text plus `.9rem` vertical padding, producing comfortable tap height.
+- **Button height mobile**: content-driven pill, visually around 44px+ depending root scale.
+- **Input height mobile**: not fully observed in homepage state; Bootstrap/form layer present.
+
+### Collapsing Strategy
+
+- **Navigation**: primary navigation switches to offcanvas with `33.6rem` width and sticky top actions.
+- **Grid columns**: flex/grid modules collapse before `768/992px`; desktop hero split begins at `992px`.
+- **Sidebar**: offcanvas maxes at `100%`, preventing overflow on narrow screens.
+- **Hero layout**: off-image hero becomes single flow below desktop, then 50/50 or 40/60 at large widths.
+
+### Image Behavior
+
+- **Strategy**: media-first with `object-fit: cover` or `contain`.
+- **Max-width**: common responsive image rules, product images capped by component.
+- **Aspect ratio handling**: images fill product/hero containers; object-position utility classes provide crop control.
 
 ---
 
 ## 13. Components
 <!-- SOURCE: auto+manual -->
 
-### Primary Button (`.btn-dark`, `.btn-light`, `.btn-orange`)
+### Buttons
 
 ```html
-<button class="btn btn-dark">Shop Men’s</button>
-<button class="btn btn-light">Read Stories</button>
-<button class="btn btn-orange">Sale</button>
+<a class="btn btn-primary" href="#">
+  <span>Shop now</span>
+</a>
 ```
 
 | Spec | Value |
 |---|---|
-| padding | `0.9rem 2.8rem` |
-| font-size | `calc(1.285rem + .2625vw) -> 1.6rem` |
-| font-weight | `500` |
-| line-height | `1.2` |
-| border-radius | `3rem` |
-| dark bg | `#000` |
-| light bg | `#FFF` |
-| orange bg | `#FA4616` |
-| hover | scale `1.044`, dark hover `#262626`, light hover `#D9D9D9 / #CCC` |
+| Padding | `.9rem 2.8rem` |
+| Radius | `3rem` |
+| Border | `.2rem solid transparent` |
+| Font | `var(--bs-body-font-family)` |
+| Size | `calc(1.285rem + .2625vw)` |
+| Weight | `500` |
+| Primary bg | `#000000` |
+| Primary text | `#FFFFFF` |
+| Hover | `scale(1.044)` for non-text buttons |
+| Active | multi-layer black alpha shadow |
+| Focus | `#91ABE9` border |
+| Disabled | opacity `.5`, pointer events none |
+| Loading | spinner with `border: 2px solid #fff` |
 
-### Primary Navigation (`.primary-navigation`)
+### Badges
 
 ```html
-<nav class="primary-navigation">
-  <div class="primary-navigation__container">
-    <a class="primary-navigation__logo">Patagonia</a>
-  </div>
-</nav>
+<span class="badge badge-pickup">Pickup</span>
 ```
 
-| Spec | Value |
-|---|---|
-| grid | `1fr 2fr 1fr` |
-| gap | `0.8rem` |
-| padding | `0.8rem` mobile / `2.4rem` desktop / `1.2rem` pinned |
-| shadow when pinned | `0 4px 5px #00000024, 0 1px 10px #0000001f, 0 2px 4px -1px #0003` |
-| logo width | `12rem` |
+| Variant | Background | Text | Notes |
+|---|---|---|---|
+| `badge-pickup` | `#FA4616` | `#FFFFFF` | operational inventory status |
+| `badge-backorder` | `#FA4616` | `#FFFFFF` | same urgent badge color |
+| `badge--generic` | `#FFFFFF` | `#000000` | neutral badge |
+| `hero-main.is-light .badge` | `#000000` | `#FFFFFF` | on-light hero inversion |
 
-### Card Tile (`.card-tile`)
+### Cards & Containers
 
 ```html
-<article class="card-tile">
-  <div class="card__inner">
-    <div class="card__content">...</div>
-  </div>
+<article class="card product-tile">
+  <div class="product-tile__image"></div>
+  <div class="product-tile__meta"></div>
 </article>
 ```
 
 | Spec | Value |
 |---|---|
-| surface | `#F5F5F5` light / `#121212` dark |
-| border-radius | `8px` |
-| ratio | `padding-top: 120.482%` |
-| content padding | `3rem 3.2rem 2rem` |
-| content wrapper height | `67%` |
-| transition | `transform .3s cubic-bezier(.38,.41,.27,1)` |
-| serif title | `Copernicus`, `500`, `-0.05em`, `1.1` |
+| Card bg | `var(--bs-body-bg)` |
+| Local border | often removed via `.card{border:none}` |
+| Base padding | `.8rem` |
+| Marketing tile radius | `.8rem` |
+| Product image | `object-fit: cover` |
+| Product hover | image scale `1.0362` or overlay opacity |
+| Overlay | black overlay with opacity transition |
 
-### Product Tile (`.product-tile-simple`)
+### Navigation
 
 ```html
-<div class="product-tile-simple">
-  <div class="product-tile-simple__image"></div>
-  <div class="sales"><span class="value">$179</span></div>
-</div>
+<nav class="primary-navigation">
+  <div class="primary-navigation-overflow"></div>
+</nav>
 ```
 
 | Spec | Value |
 |---|---|
-| image size | `9.6rem × 9.6rem` |
-| vertical desktop ratio | `315 / 380` |
-| hover image swap | `.75s cubic-bezier(.38,.41,.27,1)` |
-| sale value color | `#FA4616` |
+| Desktop overflow | absolute below nav, hidden until active |
+| Overflow transition | `.25s cubic-bezier(.22,.61,.36,1)` |
+| Tile in overflow | `30.5rem` wide, marketing tile max height `36.7rem` |
+| Offcanvas width | `33.6rem`, max `100%` |
+| Offcanvas padding | `3.2rem` x-axis |
+| Top actions | sticky, `#FFFFFF`, grid columns `auto auto 3.2rem` |
 
-### Hero Overlay Info (`.hero-main__overlay-info-content`)
+### Inputs & Forms
 
 | Spec | Value |
 |---|---|
-| border-radius | `1.6rem` |
-| width | `calc(100% - 1.6rem)` mobile / `max-width: 34.3rem` tablet+ |
-| padding | `1.6rem 2.4rem 1.6rem 1.6rem` |
-| background | `var(--pat-theme-cta-fore)` (`#FFF` or `#000`) |
-| motion | scale from `.1` to `1`, opacity staged reveal |
+| Reset | inputs remove native border/radius/outline |
+| Focus | global focus handling uses explicit `#91ABE9` for interactive controls |
+| Radio tile inventory | quantity/discount and waitlist messaging patterns exist |
+| Error motion | `btn-error` keyframe shakes horizontally `15px` |
+
+Inputs are present in the commerce system, but the provided homepage/waiting screenshot does not expose full validation states.
+
+### Hero Section
+
+```html
+<section class="v2 hero-main hero-main--on-image">
+  <div class="hero-main__bg"></div>
+  <div class="hero-main__overlay-info"></div>
+</section>
+```
+
+| Spec | Value |
+|---|---|
+| Layout | grid, image/on-image or off-image variants |
+| Desktop split | `50% 50%`, then `40% 60%` or `60% 40%` |
+| Overlay info | absolute, bottom aligned, opacity gated |
+| Overlay transition | `.6s cubic-bezier(.38,.41,.27,1)` |
+| Caption padding | `4rem 13vw` |
+| Foreground desktop padding | up to `8rem` on the outer side |
+
+### 13-2. Named Variants
+
+#### `button-primary`
+
+- Background `#000000`, text `#FFFFFF`, radius `3rem`.
+- Hover preserves black; interaction is scale, not hue shift.
+- Focus border uses `#91ABE9`.
+
+#### `button-light`
+
+- Background `#FFFFFF`, text `#000000`.
+- Used for reverse surfaces and on-image/dark contexts.
+- Hover moves toward `#D9D9D9` / `#CCC`.
+
+#### `button-checkout`
+
+- Background `#E10000`, text `#FFFFFF`.
+- Focus keeps checkout red but exposes `#91ABE9` border.
+- Use only for transactional checkout urgency, not brand decoration.
+
+#### `product-tag`
+
+- Background `#F5F5F5`, color `#000000`, radius `2px`.
+- Padding `.8rem`, size `1.2rem`, weight `300`.
+- Mobile shows first child; tablet+ can show more tags.
+
+#### `marketing-tile`
+
+- Image-led tile, radius `.8rem`, max height in nav overflow `36.7rem`.
+- Tile CTAs become smaller pills: radius `3rem`, padding `.5rem 2rem`, font size `1.2rem`.
+
+### 13-3. Signature Micro-Specs
+
+```yaml
+black-pill-scale-click:
+  description: "Primary CTAs feel like durable gear hardware rather than glossy ecommerce chrome."
+  technique: "background: #000000; color: #FFFFFF; border-radius: 3rem; border: .2rem solid transparent; padding: .9rem 2.8rem; hover transform: perspective(1px) scale(1.044) translate(0, 0)"
+  applied_to: ["{component.button-primary}", ".btn:not(.btn-text-only)", ".btn:not(.btn-underline)"]
+  visual_signature: "A black utility pill that subtly pushes forward on hover without changing brand hue."
+
+editorial-serif-tightening:
+  description: "Activism/editorial language gets a denser voice than the retail UI."
+  technique: "font-family: var(--pata-font-serif); font-weight: 500; letter-spacing: -.03em; line-height: 1.1"
+  applied_to: [".font__serif", ".font__secondary", ".font-special-sentinel"]
+  visual_signature: "A compact field-report caption texture dropped into otherwise plain sans commerce."
+
+functional-blue-focus-border:
+  description: "Accessibility color is functional, not a secondary brand palette."
+  technique: "focus-visible border-color: #91ABE9 with focus box-shadow frequently zeroed; used across black, light, dark, checkout, and circular CTA variants"
+  applied_to: ["{component.button-primary}", "{component.button-light}", "{component.checkout-button}", ".cta-circle"]
+  visual_signature: "A clear blue edge appears only when interaction needs it, cutting through the monochrome UI."
+
+photo-overlay-information-reveal:
+  description: "Hero and media modules let photography lead until supporting information is intentionally exposed."
+  technique: "absolute bottom-aligned overlay info; opacity/transform gates; transition: .6s cubic-bezier(.38,.41,.27,1); overlay fade .1s to .2s cubic-bezier(.38,.41,.27,1)"
+  applied_to: [".hero-main__overlay-info", ".hero-main__overlay", ".hero-main__video-overlay", "product overlay wrappers"]
+  visual_signature: "Text and controls rise out of the image instead of sitting in permanent decorative cards."
+
+compact-product-tag-chip:
+  description: "Product metadata is treated as clipped inventory labeling, not badge decoration."
+  technique: "background: #F5F5F5; color: #000000; border-radius: 2px; padding: .8rem; font-size: 1.2rem; font-weight: 300; first child visible on mobile, expanded tags from tablet"
+  applied_to: ["{component.product-tag}", ".product-tag", ".product-tile__meta"]
+  visual_signature: "Small pale rectangular chips sit close to product imagery like utilitarian catalog labels."
+```
+
+---
+
+## 14. Content / Copy Voice
+<!-- SOURCE: manual -->
+
+| Pattern | Rule | Example |
+|---|---|---|
+| Headline | Direct noun or activism/product topic, little ornament | "Activism" |
+| Primary CTA | Short retail command | "Shop now" style CTA expected |
+| Secondary CTA | Link-like, underline on hover | learn/read/explore actions |
+| Subheading | Plain explanation, not hype copy | outdoor sports, gear, activism |
+| Tone | Field-practical, advocacy-aware, commerce-capable | brand values and product utility coexist |
 
 ---
 
@@ -496,145 +692,74 @@ body {
 <!-- SOURCE: auto+manual -->
 
 ```css
-/* Patagonia 2026-04-23 live CSS distilled */
+/* Patagonia - copy into your root stylesheet */
 :root {
-  --pata-font-sans: "Ridgeway Sans", system-ui, -apple-system, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans",
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
-  --pata-font-serif: "Copernicus", "Palatino Linotype", Palatino, Palladio,
-    "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style",
-    "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond",
-    "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook",
-    "Century Schoolbook L", Georgia, serif;
+  /* Fonts */
+  --pata-font-sans: "Ridgeway Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --pata-font-serif: "Copernicus", "Palatino Linotype", Palatino, Georgia, serif;
+  --pata-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --pata-font-weight-normal: 300;
+  --pata-font-weight-heading: 500;
+  --pata-font-weight-bold: 700;
 
-  --pata-bg: #fff;
-  --pata-fg: #000;
-  --pata-surface: #f5f5f5;
-  --pata-surface-dark: #121212;
-  --pata-meta: #4a4a4a;
-  --pata-brand: #FA4616;
-  --pata-campfire: #F47B29;
-  --pata-warning: #FEB904;
-  --pata-success: #32B67A;
-  --pata-steppe: #61845B;
-  --pata-industrial: #485643;
-  --pata-info: #91ABE9;
+  /* Brand / UI colors */
+  --pata-color-black: #000000;
+  --pata-color-white: #FFFFFF;
+  --pata-color-focus: #91ABE9;
+  --pata-color-sale: #E10000;
+  --pata-color-pickup: #FA4616;
+  --pata-color-soft: #F5F5F5;
+  --pata-color-muted: #4A4A4A;
+  --pata-color-border: #CCC;
 
-  --pata-radius-card: 8px;
-  --pata-radius-panel: 12px;
+  /* Key spacing */
+  --pata-space-xs: .8rem;
+  --pata-space-sm: 1.6rem;
+  --pata-space-md: 2.4rem;
+  --pata-space-lg: 4rem;
+  --pata-space-xl: 8rem;
+
+  /* Radius */
+  --pata-radius-chip: 2px;
+  --pata-radius-tile: .8rem;
   --pata-radius-pill: 3rem;
-  --pata-shadow-elevated:
-    0 4px 5px #00000024,
-    0 1px 10px #0000001f,
-    0 2px 4px -1px #0003;
-  --pata-ease: cubic-bezier(.38, .41, .27, 1);
-  --pata-ease-hover: cubic-bezier(.235, 0, .05, .95);
 }
 
 body {
   font-family: var(--pata-font-sans);
-  font-size: 1rem;
-  font-weight: 300;
-  line-height: 1.5;
-  color: var(--pata-fg);
-  background: var(--pata-bg);
-}
-
-.pata-shell {
-  background: var(--pata-bg);
-  color: var(--pata-fg);
-}
-
-.pata-shell.is-dark {
-  background: #000;
-  color: #fff;
-}
-
-.pata-nav {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: .8rem;
-  padding: .8rem 1.6rem;
-}
-
-@media (min-width: 768px) {
-  .pata-nav {
-    padding-top: 2.4rem;
-    padding-bottom: 2.4rem;
-  }
-}
-
-.pata-hero {
-  padding: 5.6rem 1.6rem;
-  position: relative;
-}
-
-@media (min-width: 992px) {
-  .pata-hero {
-    padding-top: 8rem;
-    padding-bottom: 8rem;
-  }
-}
-
-.pata-hero h1 {
-  margin: 0 0 .8rem;
-  font-size: 4rem;
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -.02em;
-}
-
-@media (min-width: 992px) {
-  .pata-hero h1 {
-    font-size: 6.4rem;
-  }
-}
-
-.pata-hero .serif {
-  font-family: var(--pata-font-serif);
-  letter-spacing: -.05em;
+  font-weight: var(--pata-font-weight-normal);
+  background: var(--pata-color-white);
+  color: var(--pata-color-black);
 }
 
 .pata-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-  padding: .9rem 2.8rem;
-  border: 0;
+  border: .2rem solid transparent;
   border-radius: var(--pata-radius-pill);
-  font-size: calc(1.285rem + .2625vw);
+  padding: .9rem 2.8rem;
   font-weight: 500;
   line-height: 1.2;
-  transition: transform .2s var(--pata-ease-hover),
-    opacity .2s var(--pata-ease-hover);
+  transition: color .15s ease-in-out, background-color .15s ease-in-out,
+    border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.pata-btn:hover {
-  transform: scale(1.044);
+.pata-btn-primary {
+  background: var(--pata-color-black);
+  color: var(--pata-color-white);
 }
 
-.pata-btn.is-dark {
-  background: #000;
-  color: #fff;
+.pata-btn-primary:hover {
+  transform: perspective(1px) scale(1.044) translate(0, 0);
 }
 
-.pata-btn.is-light {
-  background: #fff;
-  color: #000;
+.pata-btn-primary:focus-visible {
+  border-color: var(--pata-color-focus);
 }
 
-.pata-card {
-  border-radius: var(--pata-radius-card);
-  background: var(--pata-surface);
-  overflow: hidden;
-  transition: transform .3s var(--pata-ease);
-}
-
-.pata-card.is-dark {
-  background: var(--pata-surface-dark);
-  color: #fff;
+.pata-serif {
+  font-family: var(--pata-font-serif);
+  font-weight: 500;
+  letter-spacing: -.03em;
+  line-height: 1.1;
 }
 ```
 
@@ -643,46 +768,125 @@ body {
 ## 17. Agent Prompt Guide
 <!-- SOURCE: manual -->
 
-### 이 디자인을 재현할 때 에이전트에게 줄 지시
+### Quick Color Reference
 
-- `Ridgeway Sans`를 body/UI 기본체로, `Copernicus`를 display/serif accent로만 사용하라.
-- body는 `font-weight: 300`, hero/headline/button은 `500`, 과한 bold는 `strong` 한정으로만 쓰라.
-- 기본 페이지 톤은 `#000` / `#FFF` / `#F5F5F5` / `#121212` 네 축으로 잡아라.
-- accent는 소량만 써라: `#FA4616`, `#F47B29`, `#FEB904`, `#32B67A`, `#61845B`, `#485643`.
-- 버튼은 `3rem` pill radius, 카드는 `8px`, hero overlays는 `1.6rem`로 분리하라.
-- hero는 `50/50` 또는 `40/60` split, content max-width `40em`, on-image overlay opacity `.4`를 기준으로 잡아라.
-- motion은 `.2s` hover / `.3s ~ .6s` reveal / `.75s` image swap 정도로만 제한하라.
-- `Avenir Next W02 Light`를 현재 Patagonia 홈 기준 폰트라고 가정하지 말 것.
+| Role | Token | Hex |
+|---|---|---|
+| Brand primary | `{colors.bs-btn-primary-bg}` | `#000000` |
+| Background | `{colors.bs-btn-primary-color}` | `#FFFFFF` |
+| Text primary | `{colors.bs-btn-primary-bg}` | `#000000` |
+| Text muted | `{colors.pata-text-muted}` | `#4A4A4A` |
+| Border | `{colors.pata-border-soft}` | `#CCC` |
+| Focus | `{colors.bs-focus-ring}` | `#91ABE9` |
+| Success | Bootstrap success | `#32B67A` |
+| Error / checkout | `{colors.pata-sale-red}` | `#E10000` |
 
-### 바로 붙여 넣는 프롬프트
+### Example Component Prompts
+
+#### Hero Section
 
 ```text
-Build a Patagonia-like marketing surface using a black/white-first outdoor utility system.
-Use Ridgeway Sans 300 for all body/UI text and Copernicus 500 only for editorial display or serif accents.
-Anchor the palette in #000, #FFF, #F5F5F5, and #121212, then add very small accents from #FA4616, #F47B29, #FEB904, #32B67A, #61845B, and #485643.
-Buttons must be pill-shaped with 3rem radius, cards 8px, hero overlays 1.6rem.
-Use split hero compositions (50/50 or 40/60), 0.8rem spacing rhythm, and tactile motion with .2s hover and .3s-.6s panel transitions.
-Do not use Avenir as the main font unless reproducing Patagonia's old failover page.
+Patagonia 스타일 히어로 섹션을 만들어줘.
+- 배경: full-bleed outdoor photography, gradient mesh 금지
+- H1: Ridgeway Sans, responsive display size, weight 300 or 500, line-height 1.2
+- editorial accent가 필요하면 Copernicus, weight 500, tracking -.03em, line-height 1.1
+- CTA: #000000 background, #FFFFFF text, 3rem radius, .9rem 2.8rem padding
+- Focus: #91ABE9 border
+- 레이아웃: mobile single flow, desktop 50/50 or on-image overlay
 ```
+
+#### Card Component
+
+```text
+Patagonia 스타일 product/marketing tile을 만들어줘.
+- 사진이 주인공: object-fit cover, image crop utilities
+- 카드 chrome은 최소화: border none or #CCC hairline, shadow none
+- radius: marketing tile .8rem, product tag 2px
+- tag: #F5F5F5 bg, #000000 text, .8rem padding, 1.2rem, weight 300
+- hover: image scale 1.0362 or overlay opacity transition, 큰 shadow 금지
+```
+
+#### Badge
+
+```text
+Patagonia 스타일 badge를 만들어줘.
+- generic badge: #FFFFFF bg, #000000 text
+- on-light hero badge: #000000 bg, #FFFFFF text
+- operational pickup/backorder: #FA4616 bg, #FFFFFF text
+- sale/checkout urgency는 #E10000, brand color로 남용하지 말 것
+```
+
+#### Navigation
+
+```text
+Patagonia 스타일 navigation을 만들어줘.
+- desktop: horizontal primary nav + overflow dropdown
+- mobile: offcanvas width 33.6rem max 100%, x padding 3.2rem
+- overflow transition: .25s cubic-bezier(.22,.61,.36,1)
+- overflow tile: image marketing tile radius .8rem, CTA pill radius 3rem
+- nav surface: #FFFFFF with black text, heavy decorative borders 금지
+```
+
+### Iteration Guide
+
+- **색상 변경 시**: green/brown outdoor palette를 UI brand로 만들지 말 것. 사진 안의 자연색과 UI token을 분리한다.
+- **폰트 변경 시**: `Ridgeway Sans` unavailable이면 `Avenir Next`로, `Copernicus` unavailable이면 `Georgia/Palatino`로 가되 `-.03em` serif correction을 유지한다.
+- **여백 조정 시**: small commerce modules use `.8rem/1.6rem`; hero/photography surfaces can use `4rem/8rem/13vw`.
+- **컴포넌트 추가 시**: black/white pill, explicit blue focus, no decorative gradient.
+- **모션 추가 시**: use `.15s` UI transitions and existing cubic-bezier curves. Do not introduce bouncy SaaS animation.
 
 ---
 
 ## 18. DO / DON'T
 <!-- SOURCE: manual -->
 
-### DO
+### ✅ DO
 
-- 배경/전경 기본쌍은 `#FFF` + `#000`으로 잡고, neutral surface는 `#F5F5F5`를 우선 사용한다.
-- dark insert는 `#121212`를 쓰고, pure black `#000`는 CTA·nav·dark wrapper에 집중시킨다.
-- accent는 의미가 있을 때만 쓴다: `#FA4616`(brand/sale), `#FEB904`(warning), `#32B67A`(success), `#61845B` / `#485643`(earth-tone campaign).
-- body는 `Ridgeway Sans` 300, serif title/snippet은 `Copernicus` 500과 `-0.03em ~ -0.05em` tracking을 유지한다.
-- 버튼은 `border-radius: 3rem`, 카드는 `8px`, overlay panel은 `1.6rem`로 계층별 radius를 분리한다.
+- Use `#000000` as the canonical interactive brand anchor.
+- Let photography carry atmosphere and color; keep UI chrome black, white, gray, and functional.
+- Keep body weight at `300` and headings/links/buttons at `500` unless a component explicitly uses `700` or `850`.
+- Use `Ridgeway Sans` for UI and `Copernicus` for editorial emphasis.
+- Preserve `#91ABE9` focus-visible affordances on interactive controls.
+- Use `3rem` pill radius for primary buttons and `2px` radius for product tags.
+- Use image overlay reveals and restrained scale transforms instead of large decorative animation.
+- Respect `prefers-reduced-motion` for hero/nav transitions.
 
-### DON'T
+### ❌ DON'T
 
-- 페이지 배경을 `#32B67A`, `#61845B`, `#485643`로 두지 말 것 — 기본 페이지는 `#FFF`, dark section만 `#000` 또는 `#121212`를 쓴다.
-- primary CTA를 `#32B67A`나 `#FEB904`로 두지 말 것 — 기본 CTA는 `#000` 또는 `#FFF`, 강한 브랜드 포인트가 필요할 때만 `#FA4616`을 쓴다.
-- 본문 텍스트를 `#4A4A4A`로 통일하지 말 것 — body는 `#000`, `#4A4A4A`는 meta/secondary copy에만 둔다.
-- body에 `font-weight: 400`을 기본값으로 두지 말 것 — 현재 live body는 `300`이 맞다.
-- body에 `font-family: "Avenir Next W02 Light"`를 쓰지 말 것 — 2026-04-23 live HTML/CSS 기준 메인 폰트는 `Ridgeway Sans`다.
-- 버튼과 카드에 모두 `border-radius: 0`을 적용하지 말 것 — 현재 Patagonia UI는 pill CTA `3rem` + card `8px` 조합이다.
+- 배경을 `#F4F4F4` 또는 cream으로 두지 말 것 - 대신 core page surfaces use `#FFFFFF`.
+- primary CTA를 `#2E7D32`, `#006B3F`, 또는 earth green으로 두지 말 것 - 대신 `#000000` 사용.
+- primary CTA 텍스트를 `#000000`으로 두지 말 것 - black CTA에는 `#FFFFFF` 사용.
+- body text를 `#333333`으로 통일하지 말 것 - primary text is `#000000`, muted states use `#4A4A4A`.
+- focus state를 `#006B3F` 또는 brand green으로 바꾸지 말 것 - observed focus border is `#91ABE9`.
+- checkout/action urgency를 `#FF0000`으로 재해석하지 말 것 - Patagonia commerce red is `#E10000`.
+- pickup/backorder badge를 `#E10000`로 합치지 말 것 - observed operational orange is `#FA4616`.
+- product tag background를 `#FFFFFF`로 비워두지 말 것 - compact tag surface uses `#F5F5F5`.
+- body에 `font-weight: 400`을 기본값으로 두지 말 것 - Patagonia body rhythm is weight `300`.
+- CTA를 `border-radius: 8px` 카드 버튼으로 만들지 말 것 - primary buttons use `3rem` pill radius.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- **Second brand color: none** - there is no Patagonia green/blue UI ramp in the observed CSS system.
+- **Decorative gradients: zero** - outdoor imagery provides atmosphere; gradient backgrounds would be synthetic.
+- **SaaS card shadow language: absent** - most chrome has no shadow, and active shadow is state feedback only.
+- **Inter default typography: never** - `Ridgeway Sans` and `Copernicus` are central to the brand.
+- **Rounded card abundance: absent** - radius exists, but cards do not become a soft dashboard.
+- **Permanent underline links: limited** - text links underline on hover, not as constant decoration.
+- **Bouncy motion: none** - transitions are short, cubic-bezier controlled, and reduce-motion aware.
+- **High-saturation accent palette: absent** - red/orange/blue are operational states, not palette decoration.
+- **Generic mountain illustration: none** - use actual photography or the real Patagonia mark, not hand-drawn SVG scenery.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Waiting state screenshot** - `hero-cropped.png` shows a "Sit tight" waiting/maintenance panel over outdoor photography. The full live homepage hero may differ.
+- **Single URL scope** - analysis is limited to `https://www.patagonia.com/home/` and reused local phase1 assets. Checkout, account, search, PDP, and cart flows were not visited.
+- **Color token extraction gap** - phase1 found `total_vars: 0` in resolved color tokens, even though compiled CSS contains many custom properties and Bootstrap-like component variables. Color interpretation is therefore CSS-pattern based, not full token-tier based.
+- **No official DS documentation** - `lv2` is inferred from CSS consistency and component classes, not from a public Patagonia design system guide.
+- **Form validation states not fully surfaced** - form/reset and radio inventory classes exist, but the provided homepage state does not expose complete input, error, success, and loading flows.
+- **Motion JS not audited** - CSS transitions and keyframes were observed, but JavaScript-driven scroll, carousel, and lazy-load behavior was not deeply traced.
+- **Logo/SVG color contamination possible** - CSS frequency includes icon, Bootstrap, and operational colors. Brand color was selected by interaction role, not raw frequency alone.
+- **Mobile visual measurement not screenshot-verified** - responsive behavior is derived from media queries and component CSS, not a fresh mobile screenshot.
+- **Exact root rem scale assumed** - CSS uses rem heavily and `font-size: var(--bs-root-font-size)`; pixel conversions assume the common 10px-style commerce root where applicable.

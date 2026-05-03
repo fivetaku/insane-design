@@ -1,528 +1,770 @@
 ---
-schema_version: 3.1
+schema_version: 3.2
 slug: framer
 service_name: Framer
 site_url: https://www.framer.com
-fetched_at: 2026-04-20
+fetched_at: 2026-05-03T06:31:26Z
 default_theme: dark
 brand_color: "#0099FF"
-primary_font: Inter
+primary_font: "Inter Display"
 font_weight_normal: 400
-token_prefix: --framer-*, --token-*
+token_prefix: framer
 
-bold_direction: "Motion-First Dark"
-aesthetic_category: "Cool Productivity"
+bold_direction: Monochrome Launchpad
+aesthetic_category: Refined SaaS
 signature_element: hero_impact
 code_complexity: high
 
 medium: web
 medium_confidence: high
+
+archetype: saas-marketing
+archetype_confidence: high
+design_system_level: lv2
+design_system_level_evidence: "Framer-generated page with 154 CSS variables, 93 resolved tokens, repeated component classes, and consistent dark SaaS marketing patterns."
+
+colors:
+  primary: "#0099FF"
+  surface-dark: "#000000"
+  surface-card: "#080808"
+  text-primary: "#FFFFFF"
+  text-muted: "#999999"
+  hairline-dark: "#FFFFFF1A"
+  ink-card: "#2B2B2B"
+typography:
+  display: "Inter Display"
+  body: "Inter"
+  mono: "JetBrains Mono"
+  ladder:
+    - { token: hero, size: "clamp(72px, 9vw, 112px)", weight: 700, tracking: "-0.05em" }
+    - { token: headline, size: "48px", weight: 700, tracking: "-0.04em" }
+    - { token: body-large, size: "24px", weight: 400, tracking: "-0.01px" }
+    - { token: nav, size: "14px", weight: 400, tracking: "0" }
+  weights_used: [100, 200, 300, 400, 500, 600, 700, 800, 900]
+  weights_absent: []
+components:
+  button-primary: { bg: "#FFFFFF", fg: "#000000", radius: "100px", padding: "10px 16px" }
+  button-secondary-dark: { bg: "#2B2B2B", fg: "#FFFFFF", radius: "100px", padding: "10px 16px" }
+  nav-link-muted: { fg: "#999999", hover: "#FFFFFF" }
+  dark-card: { bg: "#080808", border: "#FFFFFF1A", radius: "10px" }
 ---
 
-# DESIGN.md — Framer (Claude Code Edition)
+# DESIGN.md - Framer
 
 ---
 
-## 00. Visual Theme & Atmosphere
+## 00. Direction & Metaphor
+<!-- SOURCE: auto+manual -->
 
-Framer의 마케팅 사이트는 **"캔버스 위에서 살아 움직이는 노코드 디자인 툴"**의 정체성을 시각적으로 증명한다. 전체 페이지는 거의 순흑에 가까운 `#080808`, `#090909`, `#141414` 의 3단 dark 레이어로 깔리고, 그 위에 거의 시그니처처럼 반복되는 **cyan `#0099FF` (#09F)** 점광원이 포인트 악센트로 등장한다. 페이지를 스크롤하면 scene 단위로 전환되는데, 각 scene은 미묘하게 다른 블랙 셰이드(`#171717` / `#1A1A1A` / `#1F1F1F`)로 구분되어 "똑같은 검정 아님"을 느끼게 설계되었다.
+### Narrative
 
-색상 전략은 **"모션이 컬러다"**에 가깝다. 정적인 팔레트로는 dark neutral + cyan 단색처럼 보이지만, 히어로와 블록 전환부에서 gradient (`#05f → #60f → #90f`)와 accent (`#FFEEAA` 버터옐로, `#FF7EB0` 핑크, `#ff9e00` 오렌지) 점광이 interaction 시에만 번진다. `#ffffff1a`, `#fffc`, `#fff9`, `#fff6` 같은 white-alpha 토큰을 층층이 겹쳐 glass/surface layering을 만든다 — 이게 Framer 특유의 "유리처럼 겹쳐진 패널" 느낌이다.
+Framer's homepage behaves like a black launch stage, not a conventional product landing page. The first screen is almost entirely #000000 (`{colors.surface-dark}`), and the product promise lands through huge white typography rather than illustration. It is closer to a midnight product keynote than a SaaS brochure: one hard message under a spotlight, with the surrounding chrome reduced to near silence.
 
-타이포그래피는 **Inter + Inter Display + Inter Tight**의 Inter family 3종을 축으로 삼는다. 히어로는 **Inter Display** 큰 타이틀 — 마케팅 hero 클래스 특화 폰트. 본문은 **Inter**, 강조는 **Inter Variable**. 코드 블록만 **JetBrains Mono** 또는 **Geist Mono**. 덤으로 **GT Walsheim Medium** 같은 유료 제품 타이틀용 폰트가 특정 랜딩(Marketing, GT Walsheim Framer Medium)에서 등장한다 — variable 대신 static weight를 선호.
+The brand color is present, but it does not lead the first impression. #0099FF (`{colors.primary}`) appears in the token set and selection/link system, yet the visible homepage identity is closer to monochrome confidence: white headline, gray body, black field, small pill CTAs. There is no second brand-color performance in the hero. The blue is backstage wiring, not the stage light; do not turn Framer into a blue SaaS page just because the chromatic token exists.
 
-레이아웃은 **canvas 그 자체**를 은유한다. section 간 큰 간격 없이 scroll-snap 류 스크롤링으로 scene을 연결하고, 각 scene은 full-bleed 이미지·비디오를 배경으로 깔고 텍스트는 overlay. hero나 feature 블록은 `border-radius: 24px ~ 32px`로 둥글게 감싸고, shadow 대신 bg layering으로 elevation. 카드 radius는 주로 `16px`·`24px`.
+Typography carries the drama. `Inter Display` and `Inter` dominate the extracted font families, while the hero uses extremely compressed display rhythm: oversized text, heavy weight, and negative tracking around `-0.05em`. The letters feel pressed into one block of white vinyl on black acrylic. The subcopy falls back to muted #999999 (`{colors.text-muted}`), so the paragraph behaves like a caption under a gallery title: useful, quiet, and never allowed to steal the wall.
 
-인터랙션이 브랜드다. Framer는 **hover에 motion이 따라오는 것**을 기본으로 설계한다 — transform scale, opacity fade, gradient shimmer. transition은 `.2s–.4s ease-out`이 주류. focus outline은 대개 `--framer-outline-color: #0099FF` cyan 2px ring.
+The below-the-fold preview strip is the second signature. It brings site thumbnails and product examples up from the bottom edge, so the hero is not an abstract claim. The page says "build better sites" and immediately opens a light table of miniature websites under the black stage, like a studio desk where finished mockups are waiting to be inspected.
+
+The structural craft is almost negative space. Borders are not really borders; they are #FFFFFF1A (`{colors.hairline-dark}`) scratches in the dark. Shadows belong to preview evidence, not to loud interface chrome. Framer's page has very little "site" self-consciousness: the frame disappears, the claim lands, and the product examples do the proof work.
 
 ### Key Characteristics
 
-- Dark 3-5단 레이어 (`#080808` / `#090909` / `#141414` / `#171717` / `#1A1A1A`)
-- Cyan `#0099FF` (#09F) 단일 시그니처 악센트
-- Inter + Inter Display + Inter Tight — family 조합형
-- White-alpha layering (`#fff9`, `#fff6`, `#fffc` 등으로 glass 효과)
-- border-radius 16–32px — 카드부터 hero까지 둥글둥글
-- scroll-snap scene 연결 — section 단절감 없음
-- hover에 무조건 motion — scale, opacity, gradient shimmer
+- Black-first hero surface: #000000 is the primary atmosphere, not a dark-mode variant.
+- White oversized display headline: #FFFFFF on black with tight tracking.
+- Muted gray supporting copy: #999999 keeps the body text secondary.
+- Pills over rectangles: CTAs use rounded capsule geometry, commonly 100px radius.
+- Brand blue is restrained: #0099FF exists as accent/selection/link color, not broad page wash.
+- Preview-strip storytelling: site examples appear as a horizontal product shelf below the hero.
+- Framer-generated CSS signature: hashed component classes plus `--framer-*` rich text variables.
+- Thin dark dividers: #FFFFFF1A and similar alpha whites define edges without visible chrome.
+- Motion/craft bias: blur, dark shadows, and reveal-like composition matter more than color ramps.
 
-### BOLD Direction Summary (apply Lv3 입력점)
+---
 
-> **BOLD Direction**: Motion-First Dark
-> **Aesthetic Category**: Cool Productivity
-> **Signature Element**: 이 사이트는 **near-black 3단 위 cyan `#09F` 단일 악센트 + white-alpha layering + hover-driven motion**으로 기억된다.
-> **Code Complexity**: high — variable axis + gradient + scroll-driven transitions 복합
+### 🤖 Direction Summary (Machine Interface — DO NOT EDIT)
+
+> **BOLD Direction**: Monochrome Launchpad
+> **Aesthetic Category**: Refined SaaS
+> **Signature Element**: 이 사이트는 **black-stage hero impact**으로 기억된다.
+> **Code Complexity**: high — Framer runtime CSS, many generated component classes, blur/shadow craft, responsive variants, and rich preview surfaces.
 
 ---
 
 ## 01. Quick Start
+<!-- SOURCE: auto+manual -->
 
 > 5분 안에 Framer처럼 만들기 — 3가지만 하면 80%
 
 ```css
-/* 1. 폰트 + weight */
+/* 1. Font + weight */
 body {
-  font-family: "Inter", "Inter Variable", "SF Pro Display", -apple-system, sans-serif;
+  font-family: "Inter", "Inter Variable", -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
-  font-feature-settings: "cv11";
 }
 
-/* 2. 배경 + 텍스트 (dark primary) */
+h1 {
+  font-family: "Inter Display", "Inter", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+
+/* 2. Background + text */
 :root {
-  --framer-bg: #080808;
-  --framer-surface: #141414;
+  --framer-bg: #000000;
   --framer-fg: #FFFFFF;
-  --framer-fg-muted: rgba(255,255,255,0.6);
+  --framer-muted: #999999;
 }
 body { background: var(--framer-bg); color: var(--framer-fg); }
 
-/* 3. cyan accent */
-:root {
-  --framer-accent: #0099FF;
-  --framer-accent-soft: #ffffff1a;
-}
+/* 3. Accent: keep it narrow */
+:root { --framer-accent: #0099FF; }
+::selection { background: color-mix(in srgb, var(--framer-accent) 30%, transparent); }
 ```
 
-**절대 하지 말아야 할 것 하나**: 모든 dark 배경을 동일한 검정으로 두지 마라. Framer는 `#080808 / #090909 / #141414 / #171717` 4-5 단 미세 레이어로 "panel 겹침"을 만든다. 단일 `#000000` 배경은 OLED TV지, Framer가 아니다.
+**절대 하지 말아야 할 것 하나**: Framer를 #0099FF 중심의 파란 SaaS 페이지로 만들지 말 것. 실제 첫인상은 #000000 / #FFFFFF / #999999의 monochrome hero다.
 
 ---
 
 ## 02. Provenance
+<!-- SOURCE: auto -->
 
 | | |
 |---|---|
 | Source URL | `https://www.framer.com` |
-| Fetched | 2026-04-20 |
-| Extractor | curl + Chrome UA (5-tier fallback) |
-| HTML size | 추출 완료 (Framer Next.js build) |
-| CSS files | 1개 인라인 478KB (`00-inline.css`) |
-| Token prefix | `--framer-*`, `--token-{uuid}` |
-| Method | CSS 커스텀 프로퍼티 직접 파싱 · AI 추론 없음 |
+| Fetched | 2026-05-03T06:31:26Z |
+| Extractor | reused existing phase1 assets from `insane-design/framer/` |
+| HTML size | 2,922,973 bytes (Framer generated site, generator `Framer e1ab3a2`) |
+| CSS files | 1 inline CSS file, 478,309 chars |
+| Custom properties | 1,097 declarations observed in inline CSS scan |
+| Resolved tokens | 93 resolved / 154 total variables |
+| Token prefix | `framer` plus generated `--token-*` UUID variables |
+| Method | phase1 JSON + inline CSS summary + hero screenshot inspection |
 
 ---
 
 ## 03. Tech Stack
+<!-- SOURCE: auto+manual -->
 
-- **Framework**: Framer Web Publish (자체 빌드) · React 18
-- **Design system**: 내부 토큰 — `--framer-*` semantic + `--token-{uuid}` raw value
-- **CSS architecture**: token-uuid + semantic alias 2-tier
+- **Framework**: Framer-generated marketing site (`generator: Framer e1ab3a2`)
+- **Design system**: Framer runtime tokens — prefix `--framer-*` for rich text, UUID `--token-*` for site tokens
+- **CSS architecture**:
+  ```css
+  --framer-*          rich text, link, code, blockquote, selection variables
+  --token-uuid        generated site color tokens, mostly core values
+  .framer-xxxxx       generated component/layout classes
+  [data-framer-*]     runtime and component-state hooks
   ```
-  uuid    (--token-c534b380-e14e-...)       raw hex/value (UUID 네임)
-  alias   (--framer-text-color, --framer-bg-color)  semantic 이름
-  ```
-- **Class naming**: `framer-{hash}` 해시 기반 (`.framer-text` + data-attribute)
-- **Default theme**: dark (`#080808` page bg)
-- **Font loading**: Framer CDN — Inter family + Inter Display + JetBrains Mono + 유료 GT Walsheim
-- **Canonical anchor**: `#0099FF` (`#09F`) — cyan accent, outline color
+- **Class naming**: generated `.framer-*` hashes and responsive `hidden-*` utilities
+- **Default theme**: dark (`#000000` hero field)
+- **Font loading**: embedded `@font-face` and external font declarations; top families are `Inter`, `Inter Display`, `Inter Variable`
+- **Canonical anchor**: centered homepage hero with "Build better sites, faster" and a bottom preview strip of real site cards
 
 ---
 
 ## 04. Font Stack
+<!-- SOURCE: auto+manual -->
 
-- **Display**: `Inter Display` (Rasmus Andersson · OFL)
-- **Body**: `Inter` / `Inter Variable`
-- **Tight variant**: `Inter Tight` (마케팅 title)
-- **Code**: `JetBrains Mono` / `Geist Mono`
-- **Premium**: `GT Walsheim Framer Medium` (Grilli Type, 유료)
-- **Weight normal / bold**: `400` / `600`
+- **Display font**: `Inter Display`
+- **Body font**: `Inter`
+- **Variable/body fallback**: `Inter Variable`, `Inter Variable Placeholder`, `sans-serif`
+- **Code font**: `JetBrains Mono` appears in CSS; `Geist Mono`, `Azeret Mono`, and other demo fonts appear in preview/site examples
+- **Weight normal / bold**: `400` / `700`
 
 ```css
 :root {
-  --framer-font-sans: "Inter","Inter Variable","Inter Display",
-    -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto",sans-serif;
-  --framer-font-mono: "JetBrains Mono","Geist Mono",
-    ui-monospace,"SF Mono","Menlo",monospace;
+  --framer-font-family: "Inter", "Inter Variable", sans-serif;
+  --framer-display-family: "Inter Display", "Inter", sans-serif;
+  --framer-code-font-family: "JetBrains Mono", ui-monospace, monospace;
   --framer-font-weight-normal: 400;
-  --framer-font-weight-bold: 600;
+  --framer-font-weight-bold: 700;
 }
-body { font-family: var(--framer-font-sans); }
+
+body {
+  font-family: var(--framer-font-family);
+  font-weight: var(--framer-font-weight-normal);
+}
+
+.hero-title {
+  font-family: var(--framer-display-family);
+  font-weight: var(--framer-font-weight-bold);
+  letter-spacing: -0.05em;
+}
 ```
 
-> **라이선스 주의**: GT Walsheim은 유료. 복제 시 `Inter Display`만으로 충분.
+### Note on Font Substitutes
+
+- **Inter Display** — If exact display metrics are unavailable, use `Inter` or `Inter Variable` with tighter optical compensation.
+  - Open-source 대안: **Inter** at weight `700` with `letter-spacing: -0.05em` for hero-scale text.
+  - 보정: line-height should stay compact, around `0.92-1.02`, because the screenshot headline stacks large words tightly.
+  - 보정: body copy may keep near-zero tracking (`-0.01px` appears frequently), but display text needs stronger negative tracking.
+- **JetBrains Mono** — Use only for code/demo surfaces. It is not the homepage voice.
 
 ---
 
 ## 05. Typography Scale
+<!-- SOURCE: auto+manual -->
 
 | Token | Size | Weight | Line-height | Letter-spacing |
-|---|---|---|---|---|
-| caption | `12px` | 400 | 1.5 | 0 |
-| small | `14px` | 400 | 1.5 | 0 |
-| body | `16px` | 400 | 1.6 | -0.005em |
-| lead | `18px` | 400 | 1.55 | -0.01em |
-| h4 | `20px` | 500 | 1.4 | -0.01em |
-| h3 | `24px` | 600 | 1.3 | -0.02em |
-| h2 | `32px` | 600 | 1.2 | -0.02em |
-| h1 | `48px` | 600 | 1.1 | -0.03em |
-| display | `72px` | 600 | 1.05 | -0.04em |
-| hero-xxl | `96–128px` | 600 | 1.0 | -0.05em |
+|---|---|---:|---|---|
+| hero-display | `clamp(72px, 9vw, 112px)` | 700 | `0.92-1.02` | `-0.05em` |
+| hero-body | `22-26px` | 400 | `1.28-1.38` | `-0.01px` |
+| section-heading | `44-64px` | 700 | `1.0-1.08` | `-0.04em` |
+| card-title | `16-24px` | 500 / 700 | `1.2-1.35` | `0` to `-0.01px` |
+| nav-link | `14px` | 400 | `1` | `0` |
+| small-label | `13-14px` | 500 | `1.2` | `0` |
 
-> ⚠️ Framer는 Inter Display와 Inter Tight를 혼용한다 — hero는 Inter Display weight 600 letter-spacing `-0.04em`. 본문 `-0.005em` 미세 tracking이 독특.
+> ⚠️ Typography key insight: Framer's homepage is not "Inter generic". It is Inter with display-scale compression, large white mass, and muted gray subcopy.
+
+### Principles
+
+1. Hero type is built from mass and compression: huge white letters, tight line-height, and `-0.05em` style optical tightening.
+2. Body copy does not compete with the headline. #999999 and regular weight keep it quiet.
+3. Navigation is intentionally low-contrast. Links read as gray system chrome until action is needed.
+4. Weight 500 is used in interface moments, but the main hero relies on the 400/700 split.
+5. Demo/preview cards may introduce other fonts, but those are content examples, not the homepage system voice.
 
 ---
 
 ## 06. Colors
+<!-- SOURCE: auto+manual -->
 
-### 06-1. Brand Anchor
+### 06-1. Brand Ramp (observed accent steps)
 
 | Token | Hex |
 |---|---|
-| `--framer-accent` | `#0099FF` |
-| `--framer-accent-short` | `#09F` |
-| `--framer-accent-deep` | `#05F` |
-| `--framer-accent-purple` | `#60F` |
-| `--framer-accent-magenta` | `#90F` |
+| `--selection-color` | `#0099FF` |
+| `--token-7caf96a9-3685-4995-95cd-92a16705da21` | `#0099FF` |
+| `--token-bd71055c-0a2c-4476-8cc9-4310acba652d` | `#0099FF` |
+| `--token-eb0d9e00-7216-491c-99d5-7c1c2f3d0dbe` | `#0055FF` |
+| `--token-0245ad54-dffa-4280-9b49-9d43ad68acaa` | `#6600FF` |
 
-### 06-3. Neutral Dark Ramp (5-step near-black)
+### 06-2. Brand Dark Variant
 
-| Step | Hex | Usage |
+> N/A — the homepage uses a dark base, but not a separate named dark brand ramp. The dark identity comes from neutral surfaces.
+
+### 06-3. Neutral Ramp
+
+| Step | Light / Alpha | Dark / Solid |
 |---|---|---|
-| page | `#080808` | 최상위 페이지 배경 |
-| base | `#090909` | alt base |
-| surface | `#141414` | 카드/패널 배경 |
-| elevated | `#171717` | 호버/포커스 패널 |
-| floating | `#1A1A1A` | modal/popover |
-| subtle | `#1F1F1F` | section divider |
-| border-soft | `#212121` | border 기본 |
-| border | `#222222` | strong border |
-| border-strong | `#242424` | divider strong |
-| tint | `#2B2B2B` | input tint |
-| tint-2 | `#2E2E2E` | input hover |
-| text-q | `#888888` | text quaternary |
-| text-m | `#999999` | text muted |
-| text-s | `#666666` | text strong muted |
-| text-pri | `#FFFFFF` | text primary |
-| ink | `#000000` | dark ink (rare) |
+| white | `#FFFFFF` | `#FFFFFF` |
+| white-alpha-10 | `#FFFFFF1A` | `#FFFFFF1A` |
+| white-alpha-08 | `#FFFFFF14` | `#FFFFFF14` |
+| muted | `#999999` | `#999999` |
+| card-ink | `#2B2B2B` | `#2B2B2B` |
+| deep-card | `#080808` | `#080808` |
+| near-black | `#1A1A1A` | `#1A1A1A` |
+| base | `#000000` | `#000000` |
 
-### 06-4. Accent / Highlight
+### 06-4. Accent Families
 
-| Family | Hex | Use |
+| Family | Key step | Hex |
 |---|---|---|
-| cyan-accent | `#0099FF` | 기본 브랜드 |
-| butter | `#FFEEAA` | highlight 포인트 |
-| gradient-blue | `#05F` | hero gradient start |
-| gradient-purple | `#60F` | gradient middle |
-| gradient-magenta | `#90F` | gradient end |
+| Blue | primary selection/link | `#0099FF` |
+| Blue deep | secondary accent | `#0055FF` |
+| Purple | demo/accent token | `#6600FF` |
+| Magenta | demo/accent token | `#FF0066` |
+| Orange | demo/accent token | `#FD7702` |
+| Yellow | demo/accent token | `#FFBB00` |
+| Cyan | demo/accent token | `#00CCFF` |
 
-### 06-5. Alpha Layers (Framer 시그니처)
+### 06-5. Semantic
 
 | Token | Hex | Usage |
 |---|---|---|
-| white-alpha-10 | `#ffffff1a` (10% α) | soft divider, glass layer |
-| white-alpha-60 | `#fff6` (40% α) | muted text on dark |
-| white-alpha-75 | `#fff9` (56% α) | text secondary on dark |
-| white-alpha-80 | `#fffc` (80% α) | text primary on dark alt |
+| `{colors.surface-dark}` | `#000000` | page/hero background |
+| `{colors.text-primary}` | `#FFFFFF` | hero headline, primary CTA surface |
+| `{colors.text-muted}` | `#999999` | subcopy, nav links, secondary copy |
+| `{colors.primary}` | `#0099FF` | selection, link/accent token, brand accent |
+| `{colors.hairline-dark}` | `#FFFFFF1A` | dark borders and subtle separators |
+| `{colors.surface-card}` | `#080808` | deep cards / preview regions |
 
-<!-- SOURCE: auto (framer 토큰 시스템은 UUID 기반이므로 alias 레이어가 적음) -->
+### 06-6. Semantic Alias Layer
 
-### 06-6. Semantic
-
-| Token | Hex | Usage |
+| Alias | Resolves to | Usage |
 |---|---|---|
-| `--framer-text-color` | `#FFFFFF` (dark) / `#1D1D1D` (light) | 본문 |
-| `--framer-link-text-color` | `#0099FF` | 링크 |
-| `--framer-link-hover-text-color` | `#09F` brightened | hover 링크 |
-| `--framer-blockquote-text-color` | `#FFFFFF` (dark) | 인용 텍스트 |
-| `--framer-code-text-color` | `#0099FF` | 코드 인라인 텍스트 |
+| `--selection-color` | `#0099FF` | selected text color |
+| `--selection-background-color` | `#0099FF4D` | selected text background |
+| `--framer-link-hover-text-color` | `#FFFFFF99` fallback observed | hover text system |
+| `--framer-code-text-color` | `#000000` fallback observed | rich text code fallback |
+| `--token-c534b380-e14e-4ddc-9802-ad88d1f94f8e` | `#FFFFFF1A` | dark alpha surface/border token |
+| `--token-5e0b3b72-9a97-43f8-96f2-85d741f3d8ca` | `#1D1D1D` | dark surface token |
 
-### 06-7. Dominant Colors (실제 DOM 빈도 근사)
+### 06-7. Dominant Colors (실제 DOM 빈도 순)
 
-| Rank | Hex | Role |
-|---|---|---|
-| 1 | `#000000` | neutral ink primary |
-| 2 | `#FFFFFF` | text primary on dark |
-| 3 | `#1D1D1D` | light-theme text |
-| 4 | `#0099FF` | cyan accent (brand) |
-| 5 | `#ffffff1a` | white-alpha glass layer |
-| 6 | `#141414` | surface |
-| 7 | `#666666` | text muted |
-| 8 | `#FFEEAA` | butter highlight |
+| Token | Hex | Frequency |
+|---|---|---:|
+| black | `#000000` | 134 |
+| white | `#FFFFFF` | 85 |
+| accent blue | `#0099FF` | 56 |
+| white alpha | `#FFFFFF1A` | 56 |
+| transparent black | `#00000000` | 50 |
+| white alpha low | `#FFFFFF14` | 32 |
+| white muted alpha | `#FFFFFF99` | 20 |
+| card gray | `#2B2B2B` | 16 |
+| muted gray | `#999999` | 14 |
+
+### 06-8. Color Stories
+
+**`{colors.surface-dark}` (`#000000`)** — The homepage stage. It lets the headline feel like a product launch title rather than a typical SaaS hero. Do not lighten it to dark gray unless a specific card surface calls for it.
+
+**`{colors.text-primary}` (`#FFFFFF`)** — The main typographic material. It is used as mass, not decoration: hero H1, primary white CTA, and key contrast surfaces.
+
+**`{colors.primary}` (`#0099FF`)** — A restrained system accent. It appears in selection/link/token data, but the homepage does not let it flood the hero.
+
+**`{colors.hairline-dark}` (`#FFFFFF1A`)** — The dark-mode structural line. It creates edges while staying below the visible threshold of a conventional border.
 
 ---
 
 ## 07. Spacing
-
-Framer는 UUID 토큰 시스템 특성상 spacing scale 이름이 없다. 관찰상 `4px` 배수 체계.
+<!-- SOURCE: auto+manual -->
 
 | Token | Value | Use case |
 |---|---|---|
-| space-1 | `4px` | micro gap |
-| space-2 | `8px` | small gap |
-| space-3 | `12px` | small padding |
-| space-4 | `16px` | 기본 padding |
-| space-6 | `24px` | card padding |
-| space-8 | `32px` | section inner |
-| space-12 | `48px` | section gap |
-| space-16 | `64px` | section block padding |
-| space-20 | `80px` | large section pad |
-| space-24 | `96px` | hero spacing |
-| container | `1200px` | content max-width |
-| container-wide | `1440px` | full section max |
+| `space-xs` | `8px` | small component gaps, icon/text pairing |
+| `space-sm` | `10-16px` | pill padding, compact nav rhythm |
+| `space-md` | `20-24px` | CTA groups, card inner spacing |
+| `space-lg` | `40-48px` | hero copy to CTA separation |
+| `space-xl` | `80-120px` | hero vertical breathing room |
+| `container` | `1200px` | common max-width found repeatedly in CSS |
 
-<!-- SOURCE: template-default 포함 (Framer는 UUID 토큰이라 이름으로 추적 불가) -->
+**주요 alias**:
+- `container-max` -> `1200px` (dominant max-width)
+- `desktop-break` -> `1200px` (desktop responsive threshold)
+- `tablet-break` -> `810px` (tablet/mobile threshold)
+
+### Whitespace Philosophy
+
+Framer uses whitespace as theatrical delay. The hero keeps the nav small and high, then lets the headline occupy the center with enough black air that the words feel projected. The bottom preview strip begins within the first viewport, but it is pushed down far enough to read as evidence after the claim, not as clutter around it.
+
+The page alternates between open stage and dense product shelf. Above the fold is sparse; below the fold can be crowded with thumbnails, cards, and examples because the black hero has already established control.
 
 ---
 
 ## 08. Radius
+<!-- SOURCE: auto -->
 
 | Token | Value | Context |
 |---|---|---|
-| radius-sm | `8px` | small chip, badge |
-| radius | `12px` | button, input |
-| radius-md | `16px` | card |
-| radius-lg | `24px` | hero block, feature card |
-| radius-xl | `32px` | full-bleed scene block |
-| pill | `9999px` | pill button, tag |
-| circle | `50%` | avatar |
+| `radius-card-sm` | `8px` | small dark cards and preview chrome |
+| `radius-card-md` | `10px` | repeated card/container radius |
+| `radius-panel` | `15px` | larger panels |
+| `radius-pill` | `100px` | CTAs, sign-up pill, capsule buttons |
+| `radius-soft` | `20px` | larger marketing panels |
+| `radius-inherit` | `inherit` | generated nested Framer component surfaces |
 
 ---
 
 ## 09. Shadows
-
-Framer는 shadow 대신 **bg layering**으로 elevation을 만든다. shadow 토큰은 minimal.
+<!-- SOURCE: auto -->
 
 | Level | Value | Usage |
 |---|---|---|
-| none | `none` | 기본 |
-| subtle | `0 1px 2px rgba(0,0,0,0.2)` | floating card (template-default) |
-| elevated | `0 8px 32px rgba(0,0,0,0.4)` | modal (template-default) |
-| glow | `0 0 0 2px #0099FF4D` | focus ring (template-default) |
+| ring-dark | `0 0 0 2px #090909` | dark UI rim |
+| ring-light-alpha | `0 0 0 1px #FFFFFF1A` | subtle border on dark surfaces |
+| card-low | `0 2px 4px #00000026, 0 1px #0000000D` | compact card depth |
+| card-mixed | `0 2px 4px #0000001A, 0 1px #0000000D, 0 0 0 1px #FFFFFF26` | dark card separation |
+| heavy-drop | `0 20px 30px #00000080` | large preview/image depth |
 
 ---
 
 ## 10. Motion
-
-Framer는 모션이 브랜드다. Canvas 기반 interaction을 마케팅 사이트에도 재현.
+<!-- SOURCE: auto+manual -->
 
 | Token | Value | Usage |
 |---|---|---|
-| transition-fast | `.15s ease-out` | hover 작은 변화 |
-| transition-base | `.2s ease-out` | 기본 transition |
-| transition-smooth | `.4s cubic-bezier(0.4,0,0.2,1)` | scene 전환 |
-| scroll-snap | `y mandatory` | scene 연결 |
-| hover-scale | `scale(1.02)` | card hover |
-| gradient-shimmer | `2s infinite` | hero gradient 애니메이션 |
+| `color-transition-fast` | `color .2s cubic-bezier(.44,0,.56,1)` | text/link hover |
+| `color-transition-base` | `color .3s cubic-bezier(.44,0,.56,1)` | slower nav/link color shift |
+| `blur-soft` | `backdrop-filter: blur(5px)` | soft overlay surfaces |
+| `blur-medium` | `backdrop-filter: blur(8px)` | floating dark chrome |
+| `blur-strong` | `backdrop-filter: blur(10px)` | stronger overlay treatment |
 
 ---
 
 ## 11. Layout Patterns
+<!-- SOURCE: auto+manual -->
 
 ### Grid System
 
-- **Content max-width**: `1200px` (기본) · `1440px` (wide)
-- **Grid type**: CSS Grid / Flex hybrid
-- **Column count**: 12 (관찰)
-- **Gutter**: 24px
+- **Content max-width**: `1200px`
+- **Grid type**: generated Framer layout using flex and CSS grid; observed grids include `repeat(2,minmax(50px,1fr))` and 4-column variants
+- **Column count**: hero is centered 1-column; product/example regions use 2- and 4-column grids
+- **Gutter**: visually compact in preview strip, wider in content bands
 
 ### Hero
 
-- **🆕 Pattern Summary**: `~100vh dark bg + 중앙 H1 72–128px + cyan gradient accent + 하단 product canvas video`
-- Layout: 1-column 중앙 정렬
-- Background: `#080808` + gradient radial `#05F → #60F → #90F` 포인트
-- **🆕 Background Treatment**: `near-black + radial gradient + animated canvas overlay`
-- H1: `96–128px / weight 600 / ls -0.05em / Inter Display`
-- Max-width: `1440px`
+- **Pattern Summary**: `near-100vh + solid #000000 + centered H1 + dual pill CTA + bottom preview strip`
+- Layout: one-column centered editorial hero
+- Background: `#000000`
+- **Background Treatment**: solid black stage; no gradient mesh in the hero screenshot
+- H1: `clamp(72px, 9vw, 112px)` / weight `700` / tracking `-0.05em`
+- Max-width: roughly `820-900px` for headline/copy stack
 
 ### Section Rhythm
 
 ```css
 section {
-  padding-block: 96px;
-  padding-inline: 24px;
-  max-width: 1440px;
-  margin-inline: auto;
+  padding: 80px 20px;
+  max-width: 1200px;
 }
 ```
 
 ### Card Patterns
 
-- **bg**: `#141414` (surface)
-- **border**: `1px solid #ffffff1a` (white-alpha)
-- **radius**: `16–24px`
-- **padding**: `24–32px`
-- **shadow**: 기본 none, hover 시 glow
+- **Card background**: `#080808`, `#1A1A1A`, or preview-image content
+- **Card border**: `1px solid #FFFFFF1A` style alpha hairline
+- **Card radius**: `8px` / `10px`
+- **Card padding**: `16-24px`
+- **Card shadow**: dark layered drops, typically black alpha
+- **Hover effect**: color transitions are explicit; larger transform choreography was not fully measured in this pass
 
-### Navigation
+### Navigation Structure
 
-- **type**: horizontal desktop / hamburger mobile
-- **position**: `fixed top 0`
-- **height**: `64px`
-- **bg**: `rgba(8,8,8,0.8)` + `backdrop-filter: blur(12px)`
-- **border**: 하단 `1px solid #ffffff1a`
+- **Type**: horizontal desktop nav with logo left, center links, account actions right
+- **Position**: top overlay/static visual placement in screenshot
+- **Height**: compact, roughly `64px`
+- **Background**: transparent over `#000000`
+- **Border**: none visible in hero
 
 ### Content Width
 
-- **prose**: `680px`
-- **container**: `1200px`
-- **wide**: `1440px`
+- **Prose max-width**: `600-700px` for body copy zones
+- **Container max-width**: `1200px`
+- **Sidebar width**: N/A for homepage hero; no persistent sidebar observed
 
 ---
 
 ## 12. Responsive Behavior
+<!-- SOURCE: auto+manual -->
 
 ### Breakpoints
 
 | Name | Value | Description |
 |---|---|---|
-| Mobile | `< 640px` | 1-column |
-| Tablet | `≥ 768px` | 2-col hero |
-| Desktop | `≥ 1024px` | full container |
-| Large | `≥ 1440px` | wide max |
+| Mobile | `0-809.98px` | mobile hidden utilities and stacked layouts |
+| Tablet | `810-1199.98px` | tablet-specific hidden utility range |
+| Desktop | `1200px+` | full desktop nav and wide preview composition |
+| Large | `1200px` container | repeated max-width anchor rather than a separate ultra-wide breakpoint |
 
 ### Touch Targets
 
-- **min tap**: `44px`
-- **button height**: `40–48px`
-- **input height**: `40px`
+- **Minimum tap size**: CTAs visually meet 44px target through pill padding and line-height.
+- **Button height (mobile)**: not separately measured; desktop pills appear around `36-44px`.
+- **Input height (mobile)**: not observed on homepage hero.
 
-### Collapsing
+### Collapsing Strategy
 
-- **nav**: &lt;768px 햄버거
-- **grid**: 12→1 모바일 reset
-- **hero**: 1-column 유지, H1 128px → 48px
+- **Navigation**: hidden utility classes indicate separate desktop/tablet/mobile visibility variants.
+- **Grid columns**: observed 4-column and 2-column grids collapse through media-specific generated classes.
+- **Sidebar**: none in homepage surface.
+- **Hero layout**: remains centered; type and preview strip scale down rather than converting to split layout.
 
 ### Image Behavior
 
-- **strategy**: Framer CDN, responsive srcset, `loading="lazy"`
-- **max-width**: `100%`
+- **Strategy**: preview tiles crop website screenshots and product examples into card frames.
+- **Max-width**: `100%` appears frequently.
+- **Aspect ratio handling**: image/card aspect ratios are controlled through Framer generated wrappers; exact aspect tokens were not isolated.
 
 ---
 
 ## 13. Components
+<!-- SOURCE: auto+manual -->
 
 ### Buttons
 
+| Component | Background | Text | Radius | Notes |
+|---|---|---|---|---|
+| Primary pill | `#FFFFFF` | `#000000` | `100px` | "Start for free" hero CTA |
+| Secondary dark pill | `#2B2B2B` | `#FFFFFF` | `100px` | "Start with AI" CTA |
+| Header signup | `#FFFFFF` | `#000000` | `100px` | compact nav action |
+| Text login | transparent | `#999999` / `#FFFFFF` hover | none | quiet account action |
+
 ```html
-<button class="framer-button framer-button--primary">Start free</button>
+<a class="framer-button framer-button-primary" href="/signup">Start for free</a>
+<a class="framer-button framer-button-secondary" href="/ai">Start with AI</a>
 ```
 
-| Variant | background | color | radius | padding |
-|---|---|---|---|---|
-| primary | `#FFFFFF` | `#080808` | `12px` | `12px 24px` |
-| accent | `#0099FF` | `#FFFFFF` | `12px` | `12px 24px` |
-| ghost | transparent + border `#ffffff1a` | `#FFFFFF` | `12px` | 동일 |
-| pill | 좌동 | 좌동 | `9999px` | 동일 |
+States:
+- hover: color transition around `.2s-.3s cubic-bezier(.44,0,.56,1)`
+- focus: generated Framer focus outlines present in CSS, including transparent outline resets
+- disabled/loading/error: not observed in homepage hero
 
 ### Badges
 
-- background: `#ffffff1a`
-- color: `#FFFFFF`
-- radius: `9999px`
-- font-size: `12px`, weight `500`
-- padding: `4px 10px`
+| Component | Background | Text | Radius | Notes |
+|---|---|---|---|---|
+| Announcement text link | transparent | `#FFFFFF` | none | "State of Sites '26 • Unlock the report now" |
+| Small capsule labels | dark/alpha surfaces | `#FFFFFF` / `#999999` | pill or `8px` | appears in preview/demo surfaces |
 
-### Cards
+### Cards & Containers
 
-- bg: `#141414`
-- border: `1px solid #ffffff1a`
-- radius: `24px`
-- padding: `32px`
-- hover: `transform translateY(-2px)`, border `#ffffff33`
+| Component | Background | Border | Radius | Shadow |
+|---|---|---|---|---|
+| Preview card | screenshot/image content | `#FFFFFF1A` | `10px` | black alpha drop |
+| Dark tool card | `#080808` / `#1A1A1A` | `#FFFFFF1A` | `8-10px` | ring or low shadow |
+| Cookie modal | `#FFFFFF` | none visible | `10px` | light modal over dark hero |
+
+The cards are not generic white SaaS cards. They are either product screenshots or dark surfaces with subtle alpha structure.
 
 ### Navigation
 
-- 로고: 좌측, `Framer` wordmark SVG
-- 링크: Inter 14px weight 500, color `#fff9`
-- Active: `#FFFFFF` weight 600
-- CTA: "Start for free" (white pill) + "Sign in" (ghost)
-- Height: `64px` fixed
+| Element | Spec |
+|---|---|
+| Logo | white mark on black, compact left anchor |
+| Center links | `14px`, `#999999`, regular weight |
+| Active/hover | white or brighter gray via color transition |
+| Right actions | "Log in" text + white "Sign up" pill |
+| Mobile | inferred separate visibility classes, not screenshot-verified |
 
-### Inputs
+### Inputs & Forms
 
-- height: `40px`
-- padding: `0 12px`
-- bg: `#171717`
-- border: `1px solid #ffffff1a`
-- radius: `12px`
-- focus: `outline 2px solid #0099FF`
+Homepage hero does not expose a canonical input field. Avoid inventing a form style from the hero. If an input is needed, derive it from the dark-card system:
+
+| Property | Value |
+|---|---|
+| Background | `#080808` |
+| Border | `1px solid #FFFFFF1A` |
+| Text | `#FFFFFF` |
+| Placeholder | `#999999` |
+| Radius | `8px` or `10px` |
+| Focus | narrow #0099FF accent, not a thick blue glow |
 
 ### Hero Section
 
-- bg: `#080808` + radial gradient
-- H1: `Inter Display 128px weight 600 ls -0.05em color #FFFFFF`
-- sub: `18px color #fff9`
-- CTA: primary white pill + secondary ghost
-- Canvas: autoplay video or interactive iframe
+| Property | Value |
+|---|---|
+| Background | `#000000` |
+| Eyebrow | small centered white text |
+| H1 | huge white `Inter Display`, weight 700, tight tracking |
+| Body | muted #999999, centered, medium-width paragraph |
+| CTA group | two pills: white primary, dark secondary |
+| Evidence strip | website preview cards rising from bottom viewport |
+
+### 13-2. Named Variants
+
+#### `button-primary`
+
+| Property | Value |
+|---|---|
+| Background | `#FFFFFF` |
+| Color | `#000000` |
+| Radius | `100px` |
+| Padding | `10px 16px` |
+| Use | primary signup / start action |
+
+#### `button-secondary-dark`
+
+| Property | Value |
+|---|---|
+| Background | `#2B2B2B` |
+| Color | `#FFFFFF` |
+| Radius | `100px` |
+| Padding | `10px 16px` |
+| Use | secondary AI/product path |
+
+#### `nav-link-muted`
+
+| Property | Value |
+|---|---|
+| Color | `#999999` |
+| Hover | `#FFFFFF` |
+| Weight | `400` |
+| Transition | `color .2s-.3s cubic-bezier(.44,0,.56,1)` |
+
+#### `dark-preview-card`
+
+| Property | Value |
+|---|---|
+| Background | `#080808` or screenshot media |
+| Border | `1px solid #FFFFFF1A` |
+| Radius | `10px` |
+| Shadow | black alpha layered shadow |
+
+### 13-3. Signature Micro-Specs
+
+```yaml
+black-stage-hero:
+  description: "Pure black turns the homepage into a product launch stage instead of a normal SaaS landing page."
+  technique: "background: #000000; centered single-column hero; transparent nav over the same field; no decorative gradient in the captured first viewport"
+  applied_to: ["{component.hero-section}", "{component.navigation}"]
+  visual_signature: "The first impression reads like a keynote title card: white claim, black room, almost no chrome."
+
+compressed-inter-display-mass:
+  description: "The hero headline is tightened until the words behave as one dense white object."
+  technique: "font-family: Inter Display; font-weight: 700; font-size: clamp(72px, 9vw, 112px); line-height: .94; letter-spacing: -0.05em"
+  applied_to: ["{component.hero-section}", "large marketing headlines"]
+  visual_signature: "\"Build better sites, faster\" feels pressed into a single block rather than set as loose text."
+
+alpha-white-hairline-chrome:
+  description: "Dark surfaces are separated by translucent white scratches, not visible gray borders."
+  technique: "border/ring colors use #FFFFFF1A and #FFFFFF14; card shadow can add 0 0 0 1px #FFFFFF26 only when needed"
+  applied_to: ["{component.dark-preview-card}", "{component.dark-card}", "generated UI chrome"]
+  visual_signature: "Edges exist only when the eye needs them, then disappear back into the black field."
+
+preview-shelf-evidence-strip:
+  description: "The product proof arrives as a bottom-edge shelf of real site previews."
+  technique: "preview cards use radius around 10px, image/screenshot content, black alpha shadow such as 0 20px 30px #00000080, and first-viewport bottom overlap"
+  applied_to: ["{component.hero-section}", "{component.dark-preview-card}"]
+  visual_signature: "The claim is immediately followed by a studio desk of miniature websites instead of an explanatory feature grid."
+
+restrained-blue-system-accent:
+  description: "Framer blue is kept as system wiring, not the dominant hero surface."
+  technique: "#0099FF appears as selection/link/accent token; selection background uses #0099FF4D; hero primary CTA remains #FFFFFF on #000000"
+  applied_to: ["selection", "links", "focus/accent moments", "{component.button-primary}"]
+  visual_signature: "The page is remembered as monochrome, with blue appearing only in narrow interactive flashes."
+```
 
 ---
 
 ## 14. Content / Copy Voice
+<!-- SOURCE: manual -->
 
 | Pattern | Rule | Example |
 |---|---|---|
-| Headline | 명사형 임팩트 | "The site builder for the AI era." |
-| Primary CTA | 2–3 단어, 동사 | "Start for free" / "Try Framer" |
-| Secondary CTA | 관찰형 | "See how it works" |
-| Subheading | 제품 가치 1문장 | "Design, build, and publish a site in one place." |
-| Tone | 쿨하고 확신 있게 | — |
+| Headline | short imperative/product outcome, no clever metaphor | "Build better sites, faster" |
+| Primary CTA | direct creation verb | "Start for free" |
+| Secondary CTA | product capability path | "Start with AI" |
+| Subheading | trusted-by + capability list in one compact paragraph | "trusted by leading startups and Fortune 500 companies" |
+| Tone | confident, designer-facing, practical | no long explainer in hero |
 
 ---
 
 ## 15. Drop-in CSS
+<!-- SOURCE: auto+manual -->
 
 ```css
-/* Framer — copy into your root stylesheet */
+/* Framer-inspired dark SaaS launch surface */
 :root {
-  --framer-font-sans: "Inter","Inter Display",-apple-system,sans-serif;
-  --framer-font-mono: "JetBrains Mono",ui-monospace,Menlo,monospace;
+  /* Fonts */
+  --framer-font-family: "Inter", "Inter Variable", -apple-system, BlinkMacSystemFont, sans-serif;
+  --framer-display-family: "Inter Display", "Inter", sans-serif;
+  --framer-code-font-family: "JetBrains Mono", ui-monospace, monospace;
   --framer-font-weight-normal: 400;
-  --framer-font-weight-bold: 600;
+  --framer-font-weight-bold: 700;
 
-  /* Dark layers */
-  --framer-bg:         #080808;
-  --framer-surface:    #141414;
-  --framer-elevated:   #171717;
-  --framer-floating:   #1A1A1A;
-  --framer-border:     #ffffff1a;
+  /* Core colors */
+  --framer-color-primary: #0099FF;
+  --framer-bg-page: #000000;
+  --framer-bg-card: #080808;
+  --framer-bg-elevated: #2B2B2B;
+  --framer-text: #FFFFFF;
+  --framer-text-muted: #999999;
+  --framer-border-dark: #FFFFFF1A;
 
-  /* Text */
-  --framer-text:        #FFFFFF;
-  --framer-text-muted:  #fff9;
-  --framer-text-subtle: #fff6;
-
-  /* Brand */
-  --framer-accent:      #0099FF;
-  --framer-accent-deep: #05F;
-  --framer-gradient:    linear-gradient(135deg,#05F,#60F,#90F);
+  /* Spacing */
+  --framer-space-sm: 12px;
+  --framer-space-md: 24px;
+  --framer-space-lg: 48px;
+  --framer-space-xl: 96px;
 
   /* Radius */
-  --framer-radius-sm: 8px;
-  --framer-radius:    12px;
-  --framer-radius-md: 16px;
-  --framer-radius-lg: 24px;
-
-  /* Motion */
-  --framer-transition: .2s ease-out;
+  --framer-radius-card: 10px;
+  --framer-radius-pill: 100px;
 }
-body { background: var(--framer-bg); color: var(--framer-text); font-family: var(--framer-font-sans); }
+
+body {
+  margin: 0;
+  background: var(--framer-bg-page);
+  color: var(--framer-text);
+  font-family: var(--framer-font-family);
+  font-weight: var(--framer-font-weight-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+.framer-hero {
+  min-height: 92vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 96px 20px 40px;
+  background: #000000;
+}
+
+.framer-hero h1 {
+  max-width: 900px;
+  margin: 0;
+  font-family: var(--framer-display-family);
+  font-size: clamp(72px, 9vw, 112px);
+  line-height: .94;
+  letter-spacing: -0.05em;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.framer-hero p {
+  max-width: 620px;
+  margin: 24px auto 0;
+  color: #999999;
+  font-size: clamp(20px, 2vw, 24px);
+  line-height: 1.32;
+}
+
+.framer-button-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.framer-button {
+  border-radius: 100px;
+  padding: 10px 16px;
+  font: 500 14px/1 var(--framer-font-family);
+  text-decoration: none;
+  transition: color .2s cubic-bezier(.44,0,.56,1), background .2s cubic-bezier(.44,0,.56,1);
+}
+
+.framer-button-primary {
+  background: #FFFFFF;
+  color: #000000;
+}
+
+.framer-button-secondary {
+  background: #2B2B2B;
+  color: #FFFFFF;
+}
+
+.framer-card {
+  background: #080808;
+  border: 1px solid #FFFFFF1A;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px #00000026, 0 1px #0000000D;
+}
 ```
 
 ---
 
 ## 16. Tailwind Config
+<!-- SOURCE: manual -->
 
 ```js
-// tailwind.config.js — Framer
 module.exports = {
   theme: {
     extend: {
       colors: {
         framer: {
-          bg:       '#080808',
-          surface:  '#141414',
-          elevated: '#171717',
-          floating: '#1A1A1A',
-          border:   '#ffffff1a',
-          accent:   '#0099FF',
-          butter:   '#FFEEAA',
+          blue: "#0099FF",
+          black: "#000000",
+          white: "#FFFFFF",
+          muted: "#999999",
+          card: "#080808",
+          elevated: "#2B2B2B",
+          hairline: "#FFFFFF1A",
         },
       },
       fontFamily: {
-        sans: ['Inter','Inter Display','system-ui'],
-        mono: ['JetBrains Mono','ui-monospace'],
+        sans: ["Inter", "Inter Variable", "system-ui", "sans-serif"],
+        display: ["Inter Display", "Inter", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
-      fontWeight: { normal: '400', medium: '500', bold: '600' },
-      borderRadius: { sm: '8px', DEFAULT: '12px', md: '16px', lg: '24px', xl: '32px', pill: '9999px' },
-      transitionDuration: { DEFAULT: '200ms', fast: '150ms', slow: '400ms' },
+      borderRadius: {
+        framer: "10px",
+        pill: "100px",
+      },
+      boxShadow: {
+        "framer-card": "0 2px 4px #00000026, 0 1px #0000000D",
+        "framer-heavy": "0 20px 30px #00000080",
+      },
     },
   },
 };
@@ -531,101 +773,121 @@ module.exports = {
 ---
 
 ## 17. Agent Prompt Guide
+<!-- SOURCE: manual -->
 
 ### Quick Color Reference
 
 | Role | Token | Hex |
 |---|---|---|
-| Brand accent | `--framer-accent` | `#0099FF` |
-| Page bg | `--framer-bg` | `#080808` |
-| Surface | `--framer-surface` | `#141414` |
-| Text primary | `--framer-text` | `#FFFFFF` |
-| Text muted | `--framer-text-muted` | `#fff9` |
-| Border | `--framer-border` | `#ffffff1a` |
-| Highlight | butter | `#FFEEAA` |
+| Brand primary | `{colors.primary}` | `#0099FF` |
+| Background | `{colors.surface-dark}` | `#000000` |
+| Text primary | `{colors.text-primary}` | `#FFFFFF` |
+| Text muted | `{colors.text-muted}` | `#999999` |
+| Border | `{colors.hairline-dark}` | `#FFFFFF1A` |
+| Card | `{colors.surface-card}` | `#080808` |
+| Elevated pill | `{colors.ink-card}` | `#2B2B2B` |
 
 ### Example Component Prompts
 
 #### Hero Section
 
-```
-Framer 스타일 히어로 섹션을 만들어줘.
-- 배경: #080808 + radial-gradient(circle at 30% 50%, #05F 0%, #60F 40%, transparent 70%)
-- H1: Inter Display, 128px, weight 600, ls -0.05em, color #FFFFFF
-- sub: 18px, color rgba(255,255,255,0.6)
-- CTA primary: bg #FFFFFF, color #080808, radius 12px, padding 12px 24px
-- CTA secondary: transparent + border 1px solid #ffffff1a, color #FFFFFF
-- 중앙 정렬, max-width 1440px
-- 하단 product canvas (autoplay video 또는 iframe, radius 24px)
+```text
+Framer 스타일의 hero section을 만들어줘.
+- 배경: #000000, gradient 없이 solid black stage
+- H1: Inter Display, clamp(72px, 9vw, 112px), weight 700, line-height .94, letter-spacing -0.05em
+- 본문: Inter 22-24px, color #999999, max-width 620px
+- CTA: white pill primary (#FFFFFF text #000000) + dark pill secondary (#2B2B2B text #FFFFFF), radius 100px
+- 하단: preview card shelf를 첫 viewport 하단에 일부 노출
 ```
 
 #### Card Component
 
-```
-Framer 스타일 카드 컴포넌트를 만들어줘.
-- 배경: #141414
-- border: 1px solid #ffffff1a
-- radius: 24px
-- padding: 32px
-- hover: translateY(-2px), border #ffffff33, .2s ease-out
-- 제목: Inter Display 24px weight 600 color #FFFFFF
-- 본문: 16px color rgba(255,255,255,0.6)
+```text
+Framer dark preview card를 만들어줘.
+- background #080808 또는 실제 preview image
+- border 1px solid #FFFFFF1A
+- radius 10px
+- shadow 0 2px 4px #00000026, 0 1px #0000000D
+- 내부 텍스트는 #FFFFFF / #999999만 사용하고, blue accent는 링크나 focus에만 제한
 ```
 
 #### Badge
 
-```
-Framer 스타일 배지를 만들어줘.
-- bg rgba(255,255,255,0.1) (#ffffff1a)
-- color #FFFFFF
-- font Inter 12px weight 500
-- padding 4px 10px, radius 9999px
-- 강조 variant: bg #0099FF, color #FFFFFF
+```text
+Framer announcement badge를 만들어줘.
+- capsule을 과하게 만들지 말고, hero 위 작은 centered text로 처리
+- font Inter 14px, weight 500
+- color #FFFFFF 또는 #999999
+- link accent는 필요할 때만 #0099FF
 ```
 
 #### Navigation
 
-```
-Framer 스타일 상단 네비게이션을 만들어줘.
-- height 64px, position fixed top 0
-- bg rgba(8,8,8,0.8), backdrop-filter blur(12px)
-- border-bottom 1px solid #ffffff1a
-- 로고: 좌측 Framer wordmark SVG
-- 링크: Inter 14px weight 500 color rgba(255,255,255,0.6)
-- active: color #FFFFFF weight 600
-- CTA 우측: "Sign in" (ghost) + "Start for free" (white pill)
+```text
+Framer homepage nav를 만들어줘.
+- 배경은 transparent over #000000
+- 좌측 white logo, 중앙 14px #999999 nav links, 우측 Log in + white Sign up pill
+- hover는 color만 .2s cubic-bezier(.44,0,.56,1)
+- border/shadow는 넣지 말 것
 ```
 
 ### Iteration Guide
 
-- **색상 변경 시** cyan `#0099FF` 고정. 다른 accent는 butter `#FFEEAA` 또는 gradient로만.
-- **폰트 변경 시** Inter Display (히어로) + Inter (본문) 고정. weight 400/500/600.
-- **여백 조정 시** 4px 배수. 특히 16/24/32/48/64/96 라인.
-- **새 컴포넌트** radius는 8/12/16/24/32 중 하나.
-- **다크 모드 유일** — light 테마는 보조적. 기본은 dark.
-- **반응형** 640/768/1024/1440 4단.
-- **모션** hover에 반드시 subtle transform 추가. static element 금지.
+- **색상 변경 시**: #0099FF를 전체 배경이나 큰 카드에 확장하지 말고 link/selection/focus로 제한.
+- **폰트 변경 시**: Inter 계열을 유지하고 hero tracking 보정을 먼저 맞출 것.
+- **여백 조정 시**: hero는 넓게, preview shelf는 밀도 있게. 둘을 같은 density로 만들지 말 것.
+- **새 컴포넌트 추가 시**: card radius는 8-10px, button radius는 100px로 역할을 분리.
+- **다크 모드**: 이 페이지는 이미 dark-first다. light palette로 뒤집지 말 것.
+- **반응형**: 810px / 1200px threshold를 우선 사용하고 임의 breakpoint를 늘리지 말 것.
 
 ---
 
 ## 18. DO / DON'T
+<!-- SOURCE: manual -->
 
 ### ✅ DO
 
-- 배경은 `#080808` 또는 `#090909`. pure black `#000000` 쓰지 말 것.
-- 다단 레이어 (page `#080808` → surface `#141414` → elevated `#171717`) 겹쳐 panel 계층 만들기.
-- cyan accent `#0099FF`는 link/focus/CTA에만.
-- border는 `#ffffff1a` (white 10% α) 소프트. hard border 금지.
-- 본문 weight `400`, 타이틀 `600`. Inter family 고정.
-- 카드 radius `24px`, 버튼 `12px`.
-- hover에 `.2s ease-out transform scale` 추가.
+- Use #000000 as the hero/page stage and let typography carry the brand.
+- Keep hero headline white, huge, and tightly tracked.
+- Use #999999 for supporting copy and nav links.
+- Use #0099FF sparingly for selection, link, focus, or small accent moments.
+- Use 100px pill radius for CTA buttons.
+- Use #FFFFFF1A style alpha hairlines for dark cards.
+- Let real preview/site imagery prove the product claim below the hero.
 
 ### ❌ DON'T
 
-- pure black `#000000` 배경 금지 — Framer는 `#080808` 3-5 단 레이어.
-- 브랜드 cyan `#0099FF`를 넓은 면적에 쓰지 말 것 — accent 전용.
-- weight `700` 쓰지 말 것 — `600`이 상한.
-- radius `4px` 또는 `6px` 쓰지 말 것 — 최소 `8px`, 주류 `12–24px`.
-- `box-shadow 0 4px 12px rgba(0,0,0,0.1)` 같은 light-theme shadow 금지 — dark bg에는 안 맞음.
-- hover static 금지 — 반드시 motion 동반.
-- light 테마를 기본으로 쓰지 말 것 — Framer 기본은 dark.
+- 배경을 `#FFFFFF` 또는 `white`로 두지 말 것 — 대신 hero/page base는 `#000000` 사용.
+- 텍스트를 `#000000` 또는 `black`으로 두지 말 것 — dark hero의 primary text는 `#FFFFFF` 사용.
+- muted copy를 `#CCCCCC` 이상으로 밝히지 말 것 — Framer식 보조 텍스트는 `#999999`에 가깝게 둔다.
+- primary surface를 `#0099FF` full button/background로 남발하지 말 것 — hero primary CTA는 `#FFFFFF` button이 맞다.
+- dark card border를 `#FFFFFF`로 긋지 말 것 — 대신 `#FFFFFF1A` 같은 alpha hairline 사용.
+- card background를 `#FFFFFF`로 만들지 말 것 — dark preview card는 `#080808` / `#1A1A1A` 계열 사용.
+- CTA radius를 `8px` 카드처럼 만들지 말 것 — CTA는 `100px` pill, card는 `8-10px`.
+- display heading에 `letter-spacing: 0`을 쓰지 말 것 — hero scale은 `-0.05em` 수준의 tight tracking 필요.
+
+### 🚫 What This Site Doesn't Use (Negative-Space Identity)
+
+- Broad blue brand wash: absent. #0099FF exists, but not as a hero flood.
+- Light SaaS card grid: absent in the first impression. The hero is not a white dashboard landing page.
+- Decorative gradient hero: absent in the captured first viewport. Solid black owns the stage.
+- Heavy borders: absent. Structure uses #FFFFFF1A-style alpha hairlines.
+- Square CTA buttons: never in the hero. CTAs are pill geometry.
+- Loud navigation: absent. Nav links stay gray and secondary.
+- Long explanatory hero copy: absent. One outcome headline plus compact capability sentence.
+- Persistent sidebar: absent on homepage. This is marketing, not app-dashboard layout.
+- Cartoon illustration: absent. Product evidence comes from website previews, not generic SVG scenes.
+
+---
+
+## 19. Known Gaps & Assumptions
+<!-- SOURCE: manual -->
+
+- **Single homepage pass** — This guide is based on the captured Framer homepage assets under `insane-design/framer/`, not every product, pricing, CMS, or enterprise sub-flow.
+- **Desktop hero screenshot bias** — The screenshot evidence is desktop 1280x800. Mobile values are inferred from CSS breakpoints and hidden utility classes, not visually re-captured in this pass.
+- **Generated token names** — Many tokens are UUID-style `--token-*`; semantic names in frontmatter are guide aliases mapped to observed values, not claimed official Framer token names.
+- **Preview-card contamination** — Several fonts and accent colors come from embedded demo/preview sites. They are recorded as observed CSS values but not treated as Framer's core homepage identity.
+- **Motion not fully executed** — CSS transition and blur values were observed, but scroll-triggered runtime choreography and Framer animation timelines were not instrumented.
+- **Form states not surfaced** — Hero/homepage did not expose canonical input validation, loading, or error states. Input guidance is extrapolated from dark card tokens.
+- **Dark theme mapping only** — The first impression is dark-first. A complete light-mode counterpart palette was not established.
+- **Exact hero type size** — Screenshot-derived hero size is represented as a practical clamp, not a direct source token.
