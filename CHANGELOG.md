@@ -1,5 +1,47 @@
 # Changelog
 
+## [0.4.0] - 2026-05-16 — Schema single source + token reference rule + DTCG export
+
+> Google `@google/design.md` 스펙 비교 분석에서 도출한 3가지 개선 적용.
+> 1) frontmatter 스키마 분산(SKILL.md/template.md/validate.py) 해결 → 단일 진실 원천.
+> 2) §13/§15에서 raw hex 91% (apple-fresh-v32 측정) → 토큰 참조 70% 목표 룰화.
+> 3) W3C DTCG 표준 export로 8개 외부 도구(Figma Tokens Studio / Style Dictionary 등) 호환.
+
+### Added
+- 🆕 `references/schema.v3.2.md` — frontmatter + 섹션 구조의 단일 진실 원천 (8KB).
+  - §1 Frontmatter Schema (1.1 식별/메타 ~ 1.6 토큰 그래프)
+  - §2 Section Schema (19섹션 정의 + 헤딩 규칙 + N/A 처리)
+  - §3 토큰 참조 일관성 룰 (섹션별 hex/토큰 표기 표 + 70% 목표)
+  - §4 마이그레이션 가이드 (3.1 → 3.2)
+  - §5 검증 체크리스트 (validate.py 8 checks와 1:1 매핑)
+- 🆕 `scripts/export_dtcg.py` — design.md frontmatter → W3C DTCG tokens.json
+  - colors → `$type: color`, typography.ladder → `$type: typography` (composite)
+  - spacing → `$type: dimension`, rounded → `radius` 그룹
+  - 메타 (slug/archetype/design_system_level) → `$extensions["com.insane-design"]`
+  - dual-optical 폰트 매핑: display-*/headline-* → display family, body-* → body family
+  - 0 dependencies (PyYAML 있으면 사용, 없으면 내장 minimal parser)
+- 🆕 `commands/export.md` — `/insane-design:export <slug>` 커맨드
+  - 호환: Figma Tokens Studio, Style Dictionary, Specify, Cobalt UI, Penpot, Knapsack, Supernova, @google/design.md
+
+### Changed
+- `SKILL.md` 사전 준비 — schema.v3.2.md를 첫 번째 Read 대상으로 등록 (필수)
+- `SKILL.md` Step 5 WRITE-MD —
+  - schema.v3.2.md를 첫 번째 Read 단계로 추가
+  - "토큰 참조 일관성 룰" 표 + 측정 grep 명령 박음 (목표 토큰화율 ≥ 70%)
+  - §13 Components 표/YAML은 raw hex 대신 `{colors.x}` 참조 강제
+
+### Verified
+- `validate.py apple-fresh-v32/design.md` → PASS (회귀 없음)
+- `export_dtcg.py apple-fresh-v32/design.md` → 3.6KB tokens.json (18 color + 7 typography)
+  - 모든 토큰에 `$value` + `$type` 필드 존재 (DTCG 호환)
+  - dual-optical: display-xl/lg/md → SF Pro Display, body-lead/body/tight/caption → SF Pro Text
+- `export_dtcg.py aesop/design.md` (3.1 backwards compat) → crash 없음, 메타 wrapper만 출력
+
+### Known Gaps
+- `validate.py`에 토큰화율 검사 추가 미구현 — 현재는 SKILL.md/schema.md의 룰 문서 수준 강제
+- DTCG export는 frontmatter 토큰 그래프(colors:/typography:/spacing:/rounded:)에만 의존
+  - schema 3.1 이하 파일은 메타 wrapper만 출력 — 마이그레이션 별도 필요
+
 ## [0.3.2] - 2026-05-03 — Validator + examples sync + verification
 
 ### Added

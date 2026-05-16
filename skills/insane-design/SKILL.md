@@ -28,7 +28,8 @@ URL이 제공되면 즉시 Step 1부터 실행한다.
 
 스킬 실행 전 다음 레퍼런스를 필요한 Step에서 읽는다:
 
-- `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/references/template.md` — design.md 19섹션 v3.1 템플릿 (§00~§18) (Step 5에서 Read)
+- 🆕 **`${CLAUDE_PLUGIN_ROOT}/skills/insane-design/references/schema.v3.2.md`** — frontmatter + 섹션 구조의 **단일 진실 원천** (Step 0 — 가장 먼저 Read 필수). 이 파일을 읽지 않으면 frontmatter 일관성을 보장할 수 없음.
+- `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/references/template.md` — design.md 19섹션 v3.2 템플릿 (§00~§19) (Step 5에서 Read)
 - `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/references/report-prompt.md` — HTML 리포트 생성 규칙 v2.1 (Step 6에서 Read)
 - `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/references/report.css` — canonical CSS (Step 6에서 Read, 있으면 사용)
 - `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/references/pitfalls.md` — 14가지 함정 (Step 4에서 Read)
@@ -777,10 +778,11 @@ brand_color는 아래 우선순위로 결정한다:
 
 design.md를 생성한다.
 
-1. Read: `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/references/template.md` — 19섹션 v3.1 (§00~§18)
-2. Read: `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/examples/stripe/design.md` — 골드 스탠다드 (구조 참조)
-3. Step 3 팩트 + Step 4 해석(판정 #1~#12)을 조합하여 19섹션 채우기
-4. Write: `insane-design/{slug}/design.md`
+1. 🆕 Read: `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/references/schema.v3.2.md` — **frontmatter + 섹션 구조 단일 진실 원천 (필수)**. §1 표를 그대로 채우고, §3 토큰 참조 룰을 §13/§15에서 적용한다.
+2. Read: `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/references/template.md` — 19섹션 v3.2 (§00~§19) 산문 템플릿
+3. Read: `${CLAUDE_PLUGIN_ROOT}/skills/insane-design/examples/stripe/design.md` — 골드 스탠다드 (구조 참조)
+4. Step 3 팩트 + Step 4 해석(판정 #1~#12)을 조합하여 19섹션 채우기
+5. Write: `insane-design/{slug}/design.md`
 
 **필수 사항**:
 - YAML frontmatter 맨 위 (`---` 블록)
@@ -793,6 +795,34 @@ design.md를 생성한다.
 - 선택 섹션 5개: 09, 10, 12, 14, 16 — 데이터 없으면 통째 제거
 - 파일 크기 ≥ 12KB (v3.2 권장 — Designer Guidebook 전환으로 분량 회복)
 - 모든 hex 값이 실제 CSS에 존재
+
+🆕 **v3.2 토큰 참조 일관성 룰** (schema.v3.2.md §3와 1:1 매핑):
+
+| 섹션 | hex 표기 룰 | 검증 방법 |
+|---|---|---|
+| frontmatter (1.6 객체) | hex 직접 (정의 위치) | — |
+| §00 Direction | hex + `{colors.x}` dual notation **권장** | — |
+| §06 Colors 표 | hex 직접 (정의 위치) | — |
+| **§13 Components 표/YAML** | **`{colors.x}` 참조 사용 (필수)** | grep 카운트 |
+| **§15 Drop-in CSS** | dual notation `#xxx /* {colors.x} */` **권장** | grep 카운트 |
+| §16 Tailwind | hex 직접 | — |
+| §18 DO/DON'T | hex 직접 (위반 grep용) | — |
+
+**목표 토큰화율:** §13 + §15 합쳐서 `{colors.x}` 참조 비율 **≥ 70%**.
+**측정:** `awk '/^## 13\./,/^## 14\./' design.md | grep -oE '\{colors\.[a-z-]+\}' | wc -l` vs `... | grep -oE '#[0-9A-Fa-f]{6}' | wc -l`.
+
+**작성 시 강제 패턴:**
+```yaml
+# ❌ BEFORE — components 표에서 raw hex
+| `button-primary` | bg #0071E3, color #FFFFFF |
+| `button-primary-hover` | bg #0076DF |
+
+# ✅ AFTER — frontmatter colors:에 정의 후 참조
+| `button-primary` | bg `{colors.primary}`, color #FFFFFF |
+| `button-primary-hover` | bg `{colors.primary-hover}` |
+```
+
+raw hex가 §13/§15에 70% 넘으면 frontmatter `colors:` 객체 누락 신호. 거꾸로 작업: 발견된 hex를 `colors:`에 named token으로 등록 → 본문에서 참조로 교체.
 
 🆕 **v3.2 design_system_level 판정 (#22)**:
 
