@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.2 — 2026-06-21
+
+- GitHub star is now **opt-in** — on first run the command asks once via AskUserQuestion (`네, ⭐ 눌러주기` / `아니요`) instead of auto-starring. The star logic moved into `setup.sh` and records the choice (`~/.gptaku-setup/<plugin>.star.json`) so it never re-asks. `setup.sh` no longer stars anything automatically.
+- Fixed: removed `AskUserQuestion` from `build`/`insane-design` command frontmatter (it was auto-approving, so the question UI never rendered); fixed root-relative CSS URL resolution in analysis (`$css_href` was escaped and never expanded); fixed the Playwright screenshot path in insane-build (`$V1` did not expand inside a quoted heredoc — now passed via env).
+
 ## [0.4.0] - 2026-05-16 — Schema single source + token reference rule + DTCG export
 
 > Google `@google/design.md` 스펙 비교 분석에서 도출한 3가지 개선 적용.

@@ -229,7 +229,7 @@ while IFS= read -r css_href; do
   case "$css_href" in
     http*) abs_url="$css_href" ;;
     //*) abs_url="https:$css_href" ;;
-    /*) abs_url="$(echo "$BASE_URL" | grep -oE 'https?://[^/]+')\$css_href" ;;
+    /*) abs_url="$(echo "$BASE_URL" | grep -oE 'https?://[^/]+')$css_href" ;;
     *) abs_url="$BASE_URL/$css_href" ;;
   esac
   fname="$(echo "$css_href" | sed 's/[?#].*//' | xargs basename)"
