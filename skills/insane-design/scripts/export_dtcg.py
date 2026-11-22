@@ -31,6 +31,9 @@ HEX_RE = re.compile(r"^#[0-9A-Fa-f]{6}$")
 DIM_RE = re.compile(r"^-?\d*\.?\d+(px|em|rem|%)$")
 TOKEN_REF_RE = re.compile(r"^\{([a-zA-Z][\w.-]*)\}$")
 
+# Set when PyYAML is unavailable and the minimal fallback parser was used.
+_USED_FALLBACK_PARSER = False
+
 
 def parse_frontmatter(text: str) -> dict | None:
     """Extract YAML frontmatter and parse with PyYAML or a minimal fallback."""
@@ -42,6 +45,8 @@ def parse_frontmatter(text: str) -> dict | None:
         import yaml
         return yaml.safe_load(yaml_text) or {}
     except ImportError:
+        global _USED_FALLBACK_PARSER
+        _USED_FALLBACK_PARSER = True
         return _minimal_yaml_parse(yaml_text)
 
 
@@ -165,10 +170,9 @@ def typography_to_dtcg(typography: dict) -> dict:
             composite["fontSize"] = entry["size"]
         if "weight" in entry:
             composite["fontWeight"] = entry["weight"]
-        if "line-height" in entry:
-            composite["lineHeight"] = entry["line-height"]
-        if "lineHeight" in entry:
-            composite["lineHeight"] = entry["lineHeight"]
+        for key in ("line-height", "line_height", "lineHeight"):
+            if key in entry:
+                composite["lineHeight"] = entry[key]
         if "tracking" in entry:
             composite["letterSpacing"] = entry["tracking"]
         family = entry.get("family")
@@ -225,6 +229,17 @@ def build_dtcg(fm: dict) -> dict:
         typo_dtcg = typography_to_dtcg(typography)
         if typo_dtcg:
             root["typography"] = typo_dtcg
+        else:
+            hint = (
+                " (PyYAML is not installed; the fallback parser cannot read "
+                "typography.ladder — install PyYAML to export it)"
+                if _USED_FALLBACK_PARSER
+                else ""
+            )
+            print(
+                f"warning: typography group present but no ladder entries exported{hint}",
+                file=sys.stderr,
+            )
     spacing = fm.get("spacing")
     if isinstance(spacing, dict) and spacing:
         root["spacing"] = dimensions_to_dtcg(spacing, "dimension")
