@@ -18,6 +18,12 @@ description: >
 
 > design.md = 디자인 브리프. 기존 콘텐츠를 유지하면서 구조와 스타일을 재설계한다.
 
+## 실행 환경 (Claude Code / Codex)
+
+- Claude Code: 선택지 질문은 `AskUserQuestion`으로 한다.
+- Codex: 시작 전에 `references/codex.md`(이 SKILL.md 옆 `references/` 폴더)를 읽는다. async 질문 호출 형식은 한 가지다: `{"questions":[{"title":"헤더 — 질문","options":["추천안 (추천) — 설명","대안 — 설명"]}]}` — 문항에는 `title`·`options`만, `question`·`header`·`id`는 넣지 않는다.
+- Codex에서는 `${CLAUDE_PLUGIN_ROOT}`를 이 플러그인 루트(이 SKILL.md에서 두 단계 위 폴더)로 바꿔 읽는다. 비동기 verifier는 Codex에서 `spawn_agent`(없으면 같은 턴 순차 실행)로 한다 — 상세는 `references/codex.md`.
+
 ---
 
 ## Identity (v0.2 — 페르소나 락인)
@@ -40,6 +46,30 @@ Manager가 "극단까지"를 선택하면 100% commit. "절충"을 선택해도 
 
 이 문서는 참고 문서가 아니라 **실행 지시서**다.
 slug가 제공되면 즉시 Step 0부터 실행한다.
+
+### slug가 없을 때
+
+인자 없이 호출되면 AskUserQuestion을 즉시 호출한다(Codex는 async 도구):
+
+```json
+{
+  "questions": [
+    {
+      "question": "어떤 사이트의 디자인을 적용할까요?",
+      "header": "레퍼런스",
+      "options": [
+        {"label": "stripe", "description": "보라 브랜드, sohne 폰트, weight 300 — SaaS 대표"},
+        {"label": "apple", "description": "모노크롬, SF Pro, 미니멀 — 프리미엄"},
+        {"label": "toss", "description": "Toss Blue, 깔끔한 핀테크 UI"},
+        {"label": "nike", "description": "Futura/Helvetica, 스포티한 느낌"}
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
+
+사용자가 "Other"로 slug를 직접 입력하면 그것을 사용한다. 이 스킬의 모든 질문은 AskUserQuestion으로 한다.
 
 ---
 

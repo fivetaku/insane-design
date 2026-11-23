@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0 — 2026-11-23
+- **Codex에서도 같은 스킬로 동작.** 슬래시 명령에만 있던 절차(스마트 라우터·인자 없을 때 질문·export·verify)를 `skills/insane-design/SKILL.md`로 옮기고 명령은 얇게 만들었다. Claude Code 동작은 그대로다.
+- 질문하는 스킬(insane-design·insane-apply·insane-build)에 "실행 환경" 블록과 `references/codex.md`를 추가했다 — Codex async 질문 도구는 `title`·`options`만 쓴다(`question`·`header`를 넣으면 파싱 오류).
+- Codex 샌드박스의 브라우저·스크린샷(Playwright)·비동기 verifier 처리 방법을 `references/codex.md`에 적었다.
 
 ## 0.5.7 — 2026-11-22
 - DTCG export maps line_height

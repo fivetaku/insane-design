@@ -18,6 +18,12 @@ description: >
 > design.md = 디자인 브리프. 없으면 즉석 합성. 있으면 그대로 시공한다.
 > 결과는 `insane-build/{session}/variations/v{N}/index.html`. 기본 v1 × 1.
 
+## 실행 환경 (Claude Code / Codex)
+
+- Claude Code: 선택지 질문은 `AskUserQuestion`으로 한다.
+- Codex: 시작 전에 `references/codex.md`(이 SKILL.md 옆 `references/` 폴더)를 읽는다. async 질문 호출 형식은 한 가지다: `{"questions":[{"title":"헤더 — 질문","options":["추천안 (추천) — 설명","대안 — 설명"]}]}` — 문항에는 `title`·`options`만, `question`·`header`·`id`는 넣지 않는다.
+- Codex에서는 `${CLAUDE_PLUGIN_ROOT}`를 이 플러그인 루트(이 SKILL.md에서 두 단계 위 폴더)로 바꿔 읽는다. 서브에이전트·verifier·브라우저 오픈은 `references/codex.md`를 따른다.
+
 ---
 
 ## Identity (페르소나 락인)

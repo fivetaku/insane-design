@@ -32,6 +32,8 @@ English | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](READM
 /plugin install insane-design
 ```
 
+Codex: `codex plugin marketplace add fivetaku/gptaku_plugins` then `codex plugin add insane-design@gptaku-plugins`.
+
 ### 3. Restart Claude Code
 
 Required for the plugin to load.

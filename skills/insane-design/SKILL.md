@@ -27,6 +27,118 @@ URL이 제공되면 즉시 Step 1부터 실행한다.
 
 ---
 
+## 실행 환경 (Claude Code / Codex)
+
+- Claude Code: 선택지 질문은 `AskUserQuestion`으로 한다.
+- Codex: 시작 전에 `references/codex.md`(이 SKILL.md 옆 `references/` 폴더)를 읽는다. async 질문 호출 형식은 한 가지다: `{"questions":[{"title":"헤더 — 질문","options":["추천안 (추천) — 설명","대안 — 설명"]}]}` — 문항에는 `title`·`options`만, `question`·`header`·`id`는 넣지 않는다.
+- Codex에서는 `${CLAUDE_PLUGIN_ROOT}`를 이 플러그인 루트(이 SKILL.md에서 두 단계 위 폴더)로 바꿔 읽는다.
+
+## Smart Router — 입력에 따라 analysis / apply / build / export / verify 판별
+
+이 스킬은 `insane-design` 패밀리의 진입점이기도 하다. 입력(`$ARGUMENTS`)으로 모드를 정한다.
+
+| 입력 패턴 | 동작 |
+|-----------|------|
+| `http://...` 또는 `https://...` | URL 분석 — 아래 7-Step (이 스킬) |
+| `build` 또는 `build ...` | `${CLAUDE_PLUGIN_ROOT}/_shared/README.md`를 읽고 `${CLAUDE_PLUGIN_ROOT}/skills/insane-build/SKILL.md`의 Step 0~4를 따른다. `build ` 뒤 텍스트를 인자로 넘긴다 |
+| `export <slug>` | 아래 "Export 모드" |
+| `verify [job_id]` | 아래 "Verify 모드" |
+| URL이 아닌 문자열 `[slug]` | `${CLAUDE_PLUGIN_ROOT}/skills/insane-apply/SKILL.md`를 읽고 그 workflow를 slug로 따른다 |
+| 인자 없음 | 아래 "인자가 없을 때" |
+
+자연어 입력: "분석해줘", "CSS 뜯어봐", "디자인 시스템 뽑아줘" → analysis(URL 요청) / "적용해줘", "이 스타일로", "처럼 만들어줘" → apply(slug 요청) / "만들어줘", "빌드", "처음부터", "랜딩·덱·카드뉴스 만들어줘" → build / "내보내줘", "tokens.json", "DTCG" → export.
+
+Claude Code에서는 모든 질문을 AskUserQuestion으로 한다.
+
+### 인자가 없을 때
+
+**EXECUTE:** 아래 JSON으로 AskUserQuestion(Codex는 async 도구)을 즉시 호출한다:
+
+```json
+{
+  "questions": [
+    {
+      "question": "무엇을 할까요?",
+      "header": "모드 선택",
+      "options": [
+        {"label": "사이트 분석 (analysis)", "description": "URL을 입력하면 해당 사이트의 디자인 시스템을 분석해서 design.md + report를 생성해요."},
+        {"label": "디자인 적용 (apply)", "description": "이미 분석된 디자인(Stripe, Apple 등 100개)을 내 프로젝트에 적용해요."},
+        {"label": "🆕 새 빌드 (build)", "description": "맨바닥에서 랜딩/덱/카드뉴스/디자인 시스템 카탈로그를 즉석 합성 또는 design.md 기반으로 빌드해요."}
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
+
+"사이트 분석" → URL 입력 요청(아래) / "디자인 적용" → apply의 slug 선택 요청 / "새 빌드" → build의 entry 분기 질문.
+
+### URL이 없는 analysis 요청
+
+URL 없이 분석 요청이 오면 AskUserQuestion을 즉시 호출한다:
+
+```json
+{
+  "questions": [
+    {
+      "question": "어떤 사이트의 디자인을 분석할까요? URL을 입력해주세요.",
+      "header": "URL 입력",
+      "options": [
+        {"label": "https://stripe.com (예시)", "description": "Stripe 홈페이지를 분석해서 디자인 토큰, 폰트, 색상 램프를 추출해요."},
+        {"label": "https://linear.app (예시)", "description": "Linear 홈페이지를 분석해요."},
+        {"label": "https://vercel.com (예시)", "description": "Vercel 홈페이지를 분석해요."}
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
+
+사용자가 "Other"로 URL을 직접 입력하면 그것을 사용한다.
+
+### Export 모드 — design.md → W3C DTCG tokens.json
+
+분석된 design.md의 frontmatter 토큰 그래프를 DTCG JSON으로 변환한다(Figma Tokens Studio, Style Dictionary, Specify, Cobalt UI, Penpot, Knapsack, Supernova, @google/design.md에서 import 가능).
+인자: `<slug>`(필수, `insane-design/<slug>/design.md` 입력), `--output <path>`(생략 시 `insane-design/<slug>/tokens.json`), `--compact`(minified).
+
+1. 입력 검증 — slug에 셸 메타문자(`` ` `` `$` `(` `)` `;` `|` `&`)가 있으면 거부:
+```bash
+WORK_DIR="$(pwd)"
+INPUT="$WORK_DIR/insane-design/<slug>/design.md"
+[ -f "$INPUT" ] || { echo "❌ 파일 없음: $INPUT"; exit 1; }
+```
+2. 변환:
+```bash
+OUTPUT="$WORK_DIR/insane-design/<slug>/tokens.json"
+python3 "${CLAUDE_PLUGIN_ROOT}/skills/insane-design/scripts/export_dtcg.py" "$INPUT" -o "$OUTPUT"
+```
+`colors:`→`color`(`$type: color`), `typography.ladder:`→`typography`(composite), `spacing:`→`spacing`(`dimension`), `rounded:`→`radius`(`dimension`), 메타(slug·archetype·design_system_level 등)→`$extensions["com.insane-design"]`.
+3. 결과 보고: 입력·출력 경로(KB)와 color/typography/spacing/radius 개수, import 방법(Figma Tokens Studio: Settings → Sync → JSON / Style Dictionary: `style-dictionary build --tokens tokens.json`).
+4. 폴백: frontmatter 토큰 그래프가 비어 있으면 메타 wrapper만 export하고 "⚠️ frontmatter 토큰 그래프 누락 — schema_version 3.2로 재분석 권장"을 알린다.
+
+의존성: Python 3.8+, PyYAML 권장(없으면 내장 minimal parser, v3.2 frontmatter만). 스키마: `references/schema.v3.2.md` §1.6.
+
+### Verify 모드 — apply/build Step 3.5 비동기 verifier 결과 수거
+
+apply Step 3.5 / build Step 3.5에서 포크한 verifier 결과를 **명시적으로** 조회한다(자동 다음 턴 주입 금지, `_shared/README.md` §3·§6).
+
+- `job_id` 있음: `check_job_status(job_id)` — `running`/`spawned`이면 "아직 실행 중, 10~30초 뒤 다시 호출" 안내 후 종료 / `failed`면 사유 보고 + 재포크 제안 / `completed`면 `wait_for_job(job_id, timeout_ms=5000)`으로 결과 JSON을 받아 보고한다:
+```
+🔍 Verifier 결과 ({job_id}):
+
+§18 DON'T 위반 (N건):
+  - line 45: background: #FFFFFF (design.md §18 "Tesla는 #F4F4F4")
+
+{playwright 모드일 때만}
+📸 스크린샷 diff: insane-build/{session}/variations/v1/screenshot.png vs reference: ~{유사도}%
+
+수정하려면: "위 위반을 수정해줘" 라고 요청하세요.
+```
+- `job_id` 없음: `list_jobs(status="completed")`로 최근 30분 내 verifier job을 조회한다. 2개 이상이면 AskUserQuestion으로 고르게 한다(질문 "어떤 verifier 결과를 확인할까요?", header "Verifier Jobs", 옵션 = job_id + apply/build 구분·포크 시각·session slug). 0개면 "최근 포크된 verifier가 없습니다. apply Step 3.5 / build Step 3.5에서 먼저 포크하세요."만 출력한다.
+- 에러: `check_job_status` 미지원(구버전) → "최신 Claude Code에서만 동작" 안내 / job_id 형식 오류 → 유효 형식 안내 / job 만료(1시간 초과) → 재포크 제안 / playwright 결과인데 screenshot 없음 → grep 결과만 보고하고 경고 1줄.
+
+---
+
 ## 사전 준비
 
 스킬 실행 전 다음 레퍼런스를 필요한 Step에서 읽는다:
